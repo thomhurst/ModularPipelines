@@ -7,12 +7,11 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<FindProjectsModule>]
-public class FindProjectDependenciesModule : Module<FindProjectDependenciesModule.ProjectDependencies>
+public class FindProjectDependenciesModule : IModule<FindProjectDependenciesModule.ProjectDependencies>
 {
-    /// <inheritdoc/>
-    protected override async Task<ProjectDependencies?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public async Task<ProjectDependencies?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var projects = await GetModule<FindProjectsModule>();
+        var projects = context.GetModule<FindProjectsModule, IReadOnlyList<File>>();
 
         var dependencies = new List<File>();
 
@@ -40,7 +39,7 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
         return projectDependencies;
     }
 
-    private static void LogProjects(IPipelineContext context, ProjectDependencies projectDependencies)
+    private static void LogProjects(IModuleContext context, ProjectDependencies projectDependencies)
     {
         foreach (var project in projectDependencies.Dependencies)
         {

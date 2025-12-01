@@ -29,8 +29,9 @@ internal class ModuleExecutor : IModuleExecutor
     private readonly IModuleSchedulerFactory _schedulerFactory;
     private readonly IModuleExecutionPipeline _executionPipeline;
     private readonly IServiceProvider _serviceProvider;
-    private readonly IModuleLoggerProvider _loggerProvider;
+    private readonly IModuleLoggerContainer _loggerContainer;
     private readonly EngineCancellationToken _engineCancellationToken;
+    private readonly IModuleResultRegistry _resultRegistry;
 
     public ModuleExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
@@ -45,8 +46,9 @@ internal class ModuleExecutor : IModuleExecutor
         IModuleSchedulerFactory schedulerFactory,
         IModuleExecutionPipeline executionPipeline,
         IServiceProvider serviceProvider,
-        IModuleLoggerProvider loggerProvider,
-        EngineCancellationToken engineCancellationToken)
+        IModuleLoggerContainer loggerContainer,
+        EngineCancellationToken engineCancellationToken,
+        IModuleResultRegistry resultRegistry)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _pipelineOptions = pipelineOptions;
@@ -60,8 +62,9 @@ internal class ModuleExecutor : IModuleExecutor
         _schedulerFactory = schedulerFactory;
         _executionPipeline = executionPipeline;
         _serviceProvider = serviceProvider;
-        _loggerProvider = loggerProvider;
+        _loggerContainer = loggerContainer;
         _engineCancellationToken = engineCancellationToken;
+        _resultRegistry = resultRegistry;
     }
 
     /// <summary>
@@ -136,6 +139,12 @@ internal class ModuleExecutor : IModuleExecutor
         await schedulerTask;
 
         _logger.LogDebug("All modules completed");
+
+        // Register PipelineTerminated results for modules that were cancelled before they started
+        if (firstException != null)
+        {
+            RegisterTerminatedResultsForCancelledModules(modules, firstException);
+        }
 
         RethrowFirstExceptionIfPresent(firstException);
 
@@ -238,7 +247,24 @@ internal class ModuleExecutor : IModuleExecutor
             return;
         }
 
-        if (ShouldWaitForAlwaysRunModule(moduleState))
+        // If the AlwaysRun module is still pending (never started), execute it now
+        // Skip dependency waiting to prevent deadlocks - dependencies may never complete
+        if (moduleState.State == ModuleExecutionState.Pending)
+        {
+            _logger.LogDebug("Starting pending AlwaysRun module: {ModuleName}", moduleType.Name);
+
+            try
+            {
+                await ExecuteModuleCore(moduleState, scheduler, CancellationToken.None, skipDependencyWait: true);
+                _logger.LogDebug("AlwaysRun module {ModuleName} completed after late start", moduleType.Name);
+            }
+            catch (Exception alwaysRunEx)
+            {
+                _logger.LogDebug("AlwaysRun module {ModuleName} threw after late start: {ExceptionType}",
+                    moduleType.Name, alwaysRunEx.GetType().Name);
+            }
+        }
+        else if (ShouldWaitForAlwaysRunModule(moduleState))
         {
             _logger.LogDebug("Awaiting AlwaysRun module: {ModuleName} (State={State})",
                 moduleType.Name, moduleState.State);
@@ -257,7 +283,7 @@ internal class ModuleExecutor : IModuleExecutor
         }
         else
         {
-            _logger.LogDebug("Skipping AlwaysRun module {ModuleName} as it never started (State={State})",
+            _logger.LogDebug("Skipping AlwaysRun module {ModuleName} (State={State})",
                 moduleType.Name, moduleState.State);
         }
     }
@@ -267,7 +293,16 @@ internal class ModuleExecutor : IModuleExecutor
         return moduleState.State == ModuleExecutionState.Executing || moduleState.State == ModuleExecutionState.Completed;
     }
 
-    private async Task ExecuteModule(ModuleState moduleState, IModuleScheduler scheduler, CancellationToken cancellationToken)
+    private Task ExecuteModule(ModuleState moduleState, IModuleScheduler scheduler, CancellationToken cancellationToken)
+    {
+        return ExecuteModuleCore(moduleState, scheduler, cancellationToken, skipDependencyWait: false);
+    }
+
+    private async Task ExecuteModuleCore(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        CancellationToken cancellationToken,
+        bool skipDependencyWait)
     {
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
@@ -275,11 +310,24 @@ internal class ModuleExecutor : IModuleExecutor
 
         try
         {
-            scheduler.MarkModuleStarted(moduleType);
+            // Check if the module can proceed with execution
+            // Returns false if constraints (e.g., NotInParallel) prevent execution
+            if (!scheduler.MarkModuleStarted(moduleType))
+            {
+                _logger.LogDebug("Module {ModuleName} deferred due to constraint check failure", moduleName);
+                return; // Module will be rescheduled by the scheduler
+            }
 
             _logger.LogDebug("{Icon} Starting module {ModuleName}", MarkupFormatter.PlayIcon, moduleName);
 
-            await WaitForDependenciesAsync(moduleState, scheduler);
+            if (!skipDependencyWait)
+            {
+                await WaitForDependenciesAsync(moduleState, scheduler);
+            }
+            else
+            {
+                _logger.LogDebug("Skipping dependency wait for late-started AlwaysRun module: {ModuleName}", moduleName);
+            }
 
             await ExecuteModuleWithPipeline(moduleState, cancellationToken);
 
@@ -289,6 +337,13 @@ internal class ModuleExecutor : IModuleExecutor
         {
             _logger.LogError(ex, "Module {ModuleName} failed", moduleName);
             scheduler.MarkModuleCompleted(moduleType, false, ex);
+
+            // Register a PipelineTerminated result for this module if no result was registered yet
+            // This happens when the module was waiting for a dependency that failed
+            if (moduleState.Result == null)
+            {
+                RegisterTerminatedResult(module, moduleType, ex);
+            }
 
             if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
             {
@@ -307,10 +362,10 @@ internal class ModuleExecutor : IModuleExecutor
 
         // Create module-specific context
         var executionContext = CreateExecutionContext(module, moduleType);
-        var moduleContext = new ModuleContext(pipelineContext, module, executionContext, _loggerProvider);
+        var logger = GetOrCreateLogger(moduleType);
+        var moduleContext = new ModuleContext(pipelineContext, module, executionContext, logger);
 
         // Set up logging
-        var logger = _loggerProvider.GetLogger(moduleType);
         ModuleLogger.Values.Value = logger;
 
         // Before module hooks
@@ -327,7 +382,7 @@ internal class ModuleExecutor : IModuleExecutor
             var result = await ExecuteTypedModule(module, executionContext, moduleContext, cancellationToken);
 
             moduleState.Result = result;
-            moduleState.SkipResult = executionContext.SkipResult;
+            _resultRegistry.RegisterResult(moduleType, result);
 
             if (executionContext.Status == Enums.Status.Skipped)
             {
@@ -341,8 +396,24 @@ internal class ModuleExecutor : IModuleExecutor
             var isSuccessful = executionContext.Status == Enums.Status.Successful;
             await _mediator.Publish(new ModuleCompletedNotification(moduleState, isSuccessful));
         }
+        catch
+        {
+            // Even when an exception is thrown, we need to register the result if one was set
+            // The ModuleExecutionPipeline sets the result before throwing
+            if (executionContext.ExecutionTask.IsCompletedSuccessfully)
+            {
+                var result = executionContext.ExecutionTask.Result;
+                moduleState.Result = result;
+                _resultRegistry.RegisterResult(moduleType, result);
+            }
+
+            throw;
+        }
         finally
         {
+            // Store execution context results in module state
+            moduleState.SkipResult = executionContext.SkipResult;
+
             if (!_pipelineOptions.Value.ShowProgressInConsole)
             {
                 await _moduleDisposer.DisposeAsync(moduleState);
@@ -407,11 +478,11 @@ internal class ModuleExecutor : IModuleExecutor
                 }
                 catch (Exception e) when (moduleState.Module.ModuleRunType == ModuleRunType.AlwaysRun)
                 {
-                    var logger = _loggerProvider.GetLogger(moduleState.ModuleType);
+                    var depLogger = GetOrCreateLogger(moduleState.ModuleType);
                     _secondaryExceptionContainer.RegisterException(new AlwaysRunPostponedException(
                         $"{dependencyType.Name} threw an exception when {moduleState.ModuleType.Name} was waiting for it as a dependency",
                         e));
-                    logger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
+                    depLogger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
                 }
             }
             else if (!ignoreIfNotRegistered)
@@ -426,5 +497,53 @@ internal class ModuleExecutor : IModuleExecutor
                 throw new ModuleNotRegisteredException(message, null);
             }
         }
+    }
+
+    private IModuleLogger GetOrCreateLogger(Type moduleType)
+    {
+        var loggerType = typeof(ModuleLogger<>).MakeGenericType(moduleType);
+        return _loggerContainer.GetLogger(loggerType)
+            ?? (IModuleLogger)_serviceProvider.GetRequiredService(loggerType);
+    }
+
+    private void RegisterTerminatedResultsForCancelledModules(IReadOnlyList<IModule> modules, Exception exception)
+    {
+        foreach (var module in modules)
+        {
+            var moduleType = module.GetType();
+
+            // Check if a result was already registered for this module
+            if (_resultRegistry.GetResult(moduleType) != null)
+            {
+                continue;
+            }
+
+            _logger.LogDebug("Registering PipelineTerminated result for cancelled module {ModuleName}",
+                MarkupFormatter.FormatModuleName(moduleType.Name));
+
+            RegisterTerminatedResult(module, moduleType, exception);
+        }
+    }
+
+    private void RegisterTerminatedResult(IModule module, Type moduleType, Exception exception)
+    {
+        var resultType = module.ResultType;
+
+        // Create execution context with PipelineTerminated status
+        var contextType = typeof(ModuleExecutionContext<>).MakeGenericType(resultType);
+        var executionContext = (ModuleExecutionContext)Activator.CreateInstance(contextType, module, moduleType)!;
+        executionContext.Status = Enums.Status.PipelineTerminated;
+        executionContext.Exception = exception;
+
+        // Create ModuleResult<T> with the exception
+        var resultGenericType = typeof(ModuleResult<>).MakeGenericType(resultType);
+        var result = (IModuleResult)Activator.CreateInstance(
+            resultGenericType,
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance,
+            null,
+            new object[] { exception, executionContext },
+            null)!;
+
+        _resultRegistry.RegisterResult(moduleType, result);
     }
 }

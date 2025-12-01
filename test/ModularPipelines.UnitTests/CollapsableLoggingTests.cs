@@ -39,14 +39,9 @@ public class CollapsableLoggingTests : TestBase
         azurePipelines.T.WriteConsoleLogGroup("MyGroup", "Foo bar!");
 
         await azurePipelines.Host.DisposeAsync();
-        await Assert.That(stringBuilder.ToString().Trim()).
-            IsEqualTo("""
-                       ##[group]CollapsableLoggingTests
-                       ##[group]MyGroup
-                       Foo bar!
-                       ##[endgroup]
-                       ##[endgroup]
-                       """);
+        // Normalize line endings for cross-platform consistency
+        var expected = "##[group]CollapsableLoggingTests\n##[group]MyGroup\nFoo bar!\n##[endgroup]\n##[endgroup]";
+        await Assert.That(stringBuilder.ToString().Trim().ReplaceLineEndings("\n")).IsEqualTo(expected);
     }
 
     [Test]
@@ -63,14 +58,9 @@ public class CollapsableLoggingTests : TestBase
         gitHub.T.WriteConsoleLogGroup("MyGroup", "Foo bar!");
 
         await gitHub.Host.DisposeAsync();
-        await Assert.That(stringBuilder.ToString().Trim()).
-            IsEqualTo("""
-                       ::group::CollapsableLoggingTests
-                       ::group::MyGroup
-                       Foo bar!
-                       ::endgroup::
-                       ::endgroup::
-                       """);
+        // Normalize line endings for cross-platform consistency
+        var expected = "::group::CollapsableLoggingTests\n::group::MyGroup\nFoo bar!\n::endgroup::\n::endgroup::";
+        await Assert.That(stringBuilder.ToString().Trim().ReplaceLineEndings("\n")).IsEqualTo(expected);
     }
 
     [Test]
@@ -87,13 +77,8 @@ public class CollapsableLoggingTests : TestBase
         teamCity.T.WriteConsoleLogGroup("MyGroup", "Foo bar!");
 
         await teamCity.Host.DisposeAsync();
-        await Assert.That(stringBuilder.ToString().Trim()).
-            IsEqualTo("""
-                       ##teamcity[blockOpened name='CollapsableLoggingTests']
-                       ##teamcity[blockOpened name='MyGroup']
-                       Foo bar!
-                       ##teamcity[blockClosed name='MyGroup']
-                       ##teamcity[blockClosed name='CollapsableLoggingTests']
-                       """);
+        // Normalize line endings for cross-platform consistency
+        var expected = "##teamcity[blockOpened name='CollapsableLoggingTests']\n##teamcity[blockOpened name='MyGroup']\nFoo bar!\n##teamcity[blockClosed name='MyGroup']\n##teamcity[blockClosed name='CollapsableLoggingTests']";
+        await Assert.That(stringBuilder.ToString().Trim().ReplaceLineEndings("\n")).IsEqualTo(expected);
     }
 }

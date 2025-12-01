@@ -8,9 +8,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class ZipTests : TestBase
 {
-    private class ZipModule : Module<string>
+    private class ZipModule : IModule<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -33,9 +33,7 @@ public class ZipTests : TestBase
     [NotInParallel(nameof(ZipTests), Order = 1)]
     public async Task Has_Not_Errored()
     {
-        var module = await RunModule<ZipModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<ZipModule, string>();
 
         using (Assert.Multiple())
         {
@@ -48,7 +46,7 @@ public class ZipTests : TestBase
     [NotInParallel(nameof(ZipTests), Order = 2)]
     public async Task Zip_File_Exists()
     {
-        await RunModule<ZipModule>();
+        await RunModuleWithResult<ZipModule, string>();
 
         var expectedFile = new FileInfo(Path.Combine(TestContext.WorkingDirectory, "LoremData.zip"));
 
@@ -59,9 +57,9 @@ public class ZipTests : TestBase
         }
     }
 
-    private class UnZipModule : Module<string>
+    private class UnZipModule : IModule<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -79,9 +77,7 @@ public class ZipTests : TestBase
     [NotInParallel(nameof(ZipTests), Order = 3)]
     public async Task UnZip_Has_Not_Errored()
     {
-        var module = await RunModule<UnZipModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<UnZipModule, string>();
 
         using (Assert.Multiple())
         {
@@ -94,7 +90,7 @@ public class ZipTests : TestBase
     [NotInParallel(nameof(ZipTests), Order = 4)]
     public async Task UnZipped_Folder_Exists()
     {
-        await RunModule<UnZipModule>();
+        await RunModuleWithResult<UnZipModule, string>();
 
         var expectedFolder = new DirectoryInfo(Path.Combine(TestContext.WorkingDirectory, "LoremDataUnzipped"));
 

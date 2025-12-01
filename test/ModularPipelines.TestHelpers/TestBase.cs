@@ -2,9 +2,11 @@ using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Host;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers.Extensions;
 
@@ -14,19 +16,19 @@ public abstract class TestBase
 {
     private readonly List<IPipelineHost> _hosts = [];
 
-    private class DummyModule : Module
+    private class DummyModule : IModule<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;
         }
     }
 
-    public Task<T> RunModule<T>() where T : ModuleBase => RunModule<T>(new TestHostSettings());
+    public Task<T> RunModule<T>() where T : class, IModule => RunModule<T>(new TestHostSettings());
 
     public async Task<T> RunModule<T>(TestHostSettings testHostSettings)
-        where T : ModuleBase
+        where T : class, IModule
     {
         var host = await TestPipelineHostBuilder.Create(testHostSettings)
             .AddModule<T>()
@@ -39,9 +41,33 @@ public abstract class TestBase
         return results.Modules.OfType<T>().Single();
     }
 
+    /// <summary>
+    /// Runs a module and returns its typed result.
+    /// </summary>
+    public Task<ModuleResult<TResult>> RunModuleWithResult<T, TResult>()
+        where T : class, IModule<TResult> => RunModuleWithResult<T, TResult>(new TestHostSettings());
+
+    /// <summary>
+    /// Runs a module and returns its typed result.
+    /// </summary>
+    public async Task<ModuleResult<TResult>> RunModuleWithResult<T, TResult>(TestHostSettings testHostSettings)
+        where T : class, IModule<TResult>
+    {
+        var host = await TestPipelineHostBuilder.Create(testHostSettings)
+            .AddModule<T>()
+            .BuildHostAsync();
+
+        _hosts.Add(host);
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        return resultRegistry.GetResult<TResult>(typeof(T))!;
+    }
+
     public async Task<(T, T2)> RunModule<T, T2>()
-        where T : ModuleBase
-        where T2 : ModuleBase
+        where T : class, IModule
+        where T2 : class, IModule
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<T>()
@@ -53,15 +79,15 @@ public abstract class TestBase
         var results = await host.ExecuteTest();
 
         return (
-            results.GetServices<ModuleBase>().OfType<T>().Single(),
-            results.GetServices<ModuleBase>().OfType<T2>().Single()
+            results.GetServices<IModule>().OfType<T>().Single(),
+            results.GetServices<IModule>().OfType<T2>().Single()
         );
     }
 
     public async Task<(T, T2, T3)> RunModules<T, T2, T3>()
-        where T : ModuleBase
-        where T2 : ModuleBase
-        where T3 : ModuleBase
+        where T : class, IModule
+        where T2 : class, IModule
+        where T3 : class, IModule
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<T>()
@@ -74,17 +100,17 @@ public abstract class TestBase
         var results = await host.ExecuteTest();
 
         return (
-            results.GetServices<ModuleBase>().OfType<T>().Single(),
-            results.GetServices<ModuleBase>().OfType<T2>().Single(),
-            results.GetServices<ModuleBase>().OfType<T3>().Single()
+            results.GetServices<IModule>().OfType<T>().Single(),
+            results.GetServices<IModule>().OfType<T2>().Single(),
+            results.GetServices<IModule>().OfType<T3>().Single()
         );
     }
 
     public async Task<(T, T2, T3, T4)> RunModules<T, T2, T3, T4>()
-        where T : ModuleBase
-        where T2 : ModuleBase
-        where T3 : ModuleBase
-        where T4 : ModuleBase
+        where T : class, IModule
+        where T2 : class, IModule
+        where T3 : class, IModule
+        where T4 : class, IModule
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<T>()
@@ -98,10 +124,10 @@ public abstract class TestBase
         var results = await host.ExecuteTest();
 
         return (
-            results.GetServices<ModuleBase>().OfType<T>().Single(),
-            results.GetServices<ModuleBase>().OfType<T2>().Single(),
-            results.GetServices<ModuleBase>().OfType<T3>().Single(),
-            results.GetServices<ModuleBase>().OfType<T4>().Single()
+            results.GetServices<IModule>().OfType<T>().Single(),
+            results.GetServices<IModule>().OfType<T2>().Single(),
+            results.GetServices<IModule>().OfType<T3>().Single(),
+            results.GetServices<IModule>().OfType<T4>().Single()
         );
     }
 

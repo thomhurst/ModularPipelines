@@ -1,6 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
@@ -10,9 +12,9 @@ namespace ModularPipelines.UnitTests;
 
 public class NonIgnoredFailureTests : TestBase
 {
-    private class NonIgnoredFailureModule : Module<CommandResult>
+    private class NonIgnoredFailureModule : IModule<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -22,10 +24,13 @@ public class NonIgnoredFailureTests : TestBase
     [Test]
     public async Task Has_Thrown_And_Cancelled_Pipeline()
     {
-        var exception = await Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<NonIgnoredFailureModule>());
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<NonIgnoredFailureModule>()
+            .BuildHostAsync();
 
-        var serviceProvider = exception.Module.Context.Get<IServiceProvider>()!;
-        var engineCancellationToken = serviceProvider.GetRequiredService<EngineCancellationToken>();
+        await Assert.ThrowsAsync<ModuleFailedException>(async () => await host.ExecutePipelineAsync());
+
+        var engineCancellationToken = host.RootServices.GetRequiredService<EngineCancellationToken>();
 
         // The cancellation should happen very quickly after module failure
         // Use a small polling loop with a reasonable timeout instead of a fixed 10-second delay

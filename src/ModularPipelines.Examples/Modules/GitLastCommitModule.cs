@@ -6,10 +6,10 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class GitLastCommitModule : Module<GitCommit?>
+public class GitLastCommitModule : IModule<GitCommit?>
 {
     /// <inheritdoc/>
-    protected override async Task<GitCommit?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public async Task<GitCommit?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Yield();
 

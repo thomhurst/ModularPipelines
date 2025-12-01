@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
@@ -7,6 +8,7 @@ using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Modules.Behaviors;
+using ModularPipelines.Options;
 using Polly;
 
 namespace ModularPipelines.Engine;
@@ -143,7 +145,9 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         CancellationToken engineCancellationToken)
     {
         // AlwaysRun modules don't get cancelled when the engine cancels
-        if (module is not IAlwaysRun)
+        // Check both the interface (composition) and the property (inheritance) for backwards compatibility
+        var isAlwaysRun = module is IAlwaysRun || module.ModuleRunType == ModuleRunType.AlwaysRun;
+        if (!isAlwaysRun)
         {
             engineCancellationToken.Register(() =>
                 executionContext.ModuleCancellationTokenSource.Cancel());
@@ -163,14 +167,33 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         executionContext.SkipResult = skipDecision;
 
         // Check if we should use historical data
-        if (module is IHistoryAware historyAware)
+        // For skipped modules with a history repository configured, check for cached results
+        if (_resultRepository.GetType() != typeof(NoOpModuleResultRepository))
         {
-            if (await historyAware.UseResultFromHistoryIfSkipped(moduleContext))
+            // If module implements IHistoryAware, respect its decision
+            if (module is IHistoryAware historyAware)
             {
+                if (await historyAware.UseResultFromHistoryIfSkipped(moduleContext))
+                {
+                    var historicalResult = await _resultRepository.GetResultAsync<T>(module, moduleContext);
+                    if (historicalResult != null)
+                    {
+                        executionContext.Status = Status.UsedHistory;
+                        historicalResult.ModuleStatus = Status.UsedHistory;
+                        executionContext.SetTypedResult(historicalResult);
+                        logger.LogDebug("Using historical result for skipped module");
+                        return historicalResult;
+                    }
+                }
+            }
+            else
+            {
+                // For modules without IHistoryAware, always check history
                 var historicalResult = await _resultRepository.GetResultAsync<T>(module, moduleContext);
                 if (historicalResult != null)
                 {
                     executionContext.Status = Status.UsedHistory;
+                    historicalResult.ModuleStatus = Status.UsedHistory;
                     executionContext.SetTypedResult(historicalResult);
                     logger.LogDebug("Using historical result for skipped module");
                     return historicalResult;
@@ -245,6 +268,13 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             return retryable.GetRetryPolicy(moduleContext);
         }
 
+        // Check if default retry count is configured
+        var defaultRetryCount = moduleContext.PipelineOptions.Value.DefaultRetryCount;
+        if (defaultRetryCount > 0)
+        {
+            return DefaultRetryPolicyProvider.GetDefaultRetryPolicy<T?>(moduleContext);
+        }
+
         return null;
     }
 
@@ -314,6 +344,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 return ignoredResult;
             }
         }
+
+        // Create a failed result before cancelling and throwing
+        var failedResult = new ModuleResult<T>(exception, executionContext);
+        executionContext.SetTypedResult(failedResult);
 
         // Cancel the pipeline and propagate
         CancelPipelineAndThrow(executionContext, moduleContext, exception, logger);

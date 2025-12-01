@@ -26,12 +26,9 @@ public class JsonTests : TestBase
         {
             WriteIndented = true,
         });
-        await Assert.That(result).IsEqualTo("""
-                                       {
-                                         "Foo": "Bar!",
-                                         "Hello": "World!"
-                                       }
-                                       """);
+        // Normalize line endings to handle differences between platforms
+        var expected = "{\n  \"Foo\": \"Bar!\",\n  \"Hello\": \"World!\"\n}";
+        await Assert.That(result.ReplaceLineEndings("\n")).IsEqualTo(expected);
     }
 
     [Test]

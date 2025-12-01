@@ -12,15 +12,6 @@ public class ModuleResult<T> : ModuleResult
 {
     private T? _value;
 
-    internal ModuleResult(Exception exception, ModuleBase module) : base(exception, module)
-    {
-    }
-
-    internal ModuleResult(T? value, ModuleBase module) : base(module)
-    {
-        _value = value;
-    }
-
     /// <summary>
     /// Creates a result from execution context (composition-based modules).
     /// </summary>
@@ -56,7 +47,7 @@ public class ModuleResult<T> : ModuleResult
         {
             if (ModuleResultType == ModuleResultType.Failure)
             {
-                throw new ModuleFailedException(Module!, Exception!);
+                throw new ModuleFailedException(ModuleType!, Exception!);
             }
 
             if (ModuleResultType == ModuleResultType.Skipped)
@@ -98,11 +89,6 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
     [JsonInclude]
     public DateTimeOffset ModuleEnd { get; private set; }
 
-    internal ModuleResult(Exception exception, ModuleBase module) : this(module)
-    {
-        Exception = exception;
-    }
-
     /// <summary>
     /// Creates a result from execution context (composition-based modules).
     /// </summary>
@@ -118,6 +104,7 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
     internal ModuleResult(ModuleExecutionContext executionContext)
     {
         ModuleName = executionContext.ModuleType.Name;
+        ModuleType = executionContext.ModuleType;
         ModuleStart = executionContext.StartTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : executionContext.StartTime;
         ModuleEnd = executionContext.EndTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : executionContext.EndTime;
         ModuleDuration = ModuleEnd - ModuleStart;
@@ -140,22 +127,6 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
         ModuleEnd = DateTimeOffset.MinValue;
         SkipDecision = null!;
         TypeDiscriminator = GetType().FullName!;
-    }
-
-    /// <summary>
-    /// Initialises a new instance of the <see cref="ModuleResult"/> class.
-    /// </summary>
-    /// <param name="module">The module from which the result was produced.</param>
-    protected ModuleResult(ModuleBase module)
-    {
-        Module = module;
-        ModuleName = module.GetType().Name;
-        ModuleStart = module.StartTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : module.StartTime;
-        ModuleEnd = module.EndTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : module.EndTime;
-        ModuleDuration = ModuleEnd - ModuleStart;
-        SkipDecision = module.SkipResult;
-        TypeDiscriminator = GetType().FullName!;
-        ModuleStatus = module.Status;
     }
 
     /// <inheritdoc />
@@ -186,7 +157,7 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
     }
 
     /// <inheritdoc/>
-    public Status ModuleStatus { get; private set; }
+    public Status ModuleStatus { get; internal set; }
 
     /// <summary>
     /// Gets the type information used to aid in serialization.
@@ -194,6 +165,9 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
     [JsonInclude]
     public string TypeDiscriminator { get; private set; }
 
+    /// <summary>
+    /// Gets the type of the module that produced this result.
+    /// </summary>
     [JsonIgnore]
-    internal ModuleBase? Module { get; set; }
+    internal Type? ModuleType { get; set; }
 }

@@ -1,6 +1,9 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
+using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
@@ -10,45 +13,47 @@ public class DependsOnAllInheritingFromTests : TestBase
 {
     private static readonly TimeSpan ModuleDelay = TimeSpan.FromMilliseconds(50);
 
-    private abstract class BaseModule : Module
+    private abstract class BaseModule : IModule<IDictionary<string, object>?>
     {
+        public abstract Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken);
     }
 
     private class Module1 : BaseModule
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ModuleDelay, cancellationToken);
-            return await NothingAsync();
+            return null;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
     private class Module2 : BaseModule
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ModuleDelay, cancellationToken);
-            return await NothingAsync();
+            return null;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
     private class Module3 : BaseModule
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ModuleDelay, cancellationToken);
-            return await NothingAsync();
+            return null;
         }
     }
 
     [ModularPipelines.Attributes.DependsOnAllModulesInheritingFrom<BaseModule>]
-    private class Module4 : Module
+    private class Module4 : IModule<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.Yield();
+            return null;
         }
     }
 
@@ -57,25 +62,28 @@ public class DependsOnAllInheritingFromTests : TestBase
     {
         var timeProvider = new FakeTimeProvider();
 
-        var pipelineSummary = await TestPipelineHostBuilder.Create(new TestHostSettings(), timeProvider)
+        var host = await TestPipelineHostBuilder.Create(new TestHostSettings(), timeProvider)
             .AddModule<Module1>()
             .AddModule<Module2>()
             .AddModule<Module3>()
             .AddModule<Module4>()
-            .ExecutePipelineAsync();
+            .BuildHostAsync();
 
-        var module1 = pipelineSummary.GetModule<Module1>();
-        var module2 = pipelineSummary.GetModule<Module2>();
-        var module3 = pipelineSummary.GetModule<Module3>();
-        var module4 = pipelineSummary.GetModule<Module4>();
+        var pipelineSummary = await host.ExecutePipelineAsync();
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
 
-        await Assert.That(module4.StartTime).IsGreaterThanOrEqualTo(module1.StartTime.Add(ModuleDelay.Add(TimeSpan.FromMilliseconds(-25))));
-        await Assert.That(module4.StartTime).IsGreaterThanOrEqualTo(module1.EndTime);
+        var result1 = resultRegistry.GetResult(typeof(Module1))!;
+        var result2 = resultRegistry.GetResult(typeof(Module2))!;
+        var result3 = resultRegistry.GetResult(typeof(Module3))!;
+        var result4 = resultRegistry.GetResult(typeof(Module4))!;
 
-        await Assert.That(module4.StartTime).IsGreaterThanOrEqualTo(module2.StartTime.Add(ModuleDelay.Add(TimeSpan.FromMilliseconds(-25))));
-        await Assert.That(module4.StartTime).IsGreaterThanOrEqualTo(module2.EndTime);
+        await Assert.That(result4.ModuleStart).IsGreaterThanOrEqualTo(result1.ModuleStart.Add(ModuleDelay.Add(TimeSpan.FromMilliseconds(-25))));
+        await Assert.That(result4.ModuleStart).IsGreaterThanOrEqualTo(result1.ModuleEnd);
 
-        await Assert.That(module4.StartTime).IsGreaterThanOrEqualTo(module3.StartTime.Add(ModuleDelay.Add(TimeSpan.FromMilliseconds(-25))));
-        await Assert.That(module4.StartTime).IsGreaterThanOrEqualTo(module3.EndTime);
+        await Assert.That(result4.ModuleStart).IsGreaterThanOrEqualTo(result2.ModuleStart.Add(ModuleDelay.Add(TimeSpan.FromMilliseconds(-25))));
+        await Assert.That(result4.ModuleStart).IsGreaterThanOrEqualTo(result2.ModuleEnd);
+
+        await Assert.That(result4.ModuleStart).IsGreaterThanOrEqualTo(result3.ModuleStart.Add(ModuleDelay.Add(TimeSpan.FromMilliseconds(-25))));
+        await Assert.That(result4.ModuleStart).IsGreaterThanOrEqualTo(result3.ModuleEnd);
     }
 }

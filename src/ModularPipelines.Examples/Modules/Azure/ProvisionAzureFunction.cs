@@ -1,7 +1,9 @@
 using Azure.Core;
 using Azure.ResourceManager.AppService;
 using Azure.ResourceManager.AppService.Models;
+using Azure.ResourceManager.ManagedServiceIdentities;
 using Azure.ResourceManager.Models;
+using Azure.ResourceManager.Storage;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Extensions;
 using ModularPipelines.Azure.Scopes;
@@ -13,15 +15,15 @@ namespace ModularPipelines.Examples.Modules.Azure;
 [DependsOn<ProvisionUserAssignedIdentityModule>]
 [DependsOn<ProvisionBlobStorageAccountModule>]
 [DependsOn<ProvisionBlobStorageContainerModule>]
-public class ProvisionAzureFunction : Module<WebSiteResource>
+public class ProvisionAzureFunction : IModule<WebSiteResource>
 {
     /// <inheritdoc/>
-    protected override async Task<WebSiteResource?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public async Task<WebSiteResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var userAssignedIdentity = await GetModule<ProvisionUserAssignedIdentityModule>();
+        var userAssignedIdentity = context.GetModule<ProvisionUserAssignedIdentityModule, UserAssignedIdentityResource>();
 
-        var storageAccount = await GetModule<ProvisionBlobStorageAccountModule>();
-        var blobContainer = await GetModule<ProvisionBlobStorageContainerModule>();
+        var storageAccount = context.GetModule<ProvisionBlobStorageAccountModule, StorageAccountResource>();
+        var blobContainer = context.GetModule<ProvisionBlobStorageContainerModule, BlobContainerResource>();
 
         var functionProvisionResponse = await context.Azure().Provisioner.Compute.WebSite(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyFunction"),

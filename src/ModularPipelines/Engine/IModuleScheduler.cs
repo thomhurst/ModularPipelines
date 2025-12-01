@@ -26,7 +26,8 @@ internal interface IModuleScheduler : IDisposable
     /// <summary>
     /// Marks a module as started execution
     /// </summary>
-    void MarkModuleStarted(Type moduleType);
+    /// <returns>True if the module can proceed with execution, false if constraints prevent execution</returns>
+    bool MarkModuleStarted(Type moduleType);
 
     /// <summary>
     /// Marks a module as completed and notifies dependents

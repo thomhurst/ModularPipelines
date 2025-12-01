@@ -11,9 +11,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class DotNetTests : TestBase
 {
-    private class DotNetVersionModule : Module<CommandResult>
+    private class DotNetVersionModule : IModule<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.DotNet().List.Package(new DotNetListPackageOptions
             {
@@ -22,9 +22,9 @@ public class DotNetTests : TestBase
         }
     }
 
-    private class DotNetFormatModule : Module<CommandResult>
+    private class DotNetFormatModule : IModule<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.DotNet().Format(new DotNetFormatOptions
             {
@@ -36,9 +36,7 @@ public class DotNetTests : TestBase
     [Test]
     public async Task Has_Not_Errored()
     {
-        var module = await RunModule<DotNetVersionModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<DotNetVersionModule, CommandResult>();
 
         using (Assert.Multiple())
         {
@@ -51,9 +49,7 @@ public class DotNetTests : TestBase
     [Test]
     public async Task Format_Has_Not_Errored()
     {
-        var module = await RunModule<DotNetFormatModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<DotNetFormatModule, CommandResult>();
 
         using (Assert.Multiple())
         {

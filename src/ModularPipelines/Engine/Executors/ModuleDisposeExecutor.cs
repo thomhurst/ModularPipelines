@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
@@ -13,18 +12,18 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
     private readonly IModuleDisposer _moduleDisposer;
     private readonly IOptions<PipelineOptions> _options;
     private readonly IModuleRetriever _moduleRetriever;
-    private readonly IModuleLoggerProvider _loggerProvider;
+    private readonly ILogger<ModuleDisposeExecutor> _logger;
 
     public ModuleDisposeExecutor(
         IModuleDisposer moduleDisposer,
         IOptions<PipelineOptions> options,
         IModuleRetriever moduleRetriever,
-        IModuleLoggerProvider loggerProvider)
+        ILogger<ModuleDisposeExecutor> logger)
     {
         _moduleDisposer = moduleDisposer;
         _options = options;
         _moduleRetriever = moduleRetriever;
-        _loggerProvider = loggerProvider;
+        _logger = logger;
     }
 
     public async ValueTask DisposeAsync()
@@ -46,8 +45,7 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
             }
             catch (Exception e)
             {
-                var logger = _loggerProvider.GetLogger(module.GetType());
-                logger.LogError(e, "Error disposing module");
+                _logger.LogError(e, "Error disposing module {ModuleType}", module.GetType().Name);
             }
         }
     }

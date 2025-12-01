@@ -1,9 +1,11 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.DotNet.Parsers.Trx;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -15,9 +17,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 [TUnit.Core.NotInParallel]
 public class DotNetTestResultsTests : TestBase
 {
-    private class DotNetTestWithFailureModule : Module<CommandResult>
+    private class DotNetTestWithFailureModule : IModule<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var testProject = context.Git().RootDirectory
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
@@ -25,17 +27,17 @@ public class DotNetTestResultsTests : TestBase
             return await context.DotNet().Test(new DotNetTestOptions
             {
                 ProjectSolutionDirectoryDllExe = testProject,
-                Framework = "net9.0",
+                Framework = "net10.0",
                 CommandLogging = CommandLogging.Error,
             }, token: cancellationToken);
         }
     }
 
-    private class DotNetTestWithoutFailureModule : Module<CommandResult>
+    private class DotNetTestWithoutFailureModule : IModule<CommandResult>
     {
-        public File TrxFile { get; } = File.GetNewTemporaryFilePath();
+        public static File TrxFile { get; } = File.GetNewTemporaryFilePath();
 
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var testProject = context.Git().RootDirectory
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
@@ -44,7 +46,7 @@ public class DotNetTestResultsTests : TestBase
             {
                 ProjectSolutionDirectoryDllExe = testProject,
                 Filter = "TestCategory=Pass",
-                Framework = "net9.0",
+                Framework = "net10.0",
                 CommandLogging = CommandLogging.Error,
                 Logger = [$"trx;LogFileName={TrxFile}"]
             }, token: cancellationToken);
@@ -67,8 +69,8 @@ public class DotNetTestResultsTests : TestBase
     [Test]
     public async Task Can_Parse_Trx_Manually()
     {
-        var module = await RunModule<DotNetTestWithoutFailureModule>();
-        var parsedResults = new TrxParser().ParseTrxContents(await module.TrxFile.ReadAsync());
+        await RunModule<DotNetTestWithoutFailureModule>();
+        var parsedResults = new TrxParser().ParseTrxContents(await DotNetTestWithoutFailureModule.TrxFile.ReadAsync());
 
         await Assert.That(parsedResults.UnitTestResults).HasCount().EqualTo(2);
     }
@@ -76,9 +78,15 @@ public class DotNetTestResultsTests : TestBase
     [Test]
     public async Task Can_Parse_Trx_Using_Helper()
     {
-        var module = await RunModule<DotNetTestWithoutFailureModule>();
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<DotNetTestWithoutFailureModule>()
+            .BuildHostAsync();
 
-        var parsedResults = await module.Context.Trx().ParseTrxFile(module.TrxFile);
+        await host.ExecutePipelineAsync();
+
+        // Get the Trx helper from a module context
+        var context = host.RootServices.GetRequiredService<IPipelineContext>();
+        var parsedResults = await context.Trx().ParseTrxFile(DotNetTestWithoutFailureModule.TrxFile);
 
         await Assert.That(parsedResults.UnitTestResults).HasCount().EqualTo(2);
     }

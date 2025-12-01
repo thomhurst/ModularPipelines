@@ -26,12 +26,12 @@ internal class ModuleContext : IModuleContext
         IPipelineContext pipelineContext,
         IModule currentModule,
         ModuleExecutionContext executionContext,
-        IModuleLoggerProvider loggerProvider)
+        IModuleLogger logger)
     {
         _pipelineContext = pipelineContext;
         _currentModule = currentModule;
         _executionContext = executionContext;
-        _logger = loggerProvider.GetLogger(currentModule.GetType());
+        _logger = logger;
     }
 
     #region IModuleContext specific methods
@@ -67,24 +67,7 @@ internal class ModuleContext : IModuleContext
     {
         var moduleType = typeof(TModule);
 
-        // First try to find it as a ModuleBase<TResult> (for backwards compatibility)
-        var moduleBase = _pipelineContext.GetModule(moduleType);
-        if (moduleBase is ModuleBase<TResult> typedModule)
-        {
-            // The module is awaitable - get its result synchronously
-            // Note: This will block if the module hasn't completed yet
-            // In practice, dependencies should be declared via [DependsOn] which ensures ordering
-            var task = typedModule.GetAwaiter();
-            if (task.IsCompleted)
-            {
-                return task.GetResult();
-            }
-
-            // Module hasn't completed yet - wait for it
-            return typedModule.GetAwaiter().GetResult();
-        }
-
-        // Then try to find it as a pure IModule<T> via the module registry
+        // Find it via the module registry
         var registry = ServiceProvider.GetService<IModuleResultRegistry>();
         if (registry != null)
         {
@@ -118,7 +101,7 @@ internal class ModuleContext : IModuleContext
         return _pipelineContext.GetModule<TModule>();
     }
 
-    ModuleBase? IPipelineContext.GetModule(Type type)
+    IModule? IPipelineContext.GetModule(Type type)
     {
         return _pipelineContext.GetModule(type);
     }

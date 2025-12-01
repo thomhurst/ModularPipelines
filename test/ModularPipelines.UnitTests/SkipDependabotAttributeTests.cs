@@ -1,6 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
+using ModularPipelines.Extensions;
 using ModularPipelines.GitHub;
 using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Modules;
@@ -29,42 +31,46 @@ public class SkipDependabotAttributeTests : TestBase
     }
 
     [SkipIfDependabot]
-    private class Module1 : Module
+    private class Module1 : IModule<IDictionary<string, object>?>
     {
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            await Task.Yield();
+            return null;
         }
     }
 
     [SkipIfDependabot]
     [CanRun]
-    private class Module2 : Module
+    private class Module2 : IModule<IDictionary<string, object>?>
     {
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            await Task.Yield();
+            return null;
         }
     }
 
     [SkipIfDependabot]
     [CannotRun]
-    private class Module3 : Module
+    private class Module3 : IModule<IDictionary<string, object>?>
     {
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            await Task.Yield();
+            return null;
         }
     }
 
     [SkipIfDependabot]
     [CanRun]
     [CannotRun]
-    private class Module4 : Module
+    private class Module4 : IModule<IDictionary<string, object>?>
     {
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            await Task.Yield();
+            return null;
         }
     }
 
@@ -73,11 +79,16 @@ public class SkipDependabotAttributeTests : TestBase
     {
         var environmentVariables = new Mock<IGitHubEnvironmentVariables>();
 
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module1>()
-            .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Modules.First().Status).IsEqualTo(Status.Successful);
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var moduleResult = resultRegistry.GetResult(typeof(Module1))!;
+        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
     }
 
     [Test]
@@ -88,11 +99,16 @@ public class SkipDependabotAttributeTests : TestBase
         environmentVariables.Setup(x => x.Actor)
             .Returns("dependabot[bot]");
 
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module1>()
-            .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Modules.First().Status).IsEqualTo(Status.Skipped);
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var moduleResult = resultRegistry.GetResult(typeof(Module1))!;
+        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
     }
 
     [Test]
@@ -100,11 +116,16 @@ public class SkipDependabotAttributeTests : TestBase
     {
         var environmentVariables = new Mock<IGitHubEnvironmentVariables>();
 
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module2>()
-            .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Modules.First().Status).IsEqualTo(Status.Successful);
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var moduleResult = resultRegistry.GetResult(typeof(Module2))!;
+        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
     }
 
     [Test]
@@ -112,11 +133,16 @@ public class SkipDependabotAttributeTests : TestBase
     {
         var environmentVariables = new Mock<IGitHubEnvironmentVariables>();
 
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module3>()
-            .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Modules.First().Status).IsEqualTo(Status.Skipped);
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var moduleResult = resultRegistry.GetResult(typeof(Module3))!;
+        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
     }
 
     [Test]
@@ -124,10 +150,15 @@ public class SkipDependabotAttributeTests : TestBase
     {
         var environmentVariables = new Mock<IGitHubEnvironmentVariables>();
 
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .ConfigureServices((_, collection) => collection.AddSingleton(environmentVariables.Object))
             .AddModule<Module4>()
-            .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Modules.First().Status).IsEqualTo(Status.Successful);
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var moduleResult = resultRegistry.GetResult(typeof(Module4))!;
+        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
     }
 }

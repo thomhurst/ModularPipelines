@@ -20,20 +20,20 @@ public class DirectCollisionTests
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]
-    private class DependencyConflictModule1 : Module
+    private class DependencyConflictModule1 : IModule<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            await GetModule<DependencyConflictModule2>();
-            await Task.CompletedTask;
+            _ = context.GetModule<DependencyConflictModule2, IDictionary<string, object>?>();
+            await Task.Yield();
             return null;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule1>]
-    private class DependencyConflictModule2 : Module
+    private class DependencyConflictModule2 : IModule<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;

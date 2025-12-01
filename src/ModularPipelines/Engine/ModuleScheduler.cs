@@ -317,25 +317,79 @@ internal class ModuleScheduler : IModuleScheduler
     /// <summary>
     /// Marks a module as started execution
     /// </summary>
-    public void MarkModuleStarted(Type moduleType)
+    /// <returns>True if the module can proceed with execution, false if constraints prevent execution</returns>
+    public bool MarkModuleStarted(Type moduleType)
     {
         lock (_stateLock)
         {
             if (_moduleStates.TryGetValue(moduleType, out var state))
             {
-                // Defensive constraint check at execution boundary
-                // Prevents race where module was queued but constraints changed before execution
-                if (!CanExecuteRespectingConstraints(state))
+                // Primary constraint check: verify no executing module has conflicting lock keys
+                // This is the most critical check - directly examine executing modules
+                if (state.RequiredLockKeys.Length > 0)
+                {
+                    foreach (var executing in _executingModules)
+                    {
+                        if (executing == state)
+                        {
+                            continue;
+                        }
+
+                        if (executing.RequiredLockKeys.Length > 0)
+                        {
+                            var intersection = executing.RequiredLockKeys.Intersect(state.RequiredLockKeys).ToArray();
+                            if (intersection.Length > 0)
+                            {
+                                _logger.LogDebug(
+                                    "Module {ModuleName} BLOCKED at execution boundary - {ExecutingModule} already executing with keys [{Keys}]",
+                                    MarkupFormatter.FormatModuleName(state.ModuleType.Name),
+                                    MarkupFormatter.FormatModuleName(executing.ModuleType.Name),
+                                    string.Join(", ", intersection));
+
+                                // Reset to Pending so scheduler will retry when constraints allow
+                                _queuedModules.Remove(state);
+                                state.State = ModuleExecutionState.Pending;
+                                state.QueuedTime = null;
+
+                                // Notify the scheduler to reschedule
+                                _schedulerNotification.Release();
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+                // Secondary check: sequential execution constraints
+                if (state.RequiresSequentialExecution && _executingModules.Count > 0)
                 {
                     _logger.LogDebug(
-                        "Module {ModuleName} constraint check failed at execution time, returning to Pending for retry",
-                        MarkupFormatter.FormatModuleName(state.ModuleType.Name));
+                        "Sequential module {ModuleName} blocked at execution boundary - {Count} modules already executing",
+                        MarkupFormatter.FormatModuleName(state.ModuleType.Name),
+                        _executingModules.Count);
 
-                    // Reset to Pending so scheduler will retry when constraints allow
                     _queuedModules.Remove(state);
                     state.State = ModuleExecutionState.Pending;
                     state.QueuedTime = null;
-                    return;
+                    _schedulerNotification.Release();
+                    return false;
+                }
+
+                // Check if any executing module requires sequential execution
+                foreach (var executing in _executingModules)
+                {
+                    if (executing.RequiresSequentialExecution)
+                    {
+                        _logger.LogDebug(
+                            "Module {ModuleName} blocked at execution boundary by sequential module {SequentialModule}",
+                            MarkupFormatter.FormatModuleName(state.ModuleType.Name),
+                            MarkupFormatter.FormatModuleName(executing.ModuleType.Name));
+
+                        _queuedModules.Remove(state);
+                        state.State = ModuleExecutionState.Pending;
+                        state.QueuedTime = null;
+                        _schedulerNotification.Release();
+                        return false;
+                    }
                 }
 
                 _queuedModules.Remove(state);
@@ -358,7 +412,11 @@ internal class ModuleScheduler : IModuleScheduler
                         MarkupFormatter.FormatModuleName(state.ModuleType.Name),
                         queueTime.TotalMilliseconds);
                 }
+
+                return true;
             }
+
+            return false;
         }
     }
 

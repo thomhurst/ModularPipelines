@@ -1,9 +1,11 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.TestHelpers;
 using Status = ModularPipelines.Enums.Status;
 
@@ -12,11 +14,11 @@ namespace ModularPipelines.UnitTests;
 public class ModuleHistoryTests
 {
     [ModuleCategory("1")]
-    private class SkipFromCategory : Module
+    private class SkipFromCategory : IModule<IDictionary<string, object>?>
     {
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            return Task.FromResult<IDictionary<string, object>?>(null);
         }
     }
 
@@ -29,38 +31,38 @@ public class ModuleHistoryTests
     }
 
     [SkipRunCondition]
-    private class SkipFromRunCondition : Module
+    private class SkipFromRunCondition : IModule<IDictionary<string, object>?>
     {
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            return Task.FromResult<IDictionary<string, object>?>(null);
         }
     }
 
     [SkipRunCondition]
-    private class UseHistoryTrueModule : Module
+    private class UseHistoryTrueModule : IModule<IDictionary<string, object>?>, IHistoryAware
     {
-        protected internal override Task<bool> UseResultFromHistoryIfSkipped(IPipelineContext context)
+        public Task<bool> UseResultFromHistoryIfSkipped(IPipelineContext context)
         {
             return true.AsTask();
         }
 
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            return Task.FromResult<IDictionary<string, object>?>(null);
         }
     }
 
-    private class SkipFromMethod : Module
+    private class SkipFromMethod : IModule<IDictionary<string, object>?>, ISkippable
     {
-        protected internal override Task<SkipDecision> ShouldSkip(IPipelineContext context)
+        public Task<SkipDecision> ShouldSkip(IPipelineContext context)
         {
             return SkipDecision.Skip("Testing").AsTask();
         }
 
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            return Task.FromResult<IDictionary<string, object>?>(null);
         }
     }
 
@@ -86,140 +88,205 @@ public class ModuleHistoryTests
 
         public Task<ModuleResult<T>?> GetResultAsync<T>(IModule<T> module, IPipelineHookContext pipelineContext)
         {
-            // Cast to ModuleBase to get module instance for result construction
-            var moduleBase = module as ModuleBase;
-            return Task.FromResult<ModuleResult<T>?>(moduleBase != null ? new ModuleResult<T>(default(T?), moduleBase) : null);
+            // Create a result using the module execution context
+            var executionContext = new ModuleExecutionContext(module, module.GetType());
+            return Task.FromResult<ModuleResult<T>?>(new ModuleResult<T>(default(T?), executionContext));
         }
     }
 
     [Test]
     public async Task Ignore_Category_Without_History_Repository()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromCategory>()
             .IgnoreCategories("1")
-            .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Modules[0].Status).IsEqualTo(Status.Skipped);
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var result = resultRegistry.GetResult(typeof(SkipFromCategory))!;
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Skipped);
     }
 
     [Test]
     public async Task Ignore_By_Non_Runnable_Category_Without_History_Repository()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromCategory>()
             .RunCategories("2")
-            .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Modules[0].Status).IsEqualTo(Status.Skipped);
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var result = resultRegistry.GetResult(typeof(SkipFromCategory))!;
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Skipped);
     }
 
     [Test]
     public async Task Skip_From_Run_Condition_Without_History_Repository()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromRunCondition>()
-            .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Modules[0].Status).IsEqualTo(Status.Skipped);
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var result = resultRegistry.GetResult(typeof(SkipFromRunCondition))!;
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Skipped);
     }
 
     [Test]
     public async Task Skip_From_Method_Without_History_Repository()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromMethod>()
-            .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Modules[0].Status).IsEqualTo(Status.Skipped);
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var result = resultRegistry.GetResult(typeof(SkipFromMethod))!;
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Skipped);
     }
 
     [Test]
     public async Task Ignore_Category_With_NotFound_History_Repository()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromCategory>()
             .IgnoreCategories("1")
             .AddResultsRepository<NotFoundModuleRepository>()
-            .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Modules[0].Status).IsEqualTo(Status.Skipped);
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var result = resultRegistry.GetResult(typeof(SkipFromCategory))!;
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Skipped);
     }
 
     [Test]
     public async Task Ignore_By_Non_Runnable_Category_With_NotFound_History_Repository()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromCategory>()
             .RunCategories("2")
             .AddResultsRepository<NotFoundModuleRepository>()
-            .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Modules[0].Status).IsEqualTo(Status.Skipped);
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var result = resultRegistry.GetResult(typeof(SkipFromCategory))!;
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Skipped);
     }
 
     [Test]
     public async Task Skip_From_Run_Condition_With_NotFound_History_Repository()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromRunCondition>()
             .AddResultsRepository<NotFoundModuleRepository>()
-            .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Modules[0].Status).IsEqualTo(Status.Skipped);
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var result = resultRegistry.GetResult(typeof(SkipFromRunCondition))!;
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Skipped);
     }
 
     [Test]
     public async Task Skip_From_Method_With_NotFound_History_Repository()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromMethod>()
             .AddResultsRepository<NotFoundModuleRepository>()
-            .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Modules[0].Status).IsEqualTo(Status.Skipped);
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var result = resultRegistry.GetResult(typeof(SkipFromMethod))!;
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Skipped);
     }
 
     [Test]
     public async Task Ignore_Category_With_Good_History_Repository()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromCategory>()
             .IgnoreCategories("1")
             .AddResultsRepository<GoodModuleRepository>()
-            .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Modules[0].Status).IsEqualTo(Status.UsedHistory);
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var result = resultRegistry.GetResult(typeof(SkipFromCategory))!;
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.UsedHistory);
     }
 
     [Test]
     public async Task Ignore_By_Non_Runnable_Category_With_Good_History_Repository()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromCategory>()
             .RunCategories("2")
             .AddResultsRepository<GoodModuleRepository>()
-            .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Modules[0].Status).IsEqualTo(Status.UsedHistory);
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var result = resultRegistry.GetResult(typeof(SkipFromCategory))!;
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.UsedHistory);
     }
 
     [Test]
     public async Task Skip_From_Run_Condition_With_Good_History_Repository()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromRunCondition>()
             .AddResultsRepository<GoodModuleRepository>()
-            .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Modules[0].Status).IsEqualTo(Status.UsedHistory);
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var result = resultRegistry.GetResult(typeof(SkipFromRunCondition))!;
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.UsedHistory);
     }
 
     [Test]
     public async Task Skip_From_Method_With_Good_History_Repository()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromMethod>()
             .AddResultsRepository<GoodModuleRepository>()
-            .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Modules[0].Status).IsEqualTo(Status.UsedHistory);
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var result = resultRegistry.GetResult(typeof(SkipFromMethod))!;
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.UsedHistory);
     }
 
     [Test]
     public async Task Use_History_Without_Repository_Still_Skips()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<UseHistoryTrueModule>()
-            .ExecutePipelineAsync();
-        await Assert.That(pipelineSummary.Modules[0].Status).IsEqualTo(Status.Skipped);
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var result = resultRegistry.GetResult(typeof(UseHistoryTrueModule))!;
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Skipped);
     }
 }

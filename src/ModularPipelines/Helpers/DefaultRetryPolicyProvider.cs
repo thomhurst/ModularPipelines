@@ -1,6 +1,4 @@
-using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
-using ModularPipelines.Options;
 using Polly;
 using Polly.Retry;
 
@@ -10,10 +8,10 @@ internal static class DefaultRetryPolicyProvider
 {
     public static AsyncRetryPolicy<T> GetDefaultRetryPolicy<T>(IPipelineContext context)
     {
-        var pipelineOptions = context.Get<IOptions<PipelineOptions>>();
+        var retryCount = context.PipelineOptions.Value.DefaultRetryCount;
 
         return Policy<T>.Handle<Exception>()
-            .WaitAndRetryAsync(pipelineOptions?.Value?.DefaultRetryCount ?? 0,
+            .WaitAndRetryAsync(retryCount,
                 i => TimeSpan.FromMilliseconds(i * i * 100)
             );
     }

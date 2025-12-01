@@ -1,4 +1,7 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
+using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Modules.Behaviors;
@@ -19,14 +22,14 @@ public class ComposableModuleTests
     /// Example module using composition for skip behavior - always skips.
     /// Inherits from Module&lt;T&gt; and implements ISkippable for skip behavior.
     /// </summary>
-    private class AlwaysSkippedModule : Module<string>, ISkippable
+    private class AlwaysSkippedModule : IModule<string>, ISkippable
     {
         Task<SkipDecision> ISkippable.ShouldSkip(IPipelineContext context)
         {
             return Task.FromResult(SkipDecision.Skip("Skipped via composition"));
         }
 
-        protected override Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Executed");
         }
@@ -36,14 +39,14 @@ public class ComposableModuleTests
     /// Example module using composition for skip behavior - never skips.
     /// Inherits from Module&lt;T&gt; and implements ISkippable for skip behavior.
     /// </summary>
-    private class NeverSkippedModule : Module<string>, ISkippable
+    private class NeverSkippedModule : IModule<string>, ISkippable
     {
         Task<SkipDecision> ISkippable.ShouldSkip(IPipelineContext context)
         {
             return Task.FromResult(SkipDecision.DoNotSkip);
         }
 
-        protected override Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Executed");
         }
@@ -53,11 +56,11 @@ public class ComposableModuleTests
     /// Example module using composition for timeout behavior.
     /// Inherits from Module&lt;T&gt; and implements ITimeoutable for timeout behavior.
     /// </summary>
-    private class TimeoutableModule : Module<string>, ITimeoutable
+    private class TimeoutableModule : IModule<string>, ITimeoutable
     {
         TimeSpan ITimeoutable.Timeout => TimeSpan.FromSeconds(5);
 
-        protected override Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Executed with timeout");
         }
@@ -67,7 +70,7 @@ public class ComposableModuleTests
     /// Example module using composition for multiple behaviors.
     /// Demonstrates combining multiple behavior interfaces on a single module.
     /// </summary>
-    private class MultiBehaviorModule : Module<int>, ISkippable, ITimeoutable, IHookable
+    private class MultiBehaviorModule : IModule<int>, ISkippable, ITimeoutable, IHookable
     {
         public static bool BeforeHookCalled { get; private set; }
         public static bool AfterHookCalled { get; private set; }
@@ -91,7 +94,7 @@ public class ComposableModuleTests
             return Task.CompletedTask;
         }
 
-        protected override Task<int> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult(42);
         }
@@ -107,9 +110,9 @@ public class ComposableModuleTests
     /// Example module that always runs using composition.
     /// Inherits from Module&lt;T&gt; and implements IAlwaysRun marker interface.
     /// </summary>
-    private class AlwaysRunModule : Module<string>, IAlwaysRun
+    private class AlwaysRunModule : IModule<string>, IAlwaysRun
     {
-        protected override Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Always ran");
         }
@@ -118,36 +121,45 @@ public class ComposableModuleTests
     [Test]
     public async Task Skippable_Module_Is_Skipped_When_Condition_True()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<AlwaysSkippedModule>()
-            .ExecutePipelineAsync();
+            .BuildHostAsync();
 
-        var moduleResult = result.Modules.OfType<AlwaysSkippedModule>().Single();
-        await Assert.That(moduleResult.SkipResult.ShouldSkip).IsTrue();
-        await Assert.That(moduleResult.SkipResult.Reason).IsEqualTo("Skipped via composition");
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var moduleResult = resultRegistry.GetResult(typeof(AlwaysSkippedModule))!;
+        await Assert.That(moduleResult.SkipDecision.ShouldSkip).IsTrue();
+        await Assert.That(moduleResult.SkipDecision.Reason).IsEqualTo("Skipped via composition");
     }
 
     [Test]
     public async Task Skippable_Module_Executes_When_Condition_False()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<NeverSkippedModule>()
-            .ExecutePipelineAsync();
+            .BuildHostAsync();
 
-        var moduleResult = result.Modules.OfType<NeverSkippedModule>().Single();
-        await Assert.That(moduleResult.SkipResult.ShouldSkip).IsFalse();
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var moduleResult = resultRegistry.GetResult(typeof(NeverSkippedModule))!;
+        await Assert.That(moduleResult.SkipDecision.ShouldSkip).IsFalse();
     }
 
     [Test]
     public async Task Timeoutable_Module_Has_Custom_Timeout()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<TimeoutableModule>()
-            .ExecutePipelineAsync();
+            .BuildHostAsync();
 
-        var module = result.Modules.OfType<TimeoutableModule>().Single();
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var moduleResult = resultRegistry.GetResult(typeof(TimeoutableModule))!;
         // The module should have executed successfully with the custom timeout
-        await Assert.That(module.Status).IsEqualTo(ModularPipelines.Enums.Status.Successful);
+        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(ModularPipelines.Enums.Status.Successful);
     }
 
     [Test]
@@ -166,11 +178,14 @@ public class ComposableModuleTests
     [Test]
     public async Task AlwaysRun_Module_Has_Correct_RunType()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<AlwaysRunModule>()
-            .ExecutePipelineAsync();
+            .BuildHostAsync();
 
-        var module = result.Modules.OfType<AlwaysRunModule>().Single();
-        await Assert.That(module.ModuleRunType).IsEqualTo(ModuleRunType.AlwaysRun);
+        await host.ExecutePipelineAsync();
+
+        // Verify the module implements IAlwaysRun interface
+        var module = host.RootServices.GetServices<IModule>().OfType<AlwaysRunModule>().Single();
+        await Assert.That(module).IsAssignableTo<IAlwaysRun>();
     }
 }

@@ -8,9 +8,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class NodeTests : TestBase
 {
-    private class NodeVersionModule : Module<CommandResult>
+    private class NodeVersionModule : IModule<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Node().Version(cancellationToken: cancellationToken);
         }
@@ -19,9 +19,7 @@ public class NodeTests : TestBase
     [Test]
     public async Task Has_Not_Errored()
     {
-        var module = await RunModule<NodeVersionModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<NodeVersionModule, CommandResult>();
 
         using (Assert.Multiple())
         {
@@ -34,9 +32,7 @@ public class NodeTests : TestBase
     [Test]
     public async Task Standard_Output_Is_Version_Number()
     {
-        var module = await RunModule<NodeVersionModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<NodeVersionModule, CommandResult>();
 
         using (Assert.Multiple())
         {

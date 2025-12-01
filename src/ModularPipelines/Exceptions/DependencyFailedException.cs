@@ -8,14 +8,14 @@ public class DependencyFailedException : PipelineException
     [JsonInclude]
     public string FailingModuleName { get; private set; }
 
-    public DependencyFailedException(Exception exception, ModuleBase moduleBase) : base($"The dependency {GetInnerMostFailingModule(moduleBase, exception)} has failed.", exception)
+    public DependencyFailedException(Exception exception, IModule module) : base($"The dependency {GetInnerMostFailingModule(module, exception)} has failed.", exception)
     {
-        FailingModuleName = moduleBase.GetType().Name;
+        FailingModuleName = module.GetType().Name;
     }
 
-    private static string GetInnerMostFailingModule(ModuleBase rootModuleBase, Exception rootException)
+    private static string GetInnerMostFailingModule(IModule rootModule, Exception rootException)
     {
-        var module = rootModuleBase.GetType().Name;
+        var module = rootModule.GetType().Name;
 
         var exception = rootException;
 

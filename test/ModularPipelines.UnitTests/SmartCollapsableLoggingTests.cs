@@ -13,42 +13,27 @@ public class SmartCollapsableLoggingTests : TestBase
     public async Task AzurePipelines()
     {
         var stringBuilder = await Execute(BuildSystem.AzurePipelines);
-        await Assert.That(stringBuilder.ToString().Trim()).
-            IsEqualTo("""
-                       ##[group]SmartCollapsableLoggingTests
-                       ##[group]MyGroup
-                       Foo bar!
-                       ##[endgroup]
-                       ##[endgroup]
-                       """);
+        // Normalize line endings for cross-platform consistency
+        var expected = "##[group]SmartCollapsableLoggingTests\n##[group]MyGroup\nFoo bar!\n##[endgroup]\n##[endgroup]";
+        await Assert.That(stringBuilder.ToString().Trim().ReplaceLineEndings("\n")).IsEqualTo(expected);
     }
 
     [Test]
     public async Task GitHub()
     {
         var stringBuilder = await Execute(BuildSystem.GitHubActions);
-        await Assert.That(stringBuilder.ToString().Trim()).
-            IsEqualTo("""
-                       ::group::SmartCollapsableLoggingTests
-                       ::group::MyGroup
-                       Foo bar!
-                       ::endgroup::
-                       ::endgroup::
-                       """);
+        // Normalize line endings for cross-platform consistency
+        var expected = "::group::SmartCollapsableLoggingTests\n::group::MyGroup\nFoo bar!\n::endgroup::\n::endgroup::";
+        await Assert.That(stringBuilder.ToString().Trim().ReplaceLineEndings("\n")).IsEqualTo(expected);
     }
 
     [Test]
     public async Task TeamCity()
     {
         var stringBuilder = await Execute(BuildSystem.TeamCity);
-        await Assert.That(stringBuilder.ToString().Trim()).
-            IsEqualTo("""
-                       ##teamcity[blockOpened name='SmartCollapsableLoggingTests']
-                       ##teamcity[blockOpened name='MyGroup']
-                       Foo bar!
-                       ##teamcity[blockClosed name='MyGroup']
-                       ##teamcity[blockClosed name='SmartCollapsableLoggingTests']
-                       """);
+        // Normalize line endings for cross-platform consistency
+        var expected = "##teamcity[blockOpened name='SmartCollapsableLoggingTests']\n##teamcity[blockOpened name='MyGroup']\nFoo bar!\n##teamcity[blockClosed name='MyGroup']\n##teamcity[blockClosed name='SmartCollapsableLoggingTests']";
+        await Assert.That(stringBuilder.ToString().Trim().ReplaceLineEndings("\n")).IsEqualTo(expected);
     }
 
     [Test]
@@ -69,11 +54,9 @@ public class SmartCollapsableLoggingTests : TestBase
     {
         var stringBuilder = await Execute(buildSystem);
         // Unknown systems use PlayIcon from MarkupFormatter
-        await Assert.That(stringBuilder.ToString().Trim()).IsEqualTo("""
-                                                                      [bold cyan]▶[/] SmartCollapsableLoggingTests
-                                                                      [bold cyan]▶[/] MyGroup
-                                                                      Foo bar!
-                                                                      """);
+        // Normalize line endings for cross-platform consistency
+        var expected = "[bold cyan]▶[/] SmartCollapsableLoggingTests\n[bold cyan]▶[/] MyGroup\nFoo bar!";
+        await Assert.That(stringBuilder.ToString().Trim().ReplaceLineEndings("\n")).IsEqualTo(expected);
     }
 
     [Test]

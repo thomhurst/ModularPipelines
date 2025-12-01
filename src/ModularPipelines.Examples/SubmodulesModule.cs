@@ -2,22 +2,23 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Modules.Behaviors;
 
 namespace ModularPipelines.Examples;
 
-public class SubmodulesModule : Module
+public class SubmodulesModule : IModule<IDictionary<string, object>?>, ISkippable
 {
-    protected override Task<SkipDecision> ShouldSkip(IPipelineContext context)
+    public Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
-        return base.ShouldSkip(context);
+        return Task.FromResult(SkipDecision.DoNotSkip);
     }
 
     /// <inheritdoc/>
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         foreach (var c in Guid.NewGuid().ToString().Take(3))
         {
-            await SubModule(c.ToString(), async () =>
+            await context.SubModule(c.ToString(), async () =>
             {
                 context.Logger.LogInformation("{Submodule}", c.ToString());
                 await Task.Delay(TimeSpan.FromMilliseconds(250), cancellationToken);

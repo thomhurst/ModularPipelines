@@ -25,6 +25,13 @@ internal interface IModuleResultRegistry
     ModuleResult<T>? GetResult<T>(Type moduleType);
 
     /// <summary>
+    /// Gets a module result if available (non-generic version).
+    /// </summary>
+    /// <param name="moduleType">The module type.</param>
+    /// <returns>The module result as IModuleResult, or null if not yet available.</returns>
+    IModuleResult? GetResult(Type moduleType);
+
+    /// <summary>
     /// Gets the task that completes when a module finishes.
     /// </summary>
     /// <param name="moduleType">The module type.</param>
@@ -43,6 +50,13 @@ internal interface IModuleResultRegistry
     /// <param name="moduleType">The module type.</param>
     /// <param name="exception">The exception that caused the failure.</param>
     void SetException(Type moduleType, Exception exception);
+
+    /// <summary>
+    /// Registers a module result (non-generic version).
+    /// </summary>
+    /// <param name="moduleType">The module type.</param>
+    /// <param name="result">The module result.</param>
+    void RegisterResult(Type moduleType, IModuleResult result);
 }
 
 /// <summary>
@@ -91,6 +105,19 @@ internal class ModuleResultRegistry : IModuleResultRegistry
         }
     }
 
+    public IModuleResult? GetResult(Type moduleType)
+    {
+        lock (_lock)
+        {
+            if (_results.TryGetValue(moduleType, out var result))
+            {
+                return result as IModuleResult;
+            }
+
+            return null;
+        }
+    }
+
     public Task? GetCompletionTask(Type moduleType)
     {
         lock (_lock)
@@ -106,6 +133,19 @@ internal class ModuleResultRegistry : IModuleResultRegistry
             if (_completionSources.TryGetValue(moduleType, out var tcs))
             {
                 tcs.TrySetException(exception);
+            }
+        }
+    }
+
+    public void RegisterResult(Type moduleType, IModuleResult result)
+    {
+        lock (_lock)
+        {
+            _results[moduleType] = result;
+
+            if (_completionSources.TryGetValue(moduleType, out var tcs))
+            {
+                tcs.TrySetResult(result);
             }
         }
     }

@@ -12,19 +12,22 @@ internal class PipelineExecutor : IPipelineExecutor
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly ILogger<PipelineExecutor> _logger;
     private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
+    private readonly IModuleResultRegistry _resultRegistry;
 
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
         IModuleExecutor moduleExecutor,
         EngineCancellationToken engineCancellationToken,
         ILogger<PipelineExecutor> logger,
-        ISecondaryExceptionContainer secondaryExceptionContainer)
+        ISecondaryExceptionContainer secondaryExceptionContainer,
+        IModuleResultRegistry resultRegistry)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _moduleExecutor = moduleExecutor;
         _engineCancellationToken = engineCancellationToken;
         _logger = logger;
         _secondaryExceptionContainer = secondaryExceptionContainer;
+        _resultRegistry = resultRegistry;
     }
 
     public async Task<PipelineSummary> ExecuteAsync(List<IModule> runnableModules,
@@ -43,7 +46,7 @@ internal class PipelineExecutor : IPipelineExecutor
         {
             var end = DateTimeOffset.UtcNow;
 
-            pipelineSummary = new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
+            pipelineSummary = new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end, _resultRegistry);
 
             await _pipelineSetupExecutor.OnEndAsync(pipelineSummary);
         }

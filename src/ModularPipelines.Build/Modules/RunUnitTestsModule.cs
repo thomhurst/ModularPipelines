@@ -6,17 +6,21 @@ using ModularPipelines.DotNet.Options;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Modules.Behaviors;
+using Polly;
 using Polly.Retry;
 
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<CodeFormattedNicelyModule>(IgnoreIfNotRegistered = true)]
-public class RunUnitTestsModule : Module<CommandResult[]>
+public class RunUnitTestsModule : IModule<CommandResult[]>, IRetryable<CommandResult[]>
 {
-    protected override AsyncRetryPolicy<CommandResult[]?> RetryPolicy => CreateRetryPolicy(0);
+    public AsyncRetryPolicy<CommandResult[]?> GetRetryPolicy(IPipelineContext context)
+    {
+        return Policy<CommandResult[]?>.Handle<Exception>().RetryAsync(0);
+    }
 
-    /// <inheritdoc/>
-    protected override async Task<CommandResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         return await context.Git().RootDirectory
             .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)
@@ -26,7 +30,7 @@ public class RunUnitTestsModule : Module<CommandResult[]>
             {
                 Project = unitTestProjectFile.Path,
                 NoBuild = true,
-                Framework = "net9.0",
+                Framework = "net10.0",
                 Arguments = ["--coverage", "--coverage-output-format", "cobertura"],
                 Configuration = Configuration.Release,
                 EnvironmentVariables = new Dictionary<string, string?>

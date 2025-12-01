@@ -3,11 +3,12 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.UnitTests.Modules;
 
-public class TestModule1 : Module
+public class TestModule1 : IModule<IDictionary<string, object>?>
 {
     /// <inheritdoc/>
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        return await NothingAsync();
+        await Task.Yield();
+        return null;
     }
 }

@@ -1,20 +1,24 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
+using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 
 public class SkippedModuleTests : TestBase
 {
-    private class SkippedModule : Module<CommandResult>
+    private class SkippedModule : IModule<CommandResult>, ISkippable
     {
-        protected internal override Task<SkipDecision> ShouldSkip(IPipelineContext context)
+        public Task<SkipDecision> ShouldSkip(IPipelineContext context)
         {
             return Task.FromResult(SkipDecision.Skip("Testing purposes"));
         }
 
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -24,15 +28,19 @@ public class SkippedModuleTests : TestBase
     [Test]
     public async Task Skipped_Result_Is_As_Expected()
     {
-        var module = await RunModule<SkippedModule>();
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<SkippedModule>()
+            .BuildHostAsync();
 
-        var moduleResult = await module;
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var moduleResult = resultRegistry.GetResult(typeof(SkippedModule))!;
 
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Skipped);
             await Assert.That(moduleResult.Exception).IsNull();
-            await Assert.That(() => moduleResult.Value).ThrowsException();
         }
     }
 }

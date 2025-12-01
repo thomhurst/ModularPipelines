@@ -1,5 +1,7 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Docker.Extensions;
+using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -9,9 +11,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class DockerTests : TestBase
 {
-    private class DockerBuildModule : Module<CommandResult>
+    private class DockerBuildModule : IModule<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var pretendPath = context.Git()
                 .RootDirectory
@@ -37,11 +39,17 @@ public class DockerTests : TestBase
     [Test]
     public async Task DockerBuild_CorrectInputCommand()
     {
-        var module = await RunModule<DockerBuildModule>();
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<DockerBuildModule>()
+            .BuildHostAsync();
 
-        var result = await module;
+        await host.ExecutePipelineAsync();
 
-        var dockerfilePath = module.Context.Git().RootDirectory
+        var resultRegistry = host.RootServices.GetRequiredService<Engine.IModuleResultRegistry>();
+        var result = resultRegistry.GetResult<CommandResult>(typeof(DockerBuildModule))!;
+
+        var context = host.RootServices.GetRequiredService<IPipelineContext>();
+        var dockerfilePath = context.Git().RootDirectory
             .GetFolder("src")
             .GetFolder("MyApp")
             .GetFile("Dockerfile").Path;

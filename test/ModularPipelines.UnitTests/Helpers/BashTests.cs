@@ -10,17 +10,17 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class BashTests : TestBase
 {
-    private class BashCommandModule : Module<CommandResult>
+    private class BashCommandModule : IModule<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Bash.Command(new("echo \"Foo bar!\""), cancellationToken: cancellationToken);
         }
     }
 
-    private class BashScriptModule : Module<CommandResult>
+    private class BashScriptModule : IModule<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var file = context.Git().RootDirectory.FindFile(x => x.Name == "BashTest.sh");
             return await context.Bash.FromFile(new BashFileOptions(file!), cancellationToken: cancellationToken);
@@ -30,9 +30,7 @@ public class BashTests : TestBase
     [Test]
     public async Task Has_Not_Errored()
     {
-        var module = await RunModule<BashCommandModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<BashCommandModule, CommandResult>();
 
         using (Assert.Multiple())
         {
@@ -45,9 +43,7 @@ public class BashTests : TestBase
     [Test]
     public async Task Standard_Output_Equals_Foo_Bar()
     {
-        var module = await RunModule<BashCommandModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<BashCommandModule, CommandResult>();
 
         using (Assert.Multiple())
         {
@@ -60,9 +56,7 @@ public class BashTests : TestBase
     [LinuxOnlyTest]
     public async Task Standard_Output_From_Script_Equals_Foo_Bar()
     {
-        var module = await RunModule<BashScriptModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<BashScriptModule, CommandResult>();
 
         using (Assert.Multiple())
         {

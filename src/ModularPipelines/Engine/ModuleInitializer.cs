@@ -4,15 +4,10 @@ namespace ModularPipelines.Engine;
 
 internal class ModuleInitializer : IModuleInitializer
 {
-    private readonly IPipelineContextProvider _moduleContextProvider;
-
-    public ModuleInitializer(IPipelineContextProvider moduleContextProvider)
+    public IModule Initialize(IModule module)
     {
-        _moduleContextProvider = moduleContextProvider;
-    }
-
-    public ModuleBase Initialize(ModuleBase module)
-    {
-        return module.Initialize(_moduleContextProvider.GetModuleContext());
+        // No initialization needed for composition-based modules
+        // The module context is passed directly to ExecuteAsync
+        return module;
     }
 }

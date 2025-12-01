@@ -1,5 +1,7 @@
 using Azure.ResourceManager.Authorization;
 using Azure.ResourceManager.Authorization.Models;
+using Azure.ResourceManager.ManagedServiceIdentities;
+using Azure.ResourceManager.Storage;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Extensions;
 using ModularPipelines.Context;
@@ -9,14 +11,14 @@ namespace ModularPipelines.Examples.Modules.Azure;
 
 [DependsOn<ProvisionBlobStorageAccountModule>]
 [DependsOn<ProvisionUserAssignedIdentityModule>]
-public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
+public class AssignAccessToBlobStorageModule : IModule<RoleAssignmentResource>
 {
     /// <inheritdoc/>
-    protected override async Task<RoleAssignmentResource?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public async Task<RoleAssignmentResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var userAssignedIdentity = await GetModule<ProvisionUserAssignedIdentityModule>();
+        var userAssignedIdentity = context.GetModule<ProvisionUserAssignedIdentityModule, UserAssignedIdentityResource>();
 
-        var storageAccount = await GetModule<ProvisionBlobStorageAccountModule>();
+        var storageAccount = context.GetModule<ProvisionBlobStorageAccountModule, StorageAccountResource>();
 
         var roleAssignmentResource = await context.Azure().Provisioner.Security.RoleAssignment(
             storageAccount.Value!.Id,

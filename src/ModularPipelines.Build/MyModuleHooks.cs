@@ -7,18 +7,27 @@ namespace ModularPipelines.Build;
 
 public class MyModuleHooks : IPipelineModuleHooks
 {
+    private readonly Dictionary<string, DateTimeOffset> _moduleStartTimes = new();
+
     /// <inheritdoc/>
     public Task OnBeforeModuleStartAsync(IPipelineHookContext pipelineContext, IModule module)
     {
-        pipelineContext.Logger.LogInformation("{Module} is starting at {DateTime}", module.GetType().Name, DateTimeOffset.UtcNow);
+        var moduleName = module.GetType().Name;
+        var startTime = DateTimeOffset.UtcNow;
+        _moduleStartTimes[moduleName] = startTime;
+        pipelineContext.Logger.LogInformation("{Module} is starting at {DateTime}", moduleName, startTime);
         return Task.CompletedTask;
     }
 
     /// <inheritdoc/>
     public Task OnAfterModuleEndAsync(IPipelineHookContext pipelineContext, IModule module)
     {
-        var duration = (module as ModuleBase)?.Duration ?? TimeSpan.Zero;
-        pipelineContext.Logger.LogInformation("{Module} finished at {DateTime} after {Elapsed}", module.GetType().Name, DateTimeOffset.UtcNow, duration);
+        var moduleName = module.GetType().Name;
+        var endTime = DateTimeOffset.UtcNow;
+        var duration = _moduleStartTimes.TryGetValue(moduleName, out var startTime)
+            ? endTime - startTime
+            : TimeSpan.Zero;
+        pipelineContext.Logger.LogInformation("{Module} finished at {DateTime} after {Elapsed}", moduleName, endTime, duration);
         return Task.CompletedTask;
     }
 }

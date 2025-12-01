@@ -8,7 +8,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
-public class NugetVersionGeneratorModule : Module<string>
+public class NugetVersionGeneratorModule : IModule<string>
 {
     private readonly IOptions<PublishSettings> _publishSettings;
 
@@ -17,8 +17,7 @@ public class NugetVersionGeneratorModule : Module<string>
         _publishSettings = publishSettings;
     }
 
-    /// <inheritdoc/>
-    protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var gitVersionInformation = await context.Git().Versioning.GetGitVersioningInformation();
 
@@ -29,12 +28,5 @@ public class NugetVersionGeneratorModule : Module<string>
         context.LogOnPipelineEnd($"Generated Version Number: {version}");
 
         return version;
-    }
-
-    /// <inheritdoc/>
-    protected override async Task OnAfterExecute(IPipelineContext context)
-    {
-        var moduleResult = await this;
-        context.Logger.LogInformation("NuGet Version to Package: {Version}", moduleResult.Value);
     }
 }

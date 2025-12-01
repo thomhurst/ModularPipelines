@@ -8,21 +8,23 @@ namespace ModularPipelines.UnitTests;
 
 public class ModuleNotRegisteredExceptionTests : TestBase
 {
-    private class Module1 : Module
+    private class Module1 : IModule<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.Yield();
+            return null;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class Module2 : Module
+    private class Module2 : IModule<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            await GetModule<Module1>();
-            return await NothingAsync();
+            _ = context.GetModule<Module1, IDictionary<string, object>?>();
+            await Task.Yield();
+            return null;
         }
     }
 

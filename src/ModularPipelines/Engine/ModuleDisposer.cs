@@ -6,11 +6,11 @@ namespace ModularPipelines.Engine;
 
 internal class ModuleDisposer : IModuleDisposer
 {
-    private readonly IModuleLoggerProvider _loggerProvider;
+    private readonly IModuleLoggerContainer _loggerContainer;
 
-    public ModuleDisposer(IModuleLoggerProvider loggerProvider)
+    public ModuleDisposer(IModuleLoggerContainer loggerContainer)
     {
-        _loggerProvider = loggerProvider;
+        _loggerContainer = loggerContainer;
     }
 
     public async Task DisposeAsync(ModuleState moduleState)
@@ -27,7 +27,7 @@ internal class ModuleDisposer : IModuleDisposer
     {
         await Disposer.DisposeObjectAsync(module);
 
-        var logger = _loggerProvider.GetLogger(moduleType);
+        var logger = _loggerContainer.GetLogger(moduleType);
         await Disposer.DisposeObjectAsync(logger);
     }
 }

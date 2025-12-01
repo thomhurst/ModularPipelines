@@ -284,33 +284,15 @@ internal class ProgressPrinter : IProgressPrinter,
         table.AddColumn("Status");
         table.AddColumn("Start");
         table.AddColumn("End");
-        table.AddColumn(string.Empty);
 
-        foreach (var module in pipelineSummary.Modules.OrderBy(x => x.EndTime))
+        foreach (var module in pipelineSummary.Modules)
         {
-            var isSameDay = module.StartTime.Date == module.EndTime.Date;
-
             table.AddRow(
                 $"[cyan]{module.GetType().Name}[/]",
-                module.Duration.ToDisplayString(),
-                module.Status.ToDisplayString(),
-                GetTime(module.StartTime, isSameDay),
-                GetTime(module.EndTime, isSameDay),
-                GetModuleExtraInformation(module));
-
-            lock (module.SubModuleBasesLock)
-            {
-                foreach (var subModule in module.SubModuleBases)
-                {
-                    table.AddRow(
-                        $"[lightcyan1]--{subModule.Name}[/]",
-                        subModule.Duration.ToDisplayString(),
-                        subModule.Status.ToDisplayString(),
-                        GetTime(subModule.StartTime, isSameDay),
-                        GetTime(subModule.EndTime, isSameDay),
-                        string.Empty);
-                }
-            }
+                "-",
+                "-",
+                "-",
+                "-");
 
             table.AddEmptyRow();
         }
@@ -322,8 +304,7 @@ internal class ProgressPrinter : IProgressPrinter,
             pipelineSummary.TotalDuration.ToDisplayString(),
             pipelineSummary.Status.ToDisplayString(),
             GetTime(pipelineSummary.Start, isSameDayTotal),
-            GetTime(pipelineSummary.End, isSameDayTotal),
-            "...");
+            GetTime(pipelineSummary.End, isSameDayTotal));
 
         Console.WriteLine();
         AnsiConsole.Write(table.Expand());
@@ -336,11 +317,11 @@ internal class ProgressPrinter : IProgressPrinter,
         return moduleState.State == ModuleExecutionState.Completed ? "[green]" : "[orange3]";
     }
 
-    private static void RegisterIgnoredModules(IReadOnlyList<ModuleBase> modulesToIgnore, ProgressContext progressContext)
+    private static void RegisterIgnoredModules(IReadOnlyList<IgnoredModule> modulesToIgnore, ProgressContext progressContext)
     {
-        foreach (var moduleToIgnore in modulesToIgnore)
+        foreach (var ignoredModule in modulesToIgnore)
         {
-            progressContext.AddTask($"[yellow][[Ignored]] {moduleToIgnore.GetType().Name}[/]").StopTask();
+            progressContext.AddTask($"[yellow][[Ignored]] {ignoredModule.Module.GetType().Name}[/]").StopTask();
         }
     }
 
@@ -356,18 +337,4 @@ internal class ProgressPrinter : IProgressPrinter,
             : dateTimeOffset.ToString("yyyy/MM/dd h:mm:ss tt");
     }
 
-    private static string GetModuleExtraInformation(ModuleBase module)
-    {
-        if (module.SkipResult.ShouldSkip && !string.IsNullOrWhiteSpace(module.SkipResult.Reason))
-        {
-            return $"[yellow]{module.SkipResult.Reason}[/]";
-        }
-
-        if (module.Exception != null)
-        {
-            return $"[red]{module.Exception?.GetType().Name}[/]";
-        }
-
-        return string.Empty;
-    }
 }

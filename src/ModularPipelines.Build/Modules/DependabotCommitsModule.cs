@@ -10,9 +10,9 @@ namespace ModularPipelines.Build.Modules;
 
 [SkipIfNoGitHubToken]
 [RunOnLinuxOnly]
-public class DependabotCommitsModule : Module<List<string>>
+public class DependabotCommitsModule : IModule<List<string>>
 {
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var repositoryInfo = context.GitHub().RepositoryInfo;
 

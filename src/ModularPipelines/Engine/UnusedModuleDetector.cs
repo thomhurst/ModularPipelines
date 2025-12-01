@@ -24,18 +24,18 @@ internal class UnusedModuleDetector : IUnusedModuleDetector
     public void Log()
     {
         var registeredServices = _serviceContainerWrapper.ServiceCollection
-            .Where(x => x.ServiceType == typeof(ModuleBase))
+            .Where(x => x.ServiceType == typeof(IModule))
             .Select(x => x.ImplementationType)
             .ToHashSet();
 
-        var allDetectedModules = _assemblyLoadedTypesProvider.GetLoadedTypesAssignableTo(typeof(ModuleBase));
+        var allDetectedModules = _assemblyLoadedTypesProvider.GetLoadedTypesAssignableTo(typeof(IModule));
 
         var unregisteredModules = allDetectedModules
             .Except(registeredServices)
             .ToList();
 
         var registeredModuleTypes = _serviceContainerWrapper.ServiceCollection
-            .Where(x => x.ServiceType == typeof(ModuleBase) && x.ImplementationType != null)
+            .Where(x => x.ServiceType == typeof(IModule) && x.ImplementationType != null)
             .Select(x => x.ImplementationType!)
             .ToList();
 

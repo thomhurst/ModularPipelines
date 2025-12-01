@@ -6,9 +6,9 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
-public class PrintEnvironmentVariablesModule : Module
+public class PrintEnvironmentVariablesModule : IModule<IDictionary<string, object>>
 {
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
 

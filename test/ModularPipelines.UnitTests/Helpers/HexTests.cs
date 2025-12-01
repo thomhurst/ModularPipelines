@@ -7,9 +7,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class HexTests : TestBase
 {
-    private class ToHexModule : Module<string>
+    private class ToHexModule : IModule<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Hex.ToHex("Foo bar!");
@@ -19,9 +19,7 @@ public class HexTests : TestBase
     [Test]
     public async Task To_Hex_Has_Not_Errored()
     {
-        var module = await RunModule<ToHexModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<ToHexModule, string>();
 
         using (Assert.Multiple())
         {
@@ -34,15 +32,13 @@ public class HexTests : TestBase
     [Test]
     public async Task To_Hex_Output_Equals_Foo_Bar()
     {
-        var module = await RunModule<ToHexModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<ToHexModule, string>();
         await Assert.That(moduleResult.Value).IsEqualTo("466f6f2062617221");
     }
 
-    private class FromHexModule : Module<string>
+    private class FromHexModule : IModule<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Hex.FromHex("466f6f2062617221");
@@ -52,9 +48,7 @@ public class HexTests : TestBase
     [Test]
     public async Task From_Hex_Has_Not_Errored()
     {
-        var module = await RunModule<FromHexModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<FromHexModule, string>();
 
         using (Assert.Multiple())
         {
@@ -67,9 +61,7 @@ public class HexTests : TestBase
     [Test]
     public async Task From_Hex_Output_Equals_Foo_Bar()
     {
-        var module = await RunModule<FromHexModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<FromHexModule, string>();
         await Assert.That(moduleResult.Value).IsEqualTo("Foo bar!");
     }
 }

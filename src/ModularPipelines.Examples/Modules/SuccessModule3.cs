@@ -1,18 +1,19 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules;
 
 [DependsOn<GitVersionModule>]
-public class SuccessModule3 : Module
+public class SuccessModule3 : IModule<IDictionary<string, object>?>
 {
     /// <inheritdoc/>
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(TimeSpan.FromSeconds(12), cancellationToken);
 
-        await GetModule<GitVersionModule>();
+        context.GetModule<GitVersionModule, CommandResult>();
 
         return null;
     }

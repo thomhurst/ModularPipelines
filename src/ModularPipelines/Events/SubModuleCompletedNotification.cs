@@ -6,7 +6,7 @@ namespace ModularPipelines.Events;
 /// <summary>
 /// Notification that is published when a submodule completes execution.
 /// </summary>
-internal record SubModuleCompletedNotification(ModuleBase ParentModule, SubModuleBase SubModule, bool IsSuccessful) : INotification
+internal record SubModuleCompletedNotification(IModule ParentModule, SubModuleBase SubModule, bool IsSuccessful) : INotification
 {
     /// <summary>
     /// Gets the timestamp when the submodule completed.

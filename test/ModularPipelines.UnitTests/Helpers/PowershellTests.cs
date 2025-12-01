@@ -7,9 +7,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class PowershellTests : TestBase
 {
-    private class PowershellEchoModule : Module<CommandResult>
+    private class PowershellEchoModule : IModule<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Powershell.Script(new("Write-Host \"Foo bar!\""), cancellationToken: cancellationToken);
         }
@@ -18,9 +18,7 @@ public class PowershellTests : TestBase
     [Test]
     public async Task Has_Not_Errored()
     {
-        var module = await RunModule<PowershellEchoModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<PowershellEchoModule, CommandResult>();
 
         using (Assert.Multiple())
         {
@@ -33,9 +31,7 @@ public class PowershellTests : TestBase
     [Test]
     public async Task Standard_Output_Equals_Foo_Bar()
     {
-        var module = await RunModule<PowershellEchoModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<PowershellEchoModule, CommandResult>();
 
         using (Assert.Multiple())
         {

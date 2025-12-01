@@ -10,9 +10,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class GitTests : TestBase
 {
-    private class GitVersionModule : Module<CommandResult>
+    private class GitVersionModule : IModule<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Git().Commands.Git(new GitBaseOptions
             {
@@ -24,9 +24,7 @@ public class GitTests : TestBase
     [Test]
     public async Task Has_Not_Errored()
     {
-        var module = await RunModule<GitVersionModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<GitVersionModule, CommandResult>();
 
         using (Assert.Multiple())
         {
@@ -39,9 +37,7 @@ public class GitTests : TestBase
     [Test]
     public async Task Standard_Output_Starts_With_Git_Version()
     {
-        var module = await RunModule<GitVersionModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<GitVersionModule, CommandResult>();
 
         using (Assert.Multiple())
         {

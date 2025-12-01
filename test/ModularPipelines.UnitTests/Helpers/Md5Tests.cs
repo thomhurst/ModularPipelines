@@ -7,9 +7,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class Md5Tests : TestBase
 {
-    private class ToMd5Module : Module<string>
+    private class ToMd5Module : IModule<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Hasher.Md5("Foo bar!");
@@ -19,9 +19,7 @@ public class Md5Tests : TestBase
     [Test]
     public async Task To_Md5_Has_Not_Errored()
     {
-        var module = await RunModule<ToMd5Module>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<ToMd5Module, string>();
 
         using (Assert.Multiple())
         {
@@ -34,9 +32,7 @@ public class Md5Tests : TestBase
     [Test]
     public async Task To_Md5_Output_Equals_Foo_Bar()
     {
-        var module = await RunModule<ToMd5Module>();
-
-        var moduleResult = await module;
+        var moduleResult = await RunModuleWithResult<ToMd5Module, string>();
         await Assert.That(moduleResult.Value).IsEqualTo("b9c291e3274aa5c8010a7c5c22a4e6dd");
     }
 }
