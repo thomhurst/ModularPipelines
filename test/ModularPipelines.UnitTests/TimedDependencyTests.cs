@@ -1,6 +1,9 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
+using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
@@ -16,33 +19,30 @@ public class TimedDependencyTests
     {
         var timeProvider = new FakeTimeProvider();
 
-        var pipelineSummary = await TestPipelineHostBuilder.Create(new TestHostSettings(), timeProvider)
+        var host = await TestPipelineHostBuilder.Create(new TestHostSettings(), timeProvider)
             .AddModule<FiveSecondModule>()
             .AddModule<OneSecondModuleDependentOnFiveSecondModule>()
-            .ExecutePipelineAsync();
+            .BuildHostAsync();
 
-        var fiveSecondModule = pipelineSummary.Modules.OfType<FiveSecondModule>().Single();
-        var oneSecondModuleDependentOnFiveSecondModule = pipelineSummary.Modules.OfType<OneSecondModuleDependentOnFiveSecondModule>().Single();
+        await host.ExecutePipelineAsync();
 
-        var fiveSecondResult = await fiveSecondModule;
-        var oneSecondModuleDependentOnFiveSecondResult = await oneSecondModuleDependentOnFiveSecondModule;
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var fiveSecondResult = resultRegistry.GetResult(typeof(FiveSecondModule))!;
+        var oneSecondResult = resultRegistry.GetResult(typeof(OneSecondModuleDependentOnFiveSecondModule))!;
 
         using (Assert.Multiple())
         {
-            await Assert.That(oneSecondModuleDependentOnFiveSecondModule.Duration).IsGreaterThanOrEqualTo(ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-10)));
-            await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleDuration).IsGreaterThanOrEqualTo(ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-10)));
+            await Assert.That(oneSecondResult.ModuleDuration).IsGreaterThanOrEqualTo(ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-10)));
 
-            await Assert.That(oneSecondModuleDependentOnFiveSecondModule.EndTime).IsGreaterThanOrEqualTo(fiveSecondModule.StartTime + LongModuleDelay + ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-20)));
-            await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleEnd).IsGreaterThanOrEqualTo(fiveSecondResult.ModuleStart + LongModuleDelay + ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-20)));
+            await Assert.That(oneSecondResult.ModuleEnd).IsGreaterThanOrEqualTo(fiveSecondResult.ModuleStart + LongModuleDelay + ShortModuleDelay.Add(TimeSpan.FromMilliseconds(-20)));
 
-            await Assert.That(oneSecondModuleDependentOnFiveSecondModule.StartTime).IsGreaterThanOrEqualTo(fiveSecondModule.EndTime);
-            await Assert.That(oneSecondModuleDependentOnFiveSecondResult.ModuleStart).IsGreaterThanOrEqualTo(fiveSecondResult.ModuleEnd);
+            await Assert.That(oneSecondResult.ModuleStart).IsGreaterThanOrEqualTo(fiveSecondResult.ModuleEnd);
         }
     }
 
-    private class FiveSecondModule : Module
+    private class FiveSecondModule : Module<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(LongModuleDelay, cancellationToken);
             return new Dictionary<string, object>();
@@ -50,9 +50,9 @@ public class TimedDependencyTests
     }
 
     [ModularPipelines.Attributes.DependsOn<FiveSecondModule>]
-    private class OneSecondModuleDependentOnFiveSecondModule : Module
+    private class OneSecondModuleDependentOnFiveSecondModule : Module<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ShortModuleDelay, cancellationToken);
             return new Dictionary<string, object>();

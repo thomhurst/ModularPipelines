@@ -4,10 +4,9 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
-public class PackageFilesRemovalModule : Module
+public class PackageFilesRemovalModule : Module<IDictionary<string, object>>
 {
-    /// <inheritdoc/>
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var packageFiles = context.Git()
             .RootDirectory
@@ -18,6 +17,7 @@ public class PackageFilesRemovalModule : Module
             packageFile.Delete();
         }
 
-        return await NothingAsync();
+        await Task.CompletedTask;
+        return null;
     }
 }

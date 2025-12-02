@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
@@ -6,16 +7,20 @@ namespace ModularPipelines.Helpers;
 
 internal class DependencyCollisionDetector : IDependencyCollisionDetector
 {
-    private readonly IDependencyChainProvider _dependencyChainProvider;
+    private readonly IServiceProvider _serviceProvider;
+    private IDependencyChainProvider? _dependencyChainProvider;
 
-    public DependencyCollisionDetector(IDependencyChainProvider dependencyChainProvider)
+    public DependencyCollisionDetector(IServiceProvider serviceProvider)
     {
-        _dependencyChainProvider = dependencyChainProvider;
+        _serviceProvider = serviceProvider;
     }
+
+    private IDependencyChainProvider DependencyChainProvider =>
+        _dependencyChainProvider ??= _serviceProvider.GetRequiredService<IDependencyChainProvider>();
 
     public void CheckCollisions()
     {
-        foreach (var moduleDependencyModel in _dependencyChainProvider.ModuleDependencyModels)
+        foreach (var moduleDependencyModel in DependencyChainProvider.ModuleDependencyModels)
         {
             CheckCollision(moduleDependencyModel);
         }
@@ -23,6 +28,15 @@ internal class DependencyCollisionDetector : IDependencyCollisionDetector
 
     private static void CheckCollision(ModuleDependencyModel moduleDependencyModel)
     {
+        // Check for direct self-reference first
+        var moduleType = moduleDependencyModel.Module.GetType();
+        if (moduleDependencyModel.IsDependentOn.Any(d => d.Module.GetType() == moduleType))
+        {
+            throw new ModuleReferencingSelfException(
+                $"Module '{moduleType.Name}' cannot reference itself. " +
+                "A module cannot depend on its own result.");
+        }
+
         var allDescendentDependenciesAndSelf = moduleDependencyModel.AllDescendantDependenciesAndSelf().ToList();
         var allDescendentDependencies = allDescendentDependenciesAndSelf.Skip(1).ToList();
 

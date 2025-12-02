@@ -13,8 +13,8 @@ public static class EnumerableExtensions
     /// <param name="modules">The collection of modules.</param>
     /// <typeparam name="T">The type of module to get.</typeparam>
     /// <returns>The specified module.</returns>
-    public static T GetModule<T>(this IEnumerable<ModuleBase> modules)
-        where T : ModuleBase
+    public static T GetModule<T>(this IEnumerable<IModule> modules)
+        where T : IModule
     {
         return modules.OfType<T>().Single();
     }

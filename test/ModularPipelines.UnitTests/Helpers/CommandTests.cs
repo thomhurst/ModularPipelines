@@ -12,7 +12,7 @@ public class CommandTests : TestBase
 {
     private class CommandEchoModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Command.ExecuteCommandLineTool(
                 new CommandLineToolOptions(
@@ -25,7 +25,7 @@ public class CommandTests : TestBase
 
     private class CommandEchoTimeoutModule : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "Foo bar!";
@@ -35,9 +35,7 @@ public class CommandTests : TestBase
     [Test]
     public async Task Has_Not_Errored()
     {
-        var module = await RunModule<CommandEchoModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await await RunModule<CommandEchoModule>();
 
         using (Assert.Multiple())
         {
@@ -50,9 +48,7 @@ public class CommandTests : TestBase
     [Test]
     public async Task Standard_Output_Equals_Foo_Bar()
     {
-        var module = await RunModule<CommandEchoModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await await RunModule<CommandEchoModule>();
 
         using (Assert.Multiple())
         {
@@ -64,9 +60,7 @@ public class CommandTests : TestBase
     [Test]
     public async Task Standard_Output_Equals_Foo_Bar_With_Timeout()
     {
-        var module = await RunModule<CommandEchoTimeoutModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await await RunModule<CommandEchoTimeoutModule>();
 
         using (Assert.Multiple())
         {

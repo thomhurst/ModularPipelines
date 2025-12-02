@@ -46,7 +46,7 @@ public class PipelineWriterTests : TestBase
                 PipelineProjectPath = RandomFilePath.Path!,
                 Environment = "${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}",
                 CacheNuGet = true,
-                DotNetRunFramework = "net9.0",
+                DotNetRunFramework = "net10.0",
                 ValuesToMask =
                 [
                     "${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}", "${{ secrets.NuGet__ApiKey }}",
@@ -82,7 +82,8 @@ public class PipelineWriterTests : TestBase
             .AddModule<NotInParallelTests.Module1>()
             .AddPipelineFileWriter<GitHubYamlWriter>()
             .ExecutePipelineAsync();
-        await Assert.That((await RandomFilePath.ReadAsync()).Trim()).
+        // Normalize line endings for cross-platform consistency
+        await Assert.That((await RandomFilePath.ReadAsync()).Trim().ReplaceLineEndings("\n")).
             IsEqualTo($$$"""
                        name: Test
                        on:
@@ -134,7 +135,7 @@ public class PipelineWriterTests : TestBase
                                key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
                                restore-keys: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
                            - name: Run Pipeline
-                             run: dotnet run -c Release --framework net9.0 {{{RandomFilePath}}}
+                             run: dotnet run -c Release --framework net10.0 {{{RandomFilePath}}}
                              env:
                                DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
                                NuGet__ApiKey: ${{ secrets.NuGet__ApiKey }}
@@ -151,6 +152,6 @@ public class PipelineWriterTests : TestBase
                                Codacy__ApiKey: ${{ secrets.CODACY_APIKEY }}
                                CodeCov__Token: ${{ secrets.CODECOV_TOKEN }}
                                EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-                       """.Trim());
+                       """.Trim().ReplaceLineEndings("\n"));
     }
 }

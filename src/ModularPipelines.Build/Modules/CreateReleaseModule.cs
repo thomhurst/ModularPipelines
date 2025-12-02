@@ -8,6 +8,7 @@ using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Modules.Behaviors;
 using Octokit;
 
 namespace ModularPipelines.Build.Modules;
@@ -18,7 +19,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<UploadPackagesToNugetModule>]
 [DependsOn<DependabotCommitsModule>]
-public class CreateReleaseModule : Module<Release>
+public class CreateReleaseModule : Module<Release>, ISkippable, IIgnoreFailures
 {
     private readonly IOptions<GitHubSettings> _githubSettings;
     private readonly IOptions<PublishSettings> _publishSettings;
@@ -30,14 +31,13 @@ public class CreateReleaseModule : Module<Release>
         _publishSettings = publishSettings;
     }
 
-    protected override async Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
+    public async Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
     {
         await Task.Yield();
         return exception is ApiValidationException;
     }
 
-    /// <inheritdoc/>
-    protected override async Task<SkipDecision> ShouldSkip(IPipelineContext context)
+    public async Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
         await Task.CompletedTask;
 
@@ -49,10 +49,9 @@ public class CreateReleaseModule : Module<Release>
         return string.IsNullOrEmpty(_githubSettings.Value.AdminToken);
     }
 
-    /// <inheritdoc/>
-    protected override async Task<Release?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<Release?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var versionInfoResult = await GetModule<NugetVersionGeneratorModule>();
+        var versionInfoResult = context.GetModule<NugetVersionGeneratorModule, string>();
 
         return await context.GitHub().Client.Repository.Release.Create(long.Parse(context.GitHub().EnvironmentVariables.RepositoryId!),
             new NewRelease($"v{versionInfoResult.Value}")

@@ -1,5 +1,8 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Requirements;
@@ -13,13 +16,16 @@ public class PipelineRequirementTests
     [Test]
     public async Task When_Requirement_Succeeds_Then_No_Error()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement<SuccessfulRequirement>()
-            .ExecutePipelineAsync();
+            .BuildHostAsync();
 
-        var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
-        await Assert.That(dummyModule.Status).IsEqualTo(Status.Successful);
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var result = resultRegistry.GetResult(typeof(DummyModule))!;
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
     }
 
     [Test]
@@ -47,9 +53,9 @@ public class PipelineRequirementTests
             .And.HasMessageEqualTo("Requirements failed:\r\nError: Foo bar!");
     }
 
-    private class DummyModule : Module
+    private class DummyModule : Module<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return new Dictionary<string, object>();

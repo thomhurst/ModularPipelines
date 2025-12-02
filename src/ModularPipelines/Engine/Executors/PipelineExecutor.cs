@@ -12,40 +12,41 @@ internal class PipelineExecutor : IPipelineExecutor
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly ILogger<PipelineExecutor> _logger;
     private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
+    private readonly IModuleResultRegistry _resultRegistry;
 
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
         IModuleExecutor moduleExecutor,
         EngineCancellationToken engineCancellationToken,
         ILogger<PipelineExecutor> logger,
-        ISecondaryExceptionContainer secondaryExceptionContainer)
+        ISecondaryExceptionContainer secondaryExceptionContainer,
+        IModuleResultRegistry resultRegistry)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _moduleExecutor = moduleExecutor;
         _engineCancellationToken = engineCancellationToken;
         _logger = logger;
         _secondaryExceptionContainer = secondaryExceptionContainer;
+        _resultRegistry = resultRegistry;
     }
 
-    public async Task<PipelineSummary> ExecuteAsync(List<ModuleBase> runnableModules,
+    public async Task<PipelineSummary> ExecuteAsync(List<IModule> runnableModules,
         OrganizedModules organizedModules)
     {
         var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();
 
-        Exception? exception;
         PipelineSummary pipelineSummary;
         try
         {
+            // ModuleExecutor handles waiting for AlwaysRun modules internally
             await _moduleExecutor.ExecuteAsync(runnableModules);
         }
         finally
         {
-            exception = await WaitForAlwaysRunModules(runnableModules);
-
             var end = DateTimeOffset.UtcNow;
 
-            pipelineSummary = new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end);
+            pipelineSummary = new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end, _resultRegistry);
 
             await _pipelineSetupExecutor.OnEndAsync(pipelineSummary);
         }
@@ -58,26 +59,6 @@ internal class PipelineExecutor : IPipelineExecutor
 
         _secondaryExceptionContainer.ThrowExceptions();
 
-        if (exception != null)
-        {
-            throw exception;
-        }
-
         return pipelineSummary;
-    }
-
-    private async Task<Exception?> WaitForAlwaysRunModules(IEnumerable<ModuleBase> runnableModules)
-    {
-        try
-        {
-            await Task.WhenAll(runnableModules.Where(m => m.ModuleRunType == ModuleRunType.AlwaysRun).Select(m => m.ExecutionTask));
-        }
-        catch (Exception? e)
-        {
-            _logger.LogWarning(e, "Error while waiting for Always Run modules");
-            return e;
-        }
-
-        return null;
     }
 }

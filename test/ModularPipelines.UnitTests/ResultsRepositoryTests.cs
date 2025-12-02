@@ -1,7 +1,9 @@
 using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -16,14 +18,14 @@ public class ResultsRepositoryTests : TestBase
 
     private class JsonResultRepository : IModuleResultRepository
     {
-        public async Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
+        public async Task SaveResultAsync<T>(Module<T> module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
         {
             var file = Folder.CreateFile(module.GetType().FullName!);
             await using var fileStream = file.GetStream();
             await JsonSerializer.SerializeAsync(fileStream, moduleResult);
         }
 
-        public async Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineHookContext pipelineContext)
+        public async Task<ModuleResult<T>?> GetResultAsync<T>(Module<T> module, IPipelineHookContext pipelineContext)
         {
             var file = Folder.GetFile(module.GetType().FullName!);
             await using var fileStream = file.GetStream();
@@ -31,20 +33,22 @@ public class ResultsRepositoryTests : TestBase
         }
     }
 
-    private class Module1 : Module
+    private class Module1 : Module<IDictionary<string, object>?>
     {
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            await Task.Yield();
+            return null;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class Module2 : Module
+    private class Module2 : Module<IDictionary<string, object>?>
     {
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            await Task.Yield();
+            return null;
         }
     }
 
@@ -52,24 +56,46 @@ public class ResultsRepositoryTests : TestBase
     [TUnit.Core.NotInParallel(nameof(ResultsRepositoryTests), Order = 1)]
     public async Task RunOne()
     {
-        var pipeline = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddResultsRepository<JsonResultRepository>()
             .AddModule<Module1>()
             .AddModule<Module2>()
-            .ExecutePipelineAsync();
-        await Assert.That(pipeline.Modules.All(x => x.Status == Status.Successful)).IsTrue();
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var module1Result = resultRegistry.GetResult(typeof(Module1))!;
+        var module2Result = resultRegistry.GetResult(typeof(Module2))!;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(module1Result.ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(module2Result.ModuleStatus).IsEqualTo(Status.Successful);
+        }
     }
 
     [Test]
     [TUnit.Core.NotInParallel(nameof(ResultsRepositoryTests), Order = 2)]
     public async Task RunTwoFromHistory()
     {
-        var pipeline = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddResultsRepository<JsonResultRepository>()
             .AddModule<Module1>()
             .AddModule<Module2>()
             .RunCategories("Other")
-            .ExecutePipelineAsync();
-        await Assert.That(pipeline.Modules.All(x => x.Status == Status.UsedHistory)).IsTrue();
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var module1Result = resultRegistry.GetResult(typeof(Module1))!;
+        var module2Result = resultRegistry.GetResult(typeof(Module2))!;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(module1Result.ModuleStatus).IsEqualTo(Status.UsedHistory);
+            await Assert.That(module2Result.ModuleStatus).IsEqualTo(Status.UsedHistory);
+        }
     }
 }

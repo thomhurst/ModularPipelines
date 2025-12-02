@@ -5,10 +5,10 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Examples.Modules;
 
 [DependsOn<SuccessModule3>(IgnoreIfNotRegistered = true)]
-public class FailedModule : Module
+public class FailedModule : Module<IDictionary<string, object>?>
 {
     /// <inheritdoc/>
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(TimeSpan.FromSeconds(9), cancellationToken);
         return null;

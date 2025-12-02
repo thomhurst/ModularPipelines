@@ -1,14 +1,17 @@
-﻿using ModularPipelines.Context;
+﻿using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Context;
 using ModularPipelines.DotNet;
 using ModularPipelines.DotNet.Enums;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.DotNet.Parsers.Trx;
+using ModularPipelines.Engine;
 using ModularPipelines.Enums;
+using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
-using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests;
 
@@ -16,42 +19,58 @@ public class TrxParsingTests : TestBase
 {
     public class NUnitModule : Module<DotNetTestResult>
     {
-        protected override async Task<DotNetTestResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public DotNetTestResult? LastResult { get; private set; }
+
+        public override async Task<DotNetTestResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var testProject = context.Git().RootDirectory
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
 
-            var trxFile = File.GetNewTemporaryFilePath();
+            // Create a temp directory for test results
+            var resultsDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            Directory.CreateDirectory(resultsDirectory);
+
+            const string trxFileName = "test-results.trx";
 
             await context.DotNet().Test(new DotNetTestOptions
             {
-                ProjectSolutionDirectoryDllExe = testProject,
-                Framework = "net9.0",
+                Framework = "net10.0",
                 CommandLogging = CommandLogging.Error,
-                Logger = [$"trx;logfilename={trxFile}"],
-                ThrowOnNonZeroExitCode = false
+                ResultsDirectory = resultsDirectory,
+                Logger = [$"trx;logfilename={trxFileName}"],
+                ThrowOnNonZeroExitCode = false,
+                WorkingDirectory = testProject.Folder!.Path
             }, token: cancellationToken);
 
-            var trxContents = await trxFile.ReadAsync(cancellationToken);
+            var trxFilePath = Path.Combine(resultsDirectory, trxFileName);
+            var trxContents = await System.IO.File.ReadAllTextAsync(trxFilePath, cancellationToken);
 
-            return new TrxParser().ParseTrxContents(trxContents);
+            LastResult = new TrxParser().ParseTrxContents(trxContents);
+            return LastResult;
         }
     }
 
     [Test]
     public async Task NUnit()
     {
-        var result = await RunModule<NUnitModule>();
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<NUnitModule>()
+            .BuildHostAsync();
 
-        await Assert.That(result.Result.Value!.Successful).IsFalse();
+        await host.ExecutePipelineAsync();
 
-        await Assert.That(result.Result.Value!.UnitTestResults.Where(x => x.Outcome == TestOutcome.Failed))
+        var module = host.RootServices.GetServices<IModule>().OfType<NUnitModule>().First();
+        var testResult = module.LastResult!;
+
+        await Assert.That(testResult.Successful).IsFalse();
+
+        await Assert.That(testResult.UnitTestResults.Where(x => x.Outcome == TestOutcome.Failed))
             .HasCount().EqualTo(1);
 
-        await Assert.That(result.Result.Value!.UnitTestResults.Where(x => x.Outcome == TestOutcome.NotExecuted))
+        await Assert.That(testResult.UnitTestResults.Where(x => x.Outcome == TestOutcome.NotExecuted))
             .HasCount().EqualTo(1);
 
-        await Assert.That(result.Result.Value!.UnitTestResults.Where(x => x.Outcome == TestOutcome.Passed))
+        await Assert.That(testResult.UnitTestResults.Where(x => x.Outcome == TestOutcome.Passed))
             .HasCount().EqualTo(2);
     }
 }

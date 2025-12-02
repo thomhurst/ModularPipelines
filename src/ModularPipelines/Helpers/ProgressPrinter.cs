@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using Mediator;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Engine;
 using ModularPipelines.Events;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
@@ -21,7 +22,8 @@ internal class ProgressPrinter : IProgressPrinter,
     INotificationHandler<SubModuleCompletedNotification>
 {
     private readonly IOptions<PipelineOptions> _options;
-    private readonly ConcurrentDictionary<ModuleBase, ProgressTask> _progressTasks = new();
+    private readonly ConcurrentDictionary<IModule, ProgressTask> _progressTasks = new();
+    private readonly ConcurrentDictionary<ModuleState, ProgressTask> _moduleStateProgressTasks = new();
     private readonly ConcurrentDictionary<SubModuleBase, ProgressTask> _subModuleProgressTasks = new();
     private ProgressContext? _progressContext;
     private ProgressTask? _totalProgressTask;
@@ -79,13 +81,15 @@ internal class ProgressPrinter : IProgressPrinter,
 
         lock (_progressLock)
         {
-            var moduleName = notification.Module.GetType().Name;
+            var moduleState = notification.ModuleState;
+            var moduleName = moduleState.ModuleType.Name;
             var progressTask = _progressContext.AddTask(moduleName, new ProgressTaskSettings
             {
                 AutoStart = true,
             });
 
-            _progressTasks[notification.Module] = progressTask;
+            _progressTasks[moduleState.Module] = progressTask;
+            _moduleStateProgressTasks[moduleState] = progressTask;
 
             // Start ticking progress based on estimated duration
             _ = Task.Run(async () =>
@@ -121,7 +125,8 @@ internal class ProgressPrinter : IProgressPrinter,
 
         lock (_progressLock)
         {
-            if (_progressTasks.TryGetValue(notification.Module, out var progressTask))
+            var moduleState = notification.ModuleState;
+            if (_progressTasks.TryGetValue(moduleState.Module, out var progressTask))
             {
                 if (!progressTask.IsFinished)
                 {
@@ -130,9 +135,9 @@ internal class ProgressPrinter : IProgressPrinter,
                         progressTask.Increment(100 - progressTask.Value);
                     }
 
-                    var moduleName = notification.Module.GetType().Name;
+                    var moduleName = moduleState.ModuleType.Name;
                     progressTask.Description = notification.IsSuccessful
-                        ? GetSuccessColor(notification.Module) + moduleName + "[/]"
+                        ? GetSuccessColor(moduleState) + moduleName + "[/]"
                         : $"[red][[Failed]] {moduleName}[/]";
 
                     progressTask.StopTask();
@@ -160,9 +165,10 @@ internal class ProgressPrinter : IProgressPrinter,
 
         lock (_progressLock)
         {
-            var moduleName = notification.Module.GetType().Name;
+            var moduleState = notification.ModuleState;
+            var moduleName = moduleState.ModuleType.Name;
 
-            if (_progressTasks.TryGetValue(notification.Module, out var progressTask))
+            if (_progressTasks.TryGetValue(moduleState.Module, out var progressTask))
             {
                 progressTask.Description = $"[yellow][[Skipped]] {moduleName}[/]";
                 if (!progressTask.IsFinished)
@@ -175,7 +181,7 @@ internal class ProgressPrinter : IProgressPrinter,
                 // Module was skipped before it started
                 var task = _progressContext.AddTask($"[yellow][[Skipped]] {moduleName}[/]");
                 task.StopTask();
-                _progressTasks[notification.Module] = task;
+                _progressTasks[moduleState.Module] = task;
             }
 
             _completedModuleCount++;
@@ -278,33 +284,15 @@ internal class ProgressPrinter : IProgressPrinter,
         table.AddColumn("Status");
         table.AddColumn("Start");
         table.AddColumn("End");
-        table.AddColumn(string.Empty);
 
-        foreach (var module in pipelineSummary.Modules.OrderBy(x => x.EndTime))
+        foreach (var module in pipelineSummary.Modules)
         {
-            var isSameDay = module.StartTime.Date == module.EndTime.Date;
-
             table.AddRow(
                 $"[cyan]{module.GetType().Name}[/]",
-                module.Duration.ToDisplayString(),
-                module.Status.ToDisplayString(),
-                GetTime(module.StartTime, isSameDay),
-                GetTime(module.EndTime, isSameDay),
-                GetModuleExtraInformation(module));
-
-            lock (module.SubModuleBasesLock)
-            {
-                foreach (var subModule in module.SubModuleBases)
-                {
-                    table.AddRow(
-                        $"[lightcyan1]--{subModule.Name}[/]",
-                        subModule.Duration.ToDisplayString(),
-                        subModule.Status.ToDisplayString(),
-                        GetTime(subModule.StartTime, isSameDay),
-                        GetTime(subModule.EndTime, isSameDay),
-                        string.Empty);
-                }
-            }
+                "-",
+                "-",
+                "-",
+                "-");
 
             table.AddEmptyRow();
         }
@@ -316,24 +304,24 @@ internal class ProgressPrinter : IProgressPrinter,
             pipelineSummary.TotalDuration.ToDisplayString(),
             pipelineSummary.Status.ToDisplayString(),
             GetTime(pipelineSummary.Start, isSameDayTotal),
-            GetTime(pipelineSummary.End, isSameDayTotal),
-            "...");
+            GetTime(pipelineSummary.End, isSameDayTotal));
 
         Console.WriteLine();
         AnsiConsole.Write(table.Expand());
         Console.WriteLine();
     }
 
-    private static string GetSuccessColor(ModuleBase module)
+    private static string GetSuccessColor(ModuleState moduleState)
     {
-        return module.Status == Status.Successful ? "[green]" : "[orange3]";
+        // Module state indicates success if State is Completed without issues
+        return moduleState.State == ModuleExecutionState.Completed ? "[green]" : "[orange3]";
     }
 
-    private static void RegisterIgnoredModules(IReadOnlyList<ModuleBase> modulesToIgnore, ProgressContext progressContext)
+    private static void RegisterIgnoredModules(IReadOnlyList<IgnoredModule> modulesToIgnore, ProgressContext progressContext)
     {
-        foreach (var moduleToIgnore in modulesToIgnore)
+        foreach (var ignoredModule in modulesToIgnore)
         {
-            progressContext.AddTask($"[yellow][[Ignored]] {moduleToIgnore.GetType().Name}[/]").StopTask();
+            progressContext.AddTask($"[yellow][[Ignored]] {ignoredModule.Module.GetType().Name}[/]").StopTask();
         }
     }
 
@@ -349,18 +337,4 @@ internal class ProgressPrinter : IProgressPrinter,
             : dateTimeOffset.ToString("yyyy/MM/dd h:mm:ss tt");
     }
 
-    private static string GetModuleExtraInformation(ModuleBase module)
-    {
-        if (module.SkipResult.ShouldSkip && !string.IsNullOrWhiteSpace(module.SkipResult.Reason))
-        {
-            return $"[yellow]{module.SkipResult.Reason}[/]";
-        }
-
-        if (module.Exception != null)
-        {
-            return $"[red]{module.Exception?.GetType().Name}[/]";
-        }
-
-        return string.Empty;
-    }
 }

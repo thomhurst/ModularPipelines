@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Context;
+using ModularPipelines.Context;
 using ModularPipelines.GitHub;
 using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Modules;
@@ -10,7 +10,7 @@ public class GitHubRepositoryInfoTests : TestBase
 {
     public class GitRepoModule : Module<IGitHubRepositoryInfo>
     {
-        protected override async Task<IGitHubRepositoryInfo?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IGitHubRepositoryInfo?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.GitHub().RepositoryInfo;
@@ -20,9 +20,9 @@ public class GitHubRepositoryInfoTests : TestBase
     [Test]
     public async Task GitHub_Repository_Information_Is_Populated()
     {
-        var gitRepoModule = await RunModule<GitRepoModule>();
+        var moduleResult = await await RunModule<GitRepoModule>();
 
-        var gitHubRepositoryInfo = gitRepoModule.Result.Value!;
+        var gitHubRepositoryInfo = moduleResult.Value!;
 
         using (Assert.Multiple())
         {

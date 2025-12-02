@@ -13,13 +13,13 @@ internal class ModuleRetriever : IModuleRetriever
     private readonly IModuleConditionHandler _moduleConditionHandler;
     private readonly IModuleInitializer _moduleInitializer;
     private readonly ISafeModuleEstimatedTimeProvider _estimatedTimeProvider;
-    private readonly List<ModuleBase> _modules;
+    private readonly List<IModule> _modules;
     private Task<OrganizedModules>? _cached;
 
     public ModuleRetriever(
         IModuleConditionHandler moduleConditionHandler,
         IModuleInitializer moduleInitializer,
-        IEnumerable<ModuleBase> modules,
+        IEnumerable<IModule> modules,
         ISafeModuleEstimatedTimeProvider estimatedTimeProvider
     )
     {
@@ -47,13 +47,21 @@ internal class ModuleRetriever : IModuleRetriever
             _moduleInitializer.Initialize(module);
         }
 
-        var modulesToIgnore = await _modules
-            .WhereAsync(async m => await _moduleConditionHandler.ShouldIgnore(m))
-            .ToListAsync();
+        var modulesToIgnore = new List<IgnoredModule>();
+        var modulesToProcess = new List<IModule>();
 
-        var modulesToProcess = _modules
-            .Except(modulesToIgnore)
-            .ToList();
+        foreach (var module in _modules)
+        {
+            var (shouldIgnore, skipDecision) = await _moduleConditionHandler.ShouldIgnore(module);
+            if (shouldIgnore)
+            {
+                modulesToIgnore.Add(new IgnoredModule(module, skipDecision ?? SkipDecision.Skip("Module was ignored")));
+            }
+            else
+            {
+                modulesToProcess.Add(module);
+            }
+        }
 
         var runnableModulesWithEstimatatedDuration = await modulesToProcess.ToAsyncProcessorBuilder()
             .SelectAsync(async module =>

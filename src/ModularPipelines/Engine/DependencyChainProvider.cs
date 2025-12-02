@@ -41,11 +41,13 @@ internal class DependencyChainProvider : IDependencyChainProvider, IInitializer
 
     private IEnumerable<ModuleDependencyModel> GetModuleDependencies(ModuleDependencyModel moduleDependencyModel, IReadOnlyCollection<ModuleDependencyModel> allModules)
     {
-        var dependencies = moduleDependencyModel.Module.GetModuleDependencies();
+        // Get all available module types for DependsOnAllModulesInheritingFrom resolution
+        var availableModuleTypes = allModules.Select(m => m.Module.GetType()).ToList();
+        var dependencies = ModuleDependencyResolver.GetDependencies(moduleDependencyModel.Module.GetType(), availableModuleTypes);
 
-        foreach (var dependency in dependencies)
+        foreach (var (dependencyType, _) in dependencies)
         {
-            var dependencyModel = GetModuleDependencyModel(dependency.DependencyType, allModules);
+            var dependencyModel = GetModuleDependencyModel(dependencyType, allModules);
 
             if (dependencyModel is not null)
             {

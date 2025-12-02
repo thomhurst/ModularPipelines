@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
+using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
@@ -11,11 +12,19 @@ public class ModuleResult<T> : ModuleResult
 {
     private T? _value;
 
-    internal ModuleResult(Exception exception, ModuleBase module) : base(exception, module)
+    /// <summary>
+    /// Creates a result from execution context (composition-based modules).
+    /// </summary>
+    internal ModuleResult(Exception exception, ModuleExecutionContext executionContext)
+        : base(exception, executionContext)
     {
     }
 
-    internal ModuleResult(T? value, ModuleBase module) : base(module)
+    /// <summary>
+    /// Creates a result from execution context (composition-based modules).
+    /// </summary>
+    internal ModuleResult(T? value, ModuleExecutionContext executionContext)
+        : base(executionContext)
     {
         _value = value;
     }
@@ -38,7 +47,7 @@ public class ModuleResult<T> : ModuleResult
         {
             if (ModuleResultType == ModuleResultType.Failure)
             {
-                throw new ModuleFailedException(Module!, Exception!);
+                throw new ModuleFailedException(ModuleType!, Exception!);
             }
 
             if (ModuleResultType == ModuleResultType.Skipped)
@@ -80,9 +89,28 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
     [JsonInclude]
     public DateTimeOffset ModuleEnd { get; private set; }
 
-    internal ModuleResult(Exception exception, ModuleBase module) : this(module)
+    /// <summary>
+    /// Creates a result from execution context (composition-based modules).
+    /// </summary>
+    internal ModuleResult(Exception exception, ModuleExecutionContext executionContext)
+        : this(executionContext)
     {
         Exception = exception;
+    }
+
+    /// <summary>
+    /// Creates a result from execution context (composition-based modules).
+    /// </summary>
+    internal ModuleResult(ModuleExecutionContext executionContext)
+    {
+        ModuleName = executionContext.ModuleType.Name;
+        ModuleType = executionContext.ModuleType;
+        ModuleStart = executionContext.StartTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : executionContext.StartTime;
+        ModuleEnd = executionContext.EndTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : executionContext.EndTime;
+        ModuleDuration = ModuleEnd - ModuleStart;
+        SkipDecision = executionContext.SkipResult;
+        TypeDiscriminator = GetType().FullName!;
+        ModuleStatus = executionContext.Status;
     }
 
     /// <summary>
@@ -99,22 +127,6 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
         ModuleEnd = DateTimeOffset.MinValue;
         SkipDecision = null!;
         TypeDiscriminator = GetType().FullName!;
-    }
-
-    /// <summary>
-    /// Initialises a new instance of the <see cref="ModuleResult"/> class.
-    /// </summary>
-    /// <param name="module">The module from which the result was produced.</param>
-    protected ModuleResult(ModuleBase module)
-    {
-        Module = module;
-        ModuleName = module.GetType().Name;
-        ModuleStart = module.StartTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : module.StartTime;
-        ModuleEnd = module.EndTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : module.EndTime;
-        ModuleDuration = ModuleEnd - ModuleStart;
-        SkipDecision = module.SkipResult;
-        TypeDiscriminator = GetType().FullName!;
-        ModuleStatus = module.Status;
     }
 
     /// <inheritdoc />
@@ -145,7 +157,7 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
     }
 
     /// <inheritdoc/>
-    public Status ModuleStatus { get; private set; }
+    public Status ModuleStatus { get; internal set; }
 
     /// <summary>
     /// Gets the type information used to aid in serialization.
@@ -153,6 +165,9 @@ public class ModuleResult : IModuleResult, ITypeDiscriminator
     [JsonInclude]
     public string TypeDiscriminator { get; private set; }
 
+    /// <summary>
+    /// Gets the type of the module that produced this result.
+    /// </summary>
     [JsonIgnore]
-    internal ModuleBase? Module { get; set; }
+    internal Type? ModuleType { get; set; }
 }

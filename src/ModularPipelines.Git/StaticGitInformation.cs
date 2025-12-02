@@ -106,7 +106,7 @@ internal class StaticGitInformation : IInitializer
         });
 
         Async(async () =>
-            PreviousCommit ??= await LastCommits(1).FirstOrDefaultAsync()
+            PreviousCommit ??= await ModularPipelines.Extensions.EnumerableExtensions.FirstOrDefaultAsync(LastCommits(1))
         );
 
         await Task.WhenAll(tasks);

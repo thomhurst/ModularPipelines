@@ -8,7 +8,7 @@ namespace ModularPipelines.Context;
 public interface IPipelineContext : IPipelineHookContext
 {
     internal TModule? GetModule<TModule>()
-        where TModule : ModuleBase;
+        where TModule : class, IModule;
 
-    internal ModuleBase? GetModule(Type type);
+    internal IModule? GetModule(Type type);
 }

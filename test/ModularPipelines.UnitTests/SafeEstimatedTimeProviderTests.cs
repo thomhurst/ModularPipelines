@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
@@ -13,42 +14,51 @@ public class SafeEstimatedTimeProviderTests
     [Test]
     public async Task When_EstimatedTimeProvider_Succeeds_Then_No_Error()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
             .AddModuleEstimatedTimeProvider<SuccessfulTimeProvider>()
-            .ExecutePipelineAsync();
+            .BuildHostAsync();
 
-        var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
-        await Assert.That(dummyModule.Status).IsEqualTo(Status.Successful);
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var result = resultRegistry.GetResult(typeof(DummyModule))!;
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
     }
 
     [Test]
     public async Task When_EstimatedTimeProvider_Fails_Receiving_Time_Then_Still_No_Error()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
             .AddModuleEstimatedTimeProvider<FailingTimeProvider>()
-            .ExecutePipelineAsync();
+            .BuildHostAsync();
 
-        var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
-        await Assert.That(dummyModule.Status).IsEqualTo(Status.Successful);
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var result = resultRegistry.GetResult(typeof(DummyModule))!;
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
     }
 
     [Test]
     public async Task When_EstimatedTimeProvider_Fails_Saving_Time_Then_Still_No_Error()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<DummyModule>()
             .AddModuleEstimatedTimeProvider<FailingTimeProvider2>()
-            .ExecutePipelineAsync();
+            .BuildHostAsync();
 
-        var dummyModule = pipelineSummary.Modules.OfType<DummyModule>().First();
-        await Assert.That(dummyModule.Status).IsEqualTo(Status.Successful);
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var result = resultRegistry.GetResult(typeof(DummyModule))!;
+        await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
     }
 
-    private class DummyModule : Module
+    private class DummyModule : Module<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await new Dictionary<string, object>().AsTask();
         }

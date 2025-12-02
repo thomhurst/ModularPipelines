@@ -1,5 +1,7 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Docker.Extensions;
+using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -11,7 +13,7 @@ public class DockerTests : TestBase
 {
     private class DockerBuildModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var pretendPath = context.Git()
                 .RootDirectory
@@ -37,11 +39,19 @@ public class DockerTests : TestBase
     [Test]
     public async Task DockerBuild_CorrectInputCommand()
     {
-        var module = await RunModule<DockerBuildModule>();
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<DockerBuildModule>()
+            .BuildHostAsync();
 
-        var result = await module;
+        await host.ExecutePipelineAsync();
 
-        var dockerfilePath = module.Context.Git().RootDirectory
+        var resultRegistry = host.RootServices.GetRequiredService<Engine.IModuleResultRegistry>();
+        var result = resultRegistry.GetResult<CommandResult>(typeof(DockerBuildModule))!;
+
+        // IPipelineContext is a scoped service, so we need to create a scope
+        await using var scope = host.RootServices.CreateAsyncScope();
+        var context = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
+        var dockerfilePath = context.Git().RootDirectory
             .GetFolder("src")
             .GetFolder("MyApp")
             .GetFile("Dockerfile").Path;

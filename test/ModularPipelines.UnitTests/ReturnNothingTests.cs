@@ -9,7 +9,7 @@ public class ReturnNothingTests : TestBase
 {
     private class ReturnNothingModule1 : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;
@@ -18,15 +18,16 @@ public class ReturnNothingTests : TestBase
 
     private class ReturnNothingModule2 : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.Yield();
+            return null;
         }
     }
 
     private class ReturnNothingModule3 : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return default;
@@ -36,9 +37,7 @@ public class ReturnNothingTests : TestBase
     [Test]
     public async Task Module1_HasValue_False()
     {
-        var module = await RunModule<ReturnNothingModule1>();
-
-        var result = await module;
+        var result = await await RunModule<ReturnNothingModule1>();
 
         await Assert(result);
     }
@@ -46,9 +45,7 @@ public class ReturnNothingTests : TestBase
     [Test]
     public async Task Module2_HasValue_False()
     {
-        var module = await RunModule<ReturnNothingModule2>();
-
-        var result = await module;
+        var result = await await RunModule<ReturnNothingModule2>();
 
         await Assert(result);
     }
@@ -56,9 +53,7 @@ public class ReturnNothingTests : TestBase
     [Test]
     public async Task Module3_HasValue_False()
     {
-        var module = await RunModule<ReturnNothingModule3>();
-
-        var result = await module;
+        var result = await await RunModule<ReturnNothingModule3>();
 
         await Assert(result);
     }

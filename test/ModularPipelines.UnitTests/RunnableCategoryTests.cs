@@ -1,5 +1,8 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
+using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using Status = ModularPipelines.Enums.Status;
@@ -9,62 +12,68 @@ namespace ModularPipelines.UnitTests;
 public class RunnableCategoryTests : TestBase
 {
     [ModuleCategory("Run1")]
-    private class RunnableModule1 : Module
+    private class RunnableModule1 : Module<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.Yield();
+            return null;
         }
     }
 
     [ModuleCategory("Run2")]
-    private class RunnableModule2 : Module
+    private class RunnableModule2 : Module<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.Yield();
+            return null;
         }
     }
 
     [ModuleCategory("Run1")]
-    private class RunnableModule3 : Module
+    private class RunnableModule3 : Module<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.Yield();
+            return null;
         }
     }
 
     [ModuleCategory("NoRun1")]
-    private class NonRunnableModule1 : Module
+    private class NonRunnableModule1 : Module<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.Yield();
+            return null;
         }
     }
 
     [ModuleCategory("NoRun2")]
-    private class NonRunnableModule2 : Module
+    private class NonRunnableModule2 : Module<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.Yield();
+            return null;
         }
     }
 
-    private class OtherModule3 : Module
+    private class OtherModule3 : Module<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await NothingAsync();
+            await Task.Yield();
+            return null;
         }
     }
 
     [Test]
     public async Task When_RunCategories_Specified_Then_Expected_Modules_Run()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<RunnableModule1>()
             .AddModule<RunnableModule2>()
             .AddModule<NonRunnableModule1>()
@@ -72,23 +81,27 @@ public class RunnableCategoryTests : TestBase
             .AddModule<RunnableModule3>()
             .AddModule<OtherModule3>()
             .RunCategories("Run1", "Run2")
-            .ExecutePipelineAsync();
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
 
         using (Assert.Multiple())
         {
-            await Assert.That(pipelineSummary.GetModule<RunnableModule1>().Status).IsEqualTo(Status.Successful);
-            await Assert.That(pipelineSummary.GetModule<RunnableModule2>().Status).IsEqualTo(Status.Successful);
-            await Assert.That(pipelineSummary.GetModule<RunnableModule3>().Status).IsEqualTo(Status.Successful);
-            await Assert.That(pipelineSummary.GetModule<NonRunnableModule1>().Status).IsEqualTo(Status.Skipped);
-            await Assert.That(pipelineSummary.GetModule<NonRunnableModule2>().Status).IsEqualTo(Status.Skipped);
-            await Assert.That(pipelineSummary.GetModule<OtherModule3>().Status).IsEqualTo(Status.Skipped);
+            await Assert.That(resultRegistry.GetResult(typeof(RunnableModule1))!.ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(resultRegistry.GetResult(typeof(RunnableModule2))!.ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(resultRegistry.GetResult(typeof(RunnableModule3))!.ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(resultRegistry.GetResult(typeof(NonRunnableModule1))!.ModuleStatus).IsEqualTo(Status.Skipped);
+            await Assert.That(resultRegistry.GetResult(typeof(NonRunnableModule2))!.ModuleStatus).IsEqualTo(Status.Skipped);
+            await Assert.That(resultRegistry.GetResult(typeof(OtherModule3))!.ModuleStatus).IsEqualTo(Status.Skipped);
         }
     }
 
     [Test]
     public async Task When_IgnoreCategories_Specified_Then_Expected_Modules_Run()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<RunnableModule1>()
             .AddModule<RunnableModule2>()
             .AddModule<NonRunnableModule1>()
@@ -96,16 +109,20 @@ public class RunnableCategoryTests : TestBase
             .AddModule<RunnableModule3>()
             .AddModule<OtherModule3>()
             .IgnoreCategories("NoRun1", "NoRun2")
-            .ExecutePipelineAsync();
+            .BuildHostAsync();
+
+        await host.ExecutePipelineAsync();
+
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
 
         using (Assert.Multiple())
         {
-            await Assert.That(pipelineSummary.GetModule<RunnableModule1>().Status).IsEqualTo(Status.Successful);
-            await Assert.That(pipelineSummary.GetModule<RunnableModule2>().Status).IsEqualTo(Status.Successful);
-            await Assert.That(pipelineSummary.GetModule<RunnableModule3>().Status).IsEqualTo(Status.Successful);
-            await Assert.That(pipelineSummary.GetModule<NonRunnableModule1>().Status).IsEqualTo(Status.Skipped);
-            await Assert.That(pipelineSummary.GetModule<NonRunnableModule2>().Status).IsEqualTo(Status.Skipped);
-            await Assert.That(pipelineSummary.GetModule<OtherModule3>().Status).IsEqualTo(Status.Successful);
+            await Assert.That(resultRegistry.GetResult(typeof(RunnableModule1))!.ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(resultRegistry.GetResult(typeof(RunnableModule2))!.ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(resultRegistry.GetResult(typeof(RunnableModule3))!.ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(resultRegistry.GetResult(typeof(NonRunnableModule1))!.ModuleStatus).IsEqualTo(Status.Skipped);
+            await Assert.That(resultRegistry.GetResult(typeof(NonRunnableModule2))!.ModuleStatus).IsEqualTo(Status.Skipped);
+            await Assert.That(resultRegistry.GetResult(typeof(OtherModule3))!.ModuleStatus).IsEqualTo(Status.Successful);
         }
     }
 }

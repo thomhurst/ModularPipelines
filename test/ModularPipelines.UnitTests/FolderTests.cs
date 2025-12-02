@@ -35,7 +35,7 @@ public class FolderTests : TestBase
 
     private class FindFileModule : Module<ModularPipelines.FileSystem.File>
     {
-        protected override async Task<ModularPipelines.FileSystem.File?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<ModularPipelines.FileSystem.File?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
 

@@ -7,8 +7,7 @@ namespace ModularPipelines.Build.Modules.LocalMachine;
 
 public class CreateLocalNugetFolderModule : Module<Folder>
 {
-    /// <inheritdoc/>
-    protected override async Task<Folder?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<Folder?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var localNugetRepositoryFolder = context.FileSystem.GetFolder(Environment.SpecialFolder.ApplicationData)
             .GetFolder("ModularPipelines")

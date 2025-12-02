@@ -10,7 +10,7 @@ public class ZipTests : TestBase
 {
     private class ZipModule : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -33,9 +33,7 @@ public class ZipTests : TestBase
     [NotInParallel(nameof(ZipTests), Order = 1)]
     public async Task Has_Not_Errored()
     {
-        var module = await RunModule<ZipModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await await RunModule<ZipModule>();
 
         using (Assert.Multiple())
         {
@@ -61,7 +59,7 @@ public class ZipTests : TestBase
 
     private class UnZipModule : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -79,9 +77,7 @@ public class ZipTests : TestBase
     [NotInParallel(nameof(ZipTests), Order = 3)]
     public async Task UnZip_Has_Not_Errored()
     {
-        var module = await RunModule<UnZipModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await await RunModule<UnZipModule>();
 
         using (Assert.Multiple())
         {

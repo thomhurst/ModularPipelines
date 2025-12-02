@@ -1,5 +1,8 @@
 using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
+using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
@@ -8,9 +11,9 @@ namespace ModularPipelines.UnitTests;
 
 public class JsonSerializationTests : TestBase
 {
-    public class Module1 : Module
+    public class Module1 : Module<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -22,9 +25,9 @@ public class JsonSerializationTests : TestBase
         }
     }
 
-    public class Module2 : Module
+    public class Module2 : Module<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -36,9 +39,9 @@ public class JsonSerializationTests : TestBase
         }
     }
 
-    public class Module3 : Module
+    public class Module3 : Module<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -53,21 +56,16 @@ public class JsonSerializationTests : TestBase
     [Test]
     public async Task Test1()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineHostBuilder.Create()
             .AddModule<Module1>()
-            .ExecutePipelineAsync();
+            .BuildHostAsync();
 
-        var module = pipelineSummary.Modules.First();
+        var pipelineSummary = await host.ExecutePipelineAsync();
 
-        var moduleJson = JsonSerializer.Serialize(module);
-        var deserializedModule = JsonSerializer.Deserialize<ModuleBase>(moduleJson);
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var module1Result = resultRegistry.GetResult<IDictionary<string, object>?>(typeof(Module1))!;
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(moduleJson).IsNotNull().And.IsNotEmpty();
-            await Assert.That(deserializedModule).IsNotNull();
-        }
-
+        // Serialize and deserialize the pipeline summary
         var pipelineJson = JsonSerializer.Serialize(pipelineSummary);
         var deserializedSummary = JsonSerializer.Deserialize<PipelineSummary>(pipelineJson);
 
@@ -75,37 +73,19 @@ public class JsonSerializationTests : TestBase
         {
             await Assert.That(pipelineJson).IsNotNull().And.IsNotEmpty();
             await Assert.That(deserializedSummary).IsNotNull();
-        }
-
-        var module1Deserialized = deserializedSummary!.GetModule<Module1>();
-        var module1DeserializedResult = await module1Deserialized;
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(module1Deserialized).IsNotNull();
-            await Assert.That(module1DeserializedResult).IsNotNull();
-
-            await Assert.That(module1DeserializedResult.Value!["Foo"].ToString()).IsEqualTo("Bar");
-            await Assert.That(module1DeserializedResult.Value!["Hello"].ToString()).IsEqualTo("world!");
-
-            await Assert.That(deserializedSummary.Start).IsEqualTo(pipelineSummary.Start);
+            await Assert.That(deserializedSummary!.Start).IsEqualTo(pipelineSummary.Start);
             await Assert.That(deserializedSummary.End).IsEqualTo(pipelineSummary.End);
             await Assert.That(deserializedSummary.TotalDuration).IsEqualTo(pipelineSummary.TotalDuration);
-            await Assert.That(deserializedSummary.Modules).HasCount().EqualTo(pipelineSummary.Modules.Count);
-            await Assert.That(deserializedSummary.Status).IsEqualTo(pipelineSummary.Status);
+            // Modules are not serialized (interface types can't be deserialized)
+            await Assert.That(deserializedSummary.Modules).HasCount().EqualTo(0);
+        }
 
-            await Assert.That(module1Deserialized.StartTime).IsEqualTo(module.StartTime);
-            await Assert.That(module1Deserialized.EndTime).IsEqualTo(module.EndTime);
-            await Assert.That(module1Deserialized.Duration).IsEqualTo(module.Duration);
-            await Assert.That(module1Deserialized.SkipResult).IsEqualTo(module.SkipResult);
-            await Assert.That(module1Deserialized.GetType().Name).IsEqualTo(module.GetType().Name);
-            await Assert.That(module1Deserialized.TypeDiscriminator).IsEqualTo(module.GetType().AssemblyQualifiedName!);
-
-            await Assert.That(module1DeserializedResult.ModuleStart).IsEqualTo(module.StartTime);
-            await Assert.That(module1DeserializedResult.ModuleEnd).IsEqualTo(module.EndTime);
-            await Assert.That(module1DeserializedResult.ModuleDuration).IsEqualTo(module.Duration);
-            await Assert.That(module1DeserializedResult.SkipDecision).IsEqualTo(module.SkipResult);
-            await Assert.That(module1DeserializedResult.ModuleName).IsEqualTo(module.GetType().Name);
+        // Verify the module result values
+        using (Assert.Multiple())
+        {
+            await Assert.That(module1Result.Value!["Foo"].ToString()).IsEqualTo("Bar");
+            await Assert.That(module1Result.Value!["Hello"].ToString()).IsEqualTo("world!");
+            await Assert.That(module1Result.ModuleName).IsEqualTo(typeof(Module1).Name);
         }
     }
 }

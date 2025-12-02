@@ -1,7 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
+using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.TestHelpers;
 using EngineCancellationToken = ModularPipelines.Engine.EngineCancellationToken;
 
@@ -9,14 +12,14 @@ namespace ModularPipelines.UnitTests;
 
 public class IgnoredFailureTests : TestBase
 {
-    private class IgnoredFailureModule : Module<CommandResult>
+    private class IgnoredFailureModule : Module<CommandResult>, IIgnoreFailures
     {
-        protected internal override Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
+        public Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
         {
             return Task.FromResult(true);
         }
 
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -26,12 +29,16 @@ public class IgnoredFailureTests : TestBase
     [Test]
     public async Task Has_Not_Thrown_Or_Cancelled_Pipeline()
     {
-        var module = await RunModule<IgnoredFailureModule>();
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<IgnoredFailureModule>()
+            .BuildHostAsync();
 
-        var serviceProvider = module.Context.Get<IServiceProvider>()!;
-        var engineCancellationToken = serviceProvider.GetRequiredService<EngineCancellationToken>();
+        await host.ExecutePipelineAsync();
 
-        var moduleResult = await module;
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
+        var moduleResult = resultRegistry.GetResult<CommandResult>(typeof(IgnoredFailureModule))!;
+
+        var engineCancellationToken = host.RootServices.GetRequiredService<EngineCancellationToken>();
 
         using (Assert.Multiple())
         {

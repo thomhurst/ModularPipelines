@@ -12,7 +12,7 @@ public class CmdTests : TestBase
 {
     private class CmdEchoModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Cmd().Script(new("echo Foo bar!"), cancellationToken: cancellationToken);
         }
@@ -21,9 +21,7 @@ public class CmdTests : TestBase
     [Test]
     public async Task Has_Not_Errored()
     {
-        var module = await RunModule<CmdEchoModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await await RunModule<CmdEchoModule>();
 
         using (Assert.Multiple())
         {
@@ -36,9 +34,7 @@ public class CmdTests : TestBase
     [Test]
     public async Task Standard_Output_Equals_Foo_Bar()
     {
-        var module = await RunModule<CmdEchoModule>();
-
-        var moduleResult = await module;
+        var moduleResult = await await RunModule<CmdEchoModule>();
 
         using (Assert.Multiple())
         {

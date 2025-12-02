@@ -19,11 +19,11 @@ internal static class Net
 
     private static readonly Lazy<ReferenceAssemblies> LazyNet80 = new(() =>
         new ReferenceAssemblies(
-                "net8.0",
+                "net10.0",
                 new PackageIdentity(
                     "Microsoft.NETCore.App.Ref",
                     "8.0.6"),
-                Path.Combine("ref", "net8.0"))
+                Path.Combine("ref", "net10.0"))
             .AddPackages(ImmutableArray.Create(new PackageIdentity("Microsoft.Extensions.Logging", "8.0.0")))
     );
 

@@ -15,35 +15,38 @@ namespace ModularPipelines.UnitTests;
 public class ModuleLoggerTests
 {
     private static readonly string RandomString = Guid.NewGuid().ToString();
-    private class Module1 : Module
+    private class Module1 : Module<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ((IConsoleWriter)context.Logger).LogToConsole(RandomString);
 
             ((IConsoleWriter)context.Logger).LogToConsole(new MySecrets().Value1!);
 
-            return await NothingAsync();
+            await Task.Yield();
+            return null;
         }
     }
 
-    public class Module2 : Module
+    public class Module2 : Module<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.Logger.LogInformation(new MySecrets().Value1!);
 
-            return await NothingAsync();
+            await Task.Yield();
+            return null;
         }
     }
 
-    public class Module3 : Module
+    public class Module3 : Module<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.Logger.LogInformation("{Value}", new MySecrets().Value1!);
 
-            return await NothingAsync();
+            await Task.Yield();
+            return null;
         }
     }
 
@@ -83,7 +86,7 @@ public class ModuleLoggerTests
             {
                 collection.Configure<MySecrets>(_.Configuration);
                 collection.AddLogging(builder => { builder.AddFile(file); });
-                collection.AddSingleton(typeof(ModuleBase), moduleType);
+                collection.AddSingleton(typeof(IModule), moduleType);
             })
             .SetLogLevel(LogLevel.Information)
             .BuildHostAsync();

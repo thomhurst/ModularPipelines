@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using EnumerableAsyncProcessor.Extensions;
+using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
@@ -8,11 +9,16 @@ namespace ModularPipelines.Models;
 
 public record PipelineSummary
 {
+    private readonly IModuleResultRegistry? _resultRegistry;
+
     /// <summary>
     /// Gets the modules that are part of the pipeline.
     /// </summary>
-    [JsonInclude]
-    public IReadOnlyList<ModuleBase> Modules { get; private set; }
+    /// <remarks>
+    /// This property is excluded from JSON serialization as interface types cannot be deserialized.
+    /// </remarks>
+    [JsonIgnore]
+    public IReadOnlyList<IModule> Modules { get; private set; }
 
     /// <summary>
     /// Gets how long the pipeline took to run.
@@ -33,7 +39,18 @@ public record PipelineSummary
     public DateTimeOffset End { get; private set; }
 
     [JsonConstructor]
-    internal PipelineSummary(IReadOnlyList<ModuleBase> modules,
+    internal PipelineSummary(
+        TimeSpan totalDuration,
+        DateTimeOffset start,
+        DateTimeOffset end)
+    {
+        Modules = Array.Empty<IModule>();
+        TotalDuration = totalDuration;
+        Start = start;
+        End = end;
+    }
+
+    internal PipelineSummary(IReadOnlyList<IModule> modules,
         TimeSpan totalDuration,
         DateTimeOffset start,
         DateTimeOffset end)
@@ -42,13 +59,16 @@ public record PipelineSummary
         TotalDuration = totalDuration;
         Start = start;
         End = end;
+    }
 
-        // If the pipeline is errored, some modules could still be waiting or processing.
-        // But we're ending the pipeline so let's signal them to fail.
-        foreach (var moduleBase in modules)
-        {
-            moduleBase.TryCancel();
-        }
+    internal PipelineSummary(IReadOnlyList<IModule> modules,
+        TimeSpan totalDuration,
+        DateTimeOffset start,
+        DateTimeOffset end,
+        IModuleResultRegistry resultRegistry)
+        : this(modules, totalDuration, start, end)
+    {
+        _resultRegistry = resultRegistry;
     }
 
     /// <summary>
@@ -62,56 +82,49 @@ public record PipelineSummary
     /// <typeparam name="T">The module type to get.</typeparam>
     /// <returns>{T}.</returns>
     public T GetModule<T>()
-        where T : ModuleBase
+        where T : IModule
         => Modules.GetModule<T>();
 
     public async Task<IReadOnlyList<IModuleResult>> GetModuleResultsAsync()
     {
         return await Modules.SelectAsync(async x =>
         {
-            if (x.Status is Status.Processing or Status.Unknown or Status.NotYetStarted)
+            // Get the result from the registry if available
+            if (_resultRegistry != null)
             {
-                return new ModuleResult(new TaskCanceledException(), x);
+                var result = _resultRegistry.GetResult(x.GetType());
+                if (result != null)
+                {
+                    return result;
+                }
             }
 
-            try
-            {
-                return await x.GetModuleResult();
-            }
-            catch (Exception e)
-            {
-                return new ModuleResult(e, x);
-            }
+            // Fallback: create a cancellation result for modules that haven't completed
+            return (IModuleResult)new ModuleResult(new TaskCanceledException(), new ModuleExecutionContext(x, x.GetType()));
         }).ProcessInParallel();
     }
 
     private Status GetStatus()
     {
-        if (Modules.Any(x => x.Status == Status.Failed))
+        // Check if we have a result registry to get module statuses
+        if (_resultRegistry != null)
         {
-            return Status.Failed;
+            foreach (var module in Modules)
+            {
+                var result = _resultRegistry.GetResult(module.GetType());
+                if (result != null)
+                {
+                    if (result.ModuleResultType == ModuleResultType.Failure)
+                    {
+                        return Status.Failed;
+                    }
+                }
+            }
+
+            return Status.Successful;
         }
 
-        if (Modules.Any(x => x.Status == Status.Unknown))
-        {
-            return Status.Unknown;
-        }
-
-        if (Modules.Any(x => x.Status == Status.Processing))
-        {
-            return Status.Processing;
-        }
-
-        if (Modules.Any(x => x.Status == Status.NotYetStarted))
-        {
-            return Status.Failed;
-        }
-
-        if (Modules.Any(x => x.Status == Status.TimedOut))
-        {
-            return Status.Failed;
-        }
-
-        return Status.Successful;
+        // Fallback to checking modules directly
+        return Status.Unknown;
     }
 }

@@ -125,13 +125,13 @@ internal class PipelineContext : IPipelineContext
     public EngineCancellationToken EngineCancellationToken { get; }
 
     public TModule? GetModule<TModule>()
-        where TModule : ModuleBase
+        where TModule : class, IModule
     {
-        return ServiceProvider.GetServices<ModuleBase>().OfType<TModule>().SingleOrDefault();
+        return ServiceProvider.GetServices<IModule>().OfType<TModule>().SingleOrDefault();
     }
 
-    public ModuleBase? GetModule(Type type)
+    public IModule? GetModule(Type type)
     {
-        return ServiceProvider.GetServices<ModuleBase>().SingleOrDefault(module => module.GetType() == type);
+        return ServiceProvider.GetServices<IModule>().SingleOrDefault(module => module.GetType() == type);
     }
 }

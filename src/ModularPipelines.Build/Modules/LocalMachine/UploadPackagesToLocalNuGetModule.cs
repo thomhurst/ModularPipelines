@@ -5,8 +5,10 @@ using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Extensions;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules.LocalMachine;
 
@@ -16,24 +18,10 @@ namespace ModularPipelines.Build.Modules.LocalMachine;
 [RunOnLinuxOnly]
 public class UploadPackagesToLocalNuGetModule : Module<CommandResult[]>
 {
-    /// <inheritdoc/>
-    protected override async Task OnBeforeExecute(IPipelineContext context)
+    public override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var packagePaths = await GetModule<PackagePathsParserModule>();
-
-        foreach (var packagePath in packagePaths.Value!)
-        {
-            context.Logger.LogInformation("[Local Directory] Uploading {File}", packagePath);
-        }
-
-        await base.OnBeforeExecute(context);
-    }
-
-    /// <inheritdoc/>
-    protected override async Task<CommandResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
-        var localRepoLocation = await GetModule<CreateLocalNugetFolderModule>();
-        var packagePaths = await GetModule<PackagePathsParserModule>();
+        var localRepoLocation = context.GetModule<CreateLocalNugetFolderModule, Folder>();
+        var packagePaths = context.GetModule<PackagePathsParserModule, List<File>>();
 
         return await packagePaths.Value!
             .SelectAsync(async nugetFile => await context.DotNet().Nuget.Push(new DotNetNugetPushOptions

@@ -10,7 +10,7 @@ namespace ModularPipelines.Examples.Modules;
 public class GitVersionModule : Module<CommandResult>
 {
     /// <inheritdoc/>
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var gitVersioning = await context.Git().Versioning.GetGitVersioningInformation();
 

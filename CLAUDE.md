@@ -15,7 +15,7 @@ dotnet build ModularPipelines.Analyzers.sln -c Release
 
 # Run the build pipeline (from src/ModularPipelines.Build)
 cd src/ModularPipelines.Build
-dotnet run -c Release --framework net8.0
+dotnet run -c Release --framework net10.0
 ```
 
 ### Running Tests
@@ -23,10 +23,10 @@ dotnet run -c Release --framework net8.0
 # Run all unit tests (pattern: *UnitTests.csproj)
 # Tests are executed via the build pipeline with coverage
 cd src/ModularPipelines.Build
-dotnet run -c Release --framework net8.0
+dotnet run -c Release --framework net10.0
 
 # Run a single test project manually
-dotnet run --project <path-to-test-project> --framework net9.0 -- --coverage --coverage-output-format cobertura
+dotnet run --project <path-to-test-project> --framework net10.0 -- --coverage --coverage-output-format cobertura
 ```
 
 ### Code Formatting
@@ -112,3 +112,4 @@ The build pipeline (`src/ModularPipelines.Build/`) demonstrates best practices:
 - Tests run with code coverage collection enabled
 - Coverage reports uploaded to Codacy and Codecov
 - Test projects identified by "*UnitTests.csproj" pattern
+- remember the correct filter syntax

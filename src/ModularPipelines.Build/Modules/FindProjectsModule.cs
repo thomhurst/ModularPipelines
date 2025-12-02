@@ -3,16 +3,14 @@ using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Modules.Behaviors;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
-public class FindProjectsModule : Module<IReadOnlyList<File>>
+public class FindProjectsModule : Module<IReadOnlyList<File>>, IAlwaysRun
 {
-    public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
-
-    /// <inheritdoc/>
-    protected override async Task<IReadOnlyList<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<IReadOnlyList<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Yield();
 
@@ -23,7 +21,7 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
             .ToList();
     }
 
-    private bool GetProjectsPredicate(File file, IPipelineContext context)
+    private bool GetProjectsPredicate(File file, IModuleContext context)
     {
         var path = file.Path;
 

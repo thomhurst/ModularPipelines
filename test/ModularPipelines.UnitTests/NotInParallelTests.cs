@@ -17,7 +17,7 @@ public class NotInParallelTests : TestBase
     [ModularPipelines.Attributes.NotInParallel]
     public class Module1 : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var moduleName = GetType().Name;
 
@@ -39,7 +39,7 @@ public class NotInParallelTests : TestBase
     [ModularPipelines.Attributes.NotInParallel]
     public class Module2 : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var moduleName = GetType().Name;
 
@@ -62,7 +62,7 @@ public class NotInParallelTests : TestBase
     [ModularPipelines.Attributes.DependsOn<ParallelDependency>]
     public class NotParallelModuleWithParallelDependency : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var moduleName = GetType().Name;
 
@@ -76,7 +76,7 @@ public class NotInParallelTests : TestBase
 
     public class ParallelDependency : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ModuleDelay, cancellationToken);
             return GetType().Name;
@@ -87,7 +87,7 @@ public class NotInParallelTests : TestBase
     [ModularPipelines.Attributes.DependsOn<NotParallelModuleWithParallelDependency>]
     public class NotParallelModuleWithNonParallelDependency : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var moduleName = GetType().Name;
 

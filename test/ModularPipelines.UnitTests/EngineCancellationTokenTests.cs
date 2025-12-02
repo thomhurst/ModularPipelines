@@ -1,8 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
+using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.TestHelpers;
 using Status = ModularPipelines.Enums.Status;
 
@@ -12,9 +14,9 @@ public class EngineCancellationTokenTests : TestBase
 {
     private static readonly TimeSpan WaitForCancellationDelay = TimeSpan.FromMilliseconds(100);
 
-    private class BadModule : Module
+    private class BadModule : Module<IDictionary<string, object>?>
     {
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -22,35 +24,35 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<BadModule>]
-    private class Module1 : Module
+    private class Module1 : Module<IDictionary<string, object>?>
     {
-        protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return NothingAsync();
+            return Task.FromResult<IDictionary<string, object>?>(null);
         }
     }
 
-    private class LongRunningModule : Module
+    private class LongRunningModule : Module<IDictionary<string, object>?>
     {
-        private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
+        private readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await _taskCompletionSource.Task.WaitAsync(cancellationToken);
-            return await NothingAsync();
+            return null;
         }
     }
 
-    private class LongRunningModuleWithoutCancellation : Module
+    private class LongRunningModuleWithoutCancellation : Module<IDictionary<string, object>?>, ITimeoutable
     {
-        private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
+        private readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
-        protected internal override TimeSpan Timeout => TimeSpan.FromSeconds(1);
+        public TimeSpan Timeout => TimeSpan.FromSeconds(1);
 
-        protected override async Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await _taskCompletionSource.Task;
-            return await NothingAsync();
+            return null;
         }
     }
 
@@ -62,14 +64,13 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<Module1>()
             .BuildHostAsync();
 
-        var modules = host.RootServices.GetServices<ModuleBase>();
-
-        var module1 = modules.GetModule<Module1>();
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
 
         using (Assert.Multiple())
         {
             await Assert.That(async () => await host.ExecutePipelineAsync()).ThrowsException();
-            await Assert.That(module1.Status).IsEqualTo(Status.PipelineTerminated);
+            var module1Result = resultRegistry.GetResult(typeof(Module1))!;
+            await Assert.That(module1Result.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
         }
     }
 
@@ -81,9 +82,7 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<LongRunningModule>()
             .BuildHostAsync();
 
-        var modules = host.RootServices.GetServices<ModuleBase>();
-
-        var longRunningModule = modules.GetModule<LongRunningModule>();
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
 
         var pipelineTask = host.ExecutePipelineAsync();
 
@@ -92,8 +91,9 @@ public class EngineCancellationTokenTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(async () => await pipelineTask).ThrowsException();
-            await Assert.That(longRunningModule.Status).IsEqualTo(Status.PipelineTerminated);
-            await Assert.That(longRunningModule.Duration).IsLessThan(TimeSpan.FromSeconds(2));
+            var longRunningModuleResult = resultRegistry.GetResult(typeof(LongRunningModule))!;
+            await Assert.That(longRunningModuleResult.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+            await Assert.That(longRunningModuleResult.ModuleDuration).IsLessThan(TimeSpan.FromSeconds(2));
         }
     }
 
@@ -105,9 +105,7 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<LongRunningModuleWithoutCancellation>()
             .BuildHostAsync();
 
-        var modules = host.RootServices.GetServices<ModuleBase>();
-
-        var longRunningModule = modules.GetModule<LongRunningModuleWithoutCancellation>();
+        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
 
         var pipelineTask = host.ExecutePipelineAsync();
 
@@ -116,7 +114,8 @@ public class EngineCancellationTokenTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(async () => await pipelineTask).ThrowsException();
-            await Assert.That(longRunningModule.Status).IsEqualTo(Status.PipelineTerminated);
+            var longRunningModuleResult = resultRegistry.GetResult(typeof(LongRunningModuleWithoutCancellation))!;
+            await Assert.That(longRunningModuleResult.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace ModularPipelines.Examples.Modules;
 public class GitLastCommitModule : Module<GitCommit?>
 {
     /// <inheritdoc/>
-    protected override async Task<GitCommit?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<GitCommit?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Yield();
 

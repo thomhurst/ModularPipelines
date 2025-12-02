@@ -12,7 +12,7 @@ namespace ModularPipelines.Build.Modules;
 [SkipOnMainBranch]
 public class ChangedFilesInPullRequestModule : Module<IReadOnlyList<File>>
 {
-    protected override async Task<IReadOnlyList<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public override async Task<IReadOnlyList<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var result = await context.Git().Commands.Diff(new GitDiffOptions
         {
