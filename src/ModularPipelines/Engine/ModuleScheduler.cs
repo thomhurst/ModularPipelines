@@ -79,6 +79,9 @@ internal class ModuleScheduler : IModuleScheduler
             _moduleStates.TryAdd(moduleType, state);
         }
 
+        // Get all available module types for DependsOnAllModulesInheritingFrom resolution
+        var availableModuleTypes = _moduleStates.Keys.ToList();
+
         foreach (var state in _moduleStates.Values)
         {
             var moduleType = state.ModuleType;
@@ -103,7 +106,8 @@ internal class ModuleScheduler : IModuleScheduler
                 }
             }
 
-            var dependencies = ModuleDependencyResolver.GetDependencies(moduleType);
+            // Use the overload that handles DependsOnAllModulesInheritingFromAttribute
+            var dependencies = ModuleDependencyResolver.GetDependencies(moduleType, availableModuleTypes);
 
             foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
             {

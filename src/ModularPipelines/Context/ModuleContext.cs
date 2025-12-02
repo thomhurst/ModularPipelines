@@ -98,6 +98,16 @@ internal class ModuleContext : IModuleContext
     TModule? IPipelineContext.GetModule<TModule>()
         where TModule : class
     {
+        var moduleType = typeof(TModule);
+
+        // Check for self-reference
+        if (moduleType == _currentModule.GetType())
+        {
+            throw new ModuleReferencingSelfException(
+                $"Module '{moduleType.Name}' cannot reference itself. " +
+                "A module cannot depend on its own result.");
+        }
+
         return _pipelineContext.GetModule<TModule>();
     }
 

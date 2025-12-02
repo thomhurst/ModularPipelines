@@ -12,12 +12,47 @@ internal static class ModuleDependencyResolver
 {
     /// <summary>
     /// Gets all dependencies declared on a module type via DependsOn attributes.
+    /// This overload only handles DependsOnAttribute, not DependsOnAllModulesInheritingFromAttribute.
     /// </summary>
     public static IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetDependencies(Type moduleType)
     {
         foreach (var attribute in moduleType.GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
         {
             yield return (attribute.Type, attribute.IgnoreIfNotRegistered);
+        }
+    }
+
+    /// <summary>
+    /// Gets all dependencies declared on a module type via DependsOn attributes,
+    /// including DependsOnAllModulesInheritingFromAttribute which requires the list of available modules.
+    /// </summary>
+    public static IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetDependencies(
+        Type moduleType,
+        IEnumerable<Type> availableModuleTypes)
+    {
+        // Handle regular DependsOn attributes
+        foreach (var attribute in moduleType.GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
+        {
+            yield return (attribute.Type, attribute.IgnoreIfNotRegistered);
+        }
+
+        // Handle DependsOnAllModulesInheritingFrom attributes
+        foreach (var attribute in moduleType.GetCustomAttributesIncludingBaseInterfaces<DependsOnAllModulesInheritingFromAttribute>())
+        {
+            foreach (var candidateType in availableModuleTypes)
+            {
+                // Skip self
+                if (candidateType == moduleType)
+                {
+                    continue;
+                }
+
+                // Check if candidate inherits from the specified base type
+                if (candidateType.IsOrInheritsFrom(attribute.Type))
+                {
+                    yield return (candidateType, false);
+                }
+            }
         }
     }
 
