@@ -105,14 +105,7 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
         _executingModules.Clear();
         _violations.Clear();
 
-        // Enable logging to see diagnostic output
-        var settings = new TestHostSettings
-        {
-            ClearLogProviders = false,
-            LogLevel = Microsoft.Extensions.Logging.LogLevel.Debug
-        };
-
-        await TestPipelineHostBuilder.Create(settings)
+        await TestPipelineHostBuilder.Create()
             .AddModule<ModuleWithAConstraintKey1>()
             .AddModule<ModuleWithAConstraintKey2>()
             .AddModule<ModuleWithBConstraintKey1>()
