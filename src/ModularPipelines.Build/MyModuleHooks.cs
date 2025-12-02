@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Interfaces;
@@ -7,7 +8,8 @@ namespace ModularPipelines.Build;
 
 public class MyModuleHooks : IPipelineModuleHooks
 {
-    private readonly Dictionary<string, DateTimeOffset> _moduleStartTimes = new();
+    // Use ConcurrentDictionary for thread-safe access from parallel module hooks
+    private readonly ConcurrentDictionary<string, DateTimeOffset> _moduleStartTimes = new();
 
     /// <inheritdoc/>
     public Task OnBeforeModuleStartAsync(IPipelineHookContext pipelineContext, IModule module)
