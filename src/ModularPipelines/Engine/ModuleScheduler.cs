@@ -89,6 +89,12 @@ internal class ModuleScheduler : IModuleScheduler
             var notInParallelAttr = moduleType.GetCustomAttribute<NotInParallelAttribute>();
             if (notInParallelAttr != null)
             {
+                _logger.LogDebug(
+                    "[INIT] Found NotInParallel attribute on {ModuleName}: ConstraintKeys=[{Keys}], Count={Count}",
+                    moduleType.Name,
+                    string.Join(", ", notInParallelAttr.ConstraintKeys),
+                    notInParallelAttr.ConstraintKeys.Length);
+
                 if (notInParallelAttr.ConstraintKeys.Length == 0)
                 {
                     state.RequiresSequentialExecution = true;
@@ -104,6 +110,10 @@ internal class ModuleScheduler : IModuleScheduler
                         MarkupFormatter.FormatModuleName(moduleType.Name),
                         string.Join(", ", state.RequiredLockKeys));
                 }
+            }
+            else
+            {
+                _logger.LogDebug("[INIT] No NotInParallel attribute on {ModuleName}", moduleType.Name);
             }
 
             // Use the overload that handles DependsOnAllModulesInheritingFromAttribute
@@ -401,6 +411,9 @@ internal class ModuleScheduler : IModuleScheduler
                 _executingModules.Add(state);
                 state.ExecutionStartTime = _timeProvider.GetUtcNow();
 
+                // Verify no constraint violations exist after starting execution
+                VerifyNoConstraintViolationsInExecuting(state);
+
                 _logger.LogDebug(
                     "Module {ModuleName} started executing with lock keys: [{Keys}] (Active: Q={Queued}, E={Executing})",
                     MarkupFormatter.FormatModuleName(state.ModuleType.Name),
@@ -597,6 +610,9 @@ internal class ModuleScheduler : IModuleScheduler
                 moduleState.QueuedTime = _timeProvider.GetUtcNow();
                 _queuedModules.Add(moduleState);
 
+                // Verify no constraint violations in the current queued set
+                VerifyNoConstraintViolationsInQueue(moduleState);
+
                 _logger.LogDebug(
                     "Module {ModuleName} queued with lock keys: [{Keys}] (Active after: Q={Queued}, E={Executing})",
                     MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name),
@@ -760,6 +776,93 @@ internal class ModuleScheduler : IModuleScheduler
                 _logger.LogDebug(
                     "Dependent module {DependentName} now ready to execute (all dependencies met)",
                     MarkupFormatter.FormatModuleName(dependent.ModuleType.Name));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Verifies no constraint violations exist after queueing a module.
+    /// This is a diagnostic method to catch bugs in constraint checking.
+    /// MUST be called while holding _stateLock
+    /// </summary>
+    private void VerifyNoConstraintViolationsInQueue(ModuleState justQueued)
+    {
+        if (justQueued.RequiredLockKeys.Length == 0)
+        {
+            return; // No lock keys, no constraint to verify
+        }
+
+        // Check all queued and executing modules for conflicts
+        var activeModules = _queuedModules.Concat(_executingModules)
+            .Where(m => m != justQueued && m.RequiredLockKeys.Length > 0)
+            .ToList();
+
+        foreach (var active in activeModules)
+        {
+            var intersection = active.RequiredLockKeys.Intersect(justQueued.RequiredLockKeys).ToArray();
+            if (intersection.Length > 0)
+            {
+                var errorMessage = $"CONSTRAINT VIOLATION DETECTED IN QUEUE: Module '{justQueued.ModuleType.Name}' with keys [{string.Join(", ", justQueued.RequiredLockKeys)}] " +
+                    $"was queued while module '{active.ModuleType.Name}' with keys [{string.Join(", ", active.RequiredLockKeys)}] " +
+                    $"is already active (State: {active.State}). Conflicting keys: [{string.Join(", ", intersection)}]";
+
+                _logger.LogError(errorMessage);
+                throw new InvalidOperationException(errorMessage);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Verifies no constraint violations exist after starting execution of a module.
+    /// This is a diagnostic method to catch bugs in constraint checking.
+    /// MUST be called while holding _stateLock
+    /// </summary>
+    private void VerifyNoConstraintViolationsInExecuting(ModuleState justStarted)
+    {
+        // Always log execution state for debugging
+        var allExecuting = _executingModules.ToList();
+        _logger.LogDebug(
+            "[VERIFY-EXEC] Module {ModuleName} started. Keys=[{Keys}]. Total executing={Count}. Executing modules: [{ExecutingList}]",
+            justStarted.ModuleType.Name,
+            string.Join(", ", justStarted.RequiredLockKeys),
+            allExecuting.Count,
+            string.Join(", ", allExecuting.Select(m => $"{m.ModuleType.Name}[{string.Join(",", m.RequiredLockKeys)}]")));
+
+        if (justStarted.RequiredLockKeys.Length == 0)
+        {
+            _logger.LogDebug("[VERIFY-EXEC] {ModuleName} has no lock keys, skipping verification", justStarted.ModuleType.Name);
+            return; // No lock keys, no constraint to verify
+        }
+
+        // Check all other executing modules for conflicts
+        var otherExecuting = _executingModules
+            .Where(m => m != justStarted && m.RequiredLockKeys.Length > 0)
+            .ToList();
+
+        _logger.LogDebug(
+            "[VERIFY-EXEC] Checking {ModuleName} against {Count} other executing modules with lock keys",
+            justStarted.ModuleType.Name,
+            otherExecuting.Count);
+
+        foreach (var executing in otherExecuting)
+        {
+            var intersection = executing.RequiredLockKeys.Intersect(justStarted.RequiredLockKeys).ToArray();
+            _logger.LogDebug(
+                "[VERIFY-EXEC] Comparing {Module1}[{Keys1}] with {Module2}[{Keys2}] => intersection=[{Intersection}]",
+                justStarted.ModuleType.Name,
+                string.Join(",", justStarted.RequiredLockKeys),
+                executing.ModuleType.Name,
+                string.Join(",", executing.RequiredLockKeys),
+                string.Join(",", intersection));
+
+            if (intersection.Length > 0)
+            {
+                var errorMessage = $"CONSTRAINT VIOLATION DETECTED IN EXECUTION: Module '{justStarted.ModuleType.Name}' with keys [{string.Join(", ", justStarted.RequiredLockKeys)}] " +
+                    $"started executing while module '{executing.ModuleType.Name}' with keys [{string.Join(", ", executing.RequiredLockKeys)}] " +
+                    $"is also executing. Conflicting keys: [{string.Join(", ", intersection)}]";
+
+                _logger.LogError(errorMessage);
+                throw new InvalidOperationException(errorMessage);
             }
         }
     }
