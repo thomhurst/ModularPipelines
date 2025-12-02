@@ -40,9 +40,9 @@ public class TimedDependencyTests
         }
     }
 
-    private class FiveSecondModule : IModule<IDictionary<string, object>?>
+    private class FiveSecondModule : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(LongModuleDelay, cancellationToken);
             return new Dictionary<string, object>();
@@ -50,9 +50,9 @@ public class TimedDependencyTests
     }
 
     [ModularPipelines.Attributes.DependsOn<FiveSecondModule>]
-    private class OneSecondModuleDependentOnFiveSecondModule : IModule<IDictionary<string, object>?>
+    private class OneSecondModuleDependentOnFiveSecondModule : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ShortModuleDelay, cancellationToken);
             return new Dictionary<string, object>();

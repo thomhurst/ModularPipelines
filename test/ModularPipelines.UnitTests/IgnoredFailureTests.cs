@@ -12,14 +12,14 @@ namespace ModularPipelines.UnitTests;
 
 public class IgnoredFailureTests : TestBase
 {
-    private class IgnoredFailureModule : IModule<CommandResult>, IIgnoreFailures
+    private class IgnoredFailureModule : Module<CommandResult>, IIgnoreFailures
     {
         public Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
         {
             return Task.FromResult(true);
         }
 
-        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();

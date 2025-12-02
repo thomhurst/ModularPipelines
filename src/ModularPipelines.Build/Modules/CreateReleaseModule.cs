@@ -19,7 +19,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<UploadPackagesToNugetModule>]
 [DependsOn<DependabotCommitsModule>]
-public class CreateReleaseModule : IModule<Release>, ISkippable, IIgnoreFailures
+public class CreateReleaseModule : Module<Release>, ISkippable, IIgnoreFailures
 {
     private readonly IOptions<GitHubSettings> _githubSettings;
     private readonly IOptions<PublishSettings> _publishSettings;
@@ -49,7 +49,7 @@ public class CreateReleaseModule : IModule<Release>, ISkippable, IIgnoreFailures
         return string.IsNullOrEmpty(_githubSettings.Value.AdminToken);
     }
 
-    public async Task<Release?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override async Task<Release?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var versionInfoResult = context.GetModule<NugetVersionGeneratorModule, string>();
 

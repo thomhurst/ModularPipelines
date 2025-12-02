@@ -7,9 +7,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class HexTests : TestBase
 {
-    private class ToHexModule : IModule<string>
+    private class ToHexModule : Module<string>
     {
-        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Hex.ToHex("Foo bar!");
@@ -36,9 +36,9 @@ public class HexTests : TestBase
         await Assert.That(moduleResult.Value).IsEqualTo("466f6f2062617221");
     }
 
-    private class FromHexModule : IModule<string>
+    private class FromHexModule : Module<string>
     {
-        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Hex.FromHex("466f6f2062617221");

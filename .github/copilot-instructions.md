@@ -43,7 +43,7 @@ dotnet build ModularPipelines.Examples.sln -c Release
 4. **Run Build Pipeline** (150+ seconds - NEVER CANCEL):
 ```bash
 cd src/ModularPipelines.Build
-dotnet run -c Release --framework net8.0
+dotnet run -c Release --framework net10.0
 ```
 Note: The build pipeline may fail in development environment due to missing CI environment variables (like origin/main branch). This is expected. The pipeline includes test execution with code coverage.
 
@@ -138,7 +138,7 @@ yarn start
 1. Build the affected solutions
 2. Run formatting: `dotnet format ModularPipelines.sln`
 3. Run tests for affected areas
-4. If modifying the build pipeline, test with: `cd src/ModularPipelines.Build && dotnet run -c Release --framework net8.0`
+4. If modifying the build pipeline, test with: `cd src/ModularPipelines.Build && dotnet run -c Release --framework net10.0`
 
 **For module development:**
 1. Create a module inheriting from `Module<T>`

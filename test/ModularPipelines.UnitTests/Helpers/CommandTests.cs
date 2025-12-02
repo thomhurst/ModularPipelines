@@ -10,9 +10,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class CommandTests : TestBase
 {
-    private class CommandEchoModule : IModule<CommandResult>
+    private class CommandEchoModule : Module<CommandResult>
     {
-        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Command.ExecuteCommandLineTool(
                 new CommandLineToolOptions(
@@ -23,9 +23,9 @@ public class CommandTests : TestBase
         }
     }
 
-    private class CommandEchoTimeoutModule : IModule<string>
+    private class CommandEchoTimeoutModule : Module<string>
     {
-        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "Foo bar!";

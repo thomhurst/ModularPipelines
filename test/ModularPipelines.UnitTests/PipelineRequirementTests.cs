@@ -53,9 +53,9 @@ public class PipelineRequirementTests
             .And.HasMessageEqualTo("Requirements failed:\r\nError: Foo bar!");
     }
 
-    private class DummyModule : IModule<IDictionary<string, object>?>
+    private class DummyModule : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return new Dictionary<string, object>();

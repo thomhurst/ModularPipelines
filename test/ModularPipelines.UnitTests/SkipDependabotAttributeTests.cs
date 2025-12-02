@@ -31,9 +31,9 @@ public class SkipDependabotAttributeTests : TestBase
     }
 
     [SkipIfDependabot]
-    private class Module1 : IModule<IDictionary<string, object>?>
+    private class Module1 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;
@@ -42,9 +42,9 @@ public class SkipDependabotAttributeTests : TestBase
 
     [SkipIfDependabot]
     [CanRun]
-    private class Module2 : IModule<IDictionary<string, object>?>
+    private class Module2 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;
@@ -53,9 +53,9 @@ public class SkipDependabotAttributeTests : TestBase
 
     [SkipIfDependabot]
     [CannotRun]
-    private class Module3 : IModule<IDictionary<string, object>?>
+    private class Module3 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;
@@ -65,9 +65,9 @@ public class SkipDependabotAttributeTests : TestBase
     [SkipIfDependabot]
     [CanRun]
     [CannotRun]
-    private class Module4 : IModule<IDictionary<string, object>?>
+    private class Module4 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;

@@ -14,9 +14,9 @@ public class ParallelLimiterTests
     private static readonly ConcurrentBag<string> _violations = new();
 
     [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
-    public class Module1 : IModule<string>
+    public class Module1 : Module<string>
     {
-        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var moduleName = GetType().Name;
 
@@ -36,9 +36,9 @@ public class ParallelLimiterTests
     }
 
     [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
-    public class Module2 : IModule<string>
+    public class Module2 : Module<string>
     {
-        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var moduleName = GetType().Name;
 
@@ -58,9 +58,9 @@ public class ParallelLimiterTests
     }
 
     [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
-    public class Module3 : IModule<string>
+    public class Module3 : Module<string>
     {
-        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var moduleName = GetType().Name;
 
@@ -81,9 +81,9 @@ public class ParallelLimiterTests
 
 
     [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
-    public class Module4 : IModule<string>
+    public class Module4 : Module<string>
     {
-        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var moduleName = GetType().Name;
 
@@ -103,9 +103,9 @@ public class ParallelLimiterTests
     }
 
     [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
-    public class Module5 : IModule<string>
+    public class Module5 : Module<string>
     {
-        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var moduleName = GetType().Name;
 
@@ -125,9 +125,9 @@ public class ParallelLimiterTests
     }
 
     [ModularPipelines.Attributes.ParallelLimiter<MyParallelLimit>]
-    public class Module6 : IModule<string>
+    public class Module6 : Module<string>
     {
-        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var moduleName = GetType().Name;
 

@@ -7,9 +7,9 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<FindProjectsModule>]
-public class FindProjectDependenciesModule : IModule<FindProjectDependenciesModule.ProjectDependencies>
+public class FindProjectDependenciesModule : Module<FindProjectDependenciesModule.ProjectDependencies>
 {
-    public async Task<ProjectDependencies?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override async Task<ProjectDependencies?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var projects = context.GetModule<FindProjectsModule, IReadOnlyList<File>>();
 

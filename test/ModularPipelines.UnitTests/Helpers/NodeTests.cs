@@ -8,9 +8,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class NodeTests : TestBase
 {
-    private class NodeVersionModule : IModule<CommandResult>
+    private class NodeVersionModule : Module<CommandResult>
     {
-        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Node().Version(cancellationToken: cancellationToken);
         }

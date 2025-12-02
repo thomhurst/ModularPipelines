@@ -19,7 +19,7 @@ namespace ModularPipelines.Build.Modules;
 [SkipIfNoStandardGitHubToken]
 [SkipOnMainBranch]
 [RunOnLinuxOnly]
-public class CodeFormattedNicelyModule : IModule<CommandResult>, ISkippable, IAlwaysRun
+public class CodeFormattedNicelyModule : Module<CommandResult>, ISkippable, IAlwaysRun
 {
     private const string DotnetFormatGitMessage = "DotNet Format";
 
@@ -45,7 +45,7 @@ public class CodeFormattedNicelyModule : IModule<CommandResult>, ISkippable, IAl
         return SkipDecision.DoNotSkip.AsTask();
     }
 
-    public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         if (!context.Git().Information.BranchName!.Contains("pull"))
         {

@@ -7,9 +7,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class Sha512Tests : TestBase
 {
-    private class ToSha512Module : IModule<string>
+    private class ToSha512Module : Module<string>
     {
-        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Hasher.Sha512("Foo bar!");

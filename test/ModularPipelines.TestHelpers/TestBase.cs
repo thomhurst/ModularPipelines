@@ -16,9 +16,9 @@ public abstract class TestBase
 {
     private readonly List<IPipelineHost> _hosts = [];
 
-    private class DummyModule : IModule<IDictionary<string, object>?>
+    private class DummyModule : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;
@@ -45,13 +45,13 @@ public abstract class TestBase
     /// Runs a module and returns its typed result.
     /// </summary>
     public Task<ModuleResult<TResult>> RunModuleWithResult<T, TResult>()
-        where T : class, IModule<TResult> => RunModuleWithResult<T, TResult>(new TestHostSettings());
+        where T : class, Module<TResult> => RunModuleWithResult<T, TResult>(new TestHostSettings());
 
     /// <summary>
     /// Runs a module and returns its typed result.
     /// </summary>
     public async Task<ModuleResult<TResult>> RunModuleWithResult<T, TResult>(TestHostSettings testHostSettings)
-        where T : class, IModule<TResult>
+        where T : class, Module<TResult>
     {
         var host = await TestPipelineHostBuilder.Create(testHostSettings)
             .AddModule<T>()

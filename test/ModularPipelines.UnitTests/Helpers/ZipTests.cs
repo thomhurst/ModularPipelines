@@ -8,9 +8,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class ZipTests : TestBase
 {
-    private class ZipModule : IModule<string>
+    private class ZipModule : Module<string>
     {
-        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -57,9 +57,9 @@ public class ZipTests : TestBase
         }
     }
 
-    private class UnZipModule : IModule<string>
+    private class UnZipModule : Module<string>
     {
-        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 

@@ -13,9 +13,9 @@ namespace ModularPipelines.UnitTests;
 
 public class AlwaysRunTests : TestBase
 {
-    public class MyModule1 : IModule<IDictionary<string, object>?>
+    public class MyModule1 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -23,9 +23,9 @@ public class AlwaysRunTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<MyModule1>]
-    public class MyModule2 : IModule<IDictionary<string, object>?>, IAlwaysRun
+    public class MyModule2 : Module<IDictionary<string, object>?>, IAlwaysRun
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -33,9 +33,9 @@ public class AlwaysRunTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<MyModule2>]
-    public class MyModule3 : IModule<IDictionary<string, object>?>, IAlwaysRun
+    public class MyModule3 : Module<IDictionary<string, object>?>, IAlwaysRun
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -43,9 +43,9 @@ public class AlwaysRunTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<MyModule3>]
-    public class MyModule4 : IModule<IDictionary<string, object>?>, IAlwaysRun
+    public class MyModule4 : Module<IDictionary<string, object>?>, IAlwaysRun
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();

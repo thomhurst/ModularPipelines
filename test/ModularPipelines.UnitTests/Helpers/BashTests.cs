@@ -10,17 +10,17 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class BashTests : TestBase
 {
-    private class BashCommandModule : IModule<CommandResult>
+    private class BashCommandModule : Module<CommandResult>
     {
-        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Bash.Command(new("echo \"Foo bar!\""), cancellationToken: cancellationToken);
         }
     }
 
-    private class BashScriptModule : IModule<CommandResult>
+    private class BashScriptModule : Module<CommandResult>
     {
-        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var file = context.Git().RootDirectory.FindFile(x => x.Name == "BashTest.sh");
             return await context.Bash.FromFile(new BashFileOptions(file!), cancellationToken: cancellationToken);

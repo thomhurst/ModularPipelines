@@ -17,9 +17,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 [TUnit.Core.NotInParallel]
 public class DotNetTestResultsTests : TestBase
 {
-    private class DotNetTestWithFailureModule : IModule<CommandResult>
+    private class DotNetTestWithFailureModule : Module<CommandResult>
     {
-        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var testProject = context.Git().RootDirectory
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
@@ -33,11 +33,11 @@ public class DotNetTestResultsTests : TestBase
         }
     }
 
-    private class DotNetTestWithoutFailureModule : IModule<CommandResult>
+    private class DotNetTestWithoutFailureModule : Module<CommandResult>
     {
         public static File TrxFile { get; } = File.GetNewTemporaryFilePath();
 
-        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var testProject = context.Git().RootDirectory
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;

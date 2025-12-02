@@ -11,9 +11,9 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<FindProjectsModule>]
-public class GenerateReadMeModule : IModule<IDictionary<string, object>>, IAlwaysRun
+public class GenerateReadMeModule : Module<IDictionary<string, object>>, IAlwaysRun
 {
-    public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var gitRootDirectory = context.Git().RootDirectory;
 

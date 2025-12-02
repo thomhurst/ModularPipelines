@@ -7,9 +7,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class PowershellTests : TestBase
 {
-    private class PowershellEchoModule : IModule<CommandResult>
+    private class PowershellEchoModule : Module<CommandResult>
     {
-        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Powershell.Script(new("Write-Host \"Foo bar!\""), cancellationToken: cancellationToken);
         }

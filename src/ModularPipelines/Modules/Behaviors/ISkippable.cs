@@ -9,7 +9,7 @@ namespace ModularPipelines.Modules.Behaviors;
 /// <remarks>
 /// When a module is skipped:
 /// <list type="bullet">
-/// <item>Its <see cref="IModule{T}.ExecuteAsync"/> method is not called</item>
+/// <item>Its <see cref="Module{T}.ExecuteAsync"/> method is not called</item>
 /// <item>Dependent modules may still run (they receive a skipped result)</item>
 /// <item>If <see cref="IHistoryAware"/> is also implemented, historical results may be used</item>
 /// </list>

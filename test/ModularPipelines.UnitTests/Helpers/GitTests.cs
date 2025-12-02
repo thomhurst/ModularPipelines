@@ -10,9 +10,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class GitTests : TestBase
 {
-    private class GitVersionModule : IModule<CommandResult>
+    private class GitVersionModule : Module<CommandResult>
     {
-        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Git().Commands.Git(new GitBaseOptions
             {

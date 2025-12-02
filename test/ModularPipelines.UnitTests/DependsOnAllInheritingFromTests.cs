@@ -13,9 +13,9 @@ public class DependsOnAllInheritingFromTests : TestBase
 {
     private static readonly TimeSpan ModuleDelay = TimeSpan.FromMilliseconds(50);
 
-    private abstract class BaseModule : IModule<IDictionary<string, object>?>
+    private abstract class BaseModule : Module<IDictionary<string, object>?>
     {
-        public abstract Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken);
+        public abstract override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken);
     }
 
     private class Module1 : BaseModule
@@ -48,9 +48,9 @@ public class DependsOnAllInheritingFromTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOnAllModulesInheritingFrom<BaseModule>]
-    private class Module4 : IModule<IDictionary<string, object>?>
+    private class Module4 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;

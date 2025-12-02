@@ -21,7 +21,7 @@ namespace ModularPipelines.Build.Modules;
 [SkipIfNoGitHubToken]
 [RunOnlyOnBranch("main")]
 [RunOnLinuxOnly]
-public class UploadPackagesToNugetModule : IModule<CommandResult[]>, ISkippable
+public class UploadPackagesToNugetModule : Module<CommandResult[]>, ISkippable
 {
     private readonly IOptions<NuGetSettings> _nugetSettings;
     private readonly IOptions<PublishSettings> _publishSettings;
@@ -37,7 +37,7 @@ public class UploadPackagesToNugetModule : IModule<CommandResult[]>, ISkippable
         return Task.FromResult<SkipDecision>(!_publishSettings.Value.ShouldPublish);
     }
 
-    public async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(_nugetSettings.Value.ApiKey);
 

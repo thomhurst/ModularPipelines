@@ -15,12 +15,12 @@ public class DisposableModuleTests
         await Assert.That(pipelineSummary.Modules.OfType<DisposableModule>().Single().IsDisposed).IsTrue();
     }
 
-    public class DisposableModule : IModule<IDictionary<string, object>?>, IDisposable
+    public class DisposableModule : Module<IDictionary<string, object>?>, IDisposable
     {
         public bool IsDisposed { get; private set; }
 
         /// <inheritdoc/>
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // Reduced delay from 100ms to 1ms for faster test execution
             await Task.Delay(1, cancellationToken);

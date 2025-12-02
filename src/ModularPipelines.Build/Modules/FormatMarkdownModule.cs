@@ -19,7 +19,7 @@ namespace ModularPipelines.Build.Modules;
 [SkipIfNoStandardGitHubToken]
 [RunOnLinuxOnly]
 [DependsOn<GenerateReadMeModule>]
-public class FormatMarkdownModule : IModule<CommandResult>, ISkippable, IAlwaysRun
+public class FormatMarkdownModule : Module<CommandResult>, ISkippable, IAlwaysRun
 {
     private readonly IOptions<GitHubSettings> _gitHubSettings;
 
@@ -43,7 +43,7 @@ public class FormatMarkdownModule : IModule<CommandResult>, ISkippable, IAlwaysR
         return SkipDecision.DoNotSkip.AsTask();
     }
 
-    public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Node().Npm.Install(new NpmInstallOptions
         {

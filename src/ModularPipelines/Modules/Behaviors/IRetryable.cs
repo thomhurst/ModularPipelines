@@ -9,7 +9,7 @@ namespace ModularPipelines.Modules.Behaviors;
 /// <typeparam name="T">The result type of the module.</typeparam>
 /// <remarks>
 /// If not implemented, modules do not retry on failure.
-/// The retry policy is applied to the <see cref="IModule{T}.ExecuteAsync"/> call.
+/// The retry policy is applied to the <see cref="Module{T}.ExecuteAsync"/> call.
 /// </remarks>
 public interface IRetryable<T>
 {

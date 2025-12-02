@@ -12,7 +12,7 @@ namespace ModularPipelines.Build.Modules;
 [RunOnlyOnBranch("main")]
 [RunOnLinuxOnly]
 [DependsOn<NugetVersionGeneratorModule>]
-public class PushVersionTagModule : IModule<CommandResult>, IIgnoreFailures
+public class PushVersionTagModule : Module<CommandResult>, IIgnoreFailures
 {
     public Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
     {
@@ -21,7 +21,7 @@ public class PushVersionTagModule : IModule<CommandResult>, IIgnoreFailures
         return Task.FromResult(exception.Message.Contains($"tag 'v{versionInformation.Value!}' already exists"));
     }
 
-    public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var versionInformation = context.GetModule<NugetVersionGeneratorModule, string>();
 

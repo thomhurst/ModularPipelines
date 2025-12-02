@@ -8,9 +8,9 @@ namespace ModularPipelines.Build.Modules;
 
 [DependsOn<PackProjectsModule>]
 [RunOnLinuxOnly]
-public class PackagePathsParserModule : IModule<List<File>>
+public class PackagePathsParserModule : Module<List<File>>
 {
-    public Task<List<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override Task<List<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var packPackagesModuleResult = context.GetModule<PackProjectsModule, CommandResult[]>();
 

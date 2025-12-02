@@ -11,7 +11,7 @@ namespace ModularPipelines.Engine;
 /// </summary>
 /// <remarks>
 /// This class implements the separation of concerns between:
-/// - What a module IS (the <see cref="IModule{T}"/> implementation)
+/// - What a module IS (the <see cref="Module{T}"/> implementation)
 /// - How a module is EXECUTED (this context class)
 ///
 /// The module itself remains a clean, stateless definition of work to do.
@@ -155,7 +155,7 @@ internal class ModuleExecutionContext<T> : ModuleExecutionContext
 {
     private readonly TaskCompletionSource<ModuleResult<T>> _typedResultSource = new();
 
-    public ModuleExecutionContext(IModule<T> module, Type moduleType)
+    public ModuleExecutionContext(Module<T> module, Type moduleType)
         : base(module, moduleType)
     {
         TypedModule = module;
@@ -164,7 +164,7 @@ internal class ModuleExecutionContext<T> : ModuleExecutionContext
     /// <summary>
     /// Gets the strongly-typed module.
     /// </summary>
-    public IModule<T> TypedModule { get; }
+    public Module<T> TypedModule { get; }
 
     /// <summary>
     /// Gets the task that completes with the typed result.

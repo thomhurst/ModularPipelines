@@ -18,9 +18,9 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<ChangedFilesInPullRequestModule>]
 [DependsOn<RunUnitTestsModule>]
 [RunOnLinuxOnly]
-public class PackProjectsModule : IModule<CommandResult[]>
+public class PackProjectsModule : Module<CommandResult[]>
 {
-    public async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var packageVersion = context.GetModule<NugetVersionGeneratorModule, string>();
 

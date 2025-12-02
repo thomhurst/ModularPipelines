@@ -15,9 +15,9 @@ namespace ModularPipelines.UnitTests;
 public class ModuleLoggerTests
 {
     private static readonly string RandomString = Guid.NewGuid().ToString();
-    private class Module1 : IModule<IDictionary<string, object>?>
+    private class Module1 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ((IConsoleWriter)context.Logger).LogToConsole(RandomString);
 
@@ -28,9 +28,9 @@ public class ModuleLoggerTests
         }
     }
 
-    public class Module2 : IModule<IDictionary<string, object>?>
+    public class Module2 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.Logger.LogInformation(new MySecrets().Value1!);
 
@@ -39,9 +39,9 @@ public class ModuleLoggerTests
         }
     }
 
-    public class Module3 : IModule<IDictionary<string, object>?>
+    public class Module3 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.Logger.LogInformation("{Value}", new MySecrets().Value1!);
 

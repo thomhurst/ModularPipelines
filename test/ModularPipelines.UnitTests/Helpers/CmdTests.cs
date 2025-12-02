@@ -10,9 +10,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 [WindowsOnlyTest]
 public class CmdTests : TestBase
 {
-    private class CmdEchoModule : IModule<CommandResult>
+    private class CmdEchoModule : Module<CommandResult>
     {
-        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Cmd().Script(new("echo Foo bar!"), cancellationToken: cancellationToken);
         }

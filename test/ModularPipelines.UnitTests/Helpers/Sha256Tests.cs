@@ -7,9 +7,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class Sha256Tests : TestBase
 {
-    private class ToSha256Module : IModule<string>
+    private class ToSha256Module : Module<string>
     {
-        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Hasher.Sha256("Foo bar!");

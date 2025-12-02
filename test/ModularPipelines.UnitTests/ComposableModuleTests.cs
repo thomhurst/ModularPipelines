@@ -22,14 +22,14 @@ public class ComposableModuleTests
     /// Example module using composition for skip behavior - always skips.
     /// Inherits from Module&lt;T&gt; and implements ISkippable for skip behavior.
     /// </summary>
-    private class AlwaysSkippedModule : IModule<string>, ISkippable
+    private class AlwaysSkippedModule : Module<string>, ISkippable
     {
         Task<SkipDecision> ISkippable.ShouldSkip(IPipelineContext context)
         {
             return Task.FromResult(SkipDecision.Skip("Skipped via composition"));
         }
 
-        public Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Executed");
         }
@@ -39,14 +39,14 @@ public class ComposableModuleTests
     /// Example module using composition for skip behavior - never skips.
     /// Inherits from Module&lt;T&gt; and implements ISkippable for skip behavior.
     /// </summary>
-    private class NeverSkippedModule : IModule<string>, ISkippable
+    private class NeverSkippedModule : Module<string>, ISkippable
     {
         Task<SkipDecision> ISkippable.ShouldSkip(IPipelineContext context)
         {
             return Task.FromResult(SkipDecision.DoNotSkip);
         }
 
-        public Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Executed");
         }
@@ -56,11 +56,11 @@ public class ComposableModuleTests
     /// Example module using composition for timeout behavior.
     /// Inherits from Module&lt;T&gt; and implements ITimeoutable for timeout behavior.
     /// </summary>
-    private class TimeoutableModule : IModule<string>, ITimeoutable
+    private class TimeoutableModule : Module<string>, ITimeoutable
     {
         TimeSpan ITimeoutable.Timeout => TimeSpan.FromSeconds(5);
 
-        public Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Executed with timeout");
         }
@@ -70,7 +70,7 @@ public class ComposableModuleTests
     /// Example module using composition for multiple behaviors.
     /// Demonstrates combining multiple behavior interfaces on a single module.
     /// </summary>
-    private class MultiBehaviorModule : IModule<int>, ISkippable, ITimeoutable, IHookable
+    private class MultiBehaviorModule : Module<int>, ISkippable, ITimeoutable, IHookable
     {
         public static bool BeforeHookCalled { get; private set; }
         public static bool AfterHookCalled { get; private set; }
@@ -94,7 +94,7 @@ public class ComposableModuleTests
             return Task.CompletedTask;
         }
 
-        public Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult(42);
         }
@@ -110,9 +110,9 @@ public class ComposableModuleTests
     /// Example module that always runs using composition.
     /// Inherits from Module&lt;T&gt; and implements IAlwaysRun marker interface.
     /// </summary>
-    private class AlwaysRunModule : IModule<string>, IAlwaysRun
+    private class AlwaysRunModule : Module<string>, IAlwaysRun
     {
-        public Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Always ran");
         }

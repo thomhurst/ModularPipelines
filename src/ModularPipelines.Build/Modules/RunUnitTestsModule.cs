@@ -13,14 +13,14 @@ using Polly.Retry;
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<CodeFormattedNicelyModule>(IgnoreIfNotRegistered = true)]
-public class RunUnitTestsModule : IModule<CommandResult[]>, IRetryable<CommandResult[]>
+public class RunUnitTestsModule : Module<CommandResult[]>, IRetryable<CommandResult[]>
 {
     public AsyncRetryPolicy<CommandResult[]?> GetRetryPolicy(IPipelineContext context)
     {
         return Policy<CommandResult[]?>.Handle<Exception>().RetryAsync(0);
     }
 
-    public async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         return await context.Git().RootDirectory
             .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)

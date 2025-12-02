@@ -12,9 +12,9 @@ namespace ModularPipelines.UnitTests;
 public class RunnableCategoryTests : TestBase
 {
     [ModuleCategory("Run1")]
-    private class RunnableModule1 : IModule<IDictionary<string, object>?>
+    private class RunnableModule1 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;
@@ -22,9 +22,9 @@ public class RunnableCategoryTests : TestBase
     }
 
     [ModuleCategory("Run2")]
-    private class RunnableModule2 : IModule<IDictionary<string, object>?>
+    private class RunnableModule2 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;
@@ -32,9 +32,9 @@ public class RunnableCategoryTests : TestBase
     }
 
     [ModuleCategory("Run1")]
-    private class RunnableModule3 : IModule<IDictionary<string, object>?>
+    private class RunnableModule3 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;
@@ -42,9 +42,9 @@ public class RunnableCategoryTests : TestBase
     }
 
     [ModuleCategory("NoRun1")]
-    private class NonRunnableModule1 : IModule<IDictionary<string, object>?>
+    private class NonRunnableModule1 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;
@@ -52,18 +52,18 @@ public class RunnableCategoryTests : TestBase
     }
 
     [ModuleCategory("NoRun2")]
-    private class NonRunnableModule2 : IModule<IDictionary<string, object>?>
+    private class NonRunnableModule2 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;
         }
     }
 
-    private class OtherModule3 : IModule<IDictionary<string, object>?>
+    private class OtherModule3 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;

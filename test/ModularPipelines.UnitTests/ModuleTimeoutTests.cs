@@ -8,26 +8,26 @@ namespace ModularPipelines.UnitTests;
 
 public class ModuleTimeoutTests : TestBase
 {
-    private class Module_UsingCancellationToken : IModule<string>, ITimeoutable
+    private class Module_UsingCancellationToken : Module<string>, ITimeoutable
     {
         private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
         public TimeSpan Timeout => TimeSpan.FromSeconds(1);
 
-        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await _taskCompletionSource.Task.WaitAsync(cancellationToken);
             return "Foo bar!";
         }
     }
 
-    private class Module_NotUsingCancellationToken : IModule<string>, ITimeoutable
+    private class Module_NotUsingCancellationToken : Module<string>, ITimeoutable
     {
         private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
         public TimeSpan Timeout => TimeSpan.FromSeconds(1);
 
-        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             try
             {
@@ -40,9 +40,9 @@ public class ModuleTimeoutTests : TestBase
         }
     }
 
-    private class NoTimeoutModule : IModule<string>
+    private class NoTimeoutModule : Module<string>
     {
-        public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(TimeSpan.FromMilliseconds(10), cancellationToken);
             return "Foo bar!";

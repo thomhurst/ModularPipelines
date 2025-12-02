@@ -18,14 +18,14 @@ public class ResultsRepositoryTests : TestBase
 
     private class JsonResultRepository : IModuleResultRepository
     {
-        public async Task SaveResultAsync<T>(IModule<T> module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
+        public async Task SaveResultAsync<T>(Module<T> module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
         {
             var file = Folder.CreateFile(module.GetType().FullName!);
             await using var fileStream = file.GetStream();
             await JsonSerializer.SerializeAsync(fileStream, moduleResult);
         }
 
-        public async Task<ModuleResult<T>?> GetResultAsync<T>(IModule<T> module, IPipelineHookContext pipelineContext)
+        public async Task<ModuleResult<T>?> GetResultAsync<T>(Module<T> module, IPipelineHookContext pipelineContext)
         {
             var file = Folder.GetFile(module.GetType().FullName!);
             await using var fileStream = file.GetStream();
@@ -33,9 +33,9 @@ public class ResultsRepositoryTests : TestBase
         }
     }
 
-    private class Module1 : IModule<IDictionary<string, object>?>
+    private class Module1 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;
@@ -43,9 +43,9 @@ public class ResultsRepositoryTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class Module2 : IModule<IDictionary<string, object>?>
+    private class Module2 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return null;

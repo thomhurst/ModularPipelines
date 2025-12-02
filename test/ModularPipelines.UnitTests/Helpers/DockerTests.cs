@@ -11,9 +11,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class DockerTests : TestBase
 {
-    private class DockerBuildModule : IModule<CommandResult>
+    private class DockerBuildModule : Module<CommandResult>
     {
-        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var pretendPath = context.Git()
                 .RootDirectory

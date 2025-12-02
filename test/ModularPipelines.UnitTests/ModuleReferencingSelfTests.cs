@@ -8,9 +8,9 @@ namespace ModularPipelines.UnitTests;
 
 public class ModuleReferencingSelfTests : TestBase
 {
-    private class ModuleReferencingSelf : IModule<CommandResult>
+    private class ModuleReferencingSelf : Module<CommandResult>
     {
-        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             _ = context.GetModule<ModuleReferencingSelf, CommandResult>();
             await Task.Yield();

@@ -17,11 +17,11 @@ namespace ModularPipelines.UnitTests;
 
 public class TrxParsingTests : TestBase
 {
-    public class NUnitModule : IModule<DotNetTestResult>
+    public class NUnitModule : Module<DotNetTestResult>
     {
         public DotNetTestResult? LastResult { get; private set; }
 
-        public async Task<DotNetTestResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<DotNetTestResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var testProject = context.Git().RootDirectory
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;

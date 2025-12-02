@@ -15,12 +15,12 @@ namespace ModularPipelines.UnitTests;
 
 public class SubModuleTests : TestBase
 {
-    private class SubModulesWithReturnTypeModule : IModule<string[]>
+    private class SubModulesWithReturnTypeModule : Module<string[]>
     {
         private int _subModuleRunCount;
         public int SubModuleRunCount => _subModuleRunCount;
 
-        public async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .SelectAsync(async name =>
@@ -34,12 +34,12 @@ public class SubModuleTests : TestBase
         }
     }
 
-    private class SubModulesWithoutReturnTypeModule : IModule<string[]>
+    private class SubModulesWithoutReturnTypeModule : Module<string[]>
     {
         private int _subModuleRunCount;
         public int SubModuleRunCount => _subModuleRunCount;
 
-        public async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .ForEachAsync(async name =>
@@ -54,12 +54,12 @@ public class SubModuleTests : TestBase
         }
     }
 
-    private class SubModulesWithReturnTypeModuleSynchronous : IModule<string[]>
+    private class SubModulesWithReturnTypeModuleSynchronous : Module<string[]>
     {
         private int _subModuleRunCount;
         public int SubModuleRunCount => _subModuleRunCount;
 
-        public async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .SelectAsync(name =>
@@ -72,12 +72,12 @@ public class SubModuleTests : TestBase
         }
     }
 
-    private class SubModulesWithoutReturnTypeModuleSynchronous : IModule<string[]>
+    private class SubModulesWithoutReturnTypeModuleSynchronous : Module<string[]>
     {
         private int _subModuleRunCount;
         public int SubModuleRunCount => _subModuleRunCount;
 
-        public async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .ForEachAsync(name =>
@@ -92,9 +92,9 @@ public class SubModuleTests : TestBase
         }
     }
 
-    private class FailingSubModulesWithReturnTypeModule : IModule<string[]>
+    private class FailingSubModulesWithReturnTypeModule : Module<string[]>
     {
-        public async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .SelectAsync(async (string name) =>
@@ -109,9 +109,9 @@ public class SubModuleTests : TestBase
         }
     }
 
-    private class FailingSubModulesWithoutReturnTypeModule : IModule<string[]>
+    private class FailingSubModulesWithoutReturnTypeModule : Module<string[]>
     {
-        public async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .ForEachAsync(async name =>
@@ -125,9 +125,9 @@ public class SubModuleTests : TestBase
         }
     }
 
-    private class FailingSubModulesWithReturnTypeModuleSynchronous : IModule<string[]>
+    private class FailingSubModulesWithReturnTypeModuleSynchronous : Module<string[]>
     {
-        public async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await new[] { "1", "2", "3" }
                 .ToAsyncProcessorBuilder()
@@ -144,9 +144,9 @@ public class SubModuleTests : TestBase
         }
     }
 
-    private class FailingSubModulesWithoutReturnTypeModuleSynchronous : IModule<string[]>
+    private class FailingSubModulesWithoutReturnTypeModuleSynchronous : Module<string[]>
     {
-        public async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .ForEachAsync(name =>
@@ -163,7 +163,7 @@ public class SubModuleTests : TestBase
         }
     }
 
-    private class SucceedingSubModulesDoNotRetryModule : IModule<string[]>, IRetryable<string[]>
+    private class SucceedingSubModulesDoNotRetryModule : Module<string[]>, IRetryable<string[]>
     {
         public int _oneCount;
         public int _twoCount;
@@ -174,7 +174,7 @@ public class SubModuleTests : TestBase
             return Policy<string[]?>.Handle<Exception>().RetryAsync(3);
         }
 
-        public async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             foreach (var name in new[] { "1", "2", "3" })
             {
@@ -201,7 +201,7 @@ public class SubModuleTests : TestBase
         }
     }
 
-    private class SucceedingSubModulesDoNotRetryModule_WithReturnType : IModule<string[]>, IRetryable<string[]>
+    private class SucceedingSubModulesDoNotRetryModule_WithReturnType : Module<string[]>, IRetryable<string[]>
     {
         public int _oneCount;
         public int _twoCount;
@@ -212,7 +212,7 @@ public class SubModuleTests : TestBase
             return Policy<string[]?>.Handle<Exception>().RetryAsync(3);
         }
 
-        public async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             foreach (var name in new[] { "1", "2", "3" })
             {

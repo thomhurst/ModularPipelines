@@ -11,9 +11,9 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class DotNetTests : TestBase
 {
-    private class DotNetVersionModule : IModule<CommandResult>
+    private class DotNetVersionModule : Module<CommandResult>
     {
-        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.DotNet().List.Package(new DotNetListPackageOptions
             {
@@ -22,9 +22,9 @@ public class DotNetTests : TestBase
         }
     }
 
-    private class DotNetFormatModule : IModule<CommandResult>
+    private class DotNetFormatModule : Module<CommandResult>
     {
-        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.DotNet().Format(new DotNetFormatOptions
             {

@@ -16,7 +16,7 @@ public interface IModuleContext : IPipelineContext
     /// <exception cref="Exceptions.ModuleNotRegisteredException">Thrown if the module is not registered.</exception>
     /// <exception cref="Exceptions.ModuleReferencingSelfException">Thrown if a module tries to get itself.</exception>
     ModuleResult<TResult> GetModule<TModule, TResult>()
-        where TModule : IModule<TResult>;
+        where TModule : Module<TResult>;
 
     /// <summary>
     /// Gets a module by type if it is registered, or null otherwise.
@@ -24,7 +24,7 @@ public interface IModuleContext : IPipelineContext
     /// <typeparam name="TModule">The type of module to retrieve.</typeparam>
     /// <returns>The module result when awaited, or null if not registered.</returns>
     ModuleResult<TResult>? GetModuleIfRegistered<TModule, TResult>()
-        where TModule : IModule<TResult>;
+        where TModule : Module<TResult>;
 
     /// <summary>
     /// Tracks a sub-operation within the current module for progress display.

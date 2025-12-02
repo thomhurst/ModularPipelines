@@ -23,9 +23,9 @@ public class NestedCollisionTests
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]
-    private class DependencyConflictModule1 : IModule<IDictionary<string, object>?>
+    private class DependencyConflictModule1 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;
@@ -33,9 +33,9 @@ public class NestedCollisionTests
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule3>]
-    private class DependencyConflictModule2 : IModule<IDictionary<string, object>?>
+    private class DependencyConflictModule2 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;
@@ -43,9 +43,9 @@ public class NestedCollisionTests
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule4>]
-    private class DependencyConflictModule3 : IModule<IDictionary<string, object>?>
+    private class DependencyConflictModule3 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;
@@ -53,9 +53,9 @@ public class NestedCollisionTests
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule5>]
-    private class DependencyConflictModule4 : IModule<IDictionary<string, object>?>
+    private class DependencyConflictModule4 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;
@@ -63,9 +63,9 @@ public class NestedCollisionTests
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]
-    private class DependencyConflictModule5 : IModule<IDictionary<string, object>?>
+    private class DependencyConflictModule5 : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return null;

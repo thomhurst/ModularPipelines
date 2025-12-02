@@ -14,9 +14,9 @@ namespace ModularPipelines.UnitTests;
 public class ModuleHistoryTests
 {
     [ModuleCategory("1")]
-    private class SkipFromCategory : IModule<IDictionary<string, object>?>
+    private class SkipFromCategory : Module<IDictionary<string, object>?>
     {
-        public Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<IDictionary<string, object>?>(null);
         }
@@ -31,36 +31,36 @@ public class ModuleHistoryTests
     }
 
     [SkipRunCondition]
-    private class SkipFromRunCondition : IModule<IDictionary<string, object>?>
+    private class SkipFromRunCondition : Module<IDictionary<string, object>?>
     {
-        public Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<IDictionary<string, object>?>(null);
         }
     }
 
     [SkipRunCondition]
-    private class UseHistoryTrueModule : IModule<IDictionary<string, object>?>, IHistoryAware
+    private class UseHistoryTrueModule : Module<IDictionary<string, object>?>, IHistoryAware
     {
         public Task<bool> UseResultFromHistoryIfSkipped(IPipelineContext context)
         {
             return true.AsTask();
         }
 
-        public Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<IDictionary<string, object>?>(null);
         }
     }
 
-    private class SkipFromMethod : IModule<IDictionary<string, object>?>, ISkippable
+    private class SkipFromMethod : Module<IDictionary<string, object>?>, ISkippable
     {
         public Task<SkipDecision> ShouldSkip(IPipelineContext context)
         {
             return SkipDecision.Skip("Testing").AsTask();
         }
 
-        public Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<IDictionary<string, object>?>(null);
         }
@@ -68,12 +68,12 @@ public class ModuleHistoryTests
 
     private class NotFoundModuleRepository : IModuleResultRepository
     {
-        public Task SaveResultAsync<T>(IModule<T> module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
+        public Task SaveResultAsync<T>(Module<T> module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
         {
             return Task.CompletedTask;
         }
 
-        public Task<ModuleResult<T>?> GetResultAsync<T>(IModule<T> module, IPipelineHookContext pipelineContext)
+        public Task<ModuleResult<T>?> GetResultAsync<T>(Module<T> module, IPipelineHookContext pipelineContext)
         {
             return Task.FromResult<ModuleResult<T>?>(null);
         }
@@ -81,12 +81,12 @@ public class ModuleHistoryTests
 
     private class GoodModuleRepository : IModuleResultRepository
     {
-        public Task SaveResultAsync<T>(IModule<T> module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
+        public Task SaveResultAsync<T>(Module<T> module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
         {
             return Task.CompletedTask;
         }
 
-        public Task<ModuleResult<T>?> GetResultAsync<T>(IModule<T> module, IPipelineHookContext pipelineContext)
+        public Task<ModuleResult<T>?> GetResultAsync<T>(Module<T> module, IPipelineHookContext pipelineContext)
         {
             // Create a result using the module execution context
             var executionContext = new ModuleExecutionContext(module, module.GetType());

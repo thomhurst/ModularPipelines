@@ -8,7 +8,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
-public class NugetVersionGeneratorModule : IModule<string>
+public class NugetVersionGeneratorModule : Module<string>
 {
     private readonly IOptions<PublishSettings> _publishSettings;
 
@@ -17,7 +17,7 @@ public class NugetVersionGeneratorModule : IModule<string>
         _publishSettings = publishSettings;
     }
 
-    public async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var gitVersionInformation = await context.Git().Versioning.GetGitVersioningInformation();
 

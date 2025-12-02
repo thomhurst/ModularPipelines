@@ -10,9 +10,9 @@ namespace ModularPipelines.UnitTests;
 
 public class AfterPipelineLoggerTests
 {
-    private class AfterPipelineLoggingModule : IModule<IDictionary<string, object>?>
+    private class AfterPipelineLoggingModule : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.LogOnPipelineEnd("Blah!");
             await Task.CompletedTask;
@@ -20,9 +20,9 @@ public class AfterPipelineLoggerTests
         }
     }
 
-    private class AfterPipelineLoggingWithExceptionModule : IModule<IDictionary<string, object>?>
+    private class AfterPipelineLoggingWithExceptionModule : Module<IDictionary<string, object>?>
     {
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.LogOnPipelineEnd("Blah!");
             await Task.CompletedTask;

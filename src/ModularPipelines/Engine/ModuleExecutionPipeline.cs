@@ -22,7 +22,7 @@ internal interface IModuleExecutionPipeline
     /// Executes a module with all applicable behaviors.
     /// </summary>
     Task<ModuleResult<T>> ExecuteAsync<T>(
-        IModule<T> module,
+        Module<T> module,
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
         CancellationToken engineCancellationToken);
@@ -59,7 +59,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     }
 
     public async Task<ModuleResult<T>> ExecuteAsync<T>(
-        IModule<T> module,
+        Module<T> module,
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
         CancellationToken engineCancellationToken)
@@ -157,7 +157,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     }
 
     private async Task<ModuleResult<T>> HandleSkipped<T>(
-        IModule<T> module,
+        Module<T> module,
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
         SkipDecision skipDecision,
@@ -212,7 +212,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     }
 
     private async Task<T?> ExecuteWithPolicies<T>(
-        IModule<T> module,
+        Module<T> module,
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext)
     {
@@ -260,7 +260,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     }
 
     private static Polly.Retry.AsyncRetryPolicy<T?>? GetRetryPolicy<T>(
-        IModule<T> module,
+        Module<T> module,
         IModuleContext moduleContext)
     {
         if (module is IRetryable<T> retryable)
@@ -279,7 +279,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     }
 
     private async Task SaveToHistory<T>(
-        IModule<T> module,
+        Module<T> module,
         ModuleResult<T> result,
         IModuleContext moduleContext)
     {
@@ -299,7 +299,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     }
 
     private async Task<ModuleResult<T>> HandleException<T>(
-        IModule<T> module,
+        Module<T> module,
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
         Exception exception,

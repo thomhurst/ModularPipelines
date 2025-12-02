@@ -37,7 +37,7 @@ internal class ModuleContext : IModuleContext
     #region IModuleContext specific methods
 
     public ModuleResult<TResult> GetModule<TModule, TResult>()
-        where TModule : IModule<TResult>
+        where TModule : Module<TResult>
     {
         var moduleType = typeof(TModule);
 
@@ -63,7 +63,7 @@ internal class ModuleContext : IModuleContext
     }
 
     public ModuleResult<TResult>? GetModuleIfRegistered<TModule, TResult>()
-        where TModule : IModule<TResult>
+        where TModule : Module<TResult>
     {
         var moduleType = typeof(TModule);
 

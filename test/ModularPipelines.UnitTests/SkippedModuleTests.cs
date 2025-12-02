@@ -11,14 +11,14 @@ namespace ModularPipelines.UnitTests;
 
 public class SkippedModuleTests : TestBase
 {
-    private class SkippedModule : IModule<CommandResult>, ISkippable
+    private class SkippedModule : Module<CommandResult>, ISkippable
     {
         public Task<SkipDecision> ShouldSkip(IPipelineContext context)
         {
             return Task.FromResult(SkipDecision.Skip("Testing purposes"));
         }
 
-        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();

@@ -12,7 +12,7 @@ using ModularPipelines.Modules.Behaviors;
 namespace ModularPipelines.Build.Modules.LocalMachine;
 
 [DependsOn<CreateLocalNugetFolderModule>]
-public class AddLocalNugetSourceModule : IModule<CommandResult>, IIgnoreFailures
+public class AddLocalNugetSourceModule : Module<CommandResult>, IIgnoreFailures
 {
     public Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
     {
@@ -20,7 +20,7 @@ public class AddLocalNugetSourceModule : IModule<CommandResult>, IIgnoreFailures
                                commandException.StandardOutput.Contains("The name specified has already been added to the list of available package sources"));
     }
 
-    public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var localNugetPathResult = context.GetModule<CreateLocalNugetFolderModule, Folder>();
 

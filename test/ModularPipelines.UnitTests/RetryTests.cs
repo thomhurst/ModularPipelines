@@ -14,11 +14,11 @@ namespace ModularPipelines.UnitTests;
 
 public class RetryTests : TestBase
 {
-    private class SuccessModule : IModule<IDictionary<string, object>?>
+    private class SuccessModule : Module<IDictionary<string, object>?>
     {
         internal int ExecutionCount;
 
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionCount++;
             await Task.Yield();
@@ -26,11 +26,11 @@ public class RetryTests : TestBase
         }
     }
 
-    private class FailedModule : IModule<IDictionary<string, object>?>
+    private class FailedModule : Module<IDictionary<string, object>?>
     {
         internal int ExecutionCount;
 
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionCount++;
 
@@ -44,7 +44,7 @@ public class RetryTests : TestBase
         }
     }
 
-    private class FailedModuleWithCustomRetryPolicy : IModule<IDictionary<string, object>?>, IRetryable<IDictionary<string, object>?>
+    private class FailedModuleWithCustomRetryPolicy : Module<IDictionary<string, object>?>, IRetryable<IDictionary<string, object>?>
     {
         internal int ExecutionCount;
 
@@ -55,7 +55,7 @@ public class RetryTests : TestBase
                 .WaitAndRetryAsync(3, _ => TimeSpan.Zero);
         }
 
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionCount++;
 
@@ -69,12 +69,12 @@ public class RetryTests : TestBase
         }
     }
 
-    private class FailedModuleWithTimeout : IModule<IDictionary<string, object>?>, ITimeoutable
+    private class FailedModuleWithTimeout : Module<IDictionary<string, object>?>, ITimeoutable
     {
         // Reduced timeout from 300ms to 50ms for faster test execution
         public TimeSpan Timeout => TimeSpan.FromMilliseconds(50);
 
-        public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // Reduced delay from 200ms to 30ms for faster test execution
             await Task.Delay(TimeSpan.FromMilliseconds(30), cancellationToken);
