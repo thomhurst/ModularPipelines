@@ -271,7 +271,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
                 .GetMethod(nameof(IModuleResultRepository.GetResultAsync))!
                 .MakeGenericMethod(resultType);
 
-            // Invoke the method: Task<ModuleResult<T>?> GetResultAsync<T>(IModule<T> module, IPipelineHookContext pipelineContext)
+            // Invoke the method: Task<ModuleResult<T>?> GetResultAsync<T>(Module<T> module, IPipelineHookContext pipelineContext)
             var task = (Task?)getResultAsyncMethod.Invoke(_resultRepository, new object[] { module, pipelineContext });
 
             if (task == null)

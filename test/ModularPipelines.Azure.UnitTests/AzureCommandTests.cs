@@ -9,9 +9,9 @@ namespace ModularPipelines.UnitTests;
 
 public class AzureCommandTests : TestBase
 {
-    public class AzureCommandModule : IModule<CommandResult>
+    public class AzureCommandModule : Module<CommandResult>
     {
-        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Azure().Az.Account.Alias.Create(new AzAccountAliasCreateOptions("MyName")
             {
@@ -20,9 +20,9 @@ public class AzureCommandTests : TestBase
         }
     }
 
-    public class AzureCommandModule2 : IModule<CommandResult>
+    public class AzureCommandModule2 : Module<CommandResult>
     {
-        public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Azure().Az.Account.ManagementGroup.Subscription.Add(new AzAccountManagementGroupSubscriptionAddOptions("MyName", "MySub")
             {
@@ -34,7 +34,7 @@ public class AzureCommandTests : TestBase
     [Test]
     public async Task Azure_Command_Is_Expected_Command()
     {
-        var result = await RunModuleWithResult<AzureCommandModule, CommandResult>();
+        var result = await await RunModule<AzureCommandModule>();
         
         await Assert.That(result.Value!.CommandInput)
             .IsEqualTo("az account alias create --name MyName");
@@ -43,7 +43,7 @@ public class AzureCommandTests : TestBase
     [Test]
     public async Task Azure_Command_With_Mandatory_Switch_Conflicting_With_Base_Default_Optional_Switch_Is_Expected_Command()
     {
-        var result = await RunModuleWithResult<AzureCommandModule2, CommandResult>();
+        var result = await await RunModule<AzureCommandModule2>();
         await Assert.That(result.Value!.CommandInput)
             .IsEqualTo("az account management-group subscription add --name MyName --subscription MySub");
     }
