@@ -171,6 +171,8 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     {
         executionContext.Status = Status.Skipped;
         executionContext.SkipResult = skipDecision;
+        
+        module.CompletionSource.TrySetResult(new ModuleResult<T>(new ModuleSkippedException(module.GetType().Name), executionContext)!);
 
         // Check if we should use historical data
         // For skipped modules with a history repository configured, check for cached results
