@@ -20,7 +20,7 @@ public class GitHubRepositoryInfoTests : TestBase
     [Test]
     public async Task GitHub_Repository_Information_Is_Populated()
     {
-        var moduleResult = await RunModuleWithResult<GitRepoModule, IGitHubRepositoryInfo>();
+        var moduleResult = await await RunModule<GitRepoModule>();
 
         var gitHubRepositoryInfo = moduleResult.Value!;
 

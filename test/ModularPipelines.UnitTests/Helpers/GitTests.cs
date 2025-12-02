@@ -24,7 +24,7 @@ public class GitTests : TestBase
     [Test]
     public async Task Has_Not_Errored()
     {
-        var moduleResult = await RunModuleWithResult<GitVersionModule, CommandResult>();
+        var moduleResult = await await RunModule<GitVersionModule>();
 
         using (Assert.Multiple())
         {
@@ -37,7 +37,7 @@ public class GitTests : TestBase
     [Test]
     public async Task Standard_Output_Starts_With_Git_Version()
     {
-        var moduleResult = await RunModuleWithResult<GitVersionModule, CommandResult>();
+        var moduleResult = await await RunModule<GitVersionModule>();
 
         using (Assert.Multiple())
         {

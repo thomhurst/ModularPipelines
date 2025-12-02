@@ -19,7 +19,7 @@ public class Md5Tests : TestBase
     [Test]
     public async Task To_Md5_Has_Not_Errored()
     {
-        var moduleResult = await RunModuleWithResult<ToMd5Module, string>();
+        var moduleResult = await await RunModule<ToMd5Module>();
 
         using (Assert.Multiple())
         {
@@ -32,7 +32,7 @@ public class Md5Tests : TestBase
     [Test]
     public async Task To_Md5_Output_Equals_Foo_Bar()
     {
-        var moduleResult = await RunModuleWithResult<ToMd5Module, string>();
+        var moduleResult = await await RunModule<ToMd5Module>();
         await Assert.That(moduleResult.Value).IsEqualTo("b9c291e3274aa5c8010a7c5c22a4e6dd");
     }
 }

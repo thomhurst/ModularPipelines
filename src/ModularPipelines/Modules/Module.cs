@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using ModularPipelines.Context;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Modules;
 
@@ -21,7 +22,7 @@ namespace ModularPipelines.Modules;
 /// </remarks>
 public abstract class Module<T> : IModule
 {
-    internal TaskCompletionSource<T?> CompletionSource { get; } = new();
+    internal TaskCompletionSource<ModuleResult<T?>> CompletionSource { get; } = new();
     
     /// <inheritdoc />
     Type IModule.ResultType => typeof(T);
@@ -34,5 +35,5 @@ public abstract class Module<T> : IModule
     /// <returns>The result of the module execution, or null.</returns>
     public abstract Task<T?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken);
     
-    public TaskAwaiter<T?> GetAwaiter() => CompletionSource.Task.GetAwaiter();
+    public TaskAwaiter<ModuleResult<T?>> GetAwaiter() => CompletionSource.Task.GetAwaiter();
 }

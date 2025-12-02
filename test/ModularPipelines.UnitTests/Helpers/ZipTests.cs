@@ -33,7 +33,7 @@ public class ZipTests : TestBase
     [NotInParallel(nameof(ZipTests), Order = 1)]
     public async Task Has_Not_Errored()
     {
-        var moduleResult = await RunModuleWithResult<ZipModule, string>();
+        var moduleResult = await await RunModule<ZipModule>();
 
         using (Assert.Multiple())
         {
@@ -46,7 +46,7 @@ public class ZipTests : TestBase
     [NotInParallel(nameof(ZipTests), Order = 2)]
     public async Task Zip_File_Exists()
     {
-        await RunModuleWithResult<ZipModule, string>();
+        await RunModule<ZipModule>();
 
         var expectedFile = new FileInfo(Path.Combine(TestContext.WorkingDirectory, "LoremData.zip"));
 
@@ -77,7 +77,7 @@ public class ZipTests : TestBase
     [NotInParallel(nameof(ZipTests), Order = 3)]
     public async Task UnZip_Has_Not_Errored()
     {
-        var moduleResult = await RunModuleWithResult<UnZipModule, string>();
+        var moduleResult = await await RunModule<UnZipModule>();
 
         using (Assert.Multiple())
         {
@@ -90,7 +90,7 @@ public class ZipTests : TestBase
     [NotInParallel(nameof(ZipTests), Order = 4)]
     public async Task UnZipped_Folder_Exists()
     {
-        await RunModuleWithResult<UnZipModule, string>();
+        await RunModule<UnZipModule>();
 
         var expectedFolder = new DirectoryInfo(Path.Combine(TestContext.WorkingDirectory, "LoremDataUnzipped"));
 

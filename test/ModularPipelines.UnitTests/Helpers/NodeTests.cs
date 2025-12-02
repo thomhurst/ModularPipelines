@@ -19,7 +19,7 @@ public class NodeTests : TestBase
     [Test]
     public async Task Has_Not_Errored()
     {
-        var moduleResult = await RunModuleWithResult<NodeVersionModule, CommandResult>();
+        var moduleResult = await await RunModule<NodeVersionModule>();
 
         using (Assert.Multiple())
         {
@@ -32,7 +32,7 @@ public class NodeTests : TestBase
     [Test]
     public async Task Standard_Output_Is_Version_Number()
     {
-        var moduleResult = await RunModuleWithResult<NodeVersionModule, CommandResult>();
+        var moduleResult = await await RunModule<NodeVersionModule>();
 
         using (Assert.Multiple())
         {

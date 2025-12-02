@@ -107,17 +107,23 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
             var moduleResult = new ModuleResult<T>(result, executionContext);
 
+            module.CompletionSource.TrySetResult(moduleResult!);
+
             // Save to history if applicable
             await SaveToHistory(module, moduleResult, moduleContext);
 
             logger.LogDebug("Module succeeded after {Duration}", executionContext.Duration);
 
             executionContext.SetTypedResult(moduleResult);
+            
             return moduleResult;
         }
         catch (Exception exception)
         {
             executionContext.RecordEndTime();
+            
+            module.CompletionSource.TrySetResult(new ModuleResult<T>(exception, executionContext)!);
+            
             return await HandleException(module, executionContext, moduleContext, exception, logger);
         }
         finally

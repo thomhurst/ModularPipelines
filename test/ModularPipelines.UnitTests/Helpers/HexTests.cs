@@ -19,7 +19,7 @@ public class HexTests : TestBase
     [Test]
     public async Task To_Hex_Has_Not_Errored()
     {
-        var moduleResult = await RunModuleWithResult<ToHexModule, string>();
+        var moduleResult = await await RunModule<ToHexModule>();
 
         using (Assert.Multiple())
         {
@@ -32,7 +32,7 @@ public class HexTests : TestBase
     [Test]
     public async Task To_Hex_Output_Equals_Foo_Bar()
     {
-        var moduleResult = await RunModuleWithResult<ToHexModule, string>();
+        var moduleResult = await await RunModule<ToHexModule>();
         await Assert.That(moduleResult.Value).IsEqualTo("466f6f2062617221");
     }
 
@@ -48,7 +48,7 @@ public class HexTests : TestBase
     [Test]
     public async Task From_Hex_Has_Not_Errored()
     {
-        var moduleResult = await RunModuleWithResult<FromHexModule, string>();
+        var moduleResult = await await RunModule<FromHexModule>();
 
         using (Assert.Multiple())
         {
@@ -61,7 +61,7 @@ public class HexTests : TestBase
     [Test]
     public async Task From_Hex_Output_Equals_Foo_Bar()
     {
-        var moduleResult = await RunModuleWithResult<FromHexModule, string>();
+        var moduleResult = await await RunModule<FromHexModule>();
         await Assert.That(moduleResult.Value).IsEqualTo("Foo bar!");
     }
 }

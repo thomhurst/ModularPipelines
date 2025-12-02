@@ -19,7 +19,7 @@ public class Base64Tests : TestBase
     [Test]
     public async Task To_Base64_Has_Not_Errored()
     {
-        var moduleResult = await RunModuleWithResult<ToBase64Module, string>();
+        var moduleResult = await await RunModule<ToBase64Module>();
 
         using (Assert.Multiple())
         {
@@ -32,7 +32,7 @@ public class Base64Tests : TestBase
     [Test]
     public async Task To_Base64_Output_Equals_Foo_Bar()
     {
-        var moduleResult = await RunModuleWithResult<ToBase64Module, string>();
+        var moduleResult = await await RunModule<ToBase64Module>();
         await Assert.That(moduleResult.Value).IsEqualTo("Rm9vIGJhciE=");
     }
 
@@ -48,7 +48,7 @@ public class Base64Tests : TestBase
     [Test]
     public async Task From_Base64_Has_Not_Errored()
     {
-        var moduleResult = await RunModuleWithResult<FromBase64Module, string>();
+        var moduleResult = await await RunModule<FromBase64Module>();
 
         using (Assert.Multiple())
         {
@@ -61,7 +61,7 @@ public class Base64Tests : TestBase
     [Test]
     public async Task From_Base64_Output_Equals_Foo_Bar()
     {
-        var moduleResult = await RunModuleWithResult<FromBase64Module, string>();
+        var moduleResult = await await RunModule<FromBase64Module>();
         await Assert.That(moduleResult.Value).IsEqualTo("Foo bar!");
     }
 }

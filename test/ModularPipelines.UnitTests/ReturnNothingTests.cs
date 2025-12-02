@@ -37,7 +37,7 @@ public class ReturnNothingTests : TestBase
     [Test]
     public async Task Module1_HasValue_False()
     {
-        var result = await RunModuleWithResult<ReturnNothingModule1, CommandResult>();
+        var result = await await RunModule<ReturnNothingModule1>();
 
         await Assert(result);
     }
@@ -45,7 +45,7 @@ public class ReturnNothingTests : TestBase
     [Test]
     public async Task Module2_HasValue_False()
     {
-        var result = await RunModuleWithResult<ReturnNothingModule2, CommandResult>();
+        var result = await await RunModule<ReturnNothingModule2>();
 
         await Assert(result);
     }
@@ -53,7 +53,7 @@ public class ReturnNothingTests : TestBase
     [Test]
     public async Task Module3_HasValue_False()
     {
-        var result = await RunModuleWithResult<ReturnNothingModule3, CommandResult>();
+        var result = await await RunModule<ReturnNothingModule3>();
 
         await Assert(result);
     }

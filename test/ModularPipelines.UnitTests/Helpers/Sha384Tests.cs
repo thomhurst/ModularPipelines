@@ -19,7 +19,7 @@ public class Sha384Tests : TestBase
     [Test]
     public async Task To_Sha384_Has_Not_Errored()
     {
-        var moduleResult = await RunModuleWithResult<ToSha384Module, string>();
+        var moduleResult = await await RunModule<ToSha384Module>();
 
         using (Assert.Multiple())
         {
@@ -32,7 +32,7 @@ public class Sha384Tests : TestBase
     [Test]
     public async Task To_Sha384_Output_Equals_Foo_Bar()
     {
-        var moduleResult = await RunModuleWithResult<ToSha384Module, string>();
+        var moduleResult = await await RunModule<ToSha384Module>();
         await Assert.That(moduleResult.Value).IsEqualTo("bb338a277da65d5663467d5fd98aa67349506150cd1287597b0eaa0f0988d2b22c33504fd85dd0b8c99ce8cc50666f88");
     }
 }

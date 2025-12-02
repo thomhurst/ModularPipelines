@@ -19,7 +19,7 @@ public class Sha1Tests : TestBase
     [Test]
     public async Task To_Sha1_Has_Not_Errored()
     {
-        var moduleResult = await RunModuleWithResult<ToSha1Module, string>();
+        var moduleResult = await await RunModule<ToSha1Module>();
 
         using (Assert.Multiple())
         {
@@ -32,7 +32,7 @@ public class Sha1Tests : TestBase
     [Test]
     public async Task To_Sha1_Output_Equals_Foo_Bar()
     {
-        var moduleResult = await RunModuleWithResult<ToSha1Module, string>();
+        var moduleResult = await await RunModule<ToSha1Module>();
         await Assert.That(moduleResult.Value).IsEqualTo("cc3626c5ad2e3aff0779dc63e80555c463fd99dc");
     }
 }

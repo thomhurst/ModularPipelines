@@ -30,7 +30,7 @@ public class BashTests : TestBase
     [Test]
     public async Task Has_Not_Errored()
     {
-        var moduleResult = await RunModuleWithResult<BashCommandModule, CommandResult>();
+        var moduleResult = await await RunModule<BashCommandModule>();
 
         using (Assert.Multiple())
         {
@@ -43,7 +43,7 @@ public class BashTests : TestBase
     [Test]
     public async Task Standard_Output_Equals_Foo_Bar()
     {
-        var moduleResult = await RunModuleWithResult<BashCommandModule, CommandResult>();
+        var moduleResult = await await RunModule<BashCommandModule>();
 
         using (Assert.Multiple())
         {
@@ -56,7 +56,7 @@ public class BashTests : TestBase
     [LinuxOnlyTest]
     public async Task Standard_Output_From_Script_Equals_Foo_Bar()
     {
-        var moduleResult = await RunModuleWithResult<BashScriptModule, CommandResult>();
+        var moduleResult = await await RunModule<BashScriptModule>();
 
         using (Assert.Multiple())
         {

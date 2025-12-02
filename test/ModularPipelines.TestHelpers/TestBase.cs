@@ -41,30 +41,6 @@ public abstract class TestBase
         return results.Modules.OfType<T>().Single();
     }
 
-    /// <summary>
-    /// Runs a module and returns its typed result.
-    /// </summary>
-    public Task<ModuleResult<TResult>> RunModuleWithResult<T, TResult>()
-        where T : class, Module<TResult> => RunModuleWithResult<T, TResult>(new TestHostSettings());
-
-    /// <summary>
-    /// Runs a module and returns its typed result.
-    /// </summary>
-    public async Task<ModuleResult<TResult>> RunModuleWithResult<T, TResult>(TestHostSettings testHostSettings)
-        where T : class, Module<TResult>
-    {
-        var host = await TestPipelineHostBuilder.Create(testHostSettings)
-            .AddModule<T>()
-            .BuildHostAsync();
-
-        _hosts.Add(host);
-
-        await host.ExecutePipelineAsync();
-
-        var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
-        return resultRegistry.GetResult<TResult>(typeof(T))!;
-    }
-
     public async Task<(T, T2)> RunModule<T, T2>()
         where T : class, IModule
         where T2 : class, IModule

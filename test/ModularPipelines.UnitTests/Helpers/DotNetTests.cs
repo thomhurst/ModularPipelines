@@ -36,7 +36,7 @@ public class DotNetTests : TestBase
     [Test]
     public async Task Has_Not_Errored()
     {
-        var moduleResult = await RunModuleWithResult<DotNetVersionModule, CommandResult>();
+        var moduleResult = await await RunModule<DotNetVersionModule>();
 
         using (Assert.Multiple())
         {
@@ -49,7 +49,7 @@ public class DotNetTests : TestBase
     [Test]
     public async Task Format_Has_Not_Errored()
     {
-        var moduleResult = await RunModuleWithResult<DotNetFormatModule, CommandResult>();
+        var moduleResult = await await RunModule<DotNetFormatModule>();
 
         using (Assert.Multiple())
         {

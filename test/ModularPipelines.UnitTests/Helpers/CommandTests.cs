@@ -35,7 +35,7 @@ public class CommandTests : TestBase
     [Test]
     public async Task Has_Not_Errored()
     {
-        var moduleResult = await RunModuleWithResult<CommandEchoModule, CommandResult>();
+        var moduleResult = await await RunModule<CommandEchoModule>();
 
         using (Assert.Multiple())
         {
@@ -48,7 +48,7 @@ public class CommandTests : TestBase
     [Test]
     public async Task Standard_Output_Equals_Foo_Bar()
     {
-        var moduleResult = await RunModuleWithResult<CommandEchoModule, CommandResult>();
+        var moduleResult = await await RunModule<CommandEchoModule>();
 
         using (Assert.Multiple())
         {
@@ -60,7 +60,7 @@ public class CommandTests : TestBase
     [Test]
     public async Task Standard_Output_Equals_Foo_Bar_With_Timeout()
     {
-        var moduleResult = await RunModuleWithResult<CommandEchoTimeoutModule, string>();
+        var moduleResult = await await RunModule<CommandEchoTimeoutModule>();
 
         using (Assert.Multiple())
         {

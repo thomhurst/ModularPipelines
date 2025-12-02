@@ -19,7 +19,7 @@ public class Sha256Tests : TestBase
     [Test]
     public async Task To_Sha256_Has_Not_Errored()
     {
-        var moduleResult = await RunModuleWithResult<ToSha256Module, string>();
+        var moduleResult = await await RunModule<ToSha256Module>();
 
         using (Assert.Multiple())
         {
@@ -32,7 +32,7 @@ public class Sha256Tests : TestBase
     [Test]
     public async Task To_Sha256_Output_Equals_Foo_Bar()
     {
-        var moduleResult = await RunModuleWithResult<ToSha256Module, string>();
+        var moduleResult = await await RunModule<ToSha256Module>();
         await Assert.That(moduleResult.Value).IsEqualTo("d80c14a132a9ae008c78db4ee4cbc46b015b5e0f018f6b0a3e4ea5041176b852");
     }
 }

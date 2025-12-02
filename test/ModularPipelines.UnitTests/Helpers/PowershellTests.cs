@@ -18,7 +18,7 @@ public class PowershellTests : TestBase
     [Test]
     public async Task Has_Not_Errored()
     {
-        var moduleResult = await RunModuleWithResult<PowershellEchoModule, CommandResult>();
+        var moduleResult = await await RunModule<PowershellEchoModule>();
 
         using (Assert.Multiple())
         {
@@ -31,7 +31,7 @@ public class PowershellTests : TestBase
     [Test]
     public async Task Standard_Output_Equals_Foo_Bar()
     {
-        var moduleResult = await RunModuleWithResult<PowershellEchoModule, CommandResult>();
+        var moduleResult = await await RunModule<PowershellEchoModule>();
 
         using (Assert.Multiple())
         {
