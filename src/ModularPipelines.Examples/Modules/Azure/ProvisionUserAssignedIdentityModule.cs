@@ -7,10 +7,10 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules.Azure;
 
-public class ProvisionUserAssignedIdentityModule : IModule<UserAssignedIdentityResource>
+public class ProvisionUserAssignedIdentityModule : Module<UserAssignedIdentityResource>
 {
     /// <inheritdoc/>
-    public async Task<UserAssignedIdentityResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override async Task<UserAssignedIdentityResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var userAssignedIdentityProvisionResponse = await context.Azure().Provisioner.Security.UserAssignedIdentity(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyUserIdentity"),

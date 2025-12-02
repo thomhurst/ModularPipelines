@@ -7,10 +7,10 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules;
 
-public class GitVersionModule : IModule<CommandResult>
+public class GitVersionModule : Module<CommandResult>
 {
     /// <inheritdoc/>
-    public async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var gitVersioning = await context.Git().Versioning.GetGitVersioningInformation();
 

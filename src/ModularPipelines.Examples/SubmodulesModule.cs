@@ -6,7 +6,7 @@ using ModularPipelines.Modules.Behaviors;
 
 namespace ModularPipelines.Examples;
 
-public class SubmodulesModule : IModule<IDictionary<string, object>?>, ISkippable
+public class SubmodulesModule : Module<IDictionary<string, object>?>, ISkippable
 {
     public Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
@@ -14,7 +14,7 @@ public class SubmodulesModule : IModule<IDictionary<string, object>?>, ISkippabl
     }
 
     /// <inheritdoc/>
-    public async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         foreach (var c in Guid.NewGuid().ToString().Take(3))
         {

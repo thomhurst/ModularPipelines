@@ -7,10 +7,10 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Examples.Modules.Azure;
 
 [DependsOn<ProvisionBlobStorageAccountModule>]
-public class ProvisionBlobStorageContainerModule : IModule<BlobContainerResource>
+public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
 {
     /// <inheritdoc/>
-    public async Task<BlobContainerResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override async Task<BlobContainerResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var blobStorageAccount = context.GetModule<ProvisionBlobStorageAccountModule, StorageAccountResource>();
 

@@ -8,10 +8,10 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules.Azure;
 
-public class ProvisionBlobStorageAccountModule : IModule<StorageAccountResource>
+public class ProvisionBlobStorageAccountModule : Module<StorageAccountResource>
 {
     /// <inheritdoc/>
-    public async Task<StorageAccountResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override async Task<StorageAccountResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var blobStorageAccountProvisionResponse = await context.Azure().Provisioner.Storage.StorageAccount(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyStorage"),
