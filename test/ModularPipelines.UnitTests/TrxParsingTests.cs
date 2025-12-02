@@ -34,7 +34,6 @@ public class TrxParsingTests : TestBase
 
             await context.DotNet().Test(new DotNetTestOptions
             {
-                ProjectSolutionDirectoryDllExe = testProject,
                 Framework = "net10.0",
                 CommandLogging = CommandLogging.Error,
                 ResultsDirectory = resultsDirectory,
