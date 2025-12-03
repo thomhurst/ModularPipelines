@@ -55,8 +55,8 @@ public record DotNetNugetPushOptions : DotNetOptions
     [CliOption("--timeout", ShortForm = "-t")]
     public string? Timeout { get; set; }
 
-    [CliOption("--configfile")]
-    public string? Configfile { get; set; }
+    [CliFlag("--configfile")]
+    public bool? Configfile { get; set; }
 
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

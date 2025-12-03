@@ -22,8 +22,8 @@ public record KubectlSetOptions : KubernetesOptions
     /// <summary>
     /// --list
     /// </summary>
-    [CliFlag("--all")]
-    public bool? All { get; set; }
+    [CliOption("--all", Format = OptionFormat.EqualsSeparated)]
+    public string? All { get; set; }
 
     /// <summary>
     /// is passed, environment variables can be read from STDIN using the standard env syntax.

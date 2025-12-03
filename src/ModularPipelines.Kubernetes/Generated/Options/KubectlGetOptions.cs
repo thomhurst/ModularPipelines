@@ -22,8 +22,8 @@ public record KubectlGetOptions : KubernetesOptions
     /// <summary>
     /// status
     /// </summary>
-    [CliFlag("--subresource")]
-    public bool? Subresource { get; set; }
+    [CliOption("--subresource", Format = OptionFormat.EqualsSeparated)]
+    public string? Subresource { get; set; }
 
     /// <summary>
     /// If the desired resource type is namespaced you will only see results in your current namespace unless you pass --all-namespaces. By specifying the output as 'template' and providing a Go template as the value of the --template flag, you can filter the attributes of the fetched resources.Use "kubectl api-resources" for a complete list of supported resources.
@@ -40,8 +40,8 @@ public record KubectlGetOptions : KubernetesOptions
     /// <summary>
     /// --watch-only is used. Existing objects are output as initial ADDED events.
     /// </summary>
-    [CliOption("--watch", Format = OptionFormat.EqualsSeparated)]
-    public string? Watch { get; set; }
+    [CliFlag("--watch")]
+    public bool? Watch { get; set; }
 
     /// <summary>
     /// Useful when you want to manage related manifests organized within the same directory.

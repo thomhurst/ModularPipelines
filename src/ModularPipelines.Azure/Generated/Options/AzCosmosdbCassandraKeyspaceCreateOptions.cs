@@ -34,7 +34,7 @@ public record AzCosmosdbCassandraKeyspaceCreateOptions : AzOptions
     [CliOption("--throughput")]
     public string? Throughput { get; set; }
 
-    [CliOption("--yes")]
-    public string? Yes { get; set; }
+    [CliFlag("--yes")]
+    public bool? Yes { get; set; }
 
 }

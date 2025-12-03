@@ -40,8 +40,8 @@ public record DotNetToolRestoreOptions : DotNetOptions
     [CliFlag("--interactive")]
     public bool? Interactive { get; set; }
 
-    [CliOption("--verbosity", ShortForm = "-v")]
-    public string? Verbosity { get; set; }
+    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
+    public int? Verbosity { get; set; }
 
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

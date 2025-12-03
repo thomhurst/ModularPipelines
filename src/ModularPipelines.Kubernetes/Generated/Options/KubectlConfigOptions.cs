@@ -22,20 +22,20 @@ public record KubectlConfigOptions : KubernetesOptions
     /// <summary>
     /// is set, then only that file is loaded. The flag may only be set once and no merging takes place.  2.  If $KUBECONFIG environment variable is set, then it is used as a list of paths (normal path delimiting rules for your system). These paths are merged. When a value is modified, it is modified in the file that defines the stanza. When a value is created, it is created in the first file that exists. If no files in the chain exist, then it creates the last file in the list.  3.  Otherwise, ${HOME}/.kube/config is used and no merging takes place.
     /// </summary>
-    [CliFlag("--kubeconfig")]
-    public bool? Kubeconfig { get; set; }
+    [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Kubeconfig { get; set; }
 
     /// <summary>
     /// option
     /// </summary>
-    [CliFlag("--set-raw-bytes")]
-    public bool? SetRawBytes { get; set; }
+    [CliOption("--set-raw-bytes", Format = OptionFormat.EqualsSeparated)]
+    public string? SetRawBytes { get; set; }
 
     /// <summary>
     /// --certificate-authority=~/.kube/e2e/kubernetes.ca.crt
     /// </summary>
-    [CliFlag("--embed-certs")]
-    public bool? EmbedCerts { get; set; }
+    [CliOption("--embed-certs", Format = OptionFormat.EqualsSeparated)]
+    public string? EmbedCerts { get; set; }
 
     /// <summary>
     /// to extract specific values using a jsonpath expression.

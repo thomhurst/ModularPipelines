@@ -49,7 +49,7 @@ public record AzWebappAuthAppleOptions : AzOptions
     [CliOption("--scopes")]
     public string? Scopes { get; set; }
 
-    [CliOption("--yes")]
-    public string? Yes { get; set; }
+    [CliFlag("--yes")]
+    public bool? Yes { get; set; }
 
 }

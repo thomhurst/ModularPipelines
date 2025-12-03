@@ -67,8 +67,8 @@ public record AzAksOptions : AzOptions
     [CliOption("--port")]
     public string? Port { get; set; }
 
-    [CliOption("--yes")]
-    public string? Yes { get; set; }
+    [CliFlag("--yes")]
+    public bool? Yes { get; set; }
 
     [CliOption("--disable-browser")]
     public string? DisableBrowser { get; set; }

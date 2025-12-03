@@ -40,8 +40,8 @@ public record AzGroupDeleteOptions : AzOptions
     [CliOption("--no-wait")]
     public string? NoWait { get; set; }
 
-    [CliOption("--yes")]
-    public string? Yes { get; set; }
+    [CliFlag("--yes")]
+    public bool? Yes { get; set; }
 
     [CliOption("--export-format")]
     public string? ExportFormat { get; set; }

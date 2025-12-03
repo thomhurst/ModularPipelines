@@ -22,7 +22,7 @@ public record KubectlExplainOptions : KubernetesOptions
     /// <summary>
     /// to display all of the fields at once without descriptions. Information about each field is retrieved from the server in OpenAPI format.Use "kubectl api-resources" for a complete list of supported resources.
     /// </summary>
-    [CliFlag("--recursive")]
-    public bool? Recursive { get; set; }
+    [CliOption("--recursive", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Recursive { get; set; }
 
 }

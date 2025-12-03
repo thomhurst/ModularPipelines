@@ -22,8 +22,8 @@ public record DotNetReferenceRemoveOptions : DotNetOptions
     [CliOption("--framework", ShortForm = "-f")]
     public string? Framework { get; set; }
 
-    [CliOption("--project")]
-    public string? Project { get; set; }
+    [CliFlag("--project")]
+    public bool? Project { get; set; }
 
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

@@ -19,14 +19,14 @@ namespace ModularPipelines.DotNet.Generated.Options;
 [CliCommand("dotnet", "tool", "list")]
 public record DotNetToolListOptions : DotNetOptions
 {
-    [CliOption("--global", ShortForm = "-g")]
-    public string? Global { get; set; }
+    [CliFlag("--global", ShortForm = "-g")]
+    public bool? Global { get; set; }
 
     [CliOption("--tool-path")]
     public string? ToolPath { get; set; }
 
-    [CliOption("--local")]
-    public string? Local { get; set; }
+    [CliFlag("--local")]
+    public bool? Local { get; set; }
 
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

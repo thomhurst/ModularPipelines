@@ -22,8 +22,8 @@ public record DotNetNugetTrustOptions : DotNetOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [CliOption("--configfile")]
-    public string? Configfile { get; set; }
+    [CliFlag("--configfile")]
+    public bool? Configfile { get; set; }
 
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }

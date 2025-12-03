@@ -196,8 +196,8 @@ public record AzContainerOptions : AzOptions
     [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CliOption("--yes")]
-    public string? Yes { get; set; }
+    [CliFlag("--yes")]
+    public bool? Yes { get; set; }
 
     [CliOption("--exec-command")]
     public string? ExecCommand { get; set; }

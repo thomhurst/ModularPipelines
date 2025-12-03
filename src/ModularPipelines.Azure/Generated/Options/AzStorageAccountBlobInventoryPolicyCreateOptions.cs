@@ -28,8 +28,8 @@ public record AzStorageAccountBlobInventoryPolicyCreateOptions : AzOptions
     [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CliOption("--yes")]
-    public string? Yes { get; set; }
+    [CliFlag("--yes")]
+    public bool? Yes { get; set; }
 
     [CliOption("--add")]
     public string? Add { get; set; }

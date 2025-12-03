@@ -82,8 +82,8 @@ public record AzAcrOptions : AzOptions
     [CliOption("--vnet")]
     public string? Vnet { get; set; }
 
-    [CliOption("--yes")]
-    public string? Yes { get; set; }
+    [CliFlag("--yes")]
+    public bool? Yes { get; set; }
 
     [CliOption("--dnl-scope")]
     public string? DnlScope { get; set; }

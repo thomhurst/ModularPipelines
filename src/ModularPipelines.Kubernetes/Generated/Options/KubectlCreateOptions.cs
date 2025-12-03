@@ -40,26 +40,26 @@ public record KubectlCreateOptions : KubernetesOptions
     /// <summary>
     /// bar.com
     /// </summary>
-    [CliFlag("--external-name")]
-    public bool? ExternalName { get; set; }
+    [CliOption("--external-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ExternalName { get; set; }
 
     /// <summary>
     /// myns
     /// </summary>
-    [CliFlag("--namespace")]
-    public bool? Namespace { get; set; }
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? Namespace { get; set; }
 
     /// <summary>
     /// 10m
     /// </summary>
-    [CliFlag("--duration")]
-    public bool? Duration { get; set; }
+    [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
+    public string? Duration { get; set; }
 
     /// <summary>
     /// https://example.com
     /// </summary>
-    [CliFlag("--audience")]
-    public bool? Audience { get; set; }
+    [CliOption("--audience", Format = OptionFormat.EqualsSeparated)]
+    public string? Audience { get; set; }
 
     /// <summary>
     /// --bound-object-name mysecret

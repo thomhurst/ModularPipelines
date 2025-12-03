@@ -22,14 +22,14 @@ public record DotNetNugetVerifyOptions : DotNetOptions
     [CliFlag("--all")]
     public bool? All { get; set; }
 
-    [CliOption("--certificate-fingerprint")]
-    public string? CertificateFingerprint { get; set; }
+    [CliFlag("--certificate-fingerprint")]
+    public bool? CertificateFingerprint { get; set; }
 
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
 
-    [CliOption("--configfile")]
-    public string? Configfile { get; set; }
+    [CliFlag("--configfile")]
+    public bool? Configfile { get; set; }
 
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

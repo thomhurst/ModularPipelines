@@ -169,8 +169,8 @@ public record AzCosmosdbOptions : AzOptions
     [CliOption("--no-wait")]
     public string? NoWait { get; set; }
 
-    [CliOption("--yes")]
-    public string? Yes { get; set; }
+    [CliFlag("--yes")]
+    public bool? Yes { get; set; }
 
     [CliOption("--failover-policies")]
     public string? FailoverPolicies { get; set; }

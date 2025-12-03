@@ -19,26 +19,26 @@ namespace ModularPipelines.DotNet.Generated.Options;
 [CliCommand("dotnet", "nuget", "sign")]
 public record DotNetNugetSignOptions : DotNetOptions
 {
-    [CliOption("--certificate-path")]
-    public string? CertificatePath { get; set; }
+    [CliFlag("--certificate-path")]
+    public bool? CertificatePath { get; set; }
 
-    [CliOption("--certificate-store-name")]
-    public string? CertificateStoreName { get; set; }
+    [CliFlag("--certificate-store-name")]
+    public bool? CertificateStoreName { get; set; }
 
-    [CliOption("--certificate-store-location")]
-    public string? CertificateStoreLocation { get; set; }
+    [CliFlag("--certificate-store-location")]
+    public bool? CertificateStoreLocation { get; set; }
 
-    [CliOption("--certificate-subject-name")]
-    public string? CertificateSubjectName { get; set; }
+    [CliFlag("--certificate-subject-name")]
+    public bool? CertificateSubjectName { get; set; }
 
-    [CliOption("--certificate-fingerprint")]
-    public string? CertificateFingerprint { get; set; }
+    [CliFlag("--certificate-fingerprint")]
+    public bool? CertificateFingerprint { get; set; }
 
-    [CliOption("--certificate-password")]
-    public string? CertificatePassword { get; set; }
+    [CliFlag("--certificate-password")]
+    public bool? CertificatePassword { get; set; }
 
-    [CliOption("--hash-algorithm")]
-    public string? HashAlgorithm { get; set; }
+    [CliFlag("--hash-algorithm")]
+    public bool? HashAlgorithm { get; set; }
 
     [CliOption("--output", ShortForm = "-o")]
     public string? Output { get; set; }
@@ -46,11 +46,11 @@ public record DotNetNugetSignOptions : DotNetOptions
     [CliFlag("--overwrite")]
     public bool? Overwrite { get; set; }
 
-    [CliOption("--timestamp-hash-algorithm")]
-    public string? TimestampHashAlgorithm { get; set; }
+    [CliFlag("--timestamp-hash-algorithm")]
+    public bool? TimestampHashAlgorithm { get; set; }
 
-    [CliOption("--timestamper")]
-    public string? Timestamper { get; set; }
+    [CliFlag("--timestamper")]
+    public bool? Timestamper { get; set; }
 
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }

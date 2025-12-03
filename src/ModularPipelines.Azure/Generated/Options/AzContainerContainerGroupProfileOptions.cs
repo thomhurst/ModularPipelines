@@ -157,7 +157,7 @@ public record AzContainerContainerGroupProfileOptions : AzOptions
     [CliOption("--subscription")]
     public string? Subscription { get; set; }
 
-    [CliOption("--yes")]
-    public string? Yes { get; set; }
+    [CliFlag("--yes")]
+    public bool? Yes { get; set; }
 
 }

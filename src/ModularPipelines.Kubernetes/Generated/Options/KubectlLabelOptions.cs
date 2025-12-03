@@ -28,8 +28,8 @@ public record KubectlLabelOptions : KubernetesOptions
     /// <summary>
     /// status=unhealthy
     /// </summary>
-    [CliFlag("--all")]
-    public bool? All { get; set; }
+    [CliOption("--all", Format = OptionFormat.EqualsSeparated)]
+    public string? All { get; set; }
 
     /// <summary>
     /// The server only supports a limited number of field queries per type.

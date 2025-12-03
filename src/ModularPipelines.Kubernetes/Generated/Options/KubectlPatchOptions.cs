@@ -22,8 +22,8 @@ public record KubectlPatchOptions : KubernetesOptions
     /// <summary>
     /// FILE]
     /// </summary>
-    [CliFlag("--patch-file")]
-    public bool? PatchFile { get; set; }
+    [CliOption("--patch-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PatchFile { get; set; }
 
     /// <summary>
     /// Useful when you want to manage related manifests organized within the same directory.

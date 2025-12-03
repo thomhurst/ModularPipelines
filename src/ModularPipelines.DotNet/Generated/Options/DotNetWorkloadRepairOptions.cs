@@ -19,8 +19,8 @@ namespace ModularPipelines.DotNet.Generated.Options;
 [CliCommand("dotnet", "workload", "repair")]
 public record DotNetWorkloadRepairOptions : DotNetOptions
 {
-    [CliFlag("--configfile")]
-    public bool? Configfile { get; set; }
+    [CliOption("--configfile", Format = OptionFormat.EqualsSeparated)]
+    public string? Configfile { get; set; }
 
     [CliFlag("--disable-parallel")]
     public bool? DisableParallel { get; set; }
@@ -40,8 +40,8 @@ public record DotNetWorkloadRepairOptions : DotNetOptions
     [CliOption("--temp-dir")]
     public string? TempDir { get; set; }
 
-    [CliOption("--verbosity", ShortForm = "-v")]
-    public string? Verbosity { get; set; }
+    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
+    public int? Verbosity { get; set; }
 
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

@@ -163,8 +163,8 @@ public record AzSqlDbOptions : AzOptions
     [CliOption("--sample-name")]
     public string? SampleName { get; set; }
 
-    [CliOption("--yes")]
-    public string? Yes { get; set; }
+    [CliFlag("--yes")]
+    public bool? Yes { get; set; }
 
     [CliOption("--admin-user")]
     public string? AdminUser { get; set; }

@@ -61,8 +61,8 @@ public record AzAppserviceAseOptions : AzOptions
     [CliOption("--skip-dns")]
     public string? SkipDns { get; set; }
 
-    [CliOption("--yes")]
-    public string? Yes { get; set; }
+    [CliFlag("--yes")]
+    public bool? Yes { get; set; }
 
     [CliOption("--allow-incoming-ftp-connections")]
     public string? AllowIncomingFtpConnections { get; set; }

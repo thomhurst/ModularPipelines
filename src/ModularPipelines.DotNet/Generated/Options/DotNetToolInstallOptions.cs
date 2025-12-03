@@ -19,8 +19,8 @@ namespace ModularPipelines.DotNet.Generated.Options;
 [CliCommand("dotnet", "tool", "install")]
 public record DotNetToolInstallOptions : DotNetOptions
 {
-    [CliOption("--global", ShortForm = "-g")]
-    public string? Global { get; set; }
+    [CliFlag("--global", ShortForm = "-g")]
+    public bool? Global { get; set; }
 
     [CliFlag("--allow-roll-forward")]
     public bool? AllowRollForward { get; set; }
@@ -55,11 +55,11 @@ public record DotNetToolInstallOptions : DotNetOptions
     [CliOption("--tool-manifest")]
     public string? ToolManifest { get; set; }
 
-    [CliOption("--verbosity", ShortForm = "-v")]
-    public string? Verbosity { get; set; }
+    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
+    public int? Verbosity { get; set; }
 
-    [CliOption("--version")]
-    public string? Version { get; set; }
+    [CliFlag("--version")]
+    public bool? Version { get; set; }
 
     [CliOption("--tool-path")]
     public string? ToolPath { get; set; }

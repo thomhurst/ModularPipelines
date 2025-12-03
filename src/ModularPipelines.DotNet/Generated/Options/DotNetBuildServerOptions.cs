@@ -28,7 +28,7 @@ public record DotNetBuildServerOptions : DotNetOptions
     [CliFlag("--vbcscompiler")]
     public bool? Vbcscompiler { get; set; }
 
-    [CliOption("--help", ShortForm = "-h")]
-    public string? Help { get; set; }
+    [CliFlag("--help", ShortForm = "-h")]
+    public bool? Help { get; set; }
 
 }

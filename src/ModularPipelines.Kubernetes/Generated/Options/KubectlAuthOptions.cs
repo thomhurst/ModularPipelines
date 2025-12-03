@@ -22,8 +22,8 @@ public record KubectlAuthOptions : KubernetesOptions
     /// <summary>
     /// --namespace=foo
     /// </summary>
-    [CliFlag("--list")]
-    public bool? List { get; set; }
+    [CliOption("--list", Format = OptionFormat.EqualsSeparated)]
+    public string? List { get; set; }
 
     /// <summary>
     /// flag.

@@ -19,8 +19,8 @@ namespace ModularPipelines.DotNet.Generated.Options;
 [CliCommand("dotnet", "reference", "list")]
 public record DotNetReferenceListOptions : DotNetOptions
 {
-    [CliOption("--project")]
-    public string? Project { get; set; }
+    [CliFlag("--project")]
+    public bool? Project { get; set; }
 
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

@@ -19,11 +19,11 @@ namespace ModularPipelines.DotNet.Generated.Options;
 [CliCommand("dotnet", "nuget", "list", "source")]
 public record DotNetNugetListSourceOptions : DotNetOptions
 {
-    [CliOption("--format")]
-    public string? Format { get; set; }
+    [CliFlag("--format")]
+    public bool? Format { get; set; }
 
-    [CliOption("--configfile")]
-    public string? Configfile { get; set; }
+    [CliFlag("--configfile")]
+    public bool? Configfile { get; set; }
 
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

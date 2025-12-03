@@ -19,8 +19,8 @@ namespace ModularPipelines.DotNet.Generated.Options;
 [CliCommand("dotnet", "tool", "uninstall")]
 public record DotNetToolUninstallOptions : DotNetOptions
 {
-    [CliOption("--global", ShortForm = "-g")]
-    public string? Global { get; set; }
+    [CliFlag("--global", ShortForm = "-g")]
+    public bool? Global { get; set; }
 
     [CliOption("--tool-path")]
     public string? ToolPath { get; set; }

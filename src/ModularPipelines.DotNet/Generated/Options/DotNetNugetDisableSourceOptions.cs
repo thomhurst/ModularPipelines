@@ -19,8 +19,8 @@ namespace ModularPipelines.DotNet.Generated.Options;
 [CliCommand("dotnet", "nuget", "disable", "source")]
 public record DotNetNugetDisableSourceOptions : DotNetOptions
 {
-    [CliOption("--configfile")]
-    public string? Configfile { get; set; }
+    [CliFlag("--configfile")]
+    public bool? Configfile { get; set; }
 
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

@@ -445,8 +445,8 @@ public record AzVmOptions : AzOptions
     [CliOption("--force-deletion")]
     public string? ForceDeletion { get; set; }
 
-    [CliOption("--yes")]
-    public string? Yes { get; set; }
+    [CliFlag("--yes")]
+    public bool? Yes { get; set; }
 
     [CliOption("--maximum-duration")]
     public string? MaximumDuration { get; set; }

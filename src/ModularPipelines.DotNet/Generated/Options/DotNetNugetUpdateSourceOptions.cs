@@ -31,11 +31,11 @@ public record DotNetNugetUpdateSourceOptions : DotNetOptions
     [CliFlag("--store-password-in-clear-text")]
     public bool? StorePasswordInClearText { get; set; }
 
-    [CliOption("--valid-authentication-types")]
-    public string? ValidAuthenticationTypes { get; set; }
+    [CliFlag("--valid-authentication-types")]
+    public bool? ValidAuthenticationTypes { get; set; }
 
-    [CliOption("--configfile")]
-    public string? Configfile { get; set; }
+    [CliFlag("--configfile")]
+    public bool? Configfile { get; set; }
 
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

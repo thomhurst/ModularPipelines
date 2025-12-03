@@ -22,8 +22,8 @@ public record KubectlDeleteOptions : KubernetesOptions
     /// <summary>
     /// or pass --now to set a grace-period of 1. Because these resources often represent entities in the cluster, deletion may not be acknowledged immediately. If the node hosting a pod is down or cannot reach the API server, termination may take significantly longer than the grace period. To force delete a resource, you must specify the --force flag. Note: only a subset of resources support graceful deletion. In absence of the support, the --grace-period flag is ignored. IMPORTANT: Force deleting pods does not wait for confirmation that the pod's processes have been terminated, which can leave those processes running until the node detects the deletion and completes graceful deletion. If your processes use shared storage or talk to a remote API and depend on the name of the pod to identify themselves, force deleting those pods may result in multiple processes running on different machines using the same identification which may lead to data corruption or inconsistency. Only force delete pods when you are sure the pod is terminated, or if your application can tolerate multiple copies of the same pod running at once. Also, if you force delete pods, the scheduler may place new pods on those nodes before the node has released those resources and causing those pods to be evicted immediately. Note that the delete command does NOT do resource version checks, so if someone submits an update to a resource right when you submit a delete, their update will be lost along with the rest of the resource. After a CustomResourceDefinition is deleted, invalidation of discovery cache may take up to 6 hours. If you don't want to wait, you might want to run "kubectl api-resources" to refresh the discovery cache.
     /// </summary>
-    [CliOption("--grace-period", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public string[]? GracePeriod { get; set; }
+    [CliOption("--grace-period", Format = OptionFormat.EqualsSeparated)]
+    public int? GracePeriod { get; set; }
 
     /// <summary>
     /// The server only supports a limited number of field queries per type.
@@ -34,14 +34,14 @@ public record KubectlDeleteOptions : KubernetesOptions
     /// <summary>
     /// true (force deletion).
     /// </summary>
-    [CliOption("--force", Format = OptionFormat.EqualsSeparated)]
-    public string? Force { get; set; }
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
 
     /// <summary>
     /// specified.
     /// </summary>
-    [CliOption("--all", Format = OptionFormat.EqualsSeparated)]
-    public string? All { get; set; }
+    [CliFlag("--all")]
+    public bool? All { get; set; }
 
     /// <summary>
     /// Useful when you want to manage related manifests organized within the same directory.

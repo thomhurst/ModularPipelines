@@ -40,8 +40,8 @@ public record AzAcrAgentpoolOptions : AzOptions
     [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [CliOption("--yes")]
-    public string? Yes { get; set; }
+    [CliFlag("--yes")]
+    public bool? Yes { get; set; }
 
     [CliOption("--queue-count")]
     public string? QueueCount { get; set; }

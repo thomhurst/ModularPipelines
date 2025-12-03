@@ -40,8 +40,8 @@ public record DotNetPackageAddOptions : DotNetOptions
     [CliOption("--source", ShortForm = "-s")]
     public string? Source { get; set; }
 
-    [CliOption("--version", ShortForm = "-v")]
-    public string? Version { get; set; }
+    [CliFlag("--version", ShortForm = "-v")]
+    public bool? Version { get; set; }
 
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

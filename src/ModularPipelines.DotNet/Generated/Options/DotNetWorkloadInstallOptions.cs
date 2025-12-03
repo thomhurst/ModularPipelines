@@ -46,11 +46,11 @@ public record DotNetWorkloadInstallOptions : DotNetOptions
     [CliOption("--temp-dir")]
     public string? TempDir { get; set; }
 
-    [CliOption("--verbosity", ShortForm = "-v")]
-    public string? Verbosity { get; set; }
+    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
+    public int? Verbosity { get; set; }
 
-    [CliOption("--version")]
-    public string? Version { get; set; }
+    [CliFlag("--version")]
+    public bool? Version { get; set; }
 
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

@@ -22,14 +22,14 @@ public record KubectlApplyOptions : KubernetesOptions
     /// <summary>
     /// still in Alpha # Apply the configuration in manifest.yaml that matches label app=nginx and delete all other resources that are not in the file and match label app=nginx
     /// </summary>
-    [CliOption("--prune", Format = OptionFormat.EqualsSeparated)]
-    public string? Prune { get; set; }
+    [CliFlag("--prune")]
+    public bool? Prune { get; set; }
 
     /// <summary>
     /// true (force deletion).
     /// </summary>
-    [CliOption("--force", Format = OptionFormat.EqualsSeparated)]
-    public string? Force { get; set; }
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
 
     /// <summary>
     /// Useful when you want to manage related manifests organized within the same directory.

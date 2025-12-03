@@ -25,8 +25,8 @@ public record DotNetReferenceAddOptions : DotNetOptions
     [CliFlag("--interactive")]
     public bool? Interactive { get; set; }
 
-    [CliOption("--project")]
-    public string? Project { get; set; }
+    [CliFlag("--project")]
+    public bool? Project { get; set; }
 
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

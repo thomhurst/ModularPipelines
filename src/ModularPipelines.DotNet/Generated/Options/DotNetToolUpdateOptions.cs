@@ -19,8 +19,8 @@ namespace ModularPipelines.DotNet.Generated.Options;
 [CliCommand("dotnet", "tool", "update")]
 public record DotNetToolUpdateOptions : DotNetOptions
 {
-    [CliOption("--global", ShortForm = "-g")]
-    public string? Global { get; set; }
+    [CliFlag("--global", ShortForm = "-g")]
+    public bool? Global { get; set; }
 
     [CliFlag("--all")]
     public bool? All { get; set; }
@@ -49,11 +49,11 @@ public record DotNetToolUpdateOptions : DotNetOptions
     [CliFlag("--prerelease")]
     public bool? Prerelease { get; set; }
 
-    [CliOption("--verbosity", ShortForm = "-v")]
-    public string? Verbosity { get; set; }
+    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
+    public int? Verbosity { get; set; }
 
-    [CliOption("--version")]
-    public string? Version { get; set; }
+    [CliFlag("--version")]
+    public bool? Version { get; set; }
 
     [CliOption("--tool-path")]
     public string? ToolPath { get; set; }
@@ -61,8 +61,8 @@ public record DotNetToolUpdateOptions : DotNetOptions
     [CliOption("--add-source")]
     public string? AddSource { get; set; }
 
-    [CliOption("--local")]
-    public string? Local { get; set; }
+    [CliFlag("--local")]
+    public bool? Local { get; set; }
 
     [CliOption("--tool-manifest")]
     public string? ToolManifest { get; set; }
