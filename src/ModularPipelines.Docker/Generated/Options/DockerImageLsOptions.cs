@@ -19,11 +19,11 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "image", "ls")]
 public record DockerImageLsOptions : DockerOptions
 {
-    [CliOption("--all", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
-    public string? All { get; set; }
+    [CliFlag("--all", ShortForm = "-a")]
+    public bool? All { get; set; }
 
-    [CliOption("--digests", Format = OptionFormat.EqualsSeparated)]
-    public string? Digests { get; set; }
+    [CliFlag("--digests")]
+    public bool? Digests { get; set; }
 
     [CliOption("--filter", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? Filter { get; set; }
@@ -31,13 +31,13 @@ public record DockerImageLsOptions : DockerOptions
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [CliOption("--no-trunc", Format = OptionFormat.EqualsSeparated)]
-    public string? NoTrunc { get; set; }
+    [CliFlag("--no-trunc")]
+    public bool? NoTrunc { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
-    [CliOption("--tree", Format = OptionFormat.EqualsSeparated)]
-    public string? Tree { get; set; }
+    [CliOption("--tree", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Tree { get; set; }
 
 }

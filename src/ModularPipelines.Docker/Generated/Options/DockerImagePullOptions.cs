@@ -19,20 +19,20 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "image", "pull")]
 public record DockerImagePullOptions : DockerOptions
 {
-    [CliOption("--all-tags", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
-    public string? AllTags { get; set; }
+    [CliFlag("--all-tags", ShortForm = "-a")]
+    public bool? AllTags { get; set; }
 
     /// <summary>
     /// true
     /// </summary>
-    [CliOption("--disable-content-trust", Format = OptionFormat.EqualsSeparated)]
-    public string? DisableContentTrust { get; set; }
+    [CliFlag("--disable-content-trust")]
+    public bool? DisableContentTrust { get; set; }
 
     [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
     public string? Platform { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
     /// <summary>
     /// REPOSITORY   TAG       IMAGE ID       CREATED        SIZE

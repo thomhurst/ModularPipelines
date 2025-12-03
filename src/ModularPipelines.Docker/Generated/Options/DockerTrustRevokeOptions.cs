@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "trust", "revoke")]
 public record DockerTrustRevokeOptions : DockerOptions
 {
-    [CliOption("--yes", ShortForm = "-y", Format = OptionFormat.EqualsSeparated)]
-    public string? Yes { get; set; }
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
     /// <summary>
     /// SIGNED TAG          DIGEST                                                              SIGNERS

@@ -19,14 +19,14 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "network", "connect")]
 public record DockerNetworkConnectOptions : DockerOptions
 {
-    [CliOption("--alias", Format = OptionFormat.EqualsSeparated)]
-    public string? Alias { get; set; }
+    [CliOption("--alias", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Alias { get; set; }
 
-    [CliOption("--driver-opt", Format = OptionFormat.EqualsSeparated)]
-    public string? DriverOpt { get; set; }
+    [CliOption("--driver-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? DriverOpt { get; set; }
 
     [CliOption("--gw-priority", Format = OptionFormat.EqualsSeparated)]
-    public string? GwPriority { get; set; }
+    public int? GwPriority { get; set; }
 
     [CliOption("--ip", Format = OptionFormat.EqualsSeparated)]
     public string? Ip { get; set; }
@@ -34,11 +34,11 @@ public record DockerNetworkConnectOptions : DockerOptions
     [CliOption("--ip6", Format = OptionFormat.EqualsSeparated)]
     public string? Ip6 { get; set; }
 
-    [CliOption("--link", Format = OptionFormat.EqualsSeparated)]
-    public string? Link { get; set; }
+    [CliOption("--link", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Link { get; set; }
 
-    [CliOption("--link-local-ip", Format = OptionFormat.EqualsSeparated)]
-    public string? LinkLocalIp { get; set; }
+    [CliOption("--link-local-ip", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? LinkLocalIp { get; set; }
 
     /// <summary>
     /// --ip-range 172.20.240.0/20 multi-host-network

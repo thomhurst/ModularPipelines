@@ -1,0 +1,177 @@
+{
+  "$schema": "./schema.json",
+  "global": {
+    "--help": {
+      "type": "bool",
+      "reason": "Standard help flag"
+    },
+    "--all-namespaces": {
+      "type": "bool",
+      "reason": "List resources across all namespaces"
+    },
+    "--insecure-skip-tls-verify": {
+      "type": "bool",
+      "reason": "Skip TLS certificate verification"
+    }
+  },
+  "commands": {
+    "apply": {
+      "--dry-run": {
+        "type": "string",
+        "reason": "Accepts 'none', 'server', 'client'"
+      },
+      "--force": {
+        "type": "bool",
+        "reason": "Delete and re-create resources"
+      },
+      "--force-conflicts": {
+        "type": "bool",
+        "reason": "Force apply through conflicts"
+      },
+      "--overwrite": {
+        "type": "bool",
+        "reason": "Overwrite existing resources"
+      },
+      "--prune": {
+        "type": "bool",
+        "reason": "Prune resources not in manifests"
+      },
+      "--record": {
+        "type": "bool",
+        "reason": "Record command in annotation"
+      },
+      "--recursive": {
+        "type": "bool",
+        "reason": "Process directories recursively"
+      },
+      "--server-side": {
+        "type": "bool",
+        "reason": "Use server-side apply"
+      },
+      "--validate": {
+        "type": "bool",
+        "reason": "Validate input before sending"
+      },
+      "--wait": {
+        "type": "bool",
+        "reason": "Wait for resources to be ready"
+      }
+    },
+    "get": {
+      "--all-namespaces": {
+        "type": "bool",
+        "reason": "List across all namespaces"
+      },
+      "--ignore-not-found": {
+        "type": "bool",
+        "reason": "Return success for not found resources"
+      },
+      "--no-headers": {
+        "type": "bool",
+        "reason": "Don't print headers"
+      },
+      "--show-kind": {
+        "type": "bool",
+        "reason": "Show the resource kind"
+      },
+      "--show-labels": {
+        "type": "bool",
+        "reason": "Show all labels"
+      },
+      "--watch": {
+        "type": "bool",
+        "reason": "Watch for changes"
+      },
+      "--watch-only": {
+        "type": "bool",
+        "reason": "Only watch changes"
+      }
+    },
+    "delete": {
+      "--all": {
+        "type": "bool",
+        "reason": "Delete all resources"
+      },
+      "--cascade": {
+        "type": "string",
+        "reason": "Accepts 'background', 'orphan', 'foreground'"
+      },
+      "--force": {
+        "type": "bool",
+        "reason": "Immediate deletion"
+      },
+      "--ignore-not-found": {
+        "type": "bool",
+        "reason": "Treat not found as success"
+      },
+      "--now": {
+        "type": "bool",
+        "reason": "Immediate shutdown"
+      },
+      "--recursive": {
+        "type": "bool",
+        "reason": "Process directories recursively"
+      },
+      "--wait": {
+        "type": "bool",
+        "reason": "Wait for deletion to complete"
+      },
+      "--grace-period": {
+        "type": "int",
+        "reason": "Seconds to wait before force killing"
+      }
+    },
+    "exec": {
+      "--stdin": {
+        "type": "bool",
+        "reason": "Pass stdin to the container"
+      },
+      "--tty": {
+        "type": "bool",
+        "reason": "Allocate a TTY"
+      },
+      "--quiet": {
+        "type": "bool",
+        "reason": "Only print output"
+      }
+    },
+    "logs": {
+      "--all-containers": {
+        "type": "bool",
+        "reason": "Get logs from all containers"
+      },
+      "--follow": {
+        "type": "bool",
+        "reason": "Follow log output"
+      },
+      "--ignore-errors": {
+        "type": "bool",
+        "reason": "Continue on error"
+      },
+      "--insecure-skip-tls-verify-backend": {
+        "type": "bool",
+        "reason": "Skip TLS verification"
+      },
+      "--prefix": {
+        "type": "bool",
+        "reason": "Prefix each log line"
+      },
+      "--previous": {
+        "type": "bool",
+        "reason": "Print previous container logs"
+      },
+      "--timestamps": {
+        "type": "bool",
+        "reason": "Include timestamps"
+      },
+      "--tail": {
+        "type": "int",
+        "reason": "Lines of recent log to display"
+      },
+      "--since-time": {
+        "type": "string",
+        "reason": "RFC3339 timestamp"
+      }
+    }
+  }
+}

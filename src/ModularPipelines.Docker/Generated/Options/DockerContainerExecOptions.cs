@@ -19,26 +19,26 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "container", "exec")]
 public record DockerContainerExecOptions : DockerOptions
 {
-    [CliOption("--detach", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
-    public string? Detach { get; set; }
+    [CliFlag("--detach", ShortForm = "-d")]
+    public bool? Detach { get; set; }
 
     [CliOption("--detach-keys", Format = OptionFormat.EqualsSeparated)]
     public string? DetachKeys { get; set; }
 
-    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
-    public string? Env { get; set; }
+    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Env { get; set; }
 
-    [CliOption("--env-file", Format = OptionFormat.EqualsSeparated)]
-    public string? EnvFile { get; set; }
+    [CliOption("--env-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? EnvFile { get; set; }
 
-    [CliOption("--interactive", ShortForm = "-i", Format = OptionFormat.EqualsSeparated)]
-    public string? Interactive { get; set; }
+    [CliFlag("--interactive", ShortForm = "-i")]
+    public bool? Interactive { get; set; }
 
-    [CliOption("--privileged", Format = OptionFormat.EqualsSeparated)]
-    public string? Privileged { get; set; }
+    [CliFlag("--privileged")]
+    public bool? Privileged { get; set; }
 
-    [CliOption("--tty", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public string? Tty { get; set; }
+    [CliFlag("--tty", ShortForm = "-t")]
+    public bool? Tty { get; set; }
 
     [CliOption("--user", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
     public string? User { get; set; }

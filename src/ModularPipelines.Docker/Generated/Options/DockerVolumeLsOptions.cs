@@ -28,8 +28,8 @@ public record DockerVolumeLsOptions : DockerOptions
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
     /// <summary>
     /// the-doctor

@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "trust", "signer", "add")]
 public record DockerTrustSignerAddOptions : DockerOptions
 {
-    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
-    public string? Key { get; set; }
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Key { get; set; }
 
     /// <summary>
     /// No signatures for example/trust-demo

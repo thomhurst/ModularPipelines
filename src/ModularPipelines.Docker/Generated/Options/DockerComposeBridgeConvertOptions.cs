@@ -28,7 +28,7 @@ public record DockerComposeBridgeConvertOptions : DockerOptions
     [CliOption("--templates", Format = OptionFormat.EqualsSeparated)]
     public string? Templates { get; set; }
 
-    [CliOption("--transformation", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public string? Transformation { get; set; }
+    [CliOption("--transformation", ShortForm = "-t", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Transformation { get; set; }
 
 }

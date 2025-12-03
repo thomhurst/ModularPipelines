@@ -22,11 +22,11 @@ public record DockerNodeUpdateOptions : DockerOptions
     [CliOption("--availability", Format = OptionFormat.EqualsSeparated)]
     public string? Availability { get; set; }
 
-    [CliOption("--label-add", Format = OptionFormat.EqualsSeparated)]
-    public string? LabelAdd { get; set; }
+    [CliOption("--label-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? LabelAdd { get; set; }
 
-    [CliOption("--label-rm", Format = OptionFormat.EqualsSeparated)]
-    public string? LabelRm { get; set; }
+    [CliOption("--label-rm", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? LabelRm { get; set; }
 
     [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
     public string? Role { get; set; }

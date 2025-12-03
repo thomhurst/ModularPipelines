@@ -25,7 +25,7 @@ public record DockerBuildxLsOptions : DockerOptions
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [CliOption("--no-trunc", Format = OptionFormat.EqualsSeparated)]
-    public string? NoTrunc { get; set; }
+    [CliFlag("--no-trunc")]
+    public bool? NoTrunc { get; set; }
 
 }

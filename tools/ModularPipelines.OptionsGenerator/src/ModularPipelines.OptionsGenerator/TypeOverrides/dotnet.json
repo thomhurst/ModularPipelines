@@ -1,0 +1,191 @@
+{
+  "$schema": "./schema.json",
+  "global": {
+    "--help": {
+      "type": "bool",
+      "reason": "Standard help flag"
+    },
+    "--version": {
+      "type": "bool",
+      "reason": "Display version info"
+    },
+    "--info": {
+      "type": "bool",
+      "reason": "Display .NET info"
+    },
+    "--list-sdks": {
+      "type": "bool",
+      "reason": "List installed SDKs"
+    },
+    "--list-runtimes": {
+      "type": "bool",
+      "reason": "List installed runtimes"
+    }
+  },
+  "commands": {
+    "build": {
+      "--no-restore": {
+        "type": "bool",
+        "reason": "Skip implicit restore"
+      },
+      "--no-dependencies": {
+        "type": "bool",
+        "reason": "Don't build project references"
+      },
+      "--no-incremental": {
+        "type": "bool",
+        "reason": "Don't use incremental build"
+      },
+      "--no-self-contained": {
+        "type": "bool",
+        "reason": "Publish framework-dependent"
+      },
+      "--self-contained": {
+        "type": "bool",
+        "reason": "Publish self-contained"
+      },
+      "--force": {
+        "type": "bool",
+        "reason": "Force all dependencies to resolve"
+      }
+    },
+    "test": {
+      "--no-restore": {
+        "type": "bool",
+        "reason": "Skip implicit restore"
+      },
+      "--no-build": {
+        "type": "bool",
+        "reason": "Don't build before testing"
+      },
+      "--list-tests": {
+        "type": "bool",
+        "reason": "List discovered tests"
+      },
+      "--blame": {
+        "type": "bool",
+        "reason": "Enable blame mode"
+      },
+      "--blame-crash": {
+        "type": "bool",
+        "reason": "Collect crash dump"
+      },
+      "--blame-hang": {
+        "type": "bool",
+        "reason": "Collect hang dump"
+      }
+    },
+    "publish": {
+      "--no-restore": {
+        "type": "bool",
+        "reason": "Skip implicit restore"
+      },
+      "--no-build": {
+        "type": "bool",
+        "reason": "Don't build before publishing"
+      },
+      "--no-dependencies": {
+        "type": "bool",
+        "reason": "Don't build project references"
+      },
+      "--self-contained": {
+        "type": "bool",
+        "reason": "Publish self-contained"
+      },
+      "--no-self-contained": {
+        "type": "bool",
+        "reason": "Publish framework-dependent"
+      },
+      "--force": {
+        "type": "bool",
+        "reason": "Force all dependencies to resolve"
+      }
+    },
+    "pack": {
+      "--no-restore": {
+        "type": "bool",
+        "reason": "Skip implicit restore"
+      },
+      "--no-build": {
+        "type": "bool",
+        "reason": "Don't build before packing"
+      },
+      "--include-source": {
+        "type": "bool",
+        "reason": "Include source files"
+      },
+      "--include-symbols": {
+        "type": "bool",
+        "reason": "Include symbol packages"
+      },
+      "--force": {
+        "type": "bool",
+        "reason": "Force all dependencies to resolve"
+      }
+    },
+    "restore": {
+      "--no-cache": {
+        "type": "bool",
+        "reason": "Don't cache packages"
+      },
+      "--force": {
+        "type": "bool",
+        "reason": "Force all dependencies to resolve"
+      },
+      "--force-evaluate": {
+        "type": "bool",
+        "reason": "Force re-evaluation"
+      },
+      "--ignore-failed-sources": {
+        "type": "bool",
+        "reason": "Treat failures as warnings"
+      },
+      "--no-dependencies": {
+        "type": "bool",
+        "reason": "Don't restore project references"
+      }
+    },
+    "run": {
+      "--no-restore": {
+        "type": "bool",
+        "reason": "Skip implicit restore"
+      },
+      "--no-build": {
+        "type": "bool",
+        "reason": "Don't build before running"
+      },
+      "--no-dependencies": {
+        "type": "bool",
+        "reason": "Don't build project references"
+      },
+      "--force": {
+        "type": "bool",
+        "reason": "Force all dependencies to resolve"
+      },
+      "--no-launch-profile": {
+        "type": "bool",
+        "reason": "Don't use launchSettings.json"
+      }
+    },
+    "clean": {
+      "--nologo": {
+        "type": "bool",
+        "reason": "Don't display startup banner"
+      }
+    },
+    "nuget.push": {
+      "--skip-duplicate": {
+        "type": "bool",
+        "reason": "Skip duplicate packages"
+      },
+      "--no-symbols": {
+        "type": "bool",
+        "reason": "Don't push symbol packages"
+      },
+      "--force-english-output": {
+        "type": "bool",
+        "reason": "Force English output"
+      }
+    }
+  }
+}

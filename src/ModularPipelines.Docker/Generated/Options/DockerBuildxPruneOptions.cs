@@ -19,14 +19,14 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "buildx", "prune")]
 public record DockerBuildxPruneOptions : DockerOptions
 {
-    [CliOption("--all", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
-    public string? All { get; set; }
+    [CliFlag("--all", ShortForm = "-a")]
+    public bool? All { get; set; }
 
     [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
     public string? Filter { get; set; }
 
-    [CliOption("--force", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? Force { get; set; }
+    [CliFlag("--force", ShortForm = "-f")]
+    public bool? Force { get; set; }
 
     [CliOption("--max-used-space", Format = OptionFormat.EqualsSeparated)]
     public string? MaxUsedSpace { get; set; }
@@ -37,7 +37,7 @@ public record DockerBuildxPruneOptions : DockerOptions
     [CliOption("--reserved-space", Format = OptionFormat.EqualsSeparated)]
     public string? ReservedSpace { get; set; }
 
-    [CliOption("--verbose", Format = OptionFormat.EqualsSeparated)]
-    public string? Verbose { get; set; }
+    [CliFlag("--verbose")]
+    public bool? Verbose { get; set; }
 
 }

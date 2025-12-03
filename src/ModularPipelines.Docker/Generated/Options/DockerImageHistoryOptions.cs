@@ -25,17 +25,17 @@ public record DockerImageHistoryOptions : DockerOptions
     /// <summary>
     /// true
     /// </summary>
-    [CliOption("--human", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
-    public string? Human { get; set; }
+    [CliFlag("--human", ShortForm = "-H")]
+    public bool? Human { get; set; }
 
-    [CliOption("--no-trunc", Format = OptionFormat.EqualsSeparated)]
-    public string? NoTrunc { get; set; }
+    [CliFlag("--no-trunc")]
+    public bool? NoTrunc { get; set; }
 
     [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
     public string? Platform { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
     /// <summary>
     /// ID             DISK USAGE   CONTENT SIZE   IN USE

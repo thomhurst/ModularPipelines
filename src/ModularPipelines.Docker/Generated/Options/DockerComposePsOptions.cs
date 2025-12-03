@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "ps")]
 public record DockerComposePsOptions : DockerOptions
 {
-    [CliOption("--all", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
-    public string? All { get; set; }
+    [CliFlag("--all", ShortForm = "-a")]
+    public bool? All { get; set; }
 
     [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
     public string? Filter { get; set; }
@@ -31,22 +31,22 @@ public record DockerComposePsOptions : DockerOptions
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [CliOption("--no-trunc", Format = OptionFormat.EqualsSeparated)]
-    public string? NoTrunc { get; set; }
+    [CliFlag("--no-trunc")]
+    public bool? NoTrunc { get; set; }
 
     /// <summary>
     /// true
     /// </summary>
-    [CliOption("--orphans", Format = OptionFormat.EqualsSeparated)]
-    public string? Orphans { get; set; }
+    [CliFlag("--orphans")]
+    public bool? Orphans { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
-    [CliOption("--services", Format = OptionFormat.EqualsSeparated)]
-    public string? Services { get; set; }
+    [CliFlag("--services")]
+    public bool? Services { get; set; }
 
-    [CliOption("--status", Format = OptionFormat.EqualsSeparated)]
-    public string? Status { get; set; }
+    [CliOption("--status", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Status { get; set; }
 
 }

@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "events")]
 public record DockerComposeEventsOptions : DockerOptions
 {
-    [CliOption("--json", Format = OptionFormat.EqualsSeparated)]
-    public string? Json { get; set; }
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
 
     [CliOption("--since", Format = OptionFormat.EqualsSeparated)]
     public string? Since { get; set; }

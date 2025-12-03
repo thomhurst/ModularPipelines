@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "ls")]
 public record DockerComposeLsOptions : DockerOptions
 {
-    [CliOption("--all", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
-    public string? All { get; set; }
+    [CliFlag("--all", ShortForm = "-a")]
+    public bool? All { get; set; }
 
     [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
     public string? Filter { get; set; }
@@ -31,7 +31,7 @@ public record DockerComposeLsOptions : DockerOptions
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
 }

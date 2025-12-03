@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "trust", "signer", "remove")]
 public record DockerTrustSignerRemoveOptions : DockerOptions
 {
-    [CliOption("--force", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? Force { get; set; }
+    [CliFlag("--force", ShortForm = "-f")]
+    public bool? Force { get; set; }
 
     /// <summary>
     /// No signatures for example/trust-demo

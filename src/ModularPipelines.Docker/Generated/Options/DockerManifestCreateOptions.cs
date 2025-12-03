@@ -19,10 +19,10 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "manifest", "create")]
 public record DockerManifestCreateOptions : DockerOptions
 {
-    [CliOption("--amend", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
-    public string? Amend { get; set; }
+    [CliFlag("--amend", ShortForm = "-a")]
+    public bool? Amend { get; set; }
 
-    [CliOption("--insecure", Format = OptionFormat.EqualsSeparated)]
-    public string? Insecure { get; set; }
+    [CliFlag("--insecure")]
+    public bool? Insecure { get; set; }
 
 }

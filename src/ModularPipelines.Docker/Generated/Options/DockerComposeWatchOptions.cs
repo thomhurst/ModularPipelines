@@ -19,16 +19,16 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "watch")]
 public record DockerComposeWatchOptions : DockerOptions
 {
-    [CliOption("--no-up", Format = OptionFormat.EqualsSeparated)]
-    public string? NoUp { get; set; }
+    [CliFlag("--no-up")]
+    public bool? NoUp { get; set; }
 
     /// <summary>
     /// true
     /// </summary>
-    [CliOption("--prune", Format = OptionFormat.EqualsSeparated)]
-    public string? Prune { get; set; }
+    [CliFlag("--prune")]
+    public bool? Prune { get; set; }
 
-    [CliOption("--quiet", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet")]
+    public bool? Quiet { get; set; }
 
 }

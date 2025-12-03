@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "trust", "sign")]
 public record DockerTrustSignOptions : DockerOptions
 {
-    [CliOption("--local", Format = OptionFormat.EqualsSeparated)]
-    public string? Local { get; set; }
+    [CliFlag("--local")]
+    public bool? Local { get; set; }
 
     /// <summary>
     /// SIGNED TAG          DIGEST                                                             SIGNERS

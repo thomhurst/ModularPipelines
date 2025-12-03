@@ -19,23 +19,23 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "service", "logs")]
 public record DockerServiceLogsOptions : DockerOptions
 {
-    [CliOption("--details", Format = OptionFormat.EqualsSeparated)]
-    public string? Details { get; set; }
+    [CliFlag("--details")]
+    public bool? Details { get; set; }
 
-    [CliOption("--follow", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? Follow { get; set; }
+    [CliFlag("--follow", ShortForm = "-f")]
+    public bool? Follow { get; set; }
 
-    [CliOption("--no-resolve", Format = OptionFormat.EqualsSeparated)]
-    public string? NoResolve { get; set; }
+    [CliFlag("--no-resolve")]
+    public bool? NoResolve { get; set; }
 
-    [CliOption("--no-task-ids", Format = OptionFormat.EqualsSeparated)]
-    public string? NoTaskIds { get; set; }
+    [CliFlag("--no-task-ids")]
+    public bool? NoTaskIds { get; set; }
 
-    [CliOption("--no-trunc", Format = OptionFormat.EqualsSeparated)]
-    public string? NoTrunc { get; set; }
+    [CliFlag("--no-trunc")]
+    public bool? NoTrunc { get; set; }
 
-    [CliOption("--raw", Format = OptionFormat.EqualsSeparated)]
-    public string? Raw { get; set; }
+    [CliFlag("--raw")]
+    public bool? Raw { get; set; }
 
     [CliOption("--since", Format = OptionFormat.EqualsSeparated)]
     public string? Since { get; set; }
@@ -46,7 +46,7 @@ public record DockerServiceLogsOptions : DockerOptions
     [CliOption("--tail", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public string? Tail { get; set; }
 
-    [CliOption("--timestamps", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public string? Timestamps { get; set; }
+    [CliFlag("--timestamps", ShortForm = "-t")]
+    public bool? Timestamps { get; set; }
 
 }

@@ -22,7 +22,7 @@ public record DockerPluginPushOptions : DockerOptions
     /// <summary>
     /// true
     /// </summary>
-    [CliOption("--disable-content-trust", Format = OptionFormat.EqualsSeparated)]
-    public string? DisableContentTrust { get; set; }
+    [CliFlag("--disable-content-trust")]
+    public bool? DisableContentTrust { get; set; }
 
 }

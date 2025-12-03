@@ -19,16 +19,16 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "down")]
 public record DockerComposeDownOptions : DockerOptions
 {
-    [CliOption("--remove-orphans", Format = OptionFormat.EqualsSeparated)]
-    public string? RemoveOrphans { get; set; }
+    [CliFlag("--remove-orphans")]
+    public bool? RemoveOrphans { get; set; }
 
     [CliOption("--rmi", Format = OptionFormat.EqualsSeparated)]
     public string? Rmi { get; set; }
 
     [CliOption("--timeout", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public string? Timeout { get; set; }
+    public int? Timeout { get; set; }
 
-    [CliOption("--volumes", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public string? Volumes { get; set; }
+    [CliFlag("--volumes", ShortForm = "-v")]
+    public bool? Volumes { get; set; }
 
 }

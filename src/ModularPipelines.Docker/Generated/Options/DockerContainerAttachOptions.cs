@@ -22,14 +22,14 @@ public record DockerContainerAttachOptions : DockerOptions
     [CliOption("--detach-keys", Format = OptionFormat.EqualsSeparated)]
     public string? DetachKeys { get; set; }
 
-    [CliOption("--no-stdin", Format = OptionFormat.EqualsSeparated)]
-    public string? NoStdin { get; set; }
+    [CliFlag("--no-stdin")]
+    public bool? NoStdin { get; set; }
 
     /// <summary>
     /// true
     /// </summary>
-    [CliOption("--sig-proxy", Format = OptionFormat.EqualsSeparated)]
-    public string? SigProxy { get; set; }
+    [CliFlag("--sig-proxy")]
+    public bool? SigProxy { get; set; }
 
     /// <summary>
     /// alpine top -b

@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "config")]
 public record DockerComposeConfigOptions : DockerOptions
 {
-    [CliOption("--environment", Format = OptionFormat.EqualsSeparated)]
-    public string? Environment { get; set; }
+    [CliFlag("--environment")]
+    public bool? Environment { get; set; }
 
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
@@ -28,52 +28,52 @@ public record DockerComposeConfigOptions : DockerOptions
     [CliOption("--hash", Format = OptionFormat.EqualsSeparated)]
     public string? Hash { get; set; }
 
-    [CliOption("--images", Format = OptionFormat.EqualsSeparated)]
-    public string? Images { get; set; }
+    [CliFlag("--images")]
+    public bool? Images { get; set; }
 
-    [CliOption("--lock-image-digests", Format = OptionFormat.EqualsSeparated)]
-    public string? LockImageDigests { get; set; }
+    [CliFlag("--lock-image-digests")]
+    public bool? LockImageDigests { get; set; }
 
-    [CliOption("--models", Format = OptionFormat.EqualsSeparated)]
-    public string? Models { get; set; }
+    [CliFlag("--models")]
+    public bool? Models { get; set; }
 
-    [CliOption("--networks", Format = OptionFormat.EqualsSeparated)]
-    public string? Networks { get; set; }
+    [CliFlag("--networks")]
+    public bool? Networks { get; set; }
 
-    [CliOption("--no-consistency", Format = OptionFormat.EqualsSeparated)]
-    public string? NoConsistency { get; set; }
+    [CliFlag("--no-consistency")]
+    public bool? NoConsistency { get; set; }
 
-    [CliOption("--no-env-resolution", Format = OptionFormat.EqualsSeparated)]
-    public string? NoEnvResolution { get; set; }
+    [CliFlag("--no-env-resolution")]
+    public bool? NoEnvResolution { get; set; }
 
-    [CliOption("--no-interpolate", Format = OptionFormat.EqualsSeparated)]
-    public string? NoInterpolate { get; set; }
+    [CliFlag("--no-interpolate")]
+    public bool? NoInterpolate { get; set; }
 
-    [CliOption("--no-normalize", Format = OptionFormat.EqualsSeparated)]
-    public string? NoNormalize { get; set; }
+    [CliFlag("--no-normalize")]
+    public bool? NoNormalize { get; set; }
 
-    [CliOption("--no-path-resolution", Format = OptionFormat.EqualsSeparated)]
-    public string? NoPathResolution { get; set; }
+    [CliFlag("--no-path-resolution")]
+    public bool? NoPathResolution { get; set; }
 
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public string? Output { get; set; }
 
-    [CliOption("--profiles", Format = OptionFormat.EqualsSeparated)]
-    public string? Profiles { get; set; }
+    [CliFlag("--profiles")]
+    public bool? Profiles { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
-    [CliOption("--resolve-image-digests", Format = OptionFormat.EqualsSeparated)]
-    public string? ResolveImageDigests { get; set; }
+    [CliFlag("--resolve-image-digests")]
+    public bool? ResolveImageDigests { get; set; }
 
-    [CliOption("--services", Format = OptionFormat.EqualsSeparated)]
-    public string? Services { get; set; }
+    [CliFlag("--services")]
+    public bool? Services { get; set; }
 
-    [CliOption("--variables", Format = OptionFormat.EqualsSeparated)]
-    public string? Variables { get; set; }
+    [CliFlag("--variables")]
+    public bool? Variables { get; set; }
 
-    [CliOption("--volumes", Format = OptionFormat.EqualsSeparated)]
-    public string? Volumes { get; set; }
+    [CliFlag("--volumes")]
+    public bool? Volumes { get; set; }
 
 }

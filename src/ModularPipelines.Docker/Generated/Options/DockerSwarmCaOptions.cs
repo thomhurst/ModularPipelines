@@ -31,17 +31,17 @@ public record DockerSwarmCaOptions : DockerOptions
     [CliOption("--cert-expiry", Format = OptionFormat.EqualsSeparated)]
     public string? CertExpiry { get; set; }
 
-    [CliOption("--detach", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
-    public string? Detach { get; set; }
+    [CliFlag("--detach", ShortForm = "-d")]
+    public bool? Detach { get; set; }
 
     [CliOption("--external-ca", Format = OptionFormat.EqualsSeparated)]
     public string? ExternalCa { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
-    [CliOption("--rotate", Format = OptionFormat.EqualsSeparated)]
-    public string? Rotate { get; set; }
+    [CliFlag("--rotate")]
+    public bool? Rotate { get; set; }
 
     /// <summary>
     /// MIIBazCCARCgAwIBAgIUJPzo67QC7g8Ebg2ansjkZ8CbmaswCgYIKoZIzj0EAwIw

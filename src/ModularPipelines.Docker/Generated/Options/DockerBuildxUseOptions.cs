@@ -19,10 +19,10 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "buildx", "use")]
 public record DockerBuildxUseOptions : DockerOptions
 {
-    [CliOption("--default", Format = OptionFormat.EqualsSeparated)]
-    public string? Default { get; set; }
+    [CliFlag("--default")]
+    public bool? Default { get; set; }
 
-    [CliOption("--global", Format = OptionFormat.EqualsSeparated)]
-    public string? Global { get; set; }
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
 
 }

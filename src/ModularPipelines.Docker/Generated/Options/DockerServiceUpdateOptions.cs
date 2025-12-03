@@ -22,53 +22,53 @@ public record DockerServiceUpdateOptions : DockerOptions
     [CliOption("--args", Format = OptionFormat.EqualsSeparated)]
     public string? Args { get; set; }
 
-    [CliOption("--cap-add", Format = OptionFormat.EqualsSeparated)]
-    public string? CapAdd { get; set; }
+    [CliOption("--cap-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? CapAdd { get; set; }
 
-    [CliOption("--cap-drop", Format = OptionFormat.EqualsSeparated)]
-    public string? CapDrop { get; set; }
+    [CliOption("--cap-drop", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? CapDrop { get; set; }
 
     [CliOption("--config-add", Format = OptionFormat.EqualsSeparated)]
     public string? ConfigAdd { get; set; }
 
-    [CliOption("--config-rm", Format = OptionFormat.EqualsSeparated)]
-    public string? ConfigRm { get; set; }
+    [CliOption("--config-rm", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? ConfigRm { get; set; }
 
-    [CliOption("--constraint-add", Format = OptionFormat.EqualsSeparated)]
-    public string? ConstraintAdd { get; set; }
+    [CliOption("--constraint-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? ConstraintAdd { get; set; }
 
-    [CliOption("--constraint-rm", Format = OptionFormat.EqualsSeparated)]
-    public string? ConstraintRm { get; set; }
+    [CliOption("--constraint-rm", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? ConstraintRm { get; set; }
 
-    [CliOption("--container-label-add", Format = OptionFormat.EqualsSeparated)]
-    public string? ContainerLabelAdd { get; set; }
+    [CliOption("--container-label-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? ContainerLabelAdd { get; set; }
 
-    [CliOption("--container-label-rm", Format = OptionFormat.EqualsSeparated)]
-    public string? ContainerLabelRm { get; set; }
+    [CliOption("--container-label-rm", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? ContainerLabelRm { get; set; }
 
     [CliOption("--credential-spec", Format = OptionFormat.EqualsSeparated)]
     public string? CredentialSpec { get; set; }
 
-    [CliOption("--detach", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
-    public string? Detach { get; set; }
+    [CliFlag("--detach", ShortForm = "-d")]
+    public bool? Detach { get; set; }
 
-    [CliOption("--dns-add", Format = OptionFormat.EqualsSeparated)]
-    public string? DnsAdd { get; set; }
+    [CliOption("--dns-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? DnsAdd { get; set; }
 
-    [CliOption("--dns-option-add", Format = OptionFormat.EqualsSeparated)]
-    public string? DnsOptionAdd { get; set; }
+    [CliOption("--dns-option-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? DnsOptionAdd { get; set; }
 
-    [CliOption("--dns-option-rm", Format = OptionFormat.EqualsSeparated)]
-    public string? DnsOptionRm { get; set; }
+    [CliOption("--dns-option-rm", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? DnsOptionRm { get; set; }
 
-    [CliOption("--dns-rm", Format = OptionFormat.EqualsSeparated)]
-    public string? DnsRm { get; set; }
+    [CliOption("--dns-rm", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? DnsRm { get; set; }
 
-    [CliOption("--dns-search-add", Format = OptionFormat.EqualsSeparated)]
-    public string? DnsSearchAdd { get; set; }
+    [CliOption("--dns-search-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? DnsSearchAdd { get; set; }
 
-    [CliOption("--dns-search-rm", Format = OptionFormat.EqualsSeparated)]
-    public string? DnsSearchRm { get; set; }
+    [CliOption("--dns-search-rm", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? DnsSearchRm { get; set; }
 
     [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointMode { get; set; }
@@ -76,26 +76,26 @@ public record DockerServiceUpdateOptions : DockerOptions
     [CliOption("--entrypoint", Format = OptionFormat.EqualsSeparated)]
     public string? Entrypoint { get; set; }
 
-    [CliOption("--env-add", Format = OptionFormat.EqualsSeparated)]
-    public string? EnvAdd { get; set; }
+    [CliOption("--env-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? EnvAdd { get; set; }
 
-    [CliOption("--env-rm", Format = OptionFormat.EqualsSeparated)]
-    public string? EnvRm { get; set; }
+    [CliOption("--env-rm", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? EnvRm { get; set; }
 
-    [CliOption("--force", Format = OptionFormat.EqualsSeparated)]
-    public string? Force { get; set; }
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
 
-    [CliOption("--generic-resource-add", Format = OptionFormat.EqualsSeparated)]
-    public string? GenericResourceAdd { get; set; }
+    [CliOption("--generic-resource-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? GenericResourceAdd { get; set; }
 
-    [CliOption("--generic-resource-rm", Format = OptionFormat.EqualsSeparated)]
-    public string? GenericResourceRm { get; set; }
+    [CliOption("--generic-resource-rm", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? GenericResourceRm { get; set; }
 
-    [CliOption("--group-add", Format = OptionFormat.EqualsSeparated)]
-    public string? GroupAdd { get; set; }
+    [CliOption("--group-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? GroupAdd { get; set; }
 
-    [CliOption("--group-rm", Format = OptionFormat.EqualsSeparated)]
-    public string? GroupRm { get; set; }
+    [CliOption("--group-rm", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? GroupRm { get; set; }
 
     [CliOption("--health-cmd", Format = OptionFormat.EqualsSeparated)]
     public string? HealthCmd { get; set; }
@@ -104,7 +104,7 @@ public record DockerServiceUpdateOptions : DockerOptions
     public string? HealthInterval { get; set; }
 
     [CliOption("--health-retries", Format = OptionFormat.EqualsSeparated)]
-    public string? HealthRetries { get; set; }
+    public int? HealthRetries { get; set; }
 
     [CliOption("--health-start-interval", Format = OptionFormat.EqualsSeparated)]
     public string? HealthStartInterval { get; set; }
@@ -115,11 +115,11 @@ public record DockerServiceUpdateOptions : DockerOptions
     [CliOption("--health-timeout", Format = OptionFormat.EqualsSeparated)]
     public string? HealthTimeout { get; set; }
 
-    [CliOption("--host-add", Format = OptionFormat.EqualsSeparated)]
-    public string? HostAdd { get; set; }
+    [CliOption("--host-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? HostAdd { get; set; }
 
-    [CliOption("--host-rm", Format = OptionFormat.EqualsSeparated)]
-    public string? HostRm { get; set; }
+    [CliOption("--host-rm", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? HostRm { get; set; }
 
     [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]
     public string? Hostname { get; set; }
@@ -127,17 +127,17 @@ public record DockerServiceUpdateOptions : DockerOptions
     [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
     public string? Image { get; set; }
 
-    [CliOption("--init", Format = OptionFormat.EqualsSeparated)]
-    public string? Init { get; set; }
+    [CliFlag("--init")]
+    public bool? Init { get; set; }
 
     [CliOption("--isolation", Format = OptionFormat.EqualsSeparated)]
     public string? Isolation { get; set; }
 
-    [CliOption("--label-add", Format = OptionFormat.EqualsSeparated)]
-    public string? LabelAdd { get; set; }
+    [CliOption("--label-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? LabelAdd { get; set; }
 
-    [CliOption("--label-rm", Format = OptionFormat.EqualsSeparated)]
-    public string? LabelRm { get; set; }
+    [CliOption("--label-rm", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? LabelRm { get; set; }
 
     [CliOption("--limit-cpu", Format = OptionFormat.EqualsSeparated)]
     public string? LimitCpu { get; set; }
@@ -146,37 +146,37 @@ public record DockerServiceUpdateOptions : DockerOptions
     public string? LimitMemory { get; set; }
 
     [CliOption("--limit-pids", Format = OptionFormat.EqualsSeparated)]
-    public string? LimitPids { get; set; }
+    public int? LimitPids { get; set; }
 
     [CliOption("--log-driver", Format = OptionFormat.EqualsSeparated)]
     public string? LogDriver { get; set; }
 
-    [CliOption("--log-opt", Format = OptionFormat.EqualsSeparated)]
-    public string? LogOpt { get; set; }
+    [CliOption("--log-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? LogOpt { get; set; }
 
     [CliOption("--max-concurrent", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxConcurrent { get; set; }
+    public int? MaxConcurrent { get; set; }
 
     [CliOption("--mount-add", Format = OptionFormat.EqualsSeparated)]
     public string? MountAdd { get; set; }
 
-    [CliOption("--mount-rm", Format = OptionFormat.EqualsSeparated)]
-    public string? MountRm { get; set; }
+    [CliOption("--mount-rm", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? MountRm { get; set; }
 
     [CliOption("--network-add", Format = OptionFormat.EqualsSeparated)]
     public string? NetworkAdd { get; set; }
 
-    [CliOption("--network-rm", Format = OptionFormat.EqualsSeparated)]
-    public string? NetworkRm { get; set; }
+    [CliOption("--network-rm", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? NetworkRm { get; set; }
 
-    [CliOption("--no-healthcheck", Format = OptionFormat.EqualsSeparated)]
-    public string? NoHealthcheck { get; set; }
+    [CliFlag("--no-healthcheck")]
+    public bool? NoHealthcheck { get; set; }
 
-    [CliOption("--no-resolve-image", Format = OptionFormat.EqualsSeparated)]
-    public string? NoResolveImage { get; set; }
+    [CliFlag("--no-resolve-image")]
+    public bool? NoResolveImage { get; set; }
 
     [CliOption("--oom-score-adj", Format = OptionFormat.EqualsSeparated)]
-    public string? OomScoreAdj { get; set; }
+    public int? OomScoreAdj { get; set; }
 
     [CliOption("--placement-pref-add", Format = OptionFormat.EqualsSeparated)]
     public string? PlacementPrefAdd { get; set; }
@@ -190,17 +190,17 @@ public record DockerServiceUpdateOptions : DockerOptions
     [CliOption("--publish-rm", Format = OptionFormat.EqualsSeparated)]
     public string? PublishRm { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
-    [CliOption("--read-only", Format = OptionFormat.EqualsSeparated)]
-    public string? ReadOnly { get; set; }
+    [CliFlag("--read-only")]
+    public bool? ReadOnly { get; set; }
 
     [CliOption("--replicas", Format = OptionFormat.EqualsSeparated)]
-    public string? Replicas { get; set; }
+    public int? Replicas { get; set; }
 
     [CliOption("--replicas-max-per-node", Format = OptionFormat.EqualsSeparated)]
-    public string? ReplicasMaxPerNode { get; set; }
+    public int? ReplicasMaxPerNode { get; set; }
 
     [CliOption("--reserve-cpu", Format = OptionFormat.EqualsSeparated)]
     public string? ReserveCpu { get; set; }
@@ -215,13 +215,13 @@ public record DockerServiceUpdateOptions : DockerOptions
     public string? RestartDelay { get; set; }
 
     [CliOption("--restart-max-attempts", Format = OptionFormat.EqualsSeparated)]
-    public string? RestartMaxAttempts { get; set; }
+    public int? RestartMaxAttempts { get; set; }
 
     [CliOption("--restart-window", Format = OptionFormat.EqualsSeparated)]
     public string? RestartWindow { get; set; }
 
-    [CliOption("--rollback", Format = OptionFormat.EqualsSeparated)]
-    public string? Rollback { get; set; }
+    [CliFlag("--rollback")]
+    public bool? Rollback { get; set; }
 
     [CliOption("--rollback-delay", Format = OptionFormat.EqualsSeparated)]
     public string? RollbackDelay { get; set; }
@@ -230,7 +230,7 @@ public record DockerServiceUpdateOptions : DockerOptions
     public string? RollbackFailureAction { get; set; }
 
     [CliOption("--rollback-max-failure-ratio", Format = OptionFormat.EqualsSeparated)]
-    public string? RollbackMaxFailureRatio { get; set; }
+    public decimal? RollbackMaxFailureRatio { get; set; }
 
     [CliOption("--rollback-monitor", Format = OptionFormat.EqualsSeparated)]
     public string? RollbackMonitor { get; set; }
@@ -239,13 +239,13 @@ public record DockerServiceUpdateOptions : DockerOptions
     public string? RollbackOrder { get; set; }
 
     [CliOption("--rollback-parallelism", Format = OptionFormat.EqualsSeparated)]
-    public string? RollbackParallelism { get; set; }
+    public int? RollbackParallelism { get; set; }
 
     [CliOption("--secret-add", Format = OptionFormat.EqualsSeparated)]
     public string? SecretAdd { get; set; }
 
-    [CliOption("--secret-rm", Format = OptionFormat.EqualsSeparated)]
-    public string? SecretRm { get; set; }
+    [CliOption("--secret-rm", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? SecretRm { get; set; }
 
     [CliOption("--stop-grace-period", Format = OptionFormat.EqualsSeparated)]
     public string? StopGracePeriod { get; set; }
@@ -253,20 +253,20 @@ public record DockerServiceUpdateOptions : DockerOptions
     [CliOption("--stop-signal", Format = OptionFormat.EqualsSeparated)]
     public string? StopSignal { get; set; }
 
-    [CliOption("--sysctl-add", Format = OptionFormat.EqualsSeparated)]
-    public string? SysctlAdd { get; set; }
+    [CliOption("--sysctl-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? SysctlAdd { get; set; }
 
-    [CliOption("--sysctl-rm", Format = OptionFormat.EqualsSeparated)]
-    public string? SysctlRm { get; set; }
+    [CliOption("--sysctl-rm", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? SysctlRm { get; set; }
 
-    [CliOption("--tty", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public string? Tty { get; set; }
+    [CliFlag("--tty", ShortForm = "-t")]
+    public bool? Tty { get; set; }
 
     [CliOption("--ulimit-add", Format = OptionFormat.EqualsSeparated)]
     public string? UlimitAdd { get; set; }
 
-    [CliOption("--ulimit-rm", Format = OptionFormat.EqualsSeparated)]
-    public string? UlimitRm { get; set; }
+    [CliOption("--ulimit-rm", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? UlimitRm { get; set; }
 
     [CliOption("--update-delay", Format = OptionFormat.EqualsSeparated)]
     public string? UpdateDelay { get; set; }
@@ -275,7 +275,7 @@ public record DockerServiceUpdateOptions : DockerOptions
     public string? UpdateFailureAction { get; set; }
 
     [CliOption("--update-max-failure-ratio", Format = OptionFormat.EqualsSeparated)]
-    public string? UpdateMaxFailureRatio { get; set; }
+    public decimal? UpdateMaxFailureRatio { get; set; }
 
     [CliOption("--update-monitor", Format = OptionFormat.EqualsSeparated)]
     public string? UpdateMonitor { get; set; }
@@ -284,13 +284,13 @@ public record DockerServiceUpdateOptions : DockerOptions
     public string? UpdateOrder { get; set; }
 
     [CliOption("--update-parallelism", Format = OptionFormat.EqualsSeparated)]
-    public string? UpdateParallelism { get; set; }
+    public int? UpdateParallelism { get; set; }
 
     [CliOption("--user", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
     public string? User { get; set; }
 
-    [CliOption("--with-registry-auth", Format = OptionFormat.EqualsSeparated)]
-    public string? WithRegistryAuth { get; set; }
+    [CliFlag("--with-registry-auth")]
+    public bool? WithRegistryAuth { get; set; }
 
     [CliOption("--workdir", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }

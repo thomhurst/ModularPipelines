@@ -19,20 +19,20 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "stack", "deploy")]
 public record DockerStackDeployOptions : DockerOptions
 {
-    [CliOption("--compose-file", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public string? ComposeFile { get; set; }
+    [CliOption("--compose-file", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? ComposeFile { get; set; }
 
     /// <summary>
     /// true
     /// </summary>
-    [CliOption("--detach", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
-    public string? Detach { get; set; }
+    [CliFlag("--detach", ShortForm = "-d")]
+    public bool? Detach { get; set; }
 
-    [CliOption("--prune", Format = OptionFormat.EqualsSeparated)]
-    public string? Prune { get; set; }
+    [CliFlag("--prune")]
+    public bool? Prune { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
     /// <summary>
     /// always
@@ -40,7 +40,7 @@ public record DockerStackDeployOptions : DockerOptions
     [CliOption("--resolve-image", Format = OptionFormat.EqualsSeparated)]
     public string? ResolveImage { get; set; }
 
-    [CliOption("--with-registry-auth", Format = OptionFormat.EqualsSeparated)]
-    public string? WithRegistryAuth { get; set; }
+    [CliFlag("--with-registry-auth")]
+    public bool? WithRegistryAuth { get; set; }
 
 }

@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "trust", "inspect")]
 public record DockerTrustInspectOptions : DockerOptions
 {
-    [CliOption("--pretty", Format = OptionFormat.EqualsSeparated)]
-    public string? Pretty { get; set; }
+    [CliFlag("--pretty")]
+    public bool? Pretty { get; set; }
 
 }

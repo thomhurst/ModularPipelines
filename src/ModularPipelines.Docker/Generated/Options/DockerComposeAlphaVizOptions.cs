@@ -19,22 +19,22 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "alpha", "viz")]
 public record DockerComposeAlphaVizOptions : DockerOptions
 {
-    [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
-    public string? Image { get; set; }
+    [CliFlag("--image")]
+    public bool? Image { get; set; }
 
     /// <summary>
     /// 1
     /// </summary>
     [CliOption("--indentation-size", Format = OptionFormat.EqualsSeparated)]
-    public string? IndentationSize { get; set; }
+    public int? IndentationSize { get; set; }
 
-    [CliOption("--networks", Format = OptionFormat.EqualsSeparated)]
-    public string? Networks { get; set; }
+    [CliFlag("--networks")]
+    public bool? Networks { get; set; }
 
-    [CliOption("--ports", Format = OptionFormat.EqualsSeparated)]
-    public string? Ports { get; set; }
+    [CliFlag("--ports")]
+    public bool? Ports { get; set; }
 
-    [CliOption("--spaces", Format = OptionFormat.EqualsSeparated)]
-    public string? Spaces { get; set; }
+    [CliFlag("--spaces")]
+    public bool? Spaces { get; set; }
 
 }

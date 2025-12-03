@@ -19,13 +19,13 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "buildx", "inspect")]
 public record DockerBuildxInspectOptions : DockerOptions
 {
-    [CliOption("--bootstrap", Format = OptionFormat.EqualsSeparated)]
-    public string? Bootstrap { get; set; }
+    [CliFlag("--bootstrap")]
+    public bool? Bootstrap { get; set; }
 
     /// <summary>
     /// security.insecure --allow-insecure-entitlement network.host
     /// </summary>
-    [CliOption("--debug", Format = OptionFormat.EqualsSeparated)]
-    public string? Debug { get; set; }
+    [CliFlag("--debug")]
+    public bool? Debug { get; set; }
 
 }

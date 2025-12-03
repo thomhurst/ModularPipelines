@@ -23,19 +23,19 @@ public record DockerContainerUpdateOptions : DockerOptions
     public string? BlkioWeight { get; set; }
 
     [CliOption("--cpu-period", Format = OptionFormat.EqualsSeparated)]
-    public string? CpuPeriod { get; set; }
+    public int? CpuPeriod { get; set; }
 
     [CliOption("--cpu-quota", Format = OptionFormat.EqualsSeparated)]
-    public string? CpuQuota { get; set; }
+    public int? CpuQuota { get; set; }
 
     [CliOption("--cpu-rt-period", Format = OptionFormat.EqualsSeparated)]
-    public string? CpuRtPeriod { get; set; }
+    public int? CpuRtPeriod { get; set; }
 
     [CliOption("--cpu-rt-runtime", Format = OptionFormat.EqualsSeparated)]
-    public string? CpuRtRuntime { get; set; }
+    public int? CpuRtRuntime { get; set; }
 
     [CliOption("--cpu-shares", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public string? CpuShares { get; set; }
+    public int? CpuShares { get; set; }
 
     [CliOption("--cpus", Format = OptionFormat.EqualsSeparated)]
     public string? Cpus { get; set; }
@@ -56,7 +56,7 @@ public record DockerContainerUpdateOptions : DockerOptions
     public string? MemorySwap { get; set; }
 
     [CliOption("--pids-limit", Format = OptionFormat.EqualsSeparated)]
-    public string? PidsLimit { get; set; }
+    public int? PidsLimit { get; set; }
 
     [CliOption("--restart", Format = OptionFormat.EqualsSeparated)]
     public string? Restart { get; set; }

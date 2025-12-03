@@ -19,10 +19,10 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "manifest", "push")]
 public record DockerManifestPushOptions : DockerOptions
 {
-    [CliOption("--insecure", Format = OptionFormat.EqualsSeparated)]
-    public string? Insecure { get; set; }
+    [CliFlag("--insecure")]
+    public bool? Insecure { get; set; }
 
-    [CliOption("--purge", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
-    public string? Purge { get; set; }
+    [CliFlag("--purge", ShortForm = "-p")]
+    public bool? Purge { get; set; }
 
 }

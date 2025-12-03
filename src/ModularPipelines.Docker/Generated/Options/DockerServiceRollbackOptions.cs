@@ -19,11 +19,11 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "service", "rollback")]
 public record DockerServiceRollbackOptions : DockerOptions
 {
-    [CliOption("--detach", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
-    public string? Detach { get; set; }
+    [CliFlag("--detach", ShortForm = "-d")]
+    public bool? Detach { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
     /// <summary>
     /// -p 8080:80 nginx:alpine

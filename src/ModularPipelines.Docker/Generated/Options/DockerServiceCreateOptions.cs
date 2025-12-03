@@ -19,35 +19,35 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "service", "create")]
 public record DockerServiceCreateOptions : DockerOptions
 {
-    [CliOption("--cap-add", Format = OptionFormat.EqualsSeparated)]
-    public string? CapAdd { get; set; }
+    [CliOption("--cap-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? CapAdd { get; set; }
 
-    [CliOption("--cap-drop", Format = OptionFormat.EqualsSeparated)]
-    public string? CapDrop { get; set; }
+    [CliOption("--cap-drop", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? CapDrop { get; set; }
 
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
     public string? Config { get; set; }
 
-    [CliOption("--constraint", Format = OptionFormat.EqualsSeparated)]
-    public string? Constraint { get; set; }
+    [CliOption("--constraint", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Constraint { get; set; }
 
-    [CliOption("--container-label", Format = OptionFormat.EqualsSeparated)]
-    public string? ContainerLabel { get; set; }
+    [CliOption("--container-label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? ContainerLabel { get; set; }
 
     [CliOption("--credential-spec", Format = OptionFormat.EqualsSeparated)]
     public string? CredentialSpec { get; set; }
 
-    [CliOption("--detach", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
-    public string? Detach { get; set; }
+    [CliFlag("--detach", ShortForm = "-d")]
+    public bool? Detach { get; set; }
 
-    [CliOption("--dns", Format = OptionFormat.EqualsSeparated)]
-    public string? Dns { get; set; }
+    [CliOption("--dns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Dns { get; set; }
 
-    [CliOption("--dns-option", Format = OptionFormat.EqualsSeparated)]
-    public string? DnsOption { get; set; }
+    [CliOption("--dns-option", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? DnsOption { get; set; }
 
-    [CliOption("--dns-search", Format = OptionFormat.EqualsSeparated)]
-    public string? DnsSearch { get; set; }
+    [CliOption("--dns-search", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? DnsSearch { get; set; }
 
     /// <summary>
     /// vip
@@ -58,17 +58,17 @@ public record DockerServiceCreateOptions : DockerOptions
     [CliOption("--entrypoint", Format = OptionFormat.EqualsSeparated)]
     public string? Entrypoint { get; set; }
 
-    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
-    public string? Env { get; set; }
+    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Env { get; set; }
 
-    [CliOption("--env-file", Format = OptionFormat.EqualsSeparated)]
-    public string? EnvFile { get; set; }
+    [CliOption("--env-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? EnvFile { get; set; }
 
-    [CliOption("--generic-resource", Format = OptionFormat.EqualsSeparated)]
-    public string? GenericResource { get; set; }
+    [CliOption("--generic-resource", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? GenericResource { get; set; }
 
-    [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
-    public string? Group { get; set; }
+    [CliOption("--group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Group { get; set; }
 
     [CliOption("--health-cmd", Format = OptionFormat.EqualsSeparated)]
     public string? HealthCmd { get; set; }
@@ -77,7 +77,7 @@ public record DockerServiceCreateOptions : DockerOptions
     public string? HealthInterval { get; set; }
 
     [CliOption("--health-retries", Format = OptionFormat.EqualsSeparated)]
-    public string? HealthRetries { get; set; }
+    public int? HealthRetries { get; set; }
 
     [CliOption("--health-start-interval", Format = OptionFormat.EqualsSeparated)]
     public string? HealthStartInterval { get; set; }
@@ -88,20 +88,20 @@ public record DockerServiceCreateOptions : DockerOptions
     [CliOption("--health-timeout", Format = OptionFormat.EqualsSeparated)]
     public string? HealthTimeout { get; set; }
 
-    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
-    public string? Host { get; set; }
+    [CliOption("--host", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Host { get; set; }
 
     [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]
     public string? Hostname { get; set; }
 
-    [CliOption("--init", Format = OptionFormat.EqualsSeparated)]
-    public string? Init { get; set; }
+    [CliFlag("--init")]
+    public bool? Init { get; set; }
 
     [CliOption("--isolation", Format = OptionFormat.EqualsSeparated)]
     public string? Isolation { get; set; }
 
-    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
-    public string? Label { get; set; }
+    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Label { get; set; }
 
     [CliOption("--limit-cpu", Format = OptionFormat.EqualsSeparated)]
     public string? LimitCpu { get; set; }
@@ -110,16 +110,16 @@ public record DockerServiceCreateOptions : DockerOptions
     public string? LimitMemory { get; set; }
 
     [CliOption("--limit-pids", Format = OptionFormat.EqualsSeparated)]
-    public string? LimitPids { get; set; }
+    public int? LimitPids { get; set; }
 
     [CliOption("--log-driver", Format = OptionFormat.EqualsSeparated)]
     public string? LogDriver { get; set; }
 
-    [CliOption("--log-opt", Format = OptionFormat.EqualsSeparated)]
-    public string? LogOpt { get; set; }
+    [CliOption("--log-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? LogOpt { get; set; }
 
     [CliOption("--max-concurrent", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxConcurrent { get; set; }
+    public int? MaxConcurrent { get; set; }
 
     /// <summary>
     /// replicated
@@ -136,14 +136,14 @@ public record DockerServiceCreateOptions : DockerOptions
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
 
-    [CliOption("--no-healthcheck", Format = OptionFormat.EqualsSeparated)]
-    public string? NoHealthcheck { get; set; }
+    [CliFlag("--no-healthcheck")]
+    public bool? NoHealthcheck { get; set; }
 
-    [CliOption("--no-resolve-image", Format = OptionFormat.EqualsSeparated)]
-    public string? NoResolveImage { get; set; }
+    [CliFlag("--no-resolve-image")]
+    public bool? NoResolveImage { get; set; }
 
     [CliOption("--oom-score-adj", Format = OptionFormat.EqualsSeparated)]
-    public string? OomScoreAdj { get; set; }
+    public int? OomScoreAdj { get; set; }
 
     [CliOption("--placement-pref", Format = OptionFormat.EqualsSeparated)]
     public string? PlacementPref { get; set; }
@@ -151,17 +151,17 @@ public record DockerServiceCreateOptions : DockerOptions
     [CliOption("--publish", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public string? Publish { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
-    [CliOption("--read-only", Format = OptionFormat.EqualsSeparated)]
-    public string? ReadOnly { get; set; }
+    [CliFlag("--read-only")]
+    public bool? ReadOnly { get; set; }
 
     [CliOption("--replicas", Format = OptionFormat.EqualsSeparated)]
-    public string? Replicas { get; set; }
+    public int? Replicas { get; set; }
 
     [CliOption("--replicas-max-per-node", Format = OptionFormat.EqualsSeparated)]
-    public string? ReplicasMaxPerNode { get; set; }
+    public int? ReplicasMaxPerNode { get; set; }
 
     [CliOption("--reserve-cpu", Format = OptionFormat.EqualsSeparated)]
     public string? ReserveCpu { get; set; }
@@ -176,7 +176,7 @@ public record DockerServiceCreateOptions : DockerOptions
     public string? RestartDelay { get; set; }
 
     [CliOption("--restart-max-attempts", Format = OptionFormat.EqualsSeparated)]
-    public string? RestartMaxAttempts { get; set; }
+    public int? RestartMaxAttempts { get; set; }
 
     [CliOption("--restart-window", Format = OptionFormat.EqualsSeparated)]
     public string? RestartWindow { get; set; }
@@ -188,7 +188,7 @@ public record DockerServiceCreateOptions : DockerOptions
     public string? RollbackFailureAction { get; set; }
 
     [CliOption("--rollback-max-failure-ratio", Format = OptionFormat.EqualsSeparated)]
-    public string? RollbackMaxFailureRatio { get; set; }
+    public decimal? RollbackMaxFailureRatio { get; set; }
 
     [CliOption("--rollback-monitor", Format = OptionFormat.EqualsSeparated)]
     public string? RollbackMonitor { get; set; }
@@ -200,7 +200,7 @@ public record DockerServiceCreateOptions : DockerOptions
     /// 1
     /// </summary>
     [CliOption("--rollback-parallelism", Format = OptionFormat.EqualsSeparated)]
-    public string? RollbackParallelism { get; set; }
+    public int? RollbackParallelism { get; set; }
 
     [CliOption("--secret", Format = OptionFormat.EqualsSeparated)]
     public string? Secret { get; set; }
@@ -211,11 +211,11 @@ public record DockerServiceCreateOptions : DockerOptions
     [CliOption("--stop-signal", Format = OptionFormat.EqualsSeparated)]
     public string? StopSignal { get; set; }
 
-    [CliOption("--sysctl", Format = OptionFormat.EqualsSeparated)]
-    public string? Sysctl { get; set; }
+    [CliOption("--sysctl", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Sysctl { get; set; }
 
-    [CliOption("--tty", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public string? Tty { get; set; }
+    [CliFlag("--tty", ShortForm = "-t")]
+    public bool? Tty { get; set; }
 
     [CliOption("--ulimit", Format = OptionFormat.EqualsSeparated)]
     public string? Ulimit { get; set; }
@@ -227,7 +227,7 @@ public record DockerServiceCreateOptions : DockerOptions
     public string? UpdateFailureAction { get; set; }
 
     [CliOption("--update-max-failure-ratio", Format = OptionFormat.EqualsSeparated)]
-    public string? UpdateMaxFailureRatio { get; set; }
+    public decimal? UpdateMaxFailureRatio { get; set; }
 
     [CliOption("--update-monitor", Format = OptionFormat.EqualsSeparated)]
     public string? UpdateMonitor { get; set; }
@@ -239,13 +239,13 @@ public record DockerServiceCreateOptions : DockerOptions
     /// 1
     /// </summary>
     [CliOption("--update-parallelism", Format = OptionFormat.EqualsSeparated)]
-    public string? UpdateParallelism { get; set; }
+    public int? UpdateParallelism { get; set; }
 
     [CliOption("--user", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
     public string? User { get; set; }
 
-    [CliOption("--with-registry-auth", Format = OptionFormat.EqualsSeparated)]
-    public string? WithRegistryAuth { get; set; }
+    [CliFlag("--with-registry-auth")]
+    public bool? WithRegistryAuth { get; set; }
 
     [CliOption("--workdir", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }

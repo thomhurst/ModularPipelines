@@ -19,29 +19,29 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "buildx", "build")]
 public record DockerBuildxBuildOptions : DockerOptions
 {
-    [CliOption("--add-host", Format = OptionFormat.EqualsSeparated)]
-    public string? AddHost { get; set; }
+    [CliOption("--add-host", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? AddHost { get; set; }
 
-    [CliOption("--allow", Format = OptionFormat.EqualsSeparated)]
-    public string? Allow { get; set; }
+    [CliOption("--allow", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Allow { get; set; }
 
-    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated)]
-    public string? Annotation { get; set; }
+    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Annotation { get; set; }
 
-    [CliOption("--attest", Format = OptionFormat.EqualsSeparated)]
-    public string? Attest { get; set; }
+    [CliOption("--attest", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Attest { get; set; }
 
-    [CliOption("--build-arg", Format = OptionFormat.EqualsSeparated)]
-    public string? BuildArg { get; set; }
+    [CliOption("--build-arg", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? BuildArg { get; set; }
 
-    [CliOption("--build-context", Format = OptionFormat.EqualsSeparated)]
-    public string? BuildContext { get; set; }
+    [CliOption("--build-context", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? BuildContext { get; set; }
 
-    [CliOption("--cache-from", Format = OptionFormat.EqualsSeparated)]
-    public string? CacheFrom { get; set; }
+    [CliOption("--cache-from", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? CacheFrom { get; set; }
 
-    [CliOption("--cache-to", Format = OptionFormat.EqualsSeparated)]
-    public string? CacheTo { get; set; }
+    [CliOption("--cache-to", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? CacheTo { get; set; }
 
     /// <summary>
     /// build
@@ -52,8 +52,8 @@ public record DockerBuildxBuildOptions : DockerOptions
     [CliOption("--cgroup-parent", Format = OptionFormat.EqualsSeparated)]
     public string? CgroupParent { get; set; }
 
-    [CliOption("--check", Format = OptionFormat.EqualsSeparated)]
-    public string? Check { get; set; }
+    [CliFlag("--check")]
+    public bool? Check { get; set; }
 
     [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? File { get; set; }
@@ -61,11 +61,11 @@ public record DockerBuildxBuildOptions : DockerOptions
     [CliOption("--iidfile", Format = OptionFormat.EqualsSeparated)]
     public string? Iidfile { get; set; }
 
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
-    public string? Label { get; set; }
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Label { get; set; }
 
-    [CliOption("--load", Format = OptionFormat.EqualsSeparated)]
-    public string? Load { get; set; }
+    [CliFlag("--load")]
+    public bool? Load { get; set; }
 
     [CliOption("--metadata-file", Format = OptionFormat.EqualsSeparated)]
     public string? MetadataFile { get; set; }
@@ -73,17 +73,17 @@ public record DockerBuildxBuildOptions : DockerOptions
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
 
-    [CliOption("--no-cache", Format = OptionFormat.EqualsSeparated)]
-    public string? NoCache { get; set; }
+    [CliFlag("--no-cache")]
+    public bool? NoCache { get; set; }
 
-    [CliOption("--no-cache-filter", Format = OptionFormat.EqualsSeparated)]
-    public string? NoCacheFilter { get; set; }
+    [CliOption("--no-cache-filter", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? NoCacheFilter { get; set; }
 
-    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public string? Output { get; set; }
+    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Output { get; set; }
 
-    [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
-    public string? Platform { get; set; }
+    [CliOption("--platform", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Platform { get; set; }
 
     /// <summary>
     /// auto
@@ -94,29 +94,29 @@ public record DockerBuildxBuildOptions : DockerOptions
     [CliOption("--provenance", Format = OptionFormat.EqualsSeparated)]
     public string? Provenance { get; set; }
 
-    [CliOption("--pull", Format = OptionFormat.EqualsSeparated)]
-    public string? Pull { get; set; }
+    [CliFlag("--pull")]
+    public bool? Pull { get; set; }
 
-    [CliOption("--push", Format = OptionFormat.EqualsSeparated)]
-    public string? Push { get; set; }
+    [CliFlag("--push")]
+    public bool? Push { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
     [CliOption("--sbom", Format = OptionFormat.EqualsSeparated)]
     public string? Sbom { get; set; }
 
-    [CliOption("--secret", Format = OptionFormat.EqualsSeparated)]
-    public string? Secret { get; set; }
+    [CliOption("--secret", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Secret { get; set; }
 
     [CliOption("--shm-size", Format = OptionFormat.EqualsSeparated)]
     public string? ShmSize { get; set; }
 
-    [CliOption("--ssh", Format = OptionFormat.EqualsSeparated)]
-    public string? Ssh { get; set; }
+    [CliOption("--ssh", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Ssh { get; set; }
 
-    [CliOption("--tag", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public string? Tag { get; set; }
+    [CliOption("--tag", ShortForm = "-t", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Tag { get; set; }
 
     [CliOption("--target", Format = OptionFormat.EqualsSeparated)]
     public string? Target { get; set; }

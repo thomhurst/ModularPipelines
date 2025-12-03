@@ -22,7 +22,7 @@ public record DockerStackRmOptions : DockerOptions
     /// <summary>
     /// true
     /// </summary>
-    [CliOption("--detach", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
-    public string? Detach { get; set; }
+    [CliFlag("--detach", ShortForm = "-d")]
+    public bool? Detach { get; set; }
 
 }

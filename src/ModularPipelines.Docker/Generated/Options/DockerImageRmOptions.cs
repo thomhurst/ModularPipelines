@@ -19,14 +19,14 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "image", "rm")]
 public record DockerImageRmOptions : DockerOptions
 {
-    [CliOption("--force", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? Force { get; set; }
+    [CliFlag("--force", ShortForm = "-f")]
+    public bool? Force { get; set; }
 
-    [CliOption("--no-prune", Format = OptionFormat.EqualsSeparated)]
-    public string? NoPrune { get; set; }
+    [CliFlag("--no-prune")]
+    public bool? NoPrune { get; set; }
 
-    [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
-    public string? Platform { get; set; }
+    [CliOption("--platform", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Platform { get; set; }
 
     /// <summary>
     /// TAG       DIGEST                                                                    IMAGE ID        CREATED         SIZE

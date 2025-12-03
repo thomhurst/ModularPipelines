@@ -19,16 +19,16 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "container", "stats")]
 public record DockerContainerStatsOptions : DockerOptions
 {
-    [CliOption("--all", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
-    public string? All { get; set; }
+    [CliFlag("--all", ShortForm = "-a")]
+    public bool? All { get; set; }
 
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [CliOption("--no-stream", Format = OptionFormat.EqualsSeparated)]
-    public string? NoStream { get; set; }
+    [CliFlag("--no-stream")]
+    public bool? NoStream { get; set; }
 
-    [CliOption("--no-trunc", Format = OptionFormat.EqualsSeparated)]
-    public string? NoTrunc { get; set; }
+    [CliFlag("--no-trunc")]
+    public bool? NoTrunc { get; set; }
 
 }

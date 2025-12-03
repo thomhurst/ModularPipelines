@@ -19,13 +19,13 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "push")]
 public record DockerComposePushOptions : DockerOptions
 {
-    [CliOption("--ignore-push-failures", Format = OptionFormat.EqualsSeparated)]
-    public string? IgnorePushFailures { get; set; }
+    [CliFlag("--ignore-push-failures")]
+    public bool? IgnorePushFailures { get; set; }
 
-    [CliOption("--include-deps", Format = OptionFormat.EqualsSeparated)]
-    public string? IncludeDeps { get; set; }
+    [CliFlag("--include-deps")]
+    public bool? IncludeDeps { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
 }

@@ -22,13 +22,13 @@ public record DockerPluginUpgradeOptions : DockerOptions
     /// <summary>
     /// true
     /// </summary>
-    [CliOption("--disable-content-trust", Format = OptionFormat.EqualsSeparated)]
-    public string? DisableContentTrust { get; set; }
+    [CliFlag("--disable-content-trust")]
+    public bool? DisableContentTrust { get; set; }
 
-    [CliOption("--grant-all-permissions", Format = OptionFormat.EqualsSeparated)]
-    public string? GrantAllPermissions { get; set; }
+    [CliFlag("--grant-all-permissions")]
+    public bool? GrantAllPermissions { get; set; }
 
-    [CliOption("--skip-remote-check", Format = OptionFormat.EqualsSeparated)]
-    public string? SkipRemoteCheck { get; set; }
+    [CliFlag("--skip-remote-check")]
+    public bool? SkipRemoteCheck { get; set; }
 
 }

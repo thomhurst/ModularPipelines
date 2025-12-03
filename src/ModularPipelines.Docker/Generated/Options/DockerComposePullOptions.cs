@@ -19,19 +19,19 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "pull")]
 public record DockerComposePullOptions : DockerOptions
 {
-    [CliOption("--ignore-buildable", Format = OptionFormat.EqualsSeparated)]
-    public string? IgnoreBuildable { get; set; }
+    [CliFlag("--ignore-buildable")]
+    public bool? IgnoreBuildable { get; set; }
 
-    [CliOption("--ignore-pull-failures", Format = OptionFormat.EqualsSeparated)]
-    public string? IgnorePullFailures { get; set; }
+    [CliFlag("--ignore-pull-failures")]
+    public bool? IgnorePullFailures { get; set; }
 
-    [CliOption("--include-deps", Format = OptionFormat.EqualsSeparated)]
-    public string? IncludeDeps { get; set; }
+    [CliFlag("--include-deps")]
+    public bool? IncludeDeps { get; set; }
 
     [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
     public string? Policy { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
 }

@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "image", "import")]
 public record DockerImageImportOptions : DockerOptions
 {
-    [CliOption("--change", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public string? Change { get; set; }
+    [CliOption("--change", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Change { get; set; }
 
     [CliOption("--message", ShortForm = "-m", Format = OptionFormat.EqualsSeparated)]
     public string? Message { get; set; }

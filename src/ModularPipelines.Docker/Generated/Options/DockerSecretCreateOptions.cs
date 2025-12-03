@@ -22,8 +22,8 @@ public record DockerSecretCreateOptions : DockerOptions
     [CliOption("--driver", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
     public string? Driver { get; set; }
 
-    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
-    public string? Label { get; set; }
+    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Label { get; set; }
 
     [CliOption("--template-driver", Format = OptionFormat.EqualsSeparated)]
     public string? TemplateDriver { get; set; }

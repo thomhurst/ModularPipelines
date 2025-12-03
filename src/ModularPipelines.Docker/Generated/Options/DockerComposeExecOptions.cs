@@ -19,14 +19,14 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "exec")]
 public record DockerComposeExecOptions : DockerOptions
 {
-    [CliOption("--detach", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
-    public string? Detach { get; set; }
+    [CliFlag("--detach", ShortForm = "-d")]
+    public bool? Detach { get; set; }
 
-    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
-    public string? Env { get; set; }
+    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Env { get; set; }
 
-    [CliOption("--index", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public string[]? Index { get; set; }
+    [CliOption("--index", Format = OptionFormat.EqualsSeparated)]
+    public int? Index { get; set; }
 
     /// <summary>
     /// true
@@ -34,8 +34,8 @@ public record DockerComposeExecOptions : DockerOptions
     [CliOption("--no-tty", ShortForm = "-T", Format = OptionFormat.EqualsSeparated)]
     public string? NoTty { get; set; }
 
-    [CliOption("--privileged", Format = OptionFormat.EqualsSeparated)]
-    public string? Privileged { get; set; }
+    [CliFlag("--privileged")]
+    public bool? Privileged { get; set; }
 
     [CliOption("--user", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
     public string? User { get; set; }

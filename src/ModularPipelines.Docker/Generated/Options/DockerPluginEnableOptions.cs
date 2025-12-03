@@ -23,6 +23,6 @@ public record DockerPluginEnableOptions : DockerOptions
     /// 30
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public string? Timeout { get; set; }
+    public int? Timeout { get; set; }
 
 }

@@ -22,16 +22,16 @@ public record DockerComposeAttachOptions : DockerOptions
     [CliOption("--detach-keys", Format = OptionFormat.EqualsSeparated)]
     public string? DetachKeys { get; set; }
 
-    [CliOption("--index", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public string[]? Index { get; set; }
+    [CliOption("--index", Format = OptionFormat.EqualsSeparated)]
+    public int? Index { get; set; }
 
-    [CliOption("--no-stdin", Format = OptionFormat.EqualsSeparated)]
-    public string? NoStdin { get; set; }
+    [CliFlag("--no-stdin")]
+    public bool? NoStdin { get; set; }
 
     /// <summary>
     /// true
     /// </summary>
-    [CliOption("--sig-proxy", Format = OptionFormat.EqualsSeparated)]
-    public string? SigProxy { get; set; }
+    [CliFlag("--sig-proxy")]
+    public bool? SigProxy { get; set; }
 
 }

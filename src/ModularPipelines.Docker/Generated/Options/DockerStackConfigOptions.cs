@@ -19,10 +19,10 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "stack", "config")]
 public record DockerStackConfigOptions : DockerOptions
 {
-    [CliOption("--compose-file", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public string? ComposeFile { get; set; }
+    [CliOption("--compose-file", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? ComposeFile { get; set; }
 
-    [CliOption("--skip-interpolation", Format = OptionFormat.EqualsSeparated)]
-    public string? SkipInterpolation { get; set; }
+    [CliFlag("--skip-interpolation")]
+    public bool? SkipInterpolation { get; set; }
 
 }

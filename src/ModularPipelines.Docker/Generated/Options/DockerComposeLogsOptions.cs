@@ -19,17 +19,17 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "logs")]
 public record DockerComposeLogsOptions : DockerOptions
 {
-    [CliOption("--follow", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? Follow { get; set; }
+    [CliFlag("--follow", ShortForm = "-f")]
+    public bool? Follow { get; set; }
 
-    [CliOption("--index", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public string[]? Index { get; set; }
+    [CliOption("--index", Format = OptionFormat.EqualsSeparated)]
+    public int? Index { get; set; }
 
-    [CliOption("--no-color", Format = OptionFormat.EqualsSeparated)]
-    public string? NoColor { get; set; }
+    [CliFlag("--no-color")]
+    public bool? NoColor { get; set; }
 
-    [CliOption("--no-log-prefix", Format = OptionFormat.EqualsSeparated)]
-    public string? NoLogPrefix { get; set; }
+    [CliFlag("--no-log-prefix")]
+    public bool? NoLogPrefix { get; set; }
 
     [CliOption("--since", Format = OptionFormat.EqualsSeparated)]
     public string? Since { get; set; }
@@ -40,8 +40,8 @@ public record DockerComposeLogsOptions : DockerOptions
     [CliOption("--tail", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public string? Tail { get; set; }
 
-    [CliOption("--timestamps", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public string? Timestamps { get; set; }
+    [CliFlag("--timestamps", ShortForm = "-t")]
+    public bool? Timestamps { get; set; }
 
     [CliOption("--until", Format = OptionFormat.EqualsSeparated)]
     public string? Until { get; set; }

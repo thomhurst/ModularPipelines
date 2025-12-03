@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "buildx", "bake")]
 public record DockerBuildxBakeOptions : DockerOptions
 {
-    [CliOption("--allow", Format = OptionFormat.EqualsSeparated)]
-    public string? Allow { get; set; }
+    [CliOption("--allow", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Allow { get; set; }
 
     /// <summary>
     /// build
@@ -28,26 +28,26 @@ public record DockerBuildxBakeOptions : DockerOptions
     [CliOption("--call", Format = OptionFormat.EqualsSeparated)]
     public string? Call { get; set; }
 
-    [CliOption("--check", Format = OptionFormat.EqualsSeparated)]
-    public string? Check { get; set; }
+    [CliFlag("--check")]
+    public bool? Check { get; set; }
 
-    [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? File { get; set; }
+    [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? File { get; set; }
 
     [CliOption("--list", Format = OptionFormat.EqualsSeparated)]
     public string? List { get; set; }
 
-    [CliOption("--load", Format = OptionFormat.EqualsSeparated)]
-    public string? Load { get; set; }
+    [CliFlag("--load")]
+    public bool? Load { get; set; }
 
     [CliOption("--metadata-file", Format = OptionFormat.EqualsSeparated)]
     public string? MetadataFile { get; set; }
 
-    [CliOption("--no-cache", Format = OptionFormat.EqualsSeparated)]
-    public string? NoCache { get; set; }
+    [CliFlag("--no-cache")]
+    public bool? NoCache { get; set; }
 
-    [CliOption("--print", Format = OptionFormat.EqualsSeparated)]
-    public string? Print { get; set; }
+    [CliFlag("--print")]
+    public bool? Print { get; set; }
 
     /// <summary>
     /// auto
@@ -58,16 +58,16 @@ public record DockerBuildxBakeOptions : DockerOptions
     [CliOption("--provenance", Format = OptionFormat.EqualsSeparated)]
     public string? Provenance { get; set; }
 
-    [CliOption("--pull", Format = OptionFormat.EqualsSeparated)]
-    public string? Pull { get; set; }
+    [CliFlag("--pull")]
+    public bool? Pull { get; set; }
 
-    [CliOption("--push", Format = OptionFormat.EqualsSeparated)]
-    public string? Push { get; set; }
+    [CliFlag("--push")]
+    public bool? Push { get; set; }
 
     [CliOption("--sbom", Format = OptionFormat.EqualsSeparated)]
     public string? Sbom { get; set; }
 
-    [CliOption("--set", Format = OptionFormat.EqualsSeparated)]
-    public string? Set { get; set; }
+    [CliOption("--set", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Set { get; set; }
 
 }

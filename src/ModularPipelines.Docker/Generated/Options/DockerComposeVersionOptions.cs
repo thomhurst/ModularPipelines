@@ -22,7 +22,7 @@ public record DockerComposeVersionOptions : DockerOptions
     [CliOption("--format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [CliOption("--short", Format = OptionFormat.EqualsSeparated)]
-    public string? Short { get; set; }
+    [CliFlag("--short")]
+    public bool? Short { get; set; }
 
 }

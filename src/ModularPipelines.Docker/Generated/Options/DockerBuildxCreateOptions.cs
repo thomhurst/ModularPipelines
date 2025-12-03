@@ -19,11 +19,11 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "buildx", "create")]
 public record DockerBuildxCreateOptions : DockerOptions
 {
-    [CliOption("--append", Format = OptionFormat.EqualsSeparated)]
-    public string? Append { get; set; }
+    [CliFlag("--append")]
+    public bool? Append { get; set; }
 
-    [CliOption("--bootstrap", Format = OptionFormat.EqualsSeparated)]
-    public string? Bootstrap { get; set; }
+    [CliFlag("--bootstrap")]
+    public bool? Bootstrap { get; set; }
 
     [CliOption("--buildkitd-config", Format = OptionFormat.EqualsSeparated)]
     public string? BuildkitdConfig { get; set; }
@@ -34,11 +34,11 @@ public record DockerBuildxCreateOptions : DockerOptions
     [CliOption("--driver", Format = OptionFormat.EqualsSeparated)]
     public string? Driver { get; set; }
 
-    [CliOption("--driver-opt", Format = OptionFormat.EqualsSeparated)]
-    public string? DriverOpt { get; set; }
+    [CliOption("--driver-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? DriverOpt { get; set; }
 
-    [CliOption("--leave", Format = OptionFormat.EqualsSeparated)]
-    public string? Leave { get; set; }
+    [CliFlag("--leave")]
+    public bool? Leave { get; set; }
 
     [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
     public string? Name { get; set; }
@@ -46,10 +46,10 @@ public record DockerBuildxCreateOptions : DockerOptions
     [CliOption("--node", Format = OptionFormat.EqualsSeparated)]
     public string? Node { get; set; }
 
-    [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
-    public string? Platform { get; set; }
+    [CliOption("--platform", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Platform { get; set; }
 
-    [CliOption("--use", Format = OptionFormat.EqualsSeparated)]
-    public string? Use { get; set; }
+    [CliFlag("--use")]
+    public bool? Use { get; set; }
 
 }

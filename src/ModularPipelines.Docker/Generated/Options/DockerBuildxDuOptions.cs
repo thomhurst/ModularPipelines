@@ -25,8 +25,8 @@ public record DockerBuildxDuOptions : DockerOptions
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [CliOption("--verbose", Format = OptionFormat.EqualsSeparated)]
-    public string? Verbose { get; set; }
+    [CliFlag("--verbose")]
+    public bool? Verbose { get; set; }
 
     /// <summary>
     /// /out/ /

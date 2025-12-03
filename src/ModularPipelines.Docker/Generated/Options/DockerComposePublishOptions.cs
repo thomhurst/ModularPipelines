@@ -25,13 +25,13 @@ public record DockerComposePublishOptions : DockerOptions
     [CliOption("--oci-version", Format = OptionFormat.EqualsSeparated)]
     public string? OciVersion { get; set; }
 
-    [CliOption("--resolve-image-digests", Format = OptionFormat.EqualsSeparated)]
-    public string? ResolveImageDigests { get; set; }
+    [CliFlag("--resolve-image-digests")]
+    public bool? ResolveImageDigests { get; set; }
 
-    [CliOption("--with-env", Format = OptionFormat.EqualsSeparated)]
-    public string? WithEnv { get; set; }
+    [CliFlag("--with-env")]
+    public bool? WithEnv { get; set; }
 
-    [CliOption("--yes", ShortForm = "-y", Format = OptionFormat.EqualsSeparated)]
-    public string? Yes { get; set; }
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
 }

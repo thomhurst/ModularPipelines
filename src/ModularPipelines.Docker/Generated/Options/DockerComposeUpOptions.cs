@@ -19,56 +19,56 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "up")]
 public record DockerComposeUpOptions : DockerOptions
 {
-    [CliOption("--abort-on-container-exit", Format = OptionFormat.EqualsSeparated)]
-    public string? AbortOnContainerExit { get; set; }
+    [CliFlag("--abort-on-container-exit")]
+    public bool? AbortOnContainerExit { get; set; }
 
-    [CliOption("--abort-on-container-failure", Format = OptionFormat.EqualsSeparated)]
-    public string? AbortOnContainerFailure { get; set; }
+    [CliFlag("--abort-on-container-failure")]
+    public bool? AbortOnContainerFailure { get; set; }
 
-    [CliOption("--always-recreate-deps", Format = OptionFormat.EqualsSeparated)]
-    public string? AlwaysRecreateDeps { get; set; }
+    [CliFlag("--always-recreate-deps")]
+    public bool? AlwaysRecreateDeps { get; set; }
 
-    [CliOption("--attach", Format = OptionFormat.EqualsSeparated)]
-    public string? Attach { get; set; }
+    [CliOption("--attach", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Attach { get; set; }
 
-    [CliOption("--attach-dependencies", Format = OptionFormat.EqualsSeparated)]
-    public string? AttachDependencies { get; set; }
+    [CliFlag("--attach-dependencies")]
+    public bool? AttachDependencies { get; set; }
 
-    [CliOption("--build", Format = OptionFormat.EqualsSeparated)]
-    public string? Build { get; set; }
+    [CliFlag("--build")]
+    public bool? Build { get; set; }
 
-    [CliOption("--detach", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
-    public string? Detach { get; set; }
+    [CliFlag("--detach", ShortForm = "-d")]
+    public bool? Detach { get; set; }
 
     [CliOption("--exit-code-from", Format = OptionFormat.EqualsSeparated)]
     public string? ExitCodeFrom { get; set; }
 
-    [CliOption("--force-recreate", Format = OptionFormat.EqualsSeparated)]
-    public string? ForceRecreate { get; set; }
+    [CliFlag("--force-recreate")]
+    public bool? ForceRecreate { get; set; }
 
-    [CliOption("--menu", Format = OptionFormat.EqualsSeparated)]
-    public string? Menu { get; set; }
+    [CliFlag("--menu")]
+    public bool? Menu { get; set; }
 
-    [CliOption("--no-attach", Format = OptionFormat.EqualsSeparated)]
-    public string? NoAttach { get; set; }
+    [CliOption("--no-attach", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? NoAttach { get; set; }
 
-    [CliOption("--no-build", Format = OptionFormat.EqualsSeparated)]
-    public string? NoBuild { get; set; }
+    [CliFlag("--no-build")]
+    public bool? NoBuild { get; set; }
 
-    [CliOption("--no-color", Format = OptionFormat.EqualsSeparated)]
-    public string? NoColor { get; set; }
+    [CliFlag("--no-color")]
+    public bool? NoColor { get; set; }
 
-    [CliOption("--no-deps", Format = OptionFormat.EqualsSeparated)]
-    public string? NoDeps { get; set; }
+    [CliFlag("--no-deps")]
+    public bool? NoDeps { get; set; }
 
-    [CliOption("--no-log-prefix", Format = OptionFormat.EqualsSeparated)]
-    public string? NoLogPrefix { get; set; }
+    [CliFlag("--no-log-prefix")]
+    public bool? NoLogPrefix { get; set; }
 
-    [CliOption("--no-recreate", Format = OptionFormat.EqualsSeparated)]
-    public string? NoRecreate { get; set; }
+    [CliFlag("--no-recreate")]
+    public bool? NoRecreate { get; set; }
 
-    [CliOption("--no-start", Format = OptionFormat.EqualsSeparated)]
-    public string? NoStart { get; set; }
+    [CliFlag("--no-start")]
+    public bool? NoStart { get; set; }
 
     /// <summary>
     /// policy
@@ -76,37 +76,37 @@ public record DockerComposeUpOptions : DockerOptions
     [CliOption("--pull", Format = OptionFormat.EqualsSeparated)]
     public string? Pull { get; set; }
 
-    [CliOption("--quiet-build", Format = OptionFormat.EqualsSeparated)]
-    public string? QuietBuild { get; set; }
+    [CliFlag("--quiet-build")]
+    public bool? QuietBuild { get; set; }
 
-    [CliOption("--quiet-pull", Format = OptionFormat.EqualsSeparated)]
-    public string? QuietPull { get; set; }
+    [CliFlag("--quiet-pull")]
+    public bool? QuietPull { get; set; }
 
-    [CliOption("--remove-orphans", Format = OptionFormat.EqualsSeparated)]
-    public string? RemoveOrphans { get; set; }
+    [CliFlag("--remove-orphans")]
+    public bool? RemoveOrphans { get; set; }
 
-    [CliOption("--renew-anon-volumes", ShortForm = "-V", Format = OptionFormat.EqualsSeparated)]
-    public string? RenewAnonVolumes { get; set; }
+    [CliFlag("--renew-anon-volumes", ShortForm = "-V")]
+    public bool? RenewAnonVolumes { get; set; }
 
     [CliOption("--scale", Format = OptionFormat.EqualsSeparated)]
     public string? Scale { get; set; }
 
     [CliOption("--timeout", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public string? Timeout { get; set; }
+    public int? Timeout { get; set; }
 
-    [CliOption("--timestamps", Format = OptionFormat.EqualsSeparated)]
-    public string? Timestamps { get; set; }
+    [CliFlag("--timestamps")]
+    public bool? Timestamps { get; set; }
 
-    [CliOption("--wait", Format = OptionFormat.EqualsSeparated)]
-    public string? Wait { get; set; }
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
 
     [CliOption("--wait-timeout", Format = OptionFormat.EqualsSeparated)]
-    public string? WaitTimeout { get; set; }
+    public int? WaitTimeout { get; set; }
 
-    [CliOption("--watch", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
-    public string? Watch { get; set; }
+    [CliFlag("--watch", ShortForm = "-w")]
+    public bool? Watch { get; set; }
 
-    [CliOption("--yes", ShortForm = "-y", Format = OptionFormat.EqualsSeparated)]
-    public string? Yes { get; set; }
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
 }

@@ -19,17 +19,17 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "buildx", "imagetools", "create")]
 public record DockerBuildxImagetoolsCreateOptions : DockerOptions
 {
-    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated)]
-    public string? Annotation { get; set; }
+    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Annotation { get; set; }
 
-    [CliOption("--append", Format = OptionFormat.EqualsSeparated)]
-    public string? Append { get; set; }
+    [CliFlag("--append")]
+    public bool? Append { get; set; }
 
-    [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated)]
-    public string? DryRun { get; set; }
+    [CliFlag("--dry-run")]
+    public bool? DryRun { get; set; }
 
-    [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? File { get; set; }
+    [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? File { get; set; }
 
     [CliOption("--platform", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public string? Platform { get; set; }
@@ -37,8 +37,8 @@ public record DockerBuildxImagetoolsCreateOptions : DockerOptions
     /// <summary>
     /// true
     /// </summary>
-    [CliOption("--prefer-index", Format = OptionFormat.EqualsSeparated)]
-    public string? PreferIndex { get; set; }
+    [CliFlag("--prefer-index")]
+    public bool? PreferIndex { get; set; }
 
     /// <summary>
     /// auto
@@ -46,8 +46,8 @@ public record DockerBuildxImagetoolsCreateOptions : DockerOptions
     [CliOption("--progress", Format = OptionFormat.EqualsSeparated)]
     public string? Progress { get; set; }
 
-    [CliOption("--tag", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public string? Tag { get; set; }
+    [CliOption("--tag", ShortForm = "-t", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Tag { get; set; }
 
     /// <summary>
     /// | jq '.manifests[0] | .platform."os.version"="10.1"' &gt; descr.json

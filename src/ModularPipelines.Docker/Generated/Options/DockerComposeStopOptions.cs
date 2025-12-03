@@ -20,6 +20,6 @@ namespace ModularPipelines.Docker.Generated.Options;
 public record DockerComposeStopOptions : DockerOptions
 {
     [CliOption("--timeout", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public string? Timeout { get; set; }
+    public int? Timeout { get; set; }
 
 }

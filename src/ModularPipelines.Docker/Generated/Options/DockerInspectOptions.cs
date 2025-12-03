@@ -22,8 +22,8 @@ public record DockerInspectOptions : DockerOptions
     [CliOption("--format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [CliOption("--size", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
-    public string? Size { get; set; }
+    [CliFlag("--size", ShortForm = "-s")]
+    public bool? Size { get; set; }
 
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
     public string? Type { get; set; }

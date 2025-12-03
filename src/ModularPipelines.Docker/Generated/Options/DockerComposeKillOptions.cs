@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "kill")]
 public record DockerComposeKillOptions : DockerOptions
 {
-    [CliOption("--remove-orphans", Format = OptionFormat.EqualsSeparated)]
-    public string? RemoveOrphans { get; set; }
+    [CliFlag("--remove-orphans")]
+    public bool? RemoveOrphans { get; set; }
 
     /// <summary>
     /// SIGKILL

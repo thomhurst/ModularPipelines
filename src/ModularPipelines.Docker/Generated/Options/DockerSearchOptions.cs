@@ -26,9 +26,9 @@ public record DockerSearchOptions : DockerOptions
     public string? Format { get; set; }
 
     [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
-    public string? Limit { get; set; }
+    public int? Limit { get; set; }
 
-    [CliOption("--no-trunc", Format = OptionFormat.EqualsSeparated)]
-    public string? NoTrunc { get; set; }
+    [CliFlag("--no-trunc")]
+    public bool? NoTrunc { get; set; }
 
 }

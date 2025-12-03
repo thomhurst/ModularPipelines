@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "port")]
 public record DockerComposePortOptions : DockerOptions
 {
-    [CliOption("--index", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public string[]? Index { get; set; }
+    [CliOption("--index", Format = OptionFormat.EqualsSeparated)]
+    public int? Index { get; set; }
 
     /// <summary>
     /// tcp

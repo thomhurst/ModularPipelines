@@ -19,35 +19,35 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "run")]
 public record DockerComposeRunOptions : DockerOptions
 {
-    [CliOption("--build", Format = OptionFormat.EqualsSeparated)]
-    public string? Build { get; set; }
+    [CliFlag("--build")]
+    public bool? Build { get; set; }
 
-    [CliOption("--cap-add", Format = OptionFormat.EqualsSeparated)]
-    public string? CapAdd { get; set; }
+    [CliOption("--cap-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? CapAdd { get; set; }
 
-    [CliOption("--cap-drop", Format = OptionFormat.EqualsSeparated)]
-    public string? CapDrop { get; set; }
+    [CliOption("--cap-drop", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? CapDrop { get; set; }
 
-    [CliOption("--detach", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
-    public string? Detach { get; set; }
+    [CliFlag("--detach", ShortForm = "-d")]
+    public bool? Detach { get; set; }
 
     [CliOption("--entrypoint", Format = OptionFormat.EqualsSeparated)]
     public string? Entrypoint { get; set; }
 
-    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
-    public string? Env { get; set; }
+    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Env { get; set; }
 
-    [CliOption("--env-from-file", Format = OptionFormat.EqualsSeparated)]
-    public string? EnvFromFile { get; set; }
+    [CliOption("--env-from-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? EnvFromFile { get; set; }
 
     /// <summary>
     /// true
     /// </summary>
-    [CliOption("--interactive", ShortForm = "-i", Format = OptionFormat.EqualsSeparated)]
-    public string? Interactive { get; set; }
+    [CliFlag("--interactive", ShortForm = "-i")]
+    public bool? Interactive { get; set; }
 
-    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
-    public string? Label { get; set; }
+    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Label { get; set; }
 
     [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
     public string? Name { get; set; }
@@ -55,14 +55,14 @@ public record DockerComposeRunOptions : DockerOptions
     /// <summary>
     /// true
     /// </summary>
-    [CliOption("--no-TTY", ShortForm = "-T", Format = OptionFormat.EqualsSeparated)]
-    public string? NoTty { get; set; }
+    [CliFlag("--no-TTY", ShortForm = "-T")]
+    public bool? NoTty { get; set; }
 
-    [CliOption("--no-deps", Format = OptionFormat.EqualsSeparated)]
-    public string? NoDeps { get; set; }
+    [CliFlag("--no-deps")]
+    public bool? NoDeps { get; set; }
 
-    [CliOption("--publish", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
-    public string? Publish { get; set; }
+    [CliOption("--publish", ShortForm = "-p", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Publish { get; set; }
 
     /// <summary>
     /// policy
@@ -70,32 +70,32 @@ public record DockerComposeRunOptions : DockerOptions
     [CliOption("--pull", Format = OptionFormat.EqualsSeparated)]
     public string? Pull { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
-    [CliOption("--quiet-build", Format = OptionFormat.EqualsSeparated)]
-    public string? QuietBuild { get; set; }
+    [CliFlag("--quiet-build")]
+    public bool? QuietBuild { get; set; }
 
-    [CliOption("--quiet-pull", Format = OptionFormat.EqualsSeparated)]
-    public string? QuietPull { get; set; }
+    [CliFlag("--quiet-pull")]
+    public bool? QuietPull { get; set; }
 
-    [CliOption("--remove-orphans", Format = OptionFormat.EqualsSeparated)]
-    public string? RemoveOrphans { get; set; }
+    [CliFlag("--remove-orphans")]
+    public bool? RemoveOrphans { get; set; }
 
-    [CliOption("--rm", Format = OptionFormat.EqualsSeparated)]
-    public string? Rm { get; set; }
+    [CliFlag("--rm")]
+    public bool? Rm { get; set; }
 
-    [CliOption("--service-ports", ShortForm = "-P", Format = OptionFormat.EqualsSeparated)]
-    public string? ServicePorts { get; set; }
+    [CliFlag("--service-ports", ShortForm = "-P")]
+    public bool? ServicePorts { get; set; }
 
-    [CliOption("--use-aliases", Format = OptionFormat.EqualsSeparated)]
-    public string? UseAliases { get; set; }
+    [CliFlag("--use-aliases")]
+    public bool? UseAliases { get; set; }
 
     [CliOption("--user", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
     public string? User { get; set; }
 
-    [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public string? Volume { get; set; }
+    [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Volume { get; set; }
 
     [CliOption("--workdir", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }

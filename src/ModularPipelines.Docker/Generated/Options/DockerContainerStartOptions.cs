@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "container", "start")]
 public record DockerContainerStartOptions : DockerOptions
 {
-    [CliOption("--attach", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
-    public string? Attach { get; set; }
+    [CliFlag("--attach", ShortForm = "-a")]
+    public bool? Attach { get; set; }
 
     [CliOption("--checkpoint", Format = OptionFormat.EqualsSeparated)]
     public string? Checkpoint { get; set; }
@@ -31,7 +31,7 @@ public record DockerContainerStartOptions : DockerOptions
     [CliOption("--detach-keys", Format = OptionFormat.EqualsSeparated)]
     public string? DetachKeys { get; set; }
 
-    [CliOption("--interactive", ShortForm = "-i", Format = OptionFormat.EqualsSeparated)]
-    public string? Interactive { get; set; }
+    [CliFlag("--interactive", ShortForm = "-i")]
+    public bool? Interactive { get; set; }
 
 }

@@ -19,11 +19,11 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "buildx", "history", "export")]
 public record DockerBuildxHistoryExportOptions : DockerOptions
 {
-    [CliOption("--all", Format = OptionFormat.EqualsSeparated)]
-    public string? All { get; set; }
+    [CliFlag("--all")]
+    public bool? All { get; set; }
 
-    [CliOption("--finalize", Format = OptionFormat.EqualsSeparated)]
-    public string? Finalize { get; set; }
+    [CliFlag("--finalize")]
+    public bool? Finalize { get; set; }
 
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public string? Output { get; set; }
@@ -37,7 +37,7 @@ public record DockerBuildxHistoryExportOptions : DockerOptions
     /// <summary>
     /// -o debug-build.dockerbuild
     /// </summary>
-    [CliOption("--debug", Format = OptionFormat.EqualsSeparated)]
-    public string? Debug { get; set; }
+    [CliFlag("--debug")]
+    public bool? Debug { get; set; }
 
 }

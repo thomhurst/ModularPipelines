@@ -9,6 +9,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Docker.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Generated.Options;
 
@@ -19,17 +20,17 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "network", "create")]
 public record DockerNetworkCreateOptions : DockerOptions
 {
-    [CliOption("--attachable", Format = OptionFormat.EqualsSeparated)]
-    public string? Attachable { get; set; }
+    [CliFlag("--attachable")]
+    public bool? Attachable { get; set; }
 
     [CliOption("--aux-address", Format = OptionFormat.EqualsSeparated)]
-    public string? AuxAddress { get; set; }
+    public IEnumerable<KeyValue>? AuxAddress { get; set; }
 
     [CliOption("--config-from", Format = OptionFormat.EqualsSeparated)]
     public string? ConfigFrom { get; set; }
 
-    [CliOption("--config-only", Format = OptionFormat.EqualsSeparated)]
-    public string? ConfigOnly { get; set; }
+    [CliFlag("--config-only")]
+    public bool? ConfigOnly { get; set; }
 
     /// <summary>
     /// bridge
@@ -37,44 +38,44 @@ public record DockerNetworkCreateOptions : DockerOptions
     [CliOption("--driver", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
     public string? Driver { get; set; }
 
-    [CliOption("--gateway", Format = OptionFormat.EqualsSeparated)]
-    public string? Gateway { get; set; }
+    [CliOption("--gateway", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Gateway { get; set; }
 
-    [CliOption("--ingress", Format = OptionFormat.EqualsSeparated)]
-    public string? Ingress { get; set; }
+    [CliFlag("--ingress")]
+    public bool? Ingress { get; set; }
 
-    [CliOption("--internal", Format = OptionFormat.EqualsSeparated)]
-    public string? Internal { get; set; }
+    [CliFlag("--internal")]
+    public bool? Internal { get; set; }
 
-    [CliOption("--ip-range", Format = OptionFormat.EqualsSeparated)]
-    public string? IpRange { get; set; }
+    [CliOption("--ip-range", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? IpRange { get; set; }
 
     [CliOption("--ipam-driver", Format = OptionFormat.EqualsSeparated)]
     public string? IpamDriver { get; set; }
 
     [CliOption("--ipam-opt", Format = OptionFormat.EqualsSeparated)]
-    public string? IpamOpt { get; set; }
+    public IEnumerable<KeyValue>? IpamOpt { get; set; }
 
     /// <summary>
     /// true
     /// </summary>
-    [CliOption("--ipv4", Format = OptionFormat.EqualsSeparated)]
-    public string? Ipv4 { get; set; }
+    [CliFlag("--ipv4")]
+    public bool? Ipv4 { get; set; }
 
-    [CliOption("--ipv6", Format = OptionFormat.EqualsSeparated)]
-    public string? Ipv6 { get; set; }
+    [CliFlag("--ipv6")]
+    public bool? Ipv6 { get; set; }
 
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
-    public string? Label { get; set; }
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Label { get; set; }
 
     [CliOption("--opt", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public string? Opt { get; set; }
+    public IEnumerable<KeyValue>? Opt { get; set; }
 
     [CliOption("--scope", Format = OptionFormat.EqualsSeparated)]
     public string? Scope { get; set; }
 
-    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
-    public string? Subnet { get; set; }
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Subnet { get; set; }
 
     /// <summary>
     /// \

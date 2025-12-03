@@ -19,16 +19,16 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "system", "prune")]
 public record DockerSystemPruneOptions : DockerOptions
 {
-    [CliOption("--all", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
-    public string? All { get; set; }
+    [CliFlag("--all", ShortForm = "-a")]
+    public bool? All { get; set; }
 
     [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
     public string? Filter { get; set; }
 
-    [CliOption("--force", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? Force { get; set; }
+    [CliFlag("--force", ShortForm = "-f")]
+    public bool? Force { get; set; }
 
-    [CliOption("--volumes", Format = OptionFormat.EqualsSeparated)]
-    public string? Volumes { get; set; }
+    [CliFlag("--volumes")]
+    public bool? Volumes { get; set; }
 
 }

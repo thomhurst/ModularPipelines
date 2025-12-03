@@ -19,13 +19,13 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "container", "cp")]
 public record DockerContainerCpOptions : DockerOptions
 {
-    [CliOption("--archive", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
-    public string? Archive { get; set; }
+    [CliFlag("--archive", ShortForm = "-a")]
+    public bool? Archive { get; set; }
 
-    [CliOption("--follow-link", ShortForm = "-L", Format = OptionFormat.EqualsSeparated)]
-    public string? FollowLink { get; set; }
+    [CliFlag("--follow-link", ShortForm = "-L")]
+    public bool? FollowLink { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
 }

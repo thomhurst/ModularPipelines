@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "plugin", "disable")]
 public record DockerPluginDisableOptions : DockerOptions
 {
-    [CliOption("--force", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? Force { get; set; }
+    [CliFlag("--force", ShortForm = "-f")]
+    public bool? Force { get; set; }
 
 }

@@ -22,7 +22,7 @@ public record DockerNetworkInspectOptions : DockerOptions
     [CliOption("--format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public string? Verbose { get; set; }
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public bool? Verbose { get; set; }
 
 }

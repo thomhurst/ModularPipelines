@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "swarm", "update")]
 public record DockerSwarmUpdateOptions : DockerOptions
 {
-    [CliOption("--autolock", Format = OptionFormat.EqualsSeparated)]
-    public string? Autolock { get; set; }
+    [CliFlag("--autolock")]
+    public bool? Autolock { get; set; }
 
     /// <summary>
     /// 2160h0m0s
@@ -38,18 +38,18 @@ public record DockerSwarmUpdateOptions : DockerOptions
     public string? ExternalCa { get; set; }
 
     [CliOption("--max-snapshots", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxSnapshots { get; set; }
+    public int? MaxSnapshots { get; set; }
 
     /// <summary>
     /// 10000
     /// </summary>
     [CliOption("--snapshot-interval", Format = OptionFormat.EqualsSeparated)]
-    public string? SnapshotInterval { get; set; }
+    public int? SnapshotInterval { get; set; }
 
     /// <summary>
     /// 5
     /// </summary>
     [CliOption("--task-history-limit", Format = OptionFormat.EqualsSeparated)]
-    public string? TaskHistoryLimit { get; set; }
+    public int? TaskHistoryLimit { get; set; }
 
 }

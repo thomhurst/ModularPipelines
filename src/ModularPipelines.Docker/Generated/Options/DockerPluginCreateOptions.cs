@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "plugin", "create")]
 public record DockerPluginCreateOptions : DockerOptions
 {
-    [CliOption("--compress", Format = OptionFormat.EqualsSeparated)]
-    public string? Compress { get; set; }
+    [CliFlag("--compress")]
+    public bool? Compress { get; set; }
 
     /// <summary>
     /// root root 431 Nov  7 01:40 config.json

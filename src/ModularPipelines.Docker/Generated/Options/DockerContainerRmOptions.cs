@@ -19,14 +19,14 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "container", "rm")]
 public record DockerContainerRmOptions : DockerOptions
 {
-    [CliOption("--force", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? Force { get; set; }
+    [CliFlag("--force", ShortForm = "-f")]
+    public bool? Force { get; set; }
 
-    [CliOption("--link", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
-    public string? Link { get; set; }
+    [CliFlag("--link", ShortForm = "-l")]
+    public bool? Link { get; set; }
 
-    [CliOption("--volumes", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public string? Volumes { get; set; }
+    [CliFlag("--volumes", ShortForm = "-v")]
+    public bool? Volumes { get; set; }
 
     /// <summary>
     /// -q)

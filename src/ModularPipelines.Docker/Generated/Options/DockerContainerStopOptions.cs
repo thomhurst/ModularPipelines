@@ -23,6 +23,6 @@ public record DockerContainerStopOptions : DockerOptions
     public string? Signal { get; set; }
 
     [CliOption("--timeout", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public string? Timeout { get; set; }
+    public int? Timeout { get; set; }
 
 }

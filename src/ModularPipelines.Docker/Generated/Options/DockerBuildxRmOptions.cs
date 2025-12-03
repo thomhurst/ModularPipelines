@@ -19,16 +19,16 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "buildx", "rm")]
 public record DockerBuildxRmOptions : DockerOptions
 {
-    [CliOption("--all-inactive", Format = OptionFormat.EqualsSeparated)]
-    public string? AllInactive { get; set; }
+    [CliFlag("--all-inactive")]
+    public bool? AllInactive { get; set; }
 
-    [CliOption("--force", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? Force { get; set; }
+    [CliFlag("--force", ShortForm = "-f")]
+    public bool? Force { get; set; }
 
-    [CliOption("--keep-daemon", Format = OptionFormat.EqualsSeparated)]
-    public string? KeepDaemon { get; set; }
+    [CliFlag("--keep-daemon")]
+    public bool? KeepDaemon { get; set; }
 
-    [CliOption("--keep-state", Format = OptionFormat.EqualsSeparated)]
-    public string? KeepState { get; set; }
+    [CliFlag("--keep-state")]
+    public bool? KeepState { get; set; }
 
 }

@@ -19,11 +19,11 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "container", "logs")]
 public record DockerContainerLogsOptions : DockerOptions
 {
-    [CliOption("--details", Format = OptionFormat.EqualsSeparated)]
-    public string? Details { get; set; }
+    [CliFlag("--details")]
+    public bool? Details { get; set; }
 
-    [CliOption("--follow", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? Follow { get; set; }
+    [CliFlag("--follow", ShortForm = "-f")]
+    public bool? Follow { get; set; }
 
     [CliOption("--since", Format = OptionFormat.EqualsSeparated)]
     public string? Since { get; set; }
@@ -34,8 +34,8 @@ public record DockerContainerLogsOptions : DockerOptions
     [CliOption("--tail", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public string? Tail { get; set; }
 
-    [CliOption("--timestamps", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public string? Timestamps { get; set; }
+    [CliFlag("--timestamps", ShortForm = "-t")]
+    public bool? Timestamps { get; set; }
 
     [CliOption("--until", Format = OptionFormat.EqualsSeparated)]
     public string? Until { get; set; }

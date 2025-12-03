@@ -19,35 +19,35 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "build")]
 public record DockerComposeBuildOptions : DockerOptions
 {
-    [CliOption("--build-arg", Format = OptionFormat.EqualsSeparated)]
-    public string? BuildArg { get; set; }
+    [CliOption("--build-arg", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? BuildArg { get; set; }
 
     [CliOption("--builder", Format = OptionFormat.EqualsSeparated)]
     public string? Builder { get; set; }
 
-    [CliOption("--check", Format = OptionFormat.EqualsSeparated)]
-    public string? Check { get; set; }
+    [CliFlag("--check")]
+    public bool? Check { get; set; }
 
     [CliOption("--memory", ShortForm = "-m", Format = OptionFormat.EqualsSeparated)]
     public string? Memory { get; set; }
 
-    [CliOption("--no-cache", Format = OptionFormat.EqualsSeparated)]
-    public string? NoCache { get; set; }
+    [CliFlag("--no-cache")]
+    public bool? NoCache { get; set; }
 
-    [CliOption("--print", Format = OptionFormat.EqualsSeparated)]
-    public string? Print { get; set; }
+    [CliFlag("--print")]
+    public bool? Print { get; set; }
 
     [CliOption("--provenance", Format = OptionFormat.EqualsSeparated)]
     public string? Provenance { get; set; }
 
-    [CliOption("--pull", Format = OptionFormat.EqualsSeparated)]
-    public string? Pull { get; set; }
+    [CliFlag("--pull")]
+    public bool? Pull { get; set; }
 
-    [CliOption("--push", Format = OptionFormat.EqualsSeparated)]
-    public string? Push { get; set; }
+    [CliFlag("--push")]
+    public bool? Push { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
     [CliOption("--sbom", Format = OptionFormat.EqualsSeparated)]
     public string? Sbom { get; set; }
@@ -55,7 +55,7 @@ public record DockerComposeBuildOptions : DockerOptions
     [CliOption("--ssh", Format = OptionFormat.EqualsSeparated)]
     public string? Ssh { get; set; }
 
-    [CliOption("--with-dependencies", Format = OptionFormat.EqualsSeparated)]
-    public string? WithDependencies { get; set; }
+    [CliFlag("--with-dependencies")]
+    public bool? WithDependencies { get; set; }
 
 }

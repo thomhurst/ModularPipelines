@@ -19,10 +19,10 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "swarm", "unlock-key")]
 public record DockerSwarmUnlockKeyOptions : DockerOptions
 {
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
-    [CliOption("--rotate", Format = OptionFormat.EqualsSeparated)]
-    public string? Rotate { get; set; }
+    [CliFlag("--rotate")]
+    public bool? Rotate { get; set; }
 
 }

@@ -25,8 +25,8 @@ public record DockerManifestAnnotateOptions : DockerOptions
     [CliOption("--os", Format = OptionFormat.EqualsSeparated)]
     public string? Os { get; set; }
 
-    [CliOption("--os-features", Format = OptionFormat.EqualsSeparated)]
-    public string? OsFeatures { get; set; }
+    [CliOption("--os-features", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? OsFeatures { get; set; }
 
     [CliOption("--os-version", Format = OptionFormat.EqualsSeparated)]
     public string? OsVersion { get; set; }

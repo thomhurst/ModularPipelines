@@ -19,10 +19,10 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "restart")]
 public record DockerComposeRestartOptions : DockerOptions
 {
-    [CliOption("--no-deps", Format = OptionFormat.EqualsSeparated)]
-    public string? NoDeps { get; set; }
+    [CliFlag("--no-deps")]
+    public bool? NoDeps { get; set; }
 
     [CliOption("--timeout", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public string? Timeout { get; set; }
+    public int? Timeout { get; set; }
 
 }

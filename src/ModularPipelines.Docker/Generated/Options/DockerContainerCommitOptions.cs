@@ -22,8 +22,8 @@ public record DockerContainerCommitOptions : DockerOptions
     [CliOption("--author", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
     public string? Author { get; set; }
 
-    [CliOption("--change", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public string? Change { get; set; }
+    [CliOption("--change", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Change { get; set; }
 
     [CliOption("--message", ShortForm = "-m", Format = OptionFormat.EqualsSeparated)]
     public string? Message { get; set; }
@@ -31,7 +31,7 @@ public record DockerContainerCommitOptions : DockerOptions
     /// <summary>
     /// true
     /// </summary>
-    [CliOption("--pause", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
-    public string? Pause { get; set; }
+    [CliFlag("--pause", ShortForm = "-p")]
+    public bool? Pause { get; set; }
 
 }

@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "buildx", "history", "rm")]
 public record DockerBuildxHistoryRmOptions : DockerOptions
 {
-    [CliOption("--all", Format = OptionFormat.EqualsSeparated)]
-    public string? All { get; set; }
+    [CliFlag("--all")]
+    public bool? All { get; set; }
 
 }

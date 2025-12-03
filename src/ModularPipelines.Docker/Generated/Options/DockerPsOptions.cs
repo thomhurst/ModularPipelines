@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "ps")]
 public record DockerPsOptions : DockerOptions
 {
-    [CliOption("--all", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
-    public string? All { get; set; }
+    [CliFlag("--all", ShortForm = "-a")]
+    public bool? All { get; set; }
 
     [CliOption("--filter", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? Filter { get; set; }
@@ -32,19 +32,19 @@ public record DockerPsOptions : DockerOptions
     /// -1
     /// </summary>
     [CliOption("--last", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
-    public string? Last { get; set; }
+    public int? Last { get; set; }
 
-    [CliOption("--latest", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
-    public string? Latest { get; set; }
+    [CliFlag("--latest", ShortForm = "-l")]
+    public bool? Latest { get; set; }
 
-    [CliOption("--no-trunc", Format = OptionFormat.EqualsSeparated)]
-    public string? NoTrunc { get; set; }
+    [CliFlag("--no-trunc")]
+    public bool? NoTrunc { get; set; }
 
-    [CliOption("--quiet", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Quiet { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
 
-    [CliOption("--size", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
-    public string? Size { get; set; }
+    [CliFlag("--size", ShortForm = "-s")]
+    public bool? Size { get; set; }
 
     /// <summary>
     /// minutes ago       Up 33 minutes       6379/tcp            redis,webapp/db

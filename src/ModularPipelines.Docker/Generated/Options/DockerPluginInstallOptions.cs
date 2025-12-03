@@ -22,16 +22,16 @@ public record DockerPluginInstallOptions : DockerOptions
     [CliOption("--alias", Format = OptionFormat.EqualsSeparated)]
     public string? Alias { get; set; }
 
-    [CliOption("--disable", Format = OptionFormat.EqualsSeparated)]
-    public string? Disable { get; set; }
+    [CliFlag("--disable")]
+    public bool? Disable { get; set; }
 
     /// <summary>
     /// true
     /// </summary>
-    [CliOption("--disable-content-trust", Format = OptionFormat.EqualsSeparated)]
-    public string? DisableContentTrust { get; set; }
+    [CliFlag("--disable-content-trust")]
+    public bool? DisableContentTrust { get; set; }
 
-    [CliOption("--grant-all-permissions", Format = OptionFormat.EqualsSeparated)]
-    public string? GrantAllPermissions { get; set; }
+    [CliFlag("--grant-all-permissions")]
+    public bool? GrantAllPermissions { get; set; }
 
 }

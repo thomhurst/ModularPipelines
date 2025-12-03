@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "buildx", "history", "import")]
 public record DockerBuildxHistoryImportOptions : DockerOptions
 {
-    [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? File { get; set; }
+    [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? File { get; set; }
 
 }

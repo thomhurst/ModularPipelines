@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "config", "create")]
 public record DockerConfigCreateOptions : DockerOptions
 {
-    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
-    public string? Label { get; set; }
+    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Label { get; set; }
 
     [CliOption("--template-driver", Format = OptionFormat.EqualsSeparated)]
     public string? TemplateDriver { get; set; }

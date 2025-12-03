@@ -19,17 +19,17 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "create")]
 public record DockerComposeCreateOptions : DockerOptions
 {
-    [CliOption("--build", Format = OptionFormat.EqualsSeparated)]
-    public string? Build { get; set; }
+    [CliFlag("--build")]
+    public bool? Build { get; set; }
 
-    [CliOption("--force-recreate", Format = OptionFormat.EqualsSeparated)]
-    public string? ForceRecreate { get; set; }
+    [CliFlag("--force-recreate")]
+    public bool? ForceRecreate { get; set; }
 
-    [CliOption("--no-build", Format = OptionFormat.EqualsSeparated)]
-    public string? NoBuild { get; set; }
+    [CliFlag("--no-build")]
+    public bool? NoBuild { get; set; }
 
-    [CliOption("--no-recreate", Format = OptionFormat.EqualsSeparated)]
-    public string? NoRecreate { get; set; }
+    [CliFlag("--no-recreate")]
+    public bool? NoRecreate { get; set; }
 
     /// <summary>
     /// policy
@@ -37,16 +37,16 @@ public record DockerComposeCreateOptions : DockerOptions
     [CliOption("--pull", Format = OptionFormat.EqualsSeparated)]
     public string? Pull { get; set; }
 
-    [CliOption("--quiet-pull", Format = OptionFormat.EqualsSeparated)]
-    public string? QuietPull { get; set; }
+    [CliFlag("--quiet-pull")]
+    public bool? QuietPull { get; set; }
 
-    [CliOption("--remove-orphans", Format = OptionFormat.EqualsSeparated)]
-    public string? RemoveOrphans { get; set; }
+    [CliFlag("--remove-orphans")]
+    public bool? RemoveOrphans { get; set; }
 
     [CliOption("--scale", Format = OptionFormat.EqualsSeparated)]
     public string? Scale { get; set; }
 
-    [CliOption("--yes", ShortForm = "-y", Format = OptionFormat.EqualsSeparated)]
-    public string? Yes { get; set; }
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
 }

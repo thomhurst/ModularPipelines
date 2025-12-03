@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "buildx", "history", "ls")]
 public record DockerBuildxHistoryLsOptions : DockerOptions
 {
-    [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
-    public string? Filter { get; set; }
+    [CliOption("--filter", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Filter { get; set; }
 
     /// <summary>
     /// table
@@ -28,10 +28,10 @@ public record DockerBuildxHistoryLsOptions : DockerOptions
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [CliOption("--local", Format = OptionFormat.EqualsSeparated)]
-    public string? Local { get; set; }
+    [CliOption("--local", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Local { get; set; }
 
-    [CliOption("--no-trunc", Format = OptionFormat.EqualsSeparated)]
-    public string? NoTrunc { get; set; }
+    [CliFlag("--no-trunc")]
+    public bool? NoTrunc { get; set; }
 
 }

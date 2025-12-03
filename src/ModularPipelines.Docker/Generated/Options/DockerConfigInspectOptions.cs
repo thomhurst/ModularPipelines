@@ -22,7 +22,7 @@ public record DockerConfigInspectOptions : DockerOptions
     [CliOption("--format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [CliOption("--pretty", Format = OptionFormat.EqualsSeparated)]
-    public string? Pretty { get; set; }
+    [CliFlag("--pretty")]
+    public bool? Pretty { get; set; }
 
 }

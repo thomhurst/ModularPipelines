@@ -22,8 +22,8 @@ public record DockerLoginOptions : DockerOptions
     [CliOption("--password", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public string? Password { get; set; }
 
-    [CliOption("--password-stdin", Format = OptionFormat.EqualsSeparated)]
-    public string? PasswordStdin { get; set; }
+    [CliFlag("--password-stdin")]
+    public bool? PasswordStdin { get; set; }
 
     [CliOption("--username", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }

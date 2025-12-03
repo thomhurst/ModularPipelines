@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "compose", "wait")]
 public record DockerComposeWaitOptions : DockerOptions
 {
-    [CliOption("--down-project", Format = OptionFormat.EqualsSeparated)]
-    public string? DownProject { get; set; }
+    [CliFlag("--down-project")]
+    public bool? DownProject { get; set; }
 
 }

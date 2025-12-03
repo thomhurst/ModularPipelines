@@ -9,6 +9,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Docker.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Generated.Options;
 
@@ -23,7 +24,7 @@ public record DockerContextCreateOptions : DockerOptions
     public string? Description { get; set; }
 
     [CliOption("--docker", Format = OptionFormat.EqualsSeparated)]
-    public string? Docker { get; set; }
+    public IEnumerable<KeyValue>? Docker { get; set; }
 
     [CliOption("--from", Format = OptionFormat.EqualsSeparated)]
     public string? From { get; set; }

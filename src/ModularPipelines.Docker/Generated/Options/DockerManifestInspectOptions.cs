@@ -19,10 +19,10 @@ namespace ModularPipelines.Docker.Generated.Options;
 [CliCommand("docker", "manifest", "inspect")]
 public record DockerManifestInspectOptions : DockerOptions
 {
-    [CliOption("--insecure", Format = OptionFormat.EqualsSeparated)]
-    public string? Insecure { get; set; }
+    [CliFlag("--insecure")]
+    public bool? Insecure { get; set; }
 
-    [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public string? Verbose { get; set; }
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public bool? Verbose { get; set; }
 
 }

@@ -9,6 +9,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Docker.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Generated.Options;
 
@@ -34,14 +35,14 @@ public record DockerVolumeCreateOptions : DockerOptions
     [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
     public string? Group { get; set; }
 
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
-    public string? Label { get; set; }
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public string[]? Label { get; set; }
 
     [CliOption("--limit-bytes", Format = OptionFormat.EqualsSeparated)]
     public string? LimitBytes { get; set; }
 
     [CliOption("--opt", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public string? Opt { get; set; }
+    public IEnumerable<KeyValue>? Opt { get; set; }
 
     [CliOption("--required-bytes", Format = OptionFormat.EqualsSeparated)]
     public string? RequiredBytes { get; set; }

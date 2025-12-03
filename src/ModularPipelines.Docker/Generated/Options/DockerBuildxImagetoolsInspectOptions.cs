@@ -25,8 +25,8 @@ public record DockerBuildxImagetoolsInspectOptions : DockerOptions
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [CliOption("--raw", Format = OptionFormat.EqualsSeparated)]
-    public string? Raw { get; set; }
+    [CliFlag("--raw")]
+    public bool? Raw { get; set; }
 
     /// <summary>
     /// git openssh pigz xz   \u0026\u0026 ln -s fusermount3 /usr/bin/fusermount # buildkit",
