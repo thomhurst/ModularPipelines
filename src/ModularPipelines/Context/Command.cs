@@ -90,7 +90,26 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
             return commandLineToolOptions.CommandParts.ToList();
         }
 
-        return optionsObject.GetType().GetCustomAttribute<CommandPrecedingArgumentsAttribute>()
+        var type = optionsObject.GetType();
+
+        // Try new CliCommand attribute first
+        // Check for preferred alias first
+        var preferredAlias = type.GetCustomAttributes<CliCommandAliasAttribute>()
+            .FirstOrDefault(a => a.IsPreferred);
+
+        if (preferredAlias is not null)
+        {
+            return preferredAlias.CommandParts.ToList();
+        }
+
+        var cliCommandAttribute = type.GetCustomAttribute<CliCommandAttribute>();
+        if (cliCommandAttribute is not null)
+        {
+            return cliCommandAttribute.GetAllParts().ToList();
+        }
+
+        // Fall back to legacy attribute
+        return type.GetCustomAttribute<CommandPrecedingArgumentsAttribute>()
             ?.PrecedingArguments.ToList() ?? new List<string>();
     }
 

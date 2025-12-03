@@ -11,6 +11,19 @@ public static class CommandOptionsObjectArgumentParser
     {
         var properties = GetProperties(optionsArgumentsObject);
 
+        // Check if using new CLI attribute system
+        var cliArgumentProperties = properties.Where(p => p.GetCustomAttribute<CliArgumentAttribute>() is not null).ToList();
+        var hasNewCliAttributes = cliArgumentProperties.Any()
+            || properties.Any(p => p.GetCustomAttribute<CliFlagAttribute>() is not null)
+            || properties.Any(p => p.GetCustomAttribute<CliOptionAttribute>() is not null);
+
+        if (hasNewCliAttributes)
+        {
+            AddArgumentsUsingNewAttributes(precedingArguments, optionsArgumentsObject, properties, cliArgumentProperties);
+            return;
+        }
+
+        // Legacy attribute handling
         var positionalArgumentProperties = properties.Where(p => p.GetCustomAttribute<PositionalArgumentAttribute>() is not null).ToList();
 
         AddPlaceholderArguments(precedingArguments, optionsArgumentsObject, positionalArgumentProperties);
@@ -33,6 +46,122 @@ public static class CommandOptionsObjectArgumentParser
         AddSwitches(precedingArguments, optionsArgumentsObject, properties);
 
         AddPositionalArguments(precedingArguments, optionsArgumentsObject, positionalArgumentsAfter);
+    }
+
+    private static void AddArgumentsUsingNewAttributes(
+        List<string> args,
+        object optionsArgumentsObject,
+        PropertyInfo[] properties,
+        List<PropertyInfo> cliArgumentProperties)
+    {
+        // Get arguments by placement
+        var argumentsBeforeOptions = cliArgumentProperties
+            .Where(p => p.GetCustomAttribute<CliArgumentAttribute>()!.Placement == ArgumentPlacement.BeforeOptions)
+            .OrderBy(p => p.GetCustomAttribute<CliArgumentAttribute>()!.Position);
+
+        var argumentsImmediatelyAfterCommand = cliArgumentProperties
+            .Where(p => p.GetCustomAttribute<CliArgumentAttribute>()!.Placement == ArgumentPlacement.ImmediatelyAfterCommand)
+            .OrderBy(p => p.GetCustomAttribute<CliArgumentAttribute>()!.Position);
+
+        var argumentsAfterOptions = cliArgumentProperties
+            .Where(p => p.GetCustomAttribute<CliArgumentAttribute>()!.Placement == ArgumentPlacement.AfterOptions)
+            .OrderBy(p => p.GetCustomAttribute<CliArgumentAttribute>()!.Position);
+
+        // Add arguments immediately after command first
+        AddCliArguments(args, optionsArgumentsObject, argumentsImmediatelyAfterCommand);
+
+        // Add arguments before options
+        AddCliArguments(args, optionsArgumentsObject, argumentsBeforeOptions);
+
+        // Add flags and options
+        AddCliFlagsAndOptions(args, optionsArgumentsObject, properties);
+
+        // Add arguments after options
+        AddCliArguments(args, optionsArgumentsObject, argumentsAfterOptions);
+    }
+
+    private static void AddCliArguments(List<string> args, object optionsArgumentsObject, IEnumerable<PropertyInfo> argumentProperties)
+    {
+        foreach (var propertyInfo in argumentProperties)
+        {
+            var propertyValues = GetValues(optionsArgumentsObject, propertyInfo)?.ToList();
+
+            if (propertyValues is null || !propertyValues.Any())
+            {
+                continue;
+            }
+
+            args.AddRange(propertyValues);
+        }
+    }
+
+    private static void AddCliFlagsAndOptions(List<string> args, object optionsArgumentsObject, PropertyInfo[] properties)
+    {
+        foreach (var propertyInfo in properties)
+        {
+            var propertyValues = GetValues(optionsArgumentsObject, propertyInfo)?.ToList();
+
+            if (propertyValues is null || !propertyValues.Any())
+            {
+                continue;
+            }
+
+            // Try CliFlag first
+            var cliFlagAttribute = propertyInfo.GetCustomAttribute<CliFlagAttribute>();
+            if (cliFlagAttribute is not null)
+            {
+                if (bool.TryParse(propertyValues.First(), out var boolValue) && boolValue)
+                {
+                    args.Add(cliFlagAttribute.GetEffectiveName());
+                }
+
+                continue;
+            }
+
+            // Try CliOption
+            var cliOptionAttribute = propertyInfo.GetCustomAttribute<CliOptionAttribute>();
+            if (cliOptionAttribute is not null)
+            {
+                foreach (var propertyValue in propertyValues)
+                {
+                    if (string.IsNullOrWhiteSpace(propertyValue))
+                    {
+                        continue;
+                    }
+
+                    var optionName = cliOptionAttribute.GetEffectiveName();
+                    var separator = cliOptionAttribute.GetSeparator();
+
+                    if (separator == " ")
+                    {
+                        args.Add(optionName);
+                        args.Add(propertyValue);
+                    }
+                    else
+                    {
+                        args.Add($"{optionName}{separator}{propertyValue}");
+                    }
+                }
+
+                continue;
+            }
+
+            // Fall back to legacy attributes for mixed usage
+            AddSwitchesForProperty(args, propertyValues, propertyInfo);
+        }
+    }
+
+    private static void AddSwitchesForProperty(List<string> args, List<string> propertyValues, PropertyInfo propertyInfo)
+    {
+        foreach (var propertyValue in propertyValues)
+        {
+            if (TryAddBooleanSwitch(args, propertyInfo, propertyValue))
+            {
+                continue;
+            }
+
+            AddValueSwitch(args, propertyInfo, propertyValue);
+        }
     }
 
     private static void AddPlaceholderArguments(List<string> precedingArguments, object optionsArgumentsObject,
