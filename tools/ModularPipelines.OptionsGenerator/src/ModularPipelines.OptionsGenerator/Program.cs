@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Scrapers;
 using ModularPipelines.OptionsGenerator.Scrapers.Base;
+using ModularPipelines.OptionsGenerator.TypeDetection;
 
 var toolsOption = new Option<string>(
     name: "--tools",
@@ -16,13 +17,19 @@ var outputOption = new Option<string>(
     description: "Output directory (repository root)",
     getDefaultValue: () => ".");
 
+var enhanceTypesOption = new Option<bool>(
+    name: "--enhance-types",
+    description: "Use CLI --help output to enhance type detection (requires CLI tools to be installed)",
+    getDefaultValue: () => false);
+
 var rootCommand = new RootCommand("ModularPipelines CLI Options Generator")
 {
     toolsOption,
-    outputOption
+    outputOption,
+    enhanceTypesOption
 };
 
-rootCommand.SetHandler(async (tools, outputDir) =>
+rootCommand.SetHandler(async (tools, outputDir, enhanceTypes) =>
 {
     var builder = Host.CreateApplicationBuilder();
 
@@ -47,6 +54,17 @@ rootCommand.SetHandler(async (tools, outputDir) =>
     builder.Services.AddSingleton<ICodeGenerator, ServiceInterfaceGenerator>();
     builder.Services.AddSingleton<ICodeGenerator, SubDomainClassGenerator>();
 
+    // Register type enhancer if enabled
+    if (enhanceTypes)
+    {
+        builder.Services.AddSingleton<ICliCommandExecutor, ProcessCliCommandExecutor>();
+        builder.Services.AddSingleton(sp =>
+        {
+            var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
+            return OptionTypeEnhancer.CreateDefault(loggerFactory);
+        });
+    }
+
     // Register orchestrator
     builder.Services.AddSingleton<CodeGeneratorOrchestrator>();
 
@@ -58,6 +76,7 @@ rootCommand.SetHandler(async (tools, outputDir) =>
     logger.LogInformation("Starting CLI Options Generator");
     logger.LogInformation("Tools: {Tools}", tools);
     logger.LogInformation("Output directory: {OutputDir}", Path.GetFullPath(outputDir));
+    logger.LogInformation("Type enhancement: {EnhanceTypes}", enhanceTypes ? "Enabled" : "Disabled");
 
     var result = await orchestrator.GenerateAsync(tools, outputDir);
 
@@ -79,6 +98,6 @@ rootCommand.SetHandler(async (tools, outputDir) =>
         Environment.ExitCode = 0;
     }
 
-}, toolsOption, outputOption);
+}, toolsOption, outputOption, enhanceTypesOption);
 
 await rootCommand.InvokeAsync(args);

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Base;
+using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Generators;
 
@@ -12,15 +13,18 @@ public class CodeGeneratorOrchestrator
     private readonly IEnumerable<ICliDocumentationScraper> _scrapers;
     private readonly IEnumerable<ICodeGenerator> _generators;
     private readonly ILogger<CodeGeneratorOrchestrator> _logger;
+    private readonly OptionTypeEnhancer? _typeEnhancer;
 
     public CodeGeneratorOrchestrator(
         IEnumerable<ICliDocumentationScraper> scrapers,
         IEnumerable<ICodeGenerator> generators,
-        ILogger<CodeGeneratorOrchestrator> logger)
+        ILogger<CodeGeneratorOrchestrator> logger,
+        OptionTypeEnhancer? typeEnhancer = null)
     {
         _scrapers = scrapers;
         _generators = generators;
         _logger = logger;
+        _typeEnhancer = typeEnhancer;
     }
 
     /// <summary>
@@ -58,6 +62,21 @@ public class CodeGeneratorOrchestrator
 
                 _logger.LogInformation("Scraped {Count} commands for {Tool}",
                     toolDefinition.Commands.Count, scraper.ToolName);
+
+                // Enhance types if enhancer is available
+                if (_typeEnhancer is not null)
+                {
+                    _logger.LogInformation("Enhancing types for {Tool} using CLI help...", scraper.ToolName);
+                    try
+                    {
+                        toolDefinition = await _typeEnhancer.EnhanceAsync(toolDefinition, cancellationToken);
+                        _logger.LogInformation("Type enhancement complete for {Tool}", scraper.ToolName);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex, "Type enhancement failed for {Tool}, using scraped types", scraper.ToolName);
+                    }
+                }
 
                 // Generate code using all generators
                 foreach (var generator in _generators)

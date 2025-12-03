@@ -4,6 +4,7 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Parser;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.OptionsGenerator.Models;
+using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Scrapers.Base;
 
@@ -15,6 +16,16 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
     protected readonly HttpClient HttpClient;
     protected readonly ILogger Logger;
     protected readonly IHtmlParser HtmlParser;
+
+    /// <summary>
+    /// Optional type detection pipeline for more accurate type inference.
+    /// </summary>
+    protected OptionTypeDetectorPipeline? TypeDetectorPipeline { get; set; }
+
+    /// <summary>
+    /// Shared command cache for type detection across all options in a command.
+    /// </summary>
+    protected IDictionary<object, object> CommandCache { get; } = new Dictionary<object, object>();
 
     public abstract string ToolName { get; }
     public abstract string NamespacePrefix { get; }
@@ -28,6 +39,14 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
         var config = Configuration.Default;
         var context = BrowsingContext.New(config);
         HtmlParser = context.GetService<IHtmlParser>() ?? new HtmlParser();
+    }
+
+    /// <summary>
+    /// Sets the type detection pipeline for enhanced type inference.
+    /// </summary>
+    public void SetTypeDetectorPipeline(OptionTypeDetectorPipeline pipeline)
+    {
+        TypeDetectorPipeline = pipeline;
     }
 
     public abstract Task<CliToolDefinition> ScrapeAsync(CancellationToken cancellationToken = default);
@@ -113,6 +132,101 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
         if (acceptsMultipleValues) return "string[]?";
         if (isNumeric) return "int?";
         return "string?";
+    }
+
+    /// <summary>
+    /// Determines the C# type from a CliOptionType enum value.
+    /// </summary>
+    protected static string DetermineCSharpTypeFromCliType(CliOptionType cliType, CliEnumDefinition? enumDefinition = null)
+    {
+        return cliType switch
+        {
+            CliOptionType.Bool => "bool?",
+            CliOptionType.Int => "int?",
+            CliOptionType.Decimal => "decimal?",
+            CliOptionType.StringList => "string[]?",
+            CliOptionType.KeyValue => "IEnumerable<KeyValue>?",
+            _ when enumDefinition is not null => $"{enumDefinition.EnumName}?",
+            _ => "string?"
+        };
+    }
+
+    /// <summary>
+    /// Uses the type detection pipeline to infer the correct type for an option.
+    /// Falls back to heuristics if the pipeline is not available or returns Unknown.
+    /// </summary>
+    protected async Task<(CliOptionType type, string csharpType, bool isFlag)> DetectOptionTypeAsync(
+        string optionName,
+        string[] allNames,
+        string[] commandPath,
+        string? description,
+        string? defaultValue,
+        string? acceptedValues,
+        CliEnumDefinition? enumDefinition,
+        CancellationToken cancellationToken = default)
+    {
+        // Try the type detection pipeline first
+        if (TypeDetectorPipeline is not null)
+        {
+            var context = new OptionDetectionContext
+            {
+                OptionName = optionName,
+                AllNames = allNames,
+                ToolName = ToolName,
+                CommandPath = commandPath,
+                Description = description,
+                DefaultValue = defaultValue,
+                AcceptedValues = acceptedValues
+            };
+
+            // Copy shared cache
+            foreach (var kvp in CommandCache)
+            {
+                context.CommandCache[kvp.Key] = kvp.Value;
+            }
+
+            var result = await TypeDetectorPipeline.DetectTypeAsync(context, cancellationToken);
+
+            // Copy back any new cache entries
+            foreach (var kvp in context.CommandCache)
+            {
+                CommandCache[kvp.Key] = kvp.Value;
+            }
+
+            if (result.Type != CliOptionType.Unknown)
+            {
+                Logger.LogDebug(
+                    "Type detection for {Option}: {Type} (confidence: {Confidence}, source: {Source})",
+                    optionName, result.Type, result.Confidence, result.Source);
+
+                var csharpType = DetermineCSharpTypeFromCliType(result.Type, enumDefinition);
+                var isFlag = result.Type == CliOptionType.Bool;
+                return (result.Type, csharpType, isFlag);
+            }
+        }
+
+        // Fall back to existing heuristic detection
+        var heuristicIsFlag = DetectBooleanFlag(description, defaultValue, acceptedValues, null);
+        var heuristicIsNumeric = DetectNumericType(defaultValue);
+        var heuristicType = heuristicIsFlag ? CliOptionType.Bool :
+                           heuristicIsNumeric ? CliOptionType.Int :
+                           CliOptionType.String;
+        var heuristicCSharpType = DetermineCSharpType(
+            heuristicIsFlag,
+            acceptsMultipleValues: false,
+            isKeyValue: false,
+            heuristicIsNumeric,
+            enumDefinition);
+
+        return (heuristicType, heuristicCSharpType, heuristicIsFlag);
+    }
+
+    /// <summary>
+    /// Clears the command cache. Call this when moving to a new command.
+    /// </summary>
+    protected void ClearCommandCache()
+    {
+        CommandCache.Clear();
     }
 
     /// <summary>
