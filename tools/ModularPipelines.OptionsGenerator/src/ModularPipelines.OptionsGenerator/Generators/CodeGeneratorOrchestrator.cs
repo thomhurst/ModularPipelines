@@ -21,6 +21,10 @@ public class CodeGeneratorOrchestrator
         ILogger<CodeGeneratorOrchestrator> logger,
         OptionTypeEnhancer? typeEnhancer = null)
     {
+        ArgumentNullException.ThrowIfNull(scrapers);
+        ArgumentNullException.ThrowIfNull(generators);
+        ArgumentNullException.ThrowIfNull(logger);
+
         _scrapers = scrapers;
         _generators = generators;
         _logger = logger;
