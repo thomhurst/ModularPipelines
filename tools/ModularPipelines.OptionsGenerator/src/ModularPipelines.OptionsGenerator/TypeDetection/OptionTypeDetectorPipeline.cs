@@ -23,6 +23,9 @@ public class OptionTypeDetectorPipeline
         ILogger<OptionTypeDetectorPipeline> logger,
         int minimumConfidence = 60)
     {
+        ArgumentNullException.ThrowIfNull(detectors);
+        ArgumentNullException.ThrowIfNull(logger);
+
         _detectors = detectors.OrderBy(d => d.Priority).ToList();
         _logger = logger;
         _minimumConfidence = minimumConfidence;

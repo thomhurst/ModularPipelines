@@ -45,7 +45,7 @@ public partial class CobraHelpTypeDetector : HelpTextTypeDetectorBase
             if (match is not null)
             {
                 var typeHint = match.Groups["type"].Value.Trim();
-                var detectedType = MapCobraTypeToCliType(typeHint);
+                var detectedType = CliTypeMapper.FromCobraTypeHint(typeHint);
 
                 Logger.LogDebug("Detected {Option} as {Type} (Cobra type hint: '{Hint}')",
                     optionName, detectedType, typeHint);
@@ -88,7 +88,7 @@ public partial class CobraHelpTypeDetector : HelpTextTypeDetectorBase
             {
                 // Validate that we're not matching description text as type
                 var typeHint = match.Groups["type"].Value.Trim();
-                if (IsValidTypeHint(typeHint))
+                if (CliTypeMapper.IsKnownCobraType(typeHint))
                 {
                     return match;
                 }
@@ -118,56 +118,6 @@ public partial class CobraHelpTypeDetector : HelpTextTypeDetectorBase
         }
 
         return null;
-    }
-
-    private static bool IsValidTypeHint(string typeHint)
-    {
-        if (string.IsNullOrWhiteSpace(typeHint))
-            return true; // Empty is valid (boolean)
-
-        // Known Cobra type hints
-        var knownTypes = new[]
-        {
-            "string", "int", "int32", "int64", "uint", "uint32", "uint64",
-            "float", "float32", "float64", "bool", "boolean",
-            "list", "array", "strings", "stringarray", "stringslice",
-            "map", "stringtostring",
-            "duration", "bytes"
-        };
-
-        return knownTypes.Contains(typeHint.ToLowerInvariant());
-    }
-
-    private static CliOptionType MapCobraTypeToCliType(string cobraType)
-    {
-        var normalized = cobraType.Trim().ToLowerInvariant();
-
-        return normalized switch
-        {
-            // Empty means boolean flag
-            "" => CliOptionType.Bool,
-
-            // Explicit boolean
-            "bool" or "boolean" => CliOptionType.Bool,
-
-            // Integer types
-            "int" or "int32" or "int64" or "uint" or "uint32" or "uint64" => CliOptionType.Int,
-
-            // Float types
-            "float" or "float32" or "float64" => CliOptionType.Decimal,
-
-            // Array/list types
-            "list" or "array" or "strings" or "stringarray" or "stringslice" => CliOptionType.StringList,
-
-            // Map types
-            "map" or "stringtostring" => CliOptionType.KeyValue,
-
-            // Duration and other string-like types
-            "duration" or "string" or "bytes" => CliOptionType.String,
-
-            // Default to string for unknown types
-            _ => CliOptionType.String
-        };
     }
 
     /// <summary>

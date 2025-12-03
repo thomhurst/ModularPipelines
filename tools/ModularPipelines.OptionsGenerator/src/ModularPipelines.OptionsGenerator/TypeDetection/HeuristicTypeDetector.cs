@@ -15,6 +15,8 @@ public class HeuristicTypeDetector : IOptionTypeDetector
 
     public HeuristicTypeDetector(ILogger<HeuristicTypeDetector> logger)
     {
+        ArgumentNullException.ThrowIfNull(logger);
+
         _logger = logger;
     }
 

@@ -25,6 +25,9 @@ public abstract class HelpTextTypeDetectorBase : IOptionTypeDetector
 
     protected HelpTextTypeDetectorBase(ICliCommandExecutor executor, ILogger logger)
     {
+        ArgumentNullException.ThrowIfNull(executor);
+        ArgumentNullException.ThrowIfNull(logger);
+
         Executor = executor;
         Logger = logger;
     }

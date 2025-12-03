@@ -14,6 +14,9 @@ public class OptionTypeEnhancer
 
     public OptionTypeEnhancer(OptionTypeDetectorPipeline pipeline, ILogger<OptionTypeEnhancer> logger)
     {
+        ArgumentNullException.ThrowIfNull(pipeline);
+        ArgumentNullException.ThrowIfNull(logger);
+
         _pipeline = pipeline;
         _logger = logger;
     }
@@ -77,37 +80,26 @@ public class OptionTypeEnhancer
             allNames.Add(option.ShortForm);
         }
 
-        // Create detection context
+        // Create detection context with shared cache for efficiency
         var context = new OptionDetectionContext
         {
             OptionName = option.SwitchName,
             AllNames = allNames,
             ToolName = toolName,
-            CommandPath = ["docker", .. command.CommandParts],
+            CommandPath = [toolName, .. command.CommandParts],
             Description = option.Description,
             DefaultValue = null, // Would need to be extracted separately
-            AcceptedValues = null
+            AcceptedValues = null,
+            CommandCache = commandCache // Share cache directly - no copying needed
         };
-
-        // Copy shared cache
-        foreach (var kvp in commandCache)
-        {
-            context.CommandCache[kvp.Key] = kvp.Value;
-        }
 
         try
         {
             var result = await _pipeline.DetectTypeAsync(context, cancellationToken);
 
-            // Copy back cache
-            foreach (var kvp in context.CommandCache)
-            {
-                commandCache[kvp.Key] = kvp.Value;
-            }
-
             if (result.Type != CliOptionType.Unknown && result.Confidence >= 70)
             {
-                var newCSharpType = MapCliTypeToCSharp(result.Type, option.EnumDefinition);
+                var newCSharpType = CliTypeMapper.ToCSharpType(result.Type, option.EnumDefinition);
                 var newIsFlag = result.Type == CliOptionType.Bool;
 
                 // Only update if the detection changed the type
@@ -142,20 +134,6 @@ public class OptionTypeEnhancer
         }
 
         return option;
-    }
-
-    private static string MapCliTypeToCSharp(CliOptionType type, CliEnumDefinition? enumDef)
-    {
-        return type switch
-        {
-            CliOptionType.Bool => "bool?",
-            CliOptionType.Int => "int?",
-            CliOptionType.Decimal => "decimal?",
-            CliOptionType.StringList => "string[]?",
-            CliOptionType.KeyValue => "IEnumerable<KeyValue>?",
-            _ when enumDef is not null => $"{enumDef.EnumName}?",
-            _ => "string?"
-        };
     }
 
     /// <summary>

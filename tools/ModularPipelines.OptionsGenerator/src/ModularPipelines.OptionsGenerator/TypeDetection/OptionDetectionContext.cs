@@ -43,6 +43,7 @@ public class OptionDetectionContext
     /// <summary>
     /// Cache for sharing expensive-to-generate data across all options for the same command.
     /// Detectors can store parsed help text, etc. here to avoid redundant work.
+    /// When provided externally, allows cache reuse across multiple options.
     /// </summary>
-    public IDictionary<object, object> CommandCache { get; } = new Dictionary<object, object>();
+    public IDictionary<object, object> CommandCache { get; init; } = new Dictionary<object, object>();
 }

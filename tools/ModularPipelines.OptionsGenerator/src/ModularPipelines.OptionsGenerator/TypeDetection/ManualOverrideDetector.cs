@@ -19,6 +19,8 @@ public class ManualOverrideDetector : IOptionTypeDetector
 
     public ManualOverrideDetector(ILogger<ManualOverrideDetector> logger, string? overridesDirectory = null)
     {
+        ArgumentNullException.ThrowIfNull(logger);
+
         _logger = logger;
         _overridesDirectory = overridesDirectory ?? GetDefaultOverridesDirectory();
     }
@@ -139,66 +141,5 @@ public class ManualOverrideDetector : IOptionTypeDetector
         var devOverridesDir = Path.Combine(projectDir, "TypeOverrides");
 
         return Directory.Exists(devOverridesDir) ? devOverridesDir : overridesDir;
-    }
-}
-
-/// <summary>
-/// JSON structure for tool override files.
-/// </summary>
-public class ToolOverrides
-{
-    /// <summary>
-    /// Global overrides that apply to all commands for this tool.
-    /// Key is the option name (e.g., "--verbose").
-    /// </summary>
-    public Dictionary<string, OptionOverride> Global { get; set; } = new();
-
-    /// <summary>
-    /// Command-specific overrides.
-    /// Key is the command path (e.g., "container.run").
-    /// Value is a dictionary of option overrides.
-    /// </summary>
-    public Dictionary<string, Dictionary<string, OptionOverride>> Commands { get; set; } = new();
-}
-
-/// <summary>
-/// Override definition for a single option.
-/// </summary>
-public class OptionOverride
-{
-    /// <summary>
-    /// The correct type for this option.
-    /// </summary>
-    public CliOptionType Type { get; set; }
-
-    /// <summary>
-    /// Optional reason for the override (for documentation).
-    /// </summary>
-    public string? Reason { get; set; }
-}
-
-/// <summary>
-/// JSON converter for CliOptionType enum.
-/// </summary>
-public class CliOptionTypeConverter : System.Text.Json.Serialization.JsonConverter<CliOptionType>
-{
-    public override CliOptionType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        var value = reader.GetString();
-        return value?.ToLowerInvariant() switch
-        {
-            "bool" or "boolean" => CliOptionType.Bool,
-            "string" => CliOptionType.String,
-            "int" or "integer" => CliOptionType.Int,
-            "decimal" or "float" or "double" => CliOptionType.Decimal,
-            "stringlist" or "list" or "array" => CliOptionType.StringList,
-            "keyvalue" or "map" or "dictionary" => CliOptionType.KeyValue,
-            _ => CliOptionType.Unknown
-        };
-    }
-
-    public override void Write(Utf8JsonWriter writer, CliOptionType value, JsonSerializerOptions options)
-    {
-        writer.WriteStringValue(value.ToString());
     }
 }

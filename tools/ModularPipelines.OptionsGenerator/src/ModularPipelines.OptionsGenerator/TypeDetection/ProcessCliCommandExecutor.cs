@@ -13,6 +13,8 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
 
     public ProcessCliCommandExecutor(ILogger<ProcessCliCommandExecutor> logger, TimeSpan? timeout = null)
     {
+        ArgumentNullException.ThrowIfNull(logger);
+
         _logger = logger;
         _timeout = timeout ?? TimeSpan.FromSeconds(30);
     }
