@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "insights", "inventory-reports", "update")]
+[CliCommand("storage", "insights", "inventory-reports", "update")]
 public record GcloudStorageInsightsInventoryReportsUpdateOptions(
-[property: PositionalArgument] string ReportConfig,
-[property: PositionalArgument] string Location
+[property: CliArgument] string ReportConfig,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--schedule-repeats")]
+    [CliOption("--schedule-repeats")]
     public string? ScheduleRepeats { get; set; }
 
-    [CommandSwitch("--schedule-repeats-until")]
+    [CliOption("--schedule-repeats-until")]
     public string? ScheduleRepeatsUntil { get; set; }
 
-    [CommandSwitch("--schedule-starts")]
+    [CliOption("--schedule-starts")]
     public string? ScheduleStarts { get; set; }
 
-    [CommandSwitch("--metadata-fields")]
+    [CliOption("--metadata-fields")]
     public string[]? MetadataFields { get; set; }
 
-    [CommandSwitch("--add-metadata-fields")]
+    [CliOption("--add-metadata-fields")]
     public string[]? AddMetadataFields { get; set; }
 
-    [CommandSwitch("--remove-metadata-fields")]
+    [CliOption("--remove-metadata-fields")]
     public string[]? RemoveMetadataFields { get; set; }
 
-    [BooleanCommandSwitch("--parquet")]
+    [CliFlag("--parquet")]
     public bool? Parquet { get; set; }
 
-    [CommandSwitch("--csv-delimiter")]
+    [CliOption("--csv-delimiter")]
     public string? CsvDelimiter { get; set; }
 
-    [CommandSwitch("--[no-]csv-header")]
+    [CliOption("--[no-]csv-header")]
     public string[]? NoCsvHeader { get; set; }
 
-    [CommandSwitch("--csv-separator")]
+    [CliOption("--csv-separator")]
     public string? CsvSeparator { get; set; }
 }

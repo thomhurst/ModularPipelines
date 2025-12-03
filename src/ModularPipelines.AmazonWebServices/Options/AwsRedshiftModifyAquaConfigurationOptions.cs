@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "modify-aqua-configuration")]
+[CliCommand("redshift", "modify-aqua-configuration")]
 public record AwsRedshiftModifyAquaConfigurationOptions(
-[property: CommandSwitch("--cluster-identifier")] string ClusterIdentifier
+[property: CliOption("--cluster-identifier")] string ClusterIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--aqua-configuration-status")]
+    [CliOption("--aqua-configuration-status")]
     public string? AquaConfigurationStatus { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

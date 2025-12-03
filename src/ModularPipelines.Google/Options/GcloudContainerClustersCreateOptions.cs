@@ -5,509 +5,509 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "clusters", "create")]
+[CliCommand("container", "clusters", "create")]
 public record GcloudContainerClustersCreateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--accelerator")]
+    [CliOption("--accelerator")]
     public string[]? Accelerator { get; set; }
 
-    [CommandSwitch("--additional-zones")]
+    [CliOption("--additional-zones")]
     public string[]? AdditionalZones { get; set; }
 
-    [CommandSwitch("--addons")]
+    [CliOption("--addons")]
     public string[]? Addons { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--autoprovisioning-network-tags")]
+    [CliOption("--autoprovisioning-network-tags")]
     public string[]? AutoprovisioningNetworkTags { get; set; }
 
-    [CommandSwitch("--autoprovisioning-resource-manager-tags")]
+    [CliOption("--autoprovisioning-resource-manager-tags")]
     public IEnumerable<KeyValue>? AutoprovisioningResourceManagerTags { get; set; }
 
-    [CommandSwitch("--autoscaling-profile")]
+    [CliOption("--autoscaling-profile")]
     public string? AutoscalingProfile { get; set; }
 
-    [CommandSwitch("--boot-disk-kms-key")]
+    [CliOption("--boot-disk-kms-key")]
     public string? BootDiskKmsKey { get; set; }
 
-    [CommandSwitch("--cloud-run-config")]
+    [CliOption("--cloud-run-config")]
     public string[]? CloudRunConfig { get; set; }
 
-    [CommandSwitch("--cluster-ipv4-cidr")]
+    [CliOption("--cluster-ipv4-cidr")]
     public string? ClusterIpv4Cidr { get; set; }
 
-    [CommandSwitch("--cluster-secondary-range-name")]
+    [CliOption("--cluster-secondary-range-name")]
     public string? ClusterSecondaryRangeName { get; set; }
 
-    [CommandSwitch("--cluster-version")]
+    [CliOption("--cluster-version")]
     public string? ClusterVersion { get; set; }
 
-    [CommandSwitch("--create-subnetwork")]
+    [CliOption("--create-subnetwork")]
     public IEnumerable<KeyValue>? CreateSubnetwork { get; set; }
 
-    [CommandSwitch("--database-encryption-key")]
+    [CliOption("--database-encryption-key")]
     public string? DatabaseEncryptionKey { get; set; }
 
-    [CommandSwitch("--default-max-pods-per-node")]
+    [CliOption("--default-max-pods-per-node")]
     public string? DefaultMaxPodsPerNode { get; set; }
 
-    [BooleanCommandSwitch("--disable-default-snat")]
+    [CliFlag("--disable-default-snat")]
     public bool? DisableDefaultSnat { get; set; }
 
-    [CommandSwitch("--disk-size")]
+    [CliOption("--disk-size")]
     public string? DiskSize { get; set; }
 
-    [CommandSwitch("--disk-type")]
+    [CliOption("--disk-type")]
     public string? DiskType { get; set; }
 
-    [BooleanCommandSwitch("--enable-autorepair")]
+    [CliFlag("--enable-autorepair")]
     public bool? EnableAutorepair { get; set; }
 
-    [BooleanCommandSwitch("--enable-autoupgrade")]
+    [CliFlag("--enable-autoupgrade")]
     public bool? EnableAutoupgrade { get; set; }
 
-    [BooleanCommandSwitch("--enable-cloud-logging")]
+    [CliFlag("--enable-cloud-logging")]
     public bool? EnableCloudLogging { get; set; }
 
-    [BooleanCommandSwitch("--enable-cloud-monitoring")]
+    [CliFlag("--enable-cloud-monitoring")]
     public bool? EnableCloudMonitoring { get; set; }
 
-    [BooleanCommandSwitch("--enable-cloud-run-alpha")]
+    [CliFlag("--enable-cloud-run-alpha")]
     public bool? EnableCloudRunAlpha { get; set; }
 
-    [BooleanCommandSwitch("--enable-confidential-nodes")]
+    [CliFlag("--enable-confidential-nodes")]
     public bool? EnableConfidentialNodes { get; set; }
 
-    [BooleanCommandSwitch("--enable-cost-allocation")]
+    [CliFlag("--enable-cost-allocation")]
     public bool? EnableCostAllocation { get; set; }
 
-    [BooleanCommandSwitch("--enable-dataplane-v2")]
+    [CliFlag("--enable-dataplane-v2")]
     public bool? EnableDataplaneV2 { get; set; }
 
-    [BooleanCommandSwitch("--enable-fleet")]
+    [CliFlag("--enable-fleet")]
     public bool? EnableFleet { get; set; }
 
-    [BooleanCommandSwitch("--enable-google-cloud-access")]
+    [CliFlag("--enable-google-cloud-access")]
     public bool? EnableGoogleCloudAccess { get; set; }
 
-    [BooleanCommandSwitch("--enable-gvnic")]
+    [CliFlag("--enable-gvnic")]
     public bool? EnableGvnic { get; set; }
 
-    [BooleanCommandSwitch("--enable-identity-service")]
+    [CliFlag("--enable-identity-service")]
     public bool? EnableIdentityService { get; set; }
 
-    [BooleanCommandSwitch("--enable-image-streaming")]
+    [CliFlag("--enable-image-streaming")]
     public bool? EnableImageStreaming { get; set; }
 
-    [BooleanCommandSwitch("--enable-intra-node-visibility")]
+    [CliFlag("--enable-intra-node-visibility")]
     public bool? EnableIntraNodeVisibility { get; set; }
 
-    [BooleanCommandSwitch("--enable-ip-alias")]
+    [CliFlag("--enable-ip-alias")]
     public bool? EnableIpAlias { get; set; }
 
-    [BooleanCommandSwitch("--enable-kubernetes-alpha")]
+    [CliFlag("--enable-kubernetes-alpha")]
     public bool? EnableKubernetesAlpha { get; set; }
 
-    [CommandSwitch("--enable-kubernetes-unstable-apis")]
+    [CliOption("--enable-kubernetes-unstable-apis")]
     public string[]? EnableKubernetesUnstableApis { get; set; }
 
-    [BooleanCommandSwitch("--enable-l4-ilb-subsetting")]
+    [CliFlag("--enable-l4-ilb-subsetting")]
     public bool? EnableL4IlbSubsetting { get; set; }
 
-    [BooleanCommandSwitch("--enable-legacy-authorization")]
+    [CliFlag("--enable-legacy-authorization")]
     public bool? EnableLegacyAuthorization { get; set; }
 
-    [BooleanCommandSwitch("--enable-managed-prometheus")]
+    [CliFlag("--enable-managed-prometheus")]
     public bool? EnableManagedPrometheus { get; set; }
 
-    [BooleanCommandSwitch("--enable-master-global-access")]
+    [CliFlag("--enable-master-global-access")]
     public bool? EnableMasterGlobalAccess { get; set; }
 
-    [BooleanCommandSwitch("--enable-multi-networking")]
+    [CliFlag("--enable-multi-networking")]
     public bool? EnableMultiNetworking { get; set; }
 
-    [BooleanCommandSwitch("--enable-network-policy")]
+    [CliFlag("--enable-network-policy")]
     public bool? EnableNetworkPolicy { get; set; }
 
-    [BooleanCommandSwitch("--enable-service-externalips")]
+    [CliFlag("--enable-service-externalips")]
     public bool? EnableServiceExternalips { get; set; }
 
-    [BooleanCommandSwitch("--enable-shielded-nodes")]
+    [CliFlag("--enable-shielded-nodes")]
     public bool? EnableShieldedNodes { get; set; }
 
-    [BooleanCommandSwitch("--enable-stackdriver-kubernetes")]
+    [CliFlag("--enable-stackdriver-kubernetes")]
     public bool? EnableStackdriverKubernetes { get; set; }
 
-    [BooleanCommandSwitch("--enable-vertical-pod-autoscaling")]
+    [CliFlag("--enable-vertical-pod-autoscaling")]
     public bool? EnableVerticalPodAutoscaling { get; set; }
 
-    [CommandSwitch("--fleet-project")]
+    [CliOption("--fleet-project")]
     public string? FleetProject { get; set; }
 
-    [CommandSwitch("--gateway-api")]
+    [CliOption("--gateway-api")]
     public string? GatewayApi { get; set; }
 
-    [CommandSwitch("--image-type")]
+    [CliOption("--image-type")]
     public string? ImageType { get; set; }
 
-    [CommandSwitch("--in-transit-encryption")]
+    [CliOption("--in-transit-encryption")]
     public string? InTransitEncryption { get; set; }
 
-    [CommandSwitch("--ipv6-access-type")]
+    [CliOption("--ipv6-access-type")]
     public string? Ipv6AccessType { get; set; }
 
-    [BooleanCommandSwitch("--issue-client-certificate")]
+    [CliFlag("--issue-client-certificate")]
     public bool? IssueClientCertificate { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--logging")]
+    [CliOption("--logging")]
     public string[]? Logging { get; set; }
 
-    [CommandSwitch("--logging-variant")]
+    [CliOption("--logging-variant")]
     public string? LoggingVariant { get; set; }
 
-    [CommandSwitch("--machine-type")]
+    [CliOption("--machine-type")]
     public string? MachineType { get; set; }
 
-    [CommandSwitch("--max-nodes-per-pool")]
+    [CliOption("--max-nodes-per-pool")]
     public string? MaxNodesPerPool { get; set; }
 
-    [CommandSwitch("--max-pods-per-node")]
+    [CliOption("--max-pods-per-node")]
     public string? MaxPodsPerNode { get; set; }
 
-    [CommandSwitch("--max-surge-upgrade")]
+    [CliOption("--max-surge-upgrade")]
     public string? MaxSurgeUpgrade { get; set; }
 
-    [CommandSwitch("--max-unavailable-upgrade")]
+    [CliOption("--max-unavailable-upgrade")]
     public string? MaxUnavailableUpgrade { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public IEnumerable<KeyValue>? Metadata { get; set; }
 
-    [CommandSwitch("--metadata-from-file")]
+    [CliOption("--metadata-from-file")]
     public string[]? MetadataFromFile { get; set; }
 
-    [CommandSwitch("--min-cpu-platform")]
+    [CliOption("--min-cpu-platform")]
     public string? MinCpuPlatform { get; set; }
 
-    [CommandSwitch("--monitoring")]
+    [CliOption("--monitoring")]
     public string[]? Monitoring { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--network-performance-configs")]
+    [CliOption("--network-performance-configs")]
     public string[]? NetworkPerformanceConfigs { get; set; }
 
-    [CommandSwitch("--node-labels")]
+    [CliOption("--node-labels")]
     public string[]? NodeLabels { get; set; }
 
-    [CommandSwitch("--node-locations")]
+    [CliOption("--node-locations")]
     public string[]? NodeLocations { get; set; }
 
-    [CommandSwitch("--node-taints")]
+    [CliOption("--node-taints")]
     public string[]? NodeTaints { get; set; }
 
-    [CommandSwitch("--node-version")]
+    [CliOption("--node-version")]
     public string? NodeVersion { get; set; }
 
-    [CommandSwitch("--notification-config")]
+    [CliOption("--notification-config")]
     public string[]? NotificationConfig { get; set; }
 
-    [CommandSwitch("--num-nodes")]
+    [CliOption("--num-nodes")]
     public string? NumNodes { get; set; }
 
-    [CommandSwitch("--placement-policy")]
+    [CliOption("--placement-policy")]
     public string? PlacementPolicy { get; set; }
 
-    [CommandSwitch("--placement-type")]
+    [CliOption("--placement-type")]
     public string? PlacementType { get; set; }
 
-    [BooleanCommandSwitch("--preemptible")]
+    [CliFlag("--preemptible")]
     public bool? Preemptible { get; set; }
 
-    [CommandSwitch("--private-endpoint-subnetwork")]
+    [CliOption("--private-endpoint-subnetwork")]
     public string? PrivateEndpointSubnetwork { get; set; }
 
-    [CommandSwitch("--private-ipv6-google-access-type")]
+    [CliOption("--private-ipv6-google-access-type")]
     public string? PrivateIpv6GoogleAccessType { get; set; }
 
-    [CommandSwitch("--release-channel")]
+    [CliOption("--release-channel")]
     public string? ReleaseChannel { get; set; }
 
-    [CommandSwitch("--resource-manager-tags")]
+    [CliOption("--resource-manager-tags")]
     public IEnumerable<KeyValue>? ResourceManagerTags { get; set; }
 
-    [CommandSwitch("--security-group")]
+    [CliOption("--security-group")]
     public string? SecurityGroup { get; set; }
 
-    [CommandSwitch("--security-posture")]
+    [CliOption("--security-posture")]
     public string? SecurityPosture { get; set; }
 
-    [CommandSwitch("--services-ipv4-cidr")]
+    [CliOption("--services-ipv4-cidr")]
     public string? ServicesIpv4Cidr { get; set; }
 
-    [CommandSwitch("--services-secondary-range-name")]
+    [CliOption("--services-secondary-range-name")]
     public string? ServicesSecondaryRangeName { get; set; }
 
-    [BooleanCommandSwitch("--shielded-integrity-monitoring")]
+    [CliFlag("--shielded-integrity-monitoring")]
     public bool? ShieldedIntegrityMonitoring { get; set; }
 
-    [BooleanCommandSwitch("--shielded-secure-boot")]
+    [CliFlag("--shielded-secure-boot")]
     public bool? ShieldedSecureBoot { get; set; }
 
-    [BooleanCommandSwitch("--spot")]
+    [CliFlag("--spot")]
     public bool? Spot { get; set; }
 
-    [CommandSwitch("--stack-type")]
+    [CliOption("--stack-type")]
     public string? StackType { get; set; }
 
-    [CommandSwitch("--subnetwork")]
+    [CliOption("--subnetwork")]
     public string? Subnetwork { get; set; }
 
-    [CommandSwitch("--system-config-from-file")]
+    [CliOption("--system-config-from-file")]
     public string? SystemConfigFromFile { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--threads-per-core")]
+    [CliOption("--threads-per-core")]
     public string? ThreadsPerCore { get; set; }
 
-    [CommandSwitch("--workload-metadata")]
+    [CliOption("--workload-metadata")]
     public string? WorkloadMetadata { get; set; }
 
-    [CommandSwitch("--workload-pool")]
+    [CliOption("--workload-pool")]
     public string? WorkloadPool { get; set; }
 
-    [CommandSwitch("--workload-vulnerability-scanning")]
+    [CliOption("--workload-vulnerability-scanning")]
     public string? WorkloadVulnerabilityScanning { get; set; }
 
-    [CommandSwitch("--binauthz-evaluation-mode")]
+    [CliOption("--binauthz-evaluation-mode")]
     public string? BinauthzEvaluationMode { get; set; }
 
-    [BooleanCommandSwitch("--enable-binauthz")]
+    [CliFlag("--enable-binauthz")]
     public bool? EnableBinauthz { get; set; }
 
-    [CommandSwitch("--cluster-dns")]
+    [CliOption("--cluster-dns")]
     public string? ClusterDns { get; set; }
 
-    [BooleanCommandSwitch("clouddns")]
+    [CliFlag("clouddns")]
     public bool? Clouddns { get; set; }
 
-    [BooleanCommandSwitch("default")]
+    [CliFlag("default")]
     public bool? Default { get; set; }
 
-    [BooleanCommandSwitch("kubedns")]
+    [CliFlag("kubedns")]
     public bool? Kubedns { get; set; }
 
-    [CommandSwitch("--cluster-dns-domain")]
+    [CliOption("--cluster-dns-domain")]
     public string? ClusterDnsDomain { get; set; }
 
-    [CommandSwitch("--cluster-dns-scope")]
+    [CliOption("--cluster-dns-scope")]
     public string? ClusterDnsScope { get; set; }
 
-    [BooleanCommandSwitch("cluster")]
+    [CliFlag("cluster")]
     public bool? Cluster { get; set; }
 
-    [BooleanCommandSwitch("vpc")]
+    [CliFlag("vpc")]
     public bool? Vpc { get; set; }
 
-    [CommandSwitch("--dataplane-v2-observability-mode")]
+    [CliOption("--dataplane-v2-observability-mode")]
     public string? DataplaneV2ObservabilityMode { get; set; }
 
-    [BooleanCommandSwitch("DISABLED")]
+    [CliFlag("DISABLED")]
     public bool? Disabled { get; set; }
 
-    [BooleanCommandSwitch("EXTERNAL_LB")]
+    [CliFlag("EXTERNAL_LB")]
     public bool? ExternalLb { get; set; }
 
-    [BooleanCommandSwitch("INTERNAL_VPC_LB")]
+    [CliFlag("INTERNAL_VPC_LB")]
     public bool? InternalVpcLb { get; set; }
 
-    [BooleanCommandSwitch("--disable-dataplane-v2-flow-observability")]
+    [CliFlag("--disable-dataplane-v2-flow-observability")]
     public bool? DisableDataplaneV2FlowObservability { get; set; }
 
-    [BooleanCommandSwitch("--enable-dataplane-v2-flow-observability")]
+    [CliFlag("--enable-dataplane-v2-flow-observability")]
     public bool? EnableDataplaneV2FlowObservability { get; set; }
 
-    [BooleanCommandSwitch("--disable-dataplane-v2-metrics")]
+    [CliFlag("--disable-dataplane-v2-metrics")]
     public bool? DisableDataplaneV2Metrics { get; set; }
 
-    [BooleanCommandSwitch("--enable-dataplane-v2-metrics")]
+    [CliFlag("--enable-dataplane-v2-metrics")]
     public bool? EnableDataplaneV2Metrics { get; set; }
 
-    [BooleanCommandSwitch("--enable-autoprovisioning")]
+    [CliFlag("--enable-autoprovisioning")]
     public bool? EnableAutoprovisioning { get; set; }
 
-    [CommandSwitch("--autoprovisioning-config-file")]
+    [CliOption("--autoprovisioning-config-file")]
     public string? AutoprovisioningConfigFile { get; set; }
 
-    [CommandSwitch("--max-cpu")]
+    [CliOption("--max-cpu")]
     public string? MaxCpu { get; set; }
 
-    [CommandSwitch("--max-memory")]
+    [CliOption("--max-memory")]
     public string? MaxMemory { get; set; }
 
-    [CommandSwitch("--autoprovisioning-image-type")]
+    [CliOption("--autoprovisioning-image-type")]
     public string? AutoprovisioningImageType { get; set; }
 
-    [CommandSwitch("--autoprovisioning-locations")]
+    [CliOption("--autoprovisioning-locations")]
     public string[]? AutoprovisioningLocations { get; set; }
 
-    [CommandSwitch("--autoprovisioning-min-cpu-platform")]
+    [CliOption("--autoprovisioning-min-cpu-platform")]
     public string? AutoprovisioningMinCpuPlatform { get; set; }
 
-    [CommandSwitch("--min-cpu")]
+    [CliOption("--min-cpu")]
     public string? MinCpu { get; set; }
 
-    [CommandSwitch("--min-memory")]
+    [CliOption("--min-memory")]
     public string? MinMemory { get; set; }
 
-    [CommandSwitch("--autoprovisioning-max-surge-upgrade")]
+    [CliOption("--autoprovisioning-max-surge-upgrade")]
     public string? AutoprovisioningMaxSurgeUpgrade { get; set; }
 
-    [CommandSwitch("--autoprovisioning-max-unavailable-upgrade")]
+    [CliOption("--autoprovisioning-max-unavailable-upgrade")]
     public string? AutoprovisioningMaxUnavailableUpgrade { get; set; }
 
-    [CommandSwitch("--autoprovisioning-node-pool-soak-duration")]
+    [CliOption("--autoprovisioning-node-pool-soak-duration")]
     public string? AutoprovisioningNodePoolSoakDuration { get; set; }
 
-    [CommandSwitch("--autoprovisioning-standard-rollout-policy")]
+    [CliOption("--autoprovisioning-standard-rollout-policy")]
     public string[]? AutoprovisioningStandardRolloutPolicy { get; set; }
 
-    [BooleanCommandSwitch("--enable-autoprovisioning-blue-green-upgrade")]
+    [CliFlag("--enable-autoprovisioning-blue-green-upgrade")]
     public bool? EnableAutoprovisioningBlueGreenUpgrade { get; set; }
 
-    [BooleanCommandSwitch("--enable-autoprovisioning-surge-upgrade")]
+    [CliFlag("--enable-autoprovisioning-surge-upgrade")]
     public bool? EnableAutoprovisioningSurgeUpgrade { get; set; }
 
-    [CommandSwitch("--autoprovisioning-scopes")]
+    [CliOption("--autoprovisioning-scopes")]
     public string[]? AutoprovisioningScopes { get; set; }
 
-    [CommandSwitch("--autoprovisioning-service-account")]
+    [CliOption("--autoprovisioning-service-account")]
     public string? AutoprovisioningServiceAccount { get; set; }
 
-    [BooleanCommandSwitch("--enable-autoprovisioning-autorepair")]
+    [CliFlag("--enable-autoprovisioning-autorepair")]
     public bool? EnableAutoprovisioningAutorepair { get; set; }
 
-    [BooleanCommandSwitch("--enable-autoprovisioning-autoupgrade")]
+    [CliFlag("--enable-autoprovisioning-autoupgrade")]
     public bool? EnableAutoprovisioningAutoupgrade { get; set; }
 
-    [CommandSwitch("--max-accelerator")]
+    [CliOption("--max-accelerator")]
     public string[]? MaxAccelerator { get; set; }
 
-    [BooleanCommandSwitch("type")]
+    [CliFlag("type")]
     public bool? Type { get; set; }
 
-    [BooleanCommandSwitch("count")]
+    [CliFlag("count")]
     public bool? Count { get; set; }
 
-    [CommandSwitch("--min-accelerator")]
+    [CliOption("--min-accelerator")]
     public string[]? MinAccelerator { get; set; }
 
-    [BooleanCommandSwitch("--enable-autoscaling")]
+    [CliFlag("--enable-autoscaling")]
     public bool? EnableAutoscaling { get; set; }
 
-    [CommandSwitch("--location-policy")]
+    [CliOption("--location-policy")]
     public string? LocationPolicy { get; set; }
 
-    [CommandSwitch("--max-nodes")]
+    [CliOption("--max-nodes")]
     public string? MaxNodes { get; set; }
 
-    [CommandSwitch("--min-nodes")]
+    [CliOption("--min-nodes")]
     public string? MinNodes { get; set; }
 
-    [CommandSwitch("--total-max-nodes")]
+    [CliOption("--total-max-nodes")]
     public string? TotalMaxNodes { get; set; }
 
-    [CommandSwitch("--total-min-nodes")]
+    [CliOption("--total-min-nodes")]
     public string? TotalMinNodes { get; set; }
 
-    [BooleanCommandSwitch("--enable-master-authorized-networks")]
+    [CliFlag("--enable-master-authorized-networks")]
     public bool? EnableMasterAuthorizedNetworks { get; set; }
 
-    [CommandSwitch("--master-authorized-networks")]
+    [CliOption("--master-authorized-networks")]
     public string[]? MasterAuthorizedNetworks { get; set; }
 
-    [BooleanCommandSwitch("--enable-network-egress-metering")]
+    [CliFlag("--enable-network-egress-metering")]
     public bool? EnableNetworkEgressMetering { get; set; }
 
-    [BooleanCommandSwitch("--enable-resource-consumption-metering")]
+    [CliFlag("--enable-resource-consumption-metering")]
     public bool? EnableResourceConsumptionMetering { get; set; }
 
-    [CommandSwitch("--resource-usage-bigquery-dataset")]
+    [CliOption("--resource-usage-bigquery-dataset")]
     public string? ResourceUsageBigqueryDataset { get; set; }
 
-    [BooleanCommandSwitch("--enable-private-endpoint")]
+    [CliFlag("--enable-private-endpoint")]
     public bool? EnablePrivateEndpoint { get; set; }
 
-    [BooleanCommandSwitch("--enable-private-nodes")]
+    [CliFlag("--enable-private-nodes")]
     public bool? EnablePrivateNodes { get; set; }
 
-    [CommandSwitch("--master-ipv4-cidr")]
+    [CliOption("--master-ipv4-cidr")]
     public string? MasterIpv4Cidr { get; set; }
 
-    [BooleanCommandSwitch("--enable-tpu")]
+    [CliFlag("--enable-tpu")]
     public bool? EnableTpu { get; set; }
 
-    [CommandSwitch("--tpu-ipv4-cidr")]
+    [CliOption("--tpu-ipv4-cidr")]
     public string? TpuIpv4Cidr { get; set; }
 
-    [CommandSwitch("--ephemeral-storage-local-ssd[")]
+    [CliOption("--ephemeral-storage-local-ssd[")]
     public string[]? EphemeralStorageLocalSsd { get; set; }
 
-    [CommandSwitch("--local-nvme-ssd-block[")]
+    [CliOption("--local-nvme-ssd-block[")]
     public string[]? LocalNvmeSsdBlock { get; set; }
 
-    [CommandSwitch("--local-ssd-count")]
+    [CliOption("--local-ssd-count")]
     public string? LocalSsdCount { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--maintenance-window")]
+    [CliOption("--maintenance-window")]
     public string? MaintenanceWindow { get; set; }
 
-    [CommandSwitch("--maintenance-window-end")]
+    [CliOption("--maintenance-window-end")]
     public string? MaintenanceWindowEnd { get; set; }
 
-    [CommandSwitch("--maintenance-window-recurrence")]
+    [CliOption("--maintenance-window-recurrence")]
     public string? MaintenanceWindowRecurrence { get; set; }
 
-    [CommandSwitch("--maintenance-window-start")]
+    [CliOption("--maintenance-window-start")]
     public string? MaintenanceWindowStart { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [BooleanCommandSwitch("--enable-basic-auth")]
+    [CliFlag("--enable-basic-auth")]
     public bool? EnableBasicAuth { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 
-    [CommandSwitch("--reservation")]
+    [CliOption("--reservation")]
     public string? Reservation { get; set; }
 
-    [CommandSwitch("--reservation-affinity")]
+    [CliOption("--reservation-affinity")]
     public string? ReservationAffinity { get; set; }
 
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string[]? Scopes { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 }

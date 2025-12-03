@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "update", "import")]
+[CliCommand("iot", "du", "update", "import")]
 public record AzIotDuUpdateImportOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--instance")] string Instance,
-[property: CommandSwitch("--url")] string Url
+[property: CliOption("--account")] int Account,
+[property: CliOption("--instance")] string Instance,
+[property: CliOption("--url")] string Url
 ) : AzOptions
 {
-    [CommandSwitch("--defer")]
+    [CliOption("--defer")]
     public string? Defer { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 
-    [CommandSwitch("--friendly-name")]
+    [CliOption("--friendly-name")]
     public string? FriendlyName { get; set; }
 
-    [CommandSwitch("--hashes")]
+    [CliOption("--hashes")]
     public string? Hashes { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--size")]
+    [CliOption("--size")]
     public string? Size { get; set; }
 }

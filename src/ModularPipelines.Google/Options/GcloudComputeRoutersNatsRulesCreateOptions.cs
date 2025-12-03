@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "routers", "nats", "rules", "create")]
+[CliCommand("compute", "routers", "nats", "rules", "create")]
 public record GcloudComputeRoutersNatsRulesCreateOptions(
-[property: PositionalArgument] string RuleNumber,
-[property: CommandSwitch("--match")] string Match,
-[property: CommandSwitch("--nat")] string Nat,
-[property: CommandSwitch("--router")] string Router
+[property: CliArgument] string RuleNumber,
+[property: CliOption("--match")] string Match,
+[property: CliOption("--nat")] string Nat,
+[property: CliOption("--router")] string Router
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--source-nat-active-ips")]
+    [CliOption("--source-nat-active-ips")]
     public string[]? SourceNatActiveIps { get; set; }
 
-    [CommandSwitch("--source-nat-active-ranges")]
+    [CliOption("--source-nat-active-ranges")]
     public string[]? SourceNatActiveRanges { get; set; }
 }

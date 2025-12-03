@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "policy", "required-reviewer", "update")]
+[CliCommand("repos", "policy", "required-reviewer", "update")]
 public record AzReposPolicyRequiredReviewerUpdateOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--blocking")]
+    [CliFlag("--blocking")]
     public bool? Blocking { get; set; }
 
-    [CommandSwitch("--branch")]
+    [CliOption("--branch")]
     public string? Branch { get; set; }
 
-    [CommandSwitch("--branch-match-type")]
+    [CliOption("--branch-match-type")]
     public string? BranchMatchType { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [CommandSwitch("--message")]
+    [CliOption("--message")]
     public string? Message { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--path-filter")]
+    [CliOption("--path-filter")]
     public string? PathFilter { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [CommandSwitch("--repository-id")]
+    [CliOption("--repository-id")]
     public string? RepositoryId { get; set; }
 
-    [CommandSwitch("--required-reviewer-ids")]
+    [CliOption("--required-reviewer-ids")]
     public string? RequiredReviewerIds { get; set; }
 }

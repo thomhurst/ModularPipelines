@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "sql")]
+[CliCommand("synapse", "sql")]
 public class AzSynapseSqlAdAdmin
 {
     public AzSynapseSqlAdAdmin(

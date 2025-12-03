@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hdinsight-on-aks", "clusterpool", "create")]
+[CliCommand("hdinsight-on-aks", "clusterpool", "create")]
 public record AzHdinsightOnAksClusterpoolCreateOptions(
-[property: CommandSwitch("--cluster-pool-name")] string ClusterPoolName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-pool-name")] string ClusterPoolName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--cluster-pool-version")]
+    [CliOption("--cluster-pool-version")]
     public string? ClusterPoolVersion { get; set; }
 
-    [BooleanCommandSwitch("--enable-log-analytics")]
+    [CliFlag("--enable-log-analytics")]
     public bool? EnableLogAnalytics { get; set; }
 
-    [CommandSwitch("--la-workspace-id")]
+    [CliOption("--la-workspace-id")]
     public string? LaWorkspaceId { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--managed-rg-name")]
+    [CliOption("--managed-rg-name")]
     public string? ManagedRgName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--subnet-id")]
+    [CliOption("--subnet-id")]
     public string? SubnetId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--workernode-size")]
+    [CliOption("--workernode-size")]
     public string? WorkernodeSize { get; set; }
 }

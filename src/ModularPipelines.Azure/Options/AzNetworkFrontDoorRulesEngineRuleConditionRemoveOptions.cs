@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "rules-engine", "rule", "condition", "remove")]
+[CliCommand("network", "front-door", "rules-engine", "rule", "condition", "remove")]
 public record AzNetworkFrontDoorRulesEngineRuleConditionRemoveOptions(
-[property: CommandSwitch("--front-door-name")] string FrontDoorName,
-[property: CommandSwitch("--index")] string Index,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--rules-engine-name")] string RulesEngineName
+[property: CliOption("--front-door-name")] string FrontDoorName,
+[property: CliOption("--index")] string Index,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--rules-engine-name")] string RulesEngineName
 ) : AzOptions;

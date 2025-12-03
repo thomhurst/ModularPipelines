@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("asset", "search-all-resources")]
+[CliCommand("asset", "search-all-resources")]
 public record GcloudAssetSearchAllResourcesOptions : GcloudOptions
 {
-    [CommandSwitch("--asset-types")]
+    [CliOption("--asset-types")]
     public string[]? AssetTypes { get; set; }
 
-    [CommandSwitch("--order-by")]
+    [CliOption("--order-by")]
     public string? OrderBy { get; set; }
 
-    [CommandSwitch("--query")]
+    [CliOption("--query")]
     public string? Query { get; set; }
 
-    [CommandSwitch("--read-mask")]
+    [CliOption("--read-mask")]
     public string? ReadMask { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 }

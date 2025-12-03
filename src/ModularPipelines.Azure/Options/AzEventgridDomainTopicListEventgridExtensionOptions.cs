@@ -6,10 +6,10 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("eventgrid", "domain", "topic", "list", "(eventgrid", "extension)")]
 public record AzEventgridDomainTopicListEventgridExtensionOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--odata-query")]
+    [CliOption("--odata-query")]
     public string? OdataQuery { get; set; }
 }

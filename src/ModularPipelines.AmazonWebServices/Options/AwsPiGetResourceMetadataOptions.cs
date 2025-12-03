@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pi", "get-resource-metadata")]
+[CliCommand("pi", "get-resource-metadata")]
 public record AwsPiGetResourceMetadataOptions(
-[property: CommandSwitch("--service-type")] string ServiceType,
-[property: CommandSwitch("--identifier")] string Identifier
+[property: CliOption("--service-type")] string ServiceType,
+[property: CliOption("--identifier")] string Identifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

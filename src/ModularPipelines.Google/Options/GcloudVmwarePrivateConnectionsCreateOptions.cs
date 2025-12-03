@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-connections", "create")]
+[CliCommand("vmware", "private-connections", "create")]
 public record GcloudVmwarePrivateConnectionsCreateOptions(
-[property: PositionalArgument] string PrivateConnection,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--service-project")] string ServiceProject,
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--vmware-engine-network")] string VmwareEngineNetwork
+[property: CliArgument] string PrivateConnection,
+[property: CliArgument] string Location,
+[property: CliOption("--service-project")] string ServiceProject,
+[property: CliOption("--type")] string Type,
+[property: CliOption("--vmware-engine-network")] string VmwareEngineNetwork
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--routing-mode")]
+    [CliOption("--routing-mode")]
     public string? RoutingMode { get; set; }
 
-    [CommandSwitch("--service-network")]
+    [CliOption("--service-network")]
     public string? ServiceNetwork { get; set; }
 }

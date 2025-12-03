@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datafactory", "integration-runtime", "remove-link")]
+[CliCommand("datafactory", "integration-runtime", "remove-link")]
 public record AzDatafactoryIntegrationRuntimeRemoveLinkOptions(
-[property: CommandSwitch("--linked-factory-name")] string LinkedFactoryName
+[property: CliOption("--linked-factory-name")] string LinkedFactoryName
 ) : AzOptions
 {
-    [CommandSwitch("--factory-name")]
+    [CliOption("--factory-name")]
     public string? FactoryName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--integration-runtime-name")]
+    [CliOption("--integration-runtime-name")]
     public string? IntegrationRuntimeName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

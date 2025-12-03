@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "build-service", "build", "show")]
+[CliCommand("spring", "build-service", "build", "show")]
 public record AzSpringBuildServiceBuildShowOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "keys", "list")]
+[CliCommand("functionapp", "keys", "list")]
 public record AzFunctionappKeysListOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 }

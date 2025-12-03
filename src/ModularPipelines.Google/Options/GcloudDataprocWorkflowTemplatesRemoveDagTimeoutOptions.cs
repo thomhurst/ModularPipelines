@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "workflow-templates", "remove-dag-timeout")]
+[CliCommand("dataproc", "workflow-templates", "remove-dag-timeout")]
 public record GcloudDataprocWorkflowTemplatesRemoveDagTimeoutOptions(
-[property: PositionalArgument] string Template,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Template,
+[property: CliArgument] string Region
 ) : GcloudOptions;

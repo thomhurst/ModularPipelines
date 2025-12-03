@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "mi", "key", "list")]
+[CliCommand("sql", "mi", "key", "list")]
 public record AzSqlMiKeyListOptions : AzOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--managed-instance")]
+    [CliOption("--managed-instance")]
     public string? ManagedInstance { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

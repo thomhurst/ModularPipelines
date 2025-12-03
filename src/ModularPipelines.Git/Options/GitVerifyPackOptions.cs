@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("verify-pack")]
+[CliCommand("verify-pack")]
 [ExcludeFromCodeCoverage]
 public record GitVerifyPackOptions : GitOptions
 {
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("--stat-only")]
+    [CliFlag("--stat-only")]
     public virtual bool? StatOnly { get; set; }
 }

@@ -5,42 +5,42 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "clusters", "gke", "create")]
+[CliCommand("dataproc", "clusters", "gke", "create")]
 public record GcloudDataprocClustersGkeCreateOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--spark-engine-version")] string SparkEngineVersion,
-[property: CommandSwitch("--gke-cluster")] string GkeCluster,
-[property: CommandSwitch("--gke-cluster-location")] string GkeClusterLocation
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Region,
+[property: CliOption("--spark-engine-version")] string SparkEngineVersion,
+[property: CliOption("--gke-cluster")] string GkeCluster,
+[property: CliOption("--gke-cluster-location")] string GkeClusterLocation
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--pools")]
+    [CliOption("--pools")]
     public IEnumerable<KeyValue>? Pools { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string[]? Properties { get; set; }
 
-    [BooleanCommandSwitch("--setup-workload-identity")]
+    [CliFlag("--setup-workload-identity")]
     public bool? SetupWorkloadIdentity { get; set; }
 
-    [CommandSwitch("--staging-bucket")]
+    [CliOption("--staging-bucket")]
     public string? StagingBucket { get; set; }
 
-    [CommandSwitch("--history-server-cluster")]
+    [CliOption("--history-server-cluster")]
     public string? HistoryServerCluster { get; set; }
 
-    [CommandSwitch("--history-server-cluster-region")]
+    [CliOption("--history-server-cluster-region")]
     public string? HistoryServerClusterRegion { get; set; }
 
-    [CommandSwitch("--metastore-service")]
+    [CliOption("--metastore-service")]
     public string? MetastoreService { get; set; }
 
-    [CommandSwitch("--metastore-service-location")]
+    [CliOption("--metastore-service-location")]
     public string? MetastoreServiceLocation { get; set; }
 }

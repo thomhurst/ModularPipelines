@@ -5,29 +5,29 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "consent-stores", "evaluate-user-consents")]
+[CliCommand("healthcare", "consent-stores", "evaluate-user-consents")]
 public record GcloudHealthcareConsentStoresEvaluateUserConsentsOptions(
-[property: PositionalArgument] string ConsentStore,
-[property: PositionalArgument] string Dataset,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--user-id")] string UserId
+[property: CliArgument] string ConsentStore,
+[property: CliArgument] string Dataset,
+[property: CliArgument] string Location,
+[property: CliOption("--user-id")] string UserId
 ) : GcloudOptions
 {
-    [CommandSwitch("--consent-list")]
+    [CliOption("--consent-list")]
     public string[]? ConsentList { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public string? PageSize { get; set; }
 
-    [CommandSwitch("--page-token")]
+    [CliOption("--page-token")]
     public string? PageToken { get; set; }
 
-    [CommandSwitch("--request-attributes")]
+    [CliOption("--request-attributes")]
     public IEnumerable<KeyValue>? RequestAttributes { get; set; }
 
-    [CommandSwitch("--resource-attributes")]
+    [CliOption("--resource-attributes")]
     public IEnumerable<KeyValue>? ResourceAttributes { get; set; }
 
-    [CommandSwitch("--response-view")]
+    [CliOption("--response-view")]
     public string? ResponseView { get; set; }
 }

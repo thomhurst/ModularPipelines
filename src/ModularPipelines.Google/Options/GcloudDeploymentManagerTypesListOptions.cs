@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deployment-manager", "types", "list")]
+[CliCommand("deployment-manager", "types", "list")]
 public record GcloudDeploymentManagerTypesListOptions : GcloudOptions;

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("notification-hub", "namespace")]
+[CliCommand("notification-hub", "namespace")]
 public class AzNotificationHubNamespaceAuthorizationRule
 {
     public AzNotificationHubNamespaceAuthorizationRule(

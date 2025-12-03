@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dedicated-hsm", "create")]
+[CliCommand("dedicated-hsm", "create")]
 public record AzDedicatedHsmCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--mgmt-network-interfaces")]
+    [CliOption("--mgmt-network-interfaces")]
     public string? MgmtNetworkInterfaces { get; set; }
 
-    [CommandSwitch("--mgmt-network-subnet")]
+    [CliOption("--mgmt-network-subnet")]
     public string? MgmtNetworkSubnet { get; set; }
 
-    [CommandSwitch("--network-interfaces")]
+    [CliOption("--network-interfaces")]
     public string? NetworkInterfaces { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--stamp-id")]
+    [CliOption("--stamp-id")]
     public string? StampId { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--zones")]
+    [CliOption("--zones")]
     public string? Zones { get; set; }
 }

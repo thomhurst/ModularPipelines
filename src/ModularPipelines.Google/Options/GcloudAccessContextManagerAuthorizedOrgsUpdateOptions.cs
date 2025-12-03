@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-context-manager", "authorized-orgs", "update")]
+[CliCommand("access-context-manager", "authorized-orgs", "update")]
 public record GcloudAccessContextManagerAuthorizedOrgsUpdateOptions(
-[property: PositionalArgument] string AuthorizedOrgsDesc,
-[property: PositionalArgument] string Policy
+[property: CliArgument] string AuthorizedOrgsDesc,
+[property: CliArgument] string Policy
 ) : GcloudOptions
 {
-    [CommandSwitch("--add-orgs")]
+    [CliOption("--add-orgs")]
     public string[]? AddOrgs { get; set; }
 
-    [BooleanCommandSwitch("--clear-orgs")]
+    [CliFlag("--clear-orgs")]
     public bool? ClearOrgs { get; set; }
 
-    [CommandSwitch("--remove-orgs")]
+    [CliOption("--remove-orgs")]
     public string[]? RemoveOrgs { get; set; }
 
-    [CommandSwitch("--set-orgs")]
+    [CliOption("--set-orgs")]
     public string[]? SetOrgs { get; set; }
 }

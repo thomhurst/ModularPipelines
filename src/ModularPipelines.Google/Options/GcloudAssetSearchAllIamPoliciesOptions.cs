@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("asset", "search-all-iam-policies")]
+[CliCommand("asset", "search-all-iam-policies")]
 public record GcloudAssetSearchAllIamPoliciesOptions : GcloudOptions
 {
-    [CommandSwitch("--asset-types")]
+    [CliOption("--asset-types")]
     public string[]? AssetTypes { get; set; }
 
-    [CommandSwitch("--order-by")]
+    [CliOption("--order-by")]
     public string? OrderBy { get; set; }
 
-    [CommandSwitch("--query")]
+    [CliOption("--query")]
     public string? Query { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 }

@@ -3,43 +3,43 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("create", "ingress")]
+[CliCommand("create", "ingress")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCreateIngressOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesCreateIngressOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--annotation", SwitchValueSeparator = " ")]
+    [CliOption("--annotation")]
     public string[]? Annotation { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--class", SwitchValueSeparator = " ")]
+    [CliOption("--class")]
     public string? Class { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--default-backend", SwitchValueSeparator = " ")]
+    [CliOption("--default-backend")]
     public string? DefaultBackend { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CliOption("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CliOption("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--rule", SwitchValueSeparator = " ")]
+    [CliOption("--rule")]
     public string[]? Rule { get; set; }
 
-    [BooleanCommandSwitch("--save-config")]
+    [CliFlag("--save-config")]
     public virtual bool? SaveConfig { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CliOption("--template")]
     public string? Template { get; set; }
 
-    [BooleanCommandSwitch("--validate")]
+    [CliFlag("--validate")]
     public virtual bool? Validate { get; set; }
 }

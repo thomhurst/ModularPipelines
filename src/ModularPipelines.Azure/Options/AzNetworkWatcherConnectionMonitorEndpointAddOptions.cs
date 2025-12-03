@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "watcher", "connection-monitor", "endpoint", "add")]
+[CliCommand("network", "watcher", "connection-monitor", "endpoint", "add")]
 public record AzNetworkWatcherConnectionMonitorEndpointAddOptions(
-[property: CommandSwitch("--connection-monitor")] string ConnectionMonitor,
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--connection-monitor")] string ConnectionMonitor,
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--location")] string Location
 ) : AzOptions
 {
-    [CommandSwitch("--address")]
+    [CliOption("--address")]
     public string? Address { get; set; }
 
-    [CommandSwitch("--address-exclude")]
+    [CliOption("--address-exclude")]
     public string? AddressExclude { get; set; }
 
-    [CommandSwitch("--address-include")]
+    [CliOption("--address-include")]
     public string? AddressInclude { get; set; }
 
-    [CommandSwitch("--coverage-level")]
+    [CliOption("--coverage-level")]
     public string? CoverageLevel { get; set; }
 
-    [CommandSwitch("--dest-test-groups")]
+    [CliOption("--dest-test-groups")]
     public string? DestTestGroups { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-id")]
+    [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
-    [CommandSwitch("--source-test-groups")]
+    [CliOption("--source-test-groups")]
     public string? SourceTestGroups { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 }

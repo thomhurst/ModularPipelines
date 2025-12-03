@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "host", "list-resize-options")]
+[CliCommand("vm", "host", "list-resize-options")]
 public record AzVmHostListResizeOptionsOptions : AzOptions
 {
-    [CommandSwitch("--host-group")]
+    [CliOption("--host-group")]
     public string? HostGroup { get; set; }
 
-    [CommandSwitch("--host-name")]
+    [CliOption("--host-name")]
     public string? HostName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "locations", "show")]
+[CliCommand("cosmosdb", "locations", "show")]
 public record AzCosmosdbLocationsShowOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : AzOptions;

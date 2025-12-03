@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pca-connector-ad", "create-service-principal-name")]
+[CliCommand("pca-connector-ad", "create-service-principal-name")]
 public record AwsPcaConnectorAdCreateServicePrincipalNameOptions(
-[property: CommandSwitch("--connector-arn")] string ConnectorArn,
-[property: CommandSwitch("--directory-registration-arn")] string DirectoryRegistrationArn
+[property: CliOption("--connector-arn")] string ConnectorArn,
+[property: CliOption("--directory-registration-arn")] string DirectoryRegistrationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "bare-metal", "admin-clusters", "enroll")]
+[CliCommand("container", "bare-metal", "admin-clusters", "enroll")]
 public record GcloudContainerBareMetalAdminClustersEnrollOptions(
-[property: PositionalArgument] string AdminCluster,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--admin-cluster-membership")] string AdminClusterMembership,
-[property: CommandSwitch("--admin-cluster-membership-location")] string AdminClusterMembershipLocation
+[property: CliArgument] string AdminCluster,
+[property: CliArgument] string Location,
+[property: CliOption("--admin-cluster-membership")] string AdminClusterMembership,
+[property: CliOption("--admin-cluster-membership-location")] string AdminClusterMembershipLocation
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

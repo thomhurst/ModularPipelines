@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "virtual-appliance", "site", "update")]
+[CliCommand("network", "virtual-appliance", "site", "update")]
 public record AzNetworkVirtualApplianceSiteUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--address-prefix")]
+    [CliOption("--address-prefix")]
     public string? AddressPrefix { get; set; }
 
-    [BooleanCommandSwitch("--allow")]
+    [CliFlag("--allow")]
     public bool? Allow { get; set; }
 
-    [CommandSwitch("--appliance-name")]
+    [CliOption("--appliance-name")]
     public string? ApplianceName { get; set; }
 
-    [BooleanCommandSwitch("--default")]
+    [CliFlag("--default")]
     public bool? Default { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--optimize")]
+    [CliFlag("--optimize")]
     public bool? Optimize { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

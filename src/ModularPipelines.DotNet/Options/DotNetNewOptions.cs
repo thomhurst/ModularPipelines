@@ -15,36 +15,36 @@ public record DotNetNewOptions : DotNetOptions
         Template = template;
     }
 
-    [PositionalArgument(PlaceholderName = "<TEMPLATE>")]
+    [CliArgument(Name = "<TEMPLATE>")]
     public string? Template { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--language")]
+    [CliFlag("--language")]
     public virtual bool? Language { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public virtual string? Name { get; set; }
 
-    [CommandSwitch("--framework")]
+    [CliOption("--framework")]
     public virtual string? Framework { get; set; }
 
-    [BooleanCommandSwitch("--no-update-check")]
+    [CliFlag("--no-update-check")]
     public virtual bool? NoUpdateCheck { get; set; }
 
-    [CommandSwitch("--output")]
+    [CliOption("--output")]
     public virtual string? OutputDirectory { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public virtual string? ProjectPath { get; set; }
 
-    [BooleanCommandSwitch("--diagnostics")]
+    [CliFlag("--diagnostics")]
     public virtual bool? Diagnostics { get; set; }
 
-    [CommandSwitch("--verbosity")]
+    [CliOption("--verbosity")]
     public virtual string? Verbosity { get; set; }
 }

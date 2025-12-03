@@ -5,61 +5,61 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "node-pools", "update")]
+[CliCommand("container", "node-pools", "update")]
 public record GcloudContainerNodePoolsUpdateOptions(
-[property: PositionalArgument] string Name,
-[property: BooleanCommandSwitch("--enable-confidential-nodes")] bool EnableConfidentialNodes,
-[property: BooleanCommandSwitch("--enable-gvnic")] bool EnableGvnic,
-[property: BooleanCommandSwitch("--enable-image-streaming")] bool EnableImageStreaming,
-[property: BooleanCommandSwitch("--enable-private-nodes")] bool EnablePrivateNodes,
-[property: CommandSwitch("--labels")] IEnumerable<KeyValue> Labels,
-[property: CommandSwitch("--logging-variant")] string LoggingVariant,
-[property: BooleanCommandSwitch("DEFAULT")] bool Default,
-[property: BooleanCommandSwitch("MAX_THROUGHPUT")] bool MaxThroughput,
-[property: CommandSwitch("--network-performance-configs")] string[] NetworkPerformanceConfigs,
-[property: BooleanCommandSwitch("total-egress-bandwidth-tier")] bool TotalEgressBandwidthTier,
-[property: CommandSwitch("--node-labels")] string[] NodeLabels,
-[property: CommandSwitch("--node-locations")] string[] NodeLocations,
-[property: CommandSwitch("--node-taints")] string[] NodeTaints,
-[property: CommandSwitch("--resource-manager-tags")] IEnumerable<KeyValue> ResourceManagerTags,
-[property: CommandSwitch("--system-config-from-file")] string SystemConfigFromFile,
-[property: CommandSwitch("--tags")] string[] Tags,
-[property: CommandSwitch("--windows-os-version")] string WindowsOsVersion,
-[property: CommandSwitch("--workload-metadata")] string WorkloadMetadata,
-[property: BooleanCommandSwitch("GCE_METADATA")] bool GceMetadata,
-[property: BooleanCommandSwitch("GKE_METADATA")] bool GkeMetadata,
-[property: CommandSwitch("--disk-size")] string DiskSize,
-[property: CommandSwitch("--disk-type")] string DiskType,
-[property: CommandSwitch("--machine-type")] string MachineType,
-[property: BooleanCommandSwitch("--enable-autoprovisioning")] bool EnableAutoprovisioning,
-[property: BooleanCommandSwitch("--enable-autoscaling")] bool EnableAutoscaling,
-[property: CommandSwitch("--location-policy")] string LocationPolicy,
-[property: CommandSwitch("--max-nodes")] string MaxNodes,
-[property: CommandSwitch("--min-nodes")] string MinNodes,
-[property: CommandSwitch("--total-max-nodes")] string TotalMaxNodes,
-[property: CommandSwitch("--total-min-nodes")] string TotalMinNodes,
-[property: BooleanCommandSwitch("--enable-autorepair")] bool EnableAutorepair,
-[property: BooleanCommandSwitch("--enable-autoupgrade")] bool EnableAutoupgrade,
-[property: BooleanCommandSwitch("--enable-blue-green-upgrade")] bool EnableBlueGreenUpgrade,
-[property: BooleanCommandSwitch("--enable-surge-upgrade")] bool EnableSurgeUpgrade,
-[property: CommandSwitch("--max-surge-upgrade")] string MaxSurgeUpgrade,
-[property: CommandSwitch("--max-unavailable-upgrade")] string MaxUnavailableUpgrade,
-[property: CommandSwitch("--node-pool-soak-duration")] string NodePoolSoakDuration,
-[property: CommandSwitch("--standard-rollout-policy")] string[] StandardRolloutPolicy
+[property: CliArgument] string Name,
+[property: CliFlag("--enable-confidential-nodes")] bool EnableConfidentialNodes,
+[property: CliFlag("--enable-gvnic")] bool EnableGvnic,
+[property: CliFlag("--enable-image-streaming")] bool EnableImageStreaming,
+[property: CliFlag("--enable-private-nodes")] bool EnablePrivateNodes,
+[property: CliOption("--labels")] IEnumerable<KeyValue> Labels,
+[property: CliOption("--logging-variant")] string LoggingVariant,
+[property: CliFlag("DEFAULT")] bool Default,
+[property: CliFlag("MAX_THROUGHPUT")] bool MaxThroughput,
+[property: CliOption("--network-performance-configs")] string[] NetworkPerformanceConfigs,
+[property: CliFlag("total-egress-bandwidth-tier")] bool TotalEgressBandwidthTier,
+[property: CliOption("--node-labels")] string[] NodeLabels,
+[property: CliOption("--node-locations")] string[] NodeLocations,
+[property: CliOption("--node-taints")] string[] NodeTaints,
+[property: CliOption("--resource-manager-tags")] IEnumerable<KeyValue> ResourceManagerTags,
+[property: CliOption("--system-config-from-file")] string SystemConfigFromFile,
+[property: CliOption("--tags")] string[] Tags,
+[property: CliOption("--windows-os-version")] string WindowsOsVersion,
+[property: CliOption("--workload-metadata")] string WorkloadMetadata,
+[property: CliFlag("GCE_METADATA")] bool GceMetadata,
+[property: CliFlag("GKE_METADATA")] bool GkeMetadata,
+[property: CliOption("--disk-size")] string DiskSize,
+[property: CliOption("--disk-type")] string DiskType,
+[property: CliOption("--machine-type")] string MachineType,
+[property: CliFlag("--enable-autoprovisioning")] bool EnableAutoprovisioning,
+[property: CliFlag("--enable-autoscaling")] bool EnableAutoscaling,
+[property: CliOption("--location-policy")] string LocationPolicy,
+[property: CliOption("--max-nodes")] string MaxNodes,
+[property: CliOption("--min-nodes")] string MinNodes,
+[property: CliOption("--total-max-nodes")] string TotalMaxNodes,
+[property: CliOption("--total-min-nodes")] string TotalMinNodes,
+[property: CliFlag("--enable-autorepair")] bool EnableAutorepair,
+[property: CliFlag("--enable-autoupgrade")] bool EnableAutoupgrade,
+[property: CliFlag("--enable-blue-green-upgrade")] bool EnableBlueGreenUpgrade,
+[property: CliFlag("--enable-surge-upgrade")] bool EnableSurgeUpgrade,
+[property: CliOption("--max-surge-upgrade")] string MaxSurgeUpgrade,
+[property: CliOption("--max-unavailable-upgrade")] string MaxUnavailableUpgrade,
+[property: CliOption("--node-pool-soak-duration")] string NodePoolSoakDuration,
+[property: CliOption("--standard-rollout-policy")] string[] StandardRolloutPolicy
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

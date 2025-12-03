@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "task", "logs")]
+[CliCommand("acr", "task", "logs")]
 public record AzAcrTaskLogsOptions(
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-format")]
+    [CliFlag("--no-format")]
     public bool? NoFormat { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--run-id")]
+    [CliOption("--run-id")]
     public string? RunId { get; set; }
 }

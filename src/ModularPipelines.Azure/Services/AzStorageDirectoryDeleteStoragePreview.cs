@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "directory", "delete")]
+[CliCommand("storage", "directory", "delete")]
 public class AzStorageDirectoryDeleteStoragePreview
 {
     public AzStorageDirectoryDeleteStoragePreview(

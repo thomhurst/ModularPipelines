@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "extension", "list")]
+[CliCommand("vm", "extension", "list")]
 public record AzVmExtensionListOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--vm-name")]
+    [CliOption("--vm-name")]
     public string? VmName { get; set; }
 }

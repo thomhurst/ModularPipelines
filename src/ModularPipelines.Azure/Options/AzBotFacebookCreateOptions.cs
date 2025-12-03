@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bot", "facebook", "create")]
+[CliCommand("bot", "facebook", "create")]
 public record AzBotFacebookCreateOptions(
-[property: CommandSwitch("--appid")] string Appid,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--page-id")] string PageId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--secret")] string Secret,
-[property: CommandSwitch("--token")] string Token
+[property: CliOption("--appid")] string Appid,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--page-id")] string PageId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--secret")] string Secret,
+[property: CliOption("--token")] string Token
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--add-disabled")]
+    [CliFlag("--add-disabled")]
     public bool? AddDisabled { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

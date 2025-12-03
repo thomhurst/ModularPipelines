@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "module-identity", "delete")]
+[CliCommand("iot", "hub", "module-identity", "delete")]
 public record AzIotHubModuleIdentityDeleteOptions(
-[property: CommandSwitch("--device-id")] string DeviceId,
-[property: CommandSwitch("--module-id")] string ModuleId
+[property: CliOption("--device-id")] string DeviceId,
+[property: CliOption("--module-id")] string ModuleId
 ) : AzOptions
 {
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

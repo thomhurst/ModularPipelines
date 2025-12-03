@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "top")]
+[CliCommand("compose", "top")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeTopOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Services { get; set; }
 }

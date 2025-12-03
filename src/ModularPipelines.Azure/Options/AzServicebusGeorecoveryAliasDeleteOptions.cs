@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicebus", "georecovery-alias", "delete")]
+[CliCommand("servicebus", "georecovery-alias", "delete")]
 public record AzServicebusGeorecoveryAliasDeleteOptions : AzOptions
 {
-    [CommandSwitch("--alias")]
+    [CliOption("--alias")]
     public string? Alias { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--namespace-name")]
+    [CliOption("--namespace-name")]
     public string? NamespaceName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

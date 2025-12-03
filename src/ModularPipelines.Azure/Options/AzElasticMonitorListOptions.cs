@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastic", "monitor", "list")]
+[CliCommand("elastic", "monitor", "list")]
 public record AzElasticMonitorListOptions : AzOptions
 {
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

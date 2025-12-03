@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "device", "wifi", "show")]
+[CliCommand("sphere", "device", "wifi", "show")]
 public record AzSphereDeviceWifiShowOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [CommandSwitch("--device")]
+    [CliOption("--device")]
     public string? Device { get; set; }
 }

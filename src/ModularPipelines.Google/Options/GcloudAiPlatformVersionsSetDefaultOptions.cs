@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai-platform", "versions", "set-default")]
+[CliCommand("ai-platform", "versions", "set-default")]
 public record GcloudAiPlatformVersionsSetDefaultOptions : GcloudOptions
 {
     public GcloudAiPlatformVersionsSetDefaultOptions(
@@ -16,12 +16,12 @@ public record GcloudAiPlatformVersionsSetDefaultOptions : GcloudOptions
         Model = model;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudAiPlatformVersionsSetDefaultOptionsVersion { get; set; }
 
-    [CommandSwitch("--model")]
+    [CliOption("--model")]
     public string Model { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

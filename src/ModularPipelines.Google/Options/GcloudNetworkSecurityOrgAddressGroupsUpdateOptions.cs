@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-security", "org-address-groups", "update")]
+[CliCommand("network-security", "org-address-groups", "update")]
 public record GcloudNetworkSecurityOrgAddressGroupsUpdateOptions(
-[property: PositionalArgument] string AddressGroup,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Organization
+[property: CliArgument] string AddressGroup,
+[property: CliArgument] string Location,
+[property: CliArgument] string Organization
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--items")]
+    [CliOption("--items")]
     public string[]? Items { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 }

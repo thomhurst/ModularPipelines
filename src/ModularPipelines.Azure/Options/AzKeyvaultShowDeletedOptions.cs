@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "show-deleted")]
+[CliCommand("keyvault", "show-deleted")]
 public record AzKeyvaultShowDeletedOptions : AzOptions
 {
-    [CommandSwitch("--hsm-name")]
+    [CliOption("--hsm-name")]
     public string? HsmName { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 }

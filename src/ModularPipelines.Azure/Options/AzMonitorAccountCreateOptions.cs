@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "account", "create")]
+[CliCommand("monitor", "account", "create")]
 public record AzMonitorAccountCreateOptions(
-[property: CommandSwitch("--azure-monitor-workspace-name")] string AzureMonitorWorkspaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--azure-monitor-workspace-name")] string AzureMonitorWorkspaceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

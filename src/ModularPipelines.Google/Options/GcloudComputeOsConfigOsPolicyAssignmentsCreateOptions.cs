@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "os-config", "os-policy-assignments", "create")]
+[CliCommand("compute", "os-config", "os-policy-assignments", "create")]
 public record GcloudComputeOsConfigOsPolicyAssignmentsCreateOptions(
-[property: PositionalArgument] string OsPolicyAssignment,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--file")] string File
+[property: CliArgument] string OsPolicyAssignment,
+[property: CliArgument] string Location,
+[property: CliOption("--file")] string File
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

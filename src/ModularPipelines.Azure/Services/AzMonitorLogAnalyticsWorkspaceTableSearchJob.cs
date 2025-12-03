@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "log-analytics", "workspace", "table")]
+[CliCommand("monitor", "log-analytics", "workspace", "table")]
 public class AzMonitorLogAnalyticsWorkspaceTableSearchJob
 {
     public AzMonitorLogAnalyticsWorkspaceTableSearchJob(

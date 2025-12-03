@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "perimeter", "list")]
+[CliCommand("network", "perimeter", "list")]
 public record AzNetworkPerimeterListOptions : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--skip-token")]
+    [CliOption("--skip-token")]
     public string? SkipToken { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databoxedge", "device", "create")]
+[CliCommand("databoxedge", "device", "create")]
 public record AzDataboxedgeDeviceCreateOptions(
-[property: CommandSwitch("--device-name")] string DeviceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--device-name")] string DeviceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--friendly-name")]
+    [CliOption("--friendly-name")]
     public string? FriendlyName { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--model-description")]
+    [CliOption("--model-description")]
     public string? ModelDescription { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

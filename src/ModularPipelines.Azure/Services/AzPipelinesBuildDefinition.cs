@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines", "build")]
+[CliCommand("pipelines", "build")]
 public class AzPipelinesBuildDefinition
 {
     public AzPipelinesBuildDefinition(

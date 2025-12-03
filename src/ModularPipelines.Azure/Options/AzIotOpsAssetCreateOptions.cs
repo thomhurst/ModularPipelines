@@ -4,97 +4,97 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "ops", "asset", "create")]
+[CliCommand("iot", "ops", "asset", "create")]
 public record AzIotOpsAssetCreateOptions(
-[property: CommandSwitch("--endpoint")] string Endpoint,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--endpoint")] string Endpoint,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--asset-type")]
+    [CliOption("--asset-type")]
     public string? AssetType { get; set; }
 
-    [CommandSwitch("--cl")]
+    [CliOption("--cl")]
     public string? Cl { get; set; }
 
-    [CommandSwitch("--clrg")]
+    [CliOption("--clrg")]
     public string? Clrg { get; set; }
 
-    [CommandSwitch("--cls")]
+    [CliOption("--cls")]
     public string? Cls { get; set; }
 
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--cluster-resource-group")]
+    [CliOption("--cluster-resource-group")]
     public string? ClusterResourceGroup { get; set; }
 
-    [CommandSwitch("--cluster-subscription")]
+    [CliOption("--cluster-subscription")]
     public string? ClusterSubscription { get; set; }
 
-    [CommandSwitch("--data")]
+    [CliOption("--data")]
     public string? Data { get; set; }
 
-    [CommandSwitch("--data-publish-int")]
+    [CliOption("--data-publish-int")]
     public string? DataPublishInt { get; set; }
 
-    [CommandSwitch("--data-queue-size")]
+    [CliOption("--data-queue-size")]
     public string? DataQueueSize { get; set; }
 
-    [CommandSwitch("--data-sample-int")]
+    [CliOption("--data-sample-int")]
     public string? DataSampleInt { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--disable")]
+    [CliFlag("--disable")]
     public bool? Disable { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--documentation-uri")]
+    [CliOption("--documentation-uri")]
     public string? DocumentationUri { get; set; }
 
-    [CommandSwitch("--eai")]
+    [CliOption("--eai")]
     public string? Eai { get; set; }
 
-    [CommandSwitch("--epi")]
+    [CliOption("--epi")]
     public string? Epi { get; set; }
 
-    [CommandSwitch("--eqs")]
+    [CliOption("--eqs")]
     public string? Eqs { get; set; }
 
-    [CommandSwitch("--esi")]
+    [CliOption("--esi")]
     public string? Esi { get; set; }
 
-    [CommandSwitch("--event")]
+    [CliOption("--event")]
     public string? Event { get; set; }
 
-    [CommandSwitch("--hardware-revision")]
+    [CliOption("--hardware-revision")]
     public string? HardwareRevision { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--manufacturer")]
+    [CliOption("--manufacturer")]
     public string? Manufacturer { get; set; }
 
-    [CommandSwitch("--manufacturer-uri")]
+    [CliOption("--manufacturer-uri")]
     public string? ManufacturerUri { get; set; }
 
-    [CommandSwitch("--model")]
+    [CliOption("--model")]
     public string? Model { get; set; }
 
-    [CommandSwitch("--pc")]
+    [CliOption("--pc")]
     public string? Pc { get; set; }
 
-    [CommandSwitch("--serial-number")]
+    [CliOption("--serial-number")]
     public string? SerialNumber { get; set; }
 
-    [CommandSwitch("--software-revision")]
+    [CliOption("--software-revision")]
     public string? SoftwareRevision { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

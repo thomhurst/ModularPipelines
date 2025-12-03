@@ -4,63 +4,63 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "file", "copy", "start-batch")]
+[CliCommand("storage", "file", "copy", "start-batch")]
 public record AzStorageFileCopyStartBatchOptions : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--destination-path")]
+    [CliOption("--destination-path")]
     public string? DestinationPath { get; set; }
 
-    [CommandSwitch("--destination-share")]
+    [CliOption("--destination-share")]
     public string? DestinationShare { get; set; }
 
-    [BooleanCommandSwitch("--disallow-source-trailing-dot")]
+    [CliFlag("--disallow-source-trailing-dot")]
     public bool? DisallowSourceTrailingDot { get; set; }
 
-    [BooleanCommandSwitch("--disallow-trailing-dot")]
+    [CliFlag("--disallow-trailing-dot")]
     public bool? DisallowTrailingDot { get; set; }
 
-    [BooleanCommandSwitch("--dryrun")]
+    [CliFlag("--dryrun")]
     public bool? Dryrun { get; set; }
 
-    [CommandSwitch("--file-endpoint")]
+    [CliOption("--file-endpoint")]
     public string? FileEndpoint { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
-    [CommandSwitch("--pattern")]
+    [CliOption("--pattern")]
     public string? Pattern { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--source-account-key")]
+    [CliOption("--source-account-key")]
     public int? SourceAccountKey { get; set; }
 
-    [CommandSwitch("--source-account-name")]
+    [CliOption("--source-account-name")]
     public int? SourceAccountName { get; set; }
 
-    [CommandSwitch("--source-container")]
+    [CliOption("--source-container")]
     public string? SourceContainer { get; set; }
 
-    [CommandSwitch("--source-sas")]
+    [CliOption("--source-sas")]
     public string? SourceSas { get; set; }
 
-    [CommandSwitch("--source-share")]
+    [CliOption("--source-share")]
     public string? SourceShare { get; set; }
 
-    [CommandSwitch("--source-uri")]
+    [CliOption("--source-uri")]
     public string? SourceUri { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

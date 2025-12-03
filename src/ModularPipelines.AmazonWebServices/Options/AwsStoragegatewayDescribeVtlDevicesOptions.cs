@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "describe-vtl-devices")]
+[CliCommand("storagegateway", "describe-vtl-devices")]
 public record AwsStoragegatewayDescribeVtlDevicesOptions(
-[property: CommandSwitch("--gateway-arn")] string GatewayArn
+[property: CliOption("--gateway-arn")] string GatewayArn
 ) : AwsOptions
 {
-    [CommandSwitch("--vtl-device-arns")]
+    [CliOption("--vtl-device-arns")]
     public string[]? VtlDeviceArns { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

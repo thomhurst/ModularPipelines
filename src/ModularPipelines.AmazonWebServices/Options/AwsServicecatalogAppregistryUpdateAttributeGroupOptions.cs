@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicecatalog-appregistry", "update-attribute-group")]
+[CliCommand("servicecatalog-appregistry", "update-attribute-group")]
 public record AwsServicecatalogAppregistryUpdateAttributeGroupOptions(
-[property: CommandSwitch("--attribute-group")] string AttributeGroup
+[property: CliOption("--attribute-group")] string AttributeGroup
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public string? Attributes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

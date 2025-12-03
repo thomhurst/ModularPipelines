@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("organizations", "put-resource-policy")]
+[CliCommand("organizations", "put-resource-policy")]
 public record AwsOrganizationsPutResourcePolicyOptions(
-[property: CommandSwitch("--content")] string Content
+[property: CliOption("--content")] string Content
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

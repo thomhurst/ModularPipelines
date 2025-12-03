@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("maintenance", "assignment", "update-parent")]
+[CliCommand("maintenance", "assignment", "update-parent")]
 public record AzMaintenanceAssignmentUpdateParentOptions : AzOptions
 {
-    [CommandSwitch("--config-id")]
+    [CliOption("--config-id")]
     public string? ConfigId { get; set; }
 
-    [CommandSwitch("--configuration-assignment-name")]
+    [CliOption("--configuration-assignment-name")]
     public string? ConfigurationAssignmentName { get; set; }
 
-    [CommandSwitch("--filter-locations")]
+    [CliOption("--filter-locations")]
     public string? FilterLocations { get; set; }
 
-    [CommandSwitch("--filter-os-types")]
+    [CliOption("--filter-os-types")]
     public string? FilterOsTypes { get; set; }
 
-    [CommandSwitch("--filter-resource-groups")]
+    [CliOption("--filter-resource-groups")]
     public string? FilterResourceGroups { get; set; }
 
-    [CommandSwitch("--filter-resource-types")]
+    [CliOption("--filter-resource-types")]
     public string? FilterResourceTypes { get; set; }
 
-    [CommandSwitch("--filter-tags")]
+    [CliOption("--filter-tags")]
     public string? FilterTags { get; set; }
 
-    [CommandSwitch("--filter-tags-operator")]
+    [CliOption("--filter-tags-operator")]
     public string? FilterTagsOperator { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--provider-name")]
+    [CliOption("--provider-name")]
     public string? ProviderName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-id")]
+    [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
-    [CommandSwitch("--resource-name")]
+    [CliOption("--resource-name")]
     public string? ResourceName { get; set; }
 
-    [CommandSwitch("--resource-parent-name")]
+    [CliOption("--resource-parent-name")]
     public string? ResourceParentName { get; set; }
 
-    [CommandSwitch("--resource-parent-type")]
+    [CliOption("--resource-parent-type")]
     public string? ResourceParentType { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

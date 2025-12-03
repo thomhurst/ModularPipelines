@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "invoice", "list")]
+[CliCommand("billing", "invoice", "list")]
 public record AzBillingInvoiceListOptions(
-[property: CommandSwitch("--period-end-date")] string PeriodEndDate,
-[property: CommandSwitch("--period-start-date")] string PeriodStartDate
+[property: CliOption("--period-end-date")] string PeriodEndDate,
+[property: CliOption("--period-start-date")] string PeriodStartDate
 ) : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 }

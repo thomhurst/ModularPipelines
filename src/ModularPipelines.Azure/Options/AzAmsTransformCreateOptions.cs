@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "transform", "create")]
+[CliCommand("ams", "transform", "create")]
 public record AzAmsTransformCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--preset")] string Preset,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--preset")] string Preset,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--audio-analysis-mode")]
+    [CliOption("--audio-analysis-mode")]
     public string? AudioAnalysisMode { get; set; }
 
-    [CommandSwitch("--audio-language")]
+    [CliOption("--audio-language")]
     public string? AudioLanguage { get; set; }
 
-    [CommandSwitch("--blur-type")]
+    [CliOption("--blur-type")]
     public string? BlurType { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--face-detector-mode")]
+    [CliOption("--face-detector-mode")]
     public string? FaceDetectorMode { get; set; }
 
-    [CommandSwitch("--insights-to-extract")]
+    [CliOption("--insights-to-extract")]
     public string? InsightsToExtract { get; set; }
 
-    [CommandSwitch("--on-error")]
+    [CliOption("--on-error")]
     public string? OnError { get; set; }
 
-    [CommandSwitch("--relative-priority")]
+    [CliOption("--relative-priority")]
     public string? RelativePriority { get; set; }
 
-    [CommandSwitch("--resolution")]
+    [CliOption("--resolution")]
     public string? Resolution { get; set; }
 
-    [CommandSwitch("--video-analysis-mode")]
+    [CliOption("--video-analysis-mode")]
     public string? VideoAnalysisMode { get; set; }
 }

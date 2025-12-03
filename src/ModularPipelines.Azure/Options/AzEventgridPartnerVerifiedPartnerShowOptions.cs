@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "partner", "verified-partner", "show")]
+[CliCommand("eventgrid", "partner", "verified-partner", "show")]
 public record AzEventgridPartnerVerifiedPartnerShowOptions(
-[property: CommandSwitch("--verified-partner-name")] string VerifiedPartnerName
+[property: CliOption("--verified-partner-name")] string VerifiedPartnerName
 ) : AzOptions;

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "keys", "versions", "get-certificate-chain")]
+[CliCommand("kms", "keys", "versions", "get-certificate-chain")]
 public record GcloudKmsKeysVersionsGetCertificateChainOptions : GcloudOptions
 {
     public GcloudKmsKeysVersionsGetCertificateChainOptions(
@@ -14,21 +14,21 @@ public record GcloudKmsKeysVersionsGetCertificateChainOptions : GcloudOptions
         GcloudKmsKeysVersionsGetCertificateChainOptionsVersion = version;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudKmsKeysVersionsGetCertificateChainOptionsVersion { get; set; }
 
-    [CommandSwitch("--certificate-chain-type")]
+    [CliOption("--certificate-chain-type")]
     public string? CertificateChainType { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--keyring")]
+    [CliOption("--keyring")]
     public string? Keyring { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--output-file")]
+    [CliOption("--output-file")]
     public string? OutputFile { get; set; }
 }

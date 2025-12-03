@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "tpus", "tpu-vm")]
+[CliCommand("compute", "tpus", "tpu-vm")]
 public class GcloudComputeTpusTpuVmAcceleratorTypes
 {
     public GcloudComputeTpusTpuVmAcceleratorTypes(

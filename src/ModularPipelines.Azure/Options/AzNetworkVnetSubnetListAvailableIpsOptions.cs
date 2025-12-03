@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vnet", "subnet", "list-available-ips")]
+[CliCommand("network", "vnet", "subnet", "list-available-ips")]
 public record AzNetworkVnetSubnetListAvailableIpsOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 }

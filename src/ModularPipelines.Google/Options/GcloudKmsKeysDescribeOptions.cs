@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "keys", "describe")]
+[CliCommand("kms", "keys", "describe")]
 public record GcloudKmsKeysDescribeOptions(
-[property: PositionalArgument] string Key,
-[property: PositionalArgument] string Keyring,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Key,
+[property: CliArgument] string Keyring,
+[property: CliArgument] string Location
 ) : GcloudOptions;

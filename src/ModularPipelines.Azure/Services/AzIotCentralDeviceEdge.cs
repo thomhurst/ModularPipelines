@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "device")]
+[CliCommand("iot", "central", "device")]
 public class AzIotCentralDeviceEdge
 {
     public AzIotCentralDeviceEdge(

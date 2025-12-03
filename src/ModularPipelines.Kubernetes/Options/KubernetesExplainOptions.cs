@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("explain")]
+[CliCommand("explain")]
 [ExcludeFromCodeCoverage]
-public record KubernetesExplainOptions([property: PositionalArgument] string Resource) : KubernetesOptions
+public record KubernetesExplainOptions([property: CliArgument] string Resource) : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--api-version", SwitchValueSeparator = " ")]
+    [CliOption("--api-version")]
     public string? ApiVersion { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 }

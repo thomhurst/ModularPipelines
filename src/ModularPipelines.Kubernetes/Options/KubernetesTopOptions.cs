@@ -3,19 +3,19 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("top")]
+[CliCommand("top")]
 [ExcludeFromCodeCoverage]
 public record KubernetesTopOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("--no-headers")]
+    [CliFlag("--no-headers")]
     public virtual bool? NoHeaders { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CliOption("--selector")]
     public string? Selector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--sort-by", SwitchValueSeparator = " ")]
+    [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
-    [BooleanCommandSwitch("--use-protocol-buffers")]
+    [CliFlag("--use-protocol-buffers")]
     public virtual bool? UseProtocolBuffers { get; set; }
 }

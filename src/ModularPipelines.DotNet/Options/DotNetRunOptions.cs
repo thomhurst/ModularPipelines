@@ -3,52 +3,52 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("run")]
+[CliCommand("run")]
 [ExcludeFromCodeCoverage]
 public record DotNetRunOptions : DotNetOptions
 {
-    [CommandSwitch("--arch")]
+    [CliOption("--arch")]
     public virtual string? Architecture { get; set; }
 
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public virtual string? Configuration { get; set; }
 
-    [CommandSwitch("--framework")]
+    [CliOption("--framework")]
     public virtual string? Framework { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [CommandSwitch("--launch-profile")]
+    [CliOption("--launch-profile")]
     public virtual string? LaunchProfile { get; set; }
 
-    [BooleanCommandSwitch("--no-build")]
+    [CliFlag("--no-build")]
     public virtual bool? NoBuild { get; set; }
 
-    [BooleanCommandSwitch("--no-dependencies")]
+    [CliFlag("--no-dependencies")]
     public virtual bool? NoDependencies { get; set; }
 
-    [BooleanCommandSwitch("--no-launch-profile")]
+    [CliFlag("--no-launch-profile")]
     public virtual bool? NoLaunchProfile { get; set; }
 
-    [BooleanCommandSwitch("--no-restore")]
+    [CliFlag("--no-restore")]
     public virtual bool? NoRestore { get; set; }
 
-    [CommandSwitch("--os")]
+    [CliOption("--os")]
     public virtual string? Os { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public virtual string? Project { get; set; }
 
-    [CommandSwitch("--runtime")]
+    [CliOption("--runtime")]
     public virtual string? RuntimeIdentifier { get; set; }
 
-    [BooleanCommandSwitch("--tl")]
+    [CliFlag("--tl")]
     public virtual bool? Tl { get; set; }
 
-    [CommandSwitch("--verbosity")]
+    [CliOption("--verbosity")]
     public virtual string? Verbosity { get; set; }
 }

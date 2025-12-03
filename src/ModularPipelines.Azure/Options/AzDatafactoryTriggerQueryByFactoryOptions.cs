@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datafactory", "trigger", "query-by-factory")]
+[CliCommand("datafactory", "trigger", "query-by-factory")]
 public record AzDatafactoryTriggerQueryByFactoryOptions : AzOptions
 {
-    [CommandSwitch("--continuation-token")]
+    [CliOption("--continuation-token")]
     public string? ContinuationToken { get; set; }
 
-    [CommandSwitch("--factory-name")]
+    [CliOption("--factory-name")]
     public string? FactoryName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--parent-trigger-name")]
+    [CliOption("--parent-trigger-name")]
     public string? ParentTriggerName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

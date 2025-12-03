@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "batches", "list")]
+[CliCommand("dataproc", "batches", "list")]
 public record GcloudDataprocBatchesListOptions : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

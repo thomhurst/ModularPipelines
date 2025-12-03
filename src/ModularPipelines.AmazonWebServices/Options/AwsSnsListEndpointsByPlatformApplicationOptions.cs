@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sns", "list-endpoints-by-platform-application")]
+[CliCommand("sns", "list-endpoints-by-platform-application")]
 public record AwsSnsListEndpointsByPlatformApplicationOptions(
-[property: CommandSwitch("--platform-application-arn")] string PlatformApplicationArn
+[property: CliOption("--platform-application-arn")] string PlatformApplicationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

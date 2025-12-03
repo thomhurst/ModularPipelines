@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "repository", "update")]
+[CliCommand("acr", "repository", "update")]
 public record AzAcrRepositoryUpdateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--delete-enabled")]
+    [CliFlag("--delete-enabled")]
     public bool? DeleteEnabled { get; set; }
 
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [BooleanCommandSwitch("--list-enabled")]
+    [CliFlag("--list-enabled")]
     public bool? ListEnabled { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [BooleanCommandSwitch("--read-enabled")]
+    [CliFlag("--read-enabled")]
     public bool? ReadEnabled { get; set; }
 
-    [CommandSwitch("--repository")]
+    [CliOption("--repository")]
     public string? Repository { get; set; }
 
-    [CommandSwitch("--suffix")]
+    [CliOption("--suffix")]
     public string? Suffix { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 
-    [BooleanCommandSwitch("--write-enabled")]
+    [CliFlag("--write-enabled")]
     public bool? WriteEnabled { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataflow")]
+[CliCommand("dataflow")]
 public class GcloudDataflowSnapshots
 {
     public GcloudDataflowSnapshots(

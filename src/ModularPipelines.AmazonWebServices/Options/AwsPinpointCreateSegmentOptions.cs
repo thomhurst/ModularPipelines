@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint", "create-segment")]
+[CliCommand("pinpoint", "create-segment")]
 public record AwsPinpointCreateSegmentOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--write-segment-request")] string WriteSegmentRequest
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--write-segment-request")] string WriteSegmentRequest
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

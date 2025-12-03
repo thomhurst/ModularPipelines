@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventhubs", "namespace", "application-group", "show")]
+[CliCommand("eventhubs", "namespace", "application-group", "show")]
 public record AzEventhubsNamespaceApplicationGroupShowOptions : AzOptions
 {
-    [CommandSwitch("--application-group-name")]
+    [CliOption("--application-group-name")]
     public string? ApplicationGroupName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--namespace-name")]
+    [CliOption("--namespace-name")]
     public string? NamespaceName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "ssl", "client-certs", "describe")]
+[CliCommand("sql", "ssl", "client-certs", "describe")]
 public record GcloudSqlSslClientCertsDescribeOptions(
-[property: PositionalArgument] string CommonName,
-[property: CommandSwitch("--instance")] string Instance
+[property: CliArgument] string CommonName,
+[property: CliOption("--instance")] string Instance
 ) : GcloudOptions;

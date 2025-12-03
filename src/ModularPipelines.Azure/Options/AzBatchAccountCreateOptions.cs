@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "account", "create")]
+[CliCommand("batch", "account", "create")]
 public record AzBatchAccountCreateOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--encryption-key-identifier")]
+    [CliOption("--encryption-key-identifier")]
     public string? EncryptionKeyIdentifier { get; set; }
 
-    [CommandSwitch("--encryption-key-source")]
+    [CliOption("--encryption-key-source")]
     public string? EncryptionKeySource { get; set; }
 
-    [CommandSwitch("--keyvault")]
+    [CliOption("--keyvault")]
     public string? Keyvault { get; set; }
 
-    [CommandSwitch("--mi-system-assigned")]
+    [CliOption("--mi-system-assigned")]
     public string? MiSystemAssigned { get; set; }
 
-    [CommandSwitch("--mi-user-assigned")]
+    [CliOption("--mi-user-assigned")]
     public string? MiUserAssigned { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--storage-account")]
+    [CliOption("--storage-account")]
     public int? StorageAccount { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

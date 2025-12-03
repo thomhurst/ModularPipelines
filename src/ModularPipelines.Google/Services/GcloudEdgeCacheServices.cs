@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cache")]
+[CliCommand("edge-cache")]
 public class GcloudEdgeCacheServices
 {
     public GcloudEdgeCacheServices(

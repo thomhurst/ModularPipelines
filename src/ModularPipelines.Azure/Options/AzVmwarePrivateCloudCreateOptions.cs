@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-cloud", "create")]
+[CliCommand("vmware", "private-cloud", "create")]
 public record AzVmwarePrivateCloudCreateOptions(
-[property: CommandSwitch("--cluster-size")] string ClusterSize,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--network-block")] string NetworkBlock,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku")] string Sku
+[property: CliOption("--cluster-size")] string ClusterSize,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--network-block")] string NetworkBlock,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sku")] string Sku
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--accept-eula")]
+    [CliFlag("--accept-eula")]
     public bool? AcceptEula { get; set; }
 
-    [CommandSwitch("--ext-nw-blocks")]
+    [CliOption("--ext-nw-blocks")]
     public string? ExtNwBlocks { get; set; }
 
-    [CommandSwitch("--internet")]
+    [CliOption("--internet")]
     public string? Internet { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--mi-system-assigned")]
+    [CliFlag("--mi-system-assigned")]
     public bool? MiSystemAssigned { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--nsxt-password")]
+    [CliOption("--nsxt-password")]
     public string? NsxtPassword { get; set; }
 
-    [CommandSwitch("--secondary-zone")]
+    [CliOption("--secondary-zone")]
     public string? SecondaryZone { get; set; }
 
-    [CommandSwitch("--strategy")]
+    [CliOption("--strategy")]
     public string? Strategy { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vcenter-password")]
+    [CliOption("--vcenter-password")]
     public string? VcenterPassword { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

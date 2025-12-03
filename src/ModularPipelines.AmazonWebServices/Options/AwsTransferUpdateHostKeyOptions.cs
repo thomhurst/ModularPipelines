@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "update-host-key")]
+[CliCommand("transfer", "update-host-key")]
 public record AwsTransferUpdateHostKeyOptions(
-[property: CommandSwitch("--server-id")] string ServerId,
-[property: CommandSwitch("--host-key-id")] string HostKeyId,
-[property: CommandSwitch("--description")] string Description
+[property: CliOption("--server-id")] string ServerId,
+[property: CliOption("--host-key-id")] string HostKeyId,
+[property: CliOption("--description")] string Description
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "targets", "describe")]
+[CliCommand("deploy", "targets", "describe")]
 public record GcloudDeployTargetsDescribeOptions(
-[property: PositionalArgument] string Target,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Target,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [CommandSwitch("--delivery-pipeline")]
+    [CliOption("--delivery-pipeline")]
     public string? DeliveryPipeline { get; set; }
 
-    [BooleanCommandSwitch("--list-all-pipelines")]
+    [CliFlag("--list-all-pipelines")]
     public bool? ListAllPipelines { get; set; }
 
-    [BooleanCommandSwitch("--skip-pipeline-lookup")]
+    [CliFlag("--skip-pipeline-lookup")]
     public bool? SkipPipelineLookup { get; set; }
 }

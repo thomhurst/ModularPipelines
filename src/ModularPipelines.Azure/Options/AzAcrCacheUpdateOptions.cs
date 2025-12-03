@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "cache", "update")]
+[CliCommand("acr", "cache", "update")]
 public record AzAcrCacheUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--name")] string Name,
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--cred-set")]
+    [CliOption("--cred-set")]
     public string? CredSet { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [BooleanCommandSwitch("--remove-cred-set")]
+    [CliFlag("--remove-cred-set")]
     public bool? RemoveCredSet { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 }

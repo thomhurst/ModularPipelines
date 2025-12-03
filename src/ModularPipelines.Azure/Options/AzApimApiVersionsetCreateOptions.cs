@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "api", "versionset", "create")]
+[CliCommand("apim", "api", "versionset", "create")]
 public record AzApimApiVersionsetCreateOptions(
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-name")] string ServiceName,
-[property: CommandSwitch("--versioning-scheme")] string VersioningScheme
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-name")] string ServiceName,
+[property: CliOption("--versioning-scheme")] string VersioningScheme
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--version-header-name")]
+    [CliOption("--version-header-name")]
     public string? VersionHeaderName { get; set; }
 
-    [CommandSwitch("--version-query-name")]
+    [CliOption("--version-query-name")]
     public string? VersionQueryName { get; set; }
 
-    [CommandSwitch("--version-set-id")]
+    [CliOption("--version-set-id")]
     public string? VersionSetId { get; set; }
 }

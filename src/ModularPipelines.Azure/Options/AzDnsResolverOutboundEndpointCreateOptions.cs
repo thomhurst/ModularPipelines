@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns-resolver", "outbound-endpoint", "create")]
+[CliCommand("dns-resolver", "outbound-endpoint", "create")]
 public record AzDnsResolverOutboundEndpointCreateOptions(
-[property: CommandSwitch("--dns-resolver-name")] string DnsResolverName,
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--dns-resolver-name")] string DnsResolverName,
+[property: CliOption("--id")] string Id,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--if-none-match")]
+    [CliOption("--if-none-match")]
     public string? IfNoneMatch { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

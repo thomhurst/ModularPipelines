@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "networks", "update")]
+[CliCommand("compute", "networks", "update")]
 public record GcloudComputeNetworksUpdateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--[no-]enable-ula-internal-ipv6")]
+    [CliOption("--[no-]enable-ula-internal-ipv6")]
     public string[]? NoEnableUlaInternalIpv6 { get; set; }
 
-    [CommandSwitch("--internal-ipv6-range")]
+    [CliOption("--internal-ipv6-range")]
     public string? InternalIpv6Range { get; set; }
 
-    [CommandSwitch("--mtu")]
+    [CliOption("--mtu")]
     public string? Mtu { get; set; }
 
-    [CommandSwitch("--network-firewall-policy-enforcement-order")]
+    [CliOption("--network-firewall-policy-enforcement-order")]
     public string? NetworkFirewallPolicyEnforcementOrder { get; set; }
 
-    [CommandSwitch("--bgp-routing-mode")]
+    [CliOption("--bgp-routing-mode")]
     public string? BgpRoutingMode { get; set; }
 
-    [BooleanCommandSwitch("global")]
+    [CliFlag("global")]
     public bool? Global { get; set; }
 
-    [BooleanCommandSwitch("regional")]
+    [CliFlag("regional")]
     public bool? Regional { get; set; }
 
-    [BooleanCommandSwitch("--switch-to-custom-subnet-mode")]
+    [CliFlag("--switch-to-custom-subnet-mode")]
     public bool? SwitchToCustomSubnetMode { get; set; }
 }

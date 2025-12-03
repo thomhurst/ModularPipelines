@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("builds", "connections", "update", "gitlab")]
+[CliCommand("builds", "connections", "update", "gitlab")]
 public record GcloudBuildsConnectionsUpdateGitlabOptions(
-[property: PositionalArgument] string Connection,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Connection,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--authorizer-token-secret-version")]
+    [CliOption("--authorizer-token-secret-version")]
     public string? AuthorizerTokenSecretVersion { get; set; }
 
-    [CommandSwitch("--host-uri")]
+    [CliOption("--host-uri")]
     public string? HostUri { get; set; }
 
-    [CommandSwitch("--read-authorizer-token-secret-version")]
+    [CliOption("--read-authorizer-token-secret-version")]
     public string? ReadAuthorizerTokenSecretVersion { get; set; }
 
-    [CommandSwitch("--service-directory-service")]
+    [CliOption("--service-directory-service")]
     public string? ServiceDirectoryService { get; set; }
 
-    [CommandSwitch("--ssl-ca-file")]
+    [CliOption("--ssl-ca-file")]
     public string? SslCaFile { get; set; }
 }

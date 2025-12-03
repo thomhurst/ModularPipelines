@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("topic", "escaping")]
+[CliCommand("topic", "escaping")]
 public record GcloudTopicEscapingOptions : GcloudOptions;

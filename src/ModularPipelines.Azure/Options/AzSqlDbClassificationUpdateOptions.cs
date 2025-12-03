@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "db", "classification", "update")]
+[CliCommand("sql", "db", "classification", "update")]
 public record AzSqlDbClassificationUpdateOptions(
-[property: CommandSwitch("--column")] string Column,
-[property: CommandSwitch("--schema")] string Schema,
-[property: CommandSwitch("--table")] string Table
+[property: CliOption("--column")] string Column,
+[property: CliOption("--schema")] string Schema,
+[property: CliOption("--table")] string Table
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--information-type")]
+    [CliOption("--information-type")]
     public string? InformationType { get; set; }
 
-    [CommandSwitch("--label")]
+    [CliOption("--label")]
     public string? Label { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--server")]
+    [CliOption("--server")]
     public string? Server { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

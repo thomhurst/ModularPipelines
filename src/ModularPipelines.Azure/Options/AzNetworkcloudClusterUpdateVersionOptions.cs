@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "cluster", "update-version")]
+[CliCommand("networkcloud", "cluster", "update-version")]
 public record AzNetworkcloudClusterUpdateVersionOptions(
-[property: CommandSwitch("--target-cluster-version")] string TargetClusterVersion
+[property: CliOption("--target-cluster-version")] string TargetClusterVersion
 ) : AzOptions
 {
-    [CommandSwitch("--cluster-name")]
+    [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "failover-group", "set-primary")]
+[CliCommand("sql", "failover-group", "set-primary")]
 public record AzSqlFailoverGroupSetPrimaryOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allow-data-loss")]
+    [CliFlag("--allow-data-loss")]
     public bool? AllowDataLoss { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--server")]
+    [CliOption("--server")]
     public string? Server { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--tpbff")]
+    [CliFlag("--tpbff")]
     public bool? Tpbff { get; set; }
 }

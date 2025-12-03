@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "device", "capability", "select")]
+[CliCommand("sphere", "device", "capability", "select")]
 public record AzSphereDeviceCapabilitySelectOptions : AzOptions
 {
-    [CommandSwitch("--capability-file")]
+    [CliOption("--capability-file")]
     public string? CapabilityFile { get; set; }
 
-    [BooleanCommandSwitch("--none")]
+    [CliFlag("--none")]
     public bool? None { get; set; }
 }

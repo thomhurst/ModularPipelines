@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "target-https-proxies", "create")]
+[CliCommand("compute", "target-https-proxies", "create")]
 public record GcloudComputeTargetHttpsProxiesCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--url-map")] string UrlMap
+[property: CliArgument] string Name,
+[property: CliOption("--url-map")] string UrlMap
 ) : GcloudOptions
 {
-    [CommandSwitch("--certificate-map")]
+    [CliOption("--certificate-map")]
     public string? CertificateMap { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--http-keep-alive-timeout-sec")]
+    [CliOption("--http-keep-alive-timeout-sec")]
     public string? HttpKeepAliveTimeoutSec { get; set; }
 
-    [CommandSwitch("--quic-override")]
+    [CliOption("--quic-override")]
     public string? QuicOverride { get; set; }
 
-    [CommandSwitch("--ssl-policy")]
+    [CliOption("--ssl-policy")]
     public string? SslPolicy { get; set; }
 
-    [CommandSwitch("--certificate-manager-certificates")]
+    [CliOption("--certificate-manager-certificates")]
     public string[]? CertificateManagerCertificates { get; set; }
 
-    [CommandSwitch("--ssl-certificates")]
+    [CliOption("--ssl-certificates")]
     public string[]? SslCertificates { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [BooleanCommandSwitch("--global-ssl-certificates")]
+    [CliFlag("--global-ssl-certificates")]
     public bool? GlobalSslCertificates { get; set; }
 
-    [CommandSwitch("--ssl-certificates-region")]
+    [CliOption("--ssl-certificates-region")]
     public string? SslCertificatesRegion { get; set; }
 
-    [BooleanCommandSwitch("--global-ssl-policy")]
+    [CliFlag("--global-ssl-policy")]
     public bool? GlobalSslPolicy { get; set; }
 
-    [CommandSwitch("--ssl-policy-region")]
+    [CliOption("--ssl-policy-region")]
     public string? SslPolicyRegion { get; set; }
 
-    [BooleanCommandSwitch("--global-url-map")]
+    [CliFlag("--global-url-map")]
     public bool? GlobalUrlMap { get; set; }
 
-    [CommandSwitch("--url-map-region")]
+    [CliOption("--url-map-region")]
     public string? UrlMapRegion { get; set; }
 }

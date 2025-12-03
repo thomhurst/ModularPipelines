@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "budgets", "delete")]
+[CliCommand("billing", "budgets", "delete")]
 public record GcloudBillingBudgetsDeleteOptions(
-[property: PositionalArgument] string Budget,
-[property: PositionalArgument] string BillingAccount
+[property: CliArgument] string Budget,
+[property: CliArgument] string BillingAccount
 ) : GcloudOptions;

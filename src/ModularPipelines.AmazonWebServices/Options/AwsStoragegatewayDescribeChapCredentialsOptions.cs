@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "describe-chap-credentials")]
+[CliCommand("storagegateway", "describe-chap-credentials")]
 public record AwsStoragegatewayDescribeChapCredentialsOptions(
-[property: CommandSwitch("--target-arn")] string TargetArn
+[property: CliOption("--target-arn")] string TargetArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

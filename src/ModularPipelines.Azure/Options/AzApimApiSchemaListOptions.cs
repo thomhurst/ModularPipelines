@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "api", "schema", "list")]
+[CliCommand("apim", "api", "schema", "list")]
 public record AzApimApiSchemaListOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-name")] string ServiceName
 ) : AzOptions
 {
-    [CommandSwitch("--filter-display-name")]
+    [CliOption("--filter-display-name")]
     public string? FilterDisplayName { get; set; }
 
-    [CommandSwitch("--skip")]
+    [CliOption("--skip")]
     public string? Skip { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

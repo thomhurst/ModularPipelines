@@ -15,75 +15,75 @@ public record DockerComposeRunOptions : DockerOptions
         Service = service;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Service { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Command { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Args { get; set; }
 
-    [BooleanCommandSwitch("--build")]
+    [CliFlag("--build")]
     public virtual bool? Build { get; set; }
 
-    [CommandSwitch("--cap-add")]
+    [CliOption("--cap-add")]
     public virtual string? CapAdd { get; set; }
 
-    [CommandSwitch("--cap-drop")]
+    [CliOption("--cap-drop")]
     public virtual string? CapDrop { get; set; }
 
-    [BooleanCommandSwitch("--detach")]
+    [CliFlag("--detach")]
     public virtual bool? Detach { get; set; }
 
-    [CommandSwitch("--entrypoint")]
+    [CliOption("--entrypoint")]
     public virtual string? Entrypoint { get; set; }
 
-    [CommandSwitch("--env")]
+    [CliOption("--env")]
     public virtual string? Env { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [CommandSwitch("--label")]
+    [CliOption("--label")]
     public virtual string? Label { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public virtual string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-TTY")]
+    [CliFlag("--no-TTY")]
     public virtual bool? NoTty { get; set; }
 
-    [BooleanCommandSwitch("--no-deps")]
+    [CliFlag("--no-deps")]
     public virtual bool? NoDeps { get; set; }
 
-    [CommandSwitch("--publish")]
+    [CliOption("--publish")]
     public virtual string? Publish { get; set; }
 
-    [BooleanCommandSwitch("--quiet-pull")]
+    [CliFlag("--quiet-pull")]
     public virtual bool? QuietPull { get; set; }
 
-    [BooleanCommandSwitch("--remove-orphans")]
+    [CliFlag("--remove-orphans")]
     public virtual bool? RemoveOrphans { get; set; }
 
-    [BooleanCommandSwitch("--rm")]
+    [CliFlag("--rm")]
     public virtual bool? Rm { get; set; }
 
-    [CommandSwitch("--service-ports")]
+    [CliOption("--service-ports")]
     public virtual string? ServicePorts { get; set; }
 
-    [BooleanCommandSwitch("--tty")]
+    [CliFlag("--tty")]
     public virtual bool? Tty { get; set; }
 
-    [CommandSwitch("--use-aliases")]
+    [CliOption("--use-aliases")]
     public virtual string? UseAliases { get; set; }
 
-    [CommandSwitch("--user")]
+    [CliOption("--user")]
     public virtual string? User { get; set; }
 
-    [CommandSwitch("--volume")]
+    [CliOption("--volume")]
     public virtual string? Volume { get; set; }
 
-    [CommandSwitch("--workdir")]
+    [CliOption("--workdir")]
     public virtual string? Workdir { get; set; }
 }

@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "addon", "list-available")]
+[CliCommand("aks", "addon", "list-available")]
 public record AzAksAddonListAvailableOptions : AzOptions;

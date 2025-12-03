@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "resource-guard", "unlock")]
+[CliCommand("dataprotection", "resource-guard", "unlock")]
 public record AzDataprotectionResourceGuardUnlockOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--operation-requests")]
+    [CliOption("--operation-requests")]
     public string? OperationRequests { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-to-be-deleted")]
+    [CliOption("--resource-to-be-deleted")]
     public string? ResourceToBeDeleted { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tenant-id")]
+    [CliOption("--tenant-id")]
     public string? TenantId { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 }

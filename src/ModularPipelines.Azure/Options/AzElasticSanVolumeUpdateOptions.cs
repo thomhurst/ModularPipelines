@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastic-san", "volume", "update")]
+[CliCommand("elastic-san", "volume", "update")]
 public record AzElasticSanVolumeUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--creation-data")]
+    [CliOption("--creation-data")]
     public string? CreationData { get; set; }
 
-    [CommandSwitch("--elastic-san")]
+    [CliOption("--elastic-san")]
     public string? ElasticSan { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--size-gib")]
+    [CliOption("--size-gib")]
     public string? SizeGib { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--volume-group")]
+    [CliOption("--volume-group")]
     public string? VolumeGroup { get; set; }
 }

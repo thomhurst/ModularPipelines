@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "mi", "link", "delete")]
+[CliCommand("sql", "mi", "link", "delete")]
 public record AzSqlMiLinkDeleteOptions : AzOptions
 {
-    [CommandSwitch("--distributed-availability-group-name")]
+    [CliOption("--distributed-availability-group-name")]
     public string? DistributedAvailabilityGroupName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--instance-name")]
+    [CliOption("--instance-name")]
     public string? InstanceName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

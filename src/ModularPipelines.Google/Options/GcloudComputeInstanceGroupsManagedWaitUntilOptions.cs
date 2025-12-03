@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instance-groups", "managed", "wait-until")]
+[CliCommand("compute", "instance-groups", "managed", "wait-until")]
 public record GcloudComputeInstanceGroupsManagedWaitUntilOptions(
-[property: PositionalArgument] string Name,
-[property: BooleanCommandSwitch("--stable")] bool Stable,
-[property: BooleanCommandSwitch("--version-target-reached")] bool VersionTargetReached
+[property: CliArgument] string Name,
+[property: CliFlag("--stable")] bool Stable,
+[property: CliFlag("--version-target-reached")] bool VersionTargetReached
 ) : GcloudOptions
 {
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

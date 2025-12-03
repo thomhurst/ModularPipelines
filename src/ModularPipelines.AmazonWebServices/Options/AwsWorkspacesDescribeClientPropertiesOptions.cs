@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "describe-client-properties")]
+[CliCommand("workspaces", "describe-client-properties")]
 public record AwsWorkspacesDescribeClientPropertiesOptions(
-[property: CommandSwitch("--resource-ids")] string[] ResourceIds
+[property: CliOption("--resource-ids")] string[] ResourceIds
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

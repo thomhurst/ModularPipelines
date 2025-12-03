@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bms", "networks", "list-ip-reservations")]
+[CliCommand("bms", "networks", "list-ip-reservations")]
 public record GcloudBmsNetworksListIpReservationsOptions : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

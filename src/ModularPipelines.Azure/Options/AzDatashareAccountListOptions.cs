@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datashare", "account", "list")]
+[CliCommand("datashare", "account", "list")]
 public record AzDatashareAccountListOptions : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--skip-token")]
+    [CliOption("--skip-token")]
     public string? SkipToken { get; set; }
 }

@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deployment", "operation", "group", "show")]
+[CliCommand("deployment", "operation", "group", "show")]
 public record AzDeploymentOperationGroupShowOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--operation-ids")] string OperationIds,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--operation-ids")] string OperationIds,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

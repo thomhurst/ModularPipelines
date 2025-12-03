@@ -7,18 +7,18 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("storage", "account", "migration", "show", "(storage-preview", "extension)")]
 public record AzStorageAccountMigrationShowStoragePreviewExtensionOptions : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--migration-name")]
+    [CliOption("--migration-name")]
     public string? MigrationName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

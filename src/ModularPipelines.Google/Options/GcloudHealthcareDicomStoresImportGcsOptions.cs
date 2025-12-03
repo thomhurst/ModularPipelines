@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "dicom-stores", "import", "gcs")]
+[CliCommand("healthcare", "dicom-stores", "import", "gcs")]
 public record GcloudHealthcareDicomStoresImportGcsOptions(
-[property: PositionalArgument] string DicomStore,
-[property: PositionalArgument] string Dataset,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--gcs-uri")] string GcsUri
+[property: CliArgument] string DicomStore,
+[property: CliArgument] string Dataset,
+[property: CliArgument] string Location,
+[property: CliOption("--gcs-uri")] string GcsUri
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

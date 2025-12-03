@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("footprint", "measurement-endpoint-condition", "list")]
+[CliCommand("footprint", "measurement-endpoint-condition", "list")]
 public record AzFootprintMeasurementEndpointConditionListOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

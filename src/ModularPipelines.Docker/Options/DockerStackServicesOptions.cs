@@ -15,15 +15,15 @@ public record DockerStackServicesOptions : DockerOptions
         Stack = stack;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Stack { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public virtual string? Filter { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 }

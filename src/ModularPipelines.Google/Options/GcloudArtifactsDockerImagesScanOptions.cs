@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "docker", "images", "scan")]
+[CliCommand("artifacts", "docker", "images", "scan")]
 public record GcloudArtifactsDockerImagesScanOptions(
-[property: PositionalArgument] string ResourceUri
+[property: CliArgument] string ResourceUri
 ) : GcloudOptions
 {
-    [CommandSwitch("--additional-package-types")]
+    [CliOption("--additional-package-types")]
     public string[]? AdditionalPackageTypes { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--remote")]
+    [CliFlag("--remote")]
     public bool? Remote { get; set; }
 }

@@ -16,150 +16,150 @@ public record DockerBuildxBuildOptions : DockerOptions
         PathOrUrl = pathOrUrl;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? PathOrUrl { get; set; }
 
-    [CommandSwitch("--add-host")]
+    [CliOption("--add-host")]
     public virtual string? AddHost { get; set; }
 
-    [CommandSwitch("--allow")]
+    [CliOption("--allow")]
     public virtual string? Allow { get; set; }
 
-    [CommandSwitch("--annotation")]
+    [CliOption("--annotation")]
     public virtual string? Annotation { get; set; }
 
-    [CommandSwitch("--attest")]
+    [CliOption("--attest")]
     public virtual string? Attest { get; set; }
 
-    [CommandSwitch("--build-arg")]
+    [CliOption("--build-arg")]
     public virtual IEnumerable<KeyValue>? BuildArg { get; set; }
 
-    [CommandSwitch("--build-context")]
+    [CliOption("--build-context")]
     public virtual string? BuildContext { get; set; }
 
-    [CommandSwitch("--cache-from")]
+    [CliOption("--cache-from")]
     public virtual string? CacheFrom { get; set; }
 
-    [CommandSwitch("--cache-to")]
+    [CliOption("--cache-to")]
     public virtual string? CacheTo { get; set; }
 
-    [CommandSwitch("--cgroup-parent")]
+    [CliOption("--cgroup-parent")]
     public virtual string? CgroupParent { get; set; }
 
-    [BooleanCommandSwitch("--compress")]
+    [CliFlag("--compress")]
     public virtual bool? Compress { get; set; }
 
-    [CommandSwitch("--cpu-period")]
+    [CliOption("--cpu-period")]
     public virtual string? CpuPeriod { get; set; }
 
-    [CommandSwitch("--cpu-quota")]
+    [CliOption("--cpu-quota")]
     public virtual string? CpuQuota { get; set; }
 
-    [CommandSwitch("--cpu-shares")]
+    [CliOption("--cpu-shares")]
     public virtual string? CpuShares { get; set; }
 
-    [CommandSwitch("--cpuset-cpus")]
+    [CliOption("--cpuset-cpus")]
     public virtual string? CpusetCpus { get; set; }
 
-    [CommandSwitch("--cpuset-mems")]
+    [CliOption("--cpuset-mems")]
     public virtual string? CpusetMems { get; set; }
 
-    [BooleanCommandSwitch("--detach")]
+    [CliFlag("--detach")]
     public virtual bool? Detach { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public virtual string? File { get; set; }
 
-    [BooleanCommandSwitch("--force-rm")]
+    [CliFlag("--force-rm")]
     public virtual bool? ForceRm { get; set; }
 
-    [CommandSwitch("--iidfile")]
+    [CliOption("--iidfile")]
     public virtual string? Iidfile { get; set; }
 
-    [BooleanCommandSwitch("--isolation")]
+    [CliFlag("--isolation")]
     public virtual bool? Isolation { get; set; }
 
-    [CommandSwitch("--label")]
+    [CliOption("--label")]
     public virtual string? Label { get; set; }
 
-    [CommandSwitch("--load")]
+    [CliOption("--load")]
     public virtual string? Load { get; set; }
 
-    [CommandSwitch("--memory")]
+    [CliOption("--memory")]
     public virtual string? Memory { get; set; }
 
-    [CommandSwitch("--memory-swap")]
+    [CliOption("--memory-swap")]
     public virtual string? MemorySwap { get; set; }
 
-    [CommandSwitch("--metadata-file")]
+    [CliOption("--metadata-file")]
     public virtual string? MetadataFile { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public virtual string? Network { get; set; }
 
-    [BooleanCommandSwitch("--no-cache")]
+    [CliFlag("--no-cache")]
     public virtual bool? NoCache { get; set; }
 
-    [CommandSwitch("--no-cache-filter")]
+    [CliOption("--no-cache-filter")]
     public virtual string? NoCacheFilter { get; set; }
 
-    [CommandSwitch("--output")]
+    [CliOption("--output")]
     public virtual string? Output { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public virtual string? Platform { get; set; }
 
-    [CommandSwitch("--print")]
+    [CliOption("--print")]
     public virtual string? Print { get; set; }
 
-    [CommandSwitch("--progress")]
+    [CliOption("--progress")]
     public virtual string? Progress { get; set; }
 
-    [CommandSwitch("--provenance")]
+    [CliOption("--provenance")]
     public virtual string? Provenance { get; set; }
 
-    [BooleanCommandSwitch("--pull")]
+    [CliFlag("--pull")]
     public virtual bool? Pull { get; set; }
 
-    [BooleanCommandSwitch("--push")]
+    [CliFlag("--push")]
     public virtual bool? Push { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--rm")]
+    [CliFlag("--rm")]
     public virtual bool? Rm { get; set; }
 
-    [CommandSwitch("--root")]
+    [CliOption("--root")]
     public virtual string? Root { get; set; }
 
-    [BooleanCommandSwitch("--sbom")]
+    [CliFlag("--sbom")]
     public virtual bool? Sbom { get; set; }
 
-    [CommandSwitch("--secret")]
+    [CliOption("--secret")]
     public virtual string? Secret { get; set; }
 
-    [CommandSwitch("--security-opt")]
+    [CliOption("--security-opt")]
     public virtual string? SecurityOpt { get; set; }
 
-    [CommandSwitch("--server-config")]
+    [CliOption("--server-config")]
     public virtual string? ServerConfig { get; set; }
 
-    [CommandSwitch("--shm-size")]
+    [CliOption("--shm-size")]
     public virtual string? ShmSize { get; set; }
 
-    [BooleanCommandSwitch("--squash")]
+    [CliFlag("--squash")]
     public virtual bool? Squash { get; set; }
 
-    [CommandSwitch("--ssh")]
+    [CliOption("--ssh")]
     public virtual string? Ssh { get; set; }
 
-    [CommandSwitch("--tag")]
+    [CliOption("--tag")]
     public virtual string? Tag { get; set; }
 
-    [CommandSwitch("--target")]
+    [CliOption("--target")]
     public virtual string? Target { get; set; }
 
-    [CommandSwitch("--ulimit")]
+    [CliOption("--ulimit")]
     public virtual string? Ulimit { get; set; }
 }

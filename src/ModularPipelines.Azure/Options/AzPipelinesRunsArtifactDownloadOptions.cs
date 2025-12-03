@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines", "runs", "artifact", "download")]
+[CliCommand("pipelines", "runs", "artifact", "download")]
 public record AzPipelinesRunsArtifactDownloadOptions(
-[property: CommandSwitch("--artifact-name")] string ArtifactName,
-[property: CommandSwitch("--path")] string Path,
-[property: CommandSwitch("--run-id")] string RunId
+[property: CliOption("--artifact-name")] string ArtifactName,
+[property: CliOption("--path")] string Path,
+[property: CliOption("--run-id")] string RunId
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 }

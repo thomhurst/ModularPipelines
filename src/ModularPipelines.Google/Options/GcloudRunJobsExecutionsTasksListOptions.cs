@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("run", "jobs", "executions", "tasks", "list")]
+[CliCommand("run", "jobs", "executions", "tasks", "list")]
 public record GcloudRunJobsExecutionsTasksListOptions(
-[property: CommandSwitch("--execution")] string Execution
+[property: CliOption("--execution")] string Execution
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [BooleanCommandSwitch("--succeeded")]
+    [CliFlag("--succeeded")]
     public bool? Succeeded { get; set; }
 }

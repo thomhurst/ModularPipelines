@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "integration-runtime", "self-hosted", "create")]
+[CliCommand("synapse", "integration-runtime", "self-hosted", "create")]
 public record AzSynapseIntegrationRuntimeSelfHostedCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

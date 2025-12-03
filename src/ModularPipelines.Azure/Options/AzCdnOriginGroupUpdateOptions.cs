@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cdn", "origin-group", "update")]
+[CliCommand("cdn", "origin-group", "update")]
 public record AzCdnOriginGroupUpdateOptions : AzOptions
 {
-    [CommandSwitch("--endpoint-name")]
+    [CliOption("--endpoint-name")]
     public string? EndpointName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--origins")]
+    [CliOption("--origins")]
     public string? Origins { get; set; }
 
-    [CommandSwitch("--probe-interval")]
+    [CliOption("--probe-interval")]
     public string? ProbeInterval { get; set; }
 
-    [CommandSwitch("--probe-method")]
+    [CliOption("--probe-method")]
     public string? ProbeMethod { get; set; }
 
-    [CommandSwitch("--probe-path")]
+    [CliOption("--probe-path")]
     public string? ProbePath { get; set; }
 
-    [CommandSwitch("--probe-protocol")]
+    [CliOption("--probe-protocol")]
     public string? ProbeProtocol { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -20,9 +20,9 @@ public record DotNetMsbuildOptions : DotNetOptions
         CommandParts = ["msbuild", "<MSBUILD_ARGUMENTS>"];
     }
 
-    [PositionalArgument(PlaceholderName = "<MSBUILD_ARGUMENTS>")]
+    [CliArgument(Name = "<MSBUILD_ARGUMENTS>")]
     public string? MsbuildArguments { get; set; }
 
-    [BooleanCommandSwitch("-h")]
+    [CliFlag("-h")]
     public virtual bool? H { get; set; }
 }

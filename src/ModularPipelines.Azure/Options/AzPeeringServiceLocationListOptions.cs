@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("peering", "service", "location", "list")]
+[CliCommand("peering", "service", "location", "list")]
 public record AzPeeringServiceLocationListOptions : AzOptions
 {
-    [CommandSwitch("--country")]
+    [CliOption("--country")]
     public int? Country { get; set; }
 }

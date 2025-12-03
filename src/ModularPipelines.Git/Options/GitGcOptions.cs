@@ -3,34 +3,34 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("gc")]
+[CliCommand("gc")]
 [ExcludeFromCodeCoverage]
 public record GitGcOptions : GitOptions
 {
-    [BooleanCommandSwitch("--aggressive")]
+    [CliFlag("--aggressive")]
     public virtual bool? Aggressive { get; set; }
 
-    [BooleanCommandSwitch("--auto")]
+    [CliFlag("--auto")]
     public virtual bool? Auto { get; set; }
 
-    [BooleanCommandSwitch("--no-cruft")]
+    [CliFlag("--no-cruft")]
     public virtual bool? NoCruft { get; set; }
 
-    [BooleanCommandSwitch("--cruft")]
+    [CliFlag("--cruft")]
     public virtual bool? Cruft { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--prune")]
+    [CliOption("--prune", Format = OptionFormat.EqualsSeparated)]
     public string? Prune { get; set; }
 
-    [BooleanCommandSwitch("--no-prune")]
+    [CliFlag("--no-prune")]
     public virtual bool? NoPrune { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--keep-largest-pack")]
+    [CliFlag("--keep-largest-pack")]
     public virtual bool? KeepLargestPack { get; set; }
 }

@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ram", "list-principals")]
+[CliCommand("ram", "list-principals")]
 public record AwsRamListPrincipalsOptions(
-[property: CommandSwitch("--resource-owner")] string ResourceOwner
+[property: CliOption("--resource-owner")] string ResourceOwner
 ) : AwsOptions
 {
-    [CommandSwitch("--resource-arn")]
+    [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
-    [CommandSwitch("--principals")]
+    [CliOption("--principals")]
     public string[]? Principals { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--resource-share-arns")]
+    [CliOption("--resource-share-arns")]
     public string[]? ResourceShareArns { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

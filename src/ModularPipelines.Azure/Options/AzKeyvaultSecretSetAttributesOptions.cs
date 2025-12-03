@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "secret", "set-attributes")]
+[CliCommand("keyvault", "secret", "set-attributes")]
 public record AzKeyvaultSecretSetAttributesOptions : AzOptions
 {
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [CommandSwitch("--expires")]
+    [CliOption("--expires")]
     public string? Expires { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--not-before")]
+    [CliOption("--not-before")]
     public string? NotBefore { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcdata", "dc", "config", "add")]
+[CliCommand("arcdata", "dc", "config", "add")]
 public record AzArcdataDcConfigAddOptions(
-[property: CommandSwitch("--json-values")] string JsonValues,
-[property: CommandSwitch("--path")] string Path
+[property: CliOption("--json-values")] string JsonValues,
+[property: CliOption("--path")] string Path
 ) : AzOptions;

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage-mover", "endpoint", "create-for-nfs")]
+[CliCommand("storage-mover", "endpoint", "create-for-nfs")]
 public record AzStorageMoverEndpointCreateForNfsOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--export")] string Export,
-[property: CommandSwitch("--host")] string Host,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-mover-name")] string StorageMoverName
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--export")] string Export,
+[property: CliOption("--host")] string Host,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--storage-mover-name")] string StorageMoverName
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--nfs-version")]
+    [CliOption("--nfs-version")]
     public string? NfsVersion { get; set; }
 }

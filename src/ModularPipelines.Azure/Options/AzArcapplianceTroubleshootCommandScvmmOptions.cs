@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcappliance", "troubleshoot", "command", "scvmm")]
+[CliCommand("arcappliance", "troubleshoot", "command", "scvmm")]
 public record AzArcapplianceTroubleshootCommandScvmmOptions : AzOptions
 {
-    [CommandSwitch("--command")]
+    [CliOption("--command")]
     public string? Command { get; set; }
 
-    [CommandSwitch("--credentials-dir")]
+    [CliOption("--credentials-dir")]
     public string? CredentialsDir { get; set; }
 
-    [CommandSwitch("--ip")]
+    [CliOption("--ip")]
     public string? Ip { get; set; }
 }

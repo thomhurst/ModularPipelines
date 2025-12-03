@@ -6,19 +6,19 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("aks", "use-dev-spaces", "(dev-spaces", "extension)")]
 public record AzAksUseDevSpacesDevSpacesExtensionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [CommandSwitch("--space")]
+    [CliOption("--space")]
     public string? Space { get; set; }
 
-    [BooleanCommandSwitch("--update")]
+    [CliFlag("--update")]
     public bool? Update { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

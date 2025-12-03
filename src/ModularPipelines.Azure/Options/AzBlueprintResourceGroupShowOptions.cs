@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("blueprint", "resource-group", "show")]
+[CliCommand("blueprint", "resource-group", "show")]
 public record AzBlueprintResourceGroupShowOptions(
-[property: CommandSwitch("--artifact-name")] string ArtifactName,
-[property: CommandSwitch("--blueprint-name")] string BlueprintName
+[property: CliOption("--artifact-name")] string ArtifactName,
+[property: CliOption("--blueprint-name")] string BlueprintName
 ) : AzOptions
 {
-    [CommandSwitch("--management-group")]
+    [CliOption("--management-group")]
     public string? ManagementGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

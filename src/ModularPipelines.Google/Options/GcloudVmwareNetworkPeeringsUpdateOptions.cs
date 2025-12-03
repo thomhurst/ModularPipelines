@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "network-peerings", "update")]
+[CliCommand("vmware", "network-peerings", "update")]
 public record GcloudVmwareNetworkPeeringsUpdateOptions(
-[property: PositionalArgument] string NetworkPeering
+[property: CliArgument] string NetworkPeering
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 }

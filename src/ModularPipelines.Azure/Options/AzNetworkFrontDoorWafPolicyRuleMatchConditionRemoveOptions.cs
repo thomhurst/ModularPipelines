@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "waf-policy", "rule", "match-condition", "remove")]
+[CliCommand("network", "front-door", "waf-policy", "rule", "match-condition", "remove")]
 public record AzNetworkFrontDoorWafPolicyRuleMatchConditionRemoveOptions(
-[property: CommandSwitch("--index")] string Index
+[property: CliOption("--index")] string Index
 ) : AzOptions
 {
-    [CommandSwitch("--defer")]
+    [CliOption("--defer")]
     public string? Defer { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--policy-name")]
+    [CliOption("--policy-name")]
     public string? PolicyName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

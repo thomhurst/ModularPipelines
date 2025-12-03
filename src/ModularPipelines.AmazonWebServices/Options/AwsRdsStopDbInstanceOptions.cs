@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "stop-db-instance")]
+[CliCommand("rds", "stop-db-instance")]
 public record AwsRdsStopDbInstanceOptions(
-[property: CommandSwitch("--db-instance-identifier")] string DbInstanceIdentifier
+[property: CliOption("--db-instance-identifier")] string DbInstanceIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--db-snapshot-identifier")]
+    [CliOption("--db-snapshot-identifier")]
     public string? DbSnapshotIdentifier { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

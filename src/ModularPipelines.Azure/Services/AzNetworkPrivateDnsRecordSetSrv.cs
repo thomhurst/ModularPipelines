@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "private-dns", "record-set")]
+[CliCommand("network", "private-dns", "record-set")]
 public class AzNetworkPrivateDnsRecordSetSrv
 {
     public AzNetworkPrivateDnsRecordSetSrv(

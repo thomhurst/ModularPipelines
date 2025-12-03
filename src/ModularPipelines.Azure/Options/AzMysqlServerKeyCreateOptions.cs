@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mysql", "server", "key", "create")]
+[CliCommand("mysql", "server", "key", "create")]
 public record AzMysqlServerKeyCreateOptions(
-[property: CommandSwitch("--kid")] string Kid,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--kid")] string Kid,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

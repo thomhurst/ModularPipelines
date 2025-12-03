@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("account", "set")]
+[CliCommand("account", "set")]
 public record AzAccountSetOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions;

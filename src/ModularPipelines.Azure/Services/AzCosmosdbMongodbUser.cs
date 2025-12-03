@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "mongodb")]
+[CliCommand("cosmosdb", "mongodb")]
 public class AzCosmosdbMongodbUser
 {
     public AzCosmosdbMongodbUser(

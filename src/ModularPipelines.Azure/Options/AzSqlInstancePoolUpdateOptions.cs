@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "instance-pool", "update")]
+[CliCommand("sql", "instance-pool", "update")]
 public record AzSqlInstancePoolUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--capacity")]
+    [CliOption("--capacity")]
     public string? Capacity { get; set; }
 
-    [CommandSwitch("--edition")]
+    [CliOption("--edition")]
     public string? Edition { get; set; }
 
-    [CommandSwitch("--family")]
+    [CliOption("--family")]
     public string? Family { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--license-type")]
+    [CliOption("--license-type")]
     public string? LicenseType { get; set; }
 
-    [CommandSwitch("--maint-config-id")]
+    [CliOption("--maint-config-id")]
     public string? MaintConfigId { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

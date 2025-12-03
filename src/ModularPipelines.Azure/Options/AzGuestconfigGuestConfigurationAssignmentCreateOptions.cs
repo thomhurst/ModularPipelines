@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("guestconfig", "guest-configuration-assignment", "create")]
+[CliCommand("guestconfig", "guest-configuration-assignment", "create")]
 public record AzGuestconfigGuestConfigurationAssignmentCreateOptions(
-[property: CommandSwitch("--guest-configuration-assignment-name")] string GuestConfigurationAssignmentName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vm-name")] string VmName
+[property: CliOption("--guest-configuration-assignment-name")] string GuestConfigurationAssignmentName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vm-name")] string VmName
 ) : AzOptions
 {
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public string? Context { get; set; }
 
-    [CommandSwitch("--guest-configuration-configuration-parameter")]
+    [CliOption("--guest-configuration-configuration-parameter")]
     public string? GuestConfigurationConfigurationParameter { get; set; }
 
-    [CommandSwitch("--guest-configuration-configuration-setting")]
+    [CliOption("--guest-configuration-configuration-setting")]
     public string? GuestConfigurationConfigurationSetting { get; set; }
 
-    [CommandSwitch("--guest-configuration-name")]
+    [CliOption("--guest-configuration-name")]
     public string? GuestConfigurationName { get; set; }
 
-    [CommandSwitch("--guest-configuration-version")]
+    [CliOption("--guest-configuration-version")]
     public string? GuestConfigurationVersion { get; set; }
 
-    [CommandSwitch("--latest-assignment-report-assignment")]
+    [CliOption("--latest-assignment-report-assignment")]
     public string? LatestAssignmentReportAssignment { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

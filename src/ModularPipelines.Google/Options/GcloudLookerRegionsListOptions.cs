@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("looker", "regions", "list")]
+[CliCommand("looker", "regions", "list")]
 public record GcloudLookerRegionsListOptions : GcloudOptions;

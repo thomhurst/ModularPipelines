@@ -3,46 +3,46 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("wait")]
+[CliCommand("wait")]
 [ExcludeFromCodeCoverage]
-public record KubernetesWaitOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesWaitOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--all-namespaces")]
+    [CliFlag("--all-namespaces")]
     public virtual bool? AllNamespaces { get; set; }
 
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-selector", SwitchValueSeparator = " ")]
+    [CliOption("--field-selector")]
     public string? FieldSelector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
+    [CliOption("--filename")]
     public string[]? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--for", SwitchValueSeparator = " ")]
+    [CliOption("--for")]
     public string? For { get; set; }
 
-    [BooleanCommandSwitch("--local")]
+    [CliFlag("--local")]
     public virtual bool? Local { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CliOption("--selector")]
     public string? Selector { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CliOption("--template")]
     public string? Template { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

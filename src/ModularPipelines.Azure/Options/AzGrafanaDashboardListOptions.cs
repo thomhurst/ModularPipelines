@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "dashboard", "list")]
+[CliCommand("grafana", "dashboard", "list")]
 public record AzGrafanaDashboardListOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--api-key")]
+    [CliOption("--api-key")]
     public string? ApiKey { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

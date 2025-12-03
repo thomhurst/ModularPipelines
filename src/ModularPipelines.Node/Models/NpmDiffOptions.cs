@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("diff")]
+[CliCommand("diff")]
 public record NpmDiffOptions : NpmOptions
 {
-    [CommandSwitch("--diff")]
+    [CliOption("--diff")]
     public virtual string[]? Diff { get; set; }
 
-    [BooleanCommandSwitch("--diff-name-only")]
+    [CliFlag("--diff-name-only")]
     public virtual bool? DiffNameOnly { get; set; }
 
-    [CommandSwitch("--diff-unified")]
+    [CliOption("--diff-unified")]
     public virtual int? DiffUnified { get; set; }
 
-    [BooleanCommandSwitch("--diff-ignore-all-space")]
+    [CliFlag("--diff-ignore-all-space")]
     public virtual bool? DiffIgnoreAllSpace { get; set; }
 
-    [BooleanCommandSwitch("--diff-no-prefix")]
+    [CliFlag("--diff-no-prefix")]
     public virtual bool? DiffNoPrefix { get; set; }
 
-    [CommandSwitch("--diff-src-prefix")]
+    [CliOption("--diff-src-prefix")]
     public virtual string? DiffSrcPrefix { get; set; }
 
-    [CommandSwitch("--diff-dst-prefix")]
+    [CliOption("--diff-dst-prefix")]
     public virtual string? DiffDstPrefix { get; set; }
 
-    [BooleanCommandSwitch("--diff-text")]
+    [CliFlag("--diff-text")]
     public virtual bool? DiffText { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public virtual bool? Global { get; set; }
 
-    [CommandSwitch("--tag")]
+    [CliOption("--tag")]
     public virtual string? Tag { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public virtual string[]? Workspace { get; set; }
 
-    [BooleanCommandSwitch("--workspaces")]
+    [CliFlag("--workspaces")]
     public virtual bool? Workspaces { get; set; }
 
-    [BooleanCommandSwitch("--include-workspace-root")]
+    [CliFlag("--include-workspace-root")]
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string? Paths { get; set; }
 }

@@ -4,132 +4,132 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "ops", "init")]
+[CliCommand("iot", "ops", "init")]
 public record AzIotOpsInitOptions(
-[property: CommandSwitch("--cluster")] string Cluster,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster")] string Cluster,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--ca-dir")]
+    [CliOption("--ca-dir")]
     public string? CaDir { get; set; }
 
-    [CommandSwitch("--ca-file")]
+    [CliOption("--ca-file")]
     public string? CaFile { get; set; }
 
-    [CommandSwitch("--ca-key-file")]
+    [CliOption("--ca-key-file")]
     public string? CaKeyFile { get; set; }
 
-    [CommandSwitch("--cluster-location")]
+    [CliOption("--cluster-location")]
     public string? ClusterLocation { get; set; }
 
-    [CommandSwitch("--cluster-namespace")]
+    [CliOption("--cluster-namespace")]
     public string? ClusterNamespace { get; set; }
 
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public string? Context { get; set; }
 
-    [CommandSwitch("--custom-location")]
+    [CliOption("--custom-location")]
     public string? CustomLocation { get; set; }
 
-    [BooleanCommandSwitch("--disable-rotation")]
+    [CliFlag("--disable-rotation")]
     public bool? DisableRotation { get; set; }
 
-    [CommandSwitch("--dp-instance")]
+    [CliOption("--dp-instance")]
     public string? DpInstance { get; set; }
 
-    [CommandSwitch("--dp-message-stores")]
+    [CliOption("--dp-message-stores")]
     public string? DpMessageStores { get; set; }
 
-    [CommandSwitch("--dp-reader-workers")]
+    [CliOption("--dp-reader-workers")]
     public string? DpReaderWorkers { get; set; }
 
-    [CommandSwitch("--dp-runner-workers")]
+    [CliOption("--dp-runner-workers")]
     public string? DpRunnerWorkers { get; set; }
 
-    [CommandSwitch("--kv-id")]
+    [CliOption("--kv-id")]
     public string? KvId { get; set; }
 
-    [CommandSwitch("--kv-sat-secret-name")]
+    [CliOption("--kv-sat-secret-name")]
     public string? KvSatSecretName { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--mq-authn")]
+    [CliOption("--mq-authn")]
     public string? MqAuthn { get; set; }
 
-    [CommandSwitch("--mq-backend-part")]
+    [CliOption("--mq-backend-part")]
     public string? MqBackendPart { get; set; }
 
-    [CommandSwitch("--mq-backend-rf")]
+    [CliOption("--mq-backend-rf")]
     public string? MqBackendRf { get; set; }
 
-    [CommandSwitch("--mq-backend-workers")]
+    [CliOption("--mq-backend-workers")]
     public string? MqBackendWorkers { get; set; }
 
-    [CommandSwitch("--mq-broker")]
+    [CliOption("--mq-broker")]
     public string? MqBroker { get; set; }
 
-    [CommandSwitch("--mq-frontend-replicas")]
+    [CliOption("--mq-frontend-replicas")]
     public string? MqFrontendReplicas { get; set; }
 
-    [CommandSwitch("--mq-frontend-server")]
+    [CliOption("--mq-frontend-server")]
     public string? MqFrontendServer { get; set; }
 
-    [CommandSwitch("--mq-frontend-workers")]
+    [CliOption("--mq-frontend-workers")]
     public string? MqFrontendWorkers { get; set; }
 
-    [BooleanCommandSwitch("--mq-insecure")]
+    [CliFlag("--mq-insecure")]
     public bool? MqInsecure { get; set; }
 
-    [CommandSwitch("--mq-instance")]
+    [CliOption("--mq-instance")]
     public string? MqInstance { get; set; }
 
-    [CommandSwitch("--mq-listener")]
+    [CliOption("--mq-listener")]
     public string? MqListener { get; set; }
 
-    [CommandSwitch("--mq-mem-profile")]
+    [CliOption("--mq-mem-profile")]
     public string? MqMemProfile { get; set; }
 
-    [CommandSwitch("--mq-mode")]
+    [CliOption("--mq-mode")]
     public string? MqMode { get; set; }
 
-    [CommandSwitch("--mq-service-type")]
+    [CliOption("--mq-service-type")]
     public string? MqServiceType { get; set; }
 
-    [BooleanCommandSwitch("--no-block")]
+    [CliFlag("--no-block")]
     public bool? NoBlock { get; set; }
 
-    [BooleanCommandSwitch("--no-deploy")]
+    [CliFlag("--no-deploy")]
     public bool? NoDeploy { get; set; }
 
-    [BooleanCommandSwitch("--no-progress")]
+    [CliFlag("--no-progress")]
     public bool? NoProgress { get; set; }
 
-    [BooleanCommandSwitch("--no-tls")]
+    [CliFlag("--no-tls")]
     public bool? NoTls { get; set; }
 
-    [CommandSwitch("--opcua-discovery-url")]
+    [CliOption("--opcua-discovery-url")]
     public string? OpcuaDiscoveryUrl { get; set; }
 
-    [CommandSwitch("--rotation-int")]
+    [CliOption("--rotation-int")]
     public string? RotationInt { get; set; }
 
-    [BooleanCommandSwitch("--show-template")]
+    [CliFlag("--show-template")]
     public bool? ShowTemplate { get; set; }
 
-    [BooleanCommandSwitch("--simulate-plc")]
+    [CliFlag("--simulate-plc")]
     public bool? SimulatePlc { get; set; }
 
-    [CommandSwitch("--sp-app-id")]
+    [CliOption("--sp-app-id")]
     public string? SpAppId { get; set; }
 
-    [CommandSwitch("--sp-object-id")]
+    [CliOption("--sp-object-id")]
     public string? SpObjectId { get; set; }
 
-    [CommandSwitch("--sp-secret")]
+    [CliOption("--sp-secret")]
     public string? SpSecret { get; set; }
 
-    [CommandSwitch("--target")]
+    [CliOption("--target")]
     public string? Target { get; set; }
 }

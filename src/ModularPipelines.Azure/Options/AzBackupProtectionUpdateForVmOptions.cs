@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "protection", "update-for-vm")]
+[CliCommand("backup", "protection", "update-for-vm")]
 public record AzBackupProtectionUpdateForVmOptions : AzOptions
 {
-    [CommandSwitch("--container-name")]
+    [CliOption("--container-name")]
     public string? ContainerName { get; set; }
 
-    [CommandSwitch("--disk-list-setting")]
+    [CliOption("--disk-list-setting")]
     public string? DiskListSetting { get; set; }
 
-    [CommandSwitch("--diskslist")]
+    [CliOption("--diskslist")]
     public string? Diskslist { get; set; }
 
-    [BooleanCommandSwitch("--exclude-all-data-disks")]
+    [CliFlag("--exclude-all-data-disks")]
     public bool? ExcludeAllDataDisks { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--item-name")]
+    [CliOption("--item-name")]
     public string? ItemName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 }

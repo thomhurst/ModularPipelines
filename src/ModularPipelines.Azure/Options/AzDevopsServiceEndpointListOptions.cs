@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "service-endpoint", "list")]
+[CliCommand("devops", "service-endpoint", "list")]
 public record AzDevopsServiceEndpointListOptions : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 }

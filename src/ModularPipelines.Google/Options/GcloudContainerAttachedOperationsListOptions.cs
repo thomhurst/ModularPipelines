@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "attached", "operations", "list")]
+[CliCommand("container", "attached", "operations", "list")]
 public record GcloudContainerAttachedOperationsListOptions : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

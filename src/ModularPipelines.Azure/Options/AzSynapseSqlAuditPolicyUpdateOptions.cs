@@ -4,75 +4,75 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "sql", "audit-policy", "update")]
+[CliCommand("synapse", "sql", "audit-policy", "update")]
 public record AzSynapseSqlAuditPolicyUpdateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--actions")]
+    [CliOption("--actions")]
     public string? Actions { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--blob-auditing-policy-name")]
+    [CliOption("--blob-auditing-policy-name")]
     public string? BlobAuditingPolicyName { get; set; }
 
-    [CommandSwitch("--blob-storage-target-state")]
+    [CliOption("--blob-storage-target-state")]
     public string? BlobStorageTargetState { get; set; }
 
-    [CommandSwitch("--eh")]
+    [CliOption("--eh")]
     public string? Eh { get; set; }
 
-    [CommandSwitch("--ehari")]
+    [CliOption("--ehari")]
     public string? Ehari { get; set; }
 
-    [CommandSwitch("--ehts")]
+    [CliOption("--ehts")]
     public string? Ehts { get; set; }
 
-    [BooleanCommandSwitch("--enable-azure-monitor")]
+    [CliFlag("--enable-azure-monitor")]
     public bool? EnableAzureMonitor { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--lats")]
+    [CliOption("--lats")]
     public string? Lats { get; set; }
 
-    [CommandSwitch("--lawri")]
+    [CliOption("--lawri")]
     public string? Lawri { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--queue-delay-milliseconds")]
+    [CliOption("--queue-delay-milliseconds")]
     public string? QueueDelayMilliseconds { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--retention-days")]
+    [CliOption("--retention-days")]
     public string? RetentionDays { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--storage-account")]
+    [CliOption("--storage-account")]
     public int? StorageAccount { get; set; }
 
-    [CommandSwitch("--storage-endpoint")]
+    [CliOption("--storage-endpoint")]
     public string? StorageEndpoint { get; set; }
 
-    [CommandSwitch("--storage-key")]
+    [CliOption("--storage-key")]
     public string? StorageKey { get; set; }
 
-    [CommandSwitch("--storage-subscription")]
+    [CliOption("--storage-subscription")]
     public string? StorageSubscription { get; set; }
 
-    [BooleanCommandSwitch("--use-secondary-key")]
+    [CliFlag("--use-secondary-key")]
     public bool? UseSecondaryKey { get; set; }
 }

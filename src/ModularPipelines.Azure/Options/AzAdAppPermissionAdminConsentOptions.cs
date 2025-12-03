@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "app", "permission", "admin-consent")]
+[CliCommand("ad", "app", "permission", "admin-consent")]
 public record AzAdAppPermissionAdminConsentOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions;

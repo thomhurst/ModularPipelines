@@ -3,16 +3,16 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "images")]
+[CliCommand("compose", "images")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeImagesOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Service { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 }

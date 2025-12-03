@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "manifest", "list-metadata")]
+[CliCommand("acr", "manifest", "list-metadata")]
 public record AzAcrManifestListMetadataOptions : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--orderby")]
+    [CliOption("--orderby")]
     public string? Orderby { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public string? Registry { get; set; }
 
-    [CommandSwitch("--suffix")]
+    [CliOption("--suffix")]
     public string? Suffix { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? REPOID { get; set; }
 }

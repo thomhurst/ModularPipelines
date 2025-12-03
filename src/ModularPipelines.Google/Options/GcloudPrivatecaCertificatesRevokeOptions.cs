@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("privateca", "certificates", "revoke")]
+[CliCommand("privateca", "certificates", "revoke")]
 public record GcloudPrivatecaCertificatesRevokeOptions(
-[property: CommandSwitch("--certificate")] string Certificate,
-[property: CommandSwitch("--serial-number")] string SerialNumber
+[property: CliOption("--certificate")] string Certificate,
+[property: CliOption("--serial-number")] string SerialNumber
 ) : GcloudOptions
 {
-    [CommandSwitch("--reason")]
+    [CliOption("--reason")]
     public string? Reason { get; set; }
 
-    [CommandSwitch("--issuer-pool")]
+    [CliOption("--issuer-pool")]
     public string? IssuerPool { get; set; }
 
-    [CommandSwitch("--issuer-location")]
+    [CliOption("--issuer-location")]
     public string? IssuerLocation { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "jobs", "get-iam-policy")]
+[CliCommand("dataproc", "jobs", "get-iam-policy")]
 public record GcloudDataprocJobsGetIamPolicyOptions(
-[property: PositionalArgument] string Job,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Job,
+[property: CliArgument] string Region
 ) : GcloudOptions;

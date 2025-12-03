@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("provider", "operation", "show")]
+[CliCommand("provider", "operation", "show")]
 public record AzProviderOperationShowOptions(
-[property: CommandSwitch("--namespace")] string Namespace
+[property: CliOption("--namespace")] string Namespace
 ) : AzOptions;

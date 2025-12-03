@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "sql", "container", "retrieve-partition-throughput")]
+[CliCommand("cosmosdb", "sql", "container", "retrieve-partition-throughput")]
 public record AzCosmosdbSqlContainerRetrievePartitionThroughputOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--all-partitions")]
+    [CliFlag("--all-partitions")]
     public bool? AllPartitions { get; set; }
 
-    [CommandSwitch("--physical-partition-ids")]
+    [CliOption("--physical-partition-ids")]
     public string? PhysicalPartitionIds { get; set; }
 }

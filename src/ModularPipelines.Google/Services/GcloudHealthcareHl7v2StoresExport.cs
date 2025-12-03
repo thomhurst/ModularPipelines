@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "hl7v2-stores")]
+[CliCommand("healthcare", "hl7v2-stores")]
 public class GcloudHealthcareHl7v2StoresExport
 {
     public GcloudHealthcareHl7v2StoresExport(

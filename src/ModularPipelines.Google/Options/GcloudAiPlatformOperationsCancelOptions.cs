@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai-platform", "operations", "cancel")]
+[CliCommand("ai-platform", "operations", "cancel")]
 public record GcloudAiPlatformOperationsCancelOptions(
-[property: PositionalArgument] string Operation
+[property: CliArgument] string Operation
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

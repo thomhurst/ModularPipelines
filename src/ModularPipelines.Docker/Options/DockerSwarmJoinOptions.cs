@@ -15,21 +15,21 @@ public record DockerSwarmJoinOptions : DockerOptions
         JoinHost = host;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? JoinHost { get; set; }
 
-    [CommandSwitch("--advertise-addr")]
+    [CliOption("--advertise-addr")]
     public virtual string? AdvertiseAddr { get; set; }
 
-    [CommandSwitch("--availability")]
+    [CliOption("--availability")]
     public virtual string? Availability { get; set; }
 
-    [CommandSwitch("--data-path-addr")]
+    [CliOption("--data-path-addr")]
     public virtual string? DataPathAddr { get; set; }
 
-    [CommandSwitch("--listen-addr")]
+    [CliOption("--listen-addr")]
     public virtual string? ListenAddr { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public virtual string? Token { get; set; }
 }

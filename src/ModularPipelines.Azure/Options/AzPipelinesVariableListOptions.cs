@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines", "variable", "list")]
+[CliCommand("pipelines", "variable", "list")]
 public record AzPipelinesVariableListOptions : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--pipeline-id")]
+    [CliOption("--pipeline-id")]
     public string? PipelineId { get; set; }
 
-    [CommandSwitch("--pipeline-name")]
+    [CliOption("--pipeline-name")]
     public string? PipelineName { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 }

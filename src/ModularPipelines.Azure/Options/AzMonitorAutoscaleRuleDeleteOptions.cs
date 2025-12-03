@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "autoscale", "rule", "delete")]
+[CliCommand("monitor", "autoscale", "rule", "delete")]
 public record AzMonitorAutoscaleRuleDeleteOptions(
-[property: CommandSwitch("--autoscale-name")] string AutoscaleName,
-[property: CommandSwitch("--index")] string Index,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--autoscale-name")] string AutoscaleName,
+[property: CliOption("--index")] string Index,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 }

@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "global-reach-connection", "create")]
+[CliCommand("vmware", "global-reach-connection", "create")]
 public record AzVmwareGlobalReachConnectionCreateOptions(
-[property: CommandSwitch("--global-reach-connection-name")] string GlobalReachConnectionName,
-[property: CommandSwitch("--private-cloud")] string PrivateCloud,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--global-reach-connection-name")] string GlobalReachConnectionName,
+[property: CliOption("--private-cloud")] string PrivateCloud,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--authorization-key")]
+    [CliOption("--authorization-key")]
     public string? AuthorizationKey { get; set; }
 
-    [CommandSwitch("--express-route-id")]
+    [CliOption("--express-route-id")]
     public string? ExpressRouteId { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--peer-express-route-circuit")]
+    [CliOption("--peer-express-route-circuit")]
     public string? PeerExpressRouteCircuit { get; set; }
 }

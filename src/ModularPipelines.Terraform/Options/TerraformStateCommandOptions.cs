@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("State Command")]
+[CliCommand("State Command")]
 [ExcludeFromCodeCoverage]
 public record TerraformStateCommandOptions : TerraformOptions
 {
-    [BooleanCommandSwitch("-backup")]
+    [CliFlag("-backup")]
     public virtual bool? Backup { get; set; }
 }

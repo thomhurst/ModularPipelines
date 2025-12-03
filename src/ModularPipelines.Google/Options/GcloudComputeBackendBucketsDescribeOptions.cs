@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "backend-buckets", "describe")]
+[CliCommand("compute", "backend-buckets", "describe")]
 public record GcloudComputeBackendBucketsDescribeOptions(
-[property: PositionalArgument] string BackendBucketName
+[property: CliArgument] string BackendBucketName
 ) : GcloudOptions;

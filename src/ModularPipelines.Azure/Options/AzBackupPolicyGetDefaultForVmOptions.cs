@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "policy", "get-default-for-vm")]
+[CliCommand("backup", "policy", "get-default-for-vm")]
 public record AzBackupPolicyGetDefaultForVmOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions;

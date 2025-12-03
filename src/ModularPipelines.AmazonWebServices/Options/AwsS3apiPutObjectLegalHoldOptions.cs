@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api", "put-object-legal-hold")]
+[CliCommand("s3api", "put-object-legal-hold")]
 public record AwsS3apiPutObjectLegalHoldOptions(
-[property: CommandSwitch("--bucket")] string Bucket,
-[property: CommandSwitch("--key")] string Key
+[property: CliOption("--bucket")] string Bucket,
+[property: CliOption("--key")] string Key
 ) : AwsOptions
 {
-    [CommandSwitch("--legal-hold")]
+    [CliOption("--legal-hold")]
     public string? LegalHold { get; set; }
 
-    [CommandSwitch("--request-payer")]
+    [CliOption("--request-payer")]
     public string? RequestPayer { get; set; }
 
-    [CommandSwitch("--version-id")]
+    [CliOption("--version-id")]
     public string? VersionId { get; set; }
 
-    [CommandSwitch("--content-md5")]
+    [CliOption("--content-md5")]
     public string? ContentMd5 { get; set; }
 
-    [CommandSwitch("--checksum-algorithm")]
+    [CliOption("--checksum-algorithm")]
     public string? ChecksumAlgorithm { get; set; }
 
-    [CommandSwitch("--expected-bucket-owner")]
+    [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

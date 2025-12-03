@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("new-relic", "monitor", "create")]
+[CliCommand("new-relic", "monitor", "create")]
 public record AzNewRelicMonitorCreateOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--monitor-name")] string MonitorName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--account-creation-source")]
+    [CliOption("--account-creation-source")]
     public int? AccountCreationSource { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--new-relic-account")]
+    [CliOption("--new-relic-account")]
     public int? NewRelicAccount { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--org-creation-source")]
+    [CliOption("--org-creation-source")]
     public string? OrgCreationSource { get; set; }
 
-    [CommandSwitch("--plan-data")]
+    [CliOption("--plan-data")]
     public string? PlanData { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--user-info")]
+    [CliOption("--user-info")]
     public string? UserInfo { get; set; }
 }

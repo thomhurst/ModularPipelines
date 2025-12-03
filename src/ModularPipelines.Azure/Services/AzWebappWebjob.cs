@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp")]
+[CliCommand("webapp")]
 public class AzWebappWebjob
 {
     public AzWebappWebjob(

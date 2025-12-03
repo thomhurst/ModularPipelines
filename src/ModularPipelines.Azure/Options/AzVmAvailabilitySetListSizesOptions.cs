@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "availability-set", "list-sizes")]
+[CliCommand("vm", "availability-set", "list-sizes")]
 public record AzVmAvailabilitySetListSizesOptions : AzOptions
 {
-    [CommandSwitch("--availability-set-name")]
+    [CliOption("--availability-set-name")]
     public string? AvailabilitySetName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

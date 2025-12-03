@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "update")]
+[CliCommand("grafana", "update")]
 public record AzGrafanaUpdateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--api-key")]
+    [CliOption("--api-key")]
     public string? ApiKey { get; set; }
 
-    [CommandSwitch("--deterministic-outbound-ip")]
+    [CliOption("--deterministic-outbound-ip")]
     public string? DeterministicOutboundIp { get; set; }
 
-    [CommandSwitch("--from-address")]
+    [CliOption("--from-address")]
     public string? FromAddress { get; set; }
 
-    [CommandSwitch("--from-name")]
+    [CliOption("--from-name")]
     public string? FromName { get; set; }
 
-    [CommandSwitch("--host")]
+    [CliOption("--host")]
     public string? Host { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--skip-verify")]
+    [CliFlag("--skip-verify")]
     public bool? SkipVerify { get; set; }
 
-    [CommandSwitch("--smtp")]
+    [CliOption("--smtp")]
     public string? Smtp { get; set; }
 
-    [CommandSwitch("--start-tls-policy")]
+    [CliOption("--start-tls-policy")]
     public string? StartTlsPolicy { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--user")]
+    [CliOption("--user")]
     public string? User { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api")]
+[CliCommand("s3api")]
 public class AwsS3apiWait
 {
     public AwsS3apiWait(

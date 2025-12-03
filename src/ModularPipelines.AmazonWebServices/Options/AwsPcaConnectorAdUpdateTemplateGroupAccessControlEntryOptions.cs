@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pca-connector-ad", "update-template-group-access-control-entry")]
+[CliCommand("pca-connector-ad", "update-template-group-access-control-entry")]
 public record AwsPcaConnectorAdUpdateTemplateGroupAccessControlEntryOptions(
-[property: CommandSwitch("--group-security-identifier")] string GroupSecurityIdentifier,
-[property: CommandSwitch("--template-arn")] string TemplateArn
+[property: CliOption("--group-security-identifier")] string GroupSecurityIdentifier,
+[property: CliOption("--template-arn")] string TemplateArn
 ) : AwsOptions
 {
-    [CommandSwitch("--access-rights")]
+    [CliOption("--access-rights")]
     public string? AccessRights { get; set; }
 
-    [CommandSwitch("--group-display-name")]
+    [CliOption("--group-display-name")]
     public string? GroupDisplayName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

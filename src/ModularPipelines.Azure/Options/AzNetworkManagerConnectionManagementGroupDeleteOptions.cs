@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "manager", "connection", "management-group", "delete")]
+[CliCommand("network", "manager", "connection", "management-group", "delete")]
 public record AzNetworkManagerConnectionManagementGroupDeleteOptions(
-[property: CommandSwitch("--connection-name")] string ConnectionName,
-[property: CommandSwitch("--management-group-id")] string ManagementGroupId
+[property: CliOption("--connection-name")] string ConnectionName,
+[property: CliOption("--management-group-id")] string ManagementGroupId
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

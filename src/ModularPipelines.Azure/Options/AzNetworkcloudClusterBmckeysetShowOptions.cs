@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "cluster", "bmckeyset", "show")]
+[CliCommand("networkcloud", "cluster", "bmckeyset", "show")]
 public record AzNetworkcloudClusterBmckeysetShowOptions : AzOptions
 {
-    [CommandSwitch("--bmc-key-set-name")]
+    [CliOption("--bmc-key-set-name")]
     public string? BmcKeySetName { get; set; }
 
-    [CommandSwitch("--cluster-name")]
+    [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

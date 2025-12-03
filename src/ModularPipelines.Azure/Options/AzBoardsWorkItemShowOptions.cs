@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("boards", "work-item", "show")]
+[CliCommand("boards", "work-item", "show")]
 public record AzBoardsWorkItemShowOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [CommandSwitch("--as-of")]
+    [CliOption("--as-of")]
     public string? AsOf { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--expand")]
+    [CliOption("--expand")]
     public string? Expand { get; set; }
 
-    [CommandSwitch("--fields")]
+    [CliOption("--fields")]
     public string? Fields { get; set; }
 
-    [BooleanCommandSwitch("--open")]
+    [CliFlag("--open")]
     public bool? Open { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 }

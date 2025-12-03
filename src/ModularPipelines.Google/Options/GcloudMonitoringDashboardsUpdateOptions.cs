@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitoring", "dashboards", "update")]
+[CliCommand("monitoring", "dashboards", "update")]
 public record GcloudMonitoringDashboardsUpdateOptions(
-[property: PositionalArgument] string Dashboard,
-[property: CommandSwitch("--config")] string Config,
-[property: CommandSwitch("--config-from-file")] string ConfigFromFile
+[property: CliArgument] string Dashboard,
+[property: CliOption("--config")] string Config,
+[property: CliOption("--config-from-file")] string ConfigFromFile
 ) : GcloudOptions;

@@ -15,18 +15,18 @@ public record DockerPluginUpgradeOptions : DockerOptions
         Plugin = plugin;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Plugin { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Remote { get; set; }
 
-    [BooleanCommandSwitch("--disable-content-trust")]
+    [CliFlag("--disable-content-trust")]
     public virtual bool? DisableContentTrust { get; set; }
 
-    [CommandSwitch("--grant-all-permissions")]
+    [CliOption("--grant-all-permissions")]
     public virtual string? GrantAllPermissions { get; set; }
 
-    [CommandSwitch("--skip-remote-check")]
+    [CliOption("--skip-remote-check")]
     public virtual string? SkipRemoteCheck { get; set; }
 }

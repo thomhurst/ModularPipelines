@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication", "chat", "participant", "add")]
+[CliCommand("communication", "chat", "participant", "add")]
 public record AzCommunicationChatParticipantAddOptions(
-[property: CommandSwitch("--thread")] string Thread,
-[property: CommandSwitch("--user")] string User
+[property: CliOption("--thread")] string Thread,
+[property: CliOption("--user")] string User
 ) : AzOptions
 {
-    [CommandSwitch("--access-token")]
+    [CliOption("--access-token")]
     public string? AccessToken { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public string? StartTime { get; set; }
 }

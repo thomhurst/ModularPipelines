@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("identity", "federated-credential", "list")]
+[CliCommand("identity", "federated-credential", "list")]
 public record AzIdentityFederatedCredentialListOptions(
-[property: CommandSwitch("--identity-name")] string IdentityName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--identity-name")] string IdentityName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

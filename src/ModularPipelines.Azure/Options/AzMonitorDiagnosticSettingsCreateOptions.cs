@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "diagnostic-settings", "create")]
+[CliCommand("monitor", "diagnostic-settings", "create")]
 public record AzMonitorDiagnosticSettingsCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource")] string Resource
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource")] string Resource
 ) : AzOptions
 {
-    [CommandSwitch("--event-hub")]
+    [CliOption("--event-hub")]
     public string? EventHub { get; set; }
 
-    [CommandSwitch("--event-hub-rule")]
+    [CliOption("--event-hub-rule")]
     public string? EventHubRule { get; set; }
 
-    [BooleanCommandSwitch("--export-to-resource-specific")]
+    [CliFlag("--export-to-resource-specific")]
     public bool? ExportToResourceSpecific { get; set; }
 
-    [CommandSwitch("--logs")]
+    [CliOption("--logs")]
     public string? Logs { get; set; }
 
-    [CommandSwitch("--marketplace-partner-id")]
+    [CliOption("--marketplace-partner-id")]
     public string? MarketplacePartnerId { get; set; }
 
-    [CommandSwitch("--metrics")]
+    [CliOption("--metrics")]
     public string? Metrics { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-namespace")]
+    [CliOption("--resource-namespace")]
     public string? ResourceNamespace { get; set; }
 
-    [CommandSwitch("--resource-parent")]
+    [CliOption("--resource-parent")]
     public string? ResourceParent { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--storage-account")]
+    [CliOption("--storage-account")]
     public int? StorageAccount { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public string? Workspace { get; set; }
 }

@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "alb", "association", "create")]
+[CliCommand("network", "alb", "association", "create")]
 public record AzNetworkAlbAssociationCreateOptions(
-[property: CommandSwitch("--alb-name")] string AlbName,
-[property: CommandSwitch("--association-name")] string AssociationName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--alb-name")] string AlbName,
+[property: CliOption("--association-name")] string AssociationName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--association-type")]
+    [CliOption("--association-type")]
     public string? AssociationType { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 }

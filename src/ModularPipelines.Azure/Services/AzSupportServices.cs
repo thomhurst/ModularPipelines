@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("support")]
+[CliCommand("support")]
 public class AzSupportServices
 {
     public AzSupportServices(

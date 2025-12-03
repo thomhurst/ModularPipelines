@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "fhir-stores", "create")]
+[CliCommand("healthcare", "fhir-stores", "create")]
 public record GcloudHealthcareFhirStoresCreateOptions : GcloudOptions
 {
     public GcloudHealthcareFhirStoresCreateOptions(
@@ -20,27 +20,27 @@ public record GcloudHealthcareFhirStoresCreateOptions : GcloudOptions
         Version = version;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string FhirStore { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Dataset { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Location { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string Version { get; set; }
 
-    [BooleanCommandSwitch("--disable-referential-integrity")]
+    [CliFlag("--disable-referential-integrity")]
     public bool? DisableReferentialIntegrity { get; set; }
 
-    [BooleanCommandSwitch("--disable-resource-versioning")]
+    [CliFlag("--disable-resource-versioning")]
     public bool? DisableResourceVersioning { get; set; }
 
-    [BooleanCommandSwitch("--enable-update-create")]
+    [CliFlag("--enable-update-create")]
     public bool? EnableUpdateCreate { get; set; }
 
-    [CommandSwitch("--pubsub-topic")]
+    [CliOption("--pubsub-topic")]
     public string? PubsubTopic { get; set; }
 }

@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "extension", "set")]
+[CliCommand("vm", "extension", "set")]
 public record AzVmExtensionSetOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--publisher")] string Publisher
+[property: CliOption("--name")] string Name,
+[property: CliOption("--publisher")] string Publisher
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--enable-auto-upgrade")]
+    [CliFlag("--enable-auto-upgrade")]
     public bool? EnableAutoUpgrade { get; set; }
 
-    [CommandSwitch("--extension-instance-name")]
+    [CliOption("--extension-instance-name")]
     public string? ExtensionInstanceName { get; set; }
 
-    [BooleanCommandSwitch("--force-update")]
+    [CliFlag("--force-update")]
     public bool? ForceUpdate { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-auto-upgrade-minor-version")]
+    [CliFlag("--no-auto-upgrade-minor-version")]
     public bool? NoAutoUpgradeMinorVersion { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--protected-settings")]
+    [CliOption("--protected-settings")]
     public string? ProtectedSettings { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--settings")]
+    [CliOption("--settings")]
     public string? Settings { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 
-    [CommandSwitch("--vm-name")]
+    [CliOption("--vm-name")]
     public string? VmName { get; set; }
 }

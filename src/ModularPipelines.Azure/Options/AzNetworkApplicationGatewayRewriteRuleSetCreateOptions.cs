@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "rewrite-rule", "set", "create")]
+[CliCommand("network", "application-gateway", "rewrite-rule", "set", "create")]
 public record AzNetworkApplicationGatewayRewriteRuleSetCreateOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--rules")]
+    [CliOption("--rules")]
     public string? Rules { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vhub", "route-map", "rule", "delete")]
+[CliCommand("network", "vhub", "route-map", "rule", "delete")]
 public record AzNetworkVhubRouteMapRuleDeleteOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--route-map-name")] string RouteMapName,
-[property: CommandSwitch("--rule-index")] string RuleIndex,
-[property: CommandSwitch("--vhub-name")] string VhubName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--route-map-name")] string RouteMapName,
+[property: CliOption("--rule-index")] string RuleIndex,
+[property: CliOption("--vhub-name")] string VhubName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

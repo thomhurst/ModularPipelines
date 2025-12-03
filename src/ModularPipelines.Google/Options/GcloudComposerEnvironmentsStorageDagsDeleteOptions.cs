@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("composer", "environments", "storage", "dags", "delete")]
+[CliCommand("composer", "environments", "storage", "dags", "delete")]
 public record GcloudComposerEnvironmentsStorageDagsDeleteOptions(
-[property: PositionalArgument] string Target,
-[property: CommandSwitch("--environment")] string Environment,
-[property: CommandSwitch("--location")] string Location
+[property: CliArgument] string Target,
+[property: CliOption("--environment")] string Environment,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions;

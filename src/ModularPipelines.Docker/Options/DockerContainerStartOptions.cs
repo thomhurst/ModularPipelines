@@ -15,21 +15,21 @@ public record DockerContainerStartOptions : DockerOptions
         Container = container;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Container { get; set; }
 
-    [BooleanCommandSwitch("--attach")]
+    [CliFlag("--attach")]
     public virtual bool? Attach { get; set; }
 
-    [CommandSwitch("--checkpoint")]
+    [CliOption("--checkpoint")]
     public virtual string? Checkpoint { get; set; }
 
-    [CommandSwitch("--checkpoint-dir")]
+    [CliOption("--checkpoint-dir")]
     public virtual string? CheckpointDir { get; set; }
 
-    [CommandSwitch("--detach-keys")]
+    [CliOption("--detach-keys")]
     public virtual string? DetachKeys { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 }

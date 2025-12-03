@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter", "admin", "sku", "list")]
+[CliCommand("devcenter", "admin", "sku", "list")]
 public record AzDevcenterAdminSkuListOptions : AzOptions
 {
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 }

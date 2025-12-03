@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "route", "create")]
+[CliCommand("dt", "route", "create")]
 public record AzDtRouteCreateOptions(
-[property: CommandSwitch("--dt-name")] string DtName,
-[property: CommandSwitch("--en")] string En,
-[property: CommandSwitch("--rn")] string Rn
+[property: CliOption("--dt-name")] string DtName,
+[property: CliOption("--en")] string En,
+[property: CliOption("--rn")] string Rn
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--filter")]
+    [CliFlag("--filter")]
     public bool? Filter { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

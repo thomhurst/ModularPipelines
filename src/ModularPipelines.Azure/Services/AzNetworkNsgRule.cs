@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "nsg")]
+[CliCommand("network", "nsg")]
 public class AzNetworkNsgRule
 {
     public AzNetworkNsgRule(

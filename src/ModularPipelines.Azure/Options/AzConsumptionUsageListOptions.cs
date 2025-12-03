@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("consumption", "usage", "list")]
+[CliCommand("consumption", "usage", "list")]
 public record AzConsumptionUsageListOptions : AzOptions
 {
-    [CommandSwitch("--billing-period-name")]
+    [CliOption("--billing-period-name")]
     public string? BillingPeriodName { get; set; }
 
-    [CommandSwitch("--end-date")]
+    [CliOption("--end-date")]
     public string? EndDate { get; set; }
 
-    [CommandSwitch("--include-additional-properties")]
+    [CliOption("--include-additional-properties")]
     public string? IncludeAdditionalProperties { get; set; }
 
-    [CommandSwitch("--include-meter-details")]
+    [CliOption("--include-meter-details")]
     public string? IncludeMeterDetails { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--start-date")]
+    [CliOption("--start-date")]
     public string? StartDate { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

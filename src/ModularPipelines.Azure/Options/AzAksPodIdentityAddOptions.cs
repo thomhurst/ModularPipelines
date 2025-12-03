@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "pod-identity", "add")]
+[CliCommand("aks", "pod-identity", "add")]
 public record AzAksPodIdentityAddOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--identity-resource-id")] string IdentityResourceId,
-[property: CommandSwitch("--namespace")] string Namespace,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--identity-resource-id")] string IdentityResourceId,
+[property: CliOption("--namespace")] string Namespace,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--aks-custom-headers")]
+    [CliOption("--aks-custom-headers")]
     public string? AksCustomHeaders { get; set; }
 
-    [CommandSwitch("--binding-selector")]
+    [CliOption("--binding-selector")]
     public string? BindingSelector { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 }

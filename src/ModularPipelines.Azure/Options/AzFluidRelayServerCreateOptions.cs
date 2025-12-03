@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fluid-relay", "server", "create")]
+[CliCommand("fluid-relay", "server", "create")]
 public record AzFluidRelayServerCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--key-identity")]
+    [CliOption("--key-identity")]
     public string? KeyIdentity { get; set; }
 
-    [CommandSwitch("--key-url")]
+    [CliOption("--key-url")]
     public string? KeyUrl { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--provisioning-state")]
+    [CliOption("--provisioning-state")]
     public string? ProvisioningState { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automation", "schedule", "create")]
+[CliCommand("automation", "schedule", "create")]
 public record AzAutomationScheduleCreateOptions(
-[property: CommandSwitch("--automation-account-name")] int AutomationAccountName,
-[property: CommandSwitch("--frequency")] string Frequency,
-[property: CommandSwitch("--interval")] int Interval,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--automation-account-name")] int AutomationAccountName,
+[property: CliOption("--frequency")] string Frequency,
+[property: CliOption("--interval")] int Interval,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--expiry-time")]
+    [CliOption("--expiry-time")]
     public string? ExpiryTime { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
-    [CommandSwitch("--time-zone")]
+    [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
 }

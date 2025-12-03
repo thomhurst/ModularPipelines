@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "zones", "describe")]
+[CliCommand("compute", "zones", "describe")]
 public record GcloudComputeZonesDescribeOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions;

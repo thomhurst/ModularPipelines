@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "config", "access-restriction", "set")]
+[CliCommand("webapp", "config", "access-restriction", "set")]
 public record AzWebappConfigAccessRestrictionSetOptions(
-[property: BooleanCommandSwitch("--use-same-restrictions-for-scm-site")] bool UseSameRestrictionsForScmSite
+[property: CliFlag("--use-same-restrictions-for-scm-site")] bool UseSameRestrictionsForScmSite
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

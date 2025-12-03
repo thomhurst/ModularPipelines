@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-endpoint-config")]
+[CliCommand("sagemaker", "create-endpoint-config")]
 public record AwsSagemakerCreateEndpointConfigOptions(
-[property: CommandSwitch("--endpoint-config-name")] string EndpointConfigName,
-[property: CommandSwitch("--production-variants")] string[] ProductionVariants
+[property: CliOption("--endpoint-config-name")] string EndpointConfigName,
+[property: CliOption("--production-variants")] string[] ProductionVariants
 ) : AwsOptions
 {
-    [CommandSwitch("--data-capture-config")]
+    [CliOption("--data-capture-config")]
     public string? DataCaptureConfig { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--async-inference-config")]
+    [CliOption("--async-inference-config")]
     public string? AsyncInferenceConfig { get; set; }
 
-    [CommandSwitch("--explainer-config")]
+    [CliOption("--explainer-config")]
     public string? ExplainerConfig { get; set; }
 
-    [CommandSwitch("--shadow-production-variants")]
+    [CliOption("--shadow-production-variants")]
     public string[]? ShadowProductionVariants { get; set; }
 
-    [CommandSwitch("--execution-role-arn")]
+    [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 
-    [CommandSwitch("--vpc-config")]
+    [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

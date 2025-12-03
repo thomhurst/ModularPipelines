@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "namespace", "topic", "event-subscription", "create")]
+[CliCommand("eventgrid", "namespace", "topic", "event-subscription", "create")]
 public record AzEventgridNamespaceTopicEventSubscriptionCreateOptions(
-[property: CommandSwitch("--event-subscription-name")] string EventSubscriptionName,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--topic-name")] string TopicName
+[property: CliOption("--event-subscription-name")] string EventSubscriptionName,
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--topic-name")] string TopicName
 ) : AzOptions
 {
-    [CommandSwitch("--delivery-configuration")]
+    [CliOption("--delivery-configuration")]
     public string? DeliveryConfiguration { get; set; }
 
-    [CommandSwitch("--event-delivery-schema")]
+    [CliOption("--event-delivery-schema")]
     public string? EventDeliverySchema { get; set; }
 
-    [CommandSwitch("--filters-configuration")]
+    [CliOption("--filters-configuration")]
     public string? FiltersConfiguration { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

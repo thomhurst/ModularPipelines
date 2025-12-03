@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bms", "nfs-shares", "rename")]
+[CliCommand("bms", "nfs-shares", "rename")]
 public record GcloudBmsNfsSharesRenameOptions(
-[property: PositionalArgument] string NfsShare,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--new-name")] string NewName
+[property: CliArgument] string NfsShare,
+[property: CliArgument] string Region,
+[property: CliOption("--new-name")] string NewName
 ) : GcloudOptions;

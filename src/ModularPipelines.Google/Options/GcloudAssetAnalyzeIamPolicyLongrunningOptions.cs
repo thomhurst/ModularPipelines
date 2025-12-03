@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("asset", "analyze-iam-policy-longrunning")]
+[CliCommand("asset", "analyze-iam-policy-longrunning")]
 public record GcloudAssetAnalyzeIamPolicyLongrunningOptions : GcloudOptions
 {
     public GcloudAssetAnalyzeIamPolicyLongrunningOptions(
@@ -28,57 +28,57 @@ public record GcloudAssetAnalyzeIamPolicyLongrunningOptions : GcloudOptions
         BigqueryWriteDisposition = bigqueryWriteDisposition;
     }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 
-    [CommandSwitch("--gcs-output-path")]
+    [CliOption("--gcs-output-path")]
     public string GcsOutputPath { get; set; }
 
-    [CommandSwitch("--bigquery-dataset")]
+    [CliOption("--bigquery-dataset")]
     public string BigqueryDataset { get; set; }
 
-    [CommandSwitch("--bigquery-table-prefix")]
+    [CliOption("--bigquery-table-prefix")]
     public string BigqueryTablePrefix { get; set; }
 
-    [CommandSwitch("--bigquery-partition-key")]
+    [CliOption("--bigquery-partition-key")]
     public string BigqueryPartitionKey { get; set; }
 
-    [CommandSwitch("--bigquery-write-disposition")]
+    [CliOption("--bigquery-write-disposition")]
     public string BigqueryWriteDisposition { get; set; }
 
-    [CommandSwitch("--access-time")]
+    [CliOption("--access-time")]
     public string? AccessTime { get; set; }
 
-    [CommandSwitch("--full-resource-name")]
+    [CliOption("--full-resource-name")]
     public string? FullResourceName { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [BooleanCommandSwitch("--analyze-service-account-impersonation")]
+    [CliFlag("--analyze-service-account-impersonation")]
     public bool? AnalyzeServiceAccountImpersonation { get; set; }
 
-    [BooleanCommandSwitch("--expand-groups")]
+    [CliFlag("--expand-groups")]
     public bool? ExpandGroups { get; set; }
 
-    [BooleanCommandSwitch("--expand-resources")]
+    [CliFlag("--expand-resources")]
     public bool? ExpandResources { get; set; }
 
-    [BooleanCommandSwitch("--expand-roles")]
+    [CliFlag("--expand-roles")]
     public bool? ExpandRoles { get; set; }
 
-    [BooleanCommandSwitch("--output-group-edges")]
+    [CliFlag("--output-group-edges")]
     public bool? OutputGroupEdges { get; set; }
 
-    [BooleanCommandSwitch("--output-resource-edges")]
+    [CliFlag("--output-resource-edges")]
     public bool? OutputResourceEdges { get; set; }
 
-    [CommandSwitch("--permissions")]
+    [CliOption("--permissions")]
     public string[]? Permissions { get; set; }
 
-    [CommandSwitch("--roles")]
+    [CliOption("--roles")]
     public string[]? Roles { get; set; }
 }

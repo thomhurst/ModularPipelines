@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iap", "oauth-clients", "list")]
+[CliCommand("iap", "oauth-clients", "list")]
 public record GcloudIapOauthClientsListOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions;

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "show")]
+[CliCommand("keyvault", "show")]
 public record AzKeyvaultShowOptions : AzOptions
 {
-    [CommandSwitch("--hsm-name")]
+    [CliOption("--hsm-name")]
     public string? HsmName { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

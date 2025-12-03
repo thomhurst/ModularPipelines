@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logging", "sinks", "create")]
+[CliCommand("logging", "sinks", "create")]
 public record GcloudLoggingSinksCreateOptions(
-[property: PositionalArgument] string SinkName,
-[property: PositionalArgument] string Destination
+[property: CliArgument] string SinkName,
+[property: CliArgument] string Destination
 ) : GcloudOptions
 {
-    [CommandSwitch("--custom-writer-identity")]
+    [CliOption("--custom-writer-identity")]
     public string? CustomWriterIdentity { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--exclusion")]
+    [CliOption("--exclusion")]
     public string[]? Exclusion { get; set; }
 
-    [BooleanCommandSwitch("--include-children")]
+    [CliFlag("--include-children")]
     public bool? IncludeChildren { get; set; }
 
-    [CommandSwitch("--log-filter")]
+    [CliOption("--log-filter")]
     public string? LogFilter { get; set; }
 
-    [BooleanCommandSwitch("--use-partitioned-tables")]
+    [CliFlag("--use-partitioned-tables")]
     public bool? UsePartitionedTables { get; set; }
 
-    [CommandSwitch("--billing-account")]
+    [CliOption("--billing-account")]
     public string? BillingAccount { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string? Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public new string? Project { get; set; }
 }

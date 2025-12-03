@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "volume", "latest-backup-status")]
+[CliCommand("netappfiles", "volume", "latest-backup-status")]
 public class AzNetappfilesVolumeLatestBackupStatusCurrent
 {
     public AzNetappfilesVolumeLatestBackupStatusCurrent(

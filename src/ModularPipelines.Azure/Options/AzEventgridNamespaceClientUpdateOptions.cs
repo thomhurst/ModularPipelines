@@ -4,51 +4,51 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "namespace", "client", "update")]
+[CliCommand("eventgrid", "namespace", "client", "update")]
 public record AzEventgridNamespaceClientUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public string? Attributes { get; set; }
 
-    [CommandSwitch("--authentication")]
+    [CliOption("--authentication")]
     public string? Authentication { get; set; }
 
-    [CommandSwitch("--client-certificate-authentication")]
+    [CliOption("--client-certificate-authentication")]
     public string? ClientCertificateAuthentication { get; set; }
 
-    [CommandSwitch("--client-name")]
+    [CliOption("--client-name")]
     public string? ClientName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--namespace-name")]
+    [CliOption("--namespace-name")]
     public string? NamespaceName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

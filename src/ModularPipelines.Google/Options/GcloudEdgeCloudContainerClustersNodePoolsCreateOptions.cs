@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cloud", "container", "clusters", "node-pools", "create")]
+[CliCommand("edge-cloud", "container", "clusters", "node-pools", "create")]
 public record GcloudEdgeCloudContainerClustersNodePoolsCreateOptions(
-[property: PositionalArgument] string NodePool,
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--node-count")] string NodeCount,
-[property: CommandSwitch("--node-location")] string NodeLocation
+[property: CliArgument] string NodePool,
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Location,
+[property: CliOption("--node-count")] string NodeCount,
+[property: CliOption("--node-location")] string NodeLocation
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--local-disk-kms-key")]
+    [CliOption("--local-disk-kms-key")]
     public string? LocalDiskKmsKey { get; set; }
 
-    [CommandSwitch("--lro-timeout")]
+    [CliOption("--lro-timeout")]
     public string? LroTimeout { get; set; }
 
-    [CommandSwitch("--machine-filter")]
+    [CliOption("--machine-filter")]
     public string? MachineFilter { get; set; }
 }

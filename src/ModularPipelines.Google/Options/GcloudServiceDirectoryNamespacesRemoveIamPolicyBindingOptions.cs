@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("service-directory", "namespaces", "remove-iam-policy-binding")]
+[CliCommand("service-directory", "namespaces", "remove-iam-policy-binding")]
 public record GcloudServiceDirectoryNamespacesRemoveIamPolicyBindingOptions(
-[property: PositionalArgument] string Namespace,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--member")] string Member,
-[property: CommandSwitch("--role")] string Role
+[property: CliArgument] string Namespace,
+[property: CliArgument] string Location,
+[property: CliOption("--member")] string Member,
+[property: CliOption("--role")] string Role
 ) : GcloudOptions;

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dls", "fs", "delete")]
+[CliCommand("dls", "fs", "delete")]
 public record AzDlsFsDeleteOptions(
-[property: CommandSwitch("--path")] string Path
+[property: CliOption("--path")] string Path
 ) : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--recurse")]
+    [CliFlag("--recurse")]
     public bool? Recurse { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "lb", "address-pool", "tunnel-interface", "show")]
+[CliCommand("network", "lb", "address-pool", "tunnel-interface", "show")]
 public record AzNetworkLbAddressPoolTunnelInterfaceShowOptions(
-[property: CommandSwitch("--address-pool")] string AddressPool,
-[property: CommandSwitch("--index")] string Index,
-[property: CommandSwitch("--lb-name")] string LbName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--address-pool")] string AddressPool,
+[property: CliOption("--index")] string Index,
+[property: CliOption("--lb-name")] string LbName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

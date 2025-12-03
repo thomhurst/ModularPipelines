@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "network-endpoint-groups", "list")]
+[CliCommand("compute", "network-endpoint-groups", "list")]
 public record GcloudComputeNetworkEndpointGroupsListOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--regexp")]
+    [CliOption("--regexp")]
     public string? Regexp { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--regions")]
+    [CliOption("--regions")]
     public string[]? Regions { get; set; }
 
-    [CommandSwitch("--zones")]
+    [CliOption("--zones")]
     public string[]? Zones { get; set; }
 }

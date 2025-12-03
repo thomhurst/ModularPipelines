@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workload-identity-pools", "undelete")]
+[CliCommand("iam", "workload-identity-pools", "undelete")]
 public record GcloudIamWorkloadIdentityPoolsUndeleteOptions(
-[property: PositionalArgument] string WorkloadIdentityPool,
-[property: PositionalArgument] string Location
+[property: CliArgument] string WorkloadIdentityPool,
+[property: CliArgument] string Location
 ) : GcloudOptions;

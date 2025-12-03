@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("metastore", "services", "restore")]
+[CliCommand("metastore", "services", "restore")]
 public record GcloudMetastoreServicesRestoreOptions(
-[property: PositionalArgument] string Service,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--backup")] string Backup
+[property: CliArgument] string Service,
+[property: CliArgument] string Location,
+[property: CliOption("--backup")] string Backup
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--restore-type")]
+    [CliOption("--restore-type")]
     public string? RestoreType { get; set; }
 }

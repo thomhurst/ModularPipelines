@@ -6,7 +6,7 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("aks", "maintenanceconfiguration", "show", "(aks-preview", "extension)")]
 public record AzAksMaintenanceconfigurationShowAksPreviewExtensionOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

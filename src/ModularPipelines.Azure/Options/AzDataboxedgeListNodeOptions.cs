@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databoxedge", "list-node")]
+[CliCommand("databoxedge", "list-node")]
 public record AzDataboxedgeListNodeOptions(
-[property: CommandSwitch("--device-name")] string DeviceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--device-name")] string DeviceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

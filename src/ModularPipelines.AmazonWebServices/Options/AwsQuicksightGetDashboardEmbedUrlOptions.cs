@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "get-dashboard-embed-url")]
+[CliCommand("quicksight", "get-dashboard-embed-url")]
 public record AwsQuicksightGetDashboardEmbedUrlOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--dashboard-id")] string DashboardId,
-[property: CommandSwitch("--identity-type")] string IdentityType
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--dashboard-id")] string DashboardId,
+[property: CliOption("--identity-type")] string IdentityType
 ) : AwsOptions
 {
-    [CommandSwitch("--session-lifetime-in-minutes")]
+    [CliOption("--session-lifetime-in-minutes")]
     public long? SessionLifetimeInMinutes { get; set; }
 
-    [CommandSwitch("--user-arn")]
+    [CliOption("--user-arn")]
     public string? UserArn { get; set; }
 
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--additional-dashboard-ids")]
+    [CliOption("--additional-dashboard-ids")]
     public string[]? AdditionalDashboardIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

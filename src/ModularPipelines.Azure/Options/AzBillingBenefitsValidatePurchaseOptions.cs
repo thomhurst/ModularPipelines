@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing-benefits", "validate-purchase")]
+[CliCommand("billing-benefits", "validate-purchase")]
 public record AzBillingBenefitsValidatePurchaseOptions : AzOptions
 {
-    [CommandSwitch("--benefits")]
+    [CliOption("--benefits")]
     public string? Benefits { get; set; }
 }

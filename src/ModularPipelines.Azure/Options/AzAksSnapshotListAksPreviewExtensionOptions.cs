@@ -7,6 +7,6 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("aks", "snapshot", "list", "(aks-preview", "extension)")]
 public record AzAksSnapshotListAksPreviewExtensionOptions : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

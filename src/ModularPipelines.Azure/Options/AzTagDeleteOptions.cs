@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tag", "delete")]
+[CliCommand("tag", "delete")]
 public record AzTagDeleteOptions : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-id")]
+    [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

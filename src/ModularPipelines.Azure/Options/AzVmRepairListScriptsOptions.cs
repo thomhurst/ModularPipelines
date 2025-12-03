@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "repair", "list-scripts")]
+[CliCommand("vm", "repair", "list-scripts")]
 public record AzVmRepairListScriptsOptions : AzOptions
 {
-    [CommandSwitch("--preview")]
+    [CliOption("--preview")]
     public string? Preview { get; set; }
 }

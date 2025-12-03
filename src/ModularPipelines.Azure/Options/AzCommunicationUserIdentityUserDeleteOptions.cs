@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication", "user-identity", "user", "delete")]
+[CliCommand("communication", "user-identity", "user", "delete")]
 public record AzCommunicationUserIdentityUserDeleteOptions(
-[property: CommandSwitch("--user")] string User
+[property: CliOption("--user")] string User
 ) : AzOptions
 {
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

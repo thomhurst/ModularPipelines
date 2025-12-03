@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "task", "list")]
+[CliCommand("acr", "task", "list")]
 public record AzAcrTaskListOptions(
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -20,30 +20,30 @@ public record DotNetCleanOptions : DotNetOptions
         CommandParts = ["clean", "[<PROJECT>|<SOLUTION>]"];
     }
 
-    [PositionalArgument(PlaceholderName = "[<PROJECT>|<SOLUTION>]")]
+    [CliArgument(Name = "[<PROJECT>|<SOLUTION>]")]
     public string? ProjectSolution { get; set; }
 
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public virtual string? Configuration { get; set; }
 
-    [CommandSwitch("--framework")]
+    [CliOption("--framework")]
     public virtual string? Framework { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [BooleanCommandSwitch("--nologo")]
+    [CliFlag("--nologo")]
     public virtual bool? Nologo { get; set; }
 
-    [CommandSwitch("--output")]
+    [CliOption("--output")]
     public virtual string? OutputDirectory { get; set; }
 
-    [CommandSwitch("--runtime")]
+    [CliOption("--runtime")]
     public virtual string? RuntimeIdentifier { get; set; }
 
-    [BooleanCommandSwitch("--tl")]
+    [CliFlag("--tl")]
     public virtual bool? Tl { get; set; }
 
-    [CommandSwitch("--verbosity")]
+    [CliOption("--verbosity")]
     public virtual string? Verbosity { get; set; }
 }

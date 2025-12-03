@@ -5,55 +5,55 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "vmware", "node-pools", "update")]
+[CliCommand("container", "vmware", "node-pools", "update")]
 public record GcloudContainerVmwareNodePoolsUpdateOptions(
-[property: PositionalArgument] string NodePool,
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Location
+[property: CliArgument] string NodePool,
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--boot-disk-size")]
+    [CliOption("--boot-disk-size")]
     public string? BootDiskSize { get; set; }
 
-    [CommandSwitch("--cpus")]
+    [CliOption("--cpus")]
     public string? Cpus { get; set; }
 
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--image-type")]
+    [CliOption("--image-type")]
     public string? ImageType { get; set; }
 
-    [CommandSwitch("--memory")]
+    [CliOption("--memory")]
     public string? Memory { get; set; }
 
-    [CommandSwitch("--node-labels")]
+    [CliOption("--node-labels")]
     public IEnumerable<KeyValue>? NodeLabels { get; set; }
 
-    [CommandSwitch("--node-taints")]
+    [CliOption("--node-taints")]
     public IEnumerable<KeyValue>? NodeTaints { get; set; }
 
-    [CommandSwitch("--replicas")]
+    [CliOption("--replicas")]
     public string? Replicas { get; set; }
 
-    [BooleanCommandSwitch("--disable-load-balancer")]
+    [CliFlag("--disable-load-balancer")]
     public bool? DisableLoadBalancer { get; set; }
 
-    [BooleanCommandSwitch("--enable-load-balancer")]
+    [CliFlag("--enable-load-balancer")]
     public bool? EnableLoadBalancer { get; set; }
 
-    [CommandSwitch("--max-replicas")]
+    [CliOption("--max-replicas")]
     public string? MaxReplicas { get; set; }
 
-    [CommandSwitch("--min-replicas")]
+    [CliOption("--min-replicas")]
     public string? MinReplicas { get; set; }
 }

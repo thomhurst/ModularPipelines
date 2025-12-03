@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("swarm", "unlock")]
+[CliCommand("swarm", "unlock")]
 [ExcludeFromCodeCoverage]
 public record DockerSwarmUnlockOptions : DockerOptions
 {

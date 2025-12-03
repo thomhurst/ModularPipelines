@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter", "dev", "dev-box", "show")]
+[CliCommand("devcenter", "dev", "dev-box", "show")]
 public record AzDevcenterDevDevBoxShowOptions(
-[property: CommandSwitch("--dev-box-name")] string DevBoxName,
-[property: CommandSwitch("--project")] string Project
+[property: CliOption("--dev-box-name")] string DevBoxName,
+[property: CliOption("--project")] string Project
 ) : AzOptions
 {
-    [CommandSwitch("--dev-center")]
+    [CliOption("--dev-center")]
     public string? DevCenter { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [CommandSwitch("--user-id")]
+    [CliOption("--user-id")]
     public string? UserId { get; set; }
 }

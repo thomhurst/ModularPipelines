@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "describe-scheduled-actions")]
+[CliCommand("redshift", "describe-scheduled-actions")]
 public record AwsRedshiftDescribeScheduledActionsOptions : AwsOptions
 {
-    [CommandSwitch("--scheduled-action-name")]
+    [CliOption("--scheduled-action-name")]
     public string? ScheduledActionName { get; set; }
 
-    [CommandSwitch("--target-action-type")]
+    [CliOption("--target-action-type")]
     public string? TargetActionType { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public long? EndTime { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

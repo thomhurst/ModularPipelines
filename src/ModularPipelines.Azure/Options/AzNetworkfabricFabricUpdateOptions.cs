@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkfabric", "fabric", "update")]
+[CliCommand("networkfabric", "fabric", "update")]
 public record AzNetworkfabricFabricUpdateOptions : AzOptions
 {
-    [CommandSwitch("--annotation")]
+    [CliOption("--annotation")]
     public string? Annotation { get; set; }
 
-    [CommandSwitch("--fabric-asn")]
+    [CliOption("--fabric-asn")]
     public string? FabricAsn { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--ipv4-prefix")]
+    [CliOption("--ipv4-prefix")]
     public string? Ipv4Prefix { get; set; }
 
-    [CommandSwitch("--ipv6-prefix")]
+    [CliOption("--ipv6-prefix")]
     public string? Ipv6Prefix { get; set; }
 
-    [CommandSwitch("--managed-network-config")]
+    [CliOption("--managed-network-config")]
     public string? ManagedNetworkConfig { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--rack-count")]
+    [CliOption("--rack-count")]
     public int? RackCount { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-name")]
+    [CliOption("--resource-name")]
     public string? ResourceName { get; set; }
 
-    [CommandSwitch("--server-count-per-rack")]
+    [CliOption("--server-count-per-rack")]
     public int? ServerCountPerRack { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--ts-config")]
+    [CliOption("--ts-config")]
     public string? TsConfig { get; set; }
 }

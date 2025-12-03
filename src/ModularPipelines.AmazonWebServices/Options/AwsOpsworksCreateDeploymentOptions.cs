@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "create-deployment")]
+[CliCommand("opsworks", "create-deployment")]
 public record AwsOpsworksCreateDeploymentOptions(
-[property: CommandSwitch("--stack-id")] string StackId,
-[property: CommandSwitch("--command")] string Command
+[property: CliOption("--stack-id")] string StackId,
+[property: CliOption("--command")] string Command
 ) : AwsOptions
 {
-    [CommandSwitch("--app-id")]
+    [CliOption("--app-id")]
     public string? AppId { get; set; }
 
-    [CommandSwitch("--instance-ids")]
+    [CliOption("--instance-ids")]
     public string[]? InstanceIds { get; set; }
 
-    [CommandSwitch("--layer-ids")]
+    [CliOption("--layer-ids")]
     public string[]? LayerIds { get; set; }
 
-    [CommandSwitch("--comment")]
+    [CliOption("--comment")]
     public string? Comment { get; set; }
 
-    [CommandSwitch("--custom-json")]
+    [CliOption("--custom-json")]
     public string? CustomJson { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

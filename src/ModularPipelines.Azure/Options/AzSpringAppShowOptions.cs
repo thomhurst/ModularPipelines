@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "app", "show")]
+[CliCommand("spring", "app", "show")]
 public record AzSpringAppShowOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions;

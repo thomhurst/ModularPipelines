@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication")]
+[CliCommand("communication")]
 public class AzCommunicationSms
 {
     public AzCommunicationSms(

@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "certificate", "issuer", "create")]
+[CliCommand("keyvault", "certificate", "issuer", "create")]
 public record AzKeyvaultCertificateIssuerCreateOptions(
-[property: CommandSwitch("--issuer-name")] string IssuerName,
-[property: CommandSwitch("--provider-name")] string ProviderName,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--issuer-name")] string IssuerName,
+[property: CliOption("--provider-name")] string ProviderName,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [CommandSwitch("--account-id")]
+    [CliOption("--account-id")]
     public int? AccountId { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--organization-id")]
+    [CliOption("--organization-id")]
     public string? OrganizationId { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 }

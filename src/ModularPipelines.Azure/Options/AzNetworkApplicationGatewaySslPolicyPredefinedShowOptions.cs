@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "ssl-policy", "predefined", "show")]
+[CliCommand("network", "application-gateway", "ssl-policy", "predefined", "show")]
 public record AzNetworkApplicationGatewaySslPolicyPredefinedShowOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions;

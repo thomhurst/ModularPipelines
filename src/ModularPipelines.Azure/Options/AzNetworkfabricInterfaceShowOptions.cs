@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkfabric", "interface", "show")]
+[CliCommand("networkfabric", "interface", "show")]
 public record AzNetworkfabricInterfaceShowOptions : AzOptions
 {
-    [CommandSwitch("--device")]
+    [CliOption("--device")]
     public string? Device { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-name")]
+    [CliOption("--resource-name")]
     public string? ResourceName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

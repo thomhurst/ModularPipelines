@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("anthos", "config", "controller", "create")]
+[CliCommand("anthos", "config", "controller", "create")]
 public record GcloudAnthosConfigControllerCreateOptions(
-[property: PositionalArgument] string Name,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Name,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--cluster-ipv4-cidr-block")]
+    [CliOption("--cluster-ipv4-cidr-block")]
     public string? ClusterIpv4CidrBlock { get; set; }
 
-    [CommandSwitch("--cluster-named-range")]
+    [CliOption("--cluster-named-range")]
     public string? ClusterNamedRange { get; set; }
 
-    [BooleanCommandSwitch("--full-management")]
+    [CliFlag("--full-management")]
     public bool? FullManagement { get; set; }
 
-    [CommandSwitch("--man-block")]
+    [CliOption("--man-block")]
     public string? ManBlock { get; set; }
 
-    [CommandSwitch("--man-blocks")]
+    [CliOption("--man-blocks")]
     public string[]? ManBlocks { get; set; }
 
-    [CommandSwitch("--master-ipv4-cidr-block")]
+    [CliOption("--master-ipv4-cidr-block")]
     public string? MasterIpv4CidrBlock { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--services-ipv4-cidr-block")]
+    [CliOption("--services-ipv4-cidr-block")]
     public string? ServicesIpv4CidrBlock { get; set; }
 
-    [CommandSwitch("--services-named-range")]
+    [CliOption("--services-named-range")]
     public string? ServicesNamedRange { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [BooleanCommandSwitch("--use-private-endpoint")]
+    [CliFlag("--use-private-endpoint")]
     public bool? UsePrivateEndpoint { get; set; }
 }

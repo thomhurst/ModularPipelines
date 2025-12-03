@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "connected-env", "storage", "remove")]
+[CliCommand("containerapp", "connected-env", "storage", "remove")]
 public record AzContainerappConnectedEnvStorageRemoveOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-name")] string StorageName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--storage-name")] string StorageName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

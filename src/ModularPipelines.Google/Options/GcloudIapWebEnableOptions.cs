@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iap", "web", "enable")]
+[CliCommand("iap", "web", "enable")]
 public record GcloudIapWebEnableOptions : GcloudOptions
 {
-    [CommandSwitch("--oauth2-client-id")]
+    [CliOption("--oauth2-client-id")]
     public string? Oauth2ClientId { get; set; }
 
-    [CommandSwitch("--oauth2-client-secret")]
+    [CliOption("--oauth2-client-secret")]
     public string? Oauth2ClientSecret { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 }

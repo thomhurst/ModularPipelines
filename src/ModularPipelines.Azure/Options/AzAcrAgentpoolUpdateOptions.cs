@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "agentpool", "update")]
+[CliCommand("acr", "agentpool", "update")]
 public record AzAcrAgentpoolUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--name")] string Name,
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--count")]
+    [CliOption("--count")]
     public int? Count { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

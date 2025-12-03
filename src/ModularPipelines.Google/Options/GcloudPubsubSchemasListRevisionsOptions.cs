@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "schemas", "list-revisions")]
+[CliCommand("pubsub", "schemas", "list-revisions")]
 public record GcloudPubsubSchemasListRevisionsOptions(
-[property: PositionalArgument] string Schema
+[property: CliArgument] string Schema
 ) : GcloudOptions
 {
-    [CommandSwitch("--view")]
+    [CliOption("--view")]
     public string? View { get; set; }
 }

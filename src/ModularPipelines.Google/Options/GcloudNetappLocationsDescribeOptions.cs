@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "locations", "describe")]
+[CliCommand("netapp", "locations", "describe")]
 public record GcloudNetappLocationsDescribeOptions(
-[property: PositionalArgument] string Location
+[property: CliArgument] string Location
 ) : GcloudOptions;

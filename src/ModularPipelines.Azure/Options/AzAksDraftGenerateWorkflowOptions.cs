@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "draft", "generate-workflow")]
+[CliCommand("aks", "draft", "generate-workflow")]
 public record AzAksDraftGenerateWorkflowOptions : AzOptions
 {
-    [CommandSwitch("--branch")]
+    [CliOption("--branch")]
     public string? Branch { get; set; }
 
-    [CommandSwitch("--cluster-name")]
+    [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CommandSwitch("--container-name")]
+    [CliOption("--container-name")]
     public string? ContainerName { get; set; }
 
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--registry-name")]
+    [CliOption("--registry-name")]
     public string? RegistryName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

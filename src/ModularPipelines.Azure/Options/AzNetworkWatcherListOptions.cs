@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "watcher", "list")]
+[CliCommand("network", "watcher", "list")]
 public record AzNetworkWatcherListOptions : AzOptions;

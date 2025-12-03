@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "dps", "enrollment-group", "compute-device-key")]
+[CliCommand("iot", "dps", "enrollment-group", "compute-device-key")]
 public record AzIotDpsEnrollmentGroupComputeDeviceKeyOptions(
-[property: CommandSwitch("--registration-id")] string RegistrationId
+[property: CliOption("--registration-id")] string RegistrationId
 ) : AzOptions
 {
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--dps-name")]
+    [CliOption("--dps-name")]
     public string? DpsName { get; set; }
 
-    [CommandSwitch("--eid")]
+    [CliOption("--eid")]
     public string? Eid { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

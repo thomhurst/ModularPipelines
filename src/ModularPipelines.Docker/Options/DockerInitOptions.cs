@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("init")]
+[CliCommand("init")]
 [ExcludeFromCodeCoverage]
 public record DockerInitOptions : DockerOptions
 {
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public virtual string? Version { get; set; }
 }

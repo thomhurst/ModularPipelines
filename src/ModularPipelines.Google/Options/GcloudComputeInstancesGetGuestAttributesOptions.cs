@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "get-guest-attributes")]
+[CliCommand("compute", "instances", "get-guest-attributes")]
 public record GcloudComputeInstancesGetGuestAttributesOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Zone
+[property: CliArgument] string Instance,
+[property: CliArgument] string Zone
 ) : GcloudOptions
 {
-    [CommandSwitch("--query-path")]
+    [CliOption("--query-path")]
     public string? QueryPath { get; set; }
 }

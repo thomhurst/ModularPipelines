@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloud-service", "role", "show")]
+[CliCommand("cloud-service", "role", "show")]
 public record AzCloudServiceRoleShowOptions : AzOptions
 {
-    [CommandSwitch("--cloud-service-name")]
+    [CliOption("--cloud-service-name")]
     public string? CloudServiceName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--role-name")]
+    [CliOption("--role-name")]
     public string? RoleName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

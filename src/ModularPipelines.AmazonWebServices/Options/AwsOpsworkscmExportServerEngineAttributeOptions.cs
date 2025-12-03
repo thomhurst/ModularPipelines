@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworkscm", "export-server-engine-attribute")]
+[CliCommand("opsworkscm", "export-server-engine-attribute")]
 public record AwsOpsworkscmExportServerEngineAttributeOptions(
-[property: CommandSwitch("--export-attribute-name")] string ExportAttributeName,
-[property: CommandSwitch("--server-name")] string ServerName
+[property: CliOption("--export-attribute-name")] string ExportAttributeName,
+[property: CliOption("--server-name")] string ServerName
 ) : AwsOptions
 {
-    [CommandSwitch("--input-attributes")]
+    [CliOption("--input-attributes")]
     public string[]? InputAttributes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-algorithm")]
+[CliCommand("sagemaker", "create-algorithm")]
 public record AwsSagemakerCreateAlgorithmOptions(
-[property: CommandSwitch("--algorithm-name")] string AlgorithmName,
-[property: CommandSwitch("--training-specification")] string TrainingSpecification
+[property: CliOption("--algorithm-name")] string AlgorithmName,
+[property: CliOption("--training-specification")] string TrainingSpecification
 ) : AwsOptions
 {
-    [CommandSwitch("--algorithm-description")]
+    [CliOption("--algorithm-description")]
     public string? AlgorithmDescription { get; set; }
 
-    [CommandSwitch("--inference-specification")]
+    [CliOption("--inference-specification")]
     public string? InferenceSpecification { get; set; }
 
-    [CommandSwitch("--validation-specification")]
+    [CliOption("--validation-specification")]
     public string? ValidationSpecification { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

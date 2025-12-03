@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spatial-anchors-account")]
+[CliCommand("spatial-anchors-account")]
 public class AzSpatialAnchorsAccountKey
 {
     public AzSpatialAnchorsAccountKey(

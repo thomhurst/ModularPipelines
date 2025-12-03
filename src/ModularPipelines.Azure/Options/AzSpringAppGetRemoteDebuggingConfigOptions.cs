@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "app", "get-remote-debugging-config")]
+[CliCommand("spring", "app", "get-remote-debugging-config")]
 public record AzSpringAppGetRemoteDebuggingConfigOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--deployment")]
+    [CliOption("--deployment")]
     public string? Deployment { get; set; }
 }

@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "build-service", "build", "create")]
+[CliCommand("spring", "build-service", "build", "create")]
 public record AzSpringBuildServiceBuildCreateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--apms")]
+    [CliOption("--apms")]
     public string? Apms { get; set; }
 
-    [CommandSwitch("--artifact-path")]
+    [CliOption("--artifact-path")]
     public string? ArtifactPath { get; set; }
 
-    [CommandSwitch("--build-cpu")]
+    [CliOption("--build-cpu")]
     public string? BuildCpu { get; set; }
 
-    [CommandSwitch("--build-env")]
+    [CliOption("--build-env")]
     public string? BuildEnv { get; set; }
 
-    [CommandSwitch("--build-memory")]
+    [CliOption("--build-memory")]
     public string? BuildMemory { get; set; }
 
-    [CommandSwitch("--builder")]
+    [CliOption("--builder")]
     public string? Builder { get; set; }
 
-    [CommandSwitch("--certificates")]
+    [CliOption("--certificates")]
     public string? Certificates { get; set; }
 
-    [BooleanCommandSwitch("--disable-validation")]
+    [CliFlag("--disable-validation")]
     public bool? DisableValidation { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--source-path")]
+    [CliOption("--source-path")]
     public string? SourcePath { get; set; }
 }

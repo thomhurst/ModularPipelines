@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "activity-log", "alert", "create")]
+[CliCommand("monitor", "activity-log", "alert", "create")]
 public record AzMonitorActivityLogAlertCreateOptions(
-[property: CommandSwitch("--activity-log-alert-name")] string ActivityLogAlertName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--activity-log-alert-name")] string ActivityLogAlertName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--action-group")]
+    [CliOption("--action-group")]
     public string? ActionGroup { get; set; }
 
-    [CommandSwitch("--all-of")]
+    [CliOption("--all-of")]
     public string? AllOf { get; set; }
 
-    [CommandSwitch("--condition")]
+    [CliOption("--condition")]
     public string? Condition { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--disable")]
+    [CliFlag("--disable")]
     public bool? Disable { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--webhook-properties")]
+    [CliOption("--webhook-properties")]
     public string? WebhookProperties { get; set; }
 }

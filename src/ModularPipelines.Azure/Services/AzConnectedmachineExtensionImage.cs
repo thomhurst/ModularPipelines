@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedmachine", "extension")]
+[CliCommand("connectedmachine", "extension")]
 public class AzConnectedmachineExtensionImage
 {
     public AzConnectedmachineExtensionImage(

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bicep", "generate-params")]
+[CliCommand("bicep", "generate-params")]
 public record AzBicepGenerateParamsOptions(
-[property: CommandSwitch("--file")] string File
+[property: CliOption("--file")] string File
 ) : AzOptions
 {
-    [CommandSwitch("--include-params")]
+    [CliOption("--include-params")]
     public string? IncludeParams { get; set; }
 
-    [BooleanCommandSwitch("--no-restore")]
+    [CliFlag("--no-restore")]
     public bool? NoRestore { get; set; }
 
-    [CommandSwitch("--outdir")]
+    [CliOption("--outdir")]
     public string? Outdir { get; set; }
 
-    [CommandSwitch("--outfile")]
+    [CliOption("--outfile")]
     public string? Outfile { get; set; }
 
-    [CommandSwitch("--output-format")]
+    [CliOption("--output-format")]
     public string? OutputFormat { get; set; }
 
-    [CommandSwitch("--stdout")]
+    [CliOption("--stdout")]
     public string? Stdout { get; set; }
 }

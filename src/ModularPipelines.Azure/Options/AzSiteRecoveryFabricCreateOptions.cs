@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("site-recovery", "fabric", "create")]
+[CliCommand("site-recovery", "fabric", "create")]
 public record AzSiteRecoveryFabricCreateOptions(
-[property: CommandSwitch("--fabric-name")] string FabricName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--fabric-name")] string FabricName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [CommandSwitch("--custom-details")]
+    [CliOption("--custom-details")]
     public string? CustomDetails { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

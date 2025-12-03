@@ -4,66 +4,66 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "elastic-pool", "update")]
+[CliCommand("sql", "elastic-pool", "update")]
 public record AzSqlElasticPoolUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--capacity")]
+    [CliOption("--capacity")]
     public string? Capacity { get; set; }
 
-    [CommandSwitch("--db-dtu-max")]
+    [CliOption("--db-dtu-max")]
     public string? DbDtuMax { get; set; }
 
-    [CommandSwitch("--db-dtu-min")]
+    [CliOption("--db-dtu-min")]
     public string? DbDtuMin { get; set; }
 
-    [CommandSwitch("--edition")]
+    [CliOption("--edition")]
     public string? Edition { get; set; }
 
-    [CommandSwitch("--family")]
+    [CliOption("--family")]
     public string? Family { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ha-replicas")]
+    [CliOption("--ha-replicas")]
     public string? HaReplicas { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--maint-config-id")]
+    [CliOption("--maint-config-id")]
     public string? MaintConfigId { get; set; }
 
-    [CommandSwitch("--max-size")]
+    [CliOption("--max-size")]
     public string? MaxSize { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--preferred-enclave-type")]
+    [CliOption("--preferred-enclave-type")]
     public string? PreferredEnclaveType { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--server")]
+    [CliOption("--server")]
     public string? Server { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--zone-redundant")]
+    [CliFlag("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "traffic-manager", "profile", "check-dns")]
+[CliCommand("network", "traffic-manager", "profile", "check-dns")]
 public record AzNetworkTrafficManagerProfileCheckDnsOptions : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 }

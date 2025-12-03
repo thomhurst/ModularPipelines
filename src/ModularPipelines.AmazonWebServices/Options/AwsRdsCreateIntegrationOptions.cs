@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "create-integration")]
+[CliCommand("rds", "create-integration")]
 public record AwsRdsCreateIntegrationOptions(
-[property: CommandSwitch("--source-arn")] string SourceArn,
-[property: CommandSwitch("--target-arn")] string TargetArn,
-[property: CommandSwitch("--integration-name")] string IntegrationName
+[property: CliOption("--source-arn")] string SourceArn,
+[property: CliOption("--target-arn")] string TargetArn,
+[property: CliOption("--integration-name")] string IntegrationName
 ) : AwsOptions
 {
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--additional-encryption-context")]
+    [CliOption("--additional-encryption-context")]
     public IEnumerable<KeyValue>? AdditionalEncryptionContext { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

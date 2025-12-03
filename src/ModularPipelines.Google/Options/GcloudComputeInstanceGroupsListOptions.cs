@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instance-groups", "list")]
+[CliCommand("compute", "instance-groups", "list")]
 public record GcloudComputeInstanceGroupsListOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--regexp")]
+    [CliOption("--regexp")]
     public string? Regexp { get; set; }
 
-    [BooleanCommandSwitch("--only-managed")]
+    [CliFlag("--only-managed")]
     public bool? OnlyManaged { get; set; }
 
-    [BooleanCommandSwitch("--only-unmanaged")]
+    [CliFlag("--only-unmanaged")]
     public bool? OnlyUnmanaged { get; set; }
 
-    [CommandSwitch("--regions")]
+    [CliOption("--regions")]
     public string[]? Regions { get; set; }
 
-    [CommandSwitch("--zones")]
+    [CliOption("--zones")]
     public string[]? Zones { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedmachine", "run-command", "list")]
+[CliCommand("connectedmachine", "run-command", "list")]
 public record AzConnectedmachineRunCommandListOptions(
-[property: CommandSwitch("--machine-name")] string MachineName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--machine-name")] string MachineName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--expand")]
+    [CliOption("--expand")]
     public string? Expand { get; set; }
 }

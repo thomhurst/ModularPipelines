@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stepfunctions", "create-state-machine")]
+[CliCommand("stepfunctions", "create-state-machine")]
 public record AwsStepfunctionsCreateStateMachineOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--definition")] string Definition,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--name")] string Name,
+[property: CliOption("--definition")] string Definition,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--logging-configuration")]
+    [CliOption("--logging-configuration")]
     public string? LoggingConfiguration { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--tracing-configuration")]
+    [CliOption("--tracing-configuration")]
     public string? TracingConfiguration { get; set; }
 
-    [CommandSwitch("--version-description")]
+    [CliOption("--version-description")]
     public string? VersionDescription { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

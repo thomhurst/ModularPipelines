@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "lb", "address-pool", "address", "update")]
+[CliCommand("network", "lb", "address-pool", "address", "update")]
 public record AzNetworkLbAddressPoolAddressUpdateOptions(
-[property: CommandSwitch("--lb-name")] string LbName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--pool-name")] string PoolName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--lb-name")] string LbName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--pool-name")] string PoolName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--admin-state")]
+    [CliOption("--admin-state")]
     public string? AdminState { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ip-address")]
+    [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--virtual-network")]
+    [CliOption("--virtual-network")]
     public string? VirtualNetwork { get; set; }
 }

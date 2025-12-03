@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "env", "dapr-component")]
+[CliCommand("containerapp", "env", "dapr-component")]
 public class AzContainerappEnvDaprComponentResiliency
 {
     public AzContainerappEnvDaprComponentResiliency(

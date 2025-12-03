@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "network-policies")]
+[CliCommand("vmware", "network-policies")]
 public class GcloudVmwareNetworkPoliciesExternalAccessRules
 {
     public GcloudVmwareNetworkPoliciesExternalAccessRules(

@@ -7,48 +7,48 @@ namespace ModularPipelines.Helm.Options;
 [ExcludeFromCodeCoverage]
 public record HelmOptions() : CommandLineToolOptions("helm")
 {
-    [CommandEqualsSeparatorSwitch("--burst-limit")]
+    [CliOption("--burst-limit", Format = OptionFormat.EqualsSeparated)]
     public int? BurstLimit { get; set; }
 
-    [BooleanCommandSwitch("--debug")]
+    [CliFlag("--debug")]
     public virtual bool? Debug { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kube-apiserver")]
+    [CliOption("--kube-apiserver", Format = OptionFormat.EqualsSeparated)]
     public string? KubeApiServer { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kube-as-group")]
+    [CliOption("--kube-as-group", Format = OptionFormat.EqualsSeparated)]
     public string[]? KubeAsGroup { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kube-as-user")]
+    [CliOption("--kube-as-user", Format = OptionFormat.EqualsSeparated)]
     public string? KubeAsUser { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kube-ca-file")]
+    [CliOption("--kube-ca-file", Format = OptionFormat.EqualsSeparated)]
     public string? KubeCaFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kube-context")]
+    [CliOption("--kube-context", Format = OptionFormat.EqualsSeparated)]
     public string? KubeContext { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kube-insecure-skip-tls-verify")]
+    [CliOption("--kube-insecure-skip-tls-verify", Format = OptionFormat.EqualsSeparated)]
     public string? KubeInsecureSkipTlsVerify { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kube-tls-server-name")]
+    [CliOption("--kube-tls-server-name", Format = OptionFormat.EqualsSeparated)]
     public string? KubeTlsServerName { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kube-token")]
+    [CliOption("--kube-token", Format = OptionFormat.EqualsSeparated)]
     public string? KubeToken { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kubeconfig")]
+    [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
     public string? KubeConfig { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--namespace")]
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
     public string? Namespace { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--registry-config")]
+    [CliOption("--registry-config", Format = OptionFormat.EqualsSeparated)]
     public string? RegistryConfig { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--repository-cache")]
+    [CliOption("--repository-cache", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryCache { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--repository-config")]
+    [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryConfig { get; set; }
 }

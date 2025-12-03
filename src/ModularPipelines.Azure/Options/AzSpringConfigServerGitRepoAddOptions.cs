@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "config-server", "git", "repo", "add")]
+[CliCommand("spring", "config-server", "git", "repo", "add")]
 public record AzSpringConfigServerGitRepoAddOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--repo-name")] string RepoName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--uri")] string Uri
+[property: CliOption("--name")] string Name,
+[property: CliOption("--repo-name")] string RepoName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--uri")] string Uri
 ) : AzOptions
 {
-    [CommandSwitch("--defer")]
+    [CliOption("--defer")]
     public string? Defer { get; set; }
 
-    [CommandSwitch("--host-key")]
+    [CliOption("--host-key")]
     public string? HostKey { get; set; }
 
-    [CommandSwitch("--host-key-algorithm")]
+    [CliOption("--host-key-algorithm")]
     public string? HostKeyAlgorithm { get; set; }
 
-    [CommandSwitch("--host-key-check")]
+    [CliOption("--host-key-check")]
     public string? HostKeyCheck { get; set; }
 
-    [CommandSwitch("--label")]
+    [CliOption("--label")]
     public string? Label { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--pattern")]
+    [CliOption("--pattern")]
     public string? Pattern { get; set; }
 
-    [CommandSwitch("--private-key")]
+    [CliOption("--private-key")]
     public string? PrivateKey { get; set; }
 
-    [CommandSwitch("--search-paths")]
+    [CliOption("--search-paths")]
     public string? SearchPaths { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 }

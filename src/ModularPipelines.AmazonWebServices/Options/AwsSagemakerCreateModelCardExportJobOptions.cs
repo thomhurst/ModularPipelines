@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-model-card-export-job")]
+[CliCommand("sagemaker", "create-model-card-export-job")]
 public record AwsSagemakerCreateModelCardExportJobOptions(
-[property: CommandSwitch("--model-card-name")] string ModelCardName,
-[property: CommandSwitch("--model-card-export-job-name")] string ModelCardExportJobName,
-[property: CommandSwitch("--output-config")] string OutputConfig
+[property: CliOption("--model-card-name")] string ModelCardName,
+[property: CliOption("--model-card-export-job-name")] string ModelCardExportJobName,
+[property: CliOption("--output-config")] string OutputConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--model-card-version")]
+    [CliOption("--model-card-version")]
     public int? ModelCardVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

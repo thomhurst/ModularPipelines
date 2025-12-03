@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("data-catalog", "tag-templates", "create")]
+[CliCommand("data-catalog", "tag-templates", "create")]
 public record GcloudDataCatalogTagTemplatesCreateOptions(
-[property: PositionalArgument] string TagTemplate,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--field")] string[] Field
+[property: CliArgument] string TagTemplate,
+[property: CliArgument] string Location,
+[property: CliOption("--field")] string[] Field
 ) : GcloudOptions
 {
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 }

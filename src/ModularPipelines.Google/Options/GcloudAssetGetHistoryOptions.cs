@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("asset", "get-history")]
+[CliCommand("asset", "get-history")]
 public record GcloudAssetGetHistoryOptions : GcloudOptions
 {
     public GcloudAssetGetHistoryOptions(
@@ -22,21 +22,21 @@ public record GcloudAssetGetHistoryOptions : GcloudOptions
         Project = project;
     }
 
-    [CommandSwitch("--asset-names")]
+    [CliOption("--asset-names")]
     public string[] AssetNames { get; set; }
 
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string ContentType { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public string StartTime { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CommandSwitch("--relationship-types")]
+    [CliOption("--relationship-types")]
     public string[]? RelationshipTypes { get; set; }
 }

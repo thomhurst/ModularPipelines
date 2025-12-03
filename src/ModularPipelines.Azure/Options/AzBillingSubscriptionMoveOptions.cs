@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "subscription", "move")]
+[CliCommand("billing", "subscription", "move")]
 public record AzBillingSubscriptionMoveOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--destination-invoice-section-id")] string DestinationInvoiceSectionId
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--destination-invoice-section-id")] string DestinationInvoiceSectionId
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-context-manager", "cloud-bindings", "create")]
+[CliCommand("access-context-manager", "cloud-bindings", "create")]
 public record GcloudAccessContextManagerCloudBindingsCreateOptions(
-[property: CommandSwitch("--group-key")] string GroupKey
+[property: CliOption("--group-key")] string GroupKey
 ) : GcloudOptions
 {
-    [CommandSwitch("--dry-run-level")]
+    [CliOption("--dry-run-level")]
     public string[]? DryRunLevel { get; set; }
 
-    [CommandSwitch("--level")]
+    [CliOption("--level")]
     public string[]? Level { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 }

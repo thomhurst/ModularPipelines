@@ -5,57 +5,57 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("database-migration", "migration-jobs", "update")]
+[CliCommand("database-migration", "migration-jobs", "update")]
 public record GcloudDatabaseMigrationMigrationJobsUpdateOptions(
-[property: PositionalArgument] string MigrationJob,
-[property: PositionalArgument] string Region
+[property: CliArgument] string MigrationJob,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--no-async")]
+    [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
 
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--dump-parallel-level")]
+    [CliOption("--dump-parallel-level")]
     public string? DumpParallelLevel { get; set; }
 
-    [CommandSwitch("--dump-path")]
+    [CliOption("--dump-path")]
     public string? DumpPath { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 
-    [CommandSwitch("--peer-vpc")]
+    [CliOption("--peer-vpc")]
     public string? PeerVpc { get; set; }
 
-    [BooleanCommandSwitch("--static-ip")]
+    [CliFlag("--static-ip")]
     public bool? StaticIp { get; set; }
 
-    [CommandSwitch("--vm")]
+    [CliOption("--vm")]
     public string? Vm { get; set; }
 
-    [CommandSwitch("--vm-ip")]
+    [CliOption("--vm-ip")]
     public string? VmIp { get; set; }
 
-    [CommandSwitch("--vm-port")]
+    [CliOption("--vm-port")]
     public string? VmPort { get; set; }
 
-    [CommandSwitch("--vpc")]
+    [CliOption("--vpc")]
     public string? Vpc { get; set; }
 }

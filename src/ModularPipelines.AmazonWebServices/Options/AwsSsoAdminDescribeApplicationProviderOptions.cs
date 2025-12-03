@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sso-admin", "describe-application-provider")]
+[CliCommand("sso-admin", "describe-application-provider")]
 public record AwsSsoAdminDescribeApplicationProviderOptions(
-[property: CommandSwitch("--application-provider-arn")] string ApplicationProviderArn
+[property: CliOption("--application-provider-arn")] string ApplicationProviderArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

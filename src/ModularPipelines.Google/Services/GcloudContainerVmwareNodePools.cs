@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "vmware")]
+[CliCommand("container", "vmware")]
 public class GcloudContainerVmwareNodePools
 {
     public GcloudContainerVmwareNodePools(

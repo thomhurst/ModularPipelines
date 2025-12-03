@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("proton", "update-service-sync-blocker")]
+[CliCommand("proton", "update-service-sync-blocker")]
 public record AwsProtonUpdateServiceSyncBlockerOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--resolved-reason")] string ResolvedReason
+[property: CliOption("--id")] string Id,
+[property: CliOption("--resolved-reason")] string ResolvedReason
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

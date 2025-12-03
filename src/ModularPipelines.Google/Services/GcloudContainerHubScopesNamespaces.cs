@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "hub", "scopes")]
+[CliCommand("container", "hub", "scopes")]
 public class GcloudContainerHubScopesNamespaces
 {
     public GcloudContainerHubScopesNamespaces(

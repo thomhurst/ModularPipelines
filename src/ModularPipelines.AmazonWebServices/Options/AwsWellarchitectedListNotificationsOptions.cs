@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "list-notifications")]
+[CliCommand("wellarchitected", "list-notifications")]
 public record AwsWellarchitectedListNotificationsOptions : AwsOptions
 {
-    [CommandSwitch("--workload-id")]
+    [CliOption("--workload-id")]
     public string? WorkloadId { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--resource-arn")]
+    [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

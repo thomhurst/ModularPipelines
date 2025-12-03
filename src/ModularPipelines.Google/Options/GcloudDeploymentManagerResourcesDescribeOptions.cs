@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deployment-manager", "resources", "describe")]
+[CliCommand("deployment-manager", "resources", "describe")]
 public record GcloudDeploymentManagerResourcesDescribeOptions(
-[property: PositionalArgument] string Resource
+[property: CliArgument] string Resource
 ) : GcloudOptions
 {
-    [CommandSwitch("--deployment")]
+    [CliOption("--deployment")]
     public string? Deployment { get; set; }
 }

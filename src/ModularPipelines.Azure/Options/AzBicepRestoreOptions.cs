@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bicep", "restore")]
+[CliCommand("bicep", "restore")]
 public record AzBicepRestoreOptions(
-[property: CommandSwitch("--file")] string File
+[property: CliOption("--file")] string File
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 }

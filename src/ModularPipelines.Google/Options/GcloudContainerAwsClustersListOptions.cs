@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "aws", "clusters", "list")]
+[CliCommand("container", "aws", "clusters", "list")]
 public record GcloudContainerAwsClustersListOptions : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

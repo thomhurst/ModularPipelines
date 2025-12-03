@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("policy-intelligence", "query-activity")]
+[CliCommand("policy-intelligence", "query-activity")]
 public record GcloudPolicyIntelligenceQueryActivityOptions : GcloudOptions
 {
     public GcloudPolicyIntelligenceQueryActivityOptions(
@@ -16,15 +16,15 @@ public record GcloudPolicyIntelligenceQueryActivityOptions : GcloudOptions
         Project = project;
     }
 
-    [CommandSwitch("--activity-type")]
+    [CliOption("--activity-type")]
     public string ActivityType { get; set; }
 
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public string? Limit { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public string? PageSize { get; set; }
 
-    [CommandSwitch("--query-filter")]
+    [CliOption("--query-filter")]
     public string? QueryFilter { get; set; }
 }

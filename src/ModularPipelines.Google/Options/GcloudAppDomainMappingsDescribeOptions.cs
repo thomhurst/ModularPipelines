@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "domain-mappings", "describe")]
+[CliCommand("app", "domain-mappings", "describe")]
 public record GcloudAppDomainMappingsDescribeOptions(
-[property: PositionalArgument] string Domain
+[property: CliArgument] string Domain
 ) : GcloudOptions;

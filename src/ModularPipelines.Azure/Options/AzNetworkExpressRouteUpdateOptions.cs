@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "express-route", "update")]
+[CliCommand("network", "express-route", "update")]
 public record AzNetworkExpressRouteUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--allow-classic-operations")]
+    [CliFlag("--allow-classic-operations")]
     public bool? AllowClassicOperations { get; set; }
 
-    [BooleanCommandSwitch("--allow-global-reach")]
+    [CliFlag("--allow-global-reach")]
     public bool? AllowGlobalReach { get; set; }
 
-    [CommandSwitch("--bandwidth")]
+    [CliOption("--bandwidth")]
     public string? Bandwidth { get; set; }
 
-    [CommandSwitch("--express-route-port")]
+    [CliOption("--express-route-port")]
     public string? ExpressRoutePort { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--peering-location")]
+    [CliOption("--peering-location")]
     public string? PeeringLocation { get; set; }
 
-    [CommandSwitch("--provider")]
+    [CliOption("--provider")]
     public string? Provider { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--sku-family")]
+    [CliOption("--sku-family")]
     public string? SkuFamily { get; set; }
 
-    [CommandSwitch("--sku-tier")]
+    [CliOption("--sku-tier")]
     public string? SkuTier { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

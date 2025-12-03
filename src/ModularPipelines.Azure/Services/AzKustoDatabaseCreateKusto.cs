@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "database", "create")]
+[CliCommand("kusto", "database", "create")]
 public class AzKustoDatabaseCreateKusto
 {
     public AzKustoDatabaseCreateKusto(

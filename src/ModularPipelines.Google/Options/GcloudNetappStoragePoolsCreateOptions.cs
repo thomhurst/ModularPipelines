@@ -5,30 +5,30 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "storage-pools", "create")]
+[CliCommand("netapp", "storage-pools", "create")]
 public record GcloudNetappStoragePoolsCreateOptions(
-[property: PositionalArgument] string StoragePool,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--capacity")] string Capacity,
-[property: CommandSwitch("--network")] string[] Network,
-[property: CommandSwitch("--service-level")] string ServiceLevel
+[property: CliArgument] string StoragePool,
+[property: CliArgument] string Location,
+[property: CliOption("--capacity")] string Capacity,
+[property: CliOption("--network")] string[] Network,
+[property: CliOption("--service-level")] string ServiceLevel
 ) : GcloudOptions
 {
-    [CommandSwitch("--active-directory")]
+    [CliOption("--active-directory")]
     public string? ActiveDirectory { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--enable-ldap")]
+    [CliOption("--enable-ldap")]
     public string? EnableLdap { get; set; }
 
-    [CommandSwitch("--kms-config")]
+    [CliOption("--kms-config")]
     public string? KmsConfig { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

@@ -3,22 +3,22 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "alpha", "viz")]
+[CliCommand("compose", "alpha", "viz")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeAlphaVizOptions : DockerOptions
 {
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public virtual string? Image { get; set; }
 
-    [CommandSwitch("--indentation-size")]
+    [CliOption("--indentation-size")]
     public virtual int? IndentationSize { get; set; }
 
-    [CommandSwitch("--networks")]
+    [CliOption("--networks")]
     public virtual string? Networks { get; set; }
 
-    [CommandSwitch("--ports")]
+    [CliOption("--ports")]
     public virtual string? Ports { get; set; }
 
-    [CommandSwitch("--spaces")]
+    [CliOption("--spaces")]
     public virtual string? Spaces { get; set; }
 }

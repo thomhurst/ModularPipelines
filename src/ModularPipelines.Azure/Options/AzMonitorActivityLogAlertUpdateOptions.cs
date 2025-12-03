@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "activity-log", "alert", "update")]
+[CliCommand("monitor", "activity-log", "alert", "update")]
 public record AzMonitorActivityLogAlertUpdateOptions : AzOptions
 {
-    [CommandSwitch("--activity-log-alert-name")]
+    [CliOption("--activity-log-alert-name")]
     public string? ActivityLogAlertName { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--all-of")]
+    [CliOption("--all-of")]
     public string? AllOf { get; set; }
 
-    [CommandSwitch("--condition")]
+    [CliOption("--condition")]
     public string? Condition { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

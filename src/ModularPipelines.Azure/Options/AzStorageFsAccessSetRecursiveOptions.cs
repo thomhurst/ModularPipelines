@@ -4,43 +4,43 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "fs", "access", "set-recursive")]
+[CliCommand("storage", "fs", "access", "set-recursive")]
 public record AzStorageFsAccessSetRecursiveOptions(
-[property: CommandSwitch("--acl")] string Acl,
-[property: CommandSwitch("--file-system")] string FileSystem,
-[property: CommandSwitch("--path")] string Path
+[property: CliOption("--acl")] string Acl,
+[property: CliOption("--file-system")] string FileSystem,
+[property: CliOption("--path")] string Path
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--batch-size")]
+    [CliOption("--batch-size")]
     public string? BatchSize { get; set; }
 
-    [CommandSwitch("--blob-endpoint")]
+    [CliOption("--blob-endpoint")]
     public string? BlobEndpoint { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--continuation")]
+    [CliOption("--continuation")]
     public string? Continuation { get; set; }
 
-    [BooleanCommandSwitch("--continue-on-failure")]
+    [CliFlag("--continue-on-failure")]
     public bool? ContinueOnFailure { get; set; }
 
-    [CommandSwitch("--max-batches")]
+    [CliOption("--max-batches")]
     public string? MaxBatches { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

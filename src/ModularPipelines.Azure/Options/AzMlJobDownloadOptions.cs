@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "job", "download")]
+[CliCommand("ml", "job", "download")]
 public record AzMlJobDownloadOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public bool? All { get; set; }
 
-    [CommandSwitch("--download-path")]
+    [CliOption("--download-path")]
     public string? DownloadPath { get; set; }
 
-    [CommandSwitch("--output-name")]
+    [CliOption("--output-name")]
     public string? OutputName { get; set; }
 }

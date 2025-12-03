@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "capture")]
+[CliCommand("vm", "capture")]
 public record AzVmCaptureOptions(
-[property: CommandSwitch("--vhd-name-prefix")] string VhdNamePrefix
+[property: CliOption("--vhd-name-prefix")] string VhdNamePrefix
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--overwrite")]
+    [CliFlag("--overwrite")]
     public bool? Overwrite { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--storage-container")]
+    [CliOption("--storage-container")]
     public string? StorageContainer { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

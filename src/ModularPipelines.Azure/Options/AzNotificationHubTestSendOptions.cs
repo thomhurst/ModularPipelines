@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("notification-hub", "test-send")]
+[CliCommand("notification-hub", "test-send")]
 public record AzNotificationHubTestSendOptions(
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--notification-format")] string NotificationFormat,
-[property: CommandSwitch("--notification-hub-name")] string NotificationHubName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--notification-format")] string NotificationFormat,
+[property: CliOption("--notification-hub-name")] string NotificationHubName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--message")]
+    [CliOption("--message")]
     public string? Message { get; set; }
 
-    [CommandSwitch("--payload")]
+    [CliOption("--payload")]
     public string? Payload { get; set; }
 
-    [CommandSwitch("--tag")]
+    [CliOption("--tag")]
     public string? Tag { get; set; }
 
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 }

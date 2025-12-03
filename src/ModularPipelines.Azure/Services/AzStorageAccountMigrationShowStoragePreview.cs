@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "account", "migration", "show")]
+[CliCommand("storage", "account", "migration", "show")]
 public class AzStorageAccountMigrationShowStoragePreview
 {
     public AzStorageAccountMigrationShowStoragePreview(

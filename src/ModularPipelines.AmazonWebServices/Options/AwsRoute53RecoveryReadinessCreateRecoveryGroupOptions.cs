@@ -5,17 +5,17 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53-recovery-readiness", "create-recovery-group")]
+[CliCommand("route53-recovery-readiness", "create-recovery-group")]
 public record AwsRoute53RecoveryReadinessCreateRecoveryGroupOptions(
-[property: CommandSwitch("--recovery-group-name")] string RecoveryGroupName
+[property: CliOption("--recovery-group-name")] string RecoveryGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--cells")]
+    [CliOption("--cells")]
     public string[]? Cells { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

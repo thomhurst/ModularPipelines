@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-services", "tls-routes", "list")]
+[CliCommand("network-services", "tls-routes", "list")]
 public record GcloudNetworkServicesTlsRoutesListOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : GcloudOptions;

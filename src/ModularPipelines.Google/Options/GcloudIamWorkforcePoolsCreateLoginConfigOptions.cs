@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workforce-pools", "create-login-config")]
+[CliCommand("iam", "workforce-pools", "create-login-config")]
 public record GcloudIamWorkforcePoolsCreateLoginConfigOptions(
-[property: PositionalArgument] string Audience,
-[property: CommandSwitch("--output-file")] string OutputFile
+[property: CliArgument] string Audience,
+[property: CliOption("--output-file")] string OutputFile
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--activate")]
+    [CliFlag("--activate")]
     public bool? Activate { get; set; }
 }

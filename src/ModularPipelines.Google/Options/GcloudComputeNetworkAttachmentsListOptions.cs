@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "network-attachments", "list")]
+[CliCommand("compute", "network-attachments", "list")]
 public record GcloudComputeNetworkAttachmentsListOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--regexp")]
+    [CliOption("--regexp")]
     public string? Regexp { get; set; }
 
-    [CommandSwitch("--regions")]
+    [CliOption("--regions")]
     public string[]? Regions { get; set; }
 }

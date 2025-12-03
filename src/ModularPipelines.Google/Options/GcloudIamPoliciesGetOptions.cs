@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "policies", "get")]
+[CliCommand("iam", "policies", "get")]
 public record GcloudIamPoliciesGetOptions(
-[property: PositionalArgument] string PolicyId,
-[property: CommandSwitch("--attachment-point")] string AttachmentPoint,
-[property: CommandSwitch("--kind")] string Kind
+[property: CliArgument] string PolicyId,
+[property: CliOption("--attachment-point")] string AttachmentPoint,
+[property: CliOption("--kind")] string Kind
 ) : GcloudOptions;

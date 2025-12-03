@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "packet-mirrorings", "create")]
+[CliCommand("compute", "packet-mirrorings", "create")]
 public record GcloudComputePacketMirroringsCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--collector-ilb")] string CollectorIlb,
-[property: CommandSwitch("--network")] string Network
+[property: CliArgument] string Name,
+[property: CliOption("--collector-ilb")] string CollectorIlb,
+[property: CliOption("--network")] string Network
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enable")]
+    [CliFlag("--enable")]
     public bool? Enable { get; set; }
 
-    [CommandSwitch("--filter-cidr-ranges")]
+    [CliOption("--filter-cidr-ranges")]
     public string[]? FilterCidrRanges { get; set; }
 
-    [CommandSwitch("--filter-direction")]
+    [CliOption("--filter-direction")]
     public string? FilterDirection { get; set; }
 
-    [CommandSwitch("--filter-protocols")]
+    [CliOption("--filter-protocols")]
     public string[]? FilterProtocols { get; set; }
 
-    [CommandSwitch("--mirrored-instances")]
+    [CliOption("--mirrored-instances")]
     public string[]? MirroredInstances { get; set; }
 
-    [CommandSwitch("--mirrored-subnets")]
+    [CliOption("--mirrored-subnets")]
     public string[]? MirroredSubnets { get; set; }
 
-    [CommandSwitch("--mirrored-tags")]
+    [CliOption("--mirrored-tags")]
     public string[]? MirroredTags { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

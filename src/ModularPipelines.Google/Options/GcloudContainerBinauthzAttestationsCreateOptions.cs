@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "binauthz", "attestations", "create")]
+[CliCommand("container", "binauthz", "attestations", "create")]
 public record GcloudContainerBinauthzAttestationsCreateOptions(
-[property: CommandSwitch("--artifact-url")] string ArtifactUrl,
-[property: CommandSwitch("--public-key-id")] string PublicKeyId,
-[property: CommandSwitch("--signature-file")] string SignatureFile
+[property: CliOption("--artifact-url")] string ArtifactUrl,
+[property: CliOption("--public-key-id")] string PublicKeyId,
+[property: CliOption("--signature-file")] string SignatureFile
 ) : GcloudOptions
 {
-    [CommandSwitch("--payload-file")]
+    [CliOption("--payload-file")]
     public string? PayloadFile { get; set; }
 
-    [CommandSwitch("--note")]
+    [CliOption("--note")]
     public string? Note { get; set; }
 
-    [CommandSwitch("--note-project")]
+    [CliOption("--note-project")]
     public string? NoteProject { get; set; }
 
-    [BooleanCommandSwitch("--validate")]
+    [CliFlag("--validate")]
     public bool? Validate { get; set; }
 
-    [CommandSwitch("--attestor")]
+    [CliOption("--attestor")]
     public string? Attestor { get; set; }
 
-    [CommandSwitch("--attestor-project")]
+    [CliOption("--attestor-project")]
     public string? AttestorProject { get; set; }
 }

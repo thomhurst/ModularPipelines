@@ -4,63 +4,63 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "env", "update")]
+[CliCommand("containerapp", "env", "update")]
 public record AzContainerappEnvUpdateOptions : AzOptions
 {
-    [CommandSwitch("--certificate-file")]
+    [CliOption("--certificate-file")]
     public string? CertificateFile { get; set; }
 
-    [CommandSwitch("--certificate-password")]
+    [CliOption("--certificate-password")]
     public string? CertificatePassword { get; set; }
 
-    [CommandSwitch("--custom-domain-dns-suffix")]
+    [CliOption("--custom-domain-dns-suffix")]
     public string? CustomDomainDnsSuffix { get; set; }
 
-    [BooleanCommandSwitch("--enable-mtls")]
+    [CliFlag("--enable-mtls")]
     public bool? EnableMtls { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--logs-destination")]
+    [CliOption("--logs-destination")]
     public string? LogsDestination { get; set; }
 
-    [BooleanCommandSwitch("--logs-dynamic-json-columns")]
+    [CliFlag("--logs-dynamic-json-columns")]
     public bool? LogsDynamicJsonColumns { get; set; }
 
-    [CommandSwitch("--logs-workspace-id")]
+    [CliOption("--logs-workspace-id")]
     public string? LogsWorkspaceId { get; set; }
 
-    [CommandSwitch("--logs-workspace-key")]
+    [CliOption("--logs-workspace-key")]
     public string? LogsWorkspaceKey { get; set; }
 
-    [CommandSwitch("--max-nodes")]
+    [CliOption("--max-nodes")]
     public string? MaxNodes { get; set; }
 
-    [CommandSwitch("--min-nodes")]
+    [CliOption("--min-nodes")]
     public string? MinNodes { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--storage-account")]
+    [CliOption("--storage-account")]
     public int? StorageAccount { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--workload-profile-name")]
+    [CliOption("--workload-profile-name")]
     public string? WorkloadProfileName { get; set; }
 
-    [CommandSwitch("--workload-profile-type")]
+    [CliOption("--workload-profile-type")]
     public string? WorkloadProfileType { get; set; }
 }

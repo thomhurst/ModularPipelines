@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "dps", "policy", "create")]
+[CliCommand("iot", "dps", "policy", "create")]
 public record AzIotDpsPolicyCreateOptions(
-[property: CommandSwitch("--dps-name")] string DpsName,
-[property: CommandSwitch("--pn")] string Pn,
-[property: CommandSwitch("--rights")] string Rights
+[property: CliOption("--dps-name")] string DpsName,
+[property: CliOption("--pn")] string Pn,
+[property: CliOption("--rights")] string Rights
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--primary-key")]
+    [CliOption("--primary-key")]
     public string? PrimaryKey { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--secondary-key")]
+    [CliOption("--secondary-key")]
     public string? SecondaryKey { get; set; }
 }

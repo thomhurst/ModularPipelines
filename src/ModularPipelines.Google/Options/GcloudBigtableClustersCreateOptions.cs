@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bigtable", "clusters", "create")]
+[CliCommand("bigtable", "clusters", "create")]
 public record GcloudBigtableClustersCreateOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Instance,
-[property: CommandSwitch("--zone")] string Zone
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Instance,
+[property: CliOption("--zone")] string Zone
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--kms-keyring")]
+    [CliOption("--kms-keyring")]
     public string? KmsKeyring { get; set; }
 
-    [CommandSwitch("--kms-location")]
+    [CliOption("--kms-location")]
     public string? KmsLocation { get; set; }
 
-    [CommandSwitch("--kms-project")]
+    [CliOption("--kms-project")]
     public string? KmsProject { get; set; }
 
-    [CommandSwitch("--num-nodes")]
+    [CliOption("--num-nodes")]
     public string? NumNodes { get; set; }
 
-    [CommandSwitch("--autoscaling-cpu-target")]
+    [CliOption("--autoscaling-cpu-target")]
     public string? AutoscalingCpuTarget { get; set; }
 
-    [CommandSwitch("--autoscaling-max-nodes")]
+    [CliOption("--autoscaling-max-nodes")]
     public string? AutoscalingMaxNodes { get; set; }
 
-    [CommandSwitch("--autoscaling-min-nodes")]
+    [CliOption("--autoscaling-min-nodes")]
     public string? AutoscalingMinNodes { get; set; }
 
-    [CommandSwitch("--autoscaling-storage-target")]
+    [CliOption("--autoscaling-storage-target")]
     public string? AutoscalingStorageTarget { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces-web", "tag-resource")]
+[CliCommand("workspaces-web", "tag-resource")]
 public record AwsWorkspacesWebTagResourceOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn,
-[property: CommandSwitch("--tags")] string[] Tags
+[property: CliOption("--resource-arn")] string ResourceArn,
+[property: CliOption("--tags")] string[] Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

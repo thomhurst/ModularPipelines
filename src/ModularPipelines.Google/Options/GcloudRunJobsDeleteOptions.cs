@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("run", "jobs", "delete")]
+[CliCommand("run", "jobs", "delete")]
 public record GcloudRunJobsDeleteOptions(
-[property: PositionalArgument] string Job
+[property: CliArgument] string Job
 ) : GcloudOptions
 {
-    [CommandSwitch("--[no-]async")]
+    [CliOption("--[no-]async")]
     public string[]? NoAsync { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

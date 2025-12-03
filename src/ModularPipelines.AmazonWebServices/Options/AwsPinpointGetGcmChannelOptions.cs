@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint", "get-gcm-channel")]
+[CliCommand("pinpoint", "get-gcm-channel")]
 public record AwsPinpointGetGcmChannelOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId
+[property: CliOption("--application-id")] string ApplicationId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webpubsub", "service", "group", "add-user")]
+[CliCommand("webpubsub", "service", "group", "add-user")]
 public record AzWebpubsubServiceGroupAddUserOptions(
-[property: CommandSwitch("--group-name")] string GroupName,
-[property: CommandSwitch("--hub-name")] string HubName,
-[property: CommandSwitch("--user-id")] string UserId
+[property: CliOption("--group-name")] string GroupName,
+[property: CliOption("--hub-name")] string HubName,
+[property: CliOption("--user-id")] string UserId
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

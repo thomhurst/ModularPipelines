@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "pr", "policy", "list")]
+[CliCommand("repos", "pr", "policy", "list")]
 public record AzReposPrPolicyListOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--skip")]
+    [CliOption("--skip")]
     public string? Skip { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

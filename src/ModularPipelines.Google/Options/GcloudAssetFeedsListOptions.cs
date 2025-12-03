@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("asset", "feeds", "list")]
+[CliCommand("asset", "feeds", "list")]
 public record GcloudAssetFeedsListOptions : GcloudOptions
 {
     public GcloudAssetFeedsListOptions(
@@ -18,9 +18,9 @@ public record GcloudAssetFeedsListOptions : GcloudOptions
         Project = project;
     }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 }

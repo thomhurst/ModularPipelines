@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "workflow-templates")]
+[CliCommand("dataproc", "workflow-templates")]
 public class GcloudDataprocWorkflowTemplatesAddJob
 {
     public GcloudDataprocWorkflowTemplatesAddJob(

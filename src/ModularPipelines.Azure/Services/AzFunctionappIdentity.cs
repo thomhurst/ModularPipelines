@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp")]
+[CliCommand("functionapp")]
 public class AzFunctionappIdentity
 {
     public AzFunctionappIdentity(

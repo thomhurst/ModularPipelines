@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "kollect")]
+[CliCommand("aks", "kollect")]
 public record AzAksKollectOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--container-logs")]
+    [CliOption("--container-logs")]
     public string? ContainerLogs { get; set; }
 
-    [CommandSwitch("--kube-objects")]
+    [CliOption("--kube-objects")]
     public string? KubeObjects { get; set; }
 
-    [CommandSwitch("--node-logs")]
+    [CliOption("--node-logs")]
     public string? NodeLogs { get; set; }
 
-    [CommandSwitch("--node-logs-windows")]
+    [CliOption("--node-logs-windows")]
     public string? NodeLogsWindows { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--storage-account")]
+    [CliOption("--storage-account")]
     public int? StorageAccount { get; set; }
 }

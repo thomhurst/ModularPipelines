@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "cluster", "update")]
+[CliCommand("networkcloud", "cluster", "update")]
 public record AzNetworkcloudClusterUpdateOptions : AzOptions
 {
-    [CommandSwitch("--aggregator-or-single-rack-definition")]
+    [CliOption("--aggregator-or-single-rack-definition")]
     public string? AggregatorOrSingleRackDefinition { get; set; }
 
-    [CommandSwitch("--cluster-location")]
+    [CliOption("--cluster-location")]
     public string? ClusterLocation { get; set; }
 
-    [CommandSwitch("--cluster-name")]
+    [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CommandSwitch("--cluster-service-principal")]
+    [CliOption("--cluster-service-principal")]
     public string? ClusterServicePrincipal { get; set; }
 
-    [CommandSwitch("--compute-deployment-threshold")]
+    [CliOption("--compute-deployment-threshold")]
     public string? ComputeDeploymentThreshold { get; set; }
 
-    [CommandSwitch("--compute-rack-definitions")]
+    [CliOption("--compute-rack-definitions")]
     public string? ComputeRackDefinitions { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--runtime-protection")]
+    [CliOption("--runtime-protection")]
     public string? RuntimeProtection { get; set; }
 
-    [CommandSwitch("--secret-archive")]
+    [CliOption("--secret-archive")]
     public string? SecretArchive { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--update-strategy")]
+    [CliOption("--update-strategy")]
     public string? UpdateStrategy { get; set; }
 }

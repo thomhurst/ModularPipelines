@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "url-maps", "remove-path-matcher")]
+[CliCommand("compute", "url-maps", "remove-path-matcher")]
 public record GcloudComputeUrlMapsRemovePathMatcherOptions(
-[property: PositionalArgument] string UrlMap,
-[property: CommandSwitch("--path-matcher-name")] string PathMatcherName
+[property: CliArgument] string UrlMap,
+[property: CliOption("--path-matcher-name")] string PathMatcherName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

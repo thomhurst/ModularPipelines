@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "endpoint", "create", "eventgrid")]
+[CliCommand("dt", "endpoint", "create", "eventgrid")]
 public record AzDtEndpointCreateEventgridOptions(
-[property: CommandSwitch("--dt-name")] string DtName,
-[property: CommandSwitch("--egt")] string Egt,
-[property: CommandSwitch("--en")] string En
+[property: CliOption("--dt-name")] string DtName,
+[property: CliOption("--egt")] string Egt,
+[property: CliOption("--en")] string En
 ) : AzOptions
 {
-    [CommandSwitch("--deadletter-sas-uri")]
+    [CliOption("--deadletter-sas-uri")]
     public string? DeadletterSasUri { get; set; }
 
-    [CommandSwitch("--deadletter-uri")]
+    [CliOption("--deadletter-uri")]
     public string? DeadletterUri { get; set; }
 
-    [CommandSwitch("--egg")]
+    [CliOption("--egg")]
     public string? Egg { get; set; }
 
-    [CommandSwitch("--egs")]
+    [CliOption("--egs")]
     public string? Egs { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

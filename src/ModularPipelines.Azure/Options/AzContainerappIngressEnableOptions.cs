@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "ingress", "enable")]
+[CliCommand("containerapp", "ingress", "enable")]
 public record AzContainerappIngressEnableOptions(
-[property: CommandSwitch("--target-port")] string TargetPort,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--target-port")] string TargetPort,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allow-insecure")]
+    [CliFlag("--allow-insecure")]
     public bool? AllowInsecure { get; set; }
 
-    [CommandSwitch("--exposed-port")]
+    [CliOption("--exposed-port")]
     public string? ExposedPort { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--transport")]
+    [CliOption("--transport")]
     public string? Transport { get; set; }
 }

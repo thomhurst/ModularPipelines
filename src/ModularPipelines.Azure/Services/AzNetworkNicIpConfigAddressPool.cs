@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "nic", "ip-config")]
+[CliCommand("network", "nic", "ip-config")]
 public class AzNetworkNicIpConfigAddressPool
 {
     public AzNetworkNicIpConfigAddressPool(

@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("powerbi", "embedded-capacity", "create")]
+[CliCommand("powerbi", "embedded-capacity", "create")]
 public record AzPowerbiEmbeddedCapacityCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku-name")] string SkuName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sku-name")] string SkuName
 ) : AzOptions
 {
-    [CommandSwitch("--administration-members")]
+    [CliOption("--administration-members")]
     public string? AdministrationMembers { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--sku-tier")]
+    [CliOption("--sku-tier")]
     public string? SkuTier { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

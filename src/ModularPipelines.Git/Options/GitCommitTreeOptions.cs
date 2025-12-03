@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("commit-tree")]
+[CliCommand("commit-tree")]
 [ExcludeFromCodeCoverage]
 public record GitCommitTreeOptions : GitOptions
 {
-    [CommandEqualsSeparatorSwitch("--gpg-sign")]
+    [CliOption("--gpg-sign", Format = OptionFormat.EqualsSeparated)]
     public string? GpgSign { get; set; }
 
-    [BooleanCommandSwitch("--no-gpg-sign")]
+    [CliFlag("--no-gpg-sign")]
     public virtual bool? NoGpgSign { get; set; }
 }

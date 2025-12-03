@@ -4,58 +4,58 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stack", "sub", "create")]
+[CliCommand("stack", "sub", "create")]
 public record AzStackSubCreateOptions(
-[property: CommandSwitch("--deny-settings-mode")] string DenySettingsMode,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--deny-settings-mode")] string DenySettingsMode,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--cs")]
+    [CliFlag("--cs")]
     public bool? Cs { get; set; }
 
-    [BooleanCommandSwitch("--delete-all")]
+    [CliFlag("--delete-all")]
     public bool? DeleteAll { get; set; }
 
-    [BooleanCommandSwitch("--delete-resource-groups")]
+    [CliFlag("--delete-resource-groups")]
     public bool? DeleteResourceGroups { get; set; }
 
-    [BooleanCommandSwitch("--delete-resources")]
+    [CliFlag("--delete-resources")]
     public bool? DeleteResources { get; set; }
 
-    [CommandSwitch("--deny-settings-excluded-actions")]
+    [CliOption("--deny-settings-excluded-actions")]
     public string? DenySettingsExcludedActions { get; set; }
 
-    [CommandSwitch("--deny-settings-excluded-principals")]
+    [CliOption("--deny-settings-excluded-principals")]
     public string? DenySettingsExcludedPrincipals { get; set; }
 
-    [CommandSwitch("--deployment-resource-group")]
+    [CliOption("--deployment-resource-group")]
     public string? DeploymentResourceGroup { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--query-string")]
+    [CliOption("--query-string")]
     public string? QueryString { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--template-file")]
+    [CliOption("--template-file")]
     public string? TemplateFile { get; set; }
 
-    [CommandSwitch("--template-spec")]
+    [CliOption("--template-spec")]
     public string? TemplateSpec { get; set; }
 
-    [CommandSwitch("--template-uri")]
+    [CliOption("--template-uri")]
     public string? TemplateUri { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

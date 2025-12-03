@@ -23,27 +23,27 @@ public record DotNetNugetDeleteOptions : DotNetOptions
         CommandParts = ["nuget", "delete", "<PACKAGE_NAME>", "<PACKAGE_VERSION>"];
     }
 
-    [PositionalArgument(PlaceholderName = "<PACKAGE_NAME>")]
+    [CliArgument(Name = "<PACKAGE_NAME>")]
     public string? PackageName { get; set; }
 
-    [PositionalArgument(PlaceholderName = "<PACKAGE_VERSION>")]
+    [CliArgument(Name = "<PACKAGE_VERSION>")]
     public string? PackageVersion { get; set; }
 
-    [BooleanCommandSwitch("--force-english-output")]
+    [CliFlag("--force-english-output")]
     public virtual bool? ForceEnglishOutput { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [CommandSwitch("--api-key")]
+    [CliOption("--api-key")]
     public virtual string? ApiKey { get; set; }
 
-    [BooleanCommandSwitch("--no-service-endpoint")]
+    [CliFlag("--no-service-endpoint")]
     public virtual bool? NoServiceEndpoint { get; set; }
 
-    [BooleanCommandSwitch("--non-interactive")]
+    [CliFlag("--non-interactive")]
     public virtual bool? NonInteractive { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public virtual string? Source { get; set; }
 }

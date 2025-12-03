@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instance-groups", "managed", "delete")]
+[CliCommand("compute", "instance-groups", "managed", "delete")]
 public record GcloudComputeInstanceGroupsManagedDeleteOptions(
-[property: PositionalArgument] string Names
+[property: CliArgument] string Names
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

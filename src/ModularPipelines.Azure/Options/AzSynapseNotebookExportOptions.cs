@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "notebook", "export")]
+[CliCommand("synapse", "notebook", "export")]
 public record AzSynapseNotebookExportOptions(
-[property: CommandSwitch("--output-folder")] string OutputFolder,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--output-folder")] string OutputFolder,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 }

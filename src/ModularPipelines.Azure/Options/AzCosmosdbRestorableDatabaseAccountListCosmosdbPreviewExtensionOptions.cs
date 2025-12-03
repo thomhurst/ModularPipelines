@@ -7,9 +7,9 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("cosmosdb", "restorable-database-account", "list", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbRestorableDatabaseAccountListCosmosdbPreviewExtensionOptions : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tsi")]
+[CliCommand("tsi")]
 public class AzTsiEnvironment
 {
     public AzTsiEnvironment(

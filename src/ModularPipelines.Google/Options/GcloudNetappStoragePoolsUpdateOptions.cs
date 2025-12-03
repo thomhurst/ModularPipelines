@@ -5,30 +5,30 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "storage-pools", "update")]
+[CliCommand("netapp", "storage-pools", "update")]
 public record GcloudNetappStoragePoolsUpdateOptions(
-[property: PositionalArgument] string StoragePool,
-[property: PositionalArgument] string Location
+[property: CliArgument] string StoragePool,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--active-directory")]
+    [CliOption("--active-directory")]
     public string? ActiveDirectory { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--capacity")]
+    [CliOption("--capacity")]
     public string? Capacity { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 }

@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("proton", "update-service-instance")]
+[CliCommand("proton", "update-service-instance")]
 public record AwsProtonUpdateServiceInstanceOptions(
-[property: CommandSwitch("--deployment-type")] string DeploymentType,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--deployment-type")] string DeploymentType,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--service-name")] string ServiceName
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--spec")]
+    [CliOption("--spec")]
     public string? Spec { get; set; }
 
-    [CommandSwitch("--template-major-version")]
+    [CliOption("--template-major-version")]
     public string? TemplateMajorVersion { get; set; }
 
-    [CommandSwitch("--template-minor-version")]
+    [CliOption("--template-minor-version")]
     public string? TemplateMinorVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "workspace", "private-endpoint", "add")]
+[CliCommand("ml", "workspace", "private-endpoint", "add")]
 public record AzMlWorkspacePrivateEndpointAddOptions : AzOptions
 {
-    [CommandSwitch("--output-metadata-file")]
+    [CliOption("--output-metadata-file")]
     public string? OutputMetadataFile { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [BooleanCommandSwitch("--pe-auto-approval")]
+    [CliFlag("--pe-auto-approval")]
     public bool? PeAutoApproval { get; set; }
 
-    [CommandSwitch("--pe-location")]
+    [CliOption("--pe-location")]
     public string? PeLocation { get; set; }
 
-    [CommandSwitch("--pe-name")]
+    [CliOption("--pe-name")]
     public string? PeName { get; set; }
 
-    [CommandSwitch("--pe-resource-group")]
+    [CliOption("--pe-resource-group")]
     public string? PeResourceGroup { get; set; }
 
-    [CommandSwitch("--pe-subnet-name")]
+    [CliOption("--pe-subnet-name")]
     public string? PeSubnetName { get; set; }
 
-    [CommandSwitch("--pe-subscription-id")]
+    [CliOption("--pe-subscription-id")]
     public string? PeSubscriptionId { get; set; }
 
-    [CommandSwitch("--pe-vnet-name")]
+    [CliOption("--pe-vnet-name")]
     public string? PeVnetName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription-id")]
+    [CliOption("--subscription-id")]
     public string? SubscriptionId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

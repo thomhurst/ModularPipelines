@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "diagnostics", "set")]
+[CliCommand("vm", "diagnostics", "set")]
 public record AzVmDiagnosticsSetOptions(
-[property: CommandSwitch("--settings")] string Settings
+[property: CliOption("--settings")] string Settings
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-auto-upgrade-minor-version")]
+    [CliFlag("--no-auto-upgrade-minor-version")]
     public bool? NoAutoUpgradeMinorVersion { get; set; }
 
-    [CommandSwitch("--protected-settings")]
+    [CliOption("--protected-settings")]
     public string? ProtectedSettings { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 
-    [CommandSwitch("--vm-name")]
+    [CliOption("--vm-name")]
     public string? VmName { get; set; }
 }

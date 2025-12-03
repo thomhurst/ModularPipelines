@@ -4,59 +4,59 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("new")]
+[CliCommand("new")]
 public record NewOptions(
-    [property: PositionalArgument] string Name
+    [property: CliArgument] string Name
 ) : ChocoOptions
 {
-    [BooleanCommandSwitch("--automaticpackage")]
+    [CliFlag("--automaticpackage")]
     public virtual bool? Automaticpackage { get; set; }
 
-    [CommandSwitch("--template-name")]
+    [CliOption("--template-name")]
     public virtual string? TemplateName { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public virtual string? Version { get; set; }
 
-    [CommandSwitch("--maintainer")]
+    [CliOption("--maintainer")]
     public virtual string? Maintainer { get; set; }
 
-    [CommandSwitch("--output-directory")]
+    [CliOption("--output-directory")]
     public virtual string? OutputDirectory { get; set; }
 
-    [BooleanCommandSwitch("--use-built-in-template")]
+    [CliFlag("--use-built-in-template")]
     public virtual bool? UseBuiltInTemplate { get; set; }
 
-    [CommandSwitch("--url")]
+    [CliOption("--url")]
     public virtual string? Url { get; set; }
 
-    [CommandSwitch("--url64")]
+    [CliOption("--url64")]
     public virtual string? Url64 { get; set; }
 
-    [BooleanCommandSwitch("--use-original-files-location")]
+    [CliFlag("--use-original-files-location")]
     public virtual bool? UseOriginalFilesLocation { get; set; }
 
-    [CommandSwitch("--download-checksum")]
+    [CliOption("--download-checksum")]
     public virtual string? DownloadChecksum { get; set; }
 
-    [CommandSwitch("--download-checksum-x64")]
+    [CliOption("--download-checksum-x64")]
     public virtual string? DownloadChecksumX64 { get; set; }
 
-    [CommandSwitch("--download-checksum-type")]
+    [CliOption("--download-checksum-type")]
     public virtual string? DownloadChecksumType { get; set; }
 
-    [BooleanCommandSwitch("--pause-on-error")]
+    [CliFlag("--pause-on-error")]
     public virtual bool? PauseOnError { get; set; }
 
-    [BooleanCommandSwitch("--build-packages")]
+    [CliFlag("--build-packages")]
     public virtual bool? BuildPackages { get; set; }
 
-    [BooleanCommandSwitch("--from-programs-and-features")]
+    [CliFlag("--from-programs-and-features")]
     public virtual bool? FromProgramsAndFeatures { get; set; }
 
-    [BooleanCommandSwitch("--remove-architecture-from-name")]
+    [CliFlag("--remove-architecture-from-name")]
     public virtual bool? RemoveArchitectureFromName { get; set; }
 
-    [BooleanCommandSwitch("--include-architecture-in-name")]
+    [CliFlag("--include-architecture-in-name")]
     public virtual bool? IncludeArchitectureInName { get; set; }
 }

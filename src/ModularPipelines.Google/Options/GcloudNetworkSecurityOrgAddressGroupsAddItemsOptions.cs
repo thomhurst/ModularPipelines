@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-security", "org-address-groups", "add-items")]
+[CliCommand("network-security", "org-address-groups", "add-items")]
 public record GcloudNetworkSecurityOrgAddressGroupsAddItemsOptions(
-[property: PositionalArgument] string AddressGroup,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Organization
+[property: CliArgument] string AddressGroup,
+[property: CliArgument] string Location,
+[property: CliArgument] string Organization
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--items")]
+    [CliOption("--items")]
     public string[]? Items { get; set; }
 }

@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dnc", "orchestrator-instance-service", "create")]
+[CliCommand("dnc", "orchestrator-instance-service", "create")]
 public record AzDncOrchestratorInstanceServiceCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--api-server-endpoint")]
+    [CliOption("--api-server-endpoint")]
     public string? ApiServerEndpoint { get; set; }
 
-    [CommandSwitch("--cluster-root-ca")]
+    [CliOption("--cluster-root-ca")]
     public string? ClusterRootCa { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--kind")]
+    [CliOption("--kind")]
     public string? Kind { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--orchestrator-app-id")]
+    [CliOption("--orchestrator-app-id")]
     public string? OrchestratorAppId { get; set; }
 
-    [CommandSwitch("--orchestrator-tenant-id")]
+    [CliOption("--orchestrator-tenant-id")]
     public string? OrchestratorTenantId { get; set; }
 
-    [CommandSwitch("--priv-link-resource-id")]
+    [CliOption("--priv-link-resource-id")]
     public string? PrivLinkResourceId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 }

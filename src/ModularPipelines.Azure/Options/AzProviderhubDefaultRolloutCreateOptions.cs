@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("providerhub", "default-rollout", "create")]
+[CliCommand("providerhub", "default-rollout", "create")]
 public record AzProviderhubDefaultRolloutCreateOptions(
-[property: CommandSwitch("--provider-namespace")] string ProviderNamespace,
-[property: CommandSwitch("--rollout-name")] string RolloutName
+[property: CliOption("--provider-namespace")] string ProviderNamespace,
+[property: CliOption("--rollout-name")] string RolloutName
 ) : AzOptions
 {
-    [CommandSwitch("--canary")]
+    [CliOption("--canary")]
     public string? Canary { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--rest-of-the-world-group-two")]
+    [CliOption("--rest-of-the-world-group-two")]
     public string? RestOfTheWorldGroupTwo { get; set; }
 }

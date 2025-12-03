@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "update-model-card")]
+[CliCommand("sagemaker", "update-model-card")]
 public record AwsSagemakerUpdateModelCardOptions(
-[property: CommandSwitch("--model-card-name")] string ModelCardName
+[property: CliOption("--model-card-name")] string ModelCardName
 ) : AwsOptions
 {
-    [CommandSwitch("--content")]
+    [CliOption("--content")]
     public string? Content { get; set; }
 
-    [CommandSwitch("--model-card-status")]
+    [CliOption("--model-card-status")]
     public string? ModelCardStatus { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

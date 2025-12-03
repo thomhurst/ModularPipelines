@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "versions", "delete")]
+[CliCommand("artifacts", "versions", "delete")]
 public record GcloudArtifactsVersionsDeleteOptions : GcloudOptions
 {
     public GcloudArtifactsVersionsDeleteOptions(
@@ -20,21 +20,21 @@ public record GcloudArtifactsVersionsDeleteOptions : GcloudOptions
         Repository = repository;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudArtifactsVersionsDeleteOptionsVersion { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Location { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Package { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Repository { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--delete-tags")]
+    [CliFlag("--delete-tags")]
     public bool? DeleteTags { get; set; }
 }

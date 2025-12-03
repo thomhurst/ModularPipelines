@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "buckets")]
+[CliCommand("storage", "buckets")]
 public class GcloudStorageBucketsNotifications
 {
     public GcloudStorageBucketsNotifications(

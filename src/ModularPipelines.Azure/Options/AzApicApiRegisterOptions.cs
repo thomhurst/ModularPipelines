@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apic", "api", "register")]
+[CliCommand("apic", "api", "register")]
 public record AzApicApiRegisterOptions(
-[property: CommandSwitch("--api-location")] string ApiLocation,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--api-location")] string ApiLocation,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--environment-name")]
+    [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 }

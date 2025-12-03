@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "watcher", "run-configuration-diagnostic")]
+[CliCommand("network", "watcher", "run-configuration-diagnostic")]
 public record AzNetworkWatcherRunConfigurationDiagnosticOptions(
-[property: CommandSwitch("--resource")] string Resource
+[property: CliOption("--resource")] string Resource
 ) : AzOptions
 {
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 
-    [CommandSwitch("--direction")]
+    [CliOption("--direction")]
     public string? Direction { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--parent")]
+    [CliOption("--parent")]
     public string? Parent { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--queries")]
+    [CliOption("--queries")]
     public string? Queries { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 }

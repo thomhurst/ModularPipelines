@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint", "get-journey-runs")]
+[CliCommand("pinpoint", "get-journey-runs")]
 public record AwsPinpointGetJourneyRunsOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--journey-id")] string JourneyId
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--journey-id")] string JourneyId
 ) : AwsOptions
 {
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public string? PageSize { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

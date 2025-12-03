@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "perimeter", "profile", "access-rule", "list")]
+[CliCommand("network", "perimeter", "profile", "access-rule", "list")]
 public record AzNetworkPerimeterProfileAccessRuleListOptions(
-[property: CommandSwitch("--perimeter-name")] string PerimeterName,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--perimeter-name")] string PerimeterName,
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--skip-token")]
+    [CliOption("--skip-token")]
     public string? SkipToken { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "workspace")]
+[CliCommand("synapse", "workspace")]
 public class AzSynapseWorkspaceFirewallRule
 {
     public AzSynapseWorkspaceFirewallRule(

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "waf-policy", "managed-rules", "list")]
+[CliCommand("network", "front-door", "waf-policy", "managed-rules", "list")]
 public record AzNetworkFrontDoorWafPolicyManagedRulesListOptions(
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--policy-name")] string PolicyName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

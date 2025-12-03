@@ -3,58 +3,58 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("replace")]
+[CliCommand("replace")]
 [ExcludeFromCodeCoverage]
 public record KubernetesReplaceOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cascade", SwitchValueSeparator = " ")]
+    [CliOption("--cascade")]
     public string? Cascade { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CliOption("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CliOption("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
+    [CliOption("--filename")]
     public string[]? Filename { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--grace-period", SwitchValueSeparator = " ")]
+    [CliOption("--grace-period")]
     public int? GracePeriod { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CliOption("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--raw", SwitchValueSeparator = " ")]
+    [CliOption("--raw")]
     public string? Raw { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [BooleanCommandSwitch("--save-config")]
+    [CliFlag("--save-config")]
     public virtual bool? SaveConfig { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CliOption("--template")]
     public string? Template { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [BooleanCommandSwitch("--validate")]
+    [CliFlag("--validate")]
     public virtual bool? Validate { get; set; }
 
-    [BooleanCommandSwitch("--wait")]
+    [CliFlag("--wait")]
     public virtual bool? Wait { get; set; }
 }

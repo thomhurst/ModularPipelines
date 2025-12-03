@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("trust", "key", "generate")]
+[CliCommand("trust", "key", "generate")]
 [ExcludeFromCodeCoverage]
 public record DockerTrustKeyGenerateOptions : DockerOptions
 {
-    [CommandSwitch("--dir")]
+    [CliOption("--dir")]
     public virtual string? Dir { get; set; }
 }

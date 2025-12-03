@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "mesh", "disable")]
+[CliCommand("container", "fleet", "mesh", "disable")]
 public record GcloudContainerFleetMeshDisableOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--fleet-default-member-config")]
+    [CliFlag("--fleet-default-member-config")]
     public bool? FleetDefaultMemberConfig { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 }

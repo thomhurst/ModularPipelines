@@ -5,75 +5,75 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redis", "instances", "create")]
+[CliCommand("redis", "instances", "create")]
 public record GcloudRedisInstancesCreateOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Instance,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [CommandSwitch("--alternative-zone")]
+    [CliOption("--alternative-zone")]
     public string? AlternativeZone { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--connect-mode")]
+    [CliOption("--connect-mode")]
     public string? ConnectMode { get; set; }
 
-    [CommandSwitch("--customer-managed-key")]
+    [CliOption("--customer-managed-key")]
     public string? CustomerManagedKey { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [BooleanCommandSwitch("--enable-auth")]
+    [CliFlag("--enable-auth")]
     public bool? EnableAuth { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--maintenance-window-day")]
+    [CliOption("--maintenance-window-day")]
     public string? MaintenanceWindowDay { get; set; }
 
-    [CommandSwitch("--maintenance-window-hour")]
+    [CliOption("--maintenance-window-hour")]
     public string? MaintenanceWindowHour { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--persistence-mode")]
+    [CliOption("--persistence-mode")]
     public string? PersistenceMode { get; set; }
 
-    [CommandSwitch("--rdb-snapshot-period")]
+    [CliOption("--rdb-snapshot-period")]
     public string? RdbSnapshotPeriod { get; set; }
 
-    [CommandSwitch("--rdb-snapshot-start-time")]
+    [CliOption("--rdb-snapshot-start-time")]
     public string? RdbSnapshotStartTime { get; set; }
 
-    [CommandSwitch("--read-replicas-mode")]
+    [CliOption("--read-replicas-mode")]
     public string? ReadReplicasMode { get; set; }
 
-    [CommandSwitch("--redis-config")]
+    [CliOption("--redis-config")]
     public IEnumerable<KeyValue>? RedisConfig { get; set; }
 
-    [CommandSwitch("--redis-version")]
+    [CliOption("--redis-version")]
     public string? RedisVersion { get; set; }
 
-    [CommandSwitch("--replica-count")]
+    [CliOption("--replica-count")]
     public string? ReplicaCount { get; set; }
 
-    [CommandSwitch("--reserved-ip-range")]
+    [CliOption("--reserved-ip-range")]
     public string? ReservedIpRange { get; set; }
 
-    [CommandSwitch("--size")]
+    [CliOption("--size")]
     public string? Size { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [CommandSwitch("--transit-encryption-mode")]
+    [CliOption("--transit-encryption-mode")]
     public string? TransitEncryptionMode { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

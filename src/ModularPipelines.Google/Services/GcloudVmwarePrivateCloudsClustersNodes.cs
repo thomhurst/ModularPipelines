@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-clouds", "clusters")]
+[CliCommand("vmware", "private-clouds", "clusters")]
 public class GcloudVmwarePrivateCloudsClustersNodes
 {
     public GcloudVmwarePrivateCloudsClustersNodes(

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "azure", "clients", "delete")]
+[CliCommand("container", "azure", "clients", "delete")]
 public record GcloudContainerAzureClientsDeleteOptions(
-[property: PositionalArgument] string Client,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Client,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--allow-missing")]
+    [CliFlag("--allow-missing")]
     public bool? AllowMissing { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

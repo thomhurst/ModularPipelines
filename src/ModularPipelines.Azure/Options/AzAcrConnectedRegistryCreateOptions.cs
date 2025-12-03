@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "connected-registry", "create")]
+[CliCommand("acr", "connected-registry", "create")]
 public record AzAcrConnectedRegistryCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--name")] string Name,
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--client-tokens")]
+    [CliOption("--client-tokens")]
     public string? ClientTokens { get; set; }
 
-    [CommandSwitch("--log-level")]
+    [CliOption("--log-level")]
     public string? LogLevel { get; set; }
 
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public string? Mode { get; set; }
 
-    [CommandSwitch("--notifications")]
+    [CliOption("--notifications")]
     public string? Notifications { get; set; }
 
-    [CommandSwitch("--parent")]
+    [CliOption("--parent")]
     public string? Parent { get; set; }
 
-    [CommandSwitch("--repository")]
+    [CliOption("--repository")]
     public string? Repository { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sync-message-ttl")]
+    [CliOption("--sync-message-ttl")]
     public string? SyncMessageTtl { get; set; }
 
-    [CommandSwitch("--sync-schedule")]
+    [CliOption("--sync-schedule")]
     public string? SyncSchedule { get; set; }
 
-    [CommandSwitch("--sync-token")]
+    [CliOption("--sync-token")]
     public string? SyncToken { get; set; }
 
-    [CommandSwitch("--sync-window")]
+    [CliOption("--sync-window")]
     public string? SyncWindow { get; set; }
 }

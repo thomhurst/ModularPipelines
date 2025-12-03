@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("export")]
+[CliCommand("export")]
 public record ExportOptions : ChocoOptions
 {
-    [CommandSwitch("--output-file-path")]
+    [CliOption("--output-file-path")]
     public virtual string? OutputFilePath { get; set; }
 
-    [BooleanCommandSwitch("--include-version")]
+    [CliFlag("--include-version")]
     public virtual bool? IncludeVersion { get; set; }
 }

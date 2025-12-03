@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-security", "gateway-security-policies", "rules", "import")]
+[CliCommand("network-security", "gateway-security-policies", "rules", "import")]
 public record GcloudNetworkSecurityGatewaySecurityPoliciesRulesImportOptions(
-[property: PositionalArgument] string GatewaySecurityPolicyRule,
-[property: PositionalArgument] string GatewaySecurityPolicy,
-[property: PositionalArgument] string Location
+[property: CliArgument] string GatewaySecurityPolicyRule,
+[property: CliArgument] string GatewaySecurityPolicy,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connection", "preview-configuration", "keyvault")]
+[CliCommand("connection", "preview-configuration", "keyvault")]
 public record AzConnectionPreviewConfigurationKeyvaultOptions : AzOptions
 {
-    [CommandSwitch("--client-type")]
+    [CliOption("--client-type")]
     public string? ClientType { get; set; }
 
-    [CommandSwitch("--service-principal")]
+    [CliOption("--service-principal")]
     public string? ServicePrincipal { get; set; }
 
-    [CommandSwitch("--user-account")]
+    [CliOption("--user-account")]
     public int? UserAccount { get; set; }
 }

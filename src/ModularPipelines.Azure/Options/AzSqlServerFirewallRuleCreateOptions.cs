@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "server", "firewall-rule", "create")]
+[CliCommand("sql", "server", "firewall-rule", "create")]
 public record AzSqlServerFirewallRuleCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--server")] string Server
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--server")] string Server
 ) : AzOptions
 {
-    [CommandSwitch("--end-ip-address")]
+    [CliOption("--end-ip-address")]
     public string? EndIpAddress { get; set; }
 
-    [CommandSwitch("--start-ip-address")]
+    [CliOption("--start-ip-address")]
     public string? StartIpAddress { get; set; }
 }

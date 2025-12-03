@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("provider", "unregister")]
+[CliCommand("provider", "unregister")]
 public record AzProviderUnregisterOptions(
-[property: CommandSwitch("--namespace")] string Namespace
+[property: CliOption("--namespace")] string Namespace
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--wait")]
+    [CliFlag("--wait")]
     public bool? Wait { get; set; }
 }

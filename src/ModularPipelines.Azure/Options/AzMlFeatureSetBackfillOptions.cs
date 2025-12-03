@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "feature-set", "backfill")]
+[CliCommand("ml", "feature-set", "backfill")]
 public record AzMlFeatureSetBackfillOptions : AzOptions
 {
-    [CommandSwitch("--by-data-status")]
+    [CliOption("--by-data-status")]
     public string? ByDataStatus { get; set; }
 
-    [CommandSwitch("--by-job-id")]
+    [CliOption("--by-job-id")]
     public string? ByJobId { get; set; }
 
-    [CommandSwitch("--compute-resource")]
+    [CliOption("--compute-resource")]
     public string? ComputeResource { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--feature-store-name")]
+    [CliOption("--feature-store-name")]
     public string? FeatureStoreName { get; set; }
 
-    [CommandSwitch("--feature-window-end-time")]
+    [CliOption("--feature-window-end-time")]
     public string? FeatureWindowEndTime { get; set; }
 
-    [CommandSwitch("--feature-window-start-time")]
+    [CliOption("--feature-window-start-time")]
     public string? FeatureWindowStartTime { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--spark-configuration-settings")]
+    [CliOption("--spark-configuration-settings")]
     public string? SparkConfigurationSettings { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 }

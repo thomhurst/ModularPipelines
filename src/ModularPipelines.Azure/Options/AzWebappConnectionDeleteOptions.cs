@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "connection", "delete")]
+[CliCommand("webapp", "connection", "delete")]
 public record AzWebappConnectionDeleteOptions : AzOptions
 {
-    [CommandSwitch("--connection")]
+    [CliOption("--connection")]
     public string? Connection { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

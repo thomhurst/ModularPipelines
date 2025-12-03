@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "users", "set-password-policy")]
+[CliCommand("sql", "users", "set-password-policy")]
 public record GcloudSqlUsersSetPasswordPolicyOptions(
-[property: PositionalArgument] string Username,
-[property: CommandSwitch("--instance")] string Instance
+[property: CliArgument] string Username,
+[property: CliOption("--instance")] string Instance
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--clear-password-policy")]
+    [CliFlag("--clear-password-policy")]
     public bool? ClearPasswordPolicy { get; set; }
 
-    [CommandSwitch("--host")]
+    [CliOption("--host")]
     public string? Host { get; set; }
 
-    [CommandSwitch("--password-policy-allowed-failed-attempts")]
+    [CliOption("--password-policy-allowed-failed-attempts")]
     public string? PasswordPolicyAllowedFailedAttempts { get; set; }
 
-    [CommandSwitch("--[no-]password-policy-enable-failed-attempts-check")]
+    [CliOption("--[no-]password-policy-enable-failed-attempts-check")]
     public string[]? NoPasswordPolicyEnableFailedAttemptsCheck { get; set; }
 
-    [CommandSwitch("--[no-]password-policy-enable-password-verification")]
+    [CliOption("--[no-]password-policy-enable-password-verification")]
     public string[]? NoPasswordPolicyEnablePasswordVerification { get; set; }
 
-    [CommandSwitch("--password-policy-password-expiration-duration")]
+    [CliOption("--password-policy-password-expiration-duration")]
     public string? PasswordPolicyPasswordExpirationDuration { get; set; }
 }

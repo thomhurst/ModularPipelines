@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "protection", "disable")]
+[CliCommand("backup", "protection", "disable")]
 public record AzBackupProtectionDisableOptions : AzOptions
 {
-    [CommandSwitch("--backup-management-type")]
+    [CliOption("--backup-management-type")]
     public string? BackupManagementType { get; set; }
 
-    [CommandSwitch("--container-name")]
+    [CliOption("--container-name")]
     public string? ContainerName { get; set; }
 
-    [BooleanCommandSwitch("--delete-backup-data")]
+    [CliFlag("--delete-backup-data")]
     public bool? DeleteBackupData { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--item-name")]
+    [CliOption("--item-name")]
     public string? ItemName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--retain-as-per-policy")]
+    [CliFlag("--retain-as-per-policy")]
     public bool? RetainAsPerPolicy { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tenant-id")]
+    [CliOption("--tenant-id")]
     public string? TenantId { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 
-    [CommandSwitch("--workload-type")]
+    [CliOption("--workload-type")]
     public string? WorkloadType { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

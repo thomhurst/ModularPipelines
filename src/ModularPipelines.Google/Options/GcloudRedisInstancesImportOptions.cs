@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redis", "instances", "import")]
+[CliCommand("redis", "instances", "import")]
 public record GcloudRedisInstancesImportOptions(
-[property: PositionalArgument] string Source,
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Source,
+[property: CliArgument] string Instance,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

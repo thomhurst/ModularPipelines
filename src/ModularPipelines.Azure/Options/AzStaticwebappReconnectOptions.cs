@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("staticwebapp", "reconnect")]
+[CliCommand("staticwebapp", "reconnect")]
 public record AzStaticwebappReconnectOptions(
-[property: CommandSwitch("--branch")] string Branch,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--source")] string Source
+[property: CliOption("--branch")] string Branch,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--source")] string Source
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--login-with-github")]
+    [CliFlag("--login-with-github")]
     public bool? LoginWithGithub { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 }

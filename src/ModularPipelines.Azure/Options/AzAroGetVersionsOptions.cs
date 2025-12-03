@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aro", "get-versions")]
+[CliCommand("aro", "get-versions")]
 public record AzAroGetVersionsOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : AzOptions;

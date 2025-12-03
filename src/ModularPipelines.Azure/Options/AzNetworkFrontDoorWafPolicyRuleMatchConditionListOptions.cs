@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "waf-policy", "rule", "match-condition", "list")]
+[CliCommand("network", "front-door", "waf-policy", "rule", "match-condition", "list")]
 public record AzNetworkFrontDoorWafPolicyRuleMatchConditionListOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--policy-name")] string PolicyName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--defer")]
+    [CliOption("--defer")]
     public string? Defer { get; set; }
 }

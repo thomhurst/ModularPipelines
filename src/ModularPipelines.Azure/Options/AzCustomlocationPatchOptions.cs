@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("customlocation", "patch")]
+[CliCommand("customlocation", "patch")]
 public record AzCustomlocationPatchOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--assign-identity")]
+    [CliOption("--assign-identity")]
     public string? AssignIdentity { get; set; }
 
-    [CommandSwitch("--cluster-extension-ids")]
+    [CliOption("--cluster-extension-ids")]
     public string? ClusterExtensionIds { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--host-resource-id")]
+    [CliOption("--host-resource-id")]
     public string? HostResourceId { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

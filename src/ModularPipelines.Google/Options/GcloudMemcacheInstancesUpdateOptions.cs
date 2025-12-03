@@ -5,37 +5,37 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memcache", "instances", "update")]
+[CliCommand("memcache", "instances", "update")]
 public record GcloudMemcacheInstancesUpdateOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--parameters")] IEnumerable<KeyValue> Parameters,
-[property: BooleanCommandSwitch("listen-backlog")] bool ListenBacklog,
-[property: BooleanCommandSwitch("disable-flush-all")] bool DisableFlushAll,
-[property: BooleanCommandSwitch("max-item-size")] bool MaxItemSize,
-[property: BooleanCommandSwitch("slab-min-size")] bool SlabMinSize,
-[property: BooleanCommandSwitch("slab-growth-factor")] bool SlabGrowthFactor,
-[property: BooleanCommandSwitch("protocol")] bool Protocol,
-[property: BooleanCommandSwitch("disable-cas")] bool DisableCas,
-[property: BooleanCommandSwitch("disable-evictions")] bool DisableEvictions,
-[property: BooleanCommandSwitch("max-reqs-per-event")] bool MaxReqsPerEvent,
-[property: BooleanCommandSwitch("track-sizes")] bool TrackSizes,
-[property: BooleanCommandSwitch("worker-logbuf-size")] bool WorkerLogbufSize,
-[property: BooleanCommandSwitch("watcher-logbuf-size")] bool WatcherLogbufSize,
-[property: BooleanCommandSwitch("lru-crawler")] bool LruCrawler,
-[property: BooleanCommandSwitch("idle-timeout")] bool IdleTimeout,
-[property: BooleanCommandSwitch("lru-maintainer")] bool LruMaintainer,
-[property: BooleanCommandSwitch("maxconns-fast")] bool MaxconnsFast,
-[property: BooleanCommandSwitch("hash-algorithm")] bool HashAlgorithm,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--labels")] IEnumerable<KeyValue> Labels,
-[property: CommandSwitch("--node-count")] string NodeCount,
-[property: BooleanCommandSwitch("--maintenance-window-any")] bool MaintenanceWindowAny,
-[property: CommandSwitch("--maintenance-window-day")] string MaintenanceWindowDay,
-[property: CommandSwitch("--maintenance-window-duration")] string MaintenanceWindowDuration,
-[property: CommandSwitch("--maintenance-window-start-time")] string MaintenanceWindowStartTime
+[property: CliArgument] string Instance,
+[property: CliArgument] string Region,
+[property: CliOption("--parameters")] IEnumerable<KeyValue> Parameters,
+[property: CliFlag("listen-backlog")] bool ListenBacklog,
+[property: CliFlag("disable-flush-all")] bool DisableFlushAll,
+[property: CliFlag("max-item-size")] bool MaxItemSize,
+[property: CliFlag("slab-min-size")] bool SlabMinSize,
+[property: CliFlag("slab-growth-factor")] bool SlabGrowthFactor,
+[property: CliFlag("protocol")] bool Protocol,
+[property: CliFlag("disable-cas")] bool DisableCas,
+[property: CliFlag("disable-evictions")] bool DisableEvictions,
+[property: CliFlag("max-reqs-per-event")] bool MaxReqsPerEvent,
+[property: CliFlag("track-sizes")] bool TrackSizes,
+[property: CliFlag("worker-logbuf-size")] bool WorkerLogbufSize,
+[property: CliFlag("watcher-logbuf-size")] bool WatcherLogbufSize,
+[property: CliFlag("lru-crawler")] bool LruCrawler,
+[property: CliFlag("idle-timeout")] bool IdleTimeout,
+[property: CliFlag("lru-maintainer")] bool LruMaintainer,
+[property: CliFlag("maxconns-fast")] bool MaxconnsFast,
+[property: CliFlag("hash-algorithm")] bool HashAlgorithm,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--labels")] IEnumerable<KeyValue> Labels,
+[property: CliOption("--node-count")] string NodeCount,
+[property: CliFlag("--maintenance-window-any")] bool MaintenanceWindowAny,
+[property: CliOption("--maintenance-window-day")] string MaintenanceWindowDay,
+[property: CliOption("--maintenance-window-duration")] string MaintenanceWindowDuration,
+[property: CliOption("--maintenance-window-start-time")] string MaintenanceWindowStartTime
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

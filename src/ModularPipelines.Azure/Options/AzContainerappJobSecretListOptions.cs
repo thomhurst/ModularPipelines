@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "job", "secret", "list")]
+[CliCommand("containerapp", "job", "secret", "list")]
 public record AzContainerappJobSecretListOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--show-values")]
+    [CliFlag("--show-values")]
     public bool? ShowValues { get; set; }
 }

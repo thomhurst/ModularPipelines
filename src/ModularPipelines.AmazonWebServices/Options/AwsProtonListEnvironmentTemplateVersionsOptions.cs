@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("proton", "list-environment-template-versions")]
+[CliCommand("proton", "list-environment-template-versions")]
 public record AwsProtonListEnvironmentTemplateVersionsOptions(
-[property: CommandSwitch("--template-name")] string TemplateName
+[property: CliOption("--template-name")] string TemplateName
 ) : AwsOptions
 {
-    [CommandSwitch("--major-version")]
+    [CliOption("--major-version")]
     public string? MajorVersion { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

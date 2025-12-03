@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "namespace", "topic", "event-subscription", "wait")]
+[CliCommand("eventgrid", "namespace", "topic", "event-subscription", "wait")]
 public record AzEventgridNamespaceTopicEventSubscriptionWaitOptions : AzOptions
 {
-    [BooleanCommandSwitch("--created")]
+    [CliFlag("--created")]
     public bool? Created { get; set; }
 
-    [CommandSwitch("--custom")]
+    [CliOption("--custom")]
     public string? Custom { get; set; }
 
-    [BooleanCommandSwitch("--deleted")]
+    [CliFlag("--deleted")]
     public bool? Deleted { get; set; }
 
-    [CommandSwitch("--event-subscription-name")]
+    [CliOption("--event-subscription-name")]
     public string? EventSubscriptionName { get; set; }
 
-    [BooleanCommandSwitch("--exists")]
+    [CliFlag("--exists")]
     public bool? Exists { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--interval")]
+    [CliOption("--interval")]
     public int? Interval { get; set; }
 
-    [CommandSwitch("--namespace-name")]
+    [CliOption("--namespace-name")]
     public string? NamespaceName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--topic-name")]
+    [CliOption("--topic-name")]
     public string? TopicName { get; set; }
 
-    [BooleanCommandSwitch("--updated")]
+    [CliFlag("--updated")]
     public bool? Updated { get; set; }
 }

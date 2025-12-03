@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "product", "create")]
+[CliCommand("apim", "product", "create")]
 public record AzApimProductCreateOptions(
-[property: CommandSwitch("--product-name")] string ProductName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--product-name")] string ProductName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-name")] string ServiceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--approval-required")]
+    [CliFlag("--approval-required")]
     public bool? ApprovalRequired { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--legal-terms")]
+    [CliOption("--legal-terms")]
     public string? LegalTerms { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--product-id")]
+    [CliOption("--product-id")]
     public string? ProductId { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [BooleanCommandSwitch("--subscription-required")]
+    [CliFlag("--subscription-required")]
     public bool? SubscriptionRequired { get; set; }
 
-    [CommandSwitch("--subscriptions-limit")]
+    [CliOption("--subscriptions-limit")]
     public string? SubscriptionsLimit { get; set; }
 }

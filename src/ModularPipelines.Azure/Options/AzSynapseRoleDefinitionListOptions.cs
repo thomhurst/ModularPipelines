@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "role", "definition", "list")]
+[CliCommand("synapse", "role", "definition", "list")]
 public record AzSynapseRoleDefinitionListOptions(
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--is-built-in")]
+    [CliFlag("--is-built-in")]
     public bool? IsBuiltIn { get; set; }
 }

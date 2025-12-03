@@ -3,16 +3,16 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("test")]
+[CliCommand("test")]
 [ExcludeFromCodeCoverage]
 public record HelmTestOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--filter", SwitchValueSeparator = " ")]
+    [CliOption("--filter")]
     public string[]? Filter { get; set; }
 
-    [BooleanCommandSwitch("--logs")]
+    [CliFlag("--logs")]
     public virtual bool? Logs { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcdata")]
+[CliCommand("arcdata")]
 public class AzArcdataAdConnector
 {
     public AzArcdataAdConnector(

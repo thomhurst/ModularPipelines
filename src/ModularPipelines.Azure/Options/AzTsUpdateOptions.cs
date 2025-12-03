@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ts", "update")]
+[CliCommand("ts", "update")]
 public record AzTsUpdateOptions : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--template-file")]
+    [CliOption("--template-file")]
     public string? TemplateFile { get; set; }
 
-    [CommandSwitch("--template-spec")]
+    [CliOption("--template-spec")]
     public string? TemplateSpec { get; set; }
 
-    [CommandSwitch("--ui-form-definition")]
+    [CliOption("--ui-form-definition")]
     public string? UiFormDefinition { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 
-    [CommandSwitch("--version-description")]
+    [CliOption("--version-description")]
     public string? VersionDescription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

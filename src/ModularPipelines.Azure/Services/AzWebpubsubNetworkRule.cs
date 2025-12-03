@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webpubsub")]
+[CliCommand("webpubsub")]
 public class AzWebpubsubNetworkRule
 {
     public AzWebpubsubNetworkRule(

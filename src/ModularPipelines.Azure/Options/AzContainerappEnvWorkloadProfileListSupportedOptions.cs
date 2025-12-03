@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "env", "workload-profile", "list-supported")]
+[CliCommand("containerapp", "env", "workload-profile", "list-supported")]
 public record AzContainerappEnvWorkloadProfileListSupportedOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : AzOptions;

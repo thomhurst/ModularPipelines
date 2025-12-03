@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "api-key", "create")]
+[CliCommand("grafana", "api-key", "create")]
 public record AzGrafanaApiKeyCreateOptions(
-[property: CommandSwitch("--key")] string Key,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--key")] string Key,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--time-to-live")]
+    [CliOption("--time-to-live")]
     public string? TimeToLive { get; set; }
 }

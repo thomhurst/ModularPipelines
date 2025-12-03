@@ -4,102 +4,102 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "mi", "update")]
+[CliCommand("sql", "mi", "update")]
 public record AzSqlMiUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--admin-password")]
+    [CliOption("--admin-password")]
     public string? AdminPassword { get; set; }
 
-    [BooleanCommandSwitch("--assign-identity")]
+    [CliFlag("--assign-identity")]
     public bool? AssignIdentity { get; set; }
 
-    [CommandSwitch("--backup-storage-redundancy")]
+    [CliOption("--backup-storage-redundancy")]
     public string? BackupStorageRedundancy { get; set; }
 
-    [CommandSwitch("--capacity")]
+    [CliOption("--capacity")]
     public string? Capacity { get; set; }
 
-    [CommandSwitch("--edition")]
+    [CliOption("--edition")]
     public string? Edition { get; set; }
 
-    [CommandSwitch("--family")]
+    [CliOption("--family")]
     public string? Family { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--identity-type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--instance-pool-name")]
+    [CliOption("--instance-pool-name")]
     public string? InstancePoolName { get; set; }
 
-    [CommandSwitch("--key-id")]
+    [CliOption("--key-id")]
     public string? KeyId { get; set; }
 
-    [CommandSwitch("--license-type")]
+    [CliOption("--license-type")]
     public string? LicenseType { get; set; }
 
-    [CommandSwitch("--maint-config-id")]
+    [CliOption("--maint-config-id")]
     public string? MaintConfigId { get; set; }
 
-    [CommandSwitch("--minimal-tls-version")]
+    [CliOption("--minimal-tls-version")]
     public string? MinimalTlsVersion { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--pid")]
+    [CliOption("--pid")]
     public string? Pid { get; set; }
 
-    [CommandSwitch("--proxy-override")]
+    [CliOption("--proxy-override")]
     public string? ProxyOverride { get; set; }
 
-    [BooleanCommandSwitch("--public-data-endpoint-enabled")]
+    [CliFlag("--public-data-endpoint-enabled")]
     public bool? PublicDataEndpointEnabled { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--service-principal-type")]
+    [CliOption("--service-principal-type")]
     public string? ServicePrincipalType { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--storage")]
+    [CliOption("--storage")]
     public string? Storage { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--user-assigned-identity-id")]
+    [CliOption("--user-assigned-identity-id")]
     public string? UserAssignedIdentityId { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 
-    [BooleanCommandSwitch("--zone-redundant")]
+    [CliFlag("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 }

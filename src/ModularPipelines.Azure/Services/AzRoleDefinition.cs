@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("role")]
+[CliCommand("role")]
 public class AzRoleDefinition
 {
     public AzRoleDefinition(

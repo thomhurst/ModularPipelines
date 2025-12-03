@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "update-dashboard-permissions")]
+[CliCommand("quicksight", "update-dashboard-permissions")]
 public record AwsQuicksightUpdateDashboardPermissionsOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--dashboard-id")] string DashboardId
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--dashboard-id")] string DashboardId
 ) : AwsOptions
 {
-    [CommandSwitch("--grant-permissions")]
+    [CliOption("--grant-permissions")]
     public string[]? GrantPermissions { get; set; }
 
-    [CommandSwitch("--revoke-permissions")]
+    [CliOption("--revoke-permissions")]
     public string[]? RevokePermissions { get; set; }
 
-    [CommandSwitch("--grant-link-permissions")]
+    [CliOption("--grant-link-permissions")]
     public string[]? GrantLinkPermissions { get; set; }
 
-    [CommandSwitch("--revoke-link-permissions")]
+    [CliOption("--revoke-link-permissions")]
     public string[]? RevokeLinkPermissions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

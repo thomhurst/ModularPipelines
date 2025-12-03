@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scc", "findings", "create")]
+[CliCommand("scc", "findings", "create")]
 public record GcloudSccFindingsCreateOptions(
-[property: PositionalArgument] string Finding,
-[property: PositionalArgument] string Organization,
-[property: PositionalArgument] string Source,
-[property: CommandSwitch("--category")] string Category,
-[property: CommandSwitch("--event-time")] string EventTime,
-[property: CommandSwitch("--resource-name")] string ResourceName
+[property: CliArgument] string Finding,
+[property: CliArgument] string Organization,
+[property: CliArgument] string Source,
+[property: CliOption("--category")] string Category,
+[property: CliOption("--event-time")] string EventTime,
+[property: CliOption("--resource-name")] string ResourceName
 ) : GcloudOptions
 {
-    [CommandSwitch("--external-uri")]
+    [CliOption("--external-uri")]
     public string? ExternalUri { get; set; }
 
-    [CommandSwitch("--source-properties")]
+    [CliOption("--source-properties")]
     public IEnumerable<KeyValue>? SourceProperties { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 }

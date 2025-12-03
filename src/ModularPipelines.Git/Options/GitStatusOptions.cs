@@ -3,55 +3,55 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("status")]
+[CliCommand("status")]
 [ExcludeFromCodeCoverage]
 public record GitStatusOptions : GitOptions
 {
-    [BooleanCommandSwitch("--short")]
+    [CliFlag("--short")]
     public virtual bool? Short { get; set; }
 
-    [BooleanCommandSwitch("--branch")]
+    [CliFlag("--branch")]
     public virtual bool? Branch { get; set; }
 
-    [BooleanCommandSwitch("--show-stash")]
+    [CliFlag("--show-stash")]
     public virtual bool? ShowStash { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--porcelain")]
+    [CliOption("--porcelain", Format = OptionFormat.EqualsSeparated)]
     public string? Porcelain { get; set; }
 
-    [BooleanCommandSwitch("--long")]
+    [CliFlag("--long")]
     public virtual bool? Long { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--untracked-files")]
+    [CliOption("--untracked-files", Format = OptionFormat.EqualsSeparated)]
     public string? UntrackedFiles { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--ignore-submodules")]
+    [CliOption("--ignore-submodules", Format = OptionFormat.EqualsSeparated)]
     public string? IgnoreSubmodules { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--ignored")]
+    [CliOption("--ignored", Format = OptionFormat.EqualsSeparated)]
     public string? Ignored { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--column")]
+    [CliOption("--column", Format = OptionFormat.EqualsSeparated)]
     public string? Column { get; set; }
 
-    [BooleanCommandSwitch("--no-column")]
+    [CliFlag("--no-column")]
     public virtual bool? NoColumn { get; set; }
 
-    [BooleanCommandSwitch("--ahead-behind")]
+    [CliFlag("--ahead-behind")]
     public virtual bool? AheadBehind { get; set; }
 
-    [BooleanCommandSwitch("--no-ahead-behind")]
+    [CliFlag("--no-ahead-behind")]
     public virtual bool? NoAheadBehind { get; set; }
 
-    [BooleanCommandSwitch("--renames")]
+    [CliFlag("--renames")]
     public virtual bool? Renames { get; set; }
 
-    [BooleanCommandSwitch("--no-renames")]
+    [CliFlag("--no-renames")]
     public virtual bool? NoRenames { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--find-renames")]
+    [CliOption("--find-renames", Format = OptionFormat.EqualsSeparated)]
     public string? FindRenames { get; set; }
 }

@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "unmanaged-disk", "attach")]
+[CliCommand("vm", "unmanaged-disk", "attach")]
 public record AzVmUnmanagedDiskAttachOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vm-name")] string VmName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vm-name")] string VmName
 ) : AzOptions
 {
-    [CommandSwitch("--caching")]
+    [CliOption("--caching")]
     public string? Caching { get; set; }
 
-    [CommandSwitch("--lun")]
+    [CliOption("--lun")]
     public string? Lun { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--new")]
+    [CliFlag("--new")]
     public bool? New { get; set; }
 
-    [CommandSwitch("--size-gb")]
+    [CliOption("--size-gb")]
     public string? SizeGb { get; set; }
 
-    [CommandSwitch("--vhd-uri")]
+    [CliOption("--vhd-uri")]
     public string? VhdUri { get; set; }
 }

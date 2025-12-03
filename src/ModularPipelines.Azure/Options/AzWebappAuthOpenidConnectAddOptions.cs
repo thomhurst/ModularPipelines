@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "auth", "openid-connect", "add")]
+[CliCommand("webapp", "auth", "openid-connect", "add")]
 public record AzWebappAuthOpenidConnectAddOptions(
-[property: CommandSwitch("--provider-name")] string ProviderName
+[property: CliOption("--provider-name")] string ProviderName
 ) : AzOptions
 {
-    [CommandSwitch("--client-id")]
+    [CliOption("--client-id")]
     public string? ClientId { get; set; }
 
-    [CommandSwitch("--client-secret")]
+    [CliOption("--client-secret")]
     public string? ClientSecret { get; set; }
 
-    [CommandSwitch("--client-secret-setting-name")]
+    [CliOption("--client-secret-setting-name")]
     public string? ClientSecretSettingName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--openid-configuration")]
+    [CliOption("--openid-configuration")]
     public string? OpenidConfiguration { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string? Scopes { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

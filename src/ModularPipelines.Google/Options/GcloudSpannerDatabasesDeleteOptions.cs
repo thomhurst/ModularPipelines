@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spanner", "databases", "delete")]
+[CliCommand("spanner", "databases", "delete")]
 public record GcloudSpannerDatabasesDeleteOptions(
-[property: PositionalArgument] string Database,
-[property: PositionalArgument] string Instance
+[property: CliArgument] string Database,
+[property: CliArgument] string Instance
 ) : GcloudOptions;

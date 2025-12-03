@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("init")]
+[CliCommand("init")]
 public record GcloudInitOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--no-browser")]
+    [CliFlag("--no-browser")]
     public bool? NoBrowser { get; set; }
 
-    [BooleanCommandSwitch("--no-launch-browser")]
+    [CliFlag("--no-launch-browser")]
     public bool? NoLaunchBrowser { get; set; }
 
-    [BooleanCommandSwitch("--skip-diagnostics")]
+    [CliFlag("--skip-diagnostics")]
     public bool? SkipDiagnostics { get; set; }
 }

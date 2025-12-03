@@ -3,25 +3,25 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("apply", "view-last-applied")]
+[CliCommand("apply", "view-last-applied")]
 [ExcludeFromCodeCoverage]
-public record KubernetesApplyViewLastAppliedOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesApplyViewLastAppliedOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
+    [CliOption("--filename")]
     public string[]? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CliOption("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CliOption("--selector")]
     public string? Selector { get; set; }
 }

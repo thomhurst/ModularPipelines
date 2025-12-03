@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "watcher", "show-next-hop")]
+[CliCommand("network", "watcher", "show-next-hop")]
 public record AzNetworkWatcherShowNextHopOptions(
-[property: CommandSwitch("--dest-ip")] string DestIp,
-[property: CommandSwitch("--source-ip")] string SourceIp,
-[property: CommandSwitch("--vm")] string Vm
+[property: CliOption("--dest-ip")] string DestIp,
+[property: CliOption("--source-ip")] string SourceIp,
+[property: CliOption("--vm")] string Vm
 ) : AzOptions
 {
-    [CommandSwitch("--nic")]
+    [CliOption("--nic")]
     public string? Nic { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

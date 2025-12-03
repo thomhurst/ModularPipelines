@@ -4,82 +4,82 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "security-policies", "rules", "create")]
+[CliCommand("compute", "security-policies", "rules", "create")]
 public record GcloudComputeSecurityPoliciesRulesCreateOptions(
-[property: PositionalArgument] string Priority,
-[property: CommandSwitch("--action")] string Action,
-[property: CommandSwitch("--expression")] string Expression,
-[property: CommandSwitch("--network-dest-ip-ranges")] string[] NetworkDestIpRanges,
-[property: CommandSwitch("--network-dest-ports")] string[] NetworkDestPorts,
-[property: CommandSwitch("--network-ip-protocols")] string[] NetworkIpProtocols,
-[property: CommandSwitch("--network-src-asns")] string[] NetworkSrcAsns,
-[property: CommandSwitch("--network-src-ip-ranges")] string[] NetworkSrcIpRanges,
-[property: CommandSwitch("--network-src-ports")] string[] NetworkSrcPorts,
-[property: CommandSwitch("--network-src-region-codes")] string[] NetworkSrcRegionCodes,
-[property: CommandSwitch("--network-user-defined-fields")] string[] NetworkUserDefinedFields,
-[property: CommandSwitch("--src-ip-ranges")] string[] SrcIpRanges
+[property: CliArgument] string Priority,
+[property: CliOption("--action")] string Action,
+[property: CliOption("--expression")] string Expression,
+[property: CliOption("--network-dest-ip-ranges")] string[] NetworkDestIpRanges,
+[property: CliOption("--network-dest-ports")] string[] NetworkDestPorts,
+[property: CliOption("--network-ip-protocols")] string[] NetworkIpProtocols,
+[property: CliOption("--network-src-asns")] string[] NetworkSrcAsns,
+[property: CliOption("--network-src-ip-ranges")] string[] NetworkSrcIpRanges,
+[property: CliOption("--network-src-ports")] string[] NetworkSrcPorts,
+[property: CliOption("--network-src-region-codes")] string[] NetworkSrcRegionCodes,
+[property: CliOption("--network-user-defined-fields")] string[] NetworkUserDefinedFields,
+[property: CliOption("--src-ip-ranges")] string[] SrcIpRanges
 ) : GcloudOptions
 {
-    [CommandSwitch("--ban-duration-sec")]
+    [CliOption("--ban-duration-sec")]
     public string? BanDurationSec { get; set; }
 
-    [CommandSwitch("--ban-threshold-count")]
+    [CliOption("--ban-threshold-count")]
     public string? BanThresholdCount { get; set; }
 
-    [CommandSwitch("--ban-threshold-interval-sec")]
+    [CliOption("--ban-threshold-interval-sec")]
     public string? BanThresholdIntervalSec { get; set; }
 
-    [CommandSwitch("--conform-action")]
+    [CliOption("--conform-action")]
     public string? ConformAction { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--enforce-on-key")]
+    [CliOption("--enforce-on-key")]
     public string? EnforceOnKey { get; set; }
 
-    [CommandSwitch("--enforce-on-key-configs")]
+    [CliOption("--enforce-on-key-configs")]
     public string[]? EnforceOnKeyConfigs { get; set; }
 
-    [CommandSwitch("--enforce-on-key-name")]
+    [CliOption("--enforce-on-key-name")]
     public string? EnforceOnKeyName { get; set; }
 
-    [CommandSwitch("--exceed-action")]
+    [CliOption("--exceed-action")]
     public string? ExceedAction { get; set; }
 
-    [CommandSwitch("--exceed-redirect-target")]
+    [CliOption("--exceed-redirect-target")]
     public string? ExceedRedirectTarget { get; set; }
 
-    [CommandSwitch("--exceed-redirect-type")]
+    [CliOption("--exceed-redirect-type")]
     public string? ExceedRedirectType { get; set; }
 
-    [BooleanCommandSwitch("--preview")]
+    [CliFlag("--preview")]
     public bool? Preview { get; set; }
 
-    [CommandSwitch("--rate-limit-threshold-count")]
+    [CliOption("--rate-limit-threshold-count")]
     public string? RateLimitThresholdCount { get; set; }
 
-    [CommandSwitch("--rate-limit-threshold-interval-sec")]
+    [CliOption("--rate-limit-threshold-interval-sec")]
     public string? RateLimitThresholdIntervalSec { get; set; }
 
-    [CommandSwitch("--recaptcha-action-site-keys")]
+    [CliOption("--recaptcha-action-site-keys")]
     public string[]? RecaptchaActionSiteKeys { get; set; }
 
-    [CommandSwitch("--recaptcha-session-site-keys")]
+    [CliOption("--recaptcha-session-site-keys")]
     public string[]? RecaptchaSessionSiteKeys { get; set; }
 
-    [CommandSwitch("--redirect-target")]
+    [CliOption("--redirect-target")]
     public string? RedirectTarget { get; set; }
 
-    [CommandSwitch("--redirect-type")]
+    [CliOption("--redirect-type")]
     public string? RedirectType { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--request-headers-to-add")]
+    [CliOption("--request-headers-to-add")]
     public string[]? RequestHeadersToAdd { get; set; }
 
-    [CommandSwitch("--security-policy")]
+    [CliOption("--security-policy")]
     public string? SecurityPolicy { get; set; }
 }

@@ -3,43 +3,43 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("buildx", "bake")]
+[CliCommand("buildx", "bake")]
 [ExcludeFromCodeCoverage]
 public record DockerBuildxBakeOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Target { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public virtual string? File { get; set; }
 
-    [CommandSwitch("--load")]
+    [CliOption("--load")]
     public virtual string? Load { get; set; }
 
-    [CommandSwitch("--metadata-file")]
+    [CliOption("--metadata-file")]
     public virtual string? MetadataFile { get; set; }
 
-    [BooleanCommandSwitch("--no-cache")]
+    [CliFlag("--no-cache")]
     public virtual bool? NoCache { get; set; }
 
-    [CommandSwitch("--print")]
+    [CliOption("--print")]
     public virtual string? Print { get; set; }
 
-    [CommandSwitch("--progress")]
+    [CliOption("--progress")]
     public virtual string? Progress { get; set; }
 
-    [CommandSwitch("--provenance")]
+    [CliOption("--provenance")]
     public virtual string? Provenance { get; set; }
 
-    [BooleanCommandSwitch("--pull")]
+    [CliFlag("--pull")]
     public virtual bool? Pull { get; set; }
 
-    [BooleanCommandSwitch("--push")]
+    [CliFlag("--push")]
     public virtual bool? Push { get; set; }
 
-    [BooleanCommandSwitch("--sbom")]
+    [CliFlag("--sbom")]
     public virtual bool? Sbom { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public virtual string? Set { get; set; }
 }

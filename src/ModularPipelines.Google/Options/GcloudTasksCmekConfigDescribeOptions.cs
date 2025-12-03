@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tasks", "cmek-config", "describe")]
+[CliCommand("tasks", "cmek-config", "describe")]
 public record GcloudTasksCmekConfigDescribeOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : GcloudOptions;

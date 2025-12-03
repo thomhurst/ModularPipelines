@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("staticwebapp", "update")]
+[CliCommand("staticwebapp", "update")]
 public record AzStaticwebappUpdateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--branch")]
+    [CliOption("--branch")]
     public string? Branch { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "backend-buckets", "delete")]
+[CliCommand("compute", "backend-buckets", "delete")]
 public record GcloudComputeBackendBucketsDeleteOptions(
-[property: PositionalArgument] string BackendBucketName
+[property: CliArgument] string BackendBucketName
 ) : GcloudOptions;

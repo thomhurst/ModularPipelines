@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hpc-cache", "nfs-storage-target", "update")]
+[CliCommand("hpc-cache", "nfs-storage-target", "update")]
 public record AzHpcCacheNfsStorageTargetUpdateOptions(
-[property: CommandSwitch("--cache-name")] string CacheName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cache-name")] string CacheName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--junction")]
+    [CliOption("--junction")]
     public string? Junction { get; set; }
 
-    [CommandSwitch("--nfs3-target")]
+    [CliOption("--nfs3-target")]
     public string? Nfs3Target { get; set; }
 
-    [CommandSwitch("--nfs3-usage-model")]
+    [CliOption("--nfs3-usage-model")]
     public string? Nfs3UsageModel { get; set; }
 }

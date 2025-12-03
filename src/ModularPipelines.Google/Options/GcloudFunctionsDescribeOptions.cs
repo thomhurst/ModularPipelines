@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functions", "describe")]
+[CliCommand("functions", "describe")]
 public record GcloudFunctionsDescribeOptions(
-[property: PositionalArgument] string Name,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Name,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--gen2")]
+    [CliFlag("--gen2")]
     public bool? Gen2 { get; set; }
 }

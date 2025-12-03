@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "alert-rule", "action", "update")]
+[CliCommand("sentinel", "alert-rule", "action", "update")]
 public record AzSentinelAlertRuleActionUpdateOptions : AzOptions
 {
-    [CommandSwitch("--action-name")]
+    [CliOption("--action-name")]
     public string? ActionName { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--logic-app-resource-id")]
+    [CliOption("--logic-app-resource-id")]
     public string? LogicAppResourceId { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rule-name")]
+    [CliOption("--rule-name")]
     public string? RuleName { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--trigger-uri")]
+    [CliOption("--trigger-uri")]
     public string? TriggerUri { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

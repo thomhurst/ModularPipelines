@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "firewall", "application-rule", "create")]
+[CliCommand("network", "firewall", "application-rule", "create")]
 public record AzNetworkFirewallApplicationRuleCreateOptions(
-[property: CommandSwitch("--collection-name")] string CollectionName,
-[property: CommandSwitch("--firewall-name")] string FirewallName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--protocols")] string Protocols,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--collection-name")] string CollectionName,
+[property: CliOption("--firewall-name")] string FirewallName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--protocols")] string Protocols,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--action")]
+    [CliOption("--action")]
     public string? Action { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--fqdn-tags")]
+    [CliOption("--fqdn-tags")]
     public string? FqdnTags { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--source-addresses")]
+    [CliOption("--source-addresses")]
     public string? SourceAddresses { get; set; }
 
-    [CommandSwitch("--source-ip-groups")]
+    [CliOption("--source-ip-groups")]
     public string? SourceIpGroups { get; set; }
 
-    [CommandSwitch("--target-fqdns")]
+    [CliOption("--target-fqdns")]
     public string? TargetFqdns { get; set; }
 }

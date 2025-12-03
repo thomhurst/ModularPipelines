@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scenario", "guide")]
+[CliCommand("scenario", "guide")]
 public record AzScenarioGuideOptions : AzOptions
 {
-    [CommandSwitch("--match-rule")]
+    [CliOption("--match-rule")]
     public string? MatchRule { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? SEARCHKEYWORD { get; set; }
 }

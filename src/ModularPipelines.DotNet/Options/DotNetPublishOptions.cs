@@ -20,69 +20,69 @@ public record DotNetPublishOptions : DotNetOptions
         CommandParts = ["publish", "[<PROJECT>|<SOLUTION>]"];
     }
 
-    [PositionalArgument(PlaceholderName = "[<PROJECT>|<SOLUTION>]")]
+    [CliArgument(Name = "[<PROJECT>|<SOLUTION>]")]
     public string? ProjectSolution { get; set; }
 
-    [CommandSwitch("--arch")]
+    [CliOption("--arch")]
     public virtual string? Architecture { get; set; }
 
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public virtual string? Configuration { get; set; }
 
-    [BooleanCommandSwitch("--disable-build-servers")]
+    [CliFlag("--disable-build-servers")]
     public virtual bool? DisableBuildServers { get; set; }
 
-    [CommandSwitch("--framework")]
+    [CliOption("--framework")]
     public virtual string? Framework { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [CommandSwitch("--manifest")]
+    [CliOption("--manifest")]
     public virtual string? Manifest { get; set; }
 
-    [BooleanCommandSwitch("--no-build")]
+    [CliFlag("--no-build")]
     public virtual bool? NoBuild { get; set; }
 
-    [BooleanCommandSwitch("--no-dependencies")]
+    [CliFlag("--no-dependencies")]
     public virtual bool? NoDependencies { get; set; }
 
-    [BooleanCommandSwitch("--no-restore")]
+    [CliFlag("--no-restore")]
     public virtual bool? NoRestore { get; set; }
 
-    [BooleanCommandSwitch("--nologo")]
+    [CliFlag("--nologo")]
     public virtual bool? Nologo { get; set; }
 
-    [CommandSwitch("--output")]
+    [CliOption("--output")]
     public virtual string? OutputDirectory { get; set; }
 
-    [CommandSwitch("--os")]
+    [CliOption("--os")]
     public virtual string? Os { get; set; }
 
-    [CommandSwitch("--runtime")]
+    [CliOption("--runtime")]
     public virtual string? RuntimeIdentifier { get; set; }
 
-    [BooleanCommandSwitch("--self-contained")]
+    [CliFlag("--self-contained")]
     public virtual bool? SelfContained { get; set; }
 
-    [BooleanCommandSwitch("--no-self-contained")]
+    [CliFlag("--no-self-contained")]
     public virtual bool? NoSelfContained { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public virtual string? Source { get; set; }
 
-    [BooleanCommandSwitch("--tl")]
+    [CliFlag("--tl")]
     public virtual bool? Tl { get; set; }
 
-    [BooleanCommandSwitch("--use-current-runtime")]
+    [CliFlag("--use-current-runtime")]
     public virtual bool? UseCurrentRuntime { get; set; }
 
-    [CommandSwitch("--verbosity")]
+    [CliOption("--verbosity")]
     public virtual string? Verbosity { get; set; }
 
-    [CommandSwitch("--version-suffix")]
+    [CliOption("--version-suffix")]
     public virtual string? VersionSuffix { get; set; }
 }

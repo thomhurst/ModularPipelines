@@ -4,90 +4,90 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigee", "products", "update")]
+[CliCommand("apigee", "products", "update")]
 public record GcloudApigeeProductsUpdateOptions(
-[property: PositionalArgument] string Product,
-[property: PositionalArgument] string Organization
+[property: CliArgument] string Product,
+[property: CliArgument] string Organization
 ) : GcloudOptions
 {
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [BooleanCommandSwitch("--all-apis")]
+    [CliFlag("--all-apis")]
     public bool? AllApis { get; set; }
 
-    [CommandSwitch("--add-api")]
+    [CliOption("--add-api")]
     public string[]? AddApi { get; set; }
 
-    [CommandSwitch("--remove-api")]
+    [CliOption("--remove-api")]
     public string[]? RemoveApi { get; set; }
 
-    [BooleanCommandSwitch("--all-environments")]
+    [CliFlag("--all-environments")]
     public bool? AllEnvironments { get; set; }
 
-    [CommandSwitch("--add-environment")]
+    [CliOption("--add-environment")]
     public string[]? AddEnvironment { get; set; }
 
-    [CommandSwitch("--remove-environment")]
+    [CliOption("--remove-environment")]
     public string[]? RemoveEnvironment { get; set; }
 
-    [BooleanCommandSwitch("--all-resources")]
+    [CliFlag("--all-resources")]
     public bool? AllResources { get; set; }
 
-    [CommandSwitch("--add-resource")]
+    [CliOption("--add-resource")]
     public string[]? AddResource { get; set; }
 
-    [CommandSwitch("--remove-resource")]
+    [CliOption("--remove-resource")]
     public string[]? RemoveResource { get; set; }
 
-    [BooleanCommandSwitch("--automatic-approval")]
+    [CliFlag("--automatic-approval")]
     public bool? AutomaticApproval { get; set; }
 
-    [BooleanCommandSwitch("--manual-approval")]
+    [CliFlag("--manual-approval")]
     public bool? ManualApproval { get; set; }
 
-    [BooleanCommandSwitch("--clear-attributes")]
+    [CliFlag("--clear-attributes")]
     public bool? ClearAttributes { get; set; }
 
-    [CommandSwitch("--add-attribute")]
+    [CliOption("--add-attribute")]
     public string[]? AddAttribute { get; set; }
 
-    [CommandSwitch("--remove-attribute")]
+    [CliOption("--remove-attribute")]
     public string[]? RemoveAttribute { get; set; }
 
-    [BooleanCommandSwitch("--clear-description")]
+    [CliFlag("--clear-description")]
     public bool? ClearDescription { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--clear-oauth-scopes")]
+    [CliFlag("--clear-oauth-scopes")]
     public bool? ClearOauthScopes { get; set; }
 
-    [CommandSwitch("--add-oauth-scope")]
+    [CliOption("--add-oauth-scope")]
     public string[]? AddOauthScope { get; set; }
 
-    [CommandSwitch("--remove-oauth-scope")]
+    [CliOption("--remove-oauth-scope")]
     public string[]? RemoveOauthScope { get; set; }
 
-    [BooleanCommandSwitch("--clear-quota")]
+    [CliFlag("--clear-quota")]
     public bool? ClearQuota { get; set; }
 
-    [CommandSwitch("--quota")]
+    [CliOption("--quota")]
     public string? Quota { get; set; }
 
-    [CommandSwitch("--quota-interval")]
+    [CliOption("--quota-interval")]
     public string? QuotaInterval { get; set; }
 
-    [CommandSwitch("--quota-unit")]
+    [CliOption("--quota-unit")]
     public string? QuotaUnit { get; set; }
 
-    [BooleanCommandSwitch("--internal-access")]
+    [CliFlag("--internal-access")]
     public bool? InternalAccess { get; set; }
 
-    [BooleanCommandSwitch("--private-access")]
+    [CliFlag("--private-access")]
     public bool? PrivateAccess { get; set; }
 
-    [BooleanCommandSwitch("--public-access")]
+    [CliFlag("--public-access")]
     public bool? PublicAccess { get; set; }
 }

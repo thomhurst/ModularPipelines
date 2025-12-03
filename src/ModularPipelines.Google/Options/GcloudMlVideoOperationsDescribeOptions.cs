@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "video", "operations", "describe")]
+[CliCommand("ml", "video", "operations", "describe")]
 public record GcloudMlVideoOperationsDescribeOptions(
-[property: PositionalArgument] string Operation,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Operation,
+[property: CliArgument] string Location
 ) : GcloudOptions;

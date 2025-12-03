@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bms", "ssh-keys", "add")]
+[CliCommand("bms", "ssh-keys", "add")]
 public record GcloudBmsSshKeysAddOptions(
-[property: PositionalArgument] string SshKey,
-[property: CommandSwitch("--key")] string Key,
-[property: CommandSwitch("--key-file")] string KeyFile
+[property: CliArgument] string SshKey,
+[property: CliOption("--key")] string Key,
+[property: CliOption("--key-file")] string KeyFile
 ) : GcloudOptions;

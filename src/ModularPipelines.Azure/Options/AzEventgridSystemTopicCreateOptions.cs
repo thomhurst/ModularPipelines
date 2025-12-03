@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "system-topic", "create")]
+[CliCommand("eventgrid", "system-topic", "create")]
 public record AzEventgridSystemTopicCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--source")] string Source,
-[property: CommandSwitch("--topic-type")] string TopicType
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--source")] string Source,
+[property: CliOption("--topic-type")] string TopicType
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--mi-system-assigned")]
+    [CliOption("--mi-system-assigned")]
     public string? MiSystemAssigned { get; set; }
 
-    [CommandSwitch("--mi-user-assigned")]
+    [CliOption("--mi-user-assigned")]
     public string? MiUserAssigned { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "sql-script", "import")]
+[CliCommand("synapse", "sql-script", "import")]
 public record AzSynapseSqlScriptImportOptions(
-[property: CommandSwitch("--file")] string File,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--file")] string File,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--additional-properties")]
+    [CliOption("--additional-properties")]
     public string? AdditionalProperties { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--folder-name")]
+    [CliOption("--folder-name")]
     public string? FolderName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--result-limit")]
+    [CliOption("--result-limit")]
     public string? ResultLimit { get; set; }
 
-    [CommandSwitch("--sql-database-name")]
+    [CliOption("--sql-database-name")]
     public string? SqlDatabaseName { get; set; }
 
-    [CommandSwitch("--sql-pool-name")]
+    [CliOption("--sql-pool-name")]
     public string? SqlPoolName { get; set; }
 }

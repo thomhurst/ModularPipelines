@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "frontend-endpoint", "create")]
+[CliCommand("network", "front-door", "frontend-endpoint", "create")]
 public record AzNetworkFrontDoorFrontendEndpointCreateOptions(
-[property: CommandSwitch("--front-door-name")] string FrontDoorName,
-[property: CommandSwitch("--host-name")] string HostName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--front-door-name")] string FrontDoorName,
+[property: CliOption("--host-name")] string HostName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--session-affinity-enabled")]
+    [CliFlag("--session-affinity-enabled")]
     public bool? SessionAffinityEnabled { get; set; }
 
-    [CommandSwitch("--session-affinity-ttl")]
+    [CliOption("--session-affinity-ttl")]
     public string? SessionAffinityTtl { get; set; }
 
-    [CommandSwitch("--waf-policy")]
+    [CliOption("--waf-policy")]
     public string? WafPolicy { get; set; }
 }

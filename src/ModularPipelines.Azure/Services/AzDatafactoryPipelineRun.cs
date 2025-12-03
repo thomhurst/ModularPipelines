@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datafactory")]
+[CliCommand("datafactory")]
 public class AzDatafactoryPipelineRun
 {
     public AzDatafactoryPipelineRun(

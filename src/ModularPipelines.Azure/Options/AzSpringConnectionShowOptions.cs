@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "connection", "show")]
+[CliCommand("spring", "connection", "show")]
 public record AzSpringConnectionShowOptions : AzOptions
 {
-    [CommandSwitch("--app")]
+    [CliOption("--app")]
     public string? App { get; set; }
 
-    [CommandSwitch("--connection")]
+    [CliOption("--connection")]
     public string? Connection { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 }

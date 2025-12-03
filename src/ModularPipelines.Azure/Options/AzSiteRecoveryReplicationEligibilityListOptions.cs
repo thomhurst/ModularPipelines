@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("site-recovery", "replication-eligibility", "list")]
+[CliCommand("site-recovery", "replication-eligibility", "list")]
 public record AzSiteRecoveryReplicationEligibilityListOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--virtual-machine-name")] string VirtualMachineName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--virtual-machine-name")] string VirtualMachineName
 ) : AzOptions;

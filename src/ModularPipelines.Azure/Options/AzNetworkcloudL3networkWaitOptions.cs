@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "l3network", "wait")]
+[CliCommand("networkcloud", "l3network", "wait")]
 public record AzNetworkcloudL3networkWaitOptions : AzOptions
 {
-    [BooleanCommandSwitch("--created")]
+    [CliFlag("--created")]
     public bool? Created { get; set; }
 
-    [CommandSwitch("--custom")]
+    [CliOption("--custom")]
     public string? Custom { get; set; }
 
-    [BooleanCommandSwitch("--deleted")]
+    [CliFlag("--deleted")]
     public bool? Deleted { get; set; }
 
-    [BooleanCommandSwitch("--exists")]
+    [CliFlag("--exists")]
     public bool? Exists { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--interval")]
+    [CliOption("--interval")]
     public int? Interval { get; set; }
 
-    [CommandSwitch("--l3-network-name")]
+    [CliOption("--l3-network-name")]
     public string? L3NetworkName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [BooleanCommandSwitch("--updated")]
+    [CliFlag("--updated")]
     public bool? Updated { get; set; }
 }

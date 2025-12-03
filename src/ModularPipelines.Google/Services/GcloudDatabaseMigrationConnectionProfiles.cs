@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("database-migration")]
+[CliCommand("database-migration")]
 public class GcloudDatabaseMigrationConnectionProfiles
 {
     public GcloudDatabaseMigrationConnectionProfiles(

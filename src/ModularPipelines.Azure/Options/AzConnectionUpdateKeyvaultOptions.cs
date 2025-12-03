@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connection", "update", "keyvault")]
+[CliCommand("connection", "update", "keyvault")]
 public record AzConnectionUpdateKeyvaultOptions : AzOptions
 {
-    [CommandSwitch("--client-type")]
+    [CliOption("--client-type")]
     public string? ClientType { get; set; }
 
-    [CommandSwitch("--connection")]
+    [CliOption("--connection")]
     public string? Connection { get; set; }
 
-    [CommandSwitch("--customized-keys")]
+    [CliOption("--customized-keys")]
     public string? CustomizedKeys { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--service-principal")]
+    [CliOption("--service-principal")]
     public string? ServicePrincipal { get; set; }
 
-    [CommandSwitch("--user-account")]
+    [CliOption("--user-account")]
     public int? UserAccount { get; set; }
 }

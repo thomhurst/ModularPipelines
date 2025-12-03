@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "endpoints", "deploy-model")]
+[CliCommand("ai", "endpoints", "deploy-model")]
 public record GcloudAiEndpointsDeployModelOptions(
-[property: PositionalArgument] string Endpoint,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--model")] string Model
+[property: CliArgument] string Endpoint,
+[property: CliArgument] string Region,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--model")] string Model
 ) : GcloudOptions
 {
-    [CommandSwitch("--accelerator")]
+    [CliOption("--accelerator")]
     public string[]? Accelerator { get; set; }
 
-    [CommandSwitch("--autoscaling-metric-specs")]
+    [CliOption("--autoscaling-metric-specs")]
     public string[]? AutoscalingMetricSpecs { get; set; }
 
-    [CommandSwitch("--deployed-model-id")]
+    [CliOption("--deployed-model-id")]
     public string? DeployedModelId { get; set; }
 
-    [BooleanCommandSwitch("--disable-container-logging")]
+    [CliFlag("--disable-container-logging")]
     public bool? DisableContainerLogging { get; set; }
 
-    [BooleanCommandSwitch("--enable-access-logging")]
+    [CliFlag("--enable-access-logging")]
     public bool? EnableAccessLogging { get; set; }
 
-    [CommandSwitch("--machine-type")]
+    [CliOption("--machine-type")]
     public string? MachineType { get; set; }
 
-    [CommandSwitch("--max-replica-count")]
+    [CliOption("--max-replica-count")]
     public string? MaxReplicaCount { get; set; }
 
-    [CommandSwitch("--min-replica-count")]
+    [CliOption("--min-replica-count")]
     public string? MinReplicaCount { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [CommandSwitch("--traffic-split")]
+    [CliOption("--traffic-split")]
     public string[]? TrafficSplit { get; set; }
 }

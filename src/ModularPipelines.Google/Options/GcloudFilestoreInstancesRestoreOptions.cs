@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("filestore", "instances", "restore")]
+[CliCommand("filestore", "instances", "restore")]
 public record GcloudFilestoreInstancesRestoreOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Zone,
-[property: CommandSwitch("--file-share")] string FileShare,
-[property: CommandSwitch("--source-backup")] string SourceBackup,
-[property: CommandSwitch("--source-backup-region")] string SourceBackupRegion
+[property: CliArgument] string Instance,
+[property: CliArgument] string Zone,
+[property: CliOption("--file-share")] string FileShare,
+[property: CliOption("--source-backup")] string SourceBackup,
+[property: CliOption("--source-backup-region")] string SourceBackupRegion
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

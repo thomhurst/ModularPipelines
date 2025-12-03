@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcappliance", "troubleshoot", "command", "hci")]
+[CliCommand("arcappliance", "troubleshoot", "command", "hci")]
 public record AzArcapplianceTroubleshootCommandHciOptions : AzOptions
 {
-    [CommandSwitch("--cloudagent")]
+    [CliOption("--cloudagent")]
     public string? Cloudagent { get; set; }
 
-    [CommandSwitch("--command")]
+    [CliOption("--command")]
     public string? Command { get; set; }
 
-    [CommandSwitch("--credentials-dir")]
+    [CliOption("--credentials-dir")]
     public string? CredentialsDir { get; set; }
 
-    [CommandSwitch("--ip")]
+    [CliOption("--ip")]
     public string? Ip { get; set; }
 
-    [CommandSwitch("--loginconfigfile")]
+    [CliOption("--loginconfigfile")]
     public string? Loginconfigfile { get; set; }
 }

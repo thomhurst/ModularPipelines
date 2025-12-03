@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mysql", "flexible-server", "deploy", "run")]
+[CliCommand("mysql", "flexible-server", "deploy", "run")]
 public record AzMysqlFlexibleServerDeployRunOptions(
-[property: CommandSwitch("--action-name")] string ActionName,
-[property: CommandSwitch("--branch")] string Branch
+[property: CliOption("--action-name")] string ActionName,
+[property: CliOption("--branch")] string Branch
 ) : AzOptions;

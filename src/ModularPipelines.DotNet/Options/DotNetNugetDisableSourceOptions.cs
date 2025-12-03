@@ -15,9 +15,9 @@ public record DotNetNugetDisableSourceOptions : DotNetOptions
         Name = name;
     }
 
-    [PositionalArgument(PlaceholderName = "<NAME>")]
+    [CliArgument(Name = "<NAME>")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--configfile")]
+    [CliOption("--configfile")]
     public virtual string? Configfile { get; set; }
 }

@@ -5,12 +5,12 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("service-directory", "namespaces", "update")]
+[CliCommand("service-directory", "namespaces", "update")]
 public record GcloudServiceDirectoryNamespacesUpdateOptions(
-[property: PositionalArgument] string Namespace,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Namespace,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

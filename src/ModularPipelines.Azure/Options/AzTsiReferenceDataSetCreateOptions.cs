@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tsi", "reference-data-set", "create")]
+[CliCommand("tsi", "reference-data-set", "create")]
 public record AzTsiReferenceDataSetCreateOptions(
-[property: CommandSwitch("--environment-name")] string EnvironmentName,
-[property: CommandSwitch("--key-properties")] string KeyProperties,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--environment-name")] string EnvironmentName,
+[property: CliOption("--key-properties")] string KeyProperties,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--comparison-behavior")]
+    [CliOption("--comparison-behavior")]
     public string? ComparisonBehavior { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

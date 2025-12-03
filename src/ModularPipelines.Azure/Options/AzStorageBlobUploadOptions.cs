@@ -4,114 +4,114 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "blob", "upload")]
+[CliCommand("storage", "blob", "upload")]
 public record AzStorageBlobUploadOptions : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--blob-endpoint")]
+    [CliOption("--blob-endpoint")]
     public string? BlobEndpoint { get; set; }
 
-    [CommandSwitch("--blob-url")]
+    [CliOption("--blob-url")]
     public string? BlobUrl { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--container-name")]
+    [CliOption("--container-name")]
     public string? ContainerName { get; set; }
 
-    [CommandSwitch("--content-cache")]
+    [CliOption("--content-cache")]
     public string? ContentCache { get; set; }
 
-    [CommandSwitch("--content-disposition")]
+    [CliOption("--content-disposition")]
     public string? ContentDisposition { get; set; }
 
-    [CommandSwitch("--content-encoding")]
+    [CliOption("--content-encoding")]
     public string? ContentEncoding { get; set; }
 
-    [CommandSwitch("--content-language")]
+    [CliOption("--content-language")]
     public string? ContentLanguage { get; set; }
 
-    [CommandSwitch("--content-md5")]
+    [CliOption("--content-md5")]
     public string? ContentMd5 { get; set; }
 
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CommandSwitch("--data")]
+    [CliOption("--data")]
     public string? Data { get; set; }
 
-    [CommandSwitch("--encryption-scope")]
+    [CliOption("--encryption-scope")]
     public string? EncryptionScope { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--if-modified-since")]
+    [CliOption("--if-modified-since")]
     public string? IfModifiedSince { get; set; }
 
-    [CommandSwitch("--if-none-match")]
+    [CliOption("--if-none-match")]
     public string? IfNoneMatch { get; set; }
 
-    [CommandSwitch("--if-unmodified-since")]
+    [CliOption("--if-unmodified-since")]
     public string? IfUnmodifiedSince { get; set; }
 
-    [CommandSwitch("--lease-id")]
+    [CliOption("--lease-id")]
     public string? LeaseId { get; set; }
 
-    [CommandSwitch("--length")]
+    [CliOption("--length")]
     public string? Length { get; set; }
 
-    [CommandSwitch("--max-connections")]
+    [CliOption("--max-connections")]
     public string? MaxConnections { get; set; }
 
-    [CommandSwitch("--maxsize-condition")]
+    [CliOption("--maxsize-condition")]
     public string? MaxsizeCondition { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-progress")]
+    [CliFlag("--no-progress")]
     public bool? NoProgress { get; set; }
 
-    [BooleanCommandSwitch("--overwrite")]
+    [CliFlag("--overwrite")]
     public bool? Overwrite { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--socket-timeout")]
+    [CliOption("--socket-timeout")]
     public string? SocketTimeout { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--tags-condition")]
+    [CliOption("--tags-condition")]
     public string? TagsCondition { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [BooleanCommandSwitch("--validate-content")]
+    [CliFlag("--validate-content")]
     public bool? ValidateContent { get; set; }
 }

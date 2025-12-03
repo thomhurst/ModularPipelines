@@ -3,28 +3,28 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("apply", "set-last-applied")]
+[CliCommand("apply", "set-last-applied")]
 [ExcludeFromCodeCoverage]
 public record KubernetesApplySetLastAppliedOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [BooleanCommandSwitch("--create-annotation")]
+    [CliFlag("--create-annotation")]
     public virtual bool? CreateAnnotation { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CliOption("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
+    [CliOption("--filename")]
     public string[]? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CliOption("--template")]
     public string? Template { get; set; }
 }

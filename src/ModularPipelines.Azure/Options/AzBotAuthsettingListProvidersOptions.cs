@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bot", "authsetting", "list-providers")]
+[CliCommand("bot", "authsetting", "list-providers")]
 public record AzBotAuthsettingListProvidersOptions : AzOptions
 {
-    [CommandSwitch("--provider-name")]
+    [CliOption("--provider-name")]
     public string? ProviderName { get; set; }
 }

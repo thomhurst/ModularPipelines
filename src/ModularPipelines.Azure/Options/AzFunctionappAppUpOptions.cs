@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "app", "up")]
+[CliCommand("functionapp", "app", "up")]
 public record AzFunctionappAppUpOptions : AzOptions
 {
-    [CommandSwitch("--app-name")]
+    [CliOption("--app-name")]
     public string? AppName { get; set; }
 
-    [CommandSwitch("--branch-name")]
+    [CliOption("--branch-name")]
     public string? BranchName { get; set; }
 
-    [BooleanCommandSwitch("--do-not-wait")]
+    [CliFlag("--do-not-wait")]
     public bool? DoNotWait { get; set; }
 
-    [CommandSwitch("--repository")]
+    [CliOption("--repository")]
     public string? Repository { get; set; }
 }

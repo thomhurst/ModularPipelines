@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("snowball", "update-job")]
+[CliCommand("snowball", "update-job")]
 public record AwsSnowballUpdateJobOptions(
-[property: CommandSwitch("--job-id")] string JobId
+[property: CliOption("--job-id")] string JobId
 ) : AwsOptions
 {
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--notification")]
+    [CliOption("--notification")]
     public string? Notification { get; set; }
 
-    [CommandSwitch("--resources")]
+    [CliOption("--resources")]
     public string? Resources { get; set; }
 
-    [CommandSwitch("--on-device-service-configuration")]
+    [CliOption("--on-device-service-configuration")]
     public string? OnDeviceServiceConfiguration { get; set; }
 
-    [CommandSwitch("--address-id")]
+    [CliOption("--address-id")]
     public string? AddressId { get; set; }
 
-    [CommandSwitch("--shipping-option")]
+    [CliOption("--shipping-option")]
     public string? ShippingOption { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--snowball-capacity-preference")]
+    [CliOption("--snowball-capacity-preference")]
     public string? SnowballCapacityPreference { get; set; }
 
-    [CommandSwitch("--forwarding-address-id")]
+    [CliOption("--forwarding-address-id")]
     public string? ForwardingAddressId { get; set; }
 
-    [CommandSwitch("--pickup-details")]
+    [CliOption("--pickup-details")]
     public string? PickupDetails { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -3,34 +3,34 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("show-ref")]
+[CliCommand("show-ref")]
 [ExcludeFromCodeCoverage]
 public record GitShowRefOptions : GitOptions
 {
-    [BooleanCommandSwitch("--head")]
+    [CliFlag("--head")]
     public virtual bool? Head { get; set; }
 
-    [BooleanCommandSwitch("--heads")]
+    [CliFlag("--heads")]
     public virtual bool? Heads { get; set; }
 
-    [BooleanCommandSwitch("--tags")]
+    [CliFlag("--tags")]
     public virtual bool? Tags { get; set; }
 
-    [BooleanCommandSwitch("--dereference")]
+    [CliFlag("--dereference")]
     public virtual bool? Dereference { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--hash")]
+    [CliOption("--hash", Format = OptionFormat.EqualsSeparated)]
     public string? Hash { get; set; }
 
-    [BooleanCommandSwitch("--verify")]
+    [CliFlag("--verify")]
     public virtual bool? Verify { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--abbrev")]
+    [CliOption("--abbrev", Format = OptionFormat.EqualsSeparated)]
     public string? Abbrev { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--exclude-existing")]
+    [CliOption("--exclude-existing", Format = OptionFormat.EqualsSeparated)]
     public string? ExcludeExisting { get; set; }
 }

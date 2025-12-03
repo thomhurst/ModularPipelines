@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("npm", "publish")]
+[CliCommand("npm", "publish")]
 public record YarnNpmPublishOptions : YarnOptions
 {
-    [CommandSwitch("--access")]
+    [CliOption("--access")]
     public virtual string? Access { get; set; }
 
-    [CommandSwitch("--tag")]
+    [CliOption("--tag")]
     public virtual string? Tag { get; set; }
 
-    [BooleanCommandSwitch("--tolerate-republish")]
+    [CliFlag("--tolerate-republish")]
     public virtual bool? TolerateRepublish { get; set; }
 
-    [CommandSwitch("--otp")]
+    [CliOption("--otp")]
     public virtual string? Otp { get; set; }
 }

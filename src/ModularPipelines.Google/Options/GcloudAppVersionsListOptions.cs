@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "versions", "list")]
+[CliCommand("app", "versions", "list")]
 public record GcloudAppVersionsListOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--hide-no-traffic")]
+    [CliFlag("--hide-no-traffic")]
     public bool? HideNoTraffic { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 }

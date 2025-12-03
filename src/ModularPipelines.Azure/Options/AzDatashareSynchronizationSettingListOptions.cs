@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datashare", "synchronization-setting", "list")]
+[CliCommand("datashare", "synchronization-setting", "list")]
 public record AzDatashareSynchronizationSettingListOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--share-name")] string ShareName
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--share-name")] string ShareName
 ) : AzOptions
 {
-    [CommandSwitch("--skip-token")]
+    [CliOption("--skip-token")]
     public string? SkipToken { get; set; }
 }

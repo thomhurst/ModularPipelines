@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "app", "owner", "add")]
+[CliCommand("ad", "app", "owner", "add")]
 public record AzAdAppOwnerAddOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--owner-object-id")] string OwnerObjectId
+[property: CliOption("--id")] string Id,
+[property: CliOption("--owner-object-id")] string OwnerObjectId
 ) : AzOptions;

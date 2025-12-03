@@ -3,121 +3,121 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("run")]
+[CliCommand("run")]
 [ExcludeFromCodeCoverage]
-public record KubernetesRunOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesRunOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--annotations", SwitchValueSeparator = " ")]
+    [CliOption("--annotations")]
     public string[]? Annotations { get; set; }
 
-    [BooleanCommandSwitch("--attach")]
+    [CliFlag("--attach")]
     public virtual bool? Attach { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cascade", SwitchValueSeparator = " ")]
+    [CliOption("--cascade")]
     public string? Cascade { get; set; }
 
-    [BooleanCommandSwitch("--command")]
+    [CliFlag("--command")]
     public virtual bool? Command { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CliOption("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--env", SwitchValueSeparator = " ")]
+    [CliOption("--env")]
     public string[]? Env { get; set; }
 
-    [BooleanCommandSwitch("--expose")]
+    [CliFlag("--expose")]
     public virtual bool? Expose { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CliOption("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
+    [CliOption("--filename")]
     public string[]? Filename { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--grace-period", SwitchValueSeparator = " ")]
+    [CliOption("--grace-period")]
     public int? GracePeriod { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--hostport", SwitchValueSeparator = " ")]
+    [CliOption("--hostport")]
     public int? Hostport { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--image", SwitchValueSeparator = " ")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--image-pull-policy", SwitchValueSeparator = " ")]
+    [CliOption("--image-pull-policy")]
     public string? ImagePullPolicy { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CliOption("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--labels", SwitchValueSeparator = " ")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [BooleanCommandSwitch("--leave-stdin-open")]
+    [CliFlag("--leave-stdin-open")]
     public virtual bool? LeaveStdinOpen { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--limits", SwitchValueSeparator = " ")]
+    [CliOption("--limits")]
     public string? Limits { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--overrides", SwitchValueSeparator = " ")]
+    [CliOption("--overrides")]
     public string? Overrides { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--pod-running-timeout", SwitchValueSeparator = " ")]
+    [CliOption("--pod-running-timeout")]
     public string? PodRunningTimeout { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--port", SwitchValueSeparator = " ")]
+    [CliOption("--port")]
     public string? Port { get; set; }
 
-    [BooleanCommandSwitch("--privileged")]
+    [CliFlag("--privileged")]
     public virtual bool? Privileged { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--record")]
+    [CliFlag("--record")]
     public virtual bool? Record { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--requests", SwitchValueSeparator = " ")]
+    [CliOption("--requests")]
     public string? Requests { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--restart", SwitchValueSeparator = " ")]
+    [CliOption("--restart")]
     public string? Restart { get; set; }
 
-    [BooleanCommandSwitch("--rm")]
+    [CliFlag("--rm")]
     public virtual bool? Rm { get; set; }
 
-    [BooleanCommandSwitch("--save-config")]
+    [CliFlag("--save-config")]
     public virtual bool? SaveConfig { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--serviceaccount", SwitchValueSeparator = " ")]
+    [CliOption("--serviceaccount")]
     public string? Serviceaccount { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [BooleanCommandSwitch("--stdin")]
+    [CliFlag("--stdin")]
     public virtual bool? Stdin { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CliOption("--template")]
     public string? Template { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [BooleanCommandSwitch("--tty")]
+    [CliFlag("--tty")]
     public virtual bool? Tty { get; set; }
 
-    [BooleanCommandSwitch("--wait")]
+    [CliFlag("--wait")]
     public virtual bool? Wait { get; set; }
 }

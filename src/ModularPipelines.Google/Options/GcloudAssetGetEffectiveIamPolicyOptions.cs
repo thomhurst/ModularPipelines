@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("asset", "get-effective-iam-policy")]
+[CliCommand("asset", "get-effective-iam-policy")]
 public record GcloudAssetGetEffectiveIamPolicyOptions(
-[property: CommandSwitch("--names")] string[] Names,
-[property: CommandSwitch("--scope")] string Scope
+[property: CliOption("--names")] string[] Names,
+[property: CliOption("--scope")] string Scope
 ) : GcloudOptions;

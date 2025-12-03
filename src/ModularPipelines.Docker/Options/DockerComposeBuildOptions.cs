@@ -4,52 +4,52 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "build")]
+[CliCommand("compose", "build")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeBuildOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Service { get; set; }
 
-    [CommandSwitch("--build-arg")]
+    [CliOption("--build-arg")]
     public virtual IEnumerable<KeyValue>? BuildArg { get; set; }
 
-    [CommandSwitch("--builder")]
+    [CliOption("--builder")]
     public virtual string? Builder { get; set; }
 
-    [BooleanCommandSwitch("--compress")]
+    [CliFlag("--compress")]
     public virtual bool? Compress { get; set; }
 
-    [BooleanCommandSwitch("--force-rm")]
+    [CliFlag("--force-rm")]
     public virtual bool? ForceRm { get; set; }
 
-    [CommandSwitch("--memory")]
+    [CliOption("--memory")]
     public virtual string? Memory { get; set; }
 
-    [BooleanCommandSwitch("--no-cache")]
+    [CliFlag("--no-cache")]
     public virtual bool? NoCache { get; set; }
 
-    [CommandSwitch("--no-rm")]
+    [CliOption("--no-rm")]
     public virtual string? NoRm { get; set; }
 
-    [BooleanCommandSwitch("--parallel")]
+    [CliFlag("--parallel")]
     public virtual bool? Parallel { get; set; }
 
-    [CommandSwitch("--progress")]
+    [CliOption("--progress")]
     public virtual string? Progress { get; set; }
 
-    [BooleanCommandSwitch("--pull")]
+    [CliFlag("--pull")]
     public virtual bool? Pull { get; set; }
 
-    [BooleanCommandSwitch("--push")]
+    [CliFlag("--push")]
     public virtual bool? Push { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [CommandSwitch("--ssh")]
+    [CliOption("--ssh")]
     public virtual string? Ssh { get; set; }
 
-    [CommandSwitch("--with-dependencies")]
+    [CliOption("--with-dependencies")]
     public virtual string? WithDependencies { get; set; }
 }

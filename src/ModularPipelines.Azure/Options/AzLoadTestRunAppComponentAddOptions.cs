@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("load", "test-run", "app-component", "add")]
+[CliCommand("load", "test-run", "app-component", "add")]
 public record AzLoadTestRunAppComponentAddOptions(
-[property: CommandSwitch("--app-component-id")] string AppComponentId,
-[property: CommandSwitch("--app-component-name")] string AppComponentName,
-[property: CommandSwitch("--app-component-type")] string AppComponentType,
-[property: CommandSwitch("--load-test-resource")] string LoadTestResource,
-[property: CommandSwitch("--test-run-id")] string TestRunId
+[property: CliOption("--app-component-id")] string AppComponentId,
+[property: CliOption("--app-component-name")] string AppComponentName,
+[property: CliOption("--app-component-type")] string AppComponentType,
+[property: CliOption("--load-test-resource")] string LoadTestResource,
+[property: CliOption("--test-run-id")] string TestRunId
 ) : AzOptions
 {
-    [CommandSwitch("--app-component-kind")]
+    [CliOption("--app-component-kind")]
     public string? AppComponentKind { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

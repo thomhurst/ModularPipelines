@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "app", "append-loaded-public-certificate")]
+[CliCommand("spring", "app", "append-loaded-public-certificate")]
 public record AzSpringAppAppendLoadedPublicCertificateOptions(
-[property: CommandSwitch("--certificate-name")] string CertificateName,
-[property: BooleanCommandSwitch("--load-trust-store")] bool LoadTrustStore,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--certificate-name")] string CertificateName,
+[property: CliFlag("--load-trust-store")] bool LoadTrustStore,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions;

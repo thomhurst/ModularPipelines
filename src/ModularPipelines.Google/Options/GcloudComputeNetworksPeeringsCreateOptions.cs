@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "networks", "peerings", "create")]
+[CliCommand("compute", "networks", "peerings", "create")]
 public record GcloudComputeNetworksPeeringsCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--network")] string Network,
-[property: CommandSwitch("--peer-network")] string PeerNetwork
+[property: CliArgument] string Name,
+[property: CliOption("--network")] string Network,
+[property: CliOption("--peer-network")] string PeerNetwork
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--auto-create-routes")]
+    [CliFlag("--auto-create-routes")]
     public bool? AutoCreateRoutes { get; set; }
 
-    [BooleanCommandSwitch("--export-custom-routes")]
+    [CliFlag("--export-custom-routes")]
     public bool? ExportCustomRoutes { get; set; }
 
-    [BooleanCommandSwitch("--export-subnet-routes-with-public-ip")]
+    [CliFlag("--export-subnet-routes-with-public-ip")]
     public bool? ExportSubnetRoutesWithPublicIp { get; set; }
 
-    [BooleanCommandSwitch("--import-custom-routes")]
+    [CliFlag("--import-custom-routes")]
     public bool? ImportCustomRoutes { get; set; }
 
-    [BooleanCommandSwitch("--import-subnet-routes-with-public-ip")]
+    [CliFlag("--import-subnet-routes-with-public-ip")]
     public bool? ImportSubnetRoutesWithPublicIp { get; set; }
 
-    [CommandSwitch("--peer-project")]
+    [CliOption("--peer-project")]
     public string? PeerProject { get; set; }
 
-    [CommandSwitch("--stack-type")]
+    [CliOption("--stack-type")]
     public string? StackType { get; set; }
 }

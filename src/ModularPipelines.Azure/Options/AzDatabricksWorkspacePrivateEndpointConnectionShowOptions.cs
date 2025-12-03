@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databricks", "workspace", "private-endpoint-connection", "show")]
+[CliCommand("databricks", "workspace", "private-endpoint-connection", "show")]
 public record AzDatabricksWorkspacePrivateEndpointConnectionShowOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "video", "detect-explicit-content")]
+[CliCommand("ml", "video", "detect-explicit-content")]
 public record GcloudMlVideoDetectExplicitContentOptions(
-[property: PositionalArgument] string InputPath
+[property: CliArgument] string InputPath
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--output-uri")]
+    [CliOption("--output-uri")]
     public string? OutputUri { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--segments")]
+    [CliOption("--segments")]
     public string[]? Segments { get; set; }
 }

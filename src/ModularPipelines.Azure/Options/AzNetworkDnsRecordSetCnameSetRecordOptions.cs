@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "dns", "record-set", "cname", "set-record")]
+[CliCommand("network", "dns", "record-set", "cname", "set-record")]
 public record AzNetworkDnsRecordSetCnameSetRecordOptions(
-[property: CommandSwitch("--cname")] string Cname,
-[property: CommandSwitch("--record-set-name")] string RecordSetName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--zone-name")] string ZoneName
+[property: CliOption("--cname")] string Cname,
+[property: CliOption("--record-set-name")] string RecordSetName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--zone-name")] string ZoneName
 ) : AzOptions
 {
-    [CommandSwitch("--if-none-match")]
+    [CliOption("--if-none-match")]
     public string? IfNoneMatch { get; set; }
 
-    [CommandSwitch("--ttl")]
+    [CliOption("--ttl")]
     public string? Ttl { get; set; }
 }

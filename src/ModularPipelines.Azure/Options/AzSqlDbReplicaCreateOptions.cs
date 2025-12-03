@@ -4,86 +4,86 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "db", "replica", "create")]
+[CliCommand("sql", "db", "replica", "create")]
 public record AzSqlDbReplicaCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--partner-server")] string PartnerServer,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--server")] string Server
+[property: CliOption("--name")] string Name,
+[property: CliOption("--partner-server")] string PartnerServer,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--server")] string Server
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--assign-identity")]
+    [CliFlag("--assign-identity")]
     public bool? AssignIdentity { get; set; }
 
-    [CommandSwitch("--auto-pause-delay")]
+    [CliOption("--auto-pause-delay")]
     public string? AutoPauseDelay { get; set; }
 
-    [CommandSwitch("--availability-zone")]
+    [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
-    [CommandSwitch("--backup-storage-redundancy")]
+    [CliOption("--backup-storage-redundancy")]
     public string? BackupStorageRedundancy { get; set; }
 
-    [CommandSwitch("--capacity")]
+    [CliOption("--capacity")]
     public string? Capacity { get; set; }
 
-    [CommandSwitch("--compute-model")]
+    [CliOption("--compute-model")]
     public string? ComputeModel { get; set; }
 
-    [CommandSwitch("--elastic-pool")]
+    [CliOption("--elastic-pool")]
     public string? ElasticPool { get; set; }
 
-    [CommandSwitch("--encryption-protector")]
+    [CliOption("--encryption-protector")]
     public string? EncryptionProtector { get; set; }
 
-    [BooleanCommandSwitch("--encryption-protector-auto-rotation")]
+    [CliFlag("--encryption-protector-auto-rotation")]
     public bool? EncryptionProtectorAutoRotation { get; set; }
 
-    [CommandSwitch("--family")]
+    [CliOption("--family")]
     public string? Family { get; set; }
 
-    [CommandSwitch("--federated-client-id")]
+    [CliOption("--federated-client-id")]
     public string? FederatedClientId { get; set; }
 
-    [CommandSwitch("--ha-replicas")]
+    [CliOption("--ha-replicas")]
     public string? HaReplicas { get; set; }
 
-    [CommandSwitch("--keys")]
+    [CliOption("--keys")]
     public string? Keys { get; set; }
 
-    [CommandSwitch("--license-type")]
+    [CliOption("--license-type")]
     public string? LicenseType { get; set; }
 
-    [CommandSwitch("--min-capacity")]
+    [CliOption("--min-capacity")]
     public string? MinCapacity { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--partner-database")]
+    [CliOption("--partner-database")]
     public string? PartnerDatabase { get; set; }
 
-    [CommandSwitch("--partner-resource-group")]
+    [CliOption("--partner-resource-group")]
     public string? PartnerResourceGroup { get; set; }
 
-    [CommandSwitch("--preferred-enclave-type")]
+    [CliOption("--preferred-enclave-type")]
     public string? PreferredEnclaveType { get; set; }
 
-    [CommandSwitch("--read-scale")]
+    [CliOption("--read-scale")]
     public string? ReadScale { get; set; }
 
-    [CommandSwitch("--secondary-type")]
+    [CliOption("--secondary-type")]
     public string? SecondaryType { get; set; }
 
-    [CommandSwitch("--service-level-objective")]
+    [CliOption("--service-level-objective")]
     public string? ServiceLevelObjective { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--umi")]
+    [CliOption("--umi")]
     public string? Umi { get; set; }
 
-    [BooleanCommandSwitch("--zone-redundant")]
+    [CliFlag("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 }

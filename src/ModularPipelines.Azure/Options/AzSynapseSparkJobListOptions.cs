@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "spark", "job", "list")]
+[CliCommand("synapse", "spark", "job", "list")]
 public record AzSynapseSparkJobListOptions(
-[property: CommandSwitch("--spark-pool-name")] string SparkPoolName,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--spark-pool-name")] string SparkPoolName,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--from-index")]
+    [CliOption("--from-index")]
     public string? FromIndex { get; set; }
 
-    [CommandSwitch("--size")]
+    [CliOption("--size")]
     public string? Size { get; set; }
 }

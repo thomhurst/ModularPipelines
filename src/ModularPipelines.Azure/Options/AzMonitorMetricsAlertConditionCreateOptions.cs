@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "metrics", "alert", "condition", "create")]
+[CliCommand("monitor", "metrics", "alert", "condition", "create")]
 public record AzMonitorMetricsAlertConditionCreateOptions(
-[property: CommandSwitch("--aggregation")] string Aggregation,
-[property: CommandSwitch("--metric")] string Metric,
-[property: CommandSwitch("--op")] string Op,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--aggregation")] string Aggregation,
+[property: CliOption("--metric")] string Metric,
+[property: CliOption("--op")] string Op,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [CommandSwitch("--dimension")]
+    [CliOption("--dimension")]
     public string? Dimension { get; set; }
 
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--num-periods")]
+    [CliOption("--num-periods")]
     public string? NumPeriods { get; set; }
 
-    [CommandSwitch("--num-violations")]
+    [CliOption("--num-violations")]
     public string? NumViolations { get; set; }
 
-    [CommandSwitch("--sensitivity")]
+    [CliOption("--sensitivity")]
     public string? Sensitivity { get; set; }
 
-    [CommandSwitch("--since")]
+    [CliOption("--since")]
     public string? Since { get; set; }
 
-    [BooleanCommandSwitch("--skip-metric-validation")]
+    [CliFlag("--skip-metric-validation")]
     public bool? SkipMetricValidation { get; set; }
 
-    [CommandSwitch("--threshold")]
+    [CliOption("--threshold")]
     public string? Threshold { get; set; }
 }

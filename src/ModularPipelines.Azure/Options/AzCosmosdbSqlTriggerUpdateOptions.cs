@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "sql", "trigger", "update")]
+[CliCommand("cosmosdb", "sql", "trigger", "update")]
 public record AzCosmosdbSqlTriggerUpdateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--container-name")] string ContainerName,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--container-name")] string ContainerName,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--body")]
+    [CliOption("--body")]
     public string? Body { get; set; }
 
-    [CommandSwitch("--operation")]
+    [CliOption("--operation")]
     public string? Operation { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 }

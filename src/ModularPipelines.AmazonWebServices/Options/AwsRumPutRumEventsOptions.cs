@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rum", "put-rum-events")]
+[CliCommand("rum", "put-rum-events")]
 public record AwsRumPutRumEventsOptions(
-[property: CommandSwitch("--app-monitor-details")] string AppMonitorDetails,
-[property: CommandSwitch("--batch-id")] string BatchId,
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--rum-events")] string[] RumEvents,
-[property: CommandSwitch("--user-details")] string UserDetails
+[property: CliOption("--app-monitor-details")] string AppMonitorDetails,
+[property: CliOption("--batch-id")] string BatchId,
+[property: CliOption("--id")] string Id,
+[property: CliOption("--rum-events")] string[] RumEvents,
+[property: CliOption("--user-details")] string UserDetails
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

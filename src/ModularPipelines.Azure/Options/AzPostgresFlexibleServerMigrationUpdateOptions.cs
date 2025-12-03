@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("postgres", "flexible-server", "migration", "update")]
+[CliCommand("postgres", "flexible-server", "migration", "update")]
 public record AzPostgresFlexibleServerMigrationUpdateOptions(
-[property: CommandSwitch("--migration-name")] string MigrationName
+[property: CliOption("--migration-name")] string MigrationName
 ) : AzOptions
 {
-    [CommandSwitch("--cancel")]
+    [CliOption("--cancel")]
     public string? Cancel { get; set; }
 
-    [CommandSwitch("--cutover")]
+    [CliOption("--cutover")]
     public string? Cutover { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--setup-replication")]
+    [CliOption("--setup-replication")]
     public string? SetupReplication { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

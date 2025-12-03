@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rum", "create-app-monitor")]
+[CliCommand("rum", "create-app-monitor")]
 public record AwsRumCreateAppMonitorOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--app-monitor-configuration")]
+    [CliOption("--app-monitor-configuration")]
     public string? AppMonitorConfiguration { get; set; }
 
-    [CommandSwitch("--custom-events")]
+    [CliOption("--custom-events")]
     public string? CustomEvents { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch")]
+[CliCommand("batch")]
 public class GcloudBatchJobs
 {
     public GcloudBatchJobs(

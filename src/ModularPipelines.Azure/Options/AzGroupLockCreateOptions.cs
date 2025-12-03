@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("group", "lock", "create")]
+[CliCommand("group", "lock", "create")]
 public record AzGroupLockCreateOptions(
-[property: CommandSwitch("--lock-type")] string LockType,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--lock-type")] string LockType,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--notes")]
+    [CliOption("--notes")]
     public string? Notes { get; set; }
 }

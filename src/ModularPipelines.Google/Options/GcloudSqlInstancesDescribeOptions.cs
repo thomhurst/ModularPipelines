@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "instances", "describe")]
+[CliCommand("sql", "instances", "describe")]
 public record GcloudSqlInstancesDescribeOptions(
-[property: PositionalArgument] string Instance
+[property: CliArgument] string Instance
 ) : GcloudOptions;

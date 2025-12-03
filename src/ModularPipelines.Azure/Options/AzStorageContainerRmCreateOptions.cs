@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "container-rm", "create")]
+[CliCommand("storage", "container-rm", "create")]
 public record AzStorageContainerRmCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--storage-account")] int StorageAccount
+[property: CliOption("--name")] string Name,
+[property: CliOption("--storage-account")] int StorageAccount
 ) : AzOptions
 {
-    [CommandSwitch("--default-encryption-scope")]
+    [CliOption("--default-encryption-scope")]
     public string? DefaultEncryptionScope { get; set; }
 
-    [BooleanCommandSwitch("--deny-encryption-scope-override")]
+    [CliFlag("--deny-encryption-scope-override")]
     public bool? DenyEncryptionScopeOverride { get; set; }
 
-    [BooleanCommandSwitch("--enable-vlw")]
+    [CliFlag("--enable-vlw")]
     public bool? EnableVlw { get; set; }
 
-    [BooleanCommandSwitch("--fail-on-exist")]
+    [CliFlag("--fail-on-exist")]
     public bool? FailOnExist { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
-    [CommandSwitch("--public-access")]
+    [CliOption("--public-access")]
     public string? PublicAccess { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--root-squash")]
+    [CliOption("--root-squash")]
     public string? RootSquash { get; set; }
 }

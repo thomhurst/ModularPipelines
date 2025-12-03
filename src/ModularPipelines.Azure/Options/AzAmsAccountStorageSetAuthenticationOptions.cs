@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "account", "storage", "set-authentication")]
+[CliCommand("ams", "account", "storage", "set-authentication")]
 public record AzAmsAccountStorageSetAuthenticationOptions(
-[property: CommandSwitch("--storage-auth")] string StorageAuth
+[property: CliOption("--storage-auth")] string StorageAuth
 ) : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--storage-account-id")]
+    [CliOption("--storage-account-id")]
     public int? StorageAccountId { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--system-assigned")]
+    [CliFlag("--system-assigned")]
     public bool? SystemAssigned { get; set; }
 
-    [CommandSwitch("--user-assigned")]
+    [CliOption("--user-assigned")]
     public string? UserAssigned { get; set; }
 }

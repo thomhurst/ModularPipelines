@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("relay", "hyco", "authorization-rule", "delete")]
+[CliCommand("relay", "hyco", "authorization-rule", "delete")]
 public record AzRelayHycoAuthorizationRuleDeleteOptions : AzOptions
 {
-    [CommandSwitch("--hybrid-connection-name")]
+    [CliOption("--hybrid-connection-name")]
     public string? HybridConnectionName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--namespace-name")]
+    [CliOption("--namespace-name")]
     public string? NamespaceName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

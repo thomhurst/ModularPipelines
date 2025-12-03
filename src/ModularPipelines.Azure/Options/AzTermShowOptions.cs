@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("term", "show")]
+[CliCommand("term", "show")]
 public record AzTermShowOptions(
-[property: CommandSwitch("--plan")] string Plan,
-[property: CommandSwitch("--product")] string Product,
-[property: CommandSwitch("--publisher")] string Publisher
+[property: CliOption("--plan")] string Plan,
+[property: CliOption("--product")] string Product,
+[property: CliOption("--publisher")] string Publisher
 ) : AzOptions;

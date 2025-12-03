@@ -3,178 +3,178 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("svn")]
+[CliCommand("svn")]
 [ExcludeFromCodeCoverage]
 public record GitSvnOptions : GitOptions
 {
-    [CommandEqualsSeparatorSwitch("--trunk")]
+    [CliOption("--trunk", Format = OptionFormat.EqualsSeparated)]
     public string? Trunk { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--tags")]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public string? Tags { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--branches")]
+    [CliOption("--branches", Format = OptionFormat.EqualsSeparated)]
     public string? Branches { get; set; }
 
-    [BooleanCommandSwitch("--stdlayout")]
+    [CliFlag("--stdlayout")]
     public virtual bool? Stdlayout { get; set; }
 
-    [BooleanCommandSwitch("--no-metadata")]
+    [CliFlag("--no-metadata")]
     public virtual bool? NoMetadata { get; set; }
 
-    [BooleanCommandSwitch("--use-svm-props")]
+    [CliFlag("--use-svm-props")]
     public virtual bool? UseSvmProps { get; set; }
 
-    [BooleanCommandSwitch("--use-svnsync-props")]
+    [CliFlag("--use-svnsync-props")]
     public virtual bool? UseSvnsyncProps { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--rewrite-root")]
+    [CliOption("--rewrite-root", Format = OptionFormat.EqualsSeparated)]
     public string? RewriteRoot { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--rewrite-uuid")]
+    [CliOption("--rewrite-uuid", Format = OptionFormat.EqualsSeparated)]
     public string? RewriteUuid { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--username")]
+    [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--prefix")]
+    [CliOption("--prefix", Format = OptionFormat.EqualsSeparated)]
     public string? Prefix { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--ignore-refs")]
+    [CliOption("--ignore-refs", Format = OptionFormat.EqualsSeparated)]
     public string? IgnoreRefs { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--ignore-paths")]
+    [CliOption("--ignore-paths", Format = OptionFormat.EqualsSeparated)]
     public string? IgnorePaths { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--include-paths")]
+    [CliOption("--include-paths", Format = OptionFormat.EqualsSeparated)]
     public string? IncludePaths { get; set; }
 
-    [BooleanCommandSwitch("--no-minimize-url")]
+    [CliFlag("--no-minimize-url")]
     public virtual bool? NoMinimizeUrl { get; set; }
 
-    [BooleanCommandSwitch("--localtime")]
+    [CliFlag("--localtime")]
     public virtual bool? Localtime { get; set; }
 
-    [BooleanCommandSwitch("--parent")]
+    [CliFlag("--parent")]
     public virtual bool? Parent { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--log-window-size")]
+    [CliOption("--log-window-size", Format = OptionFormat.EqualsSeparated)]
     public string? LogWindowSize { get; set; }
 
-    [BooleanCommandSwitch("--preserve-empty-dirs")]
+    [CliFlag("--preserve-empty-dirs")]
     public virtual bool? PreserveEmptyDirs { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--placeholder-filename")]
+    [CliOption("--placeholder-filename", Format = OptionFormat.EqualsSeparated)]
     public string? PlaceholderFilename { get; set; }
 
-    [BooleanCommandSwitch("--local")]
+    [CliFlag("--local")]
     public virtual bool? Local { get; set; }
 
-    [BooleanCommandSwitch("--no-rebase")]
+    [CliFlag("--no-rebase")]
     public virtual bool? NoRebase { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--commit-url")]
+    [CliOption("--commit-url", Format = OptionFormat.EqualsSeparated)]
     public string? CommitUrl { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--mergeinfo")]
+    [CliOption("--mergeinfo", Format = OptionFormat.EqualsSeparated)]
     public string? Mergeinfo { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [BooleanCommandSwitch("--message")]
+    [CliFlag("--message")]
     public virtual bool? Message { get; set; }
 
-    [BooleanCommandSwitch("--tag")]
+    [CliFlag("--tag")]
     public virtual bool? Tag { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--destination")]
+    [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
     public string? Destination { get; set; }
 
-    [BooleanCommandSwitch("--parents")]
+    [CliFlag("--parents")]
     public virtual bool? Parents { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--revision")]
+    [CliOption("--revision", Format = OptionFormat.EqualsSeparated)]
     public string? Revision { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--limit")]
+    [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
     public string? Limit { get; set; }
 
-    [BooleanCommandSwitch("--incremental")]
+    [CliFlag("--incremental")]
     public virtual bool? Incremental { get; set; }
 
-    [BooleanCommandSwitch("--show-commit")]
+    [CliFlag("--show-commit")]
     public virtual bool? ShowCommit { get; set; }
 
-    [BooleanCommandSwitch("--oneline")]
+    [CliFlag("--oneline")]
     public virtual bool? Oneline { get; set; }
 
-    [BooleanCommandSwitch("--git-format")]
+    [CliFlag("--git-format")]
     public virtual bool? GitFormat { get; set; }
 
-    [BooleanCommandSwitch("--before")]
+    [CliFlag("--before")]
     public virtual bool? Before { get; set; }
 
-    [BooleanCommandSwitch("--after")]
+    [CliFlag("--after")]
     public virtual bool? After { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--file")]
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
     public string? File { get; set; }
 
-    [BooleanCommandSwitch("--shared")]
+    [CliFlag("--shared")]
     public virtual bool? Shared { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template")]
+    [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
     public string? Template { get; set; }
 
-    [BooleanCommandSwitch("--stdin")]
+    [CliFlag("--stdin")]
     public virtual bool? Stdin { get; set; }
 
-    [BooleanCommandSwitch("--rmdir")]
+    [CliFlag("--rmdir")]
     public virtual bool? Rmdir { get; set; }
 
-    [BooleanCommandSwitch("--edit")]
+    [CliFlag("--edit")]
     public virtual bool? Edit { get; set; }
 
-    [BooleanCommandSwitch("--find-copies-harder")]
+    [CliFlag("--find-copies-harder")]
     public virtual bool? FindCopiesHarder { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--authors-file")]
+    [CliOption("--authors-file", Format = OptionFormat.EqualsSeparated)]
     public string? AuthorsFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--authors-prog")]
+    [CliOption("--authors-prog", Format = OptionFormat.EqualsSeparated)]
     public string? AuthorsProg { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--merge")]
+    [CliFlag("--merge")]
     public virtual bool? Merge { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--strategy")]
+    [CliOption("--strategy", Format = OptionFormat.EqualsSeparated)]
     public string? Strategy { get; set; }
 
-    [BooleanCommandSwitch("--rebase-merges")]
+    [CliFlag("--rebase-merges")]
     public virtual bool? RebaseMerges { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--use-log-author")]
+    [CliFlag("--use-log-author")]
     public virtual bool? UseLogAuthor { get; set; }
 
-    [BooleanCommandSwitch("--add-author-from")]
+    [CliFlag("--add-author-from")]
     public virtual bool? AddAuthorFrom { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--id")]
+    [CliOption("--id", Format = OptionFormat.EqualsSeparated)]
     public string? Id { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--svn-remote")]
+    [CliOption("--svn-remote", Format = OptionFormat.EqualsSeparated)]
     public string? SvnRemote { get; set; }
 
-    [BooleanCommandSwitch("--follow-parent")]
+    [CliFlag("--follow-parent")]
     public virtual bool? FollowParent { get; set; }
 }

@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("signer", "list-signing-jobs")]
+[CliCommand("signer", "list-signing-jobs")]
 public record AwsSignerListSigningJobsOptions : AwsOptions
 {
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--platform-id")]
+    [CliOption("--platform-id")]
     public string? PlatformId { get; set; }
 
-    [CommandSwitch("--requested-by")]
+    [CliOption("--requested-by")]
     public string? RequestedBy { get; set; }
 
-    [CommandSwitch("--signature-expires-before")]
+    [CliOption("--signature-expires-before")]
     public long? SignatureExpiresBefore { get; set; }
 
-    [CommandSwitch("--signature-expires-after")]
+    [CliOption("--signature-expires-after")]
     public long? SignatureExpiresAfter { get; set; }
 
-    [CommandSwitch("--job-invoker")]
+    [CliOption("--job-invoker")]
     public string? JobInvoker { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

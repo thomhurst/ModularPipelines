@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3control", "create-multi-region-access-point")]
+[CliCommand("s3control", "create-multi-region-access-point")]
 public record AwsS3controlCreateMultiRegionAccessPointOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--details")] string Details
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--details")] string Details
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "service-endpoint", "github", "create")]
+[CliCommand("devops", "service-endpoint", "github", "create")]
 public record AzDevopsServiceEndpointGithubCreateOptions(
-[property: CommandSwitch("--github-url")] string GithubUrl,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--github-url")] string GithubUrl,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 }

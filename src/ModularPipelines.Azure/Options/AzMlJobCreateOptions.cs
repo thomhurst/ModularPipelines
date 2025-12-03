@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "job", "create")]
+[CliCommand("ml", "job", "create")]
 public record AzMlJobCreateOptions(
-[property: CommandSwitch("--file")] string File,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--file")] string File,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--save-as")]
+    [CliOption("--save-as")]
     public string? SaveAs { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [BooleanCommandSwitch("--skip-validation")]
+    [CliFlag("--skip-validation")]
     public bool? SkipValidation { get; set; }
 
-    [BooleanCommandSwitch("--stream")]
+    [CliFlag("--stream")]
     public bool? Stream { get; set; }
 
-    [BooleanCommandSwitch("--web")]
+    [CliFlag("--web")]
     public bool? Web { get; set; }
 }

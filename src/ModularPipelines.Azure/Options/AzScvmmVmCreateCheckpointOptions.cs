@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scvmm", "vm", "create-checkpoint")]
+[CliCommand("scvmm", "vm", "create-checkpoint")]
 public record AzScvmmVmCreateCheckpointOptions(
-[property: CommandSwitch("--checkpoint-description")] string CheckpointDescription,
-[property: CommandSwitch("--checkpoint-name")] string CheckpointName
+[property: CliOption("--checkpoint-description")] string CheckpointDescription,
+[property: CliOption("--checkpoint-name")] string CheckpointName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

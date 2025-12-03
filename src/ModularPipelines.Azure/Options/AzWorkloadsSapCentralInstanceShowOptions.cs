@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workloads", "sap-central-instance", "show")]
+[CliCommand("workloads", "sap-central-instance", "show")]
 public record AzWorkloadsSapCentralInstanceShowOptions : AzOptions
 {
-    [CommandSwitch("--central-instance-name")]
+    [CliOption("--central-instance-name")]
     public string? CentralInstanceName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sap-virtual-instance-name")]
+    [CliOption("--sap-virtual-instance-name")]
     public string? SapVirtualInstanceName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

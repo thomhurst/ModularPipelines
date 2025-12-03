@@ -5,39 +5,39 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("assured", "workloads", "create")]
+[CliCommand("assured", "workloads", "create")]
 public record GcloudAssuredWorkloadsCreateOptions(
-[property: CommandSwitch("--billing-account")] string BillingAccount,
-[property: CommandSwitch("--compliance-regime")] string ComplianceRegime,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--organization")] string Organization
+[property: CliOption("--billing-account")] string BillingAccount,
+[property: CliOption("--compliance-regime")] string ComplianceRegime,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--organization")] string Organization
 ) : GcloudOptions
 {
-    [CommandSwitch("--enable-sovereign-controls")]
+    [CliOption("--enable-sovereign-controls")]
     public string? EnableSovereignControls { get; set; }
 
-    [CommandSwitch("--external-identifier")]
+    [CliOption("--external-identifier")]
     public string? ExternalIdentifier { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--next-rotation-time")]
+    [CliOption("--next-rotation-time")]
     public string? NextRotationTime { get; set; }
 
-    [CommandSwitch("--partner")]
+    [CliOption("--partner")]
     public string? Partner { get; set; }
 
-    [CommandSwitch("--partner-permissions")]
+    [CliOption("--partner-permissions")]
     public IEnumerable<KeyValue>? PartnerPermissions { get; set; }
 
-    [CommandSwitch("--provisioned-resources-parent")]
+    [CliOption("--provisioned-resources-parent")]
     public string? ProvisionedResourcesParent { get; set; }
 
-    [CommandSwitch("--resource-settings")]
+    [CliOption("--resource-settings")]
     public IEnumerable<KeyValue>? ResourceSettings { get; set; }
 
-    [CommandSwitch("--rotation-period")]
+    [CliOption("--rotation-period")]
     public string? RotationPeriod { get; set; }
 }

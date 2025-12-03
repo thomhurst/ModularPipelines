@@ -3,28 +3,28 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("describe")]
+[CliCommand("describe")]
 [ExcludeFromCodeCoverage]
 public record KubernetesDescribeOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("--all-namespaces")]
+    [CliFlag("--all-namespaces")]
     public virtual bool? AllNamespaces { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--chunk-size", SwitchValueSeparator = " ")]
+    [CliOption("--chunk-size")]
     public int? ChunkSize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
+    [CliOption("--filename")]
     public string[]? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CliOption("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CliOption("--selector")]
     public string? Selector { get; set; }
 
-    [BooleanCommandSwitch("--show-events")]
+    [CliFlag("--show-events")]
     public virtual bool? ShowEvents { get; set; }
 }

@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "namespace", "topic", "create")]
+[CliCommand("eventgrid", "namespace", "topic", "create")]
 public record AzEventgridNamespaceTopicCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--event-retention-in-days")]
+    [CliOption("--event-retention-in-days")]
     public string? EventRetentionInDays { get; set; }
 
-    [CommandSwitch("--input-schema")]
+    [CliOption("--input-schema")]
     public string? InputSchema { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--publisher-type")]
+    [CliOption("--publisher-type")]
     public string? PublisherType { get; set; }
 }

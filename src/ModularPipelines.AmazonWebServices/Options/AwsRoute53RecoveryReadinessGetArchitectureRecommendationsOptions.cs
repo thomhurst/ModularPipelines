@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53-recovery-readiness", "get-architecture-recommendations")]
+[CliCommand("route53-recovery-readiness", "get-architecture-recommendations")]
 public record AwsRoute53RecoveryReadinessGetArchitectureRecommendationsOptions(
-[property: CommandSwitch("--recovery-group-name")] string RecoveryGroupName
+[property: CliOption("--recovery-group-name")] string RecoveryGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

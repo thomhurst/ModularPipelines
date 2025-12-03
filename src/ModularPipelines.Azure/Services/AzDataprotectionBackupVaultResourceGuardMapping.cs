@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "backup-vault")]
+[CliCommand("dataprotection", "backup-vault")]
 public class AzDataprotectionBackupVaultResourceGuardMapping
 {
     public AzDataprotectionBackupVaultResourceGuardMapping(

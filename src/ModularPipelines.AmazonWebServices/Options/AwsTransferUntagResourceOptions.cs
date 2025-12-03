@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "untag-resource")]
+[CliCommand("transfer", "untag-resource")]
 public record AwsTransferUntagResourceOptions(
-[property: CommandSwitch("--arn")] string Arn,
-[property: CommandSwitch("--tag-keys")] string[] TagKeys
+[property: CliOption("--arn")] string Arn,
+[property: CliOption("--tag-keys")] string[] TagKeys
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

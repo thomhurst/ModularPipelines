@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aksarc", "nodepool", "list")]
+[CliCommand("aksarc", "nodepool", "list")]
 public record AzAksarcNodepoolListOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

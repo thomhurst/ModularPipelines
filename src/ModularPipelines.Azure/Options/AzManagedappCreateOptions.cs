@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managedapp", "create")]
+[CliCommand("managedapp", "create")]
 public record AzManagedappCreateOptions(
-[property: CommandSwitch("--kind")] string Kind,
-[property: CommandSwitch("--managed-rg-id")] string ManagedRgId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--kind")] string Kind,
+[property: CliOption("--managed-rg-id")] string ManagedRgId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--managedapp-definition-id")]
+    [CliOption("--managedapp-definition-id")]
     public string? ManagedappDefinitionId { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--plan-name")]
+    [CliOption("--plan-name")]
     public string? PlanName { get; set; }
 
-    [CommandSwitch("--plan-product")]
+    [CliOption("--plan-product")]
     public string? PlanProduct { get; set; }
 
-    [CommandSwitch("--plan-publisher")]
+    [CliOption("--plan-publisher")]
     public string? PlanPublisher { get; set; }
 
-    [CommandSwitch("--plan-version")]
+    [CliOption("--plan-version")]
     public string? PlanVersion { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

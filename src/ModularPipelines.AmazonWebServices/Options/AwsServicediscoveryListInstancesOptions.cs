@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicediscovery", "list-instances")]
+[CliCommand("servicediscovery", "list-instances")]
 public record AwsServicediscoveryListInstancesOptions(
-[property: CommandSwitch("--service-id")] string ServiceId
+[property: CliOption("--service-id")] string ServiceId
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

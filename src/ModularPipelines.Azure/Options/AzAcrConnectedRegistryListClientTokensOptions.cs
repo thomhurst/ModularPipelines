@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "connected-registry", "list-client-tokens")]
+[CliCommand("acr", "connected-registry", "list-client-tokens")]
 public record AzAcrConnectedRegistryListClientTokensOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--name")] string Name,
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

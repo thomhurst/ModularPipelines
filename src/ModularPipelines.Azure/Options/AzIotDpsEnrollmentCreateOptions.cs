@@ -4,69 +4,69 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "dps", "enrollment", "create")]
+[CliCommand("iot", "dps", "enrollment", "create")]
 public record AzIotDpsEnrollmentCreateOptions(
-[property: CommandSwitch("--at")] string At,
-[property: CommandSwitch("--eid")] string Eid
+[property: CliOption("--at")] string At,
+[property: CliOption("--eid")] string Eid
 ) : AzOptions
 {
-    [CommandSwitch("--allocation-policy")]
+    [CliOption("--allocation-policy")]
     public string? AllocationPolicy { get; set; }
 
-    [CommandSwitch("--api-version")]
+    [CliOption("--api-version")]
     public string? ApiVersion { get; set; }
 
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--certificate-path")]
+    [CliOption("--certificate-path")]
     public string? CertificatePath { get; set; }
 
-    [CommandSwitch("--device-id")]
+    [CliOption("--device-id")]
     public string? DeviceId { get; set; }
 
-    [CommandSwitch("--device-information")]
+    [CliOption("--device-information")]
     public string? DeviceInformation { get; set; }
 
-    [CommandSwitch("--dps-name")]
+    [CliOption("--dps-name")]
     public string? DpsName { get; set; }
 
-    [BooleanCommandSwitch("--edge-enabled")]
+    [CliFlag("--edge-enabled")]
     public bool? EdgeEnabled { get; set; }
 
-    [CommandSwitch("--ek")]
+    [CliOption("--ek")]
     public string? Ek { get; set; }
 
-    [CommandSwitch("--ih")]
+    [CliOption("--ih")]
     public string? Ih { get; set; }
 
-    [CommandSwitch("--initial-twin-properties")]
+    [CliOption("--initial-twin-properties")]
     public string? InitialTwinProperties { get; set; }
 
-    [CommandSwitch("--initial-twin-tags")]
+    [CliOption("--initial-twin-tags")]
     public string? InitialTwinTags { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--pk")]
+    [CliOption("--pk")]
     public string? Pk { get; set; }
 
-    [CommandSwitch("--provisioning-status")]
+    [CliOption("--provisioning-status")]
     public string? ProvisioningStatus { get; set; }
 
-    [CommandSwitch("--reprovision-policy")]
+    [CliOption("--reprovision-policy")]
     public string? ReprovisionPolicy { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--scp")]
+    [CliOption("--scp")]
     public string? Scp { get; set; }
 
-    [CommandSwitch("--secondary-key")]
+    [CliOption("--secondary-key")]
     public string? SecondaryKey { get; set; }
 
-    [CommandSwitch("--webhook-url")]
+    [CliOption("--webhook-url")]
     public string? WebhookUrl { get; set; }
 }

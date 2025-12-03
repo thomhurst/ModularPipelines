@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datashare", "provider-share-subscription", "reinstate")]
+[CliCommand("datashare", "provider-share-subscription", "reinstate")]
 public record AzDatashareProviderShareSubscriptionReinstateOptions : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--expiration-date")]
+    [CliOption("--expiration-date")]
     public string? ExpirationDate { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--provider-share-subscription-id")]
+    [CliOption("--provider-share-subscription-id")]
     public string? ProviderShareSubscriptionId { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--share-name")]
+    [CliOption("--share-name")]
     public string? ShareName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

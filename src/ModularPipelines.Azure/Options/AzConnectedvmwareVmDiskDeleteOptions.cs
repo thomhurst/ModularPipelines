@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedvmware", "vm", "disk", "delete")]
+[CliCommand("connectedvmware", "vm", "disk", "delete")]
 public record AzConnectedvmwareVmDiskDeleteOptions(
-[property: CommandSwitch("--disks")] string Disks,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vm-name")] string VmName
+[property: CliOption("--disks")] string Disks,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vm-name")] string VmName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

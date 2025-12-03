@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "query")]
+[CliCommand("acr", "query")]
 public record AzAcrQueryOptions(
-[property: CommandSwitch("--kql-query")] string KqlQuery,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--kql-query")] string KqlQuery,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--repository")]
+    [CliOption("--repository")]
     public string? Repository { get; set; }
 
-    [CommandSwitch("--skip-token")]
+    [CliOption("--skip-token")]
     public string? SkipToken { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hybridaks", "notice")]
+[CliCommand("hybridaks", "notice")]
 public record AzHybridaksNoticeOptions(
-[property: CommandSwitch("--output-filepath")] string OutputFilepath
+[property: CliOption("--output-filepath")] string OutputFilepath
 ) : AzOptions;

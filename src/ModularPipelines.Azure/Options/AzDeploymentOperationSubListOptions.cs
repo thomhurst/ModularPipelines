@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deployment", "operation", "sub", "list")]
+[CliCommand("deployment", "operation", "sub", "list")]
 public record AzDeploymentOperationSubListOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions;

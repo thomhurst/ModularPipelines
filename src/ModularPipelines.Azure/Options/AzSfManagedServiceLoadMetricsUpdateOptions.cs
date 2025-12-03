@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "managed-service", "load-metrics", "update")]
+[CliCommand("sf", "managed-service", "load-metrics", "update")]
 public record AzSfManagedServiceLoadMetricsUpdateOptions(
-[property: CommandSwitch("--application")] string Application,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--metric-name")] string MetricName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--application")] string Application,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--metric-name")] string MetricName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--default-load")]
+    [CliOption("--default-load")]
     public string? DefaultLoad { get; set; }
 
-    [CommandSwitch("--primary-default-load")]
+    [CliOption("--primary-default-load")]
     public string? PrimaryDefaultLoad { get; set; }
 
-    [CommandSwitch("--secondary-default-load")]
+    [CliOption("--secondary-default-load")]
     public string? SecondaryDefaultLoad { get; set; }
 
-    [CommandSwitch("--weight")]
+    [CliOption("--weight")]
     public string? Weight { get; set; }
 }

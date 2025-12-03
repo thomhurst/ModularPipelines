@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "batches", "wait")]
+[CliCommand("dataproc", "batches", "wait")]
 public record GcloudDataprocBatchesWaitOptions(
-[property: PositionalArgument] string Batch,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Batch,
+[property: CliArgument] string Region
 ) : GcloudOptions;

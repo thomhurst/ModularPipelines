@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "job", "import", "create")]
+[CliCommand("dt", "job", "import", "create")]
 public record AzDtJobImportCreateOptions(
-[property: CommandSwitch("--data-file")] string DataFile,
-[property: CommandSwitch("--dt-name")] string DtName,
-[property: CommandSwitch("--ibc")] string Ibc,
-[property: CommandSwitch("--input-storage-account")] int InputStorageAccount
+[property: CliOption("--data-file")] string DataFile,
+[property: CliOption("--dt-name")] string DtName,
+[property: CliOption("--ibc")] string Ibc,
+[property: CliOption("--input-storage-account")] int InputStorageAccount
 ) : AzOptions
 {
-    [CommandSwitch("--job-id")]
+    [CliOption("--job-id")]
     public string? JobId { get; set; }
 
-    [CommandSwitch("--obc")]
+    [CliOption("--obc")]
     public string? Obc { get; set; }
 
-    [CommandSwitch("--of")]
+    [CliOption("--of")]
     public string? Of { get; set; }
 
-    [CommandSwitch("--osa")]
+    [CliOption("--osa")]
     public string? Osa { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("disk-encryption-set")]
+[CliCommand("disk-encryption-set")]
 public class AzDiskEncryptionSetIdentity
 {
     public AzDiskEncryptionSetIdentity(

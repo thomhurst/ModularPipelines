@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scc", "custom-modules")]
+[CliCommand("scc", "custom-modules")]
 public class GcloudSccCustomModulesSha
 {
     public GcloudSccCustomModulesSha(

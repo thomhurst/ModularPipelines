@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "tpus", "create")]
+[CliCommand("compute", "tpus", "create")]
 public record GcloudComputeTpusCreateOptions : GcloudOptions
 {
     public GcloudComputeTpusCreateOptions(
@@ -18,30 +18,30 @@ public record GcloudComputeTpusCreateOptions : GcloudOptions
         Version = version;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Tpu { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Zone { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string Version { get; set; }
 
-    [CommandSwitch("--accelerator-type")]
+    [CliOption("--accelerator-type")]
     public string? AcceleratorType { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [BooleanCommandSwitch("--preemptible")]
+    [CliFlag("--preemptible")]
     public bool? Preemptible { get; set; }
 
-    [CommandSwitch("--range")]
+    [CliOption("--range")]
     public string? Range { get; set; }
 }

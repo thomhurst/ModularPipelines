@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "binauthz", "attestors", "update")]
+[CliCommand("container", "binauthz", "attestors", "update")]
 public record GcloudContainerBinauthzAttestorsUpdateOptions(
-[property: PositionalArgument] string Attestor
+[property: CliArgument] string Attestor
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 }

@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "namespace", "topic-space", "create")]
+[CliCommand("eventgrid", "namespace", "topic-space", "create")]
 public record AzEventgridNamespaceTopicSpaceCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--topic-templates")]
+    [CliOption("--topic-templates")]
     public string? TopicTemplates { get; set; }
 }

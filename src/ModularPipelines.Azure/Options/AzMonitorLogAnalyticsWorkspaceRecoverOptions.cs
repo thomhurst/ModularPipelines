@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "log-analytics", "workspace", "recover")]
+[CliCommand("monitor", "log-analytics", "workspace", "recover")]
 public record AzMonitorLogAnalyticsWorkspaceRecoverOptions(
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

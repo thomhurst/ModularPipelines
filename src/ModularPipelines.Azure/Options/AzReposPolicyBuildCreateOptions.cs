@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "policy", "build", "create")]
+[CliCommand("repos", "policy", "build", "create")]
 public record AzReposPolicyBuildCreateOptions(
-[property: BooleanCommandSwitch("--blocking")] bool Blocking,
-[property: CommandSwitch("--branch")] string Branch,
-[property: CommandSwitch("--build-definition-id")] string BuildDefinitionId,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: BooleanCommandSwitch("--enabled")] bool Enabled,
-[property: BooleanCommandSwitch("--manual-queue-only")] bool ManualQueueOnly,
-[property: BooleanCommandSwitch("--queue-on-source-update-only")] bool QueueOnSourceUpdateOnly,
-[property: CommandSwitch("--repository-id")] string RepositoryId,
-[property: CommandSwitch("--valid-duration")] string ValidDuration
+[property: CliFlag("--blocking")] bool Blocking,
+[property: CliOption("--branch")] string Branch,
+[property: CliOption("--build-definition-id")] string BuildDefinitionId,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliFlag("--enabled")] bool Enabled,
+[property: CliFlag("--manual-queue-only")] bool ManualQueueOnly,
+[property: CliFlag("--queue-on-source-update-only")] bool QueueOnSourceUpdateOnly,
+[property: CliOption("--repository-id")] string RepositoryId,
+[property: CliOption("--valid-duration")] string ValidDuration
 ) : AzOptions
 {
-    [CommandSwitch("--branch-match-type")]
+    [CliOption("--branch-match-type")]
     public string? BranchMatchType { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--path-filter")]
+    [CliOption("--path-filter")]
     public string? PathFilter { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 }

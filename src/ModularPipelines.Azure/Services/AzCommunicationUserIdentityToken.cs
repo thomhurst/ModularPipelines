@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication", "user-identity")]
+[CliCommand("communication", "user-identity")]
 public class AzCommunicationUserIdentityToken
 {
     public AzCommunicationUserIdentityToken(

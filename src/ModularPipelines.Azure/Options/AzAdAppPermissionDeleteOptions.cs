@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "app", "permission", "delete")]
+[CliCommand("ad", "app", "permission", "delete")]
 public record AzAdAppPermissionDeleteOptions(
-[property: CommandSwitch("--api")] string Api,
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--api")] string Api,
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [CommandSwitch("--api-permissions")]
+    [CliOption("--api-permissions")]
     public string? ApiPermissions { get; set; }
 }

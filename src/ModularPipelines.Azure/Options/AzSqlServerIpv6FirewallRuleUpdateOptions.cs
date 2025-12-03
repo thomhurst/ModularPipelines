@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "server", "ipv6-firewall-rule", "update")]
+[CliCommand("sql", "server", "ipv6-firewall-rule", "update")]
 public record AzSqlServerIpv6FirewallRuleUpdateOptions : AzOptions
 {
-    [CommandSwitch("--end-ipv6-address")]
+    [CliOption("--end-ipv6-address")]
     public string? EndIpv6Address { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--server")]
+    [CliOption("--server")]
     public string? Server { get; set; }
 
-    [CommandSwitch("--start-ipv6-address")]
+    [CliOption("--start-ipv6-address")]
     public string? StartIpv6Address { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "waf-policy", "rule", "match-condition", "add")]
+[CliCommand("network", "front-door", "waf-policy", "rule", "match-condition", "add")]
 public record AzNetworkFrontDoorWafPolicyRuleMatchConditionAddOptions(
-[property: CommandSwitch("--match-variable")] string MatchVariable,
-[property: CommandSwitch("--operator")] string Operator,
-[property: CommandSwitch("--values")] string Values
+[property: CliOption("--match-variable")] string MatchVariable,
+[property: CliOption("--operator")] string Operator,
+[property: CliOption("--values")] string Values
 ) : AzOptions
 {
-    [CommandSwitch("--defer")]
+    [CliOption("--defer")]
     public string? Defer { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--negate")]
+    [CliFlag("--negate")]
     public bool? Negate { get; set; }
 
-    [CommandSwitch("--policy-name")]
+    [CliOption("--policy-name")]
     public string? PolicyName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--transforms")]
+    [CliOption("--transforms")]
     public string? Transforms { get; set; }
 }

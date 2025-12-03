@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ram", "associate-resource-share")]
+[CliCommand("ram", "associate-resource-share")]
 public record AwsRamAssociateResourceShareOptions(
-[property: CommandSwitch("--resource-share-arn")] string ResourceShareArn
+[property: CliOption("--resource-share-arn")] string ResourceShareArn
 ) : AwsOptions
 {
-    [CommandSwitch("--resource-arns")]
+    [CliOption("--resource-arns")]
     public string[]? ResourceArns { get; set; }
 
-    [CommandSwitch("--principals")]
+    [CliOption("--principals")]
     public string[]? Principals { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--sources")]
+    [CliOption("--sources")]
     public string[]? Sources { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

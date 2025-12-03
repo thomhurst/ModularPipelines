@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("providerhub", "sku", "list")]
+[CliCommand("providerhub", "sku", "list")]
 public record AzProviderhubSkuListOptions(
-[property: CommandSwitch("--provider-namespace")] string ProviderNamespace,
-[property: CommandSwitch("--resource-type")] string ResourceType
+[property: CliOption("--provider-namespace")] string ProviderNamespace,
+[property: CliOption("--resource-type")] string ResourceType
 ) : AzOptions
 {
-    [CommandSwitch("--nested-first")]
+    [CliOption("--nested-first")]
     public string? NestedFirst { get; set; }
 
-    [CommandSwitch("--nested-resource-type-second")]
+    [CliOption("--nested-resource-type-second")]
     public string? NestedResourceTypeSecond { get; set; }
 
-    [CommandSwitch("--nested-resource-type-third")]
+    [CliOption("--nested-resource-type-third")]
     public string? NestedResourceTypeThird { get; set; }
 }

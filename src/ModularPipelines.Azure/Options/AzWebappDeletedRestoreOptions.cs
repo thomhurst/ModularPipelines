@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "deleted", "restore")]
+[CliCommand("webapp", "deleted", "restore")]
 public record AzWebappDeletedRestoreOptions(
-[property: CommandSwitch("--deleted-id")] string DeletedId
+[property: CliOption("--deleted-id")] string DeletedId
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--restore-content-only")]
+    [CliOption("--restore-content-only")]
     public string? RestoreContentOnly { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--target-app-svc-plan")]
+    [CliOption("--target-app-svc-plan")]
     public string? TargetAppSvcPlan { get; set; }
 }

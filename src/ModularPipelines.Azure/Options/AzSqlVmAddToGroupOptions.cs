@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "vm", "add-to-group")]
+[CliCommand("sql", "vm", "add-to-group")]
 public record AzSqlVmAddToGroupOptions(
-[property: CommandSwitch("--sqlvm-group")] string SqlvmGroup
+[property: CliOption("--sqlvm-group")] string SqlvmGroup
 ) : AzOptions
 {
-    [CommandSwitch("--bootstrap-acc-pwd")]
+    [CliOption("--bootstrap-acc-pwd")]
     public string? BootstrapAccPwd { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--operator-acc-pwd")]
+    [CliOption("--operator-acc-pwd")]
     public string? OperatorAccPwd { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--service-acc-pwd")]
+    [CliOption("--service-acc-pwd")]
     public string? ServiceAccPwd { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

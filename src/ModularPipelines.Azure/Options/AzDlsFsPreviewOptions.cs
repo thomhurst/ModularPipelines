@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dls", "fs", "preview")]
+[CliCommand("dls", "fs", "preview")]
 public record AzDlsFsPreviewOptions(
-[property: CommandSwitch("--path")] string Path
+[property: CliOption("--path")] string Path
 ) : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--length")]
+    [CliOption("--length")]
     public string? Length { get; set; }
 
-    [CommandSwitch("--offset")]
+    [CliOption("--offset")]
     public string? Offset { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

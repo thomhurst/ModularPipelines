@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ids")]
+[CliCommand("ids")]
 public class GcloudIdsEndpoints
 {
     public GcloudIdsEndpoints(

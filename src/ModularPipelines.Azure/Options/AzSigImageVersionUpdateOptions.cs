@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "image-version", "update")]
+[CliCommand("sig", "image-version", "update")]
 public record AzSigImageVersionUpdateOptions(
-[property: CommandSwitch("--gallery-image-definition")] string GalleryImageDefinition,
-[property: CommandSwitch("--gallery-image-version")] string GalleryImageVersion,
-[property: CommandSwitch("--gallery-name")] string GalleryName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gallery-image-definition")] string GalleryImageDefinition,
+[property: CliOption("--gallery-image-version")] string GalleryImageVersion,
+[property: CliOption("--gallery-name")] string GalleryName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--allow-replicated-location-deletion")]
+    [CliFlag("--allow-replicated-location-deletion")]
     public bool? AllowReplicatedLocationDeletion { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--replica-count")]
+    [CliOption("--replica-count")]
     public int? ReplicaCount { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--target-edge-zones")]
+    [CliOption("--target-edge-zones")]
     public string? TargetEdgeZones { get; set; }
 
-    [CommandSwitch("--target-regions")]
+    [CliOption("--target-regions")]
     public string? TargetRegions { get; set; }
 }

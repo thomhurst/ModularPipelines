@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("services", "vpc-peerings", "operations", "wait")]
+[CliCommand("services", "vpc-peerings", "operations", "wait")]
 public record GcloudServicesVpcPeeringsOperationsWaitOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : GcloudOptions;

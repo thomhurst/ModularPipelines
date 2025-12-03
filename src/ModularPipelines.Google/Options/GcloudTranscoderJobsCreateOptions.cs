@@ -5,36 +5,36 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transcoder", "jobs", "create")]
+[CliCommand("transcoder", "jobs", "create")]
 public record GcloudTranscoderJobsCreateOptions : GcloudOptions
 {
-    [CommandSwitch("--batch-mode-priority")]
+    [CliOption("--batch-mode-priority")]
     public string? BatchModePriority { get; set; }
 
-    [CommandSwitch("--input-uri")]
+    [CliOption("--input-uri")]
     public string? InputUri { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public string? Mode { get; set; }
 
-    [CommandSwitch("--optimization")]
+    [CliOption("--optimization")]
     public string? Optimization { get; set; }
 
-    [CommandSwitch("--output-uri")]
+    [CliOption("--output-uri")]
     public string? OutputUri { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 
-    [CommandSwitch("--json")]
+    [CliOption("--json")]
     public string? Json { get; set; }
 
-    [CommandSwitch("--template-id")]
+    [CliOption("--template-id")]
     public string? TemplateId { get; set; }
 }

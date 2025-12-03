@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "firewall", "policy", "create")]
+[CliCommand("network", "firewall", "policy", "create")]
 public record AzNetworkFirewallPolicyCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--auto-learn-private-ranges")]
+    [CliOption("--auto-learn-private-ranges")]
     public string? AutoLearnPrivateRanges { get; set; }
 
-    [CommandSwitch("--base-policy")]
+    [CliOption("--base-policy")]
     public string? BasePolicy { get; set; }
 
-    [CommandSwitch("--cert-name")]
+    [CliOption("--cert-name")]
     public string? CertName { get; set; }
 
-    [CommandSwitch("--dns-servers")]
+    [CliOption("--dns-servers")]
     public string? DnsServers { get; set; }
 
-    [BooleanCommandSwitch("--enable-dns-proxy")]
+    [CliFlag("--enable-dns-proxy")]
     public bool? EnableDnsProxy { get; set; }
 
-    [CommandSwitch("--fqdns")]
+    [CliOption("--fqdns")]
     public string? Fqdns { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--idps-mode")]
+    [CliOption("--idps-mode")]
     public string? IdpsMode { get; set; }
 
-    [CommandSwitch("--ip-addresses")]
+    [CliOption("--ip-addresses")]
     public string? IpAddresses { get; set; }
 
-    [CommandSwitch("--key-vault-secret-id")]
+    [CliOption("--key-vault-secret-id")]
     public string? KeyVaultSecretId { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--private-ranges")]
+    [CliOption("--private-ranges")]
     public string? PrivateRanges { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [BooleanCommandSwitch("--sql")]
+    [CliFlag("--sql")]
     public bool? Sql { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--threat-intel-mode")]
+    [CliOption("--threat-intel-mode")]
     public string? ThreatIntelMode { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana")]
+[CliCommand("grafana")]
 public class AzGrafanaNotificationChannel
 {
     public AzGrafanaNotificationChannel(

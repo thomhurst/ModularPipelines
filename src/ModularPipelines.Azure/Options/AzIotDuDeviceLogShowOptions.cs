@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "device", "log", "show")]
+[CliCommand("iot", "du", "device", "log", "show")]
 public record AzIotDuDeviceLogShowOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--instance")] string Instance,
-[property: CommandSwitch("--lcid")] string Lcid
+[property: CliOption("--account")] int Account,
+[property: CliOption("--instance")] string Instance,
+[property: CliOption("--lcid")] string Lcid
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detailed")]
+    [CliFlag("--detailed")]
     public bool? Detailed { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

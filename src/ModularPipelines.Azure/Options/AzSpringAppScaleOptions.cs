@@ -4,46 +4,46 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "app", "scale")]
+[CliCommand("spring", "app", "scale")]
 public record AzSpringAppScaleOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--cpu")]
+    [CliOption("--cpu")]
     public string? Cpu { get; set; }
 
-    [CommandSwitch("--deployment")]
+    [CliOption("--deployment")]
     public string? Deployment { get; set; }
 
-    [CommandSwitch("--instance-count")]
+    [CliOption("--instance-count")]
     public int? InstanceCount { get; set; }
 
-    [CommandSwitch("--max-replicas")]
+    [CliOption("--max-replicas")]
     public string? MaxReplicas { get; set; }
 
-    [CommandSwitch("--memory")]
+    [CliOption("--memory")]
     public string? Memory { get; set; }
 
-    [CommandSwitch("--min-replicas")]
+    [CliOption("--min-replicas")]
     public string? MinReplicas { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--scale-rule-auth")]
+    [CliOption("--scale-rule-auth")]
     public string? ScaleRuleAuth { get; set; }
 
-    [CommandSwitch("--scale-rule-http-concurrency")]
+    [CliOption("--scale-rule-http-concurrency")]
     public string? ScaleRuleHttpConcurrency { get; set; }
 
-    [CommandSwitch("--scale-rule-metadata")]
+    [CliOption("--scale-rule-metadata")]
     public string? ScaleRuleMetadata { get; set; }
 
-    [CommandSwitch("--scale-rule-name")]
+    [CliOption("--scale-rule-name")]
     public string? ScaleRuleName { get; set; }
 
-    [CommandSwitch("--scale-rule-type")]
+    [CliOption("--scale-rule-type")]
     public string? ScaleRuleType { get; set; }
 }

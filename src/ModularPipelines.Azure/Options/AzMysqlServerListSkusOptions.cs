@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mysql", "server", "list-skus")]
+[CliCommand("mysql", "server", "list-skus")]
 public record AzMysqlServerListSkusOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : AzOptions;

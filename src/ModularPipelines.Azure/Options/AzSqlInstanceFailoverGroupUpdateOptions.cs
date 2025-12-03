@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "instance-failover-group", "update")]
+[CliCommand("sql", "instance-failover-group", "update")]
 public record AzSqlInstanceFailoverGroupUpdateOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--failover-policy")]
+    [CliOption("--failover-policy")]
     public string? FailoverPolicy { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--grace-period")]
+    [CliOption("--grace-period")]
     public string? GracePeriod { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--secondary-type")]
+    [CliOption("--secondary-type")]
     public string? SecondaryType { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 }

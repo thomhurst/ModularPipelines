@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "delete-inventory")]
+[CliCommand("ssm", "delete-inventory")]
 public record AwsSsmDeleteInventoryOptions(
-[property: CommandSwitch("--type-name")] string TypeName
+[property: CliOption("--type-name")] string TypeName
 ) : AwsOptions
 {
-    [CommandSwitch("--schema-delete-option")]
+    [CliOption("--schema-delete-option")]
     public string? SchemaDeleteOption { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

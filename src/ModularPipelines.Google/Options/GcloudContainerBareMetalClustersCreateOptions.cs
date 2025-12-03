@@ -5,7 +5,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "bare-metal", "clusters", "create")]
+[CliCommand("container", "bare-metal", "clusters", "create")]
 public record GcloudContainerBareMetalClustersCreateOptions : GcloudOptions
 {
     public GcloudContainerBareMetalClustersCreateOptions(
@@ -89,171 +89,171 @@ public record GcloudContainerBareMetalClustersCreateOptions : GcloudOptions
         LvpShareStorageClass = lvpShareStorageClass;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Cluster { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Location { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string Version { get; set; }
 
-    [CommandSwitch("--admin-cluster-membership")]
+    [CliOption("--admin-cluster-membership")]
     public string AdminClusterMembership { get; set; }
 
-    [CommandSwitch("--admin-cluster-membership-location")]
+    [CliOption("--admin-cluster-membership-location")]
     public string AdminClusterMembershipLocation { get; set; }
 
-    [CommandSwitch("--admin-cluster-membership-project")]
+    [CliOption("--admin-cluster-membership-project")]
     public string AdminClusterMembershipProject { get; set; }
 
-    [CommandSwitch("--control-plane-load-balancer-port")]
+    [CliOption("--control-plane-load-balancer-port")]
     public string ControlPlaneLoadBalancerPort { get; set; }
 
-    [CommandSwitch("--control-plane-vip")]
+    [CliOption("--control-plane-vip")]
     public string ControlPlaneVip { get; set; }
 
-    [CommandSwitch("--ingress-vip")]
+    [CliOption("--ingress-vip")]
     public string IngressVip { get; set; }
 
-    [BooleanCommandSwitch("--enable-manual-lb")]
+    [CliFlag("--enable-manual-lb")]
     public bool EnableManualLb { get; set; }
 
-    [CommandSwitch("--bgp-address-pools")]
+    [CliOption("--bgp-address-pools")]
     public string[] BgpAddressPools { get; set; }
 
-    [CommandSwitch("--bgp-asn")]
+    [CliOption("--bgp-asn")]
     public string BgpAsn { get; set; }
 
-    [CommandSwitch("--bgp-peer-configs")]
+    [CliOption("--bgp-peer-configs")]
     public string[] BgpPeerConfigs { get; set; }
 
-    [CommandSwitch("--bgp-load-balancer-node-configs")]
+    [CliOption("--bgp-load-balancer-node-configs")]
     public string[] BgpLoadBalancerNodeConfigs { get; set; }
 
-    [CommandSwitch("--bgp-load-balancer-node-labels")]
+    [CliOption("--bgp-load-balancer-node-labels")]
     public IEnumerable<KeyValue> BgpLoadBalancerNodeLabels { get; set; }
 
-    [CommandSwitch("--bgp-load-balancer-node-taints")]
+    [CliOption("--bgp-load-balancer-node-taints")]
     public IEnumerable<KeyValue> BgpLoadBalancerNodeTaints { get; set; }
 
-    [CommandSwitch("--bgp-load-balancer-registry-burst")]
+    [CliOption("--bgp-load-balancer-registry-burst")]
     public string BgpLoadBalancerRegistryBurst { get; set; }
 
-    [CommandSwitch("--bgp-load-balancer-registry-pull-qps")]
+    [CliOption("--bgp-load-balancer-registry-pull-qps")]
     public string BgpLoadBalancerRegistryPullQps { get; set; }
 
-    [BooleanCommandSwitch("--disable-bgp-load-balancer-serialize-image-pulls")]
+    [CliFlag("--disable-bgp-load-balancer-serialize-image-pulls")]
     public bool DisableBgpLoadBalancerSerializeImagePulls { get; set; }
 
-    [CommandSwitch("--metal-lb-address-pools")]
+    [CliOption("--metal-lb-address-pools")]
     public string[] MetalLbAddressPools { get; set; }
 
-    [CommandSwitch("--metal-lb-load-balancer-node-configs")]
+    [CliOption("--metal-lb-load-balancer-node-configs")]
     public string[] MetalLbLoadBalancerNodeConfigs { get; set; }
 
-    [CommandSwitch("--metal-lb-load-balancer-node-labels")]
+    [CliOption("--metal-lb-load-balancer-node-labels")]
     public IEnumerable<KeyValue> MetalLbLoadBalancerNodeLabels { get; set; }
 
-    [CommandSwitch("--metal-lb-load-balancer-node-taints")]
+    [CliOption("--metal-lb-load-balancer-node-taints")]
     public IEnumerable<KeyValue> MetalLbLoadBalancerNodeTaints { get; set; }
 
-    [BooleanCommandSwitch("--disable-metal-lb-load-balancer-serialize-image-pulls")]
+    [CliFlag("--disable-metal-lb-load-balancer-serialize-image-pulls")]
     public bool DisableMetalLbLoadBalancerSerializeImagePulls { get; set; }
 
-    [CommandSwitch("--metal-lb-load-balancer-registry-burst")]
+    [CliOption("--metal-lb-load-balancer-registry-burst")]
     public string MetalLbLoadBalancerRegistryBurst { get; set; }
 
-    [CommandSwitch("--metal-lb-load-balancer-registry-pull-qps")]
+    [CliOption("--metal-lb-load-balancer-registry-pull-qps")]
     public string MetalLbLoadBalancerRegistryPullQps { get; set; }
 
-    [CommandSwitch("--api-server-args")]
+    [CliOption("--api-server-args")]
     public IEnumerable<KeyValue> ApiServerArgs { get; set; }
 
-    [CommandSwitch("--control-plane-node-configs")]
+    [CliOption("--control-plane-node-configs")]
     public string[] ControlPlaneNodeConfigs { get; set; }
 
-    [CommandSwitch("--control-plane-node-labels")]
+    [CliOption("--control-plane-node-labels")]
     public IEnumerable<KeyValue> ControlPlaneNodeLabels { get; set; }
 
-    [CommandSwitch("--control-plane-node-taints")]
+    [CliOption("--control-plane-node-taints")]
     public IEnumerable<KeyValue> ControlPlaneNodeTaints { get; set; }
 
-    [CommandSwitch("--control-plane-registry-burst")]
+    [CliOption("--control-plane-registry-burst")]
     public string ControlPlaneRegistryBurst { get; set; }
 
-    [CommandSwitch("--control-plane-registry-pull-qps")]
+    [CliOption("--control-plane-registry-pull-qps")]
     public string ControlPlaneRegistryPullQps { get; set; }
 
-    [BooleanCommandSwitch("--disable-control-plane-serialize-image-pulls")]
+    [CliFlag("--disable-control-plane-serialize-image-pulls")]
     public bool DisableControlPlaneSerializeImagePulls { get; set; }
 
-    [CommandSwitch("--lvp-node-mounts-config-path")]
+    [CliOption("--lvp-node-mounts-config-path")]
     public string LvpNodeMountsConfigPath { get; set; }
 
-    [CommandSwitch("--lvp-node-mounts-config-storage-class")]
+    [CliOption("--lvp-node-mounts-config-storage-class")]
     public string LvpNodeMountsConfigStorageClass { get; set; }
 
-    [CommandSwitch("--shared-path-pv-count")]
+    [CliOption("--shared-path-pv-count")]
     public string SharedPathPvCount { get; set; }
 
-    [CommandSwitch("--lvp-share-path")]
+    [CliOption("--lvp-share-path")]
     public string LvpSharePath { get; set; }
 
-    [CommandSwitch("--lvp-share-storage-class")]
+    [CliOption("--lvp-share-storage-class")]
     public string LvpShareStorageClass { get; set; }
 
-    [CommandSwitch("--admin-users")]
+    [CliOption("--admin-users")]
     public string? AdminUsers { get; set; }
 
-    [CommandSwitch("--annotations")]
+    [CliOption("--annotations")]
     public IEnumerable<KeyValue>? Annotations { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--binauthz-evaluation-mode")]
+    [CliOption("--binauthz-evaluation-mode")]
     public string? BinauthzEvaluationMode { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enable-application-logs")]
+    [CliFlag("--enable-application-logs")]
     public bool? EnableApplicationLogs { get; set; }
 
-    [CommandSwitch("--login-user")]
+    [CliOption("--login-user")]
     public string? LoginUser { get; set; }
 
-    [CommandSwitch("--maintenance-address-cidr-blocks")]
+    [CliOption("--maintenance-address-cidr-blocks")]
     public string[]? MaintenanceAddressCidrBlocks { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--container-runtime")]
+    [CliOption("--container-runtime")]
     public string? ContainerRuntime { get; set; }
 
-    [CommandSwitch("--max-pods-per-node")]
+    [CliOption("--max-pods-per-node")]
     public string? MaxPodsPerNode { get; set; }
 
-    [BooleanCommandSwitch("--enable-advanced-networking")]
+    [CliFlag("--enable-advanced-networking")]
     public bool? EnableAdvancedNetworking { get; set; }
 
-    [BooleanCommandSwitch("--enable-multi-nic-config")]
+    [CliFlag("--enable-multi-nic-config")]
     public bool? EnableMultiNicConfig { get; set; }
 
-    [BooleanCommandSwitch("--enable-sr-iov-config")]
+    [CliFlag("--enable-sr-iov-config")]
     public bool? EnableSrIovConfig { get; set; }
 
-    [CommandSwitch("--island-mode-pod-address-cidr-blocks")]
+    [CliOption("--island-mode-pod-address-cidr-blocks")]
     public string[]? IslandModePodAddressCidrBlocks { get; set; }
 
-    [CommandSwitch("--island-mode-service-address-cidr-blocks")]
+    [CliOption("--island-mode-service-address-cidr-blocks")]
     public string[]? IslandModeServiceAddressCidrBlocks { get; set; }
 
-    [CommandSwitch("--uri")]
+    [CliOption("--uri")]
     public string? Uri { get; set; }
 
-    [CommandSwitch("--no-proxy")]
+    [CliOption("--no-proxy")]
     public string[]? NoProxy { get; set; }
 }

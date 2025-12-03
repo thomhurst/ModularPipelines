@@ -5,48 +5,48 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("privateca", "templates", "update")]
+[CliCommand("privateca", "templates", "update")]
 public record GcloudPrivatecaTemplatesUpdateOptions(
-[property: PositionalArgument] string CertificateTemplate,
-[property: PositionalArgument] string Location
+[property: CliArgument] string CertificateTemplate,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--copy-sans")]
+    [CliFlag("--copy-sans")]
     public bool? CopySans { get; set; }
 
-    [BooleanCommandSwitch("--copy-subject")]
+    [CliFlag("--copy-subject")]
     public bool? CopySubject { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--identity-cel-expression")]
+    [CliOption("--identity-cel-expression")]
     public string? IdentityCelExpression { get; set; }
 
-    [CommandSwitch("--predefined-values-file")]
+    [CliOption("--predefined-values-file")]
     public string? PredefinedValuesFile { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 
-    [BooleanCommandSwitch("--copy-all-requested-extensions")]
+    [CliFlag("--copy-all-requested-extensions")]
     public bool? CopyAllRequestedExtensions { get; set; }
 
-    [CommandSwitch("--copy-extensions-by-oid")]
+    [CliOption("--copy-extensions-by-oid")]
     public string[]? CopyExtensionsByOid { get; set; }
 
-    [BooleanCommandSwitch("--drop-oid-extensions")]
+    [CliFlag("--drop-oid-extensions")]
     public bool? DropOidExtensions { get; set; }
 
-    [CommandSwitch("--copy-known-extensions")]
+    [CliOption("--copy-known-extensions")]
     public string[]? CopyKnownExtensions { get; set; }
 
-    [BooleanCommandSwitch("--drop-known-extensions")]
+    [CliFlag("--drop-known-extensions")]
     public bool? DropKnownExtensions { get; set; }
 }

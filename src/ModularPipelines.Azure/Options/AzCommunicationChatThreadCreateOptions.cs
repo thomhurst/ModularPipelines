@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication", "chat", "thread", "create")]
+[CliCommand("communication", "chat", "thread", "create")]
 public record AzCommunicationChatThreadCreateOptions(
-[property: CommandSwitch("--topic")] string Topic
+[property: CliOption("--topic")] string Topic
 ) : AzOptions
 {
-    [CommandSwitch("--access-token")]
+    [CliOption("--access-token")]
     public string? AccessToken { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 }

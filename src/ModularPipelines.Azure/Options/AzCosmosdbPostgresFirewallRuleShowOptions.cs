@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "postgres", "firewall-rule", "show")]
+[CliCommand("cosmosdb", "postgres", "firewall-rule", "show")]
 public record AzCosmosdbPostgresFirewallRuleShowOptions : AzOptions
 {
-    [CommandSwitch("--cluster-name")]
+    [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CommandSwitch("--firewall-rule-name")]
+    [CliOption("--firewall-rule-name")]
     public string? FirewallRuleName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

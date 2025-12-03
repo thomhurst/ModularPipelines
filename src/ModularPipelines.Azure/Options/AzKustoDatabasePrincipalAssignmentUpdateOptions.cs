@@ -4,51 +4,51 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "database-principal-assignment", "update")]
+[CliCommand("kusto", "database-principal-assignment", "update")]
 public record AzKustoDatabasePrincipalAssignmentUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--cluster-name")]
+    [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CommandSwitch("--database-name")]
+    [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--principal-assignment-name")]
+    [CliOption("--principal-assignment-name")]
     public string? PrincipalAssignmentName { get; set; }
 
-    [CommandSwitch("--principal-id")]
+    [CliOption("--principal-id")]
     public string? PrincipalId { get; set; }
 
-    [CommandSwitch("--principal-type")]
+    [CliOption("--principal-type")]
     public string? PrincipalType { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tenant-id")]
+    [CliOption("--tenant-id")]
     public string? TenantId { get; set; }
 }

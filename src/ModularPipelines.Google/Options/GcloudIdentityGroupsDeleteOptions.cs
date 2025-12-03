@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("identity", "groups", "delete")]
+[CliCommand("identity", "groups", "delete")]
 public record GcloudIdentityGroupsDeleteOptions(
-[property: PositionalArgument] string Email
+[property: CliArgument] string Email
 ) : GcloudOptions;

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("textract", "get-adapter")]
+[CliCommand("textract", "get-adapter")]
 public record AwsTextractGetAdapterOptions(
-[property: CommandSwitch("--adapter-id")] string AdapterId
+[property: CliOption("--adapter-id")] string AdapterId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

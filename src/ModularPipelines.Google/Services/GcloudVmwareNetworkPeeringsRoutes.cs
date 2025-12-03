@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "network-peerings")]
+[CliCommand("vmware", "network-peerings")]
 public class GcloudVmwareNetworkPeeringsRoutes
 {
     public GcloudVmwareNetworkPeeringsRoutes(

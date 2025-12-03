@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("nginx", "deployment", "certificate", "show")]
+[CliCommand("nginx", "deployment", "certificate", "show")]
 public record AzNginxDeploymentCertificateShowOptions : AzOptions
 {
-    [CommandSwitch("--certificate-name")]
+    [CliOption("--certificate-name")]
     public string? CertificateName { get; set; }
 
-    [CommandSwitch("--deployment-name")]
+    [CliOption("--deployment-name")]
     public string? DeploymentName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

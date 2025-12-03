@@ -3,61 +3,61 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("list")]
+[CliCommand("list")]
 [ExcludeFromCodeCoverage]
 public record HelmListOptions : HelmOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--all-namespaces")]
+    [CliFlag("--all-namespaces")]
     public virtual bool? AllNamespaces { get; set; }
 
-    [BooleanCommandSwitch("--date")]
+    [CliFlag("--date")]
     public virtual bool? Date { get; set; }
 
-    [BooleanCommandSwitch("--deployed")]
+    [CliFlag("--deployed")]
     public virtual bool? Deployed { get; set; }
 
-    [BooleanCommandSwitch("--failed")]
+    [CliFlag("--failed")]
     public virtual bool? Failed { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filter", SwitchValueSeparator = " ")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--max", SwitchValueSeparator = " ")]
+    [CliOption("--max")]
     public int? Max { get; set; }
 
-    [BooleanCommandSwitch("--no-headers")]
+    [CliFlag("--no-headers")]
     public virtual bool? NoHeaders { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--offset", SwitchValueSeparator = " ")]
+    [CliOption("--offset")]
     public int? Offset { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 
-    [BooleanCommandSwitch("--pending")]
+    [CliFlag("--pending")]
     public virtual bool? Pending { get; set; }
 
-    [BooleanCommandSwitch("--reverse")]
+    [CliFlag("--reverse")]
     public virtual bool? Reverse { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CliOption("--selector")]
     public string? Selector { get; set; }
 
-    [BooleanCommandSwitch("--short")]
+    [CliFlag("--short")]
     public virtual bool? Short { get; set; }
 
-    [BooleanCommandSwitch("--superseded")]
+    [CliFlag("--superseded")]
     public virtual bool? Superseded { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--time-format", SwitchValueSeparator = " ")]
+    [CliOption("--time-format")]
     public string? TimeFormat { get; set; }
 
-    [BooleanCommandSwitch("--uninstalled")]
+    [CliFlag("--uninstalled")]
     public virtual bool? Uninstalled { get; set; }
 
-    [BooleanCommandSwitch("--uninstalling")]
+    [CliFlag("--uninstalling")]
     public virtual bool? Uninstalling { get; set; }
 }

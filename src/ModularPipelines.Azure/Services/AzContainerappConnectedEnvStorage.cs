@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "connected-env")]
+[CliCommand("containerapp", "connected-env")]
 public class AzContainerappConnectedEnvStorage
 {
     public AzContainerappConnectedEnvStorage(

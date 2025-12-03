@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("data-catalog", "tag-templates")]
+[CliCommand("data-catalog", "tag-templates")]
 public class GcloudDataCatalogTagTemplatesFields
 {
     public GcloudDataCatalogTagTemplatesFields(

@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datadog", "monitor", "create")]
+[CliCommand("datadog", "monitor", "create")]
 public record AzDatadogMonitorCreateOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--monitor-name")] string MonitorName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--datadog-organization-properties")]
+    [CliOption("--datadog-organization-properties")]
     public string? DatadogOrganizationProperties { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--sku-name")]
+    [CliOption("--sku-name")]
     public string? SkuName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--user-info")]
+    [CliOption("--user-info")]
     public string? UserInfo { get; set; }
 }

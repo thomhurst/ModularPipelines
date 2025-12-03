@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("certificate-manager", "maps")]
+[CliCommand("certificate-manager", "maps")]
 public class GcloudCertificateManagerMapsEntries
 {
     public GcloudCertificateManagerMapsEntries(

@@ -20,9 +20,9 @@ public record DotNetWorkloadSearchOptions : DotNetOptions
         CommandParts = ["workload", "search", "[<SEARCH_STRING>]"];
     }
 
-    [PositionalArgument(PlaceholderName = "[<SEARCH_STRING>]")]
+    [CliArgument(Name = "[<SEARCH_STRING>]")]
     public string? SearchString { get; set; }
 
-    [CommandSwitch("--verbosity")]
+    [CliOption("--verbosity")]
     public virtual string? Verbosity { get; set; }
 }

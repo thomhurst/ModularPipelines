@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "env", "certificate", "create")]
+[CliCommand("containerapp", "env", "certificate", "create")]
 public record AzContainerappEnvCertificateCreateOptions(
-[property: CommandSwitch("--hostname")] string Hostname,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--validation-method")] string ValidationMethod
+[property: CliOption("--hostname")] string Hostname,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--validation-method")] string ValidationMethod
 ) : AzOptions
 {
-    [CommandSwitch("--certificate-name")]
+    [CliOption("--certificate-name")]
     public string? CertificateName { get; set; }
 }

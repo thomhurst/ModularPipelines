@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedmachine", "upgrade-extension")]
+[CliCommand("connectedmachine", "upgrade-extension")]
 public record AzConnectedmachineUpgradeExtensionOptions : AzOptions
 {
-    [CommandSwitch("--extension-targets")]
+    [CliOption("--extension-targets")]
     public string? ExtensionTargets { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--machine-name")]
+    [CliOption("--machine-name")]
     public string? MachineName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

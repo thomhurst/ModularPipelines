@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appservice", "domain", "create")]
+[CliCommand("appservice", "domain", "create")]
 public record AzAppserviceDomainCreateOptions(
-[property: CommandSwitch("--contact-info")] string ContactInfo,
-[property: CommandSwitch("--hostname")] string Hostname,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--contact-info")] string ContactInfo,
+[property: CliOption("--hostname")] string Hostname,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--accept-terms")]
+    [CliFlag("--accept-terms")]
     public bool? AcceptTerms { get; set; }
 
-    [BooleanCommandSwitch("--auto-renew")]
+    [CliFlag("--auto-renew")]
     public bool? AutoRenew { get; set; }
 
-    [BooleanCommandSwitch("--dryrun")]
+    [CliFlag("--dryrun")]
     public bool? Dryrun { get; set; }
 
-    [BooleanCommandSwitch("--privacy")]
+    [CliFlag("--privacy")]
     public bool? Privacy { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

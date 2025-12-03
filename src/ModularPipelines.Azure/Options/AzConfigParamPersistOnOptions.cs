@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("config", "param-persist", "on")]
+[CliCommand("config", "param-persist", "on")]
 public record AzConfigParamPersistOnOptions : AzOptions;

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("relay")]
+[CliCommand("relay")]
 public class AzRelayWcfrelay
 {
     public AzRelayWcfrelay(

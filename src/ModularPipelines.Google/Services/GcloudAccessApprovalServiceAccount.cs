@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-approval")]
+[CliCommand("access-approval")]
 public class GcloudAccessApprovalServiceAccount
 {
     public GcloudAccessApprovalServiceAccount(

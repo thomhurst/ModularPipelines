@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sesv2", "update-email-identity-policy")]
+[CliCommand("sesv2", "update-email-identity-policy")]
 public record AwsSesv2UpdateEmailIdentityPolicyOptions(
-[property: CommandSwitch("--email-identity")] string EmailIdentity,
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--policy")] string Policy
+[property: CliOption("--email-identity")] string EmailIdentity,
+[property: CliOption("--policy-name")] string PolicyName,
+[property: CliOption("--policy")] string Policy
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

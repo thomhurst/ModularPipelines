@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workload-identity-pools", "list")]
+[CliCommand("iam", "workload-identity-pools", "list")]
 public record GcloudIamWorkloadIdentityPoolsListOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--show-deleted")]
+    [CliFlag("--show-deleted")]
     public bool? ShowDeleted { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "ssl-certificates", "create")]
+[CliCommand("compute", "ssl-certificates", "create")]
 public record GcloudComputeSslCertificatesCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--domains")] string[] Domains,
-[property: CommandSwitch("--certificate")] string Certificate,
-[property: CommandSwitch("--private-key")] string PrivateKey
+[property: CliArgument] string Name,
+[property: CliOption("--domains")] string[] Domains,
+[property: CliOption("--certificate")] string Certificate,
+[property: CliOption("--private-key")] string PrivateKey
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

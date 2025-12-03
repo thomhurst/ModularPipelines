@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datamigration", "sql-vm", "cutover")]
+[CliCommand("datamigration", "sql-vm", "cutover")]
 public record AzDatamigrationSqlVmCutoverOptions(
-[property: CommandSwitch("--migration-operation-id")] string MigrationOperationId
+[property: CliOption("--migration-operation-id")] string MigrationOperationId
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sql-vm-name")]
+    [CliOption("--sql-vm-name")]
     public string? SqlVmName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--target-db-name")]
+    [CliOption("--target-db-name")]
     public string? TargetDbName { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "move")]
+[CliCommand("compute", "instances", "move")]
 public record GcloudComputeInstancesMoveOptions(
-[property: PositionalArgument] string InstanceName,
-[property: CommandSwitch("--destination-zone")] string DestinationZone
+[property: CliArgument] string InstanceName,
+[property: CliOption("--destination-zone")] string DestinationZone
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

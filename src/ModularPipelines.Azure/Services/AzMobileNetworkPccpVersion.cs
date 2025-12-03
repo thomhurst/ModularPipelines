@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mobile-network", "pccp")]
+[CliCommand("mobile-network", "pccp")]
 public class AzMobileNetworkPccpVersion
 {
     public AzMobileNetworkPccpVersion(

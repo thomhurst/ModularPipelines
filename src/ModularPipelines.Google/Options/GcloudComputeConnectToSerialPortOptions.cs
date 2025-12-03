@@ -5,32 +5,32 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "connect-to-serial-port")]
+[CliCommand("compute", "connect-to-serial-port")]
 public record GcloudComputeConnectToSerialPortOptions(
-[property: PositionalArgument] string User
+[property: CliArgument] string User
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CommandSwitch("--extra-args")]
+    [CliOption("--extra-args")]
     public IEnumerable<KeyValue>? ExtraArgs { get; set; }
 
-    [BooleanCommandSwitch("--force-key-file-overwrite")]
+    [CliFlag("--force-key-file-overwrite")]
     public bool? ForceKeyFileOverwrite { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public string? Port { get; set; }
 
-    [CommandSwitch("--ssh-key-file")]
+    [CliOption("--ssh-key-file")]
     public string? SshKeyFile { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--ssh-key-expiration")]
+    [CliOption("--ssh-key-expiration")]
     public string? SshKeyExpiration { get; set; }
 
-    [CommandSwitch("--ssh-key-expire-after")]
+    [CliOption("--ssh-key-expire-after")]
     public string? SshKeyExpireAfter { get; set; }
 }

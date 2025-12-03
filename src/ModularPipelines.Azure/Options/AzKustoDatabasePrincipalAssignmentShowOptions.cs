@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "database-principal-assignment", "show")]
+[CliCommand("kusto", "database-principal-assignment", "show")]
 public record AzKustoDatabasePrincipalAssignmentShowOptions : AzOptions
 {
-    [CommandSwitch("--cluster-name")]
+    [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CommandSwitch("--database-name")]
+    [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--principal-assignment-name")]
+    [CliOption("--principal-assignment-name")]
     public string? PrincipalAssignmentName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

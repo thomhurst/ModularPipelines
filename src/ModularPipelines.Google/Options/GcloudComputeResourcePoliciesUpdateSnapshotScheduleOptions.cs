@@ -5,38 +5,38 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "resource-policies", "update", "snapshot-schedule")]
+[CliCommand("compute", "resource-policies", "update", "snapshot-schedule")]
 public record GcloudComputeResourcePoliciesUpdateSnapshotScheduleOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--max-retention-days")]
+    [CliOption("--max-retention-days")]
     public string? MaxRetentionDays { get; set; }
 
-    [CommandSwitch("--on-source-disk-delete")]
+    [CliOption("--on-source-disk-delete")]
     public string? OnSourceDiskDelete { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--snapshot-labels")]
+    [CliOption("--snapshot-labels")]
     public IEnumerable<KeyValue>? SnapshotLabels { get; set; }
 
-    [CommandSwitch("--weekly-schedule-from-file")]
+    [CliOption("--weekly-schedule-from-file")]
     public string? WeeklyScheduleFromFile { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
-    [BooleanCommandSwitch("--daily-schedule")]
+    [CliFlag("--daily-schedule")]
     public bool? DailySchedule { get; set; }
 
-    [CommandSwitch("--hourly-schedule")]
+    [CliOption("--hourly-schedule")]
     public string? HourlySchedule { get; set; }
 
-    [CommandSwitch("--weekly-schedule")]
+    [CliOption("--weekly-schedule")]
     public string? WeeklySchedule { get; set; }
 }

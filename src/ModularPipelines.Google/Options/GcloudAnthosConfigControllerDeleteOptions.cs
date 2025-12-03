@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("anthos", "config", "controller", "delete")]
+[CliCommand("anthos", "config", "controller", "delete")]
 public record GcloudAnthosConfigControllerDeleteOptions(
-[property: PositionalArgument] string Name,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Name,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

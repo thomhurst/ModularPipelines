@@ -5,19 +5,19 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pca-connector-ad", "create-connector")]
+[CliCommand("pca-connector-ad", "create-connector")]
 public record AwsPcaConnectorAdCreateConnectorOptions(
-[property: CommandSwitch("--certificate-authority-arn")] string CertificateAuthorityArn,
-[property: CommandSwitch("--directory-id")] string DirectoryId,
-[property: CommandSwitch("--vpc-information")] string VpcInformation
+[property: CliOption("--certificate-authority-arn")] string CertificateAuthorityArn,
+[property: CliOption("--directory-id")] string DirectoryId,
+[property: CliOption("--vpc-information")] string VpcInformation
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

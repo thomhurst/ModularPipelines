@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "subscriptions", "pull")]
+[CliCommand("pubsub", "subscriptions", "pull")]
 public record GcloudPubsubSubscriptionsPullOptions(
-[property: PositionalArgument] string Subscription
+[property: CliArgument] string Subscription
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--auto-ack")]
+    [CliFlag("--auto-ack")]
     public bool? AutoAck { get; set; }
 }

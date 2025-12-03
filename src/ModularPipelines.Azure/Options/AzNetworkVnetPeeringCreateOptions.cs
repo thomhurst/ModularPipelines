@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vnet", "peering", "create")]
+[CliCommand("network", "vnet", "peering", "create")]
 public record AzNetworkVnetPeeringCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--remote-vnet")] string RemoteVnet,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vnet-name")] string VnetName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--remote-vnet")] string RemoteVnet,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vnet-name")] string VnetName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allow-forwarded-traffic")]
+    [CliFlag("--allow-forwarded-traffic")]
     public bool? AllowForwardedTraffic { get; set; }
 
-    [BooleanCommandSwitch("--allow-gateway-transit")]
+    [CliFlag("--allow-gateway-transit")]
     public bool? AllowGatewayTransit { get; set; }
 
-    [BooleanCommandSwitch("--allow-vnet-access")]
+    [CliFlag("--allow-vnet-access")]
     public bool? AllowVnetAccess { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--use-remote-gateways")]
+    [CliFlag("--use-remote-gateways")]
     public bool? UseRemoteGateways { get; set; }
 }

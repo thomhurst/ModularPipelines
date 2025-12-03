@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "log-analytics", "workspace")]
+[CliCommand("monitor", "log-analytics", "workspace")]
 public class AzMonitorLogAnalyticsWorkspaceLinkedService
 {
     public AzMonitorLogAnalyticsWorkspaceLinkedService(

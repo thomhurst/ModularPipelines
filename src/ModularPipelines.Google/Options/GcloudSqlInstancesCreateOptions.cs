@@ -4,218 +4,218 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "instances", "create")]
+[CliCommand("sql", "instances", "create")]
 public record GcloudSqlInstancesCreateOptions(
-[property: PositionalArgument] string Instance
+[property: CliArgument] string Instance
 ) : GcloudOptions
 {
-    [CommandSwitch("--activation-policy")]
+    [CliOption("--activation-policy")]
     public string? ActivationPolicy { get; set; }
 
-    [CommandSwitch("--active-directory-domain")]
+    [CliOption("--active-directory-domain")]
     public string? ActiveDirectoryDomain { get; set; }
 
-    [CommandSwitch("--[no-]assign-ip")]
+    [CliOption("--[no-]assign-ip")]
     public string[]? NoAssignIp { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--audit-bucket-path")]
+    [CliOption("--audit-bucket-path")]
     public string? AuditBucketPath { get; set; }
 
-    [CommandSwitch("--audit-retention-interval")]
+    [CliOption("--audit-retention-interval")]
     public string? AuditRetentionInterval { get; set; }
 
-    [CommandSwitch("--audit-upload-interval")]
+    [CliOption("--audit-upload-interval")]
     public string? AuditUploadInterval { get; set; }
 
-    [CommandSwitch("--authorized-networks")]
+    [CliOption("--authorized-networks")]
     public string[]? AuthorizedNetworks { get; set; }
 
-    [CommandSwitch("--availability-type")]
+    [CliOption("--availability-type")]
     public string? AvailabilityType { get; set; }
 
-    [BooleanCommandSwitch("--backup")]
+    [CliFlag("--backup")]
     public bool? Backup { get; set; }
 
-    [CommandSwitch("--backup-location")]
+    [CliOption("--backup-location")]
     public string? BackupLocation { get; set; }
 
-    [CommandSwitch("--backup-start-time")]
+    [CliOption("--backup-start-time")]
     public string? BackupStartTime { get; set; }
 
-    [BooleanCommandSwitch("--cascadable-replica")]
+    [CliFlag("--cascadable-replica")]
     public bool? CascadableReplica { get; set; }
 
-    [CommandSwitch("--collation")]
+    [CliOption("--collation")]
     public string? Collation { get; set; }
 
-    [CommandSwitch("--connector-enforcement")]
+    [CliOption("--connector-enforcement")]
     public string? ConnectorEnforcement { get; set; }
 
-    [CommandSwitch("--cpu")]
+    [CliOption("--cpu")]
     public string? Cpu { get; set; }
 
-    [CommandSwitch("--database-flags")]
+    [CliOption("--database-flags")]
     public string[]? DatabaseFlags { get; set; }
 
-    [CommandSwitch("--database-version")]
+    [CliOption("--database-version")]
     public string? DatabaseVersion { get; set; }
 
-    [CommandSwitch("--[no-]deletion-protection")]
+    [CliOption("--[no-]deletion-protection")]
     public string[]? NoDeletionProtection { get; set; }
 
-    [CommandSwitch("--deny-maintenance-period-end-date")]
+    [CliOption("--deny-maintenance-period-end-date")]
     public string? DenyMaintenancePeriodEndDate { get; set; }
 
-    [CommandSwitch("--deny-maintenance-period-start-date")]
+    [CliOption("--deny-maintenance-period-start-date")]
     public string? DenyMaintenancePeriodStartDate { get; set; }
 
-    [CommandSwitch("--deny-maintenance-period-time")]
+    [CliOption("--deny-maintenance-period-time")]
     public string? DenyMaintenancePeriodTime { get; set; }
 
-    [CommandSwitch("--edition")]
+    [CliOption("--edition")]
     public string? Edition { get; set; }
 
-    [BooleanCommandSwitch("--enable-bin-log")]
+    [CliFlag("--enable-bin-log")]
     public bool? EnableBinLog { get; set; }
 
-    [BooleanCommandSwitch("--enable-data-cache")]
+    [CliFlag("--enable-data-cache")]
     public bool? EnableDataCache { get; set; }
 
-    [BooleanCommandSwitch("--enable-google-private-path")]
+    [CliFlag("--enable-google-private-path")]
     public bool? EnableGooglePrivatePath { get; set; }
 
-    [BooleanCommandSwitch("--enable-password-policy")]
+    [CliFlag("--enable-password-policy")]
     public bool? EnablePasswordPolicy { get; set; }
 
-    [BooleanCommandSwitch("--enable-point-in-time-recovery")]
+    [CliFlag("--enable-point-in-time-recovery")]
     public bool? EnablePointInTimeRecovery { get; set; }
 
-    [CommandSwitch("--failover-replica-name")]
+    [CliOption("--failover-replica-name")]
     public string? FailoverReplicaName { get; set; }
 
-    [CommandSwitch("--[no-]insights-config-query-insights-enabled")]
+    [CliOption("--[no-]insights-config-query-insights-enabled")]
     public string[]? NoInsightsConfigQueryInsightsEnabled { get; set; }
 
-    [CommandSwitch("--insights-config-query-plans-per-minute")]
+    [CliOption("--insights-config-query-plans-per-minute")]
     public string? InsightsConfigQueryPlansPerMinute { get; set; }
 
-    [CommandSwitch("--insights-config-query-string-length")]
+    [CliOption("--insights-config-query-string-length")]
     public string? InsightsConfigQueryStringLength { get; set; }
 
-    [CommandSwitch("--[no-]insights-config-record-application-tags")]
+    [CliOption("--[no-]insights-config-record-application-tags")]
     public string[]? NoInsightsConfigRecordApplicationTags { get; set; }
 
-    [CommandSwitch("--[no-]insights-config-record-client-address")]
+    [CliOption("--[no-]insights-config-record-client-address")]
     public string[]? NoInsightsConfigRecordClientAddress { get; set; }
 
-    [CommandSwitch("--maintenance-release-channel")]
+    [CliOption("--maintenance-release-channel")]
     public string? MaintenanceReleaseChannel { get; set; }
 
-    [CommandSwitch("--maintenance-window-day")]
+    [CliOption("--maintenance-window-day")]
     public string? MaintenanceWindowDay { get; set; }
 
-    [CommandSwitch("--maintenance-window-hour")]
+    [CliOption("--maintenance-window-hour")]
     public string? MaintenanceWindowHour { get; set; }
 
-    [CommandSwitch("--master-instance-name")]
+    [CliOption("--master-instance-name")]
     public string? MasterInstanceName { get; set; }
 
-    [CommandSwitch("--memory")]
+    [CliOption("--memory")]
     public string? Memory { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--password-policy-complexity")]
+    [CliOption("--password-policy-complexity")]
     public string? PasswordPolicyComplexity { get; set; }
 
-    [CommandSwitch("--[no-]password-policy-disallow-username-substring")]
+    [CliOption("--[no-]password-policy-disallow-username-substring")]
     public string[]? NoPasswordPolicyDisallowUsernameSubstring { get; set; }
 
-    [CommandSwitch("--password-policy-min-length")]
+    [CliOption("--password-policy-min-length")]
     public string? PasswordPolicyMinLength { get; set; }
 
-    [CommandSwitch("--password-policy-password-change-interval")]
+    [CliOption("--password-policy-password-change-interval")]
     public string? PasswordPolicyPasswordChangeInterval { get; set; }
 
-    [CommandSwitch("--password-policy-reuse-interval")]
+    [CliOption("--password-policy-reuse-interval")]
     public string? PasswordPolicyReuseInterval { get; set; }
 
-    [CommandSwitch("--[no-]recreate-replicas-on-primary-crash")]
+    [CliOption("--[no-]recreate-replicas-on-primary-crash")]
     public string[]? NoRecreateReplicasOnPrimaryCrash { get; set; }
 
-    [CommandSwitch("--replica-type")]
+    [CliOption("--replica-type")]
     public string? ReplicaType { get; set; }
 
-    [CommandSwitch("--replication")]
+    [CliOption("--replication")]
     public string? Replication { get; set; }
 
-    [BooleanCommandSwitch("--require-ssl")]
+    [CliFlag("--require-ssl")]
     public bool? RequireSsl { get; set; }
 
-    [CommandSwitch("--retained-backups-count")]
+    [CliOption("--retained-backups-count")]
     public string? RetainedBackupsCount { get; set; }
 
-    [CommandSwitch("--retained-transaction-log-days")]
+    [CliOption("--retained-transaction-log-days")]
     public string? RetainedTransactionLogDays { get; set; }
 
-    [CommandSwitch("--root-password")]
+    [CliOption("--root-password")]
     public string? RootPassword { get; set; }
 
-    [CommandSwitch("--ssl-mode")]
+    [CliOption("--ssl-mode")]
     public string? SslMode { get; set; }
 
-    [CommandSwitch("--[no-]storage-auto-increase")]
+    [CliOption("--[no-]storage-auto-increase")]
     public string[]? NoStorageAutoIncrease { get; set; }
 
-    [CommandSwitch("--storage-size")]
+    [CliOption("--storage-size")]
     public string? StorageSize { get; set; }
 
-    [CommandSwitch("--storage-type")]
+    [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
-    [CommandSwitch("--threads-per-core")]
+    [CliOption("--threads-per-core")]
     public string? ThreadsPerCore { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [CommandSwitch("--time-zone")]
+    [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--allowed-psc-projects")]
+    [CliOption("--allowed-psc-projects")]
     public string[]? AllowedPscProjects { get; set; }
 
-    [BooleanCommandSwitch("--enable-private-service-connect")]
+    [CliFlag("--enable-private-service-connect")]
     public bool? EnablePrivateServiceConnect { get; set; }
 
-    [CommandSwitch("--disk-encryption-key")]
+    [CliOption("--disk-encryption-key")]
     public string? DiskEncryptionKey { get; set; }
 
-    [CommandSwitch("--disk-encryption-key-keyring")]
+    [CliOption("--disk-encryption-key-keyring")]
     public string? DiskEncryptionKeyKeyring { get; set; }
 
-    [CommandSwitch("--disk-encryption-key-location")]
+    [CliOption("--disk-encryption-key-location")]
     public string? DiskEncryptionKeyLocation { get; set; }
 
-    [CommandSwitch("--disk-encryption-key-project")]
+    [CliOption("--disk-encryption-key-project")]
     public string? DiskEncryptionKeyProject { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--gce-zone")]
+    [CliOption("--gce-zone")]
     public string? GceZone { get; set; }
 
-    [CommandSwitch("--secondary-zone")]
+    [CliOption("--secondary-zone")]
     public string? SecondaryZone { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

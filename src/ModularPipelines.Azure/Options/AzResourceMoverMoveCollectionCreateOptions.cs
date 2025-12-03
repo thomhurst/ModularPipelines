@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-mover", "move-collection", "create")]
+[CliCommand("resource-mover", "move-collection", "create")]
 public record AzResourceMoverMoveCollectionCreateOptions(
-[property: CommandSwitch("--move-collection-name")] string MoveCollectionName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--move-collection-name")] string MoveCollectionName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--move-region")]
+    [CliOption("--move-region")]
     public string? MoveRegion { get; set; }
 
-    [CommandSwitch("--move-type")]
+    [CliOption("--move-type")]
     public string? MoveType { get; set; }
 
-    [CommandSwitch("--source-region")]
+    [CliOption("--source-region")]
     public string? SourceRegion { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--target-region")]
+    [CliOption("--target-region")]
     public string? TargetRegion { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 }

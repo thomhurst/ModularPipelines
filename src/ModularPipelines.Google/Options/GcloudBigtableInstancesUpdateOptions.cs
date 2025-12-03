@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bigtable", "instances", "update")]
+[CliCommand("bigtable", "instances", "update")]
 public record GcloudBigtableInstancesUpdateOptions(
-[property: PositionalArgument] string Instance
+[property: CliArgument] string Instance
 ) : GcloudOptions
 {
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 }

@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("buildx", "imagetools")]
+[CliCommand("buildx", "imagetools")]
 [ExcludeFromCodeCoverage]
 public record DockerBuildxImagetoolsOptions : DockerOptions
 {

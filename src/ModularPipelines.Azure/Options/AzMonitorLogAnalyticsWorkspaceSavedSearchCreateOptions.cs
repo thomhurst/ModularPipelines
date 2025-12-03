@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "log-analytics", "workspace", "saved-search", "create")]
+[CliCommand("monitor", "log-analytics", "workspace", "saved-search", "create")]
 public record AzMonitorLogAnalyticsWorkspaceSavedSearchCreateOptions(
-[property: CommandSwitch("--category")] string Category,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--saved-query")] string SavedQuery,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--category")] string Category,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--saved-query")] string SavedQuery,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--fa")]
+    [CliOption("--fa")]
     public string? Fa { get; set; }
 
-    [CommandSwitch("--fp")]
+    [CliOption("--fp")]
     public string? Fp { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -5,44 +5,44 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deployment-manager", "deployments", "update")]
+[CliCommand("deployment-manager", "deployments", "update")]
 public record GcloudDeploymentManagerDeploymentsUpdateOptions(
-[property: PositionalArgument] string DeploymentName
+[property: CliArgument] string DeploymentName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--create-policy")]
+    [CliOption("--create-policy")]
     public string? CreatePolicy { get; set; }
 
-    [CommandSwitch("--delete-policy")]
+    [CliOption("--delete-policy")]
     public string? DeletePolicy { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--fingerprint")]
+    [CliOption("--fingerprint")]
     public string? Fingerprint { get; set; }
 
-    [BooleanCommandSwitch("--preview")]
+    [CliFlag("--preview")]
     public bool? Preview { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string[]? Properties { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [CommandSwitch("--composite-type")]
+    [CliOption("--composite-type")]
     public string? CompositeType { get; set; }
 
-    [CommandSwitch("--config")]
+    [CliOption("--config")]
     public string? Config { get; set; }
 
-    [CommandSwitch("--template")]
+    [CliOption("--template")]
     public string? Template { get; set; }
 }

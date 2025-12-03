@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("up")]
+[CliCommand("up")]
 public record YarnUpOptions : YarnOptions
 {
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [BooleanCommandSwitch("--fixed")]
+    [CliFlag("--fixed")]
     public virtual bool? Fixed { get; set; }
 
-    [BooleanCommandSwitch("--exact")]
+    [CliFlag("--exact")]
     public virtual bool? Exact { get; set; }
 
-    [BooleanCommandSwitch("--tilde")]
+    [CliFlag("--tilde")]
     public virtual bool? Tilde { get; set; }
 
-    [BooleanCommandSwitch("--caret")]
+    [CliFlag("--caret")]
     public virtual bool? Caret { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public virtual string? Mode { get; set; }
 }

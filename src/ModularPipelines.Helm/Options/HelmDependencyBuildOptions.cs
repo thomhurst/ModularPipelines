@@ -3,16 +3,16 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("dependency", "build")]
+[CliCommand("dependency", "build")]
 [ExcludeFromCodeCoverage]
 public record HelmDependencyBuildOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--keyring", SwitchValueSeparator = " ")]
+    [CliOption("--keyring")]
     public string? Keyring { get; set; }
 
-    [BooleanCommandSwitch("--skip-refresh")]
+    [CliFlag("--skip-refresh")]
     public virtual bool? SkipRefresh { get; set; }
 
-    [BooleanCommandSwitch("--verify")]
+    [CliFlag("--verify")]
     public virtual bool? Verify { get; set; }
 }

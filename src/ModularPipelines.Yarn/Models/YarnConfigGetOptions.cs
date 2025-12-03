@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("config", "get")]
+[CliCommand("config", "get")]
 public record YarnConfigGetOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Name
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Name
 ) : YarnOptions
 {
-    [BooleanCommandSwitch("--why")]
+    [CliFlag("--why")]
     public virtual bool? Why { get; set; }
 
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [BooleanCommandSwitch("--no-redacted")]
+    [CliFlag("--no-redacted")]
     public virtual bool? NoRedacted { get; set; }
 }

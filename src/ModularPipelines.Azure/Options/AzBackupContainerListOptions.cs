@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "container", "list")]
+[CliCommand("backup", "container", "list")]
 public record AzBackupContainerListOptions(
-[property: CommandSwitch("--backup-management-type")] string BackupManagementType,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--backup-management-type")] string BackupManagementType,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--use-secondary-region")]
+    [CliFlag("--use-secondary-region")]
     public bool? UseSecondaryRegion { get; set; }
 }

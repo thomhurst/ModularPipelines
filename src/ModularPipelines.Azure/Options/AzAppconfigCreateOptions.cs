@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "create")]
+[CliCommand("appconfig", "create")]
 public record AzAppconfigCreateOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--assign-identity")]
+    [CliOption("--assign-identity")]
     public string? AssignIdentity { get; set; }
 
-    [BooleanCommandSwitch("--disable-local-auth")]
+    [CliFlag("--disable-local-auth")]
     public bool? DisableLocalAuth { get; set; }
 
-    [BooleanCommandSwitch("--enable-public-network")]
+    [CliFlag("--enable-public-network")]
     public bool? EnablePublicNetwork { get; set; }
 
-    [BooleanCommandSwitch("--enable-purge-protection")]
+    [CliFlag("--enable-purge-protection")]
     public bool? EnablePurgeProtection { get; set; }
 
-    [CommandSwitch("--retention-days")]
+    [CliOption("--retention-days")]
     public string? RetentionDays { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

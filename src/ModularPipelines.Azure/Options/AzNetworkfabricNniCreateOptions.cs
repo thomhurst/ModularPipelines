@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkfabric", "nni", "create")]
+[CliCommand("networkfabric", "nni", "create")]
 public record AzNetworkfabricNniCreateOptions(
-[property: CommandSwitch("--fabric")] string Fabric,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-name")] string ResourceName,
-[property: BooleanCommandSwitch("--use-option-b")] bool UseOptionB
+[property: CliOption("--fabric")] string Fabric,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--resource-name")] string ResourceName,
+[property: CliFlag("--use-option-b")] bool UseOptionB
 ) : AzOptions
 {
-    [CommandSwitch("--egress-acl-id")]
+    [CliOption("--egress-acl-id")]
     public string? EgressAclId { get; set; }
 
-    [CommandSwitch("--export-route-policy")]
+    [CliOption("--export-route-policy")]
     public string? ExportRoutePolicy { get; set; }
 
-    [CommandSwitch("--import-route-policy")]
+    [CliOption("--import-route-policy")]
     public string? ImportRoutePolicy { get; set; }
 
-    [CommandSwitch("--ingress-acl-id")]
+    [CliOption("--ingress-acl-id")]
     public string? IngressAclId { get; set; }
 
-    [BooleanCommandSwitch("--is-management-type")]
+    [CliFlag("--is-management-type")]
     public bool? IsManagementType { get; set; }
 
-    [CommandSwitch("--layer2-configuration")]
+    [CliOption("--layer2-configuration")]
     public string? Layer2Configuration { get; set; }
 
-    [CommandSwitch("--nni-type")]
+    [CliOption("--nni-type")]
     public string? NniType { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--npb-static-route-configuration")]
+    [CliOption("--npb-static-route-configuration")]
     public string? NpbStaticRouteConfiguration { get; set; }
 
-    [CommandSwitch("--option-b-layer3-configuration")]
+    [CliOption("--option-b-layer3-configuration")]
     public string? OptionBLayer3Configuration { get; set; }
 }

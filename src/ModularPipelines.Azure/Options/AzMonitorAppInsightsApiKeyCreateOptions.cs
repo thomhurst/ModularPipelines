@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "app-insights", "api-key", "create")]
+[CliCommand("monitor", "app-insights", "api-key", "create")]
 public record AzMonitorAppInsightsApiKeyCreateOptions(
-[property: CommandSwitch("--api-key")] string ApiKey,
-[property: CommandSwitch("--app")] string App,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--api-key")] string ApiKey,
+[property: CliOption("--app")] string App,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--read-properties")]
+    [CliOption("--read-properties")]
     public string? ReadProperties { get; set; }
 
-    [CommandSwitch("--write-properties")]
+    [CliOption("--write-properties")]
     public string? WriteProperties { get; set; }
 }

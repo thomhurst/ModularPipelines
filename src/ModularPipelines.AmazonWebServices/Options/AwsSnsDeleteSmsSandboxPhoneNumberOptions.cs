@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sns", "delete-sms-sandbox-phone-number")]
+[CliCommand("sns", "delete-sms-sandbox-phone-number")]
 public record AwsSnsDeleteSmsSandboxPhoneNumberOptions(
-[property: CommandSwitch("--phone-number")] string PhoneNumber
+[property: CliOption("--phone-number")] string PhoneNumber
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

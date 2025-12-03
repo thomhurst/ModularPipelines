@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "storage-pools", "describe")]
+[CliCommand("netapp", "storage-pools", "describe")]
 public record GcloudNetappStoragePoolsDescribeOptions(
-[property: PositionalArgument] string StoragePool,
-[property: PositionalArgument] string Location
+[property: CliArgument] string StoragePool,
+[property: CliArgument] string Location
 ) : GcloudOptions;

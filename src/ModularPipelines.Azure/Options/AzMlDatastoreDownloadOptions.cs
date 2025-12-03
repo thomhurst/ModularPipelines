@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "datastore", "download")]
+[CliCommand("ml", "datastore", "download")]
 public record AzMlDatastoreDownloadOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--target-path")] string TargetPath
+[property: CliOption("--name")] string Name,
+[property: CliOption("--target-path")] string TargetPath
 ) : AzOptions
 {
-    [CommandSwitch("--hide-progress")]
+    [CliOption("--hide-progress")]
     public string? HideProgress { get; set; }
 
-    [CommandSwitch("--output-metadata-file")]
+    [CliOption("--output-metadata-file")]
     public string? OutputMetadataFile { get; set; }
 
-    [CommandSwitch("--overwrite")]
+    [CliOption("--overwrite")]
     public string? Overwrite { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--prefix")]
+    [CliOption("--prefix")]
     public string? Prefix { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription-id")]
+    [CliOption("--subscription-id")]
     public string? SubscriptionId { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

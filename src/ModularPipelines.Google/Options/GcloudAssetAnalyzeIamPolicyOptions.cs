@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("asset", "analyze-iam-policy")]
+[CliCommand("asset", "analyze-iam-policy")]
 public record GcloudAssetAnalyzeIamPolicyOptions : GcloudOptions
 {
     public GcloudAssetAnalyzeIamPolicyOptions(
@@ -18,51 +18,51 @@ public record GcloudAssetAnalyzeIamPolicyOptions : GcloudOptions
         Project = project;
     }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 
-    [CommandSwitch("--access-time")]
+    [CliOption("--access-time")]
     public string? AccessTime { get; set; }
 
-    [CommandSwitch("--full-resource-name")]
+    [CliOption("--full-resource-name")]
     public string? FullResourceName { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--saved-analysis-query")]
+    [CliOption("--saved-analysis-query")]
     public string? SavedAnalysisQuery { get; set; }
 
-    [BooleanCommandSwitch("--analyze-service-account-impersonation")]
+    [CliFlag("--analyze-service-account-impersonation")]
     public bool? AnalyzeServiceAccountImpersonation { get; set; }
 
-    [CommandSwitch("--execution-timeout")]
+    [CliOption("--execution-timeout")]
     public string? ExecutionTimeout { get; set; }
 
-    [BooleanCommandSwitch("--expand-groups")]
+    [CliFlag("--expand-groups")]
     public bool? ExpandGroups { get; set; }
 
-    [BooleanCommandSwitch("--expand-resources")]
+    [CliFlag("--expand-resources")]
     public bool? ExpandResources { get; set; }
 
-    [BooleanCommandSwitch("--expand-roles")]
+    [CliFlag("--expand-roles")]
     public bool? ExpandRoles { get; set; }
 
-    [BooleanCommandSwitch("--output-group-edges")]
+    [CliFlag("--output-group-edges")]
     public bool? OutputGroupEdges { get; set; }
 
-    [BooleanCommandSwitch("--output-resource-edges")]
+    [CliFlag("--output-resource-edges")]
     public bool? OutputResourceEdges { get; set; }
 
-    [BooleanCommandSwitch("--show-response")]
+    [CliFlag("--show-response")]
     public bool? ShowResponse { get; set; }
 
-    [CommandSwitch("--permissions")]
+    [CliOption("--permissions")]
     public string[]? Permissions { get; set; }
 
-    [CommandSwitch("--roles")]
+    [CliOption("--roles")]
     public string[]? Roles { get; set; }
 }

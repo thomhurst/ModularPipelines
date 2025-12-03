@@ -4,75 +4,75 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stream-analytics", "job", "create")]
+[CliCommand("stream-analytics", "job", "create")]
 public record AzStreamAnalyticsJobCreateOptions(
-[property: CommandSwitch("--job-name")] string JobName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--job-name")] string JobName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--arrival-max-delay")]
+    [CliOption("--arrival-max-delay")]
     public string? ArrivalMaxDelay { get; set; }
 
-    [CommandSwitch("--compatibility-level")]
+    [CliOption("--compatibility-level")]
     public string? CompatibilityLevel { get; set; }
 
-    [CommandSwitch("--content-storage-policy")]
+    [CliOption("--content-storage-policy")]
     public string? ContentStoragePolicy { get; set; }
 
-    [CommandSwitch("--data-locale")]
+    [CliOption("--data-locale")]
     public string? DataLocale { get; set; }
 
-    [CommandSwitch("--functions")]
+    [CliOption("--functions")]
     public string? Functions { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--if-none-match")]
+    [CliOption("--if-none-match")]
     public string? IfNoneMatch { get; set; }
 
-    [CommandSwitch("--inputs")]
+    [CliOption("--inputs")]
     public string? Inputs { get; set; }
 
-    [CommandSwitch("--job-storage-account")]
+    [CliOption("--job-storage-account")]
     public int? JobStorageAccount { get; set; }
 
-    [CommandSwitch("--job-type")]
+    [CliOption("--job-type")]
     public string? JobType { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--order-max-delay")]
+    [CliOption("--order-max-delay")]
     public string? OrderMaxDelay { get; set; }
 
-    [CommandSwitch("--out-of-order-policy")]
+    [CliOption("--out-of-order-policy")]
     public string? OutOfOrderPolicy { get; set; }
 
-    [CommandSwitch("--output-error-policy")]
+    [CliOption("--output-error-policy")]
     public string? OutputErrorPolicy { get; set; }
 
-    [CommandSwitch("--output-start-mode")]
+    [CliOption("--output-start-mode")]
     public string? OutputStartMode { get; set; }
 
-    [CommandSwitch("--output-start-time")]
+    [CliOption("--output-start-time")]
     public string? OutputStartTime { get; set; }
 
-    [CommandSwitch("--outputs")]
+    [CliOption("--outputs")]
     public string? Outputs { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--transformation")]
+    [CliOption("--transformation")]
     public string? Transformation { get; set; }
 }

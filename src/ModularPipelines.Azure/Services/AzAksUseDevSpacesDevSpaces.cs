@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "use-dev-spaces")]
+[CliCommand("aks", "use-dev-spaces")]
 public class AzAksUseDevSpacesDevSpaces
 {
     public AzAksUseDevSpacesDevSpaces(

@@ -3,31 +3,31 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout", "quickview")]
+[CliCommand("scout", "quickview")]
 [ExcludeFromCodeCoverage]
 public record DockerScoutQuickviewOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? ImageOrDirectoryOrArchive { get; set; }
 
-    [CommandSwitch("--env")]
+    [CliOption("--env")]
     public virtual string? Env { get; set; }
 
-    [CommandSwitch("--latest")]
+    [CliOption("--latest")]
     public virtual string? Latest { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public virtual string? Org { get; set; }
 
-    [CommandSwitch("--output")]
+    [CliOption("--output")]
     public virtual string? Output { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public virtual string? Platform { get; set; }
 
-    [CommandSwitch("--ref")]
+    [CliOption("--ref")]
     public virtual string? Ref { get; set; }
 
-    [CommandSwitch("--stream")]
+    [CliOption("--stream")]
     public virtual string? Stream { get; set; }
 }

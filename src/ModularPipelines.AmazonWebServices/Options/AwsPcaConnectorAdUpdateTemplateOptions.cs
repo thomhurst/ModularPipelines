@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pca-connector-ad", "update-template")]
+[CliCommand("pca-connector-ad", "update-template")]
 public record AwsPcaConnectorAdUpdateTemplateOptions(
-[property: CommandSwitch("--template-arn")] string TemplateArn
+[property: CliOption("--template-arn")] string TemplateArn
 ) : AwsOptions
 {
-    [CommandSwitch("--definition")]
+    [CliOption("--definition")]
     public string? Definition { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

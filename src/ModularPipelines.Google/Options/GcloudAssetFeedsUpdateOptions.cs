@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("asset", "feeds", "update")]
+[CliCommand("asset", "feeds", "update")]
 public record GcloudAssetFeedsUpdateOptions : GcloudOptions
 {
     public GcloudAssetFeedsUpdateOptions(
@@ -20,66 +20,66 @@ public record GcloudAssetFeedsUpdateOptions : GcloudOptions
         Project = project;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string FeedId { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 
-    [CommandSwitch("--pubsub-topic")]
+    [CliOption("--pubsub-topic")]
     public string? PubsubTopic { get; set; }
 
-    [CommandSwitch("--add-asset-names")]
+    [CliOption("--add-asset-names")]
     public string[]? AddAssetNames { get; set; }
 
-    [BooleanCommandSwitch("--clear-asset-names")]
+    [CliFlag("--clear-asset-names")]
     public bool? ClearAssetNames { get; set; }
 
-    [CommandSwitch("--remove-asset-names")]
+    [CliOption("--remove-asset-names")]
     public string[]? RemoveAssetNames { get; set; }
 
-    [CommandSwitch("--add-asset-types")]
+    [CliOption("--add-asset-types")]
     public string[]? AddAssetTypes { get; set; }
 
-    [BooleanCommandSwitch("--clear-asset-types")]
+    [CliFlag("--clear-asset-types")]
     public bool? ClearAssetTypes { get; set; }
 
-    [CommandSwitch("--remove-asset-types")]
+    [CliOption("--remove-asset-types")]
     public string[]? RemoveAssetTypes { get; set; }
 
-    [CommandSwitch("--add-relationship-types")]
+    [CliOption("--add-relationship-types")]
     public string[]? AddRelationshipTypes { get; set; }
 
-    [BooleanCommandSwitch("--clear-relationship-types")]
+    [CliFlag("--clear-relationship-types")]
     public bool? ClearRelationshipTypes { get; set; }
 
-    [CommandSwitch("--remove-relationship-types")]
+    [CliOption("--remove-relationship-types")]
     public string[]? RemoveRelationshipTypes { get; set; }
 
-    [BooleanCommandSwitch("--clear-condition-description")]
+    [CliFlag("--clear-condition-description")]
     public bool? ClearConditionDescription { get; set; }
 
-    [CommandSwitch("--condition-description")]
+    [CliOption("--condition-description")]
     public string? ConditionDescription { get; set; }
 
-    [BooleanCommandSwitch("--clear-condition-expression")]
+    [CliFlag("--clear-condition-expression")]
     public bool? ClearConditionExpression { get; set; }
 
-    [CommandSwitch("--condition-expression")]
+    [CliOption("--condition-expression")]
     public string? ConditionExpression { get; set; }
 
-    [BooleanCommandSwitch("--clear-condition-title")]
+    [CliFlag("--clear-condition-title")]
     public bool? ClearConditionTitle { get; set; }
 
-    [CommandSwitch("--condition-title")]
+    [CliOption("--condition-title")]
     public string? ConditionTitle { get; set; }
 
-    [BooleanCommandSwitch("--clear-content-type")]
+    [CliFlag("--clear-content-type")]
     public bool? ClearContentType { get; set; }
 
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 }

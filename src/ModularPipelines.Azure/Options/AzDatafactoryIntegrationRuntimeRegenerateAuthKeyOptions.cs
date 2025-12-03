@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datafactory", "integration-runtime", "regenerate-auth-key")]
+[CliCommand("datafactory", "integration-runtime", "regenerate-auth-key")]
 public record AzDatafactoryIntegrationRuntimeRegenerateAuthKeyOptions : AzOptions
 {
-    [CommandSwitch("--factory-name")]
+    [CliOption("--factory-name")]
     public string? FactoryName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--integration-runtime-name")]
+    [CliOption("--integration-runtime-name")]
     public string? IntegrationRuntimeName { get; set; }
 
-    [CommandSwitch("--key-name")]
+    [CliOption("--key-name")]
     public string? KeyName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

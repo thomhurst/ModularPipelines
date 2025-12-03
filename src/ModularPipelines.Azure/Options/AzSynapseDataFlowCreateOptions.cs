@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "data-flow", "create")]
+[CliCommand("synapse", "data-flow", "create")]
 public record AzSynapseDataFlowCreateOptions(
-[property: CommandSwitch("--file")] string File,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--file")] string File,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

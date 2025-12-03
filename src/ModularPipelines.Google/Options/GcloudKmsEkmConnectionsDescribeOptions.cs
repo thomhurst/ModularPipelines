@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "ekm-connections", "describe")]
+[CliCommand("kms", "ekm-connections", "describe")]
 public record GcloudKmsEkmConnectionsDescribeOptions(
-[property: PositionalArgument] string EkmConnection,
-[property: PositionalArgument] string Location
+[property: CliArgument] string EkmConnection,
+[property: CliArgument] string Location
 ) : GcloudOptions;

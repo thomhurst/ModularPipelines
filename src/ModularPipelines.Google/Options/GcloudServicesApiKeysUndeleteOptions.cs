@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("services", "api-keys", "undelete")]
+[CliCommand("services", "api-keys", "undelete")]
 public record GcloudServicesApiKeysUndeleteOptions(
-[property: PositionalArgument] string Key,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string KeyString
+[property: CliArgument] string Key,
+[property: CliArgument] string Location,
+[property: CliArgument] string KeyString
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

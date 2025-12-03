@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("maintenance", "applyupdate", "create-or-update")]
+[CliCommand("maintenance", "applyupdate", "create-or-update")]
 public record AzMaintenanceApplyupdateCreateOrUpdateOptions : AzOptions
 {
-    [CommandSwitch("--apply-update-name")]
+    [CliOption("--apply-update-name")]
     public string? ApplyUpdateName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--last-update-time")]
+    [CliOption("--last-update-time")]
     public string? LastUpdateTime { get; set; }
 
-    [CommandSwitch("--provider-name")]
+    [CliOption("--provider-name")]
     public string? ProviderName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-id")]
+    [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
-    [CommandSwitch("--resource-name")]
+    [CliOption("--resource-name")]
     public string? ResourceName { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

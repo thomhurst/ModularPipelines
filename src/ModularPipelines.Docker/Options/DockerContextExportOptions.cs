@@ -15,9 +15,9 @@ public record DockerContextExportOptions : DockerOptions
         ExportContext = context;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? ExportContext { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? File { get; set; }
 }

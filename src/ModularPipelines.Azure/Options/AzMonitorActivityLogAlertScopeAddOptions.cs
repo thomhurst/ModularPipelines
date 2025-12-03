@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "activity-log", "alert", "scope", "add")]
+[CliCommand("monitor", "activity-log", "alert", "scope", "add")]
 public record AzMonitorActivityLogAlertScopeAddOptions(
-[property: CommandSwitch("--scope")] string Scope
+[property: CliOption("--scope")] string Scope
 ) : AzOptions
 {
-    [CommandSwitch("--activity-log-alert-name")]
+    [CliOption("--activity-log-alert-name")]
     public string? ActivityLogAlertName { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [BooleanCommandSwitch("--reset")]
+    [CliFlag("--reset")]
     public bool? Reset { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

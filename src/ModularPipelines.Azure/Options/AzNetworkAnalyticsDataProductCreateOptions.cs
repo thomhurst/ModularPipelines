@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-analytics", "data-product", "create")]
+[CliCommand("network-analytics", "data-product", "create")]
 public record AzNetworkAnalyticsDataProductCreateOptions(
-[property: CommandSwitch("--data-product-name")] string DataProductName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--data-product-name")] string DataProductName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--encryption-key")]
+    [CliOption("--encryption-key")]
     public string? EncryptionKey { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [BooleanCommandSwitch("--key-encryption-enable")]
+    [CliFlag("--key-encryption-enable")]
     public bool? KeyEncryptionEnable { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--major-version")]
+    [CliOption("--major-version")]
     public string? MajorVersion { get; set; }
 
-    [CommandSwitch("--managed-rg")]
+    [CliOption("--managed-rg")]
     public string? ManagedRg { get; set; }
 
-    [CommandSwitch("--networkacls")]
+    [CliOption("--networkacls")]
     public string? Networkacls { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--owners")]
+    [CliOption("--owners")]
     public string? Owners { get; set; }
 
-    [BooleanCommandSwitch("--private-links-enabled")]
+    [CliFlag("--private-links-enabled")]
     public bool? PrivateLinksEnabled { get; set; }
 
-    [CommandSwitch("--product")]
+    [CliOption("--product")]
     public string? Product { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--publisher")]
+    [CliOption("--publisher")]
     public string? Publisher { get; set; }
 
-    [CommandSwitch("--purview-account")]
+    [CliOption("--purview-account")]
     public int? PurviewAccount { get; set; }
 
-    [CommandSwitch("--purview-collection")]
+    [CliOption("--purview-collection")]
     public string? PurviewCollection { get; set; }
 
-    [CommandSwitch("--redundancy")]
+    [CliOption("--redundancy")]
     public string? Redundancy { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

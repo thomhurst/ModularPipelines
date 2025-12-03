@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "rule", "delete")]
+[CliCommand("afd", "rule", "delete")]
 public record AzAfdRuleDeleteOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rule-name")]
+    [CliOption("--rule-name")]
     public string? RuleName { get; set; }
 
-    [CommandSwitch("--rule-set-name")]
+    [CliOption("--rule-set-name")]
     public string? RuleSetName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

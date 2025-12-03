@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spanner", "instances", "get-iam-policy")]
+[CliCommand("spanner", "instances", "get-iam-policy")]
 public record GcloudSpannerInstancesGetIamPolicyOptions(
-[property: PositionalArgument] string Instance
+[property: CliArgument] string Instance
 ) : GcloudOptions;

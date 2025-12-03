@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("telco-automation", "orchestration-cluster", "list")]
+[CliCommand("telco-automation", "orchestration-cluster", "list")]
 public record GcloudTelcoAutomationOrchestrationClusterListOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : GcloudOptions;

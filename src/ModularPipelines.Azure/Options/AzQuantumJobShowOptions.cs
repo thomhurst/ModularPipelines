@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quantum", "job", "show")]
+[CliCommand("quantum", "job", "show")]
 public record AzQuantumJobShowOptions(
-[property: CommandSwitch("--job-id")] string JobId,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--job-id")] string JobId,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions;

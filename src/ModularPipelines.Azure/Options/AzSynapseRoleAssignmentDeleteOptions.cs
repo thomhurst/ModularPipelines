@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "role", "assignment", "delete")]
+[CliCommand("synapse", "role", "assignment", "delete")]
 public record AzSynapseRoleAssignmentDeleteOptions(
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--assignee")]
+    [CliOption("--assignee")]
     public string? Assignee { get; set; }
 
-    [CommandSwitch("--assignee-object-id")]
+    [CliOption("--assignee-object-id")]
     public string? AssigneeObjectId { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--item")]
+    [CliOption("--item")]
     public string? Item { get; set; }
 
-    [CommandSwitch("--item-type")]
+    [CliOption("--item-type")]
     public string? ItemType { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

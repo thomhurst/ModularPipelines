@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "plan", "create")]
+[CliCommand("functionapp", "plan", "create")]
 public record AzFunctionappPlanCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku")] string Sku
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sku")] string Sku
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--is-linux")]
+    [CliFlag("--is-linux")]
     public bool? IsLinux { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--max-burst")]
+    [CliOption("--max-burst")]
     public string? MaxBurst { get; set; }
 
-    [CommandSwitch("--min-instances")]
+    [CliOption("--min-instances")]
     public string? MinInstances { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--zone-redundant")]
+    [CliFlag("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 }

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rolesanywhere", "import-crl")]
+[CliCommand("rolesanywhere", "import-crl")]
 public record AwsRolesanywhereImportCrlOptions(
-[property: CommandSwitch("--crl-data")] string CrlData,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--trust-anchor-arn")] string TrustAnchorArn
+[property: CliOption("--crl-data")] string CrlData,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--trust-anchor-arn")] string TrustAnchorArn
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

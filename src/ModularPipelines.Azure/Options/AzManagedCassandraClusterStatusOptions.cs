@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managed-cassandra", "cluster", "status")]
+[CliCommand("managed-cassandra", "cluster", "status")]
 public record AzManagedCassandraClusterStatusOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

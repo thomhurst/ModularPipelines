@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("textract", "start-document-analysis")]
+[CliCommand("textract", "start-document-analysis")]
 public record AwsTextractStartDocumentAnalysisOptions(
-[property: CommandSwitch("--document-location")] string DocumentLocation,
-[property: CommandSwitch("--feature-types")] string[] FeatureTypes
+[property: CliOption("--document-location")] string DocumentLocation,
+[property: CliOption("--feature-types")] string[] FeatureTypes
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--job-tag")]
+    [CliOption("--job-tag")]
     public string? JobTag { get; set; }
 
-    [CommandSwitch("--notification-channel")]
+    [CliOption("--notification-channel")]
     public string? NotificationChannel { get; set; }
 
-    [CommandSwitch("--output-config")]
+    [CliOption("--output-config")]
     public string? OutputConfig { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--queries-config")]
+    [CliOption("--queries-config")]
     public string? QueriesConfig { get; set; }
 
-    [CommandSwitch("--adapters-config")]
+    [CliOption("--adapters-config")]
     public string? AdaptersConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

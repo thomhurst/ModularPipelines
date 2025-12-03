@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("signalr")]
+[CliCommand("signalr")]
 public class AzSignalrIdentity
 {
     public AzSignalrIdentity(

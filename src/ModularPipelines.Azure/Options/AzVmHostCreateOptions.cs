@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "host", "create")]
+[CliCommand("vm", "host", "create")]
 public record AzVmHostCreateOptions(
-[property: CommandSwitch("--host-group")] string HostGroup,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku")] string Sku
+[property: CliOption("--host-group")] string HostGroup,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sku")] string Sku
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--auto-replace")]
+    [CliFlag("--auto-replace")]
     public bool? AutoReplace { get; set; }
 
-    [CommandSwitch("--license-type")]
+    [CliOption("--license-type")]
     public string? LicenseType { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--platform-fault-domain")]
+    [CliOption("--platform-fault-domain")]
     public string? PlatformFaultDomain { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

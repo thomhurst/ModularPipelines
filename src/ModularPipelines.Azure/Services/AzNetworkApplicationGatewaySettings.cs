@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway")]
+[CliCommand("network", "application-gateway")]
 public class AzNetworkApplicationGatewaySettings
 {
     public AzNetworkApplicationGatewaySettings(

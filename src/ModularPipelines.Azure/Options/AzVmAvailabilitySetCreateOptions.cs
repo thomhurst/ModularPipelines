@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "availability-set", "create")]
+[CliCommand("vm", "availability-set", "create")]
 public record AzVmAvailabilitySetCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--platform-fault-domain-count")]
+    [CliOption("--platform-fault-domain-count")]
     public int? PlatformFaultDomainCount { get; set; }
 
-    [CommandSwitch("--platform-update-domain-count")]
+    [CliOption("--platform-update-domain-count")]
     public int? PlatformUpdateDomainCount { get; set; }
 
-    [CommandSwitch("--ppg")]
+    [CliOption("--ppg")]
     public string? Ppg { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--unmanaged")]
+    [CliFlag("--unmanaged")]
     public bool? Unmanaged { get; set; }
 
-    [BooleanCommandSwitch("--validate")]
+    [CliFlag("--validate")]
     public bool? Validate { get; set; }
 }

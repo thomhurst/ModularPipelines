@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "fs", "directory", "upload")]
+[CliCommand("storage", "fs", "directory", "upload")]
 public record AzStorageFsDirectoryUploadOptions(
-[property: CommandSwitch("--file-system")] string FileSystem,
-[property: CommandSwitch("--source")] string Source
+[property: CliOption("--file-system")] string FileSystem,
+[property: CliOption("--source")] string Source
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--destination-path")]
+    [CliOption("--destination-path")]
     public string? DestinationPath { get; set; }
 
-    [CommandSwitch("--recursive")]
+    [CliOption("--recursive")]
     public string? Recursive { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 }

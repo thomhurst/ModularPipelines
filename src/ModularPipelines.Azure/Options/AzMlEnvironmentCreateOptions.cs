@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "environment", "create")]
+[CliCommand("ml", "environment", "create")]
 public record AzMlEnvironmentCreateOptions : AzOptions
 {
-    [CommandSwitch("--build-context")]
+    [CliOption("--build-context")]
     public string? BuildContext { get; set; }
 
-    [CommandSwitch("--conda-file")]
+    [CliOption("--conda-file")]
     public string? CondaFile { get; set; }
 
-    [CommandSwitch("--datastore")]
+    [CliOption("--datastore")]
     public string? Datastore { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--dockerfile-path")]
+    [CliOption("--dockerfile-path")]
     public string? DockerfilePath { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--os-type")]
+    [CliOption("--os-type")]
     public string? OsType { get; set; }
 
-    [CommandSwitch("--registry-name")]
+    [CliOption("--registry-name")]
     public string? RegistryName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

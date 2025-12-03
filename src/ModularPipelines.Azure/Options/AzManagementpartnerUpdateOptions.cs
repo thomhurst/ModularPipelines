@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managementpartner", "update")]
+[CliCommand("managementpartner", "update")]
 public record AzManagementpartnerUpdateOptions(
-[property: CommandSwitch("--partner-id")] string PartnerId
+[property: CliOption("--partner-id")] string PartnerId
 ) : AzOptions;

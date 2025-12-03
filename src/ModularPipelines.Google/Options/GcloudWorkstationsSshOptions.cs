@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workstations", "ssh")]
+[CliCommand("workstations", "ssh")]
 public record GcloudWorkstationsSshOptions(
-[property: PositionalArgument] string Workstation,
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Config,
-[property: PositionalArgument] string Region,
-[property: PositionalArgument] string SshArgs
+[property: CliArgument] string Workstation,
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Config,
+[property: CliArgument] string Region,
+[property: CliArgument] string SshArgs
 ) : GcloudOptions
 {
-    [CommandSwitch("--command")]
+    [CliOption("--command")]
     public string? Command { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public string? Port { get; set; }
 
-    [CommandSwitch("--user")]
+    [CliOption("--user")]
     public string? User { get; set; }
 }

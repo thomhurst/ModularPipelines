@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "token", "update")]
+[CliCommand("acr", "token", "update")]
 public record AzAcrTokenUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--name")] string Name,
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--scope-map")]
+    [CliOption("--scope-map")]
     public string? ScopeMap { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 }

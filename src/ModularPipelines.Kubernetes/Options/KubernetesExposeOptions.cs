@@ -3,82 +3,82 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("expose")]
+[CliCommand("expose")]
 [ExcludeFromCodeCoverage]
 public record KubernetesExposeOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cluster-ip", SwitchValueSeparator = " ")]
+    [CliOption("--cluster-ip")]
     public string? ClusterIp { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--container-port", SwitchValueSeparator = " ")]
+    [CliOption("--container-port")]
     public string? ContainerPort { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CliOption("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--external-ip", SwitchValueSeparator = " ")]
+    [CliOption("--external-ip")]
     public string? ExternalIp { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CliOption("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
+    [CliOption("--filename")]
     public string[]? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--generator", SwitchValueSeparator = " ")]
+    [CliOption("--generator")]
     public string? Generator { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CliOption("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--labels", SwitchValueSeparator = " ")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--load-balancer-ip", SwitchValueSeparator = " ")]
+    [CliOption("--load-balancer-ip")]
     public string? LoadBalancerIp { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--name", SwitchValueSeparator = " ")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--overrides", SwitchValueSeparator = " ")]
+    [CliOption("--overrides")]
     public string? Overrides { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--port", SwitchValueSeparator = " ")]
+    [CliOption("--port")]
     public string? Port { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--protocol", SwitchValueSeparator = " ")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [BooleanCommandSwitch("--record")]
+    [CliFlag("--record")]
     public virtual bool? Record { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [BooleanCommandSwitch("--save-config")]
+    [CliFlag("--save-config")]
     public virtual bool? SaveConfig { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CliOption("--selector")]
     public string? Selector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--session-affinity", SwitchValueSeparator = " ")]
+    [CliOption("--session-affinity")]
     public string? SessionAffinity { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--target-port", SwitchValueSeparator = " ")]
+    [CliOption("--target-port")]
     public string? TargetPort { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CliOption("--template")]
     public string? Template { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--type", SwitchValueSeparator = " ")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 }

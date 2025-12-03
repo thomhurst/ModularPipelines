@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("account", "get-access-token")]
+[CliCommand("account", "get-access-token")]
 public record AzAccountGetAccessTokenOptions : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource")]
+    [CliOption("--resource")]
     public string? Resource { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--tenant")]
+    [CliOption("--tenant")]
     public string? Tenant { get; set; }
 }

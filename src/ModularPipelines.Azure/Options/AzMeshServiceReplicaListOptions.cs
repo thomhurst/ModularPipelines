@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mesh", "service-replica", "list")]
+[CliCommand("mesh", "service-replica", "list")]
 public record AzMeshServiceReplicaListOptions(
-[property: CommandSwitch("--app-name")] string AppName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--app-name")] string AppName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-name")] string ServiceName
 ) : AzOptions
 {
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 }

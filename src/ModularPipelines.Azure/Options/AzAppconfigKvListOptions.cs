@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "kv", "list")]
+[CliCommand("appconfig", "kv", "list")]
 public record AzAppconfigKvListOptions : AzOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public bool? All { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--datetime")]
+    [CliOption("--datetime")]
     public string? Datetime { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [CommandSwitch("--fields")]
+    [CliOption("--fields")]
     public string? Fields { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--label")]
+    [CliOption("--label")]
     public string? Label { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--resolve-keyvault")]
+    [CliFlag("--resolve-keyvault")]
     public bool? ResolveKeyvault { get; set; }
 
-    [CommandSwitch("--snapshot")]
+    [CliOption("--snapshot")]
     public string? Snapshot { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

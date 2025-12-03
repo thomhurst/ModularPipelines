@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "table", "policy", "list")]
+[CliCommand("storage", "table", "policy", "list")]
 public record AzStorageTablePolicyListOptions(
-[property: CommandSwitch("--table-name")] string TableName
+[property: CliOption("--table-name")] string TableName
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--table-endpoint")]
+    [CliOption("--table-endpoint")]
     public string? TableEndpoint { get; set; }
 }

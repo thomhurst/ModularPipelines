@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "sql", "pool", "classification", "create")]
+[CliCommand("synapse", "sql", "pool", "classification", "create")]
 public record AzSynapseSqlPoolClassificationCreateOptions(
-[property: CommandSwitch("--column")] string Column,
-[property: CommandSwitch("--information-type")] string InformationType,
-[property: CommandSwitch("--label")] string Label,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--schema")] string Schema,
-[property: CommandSwitch("--table")] string Table,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--column")] string Column,
+[property: CliOption("--information-type")] string InformationType,
+[property: CliOption("--label")] string Label,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--schema")] string Schema,
+[property: CliOption("--table")] string Table,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions;

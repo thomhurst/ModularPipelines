@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dla", "account", "blob-storage", "update")]
+[CliCommand("dla", "account", "blob-storage", "update")]
 public record AzDlaAccountBlobStorageUpdateOptions(
-[property: CommandSwitch("--access-key")] string AccessKey,
-[property: CommandSwitch("--storage-account-name")] int StorageAccountName
+[property: CliOption("--access-key")] string AccessKey,
+[property: CliOption("--storage-account-name")] int StorageAccountName
 ) : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--suffix")]
+    [CliOption("--suffix")]
     public string? Suffix { get; set; }
 }

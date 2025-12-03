@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "watcher", "connection-monitor", "output", "add")]
+[CliCommand("network", "watcher", "connection-monitor", "output", "add")]
 public record AzNetworkWatcherConnectionMonitorOutputAddOptions(
-[property: CommandSwitch("--connection-monitor")] string ConnectionMonitor,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--output-type")] string OutputType
+[property: CliOption("--connection-monitor")] string ConnectionMonitor,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--output-type")] string OutputType
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--output-index")]
+    [CliOption("--output-index")]
     public string? OutputIndex { get; set; }
 
-    [CommandSwitch("--workspace-id")]
+    [CliOption("--workspace-id")]
     public string? WorkspaceId { get; set; }
 }

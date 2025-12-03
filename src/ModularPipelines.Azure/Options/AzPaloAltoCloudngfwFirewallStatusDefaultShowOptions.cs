@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("palo-alto", "cloudngfw", "firewall", "status", "default", "show")]
+[CliCommand("palo-alto", "cloudngfw", "firewall", "status", "default", "show")]
 public record AzPaloAltoCloudngfwFirewallStatusDefaultShowOptions : AzOptions
 {
-    [CommandSwitch("--firewall-name")]
+    [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -18,15 +18,15 @@ public record DockerConfigCreateOptions : DockerOptions
         File = file;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? CreateConfig { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? File { get; set; }
 
-    [CommandSwitch("--label")]
+    [CliOption("--label")]
     public virtual string? Label { get; set; }
 
-    [CommandSwitch("--template-driver")]
+    [CliOption("--template-driver")]
     public virtual string? TemplateDriver { get; set; }
 }

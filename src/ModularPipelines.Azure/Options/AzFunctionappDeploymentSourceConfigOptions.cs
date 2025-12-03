@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "deployment", "source", "config")]
+[CliCommand("functionapp", "deployment", "source", "config")]
 public record AzFunctionappDeploymentSourceConfigOptions(
-[property: CommandSwitch("--repo-url")] string RepoUrl
+[property: CliOption("--repo-url")] string RepoUrl
 ) : AzOptions
 {
-    [CommandSwitch("--branch")]
+    [CliOption("--branch")]
     public string? Branch { get; set; }
 
-    [CommandSwitch("--git-token")]
+    [CliOption("--git-token")]
     public string? GitToken { get; set; }
 
-    [CommandSwitch("--github-action")]
+    [CliOption("--github-action")]
     public string? GithubAction { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--manual-integration")]
+    [CliOption("--manual-integration")]
     public string? ManualIntegration { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--repository-type")]
+    [CliOption("--repository-type")]
     public string? RepositoryType { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

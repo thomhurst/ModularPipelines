@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "computetarget", "amlcompute", "identity", "remove")]
+[CliCommand("ml", "computetarget", "amlcompute", "identity", "remove")]
 public record AzMlComputetargetAmlcomputeIdentityRemoveOptions(
-[property: CommandSwitch("--identities")] string Identities,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--identities")] string Identities,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription-id")]
+    [CliOption("--subscription-id")]
     public string? SubscriptionId { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 
-    [BooleanCommandSwitch("-v")]
+    [CliFlag("-v")]
     public bool? V { get; set; }
 }

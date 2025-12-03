@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cloud", "container", "clusters", "update")]
+[CliCommand("edge-cloud", "container", "clusters", "update")]
 public record GcloudEdgeCloudContainerClustersUpdateOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--clear-maintenance-window")]
+    [CliFlag("--clear-maintenance-window")]
     public bool? ClearMaintenanceWindow { get; set; }
 
-    [CommandSwitch("--maintenance-window-end")]
+    [CliOption("--maintenance-window-end")]
     public string? MaintenanceWindowEnd { get; set; }
 
-    [CommandSwitch("--maintenance-window-recurrence")]
+    [CliOption("--maintenance-window-recurrence")]
     public string? MaintenanceWindowRecurrence { get; set; }
 
-    [CommandSwitch("--maintenance-window-start")]
+    [CliOption("--maintenance-window-start")]
     public string? MaintenanceWindowStart { get; set; }
 }

@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53", "test-dns-answer")]
+[CliCommand("route53", "test-dns-answer")]
 public record AwsRoute53TestDnsAnswerOptions(
-[property: CommandSwitch("--hosted-zone-id")] string HostedZoneId,
-[property: CommandSwitch("--record-name")] string RecordName,
-[property: CommandSwitch("--record-type")] string RecordType
+[property: CliOption("--hosted-zone-id")] string HostedZoneId,
+[property: CliOption("--record-name")] string RecordName,
+[property: CliOption("--record-type")] string RecordType
 ) : AwsOptions
 {
-    [CommandSwitch("--resolver-ip")]
+    [CliOption("--resolver-ip")]
     public string? ResolverIp { get; set; }
 
-    [CommandSwitch("--edns0-client-subnet-ip")]
+    [CliOption("--edns0-client-subnet-ip")]
     public string? Edns0ClientSubnetIp { get; set; }
 
-    [CommandSwitch("--edns0-client-subnet-mask")]
+    [CliOption("--edns0-client-subnet-mask")]
     public string? Edns0ClientSubnetMask { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

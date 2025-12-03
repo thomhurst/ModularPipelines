@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datastream", "private-connections", "create")]
+[CliCommand("datastream", "private-connections", "create")]
 public record GcloudDatastreamPrivateConnectionsCreateOptions(
-[property: PositionalArgument] string PrivateConnection,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--subnet")] string Subnet,
-[property: CommandSwitch("--vpc")] string Vpc
+[property: CliArgument] string PrivateConnection,
+[property: CliArgument] string Location,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--subnet")] string Subnet,
+[property: CliOption("--vpc")] string Vpc
 ) : GcloudOptions
 {
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

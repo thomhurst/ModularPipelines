@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "describe-db-instance-automated-backups")]
+[CliCommand("rds", "describe-db-instance-automated-backups")]
 public record AwsRdsDescribeDbInstanceAutomatedBackupsOptions : AwsOptions
 {
-    [CommandSwitch("--dbi-resource-id")]
+    [CliOption("--dbi-resource-id")]
     public string? DbiResourceId { get; set; }
 
-    [CommandSwitch("--db-instance-identifier")]
+    [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--db-instance-automated-backups-arn")]
+    [CliOption("--db-instance-automated-backups-arn")]
     public string? DbInstanceAutomatedBackupsArn { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

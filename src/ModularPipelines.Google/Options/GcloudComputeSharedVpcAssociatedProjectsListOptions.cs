@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "shared-vpc", "associated-projects", "list")]
+[CliCommand("compute", "shared-vpc", "associated-projects", "list")]
 public record GcloudComputeSharedVpcAssociatedProjectsListOptions(
-[property: PositionalArgument] string ProjectId
+[property: CliArgument] string ProjectId
 ) : GcloudOptions;

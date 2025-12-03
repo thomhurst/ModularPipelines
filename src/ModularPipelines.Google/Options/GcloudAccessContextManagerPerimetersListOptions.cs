@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-context-manager", "perimeters", "list")]
+[CliCommand("access-context-manager", "perimeters", "list")]
 public record GcloudAccessContextManagerPerimetersListOptions : GcloudOptions
 {
-    [CommandSwitch("--policy")]
+    [CliOption("--policy")]
     public string? Policy { get; set; }
 }

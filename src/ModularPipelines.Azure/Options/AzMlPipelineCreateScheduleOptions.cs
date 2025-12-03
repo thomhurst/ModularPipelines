@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "pipeline", "create-schedule")]
+[CliCommand("ml", "pipeline", "create-schedule")]
 public record AzMlPipelineCreateScheduleOptions(
-[property: CommandSwitch("--experiment-name")] string ExperimentName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--pipeline-id")] string PipelineId
+[property: CliOption("--experiment-name")] string ExperimentName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--pipeline-id")] string PipelineId
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--schedule-yaml")]
+    [CliOption("--schedule-yaml")]
     public string? ScheduleYaml { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

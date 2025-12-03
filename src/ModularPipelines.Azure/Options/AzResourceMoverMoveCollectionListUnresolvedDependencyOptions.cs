@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-mover", "move-collection", "list-unresolved-dependency")]
+[CliCommand("resource-mover", "move-collection", "list-unresolved-dependency")]
 public record AzResourceMoverMoveCollectionListUnresolvedDependencyOptions(
-[property: CommandSwitch("--move-collection-name")] string MoveCollectionName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--move-collection-name")] string MoveCollectionName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--dependency-level")]
+    [CliOption("--dependency-level")]
     public string? DependencyLevel { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--orderby")]
+    [CliOption("--orderby")]
     public string? Orderby { get; set; }
 }

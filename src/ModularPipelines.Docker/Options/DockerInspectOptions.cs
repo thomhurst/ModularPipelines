@@ -15,15 +15,15 @@ public record DockerInspectOptions : DockerOptions
         NameOrId = nameOrId;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? NameOrId { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [CommandSwitch("--size")]
+    [CliOption("--size")]
     public virtual string? Size { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public virtual string? Type { get; set; }
 }

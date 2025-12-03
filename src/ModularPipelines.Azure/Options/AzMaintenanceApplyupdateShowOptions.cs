@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("maintenance", "applyupdate", "show")]
+[CliCommand("maintenance", "applyupdate", "show")]
 public record AzMaintenanceApplyupdateShowOptions : AzOptions
 {
-    [CommandSwitch("--apply-update-name")]
+    [CliOption("--apply-update-name")]
     public string? ApplyUpdateName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--provider-name")]
+    [CliOption("--provider-name")]
     public string? ProviderName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-name")]
+    [CliOption("--resource-name")]
     public string? ResourceName { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

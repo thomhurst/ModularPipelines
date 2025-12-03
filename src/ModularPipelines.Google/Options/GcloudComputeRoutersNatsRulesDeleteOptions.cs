@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "routers", "nats", "rules", "delete")]
+[CliCommand("compute", "routers", "nats", "rules", "delete")]
 public record GcloudComputeRoutersNatsRulesDeleteOptions(
-[property: PositionalArgument] string RuleNumber,
-[property: CommandSwitch("--nat")] string Nat,
-[property: CommandSwitch("--router")] string Router
+[property: CliArgument] string RuleNumber,
+[property: CliOption("--nat")] string Nat,
+[property: CliOption("--router")] string Router
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

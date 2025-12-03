@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "managed-cluster", "client-certificate", "delete")]
+[CliCommand("sf", "managed-cluster", "client-certificate", "delete")]
 public record AzSfManagedClusterClientCertificateDeleteOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--common-name")]
+    [CliOption("--common-name")]
     public string? CommonName { get; set; }
 
-    [CommandSwitch("--thumbprint")]
+    [CliOption("--thumbprint")]
     public string? Thumbprint { get; set; }
 }

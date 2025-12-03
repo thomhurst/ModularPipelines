@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "device")]
+[CliCommand("iot", "device")]
 public class AzIotDeviceRegistration
 {
     public AzIotDeviceRegistration(

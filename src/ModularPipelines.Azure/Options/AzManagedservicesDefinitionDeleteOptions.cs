@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managedservices", "definition", "delete")]
+[CliCommand("managedservices", "definition", "delete")]
 public record AzManagedservicesDefinitionDeleteOptions(
-[property: CommandSwitch("--definition")] string Definition
+[property: CliOption("--definition")] string Definition
 ) : AzOptions;

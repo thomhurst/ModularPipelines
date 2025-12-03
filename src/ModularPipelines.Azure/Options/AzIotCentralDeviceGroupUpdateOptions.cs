@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "device-group", "update")]
+[CliCommand("iot", "central", "device-group", "update")]
 public record AzIotCentralDeviceGroupUpdateOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--device-group-id")] string DeviceGroupId
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--device-group-id")] string DeviceGroupId
 ) : AzOptions
 {
-    [CommandSwitch("--central-api-uri")]
+    [CliOption("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--organizations")]
+    [CliOption("--organizations")]
     public string? Organizations { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 }

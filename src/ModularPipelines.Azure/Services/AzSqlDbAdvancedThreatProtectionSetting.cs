@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "db")]
+[CliCommand("sql", "db")]
 public class AzSqlDbAdvancedThreatProtectionSetting
 {
     public AzSqlDbAdvancedThreatProtectionSetting(

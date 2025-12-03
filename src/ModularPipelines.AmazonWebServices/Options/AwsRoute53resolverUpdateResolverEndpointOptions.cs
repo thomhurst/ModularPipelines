@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53resolver", "update-resolver-endpoint")]
+[CliCommand("route53resolver", "update-resolver-endpoint")]
 public record AwsRoute53resolverUpdateResolverEndpointOptions(
-[property: CommandSwitch("--resolver-endpoint-id")] string ResolverEndpointId
+[property: CliOption("--resolver-endpoint-id")] string ResolverEndpointId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resolver-endpoint-type")]
+    [CliOption("--resolver-endpoint-type")]
     public string? ResolverEndpointType { get; set; }
 
-    [CommandSwitch("--update-ip-addresses")]
+    [CliOption("--update-ip-addresses")]
     public string[]? UpdateIpAddresses { get; set; }
 
-    [CommandSwitch("--protocols")]
+    [CliOption("--protocols")]
     public string[]? Protocols { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

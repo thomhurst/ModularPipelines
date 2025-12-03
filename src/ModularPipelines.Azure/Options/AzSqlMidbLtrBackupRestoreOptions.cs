@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "midb", "ltr-backup", "restore")]
+[CliCommand("sql", "midb", "ltr-backup", "restore")]
 public record AzSqlMidbLtrBackupRestoreOptions(
-[property: CommandSwitch("--backup-id")] string BackupId,
-[property: CommandSwitch("--dest-database")] string DestDatabase,
-[property: CommandSwitch("--dest-mi")] string DestMi,
-[property: CommandSwitch("--dest-resource-group")] string DestResourceGroup
+[property: CliOption("--backup-id")] string BackupId,
+[property: CliOption("--dest-database")] string DestDatabase,
+[property: CliOption("--dest-mi")] string DestMi,
+[property: CliOption("--dest-resource-group")] string DestResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

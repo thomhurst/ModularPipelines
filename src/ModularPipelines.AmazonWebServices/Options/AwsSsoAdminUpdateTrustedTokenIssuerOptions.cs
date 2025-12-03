@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sso-admin", "update-trusted-token-issuer")]
+[CliCommand("sso-admin", "update-trusted-token-issuer")]
 public record AwsSsoAdminUpdateTrustedTokenIssuerOptions(
-[property: CommandSwitch("--trusted-token-issuer-arn")] string TrustedTokenIssuerArn
+[property: CliOption("--trusted-token-issuer-arn")] string TrustedTokenIssuerArn
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--trusted-token-issuer-configuration")]
+    [CliOption("--trusted-token-issuer-configuration")]
     public string? TrustedTokenIssuerConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

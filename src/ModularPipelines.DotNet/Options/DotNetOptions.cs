@@ -8,6 +8,6 @@ namespace ModularPipelines.DotNet.Options;
 [ExcludeFromCodeCoverage]
 public record DotNetOptions() : CommandLineToolOptions("dotnet")
 {
-    [CommandSwitch("--property:", SwitchValueSeparator = "")]
+    [CliOption("--property:", Format = OptionFormat.NoSeparator)]
     public virtual IEnumerable<KeyValue>? Properties { get; set; }
 }

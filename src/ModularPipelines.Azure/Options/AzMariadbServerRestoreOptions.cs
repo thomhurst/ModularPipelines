@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mariadb", "server", "restore")]
+[CliCommand("mariadb", "server", "restore")]
 public record AzMariadbServerRestoreOptions(
-[property: CommandSwitch("--pitr-time")] string PitrTime,
-[property: CommandSwitch("--source-server")] string SourceServer
+[property: CliOption("--pitr-time")] string PitrTime,
+[property: CliOption("--source-server")] string SourceServer
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

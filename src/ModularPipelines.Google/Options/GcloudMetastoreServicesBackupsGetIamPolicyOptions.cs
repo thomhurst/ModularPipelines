@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("metastore", "services", "backups", "get-iam-policy")]
+[CliCommand("metastore", "services", "backups", "get-iam-policy")]
 public record GcloudMetastoreServicesBackupsGetIamPolicyOptions(
-[property: PositionalArgument] string Backup,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Service
+[property: CliArgument] string Backup,
+[property: CliArgument] string Location,
+[property: CliArgument] string Service
 ) : GcloudOptions;

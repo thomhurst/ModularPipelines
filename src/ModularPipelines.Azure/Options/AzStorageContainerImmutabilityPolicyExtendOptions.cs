@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "container", "immutability-policy", "extend")]
+[CliCommand("storage", "container", "immutability-policy", "extend")]
 public record AzStorageContainerImmutabilityPolicyExtendOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--container-name")] string ContainerName,
-[property: CommandSwitch("--if-match")] string IfMatch
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--container-name")] string ContainerName,
+[property: CliOption("--if-match")] string IfMatch
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allow-protected-append-writes")]
+    [CliFlag("--allow-protected-append-writes")]
     public bool? AllowProtectedAppendWrites { get; set; }
 
-    [BooleanCommandSwitch("--allow-protected-append-writes-all")]
+    [CliFlag("--allow-protected-append-writes-all")]
     public bool? AllowProtectedAppendWritesAll { get; set; }
 
-    [CommandSwitch("--period")]
+    [CliOption("--period")]
     public string? Period { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lexv2-models")]
+[CliCommand("lexv2-models")]
 public class AwsLexv2ModelsWait
 {
     public AwsLexv2ModelsWait(

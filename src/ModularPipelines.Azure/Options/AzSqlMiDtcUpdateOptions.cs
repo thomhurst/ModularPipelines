@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "mi", "dtc", "update")]
+[CliCommand("sql", "mi", "dtc", "update")]
 public record AzSqlMiDtcUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--allow-inbound-enabled")]
+    [CliFlag("--allow-inbound-enabled")]
     public bool? AllowInboundEnabled { get; set; }
 
-    [BooleanCommandSwitch("--allow-outbound-enabled")]
+    [CliFlag("--allow-outbound-enabled")]
     public bool? AllowOutboundEnabled { get; set; }
 
-    [CommandSwitch("--authentication")]
+    [CliOption("--authentication")]
     public string? Authentication { get; set; }
 
-    [BooleanCommandSwitch("--dtc-enabled")]
+    [CliFlag("--dtc-enabled")]
     public bool? DtcEnabled { get; set; }
 
-    [CommandSwitch("--external-dns-suffix-search-list")]
+    [CliOption("--external-dns-suffix-search-list")]
     public string? ExternalDnsSuffixSearchList { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--managed-instance-name")]
+    [CliOption("--managed-instance-name")]
     public string? ManagedInstanceName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [BooleanCommandSwitch("--sna-lu-transactions")]
+    [CliFlag("--sna-lu-transactions")]
     public bool? SnaLuTransactions { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--xa-default-timeout")]
+    [CliOption("--xa-default-timeout")]
     public string? XaDefaultTimeout { get; set; }
 
-    [CommandSwitch("--xa-max-timeout")]
+    [CliOption("--xa-max-timeout")]
     public string? XaMaxTimeout { get; set; }
 
-    [BooleanCommandSwitch("--xa-transactions")]
+    [CliFlag("--xa-transactions")]
     public bool? XaTransactions { get; set; }
 }

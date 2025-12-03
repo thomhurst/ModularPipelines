@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "datasets", "get-iam-policy")]
+[CliCommand("healthcare", "datasets", "get-iam-policy")]
 public record GcloudHealthcareDatasetsGetIamPolicyOptions(
-[property: PositionalArgument] string Dataset,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Dataset,
+[property: CliArgument] string Location
 ) : GcloudOptions;

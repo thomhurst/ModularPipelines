@@ -7,24 +7,24 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("sig", "share", "enable-community", "(image-gallery", "extension)")]
 public record AzSigShareEnableCommunityImageGalleryExtensionOptions : AzOptions
 {
-    [CommandSwitch("--gallery-name")]
+    [CliOption("--gallery-name")]
     public string? GalleryName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--subscription-ids")]
+    [CliOption("--subscription-ids")]
     public string? SubscriptionIds { get; set; }
 
-    [CommandSwitch("--tenant-ids")]
+    [CliOption("--tenant-ids")]
     public string? TenantIds { get; set; }
 }

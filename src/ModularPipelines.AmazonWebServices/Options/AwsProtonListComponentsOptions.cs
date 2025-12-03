@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("proton", "list-components")]
+[CliCommand("proton", "list-components")]
 public record AwsProtonListComponentsOptions : AwsOptions
 {
-    [CommandSwitch("--environment-name")]
+    [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
-    [CommandSwitch("--service-instance-name")]
+    [CliOption("--service-instance-name")]
     public string? ServiceInstanceName { get; set; }
 
-    [CommandSwitch("--service-name")]
+    [CliOption("--service-name")]
     public string? ServiceName { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

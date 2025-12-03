@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("workload")]
+[CliCommand("workload")]
 [ExcludeFromCodeCoverage]
 public record DotNetWorkloadOptions : DotNetOptions
 {
-    [BooleanCommandSwitch("--info")]
+    [CliFlag("--info")]
     public virtual bool? Info { get; set; }
 }

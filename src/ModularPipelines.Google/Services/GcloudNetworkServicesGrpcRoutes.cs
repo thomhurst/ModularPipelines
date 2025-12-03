@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-services")]
+[CliCommand("network-services")]
 public class GcloudNetworkServicesGrpcRoutes
 {
     public GcloudNetworkServicesGrpcRoutes(

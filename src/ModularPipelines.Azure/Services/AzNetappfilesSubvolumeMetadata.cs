@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "subvolume")]
+[CliCommand("netappfiles", "subvolume")]
 public class AzNetappfilesSubvolumeMetadata
 {
     public AzNetappfilesSubvolumeMetadata(

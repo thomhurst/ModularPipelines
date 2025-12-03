@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("offure", "hyperv", "host", "show")]
+[CliCommand("offure", "hyperv", "host", "show")]
 public record AzOffazureHypervHostShowOptions : AzOptions
 {
-    [CommandSwitch("--host-name")]
+    [CliOption("--host-name")]
     public string? HostName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--site-name")]
+    [CliOption("--site-name")]
     public string? SiteName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

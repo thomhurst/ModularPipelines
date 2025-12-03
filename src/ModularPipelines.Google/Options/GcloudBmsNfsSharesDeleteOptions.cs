@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bms", "nfs-shares", "delete")]
+[CliCommand("bms", "nfs-shares", "delete")]
 public record GcloudBmsNfsSharesDeleteOptions(
-[property: PositionalArgument] string NfsShare,
-[property: PositionalArgument] string Region
+[property: CliArgument] string NfsShare,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

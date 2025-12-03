@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "workflow-templates", "instantiate-from-file")]
+[CliCommand("dataproc", "workflow-templates", "instantiate-from-file")]
 public record GcloudDataprocWorkflowTemplatesInstantiateFromFileOptions(
-[property: CommandSwitch("--file")] string File
+[property: CliOption("--file")] string File
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

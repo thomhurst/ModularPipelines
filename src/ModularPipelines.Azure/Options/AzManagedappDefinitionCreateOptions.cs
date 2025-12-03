@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managedapp", "definition", "create")]
+[CliCommand("managedapp", "definition", "create")]
 public record AzManagedappDefinitionCreateOptions(
-[property: CommandSwitch("--authorizations")] string Authorizations,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--lock-level")] string LockLevel,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--authorizations")] string Authorizations,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--lock-level")] string LockLevel,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--create-ui-definition")]
+    [CliOption("--create-ui-definition")]
     public string? CreateUiDefinition { get; set; }
 
-    [CommandSwitch("--deployment-mode")]
+    [CliOption("--deployment-mode")]
     public string? DeploymentMode { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--main-template")]
+    [CliOption("--main-template")]
     public string? MainTemplate { get; set; }
 
-    [CommandSwitch("--package-file-uri")]
+    [CliOption("--package-file-uri")]
     public string? PackageFileUri { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

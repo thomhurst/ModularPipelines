@@ -5,32 +5,32 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "reservations", "create")]
+[CliCommand("compute", "reservations", "create")]
 public record GcloudComputeReservationsCreateOptions(
-[property: PositionalArgument] string Reservation,
-[property: CommandSwitch("--vm-count")] string VmCount,
-[property: BooleanCommandSwitch("--require-specific-reservation")] bool RequireSpecificReservation,
-[property: CommandSwitch("--resource-policies")] IEnumerable<KeyValue> ResourcePolicies,
-[property: CommandSwitch("--source-instance-template")] string SourceInstanceTemplate,
-[property: CommandSwitch("--machine-type")] string MachineType,
-[property: CommandSwitch("--accelerator")] string[] Accelerator,
-[property: BooleanCommandSwitch("count")] bool Count,
-[property: BooleanCommandSwitch("type")] bool Type,
-[property: CommandSwitch("--local-ssd")] string[] LocalSsd,
-[property: BooleanCommandSwitch("interface")] bool Interface,
-[property: BooleanCommandSwitch("size")] bool Size,
-[property: CommandSwitch("--min-cpu-platform")] string MinCpuPlatform
+[property: CliArgument] string Reservation,
+[property: CliOption("--vm-count")] string VmCount,
+[property: CliFlag("--require-specific-reservation")] bool RequireSpecificReservation,
+[property: CliOption("--resource-policies")] IEnumerable<KeyValue> ResourcePolicies,
+[property: CliOption("--source-instance-template")] string SourceInstanceTemplate,
+[property: CliOption("--machine-type")] string MachineType,
+[property: CliOption("--accelerator")] string[] Accelerator,
+[property: CliFlag("count")] bool Count,
+[property: CliFlag("type")] bool Type,
+[property: CliOption("--local-ssd")] string[] LocalSsd,
+[property: CliFlag("interface")] bool Interface,
+[property: CliFlag("size")] bool Size,
+[property: CliOption("--min-cpu-platform")] string MinCpuPlatform
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--share-setting")]
+    [CliOption("--share-setting")]
     public string? ShareSetting { get; set; }
 
-    [CommandSwitch("--share-with")]
+    [CliOption("--share-with")]
     public string[]? ShareWith { get; set; }
 }

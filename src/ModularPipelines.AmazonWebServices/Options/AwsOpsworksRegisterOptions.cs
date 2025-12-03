@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "register")]
+[CliCommand("opsworks", "register")]
 public record AwsOpsworksRegisterOptions(
-[property: CommandSwitch("--stack-id")] string StackId,
-[property: CommandSwitch("--infrastructure-class")] string InfrastructureClass
+[property: CliOption("--stack-id")] string StackId,
+[property: CliOption("--infrastructure-class")] string InfrastructureClass
 ) : AwsOptions
 {
-    [CommandSwitch("--override-hostname")]
+    [CliOption("--override-hostname")]
     public string? OverrideHostname { get; set; }
 
-    [CommandSwitch("--override-private-ip")]
+    [CliOption("--override-private-ip")]
     public string? OverridePrivateIp { get; set; }
 
-    [CommandSwitch("--override-public-ip")]
+    [CliOption("--override-public-ip")]
     public string? OverridePublicIp { get; set; }
 
-    [CommandSwitch("--override-ssh")]
+    [CliOption("--override-ssh")]
     public string? OverrideSsh { get; set; }
 
-    [CommandSwitch("--ssh-username")]
+    [CliOption("--ssh-username")]
     public string? SshUsername { get; set; }
 
-    [CommandSwitch("--ssh-private-key")]
+    [CliOption("--ssh-private-key")]
     public string? SshPrivateKey { get; set; }
 
-    [BooleanCommandSwitch("--local")]
+    [CliFlag("--local")]
     public bool? Local { get; set; }
 
-    [BooleanCommandSwitch("--use-instance-profile")]
+    [CliFlag("--use-instance-profile")]
     public bool? UseInstanceProfile { get; set; }
 }

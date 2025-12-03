@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("adp", "check-name-availability")]
+[CliCommand("adp", "check-name-availability")]
 public record AzAdpCheckNameAvailabilityOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--name")] string Name,
+[property: CliOption("--type")] string Type
 ) : AzOptions;

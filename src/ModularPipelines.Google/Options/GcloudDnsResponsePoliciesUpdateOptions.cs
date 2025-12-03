@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns", "response-policies", "update")]
+[CliCommand("dns", "response-policies", "update")]
 public record GcloudDnsResponsePoliciesUpdateOptions(
-[property: PositionalArgument] string ResponsePolicies
+[property: CliArgument] string ResponsePolicies
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--gkeclusters")]
+    [CliOption("--gkeclusters")]
     public string[]? Gkeclusters { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--networks")]
+    [CliOption("--networks")]
     public string[]? Networks { get; set; }
 }

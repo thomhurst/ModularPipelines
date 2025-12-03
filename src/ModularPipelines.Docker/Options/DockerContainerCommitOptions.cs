@@ -15,21 +15,21 @@ public record DockerContainerCommitOptions : DockerOptions
         Container = container;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Container { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Repository { get; set; }
 
-    [CommandSwitch("--author")]
+    [CliOption("--author")]
     public virtual string? Author { get; set; }
 
-    [CommandSwitch("--change")]
+    [CliOption("--change")]
     public virtual string? Change { get; set; }
 
-    [CommandSwitch("--message")]
+    [CliOption("--message")]
     public virtual string? Message { get; set; }
 
-    [BooleanCommandSwitch("--pause")]
+    [CliFlag("--pause")]
     public virtual bool? Pause { get; set; }
 }

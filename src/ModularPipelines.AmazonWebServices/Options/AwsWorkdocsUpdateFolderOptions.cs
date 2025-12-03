@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workdocs", "update-folder")]
+[CliCommand("workdocs", "update-folder")]
 public record AwsWorkdocsUpdateFolderOptions(
-[property: CommandSwitch("--folder-id")] string FolderId
+[property: CliOption("--folder-id")] string FolderId
 ) : AwsOptions
 {
-    [CommandSwitch("--authentication-token")]
+    [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--parent-folder-id")]
+    [CliOption("--parent-folder-id")]
     public string? ParentFolderId { get; set; }
 
-    [CommandSwitch("--resource-state")]
+    [CliOption("--resource-state")]
     public string? ResourceState { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

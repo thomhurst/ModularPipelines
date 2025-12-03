@@ -5,38 +5,38 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "environments", "create")]
+[CliCommand("dataplex", "environments", "create")]
 public record GcloudDataplexEnvironmentsCreateOptions(
-[property: PositionalArgument] string Environment,
-[property: PositionalArgument] string Lake,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--os-image-version")] string OsImageVersion,
-[property: CommandSwitch("--os-image-java-libraries")] string[] OsImageJavaLibraries,
-[property: CommandSwitch("--os-image-properties")] string[] OsImageProperties,
-[property: CommandSwitch("--os-image-python-packages")] string[] OsImagePythonPackages,
-[property: CommandSwitch("--compute-disk-size-gb")] string ComputeDiskSizeGb,
-[property: CommandSwitch("--compute-max-node-count")] string ComputeMaxNodeCount,
-[property: CommandSwitch("--compute-node-count")] string ComputeNodeCount
+[property: CliArgument] string Environment,
+[property: CliArgument] string Lake,
+[property: CliArgument] string Location,
+[property: CliOption("--os-image-version")] string OsImageVersion,
+[property: CliOption("--os-image-java-libraries")] string[] OsImageJavaLibraries,
+[property: CliOption("--os-image-properties")] string[] OsImageProperties,
+[property: CliOption("--os-image-python-packages")] string[] OsImagePythonPackages,
+[property: CliOption("--compute-disk-size-gb")] string ComputeDiskSizeGb,
+[property: CliOption("--compute-max-node-count")] string ComputeMaxNodeCount,
+[property: CliOption("--compute-node-count")] string ComputeNodeCount
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [BooleanCommandSwitch("--session-enable-fast-startup")]
+    [CliFlag("--session-enable-fast-startup")]
     public bool? SessionEnableFastStartup { get; set; }
 
-    [CommandSwitch("--session-max-idle-duration")]
+    [CliOption("--session-max-idle-duration")]
     public string? SessionMaxIdleDuration { get; set; }
 }

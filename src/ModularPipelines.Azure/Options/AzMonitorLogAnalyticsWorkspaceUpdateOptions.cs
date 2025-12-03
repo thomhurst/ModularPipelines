@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "log-analytics", "workspace", "update")]
+[CliCommand("monitor", "log-analytics", "workspace", "update")]
 public record AzMonitorLogAnalyticsWorkspaceUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--capacity-reservation-level")]
+    [CliOption("--capacity-reservation-level")]
     public string? CapacityReservationLevel { get; set; }
 
-    [CommandSwitch("--data-collection-rule")]
+    [CliOption("--data-collection-rule")]
     public string? DataCollectionRule { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--identity-type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--ingestion-access")]
+    [CliOption("--ingestion-access")]
     public string? IngestionAccess { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--query-access")]
+    [CliOption("--query-access")]
     public string? QueryAccess { get; set; }
 
-    [CommandSwitch("--quota")]
+    [CliOption("--quota")]
     public string? Quota { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--retention-time")]
+    [CliOption("--retention-time")]
     public string? RetentionTime { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--user-assigned")]
+    [CliOption("--user-assigned")]
     public string? UserAssigned { get; set; }
 }

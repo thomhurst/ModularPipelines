@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("config")]
+[CliCommand("config")]
 public record YarnConfigOptions : YarnOptions
 {
-    [BooleanCommandSwitch("--no-defaults")]
+    [CliFlag("--no-defaults")]
     public virtual bool? NoDefaults { get; set; }
 
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 }

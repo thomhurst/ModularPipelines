@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("load", "test-run", "app-component", "remove")]
+[CliCommand("load", "test-run", "app-component", "remove")]
 public record AzLoadTestRunAppComponentRemoveOptions(
-[property: CommandSwitch("--app-component-id")] string AppComponentId,
-[property: CommandSwitch("--load-test-resource")] string LoadTestResource,
-[property: CommandSwitch("--test-run-id")] string TestRunId
+[property: CliOption("--app-component-id")] string AppComponentId,
+[property: CliOption("--load-test-resource")] string LoadTestResource,
+[property: CliOption("--test-run-id")] string TestRunId
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

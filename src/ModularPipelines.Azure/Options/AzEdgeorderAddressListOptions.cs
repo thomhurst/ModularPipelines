@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edgeorder", "address", "list")]
+[CliCommand("edgeorder", "address", "list")]
 public record AzEdgeorderAddressListOptions : AzOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--skip-token")]
+    [CliOption("--skip-token")]
     public string? SkipToken { get; set; }
 }

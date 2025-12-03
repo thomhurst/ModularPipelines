@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opensearchserverless", "batch-get-collection")]
+[CliCommand("opensearchserverless", "batch-get-collection")]
 public record AwsOpensearchserverlessBatchGetCollectionOptions : AwsOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string[]? Ids { get; set; }
 
-    [CommandSwitch("--names")]
+    [CliOption("--names")]
     public string[]? Names { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

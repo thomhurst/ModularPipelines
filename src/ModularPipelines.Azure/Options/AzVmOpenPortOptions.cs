@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "open-port")]
+[CliCommand("vm", "open-port")]
 public record AzVmOpenPortOptions(
-[property: CommandSwitch("--port")] int Port
+[property: CliOption("--port")] int Port
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--apply-to-subnet")]
+    [CliFlag("--apply-to-subnet")]
     public bool? ApplyToSubnet { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--nsg-name")]
+    [CliOption("--nsg-name")]
     public string? NsgName { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

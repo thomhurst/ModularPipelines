@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lab", "custom-image", "list")]
+[CliCommand("lab", "custom-image", "list")]
 public record AzLabCustomImageListOptions(
-[property: CommandSwitch("--lab-name")] string LabName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--lab-name")] string LabName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--expand")]
+    [CliOption("--expand")]
     public string? Expand { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--orderby")]
+    [CliOption("--orderby")]
     public string? Orderby { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

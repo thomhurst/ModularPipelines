@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "delete-data-set")]
+[CliCommand("quicksight", "delete-data-set")]
 public record AwsQuicksightDeleteDataSetOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--data-set-id")] string DataSetId
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--data-set-id")] string DataSetId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

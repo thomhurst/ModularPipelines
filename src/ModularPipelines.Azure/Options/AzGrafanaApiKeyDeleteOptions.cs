@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "api-key", "delete")]
+[CliCommand("grafana", "api-key", "delete")]
 public record AzGrafanaApiKeyDeleteOptions(
-[property: CommandSwitch("--key")] string Key,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--key")] string Key,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

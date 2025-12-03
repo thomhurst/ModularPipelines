@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "pipeline", "delete-draft")]
+[CliCommand("ml", "pipeline", "delete-draft")]
 public record AzMlPipelineDeleteDraftOptions(
-[property: CommandSwitch("--pipeline-draft-id")] string PipelineDraftId
+[property: CliOption("--pipeline-draft-id")] string PipelineDraftId
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

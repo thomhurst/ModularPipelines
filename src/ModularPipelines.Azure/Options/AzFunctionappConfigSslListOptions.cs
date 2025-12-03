@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "config", "ssl", "list")]
+[CliCommand("functionapp", "config", "ssl", "list")]
 public record AzFunctionappConfigSslListOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("nginx", "deployment", "configuration", "show")]
+[CliCommand("nginx", "deployment", "configuration", "show")]
 public record AzNginxDeploymentConfigurationShowOptions : AzOptions
 {
-    [CommandSwitch("--configuration-name")]
+    [CliOption("--configuration-name")]
     public string? ConfigurationName { get; set; }
 
-    [CommandSwitch("--deployment-name")]
+    [CliOption("--deployment-name")]
     public string? DeploymentName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

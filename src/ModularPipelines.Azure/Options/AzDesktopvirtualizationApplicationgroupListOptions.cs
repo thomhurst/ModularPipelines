@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("desktopvirtualization", "applicationgroup", "list")]
+[CliCommand("desktopvirtualization", "applicationgroup", "list")]
 public record AzDesktopvirtualizationApplicationgroupListOptions : AzOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

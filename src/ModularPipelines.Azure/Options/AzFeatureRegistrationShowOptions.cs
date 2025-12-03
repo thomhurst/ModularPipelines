@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("feature", "registration", "show")]
+[CliCommand("feature", "registration", "show")]
 public record AzFeatureRegistrationShowOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--provider-namespace")] string ProviderNamespace
+[property: CliOption("--name")] string Name,
+[property: CliOption("--provider-namespace")] string ProviderNamespace
 ) : AzOptions;

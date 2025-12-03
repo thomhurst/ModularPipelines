@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "ops", "support", "create-bundle")]
+[CliCommand("iot", "ops", "support", "create-bundle")]
 public record AzIotOpsSupportCreateBundleOptions : AzOptions
 {
-    [CommandSwitch("--bundle-dir")]
+    [CliOption("--bundle-dir")]
     public string? BundleDir { get; set; }
 
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public string? Context { get; set; }
 
-    [CommandSwitch("--log-age")]
+    [CliOption("--log-age")]
     public string? LogAge { get; set; }
 
-    [BooleanCommandSwitch("--mq-traces")]
+    [CliFlag("--mq-traces")]
     public bool? MqTraces { get; set; }
 
-    [CommandSwitch("--ops-service")]
+    [CliOption("--ops-service")]
     public string? OpsService { get; set; }
 }

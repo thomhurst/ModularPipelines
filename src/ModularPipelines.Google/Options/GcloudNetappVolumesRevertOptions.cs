@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "volumes", "revert")]
+[CliCommand("netapp", "volumes", "revert")]
 public record GcloudNetappVolumesRevertOptions(
-[property: PositionalArgument] string Volume,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--snapshot")] string Snapshot
+[property: CliArgument] string Volume,
+[property: CliArgument] string Location,
+[property: CliOption("--snapshot")] string Snapshot
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

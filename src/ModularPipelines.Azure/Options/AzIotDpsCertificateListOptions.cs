@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "dps", "certificate", "list")]
+[CliCommand("iot", "dps", "certificate", "list")]
 public record AzIotDpsCertificateListOptions(
-[property: CommandSwitch("--dps-name")] string DpsName
+[property: CliOption("--dps-name")] string DpsName
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

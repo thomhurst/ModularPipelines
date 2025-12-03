@@ -5,36 +5,36 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "kms-configs", "update")]
+[CliCommand("netapp", "kms-configs", "update")]
 public record GcloudNetappKmsConfigsUpdateOptions(
-[property: PositionalArgument] string KmsConfig,
-[property: PositionalArgument] string Location
+[property: CliArgument] string KmsConfig,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--kms-keyring")]
+    [CliOption("--kms-keyring")]
     public string? KmsKeyring { get; set; }
 
-    [CommandSwitch("--kms-location")]
+    [CliOption("--kms-location")]
     public string? KmsLocation { get; set; }
 
-    [CommandSwitch("--kms-project")]
+    [CliOption("--kms-project")]
     public string? KmsProject { get; set; }
 }

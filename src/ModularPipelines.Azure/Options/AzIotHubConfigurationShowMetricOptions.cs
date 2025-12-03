@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "configuration", "show-metric")]
+[CliCommand("iot", "hub", "configuration", "show-metric")]
 public record AzIotHubConfigurationShowMetricOptions(
-[property: CommandSwitch("--config-id")] string ConfigId,
-[property: CommandSwitch("--metric-id")] string MetricId
+[property: CliOption("--config-id")] string ConfigId,
+[property: CliOption("--metric-id")] string MetricId
 ) : AzOptions
 {
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--metric-type")]
+    [CliOption("--metric-type")]
     public string? MetricType { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("recommender", "insights", "list")]
+[CliCommand("recommender", "insights", "list")]
 public record GcloudRecommenderInsightsListOptions : GcloudOptions
 {
     public GcloudRecommenderInsightsListOptions(
@@ -24,18 +24,18 @@ public record GcloudRecommenderInsightsListOptions : GcloudOptions
         Project = project;
     }
 
-    [CommandSwitch("--insight-type")]
+    [CliOption("--insight-type")]
     public string InsightType { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string Location { get; set; }
 
-    [CommandSwitch("--billing-account")]
+    [CliOption("--billing-account")]
     public string BillingAccount { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 }

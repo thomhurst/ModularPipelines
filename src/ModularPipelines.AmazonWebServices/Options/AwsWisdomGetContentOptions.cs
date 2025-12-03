@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wisdom", "get-content")]
+[CliCommand("wisdom", "get-content")]
 public record AwsWisdomGetContentOptions(
-[property: CommandSwitch("--content-id")] string ContentId,
-[property: CommandSwitch("--knowledge-base-id")] string KnowledgeBaseId
+[property: CliOption("--content-id")] string ContentId,
+[property: CliOption("--knowledge-base-id")] string KnowledgeBaseId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

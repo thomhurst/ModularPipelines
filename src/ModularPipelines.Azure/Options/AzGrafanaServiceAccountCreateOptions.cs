@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "service-account", "create")]
+[CliCommand("grafana", "service-account", "create")]
 public record AzGrafanaServiceAccountCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--service-account")] int ServiceAccount
+[property: CliOption("--name")] string Name,
+[property: CliOption("--service-account")] int ServiceAccount
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--is-disabled")]
+    [CliFlag("--is-disabled")]
     public bool? IsDisabled { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 }

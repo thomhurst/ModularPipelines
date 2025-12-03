@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "kusto", "database-principal-assignment", "create")]
+[CliCommand("synapse", "kusto", "database-principal-assignment", "create")]
 public record AzSynapseKustoDatabasePrincipalAssignmentCreateOptions(
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--kusto-pool-name")] string KustoPoolName,
-[property: CommandSwitch("--principal-assignment-name")] string PrincipalAssignmentName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--kusto-pool-name")] string KustoPoolName,
+[property: CliOption("--principal-assignment-name")] string PrincipalAssignmentName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--principal-id")]
+    [CliOption("--principal-id")]
     public string? PrincipalId { get; set; }
 
-    [CommandSwitch("--principal-type")]
+    [CliOption("--principal-type")]
     public string? PrincipalType { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--tenant-id")]
+    [CliOption("--tenant-id")]
     public string? TenantId { get; set; }
 }

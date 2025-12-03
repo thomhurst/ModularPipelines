@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "regulatory-compliance-assessments", "list")]
+[CliCommand("security", "regulatory-compliance-assessments", "list")]
 public record AzSecurityRegulatoryComplianceAssessmentsListOptions(
-[property: CommandSwitch("--control-name")] string ControlName,
-[property: CommandSwitch("--standard-name")] string StandardName
+[property: CliOption("--control-name")] string ControlName,
+[property: CliOption("--standard-name")] string StandardName
 ) : AzOptions;

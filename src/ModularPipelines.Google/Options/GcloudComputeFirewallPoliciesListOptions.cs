@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "firewall-policies", "list")]
+[CliCommand("compute", "firewall-policies", "list")]
 public record GcloudComputeFirewallPoliciesListOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--folder")] string Folder,
-[property: CommandSwitch("--organization")] string Organization
+[property: CliArgument] string Name,
+[property: CliOption("--folder")] string Folder,
+[property: CliOption("--organization")] string Organization
 ) : GcloudOptions
 {
-    [CommandSwitch("--regexp")]
+    [CliOption("--regexp")]
     public string? Regexp { get; set; }
 }

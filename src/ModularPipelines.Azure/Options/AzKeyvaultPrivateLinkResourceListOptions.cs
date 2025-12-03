@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "private-link-resource", "list")]
+[CliCommand("keyvault", "private-link-resource", "list")]
 public record AzKeyvaultPrivateLinkResourceListOptions : AzOptions
 {
-    [CommandSwitch("--hsm-name")]
+    [CliOption("--hsm-name")]
     public string? HsmName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 }

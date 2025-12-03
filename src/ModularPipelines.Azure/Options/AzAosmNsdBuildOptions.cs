@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aosm", "nsd", "build")]
+[CliCommand("aosm", "nsd", "build")]
 public record AzAosmNsdBuildOptions(
-[property: CommandSwitch("--config-file")] string ConfigFile
+[property: CliOption("--config-file")] string ConfigFile
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 }

@@ -6,6 +6,6 @@ namespace ModularPipelines.Options.Linux.AptGet;
 [ExcludeFromCodeCoverage]
 public record AptGetDistUpgradeOptions : AptGetOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string CommandName { get; } = "dist-upgrade";
 }

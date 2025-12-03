@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instance-groups")]
+[CliCommand("compute", "instance-groups")]
 public class GcloudComputeInstanceGroupsUnmanaged
 {
     public GcloudComputeInstanceGroupsUnmanaged(

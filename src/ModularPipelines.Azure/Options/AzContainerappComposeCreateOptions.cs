@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "compose", "create")]
+[CliCommand("containerapp", "compose", "create")]
 public record AzContainerappComposeCreateOptions(
-[property: CommandSwitch("--environment")] string Environment,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--environment")] string Environment,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--compose-file-path")]
+    [CliOption("--compose-file-path")]
     public string? ComposeFilePath { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--registry-password")]
+    [CliOption("--registry-password")]
     public string? RegistryPassword { get; set; }
 
-    [CommandSwitch("--registry-server")]
+    [CliOption("--registry-server")]
     public string? RegistryServer { get; set; }
 
-    [CommandSwitch("--registry-username")]
+    [CliOption("--registry-username")]
     public string? RegistryUsername { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--transport-mapping")]
+    [CliOption("--transport-mapping")]
     public string? TransportMapping { get; set; }
 }

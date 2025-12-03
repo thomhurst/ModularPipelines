@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "public-ip", "create")]
+[CliCommand("network", "public-ip", "create")]
 public record AzNetworkPublicIpCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--allocation-method")]
+    [CliOption("--allocation-method")]
     public string? AllocationMethod { get; set; }
 
-    [CommandSwitch("--ddos-protection-mode")]
+    [CliOption("--ddos-protection-mode")]
     public string? DdosProtectionMode { get; set; }
 
-    [CommandSwitch("--ddos-protection-plan")]
+    [CliOption("--ddos-protection-plan")]
     public string? DdosProtectionPlan { get; set; }
 
-    [CommandSwitch("--dns-name")]
+    [CliOption("--dns-name")]
     public string? DnsName { get; set; }
 
-    [CommandSwitch("--dns-name-scope")]
+    [CliOption("--dns-name-scope")]
     public string? DnsNameScope { get; set; }
 
-    [CommandSwitch("--edge-zone")]
+    [CliOption("--edge-zone")]
     public string? EdgeZone { get; set; }
 
-    [CommandSwitch("--idle-timeout")]
+    [CliOption("--idle-timeout")]
     public string? IdleTimeout { get; set; }
 
-    [CommandSwitch("--ip-address")]
+    [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
 
-    [CommandSwitch("--ip-tags")]
+    [CliOption("--ip-tags")]
     public string? IpTags { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--public-ip-prefix")]
+    [CliOption("--public-ip-prefix")]
     public string? PublicIpPrefix { get; set; }
 
-    [CommandSwitch("--reverse-fqdn")]
+    [CliOption("--reverse-fqdn")]
     public string? ReverseFqdn { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

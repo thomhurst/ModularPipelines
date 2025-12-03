@@ -3,40 +3,40 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("repo", "add")]
+[CliCommand("repo", "add")]
 [ExcludeFromCodeCoverage]
 public record HelmRepoAddOptions : HelmOptions
 {
-    [BooleanCommandSwitch("--allow-deprecated-repos")]
+    [CliFlag("--allow-deprecated-repos")]
     public virtual bool? AllowDeprecatedRepos { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--ca-file", SwitchValueSeparator = " ")]
+    [CliOption("--ca-file")]
     public string? CaFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cert-file", SwitchValueSeparator = " ")]
+    [CliOption("--cert-file")]
     public string? CertFile { get; set; }
 
-    [BooleanCommandSwitch("--force-update")]
+    [CliFlag("--force-update")]
     public virtual bool? ForceUpdate { get; set; }
 
-    [BooleanCommandSwitch("--insecure-skip-tls-verify")]
+    [CliFlag("--insecure-skip-tls-verify")]
     public virtual bool? InsecureSkipTlsVerify { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--key-file", SwitchValueSeparator = " ")]
+    [CliOption("--key-file")]
     public string? KeyFile { get; set; }
 
-    [BooleanCommandSwitch("--no-update")]
+    [CliFlag("--no-update")]
     public virtual bool? NoUpdate { get; set; }
 
-    [BooleanCommandSwitch("--pass-credentials")]
+    [CliFlag("--pass-credentials")]
     public virtual bool? PassCredentials { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--password", SwitchValueSeparator = " ")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [BooleanCommandSwitch("--password-stdin")]
+    [CliFlag("--password-stdin")]
     public virtual bool? PasswordStdin { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--username", SwitchValueSeparator = " ")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 }

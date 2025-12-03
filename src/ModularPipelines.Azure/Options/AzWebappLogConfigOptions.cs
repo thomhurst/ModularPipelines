@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "log", "config")]
+[CliCommand("webapp", "log", "config")]
 public record AzWebappLogConfigOptions : AzOptions
 {
-    [CommandSwitch("--application-logging")]
+    [CliOption("--application-logging")]
     public string? ApplicationLogging { get; set; }
 
-    [BooleanCommandSwitch("--detailed-error-messages")]
+    [CliFlag("--detailed-error-messages")]
     public bool? DetailedErrorMessages { get; set; }
 
-    [CommandSwitch("--docker-container-logging")]
+    [CliOption("--docker-container-logging")]
     public string? DockerContainerLogging { get; set; }
 
-    [BooleanCommandSwitch("--failed-request-tracing")]
+    [CliFlag("--failed-request-tracing")]
     public bool? FailedRequestTracing { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--level")]
+    [CliOption("--level")]
     public string? Level { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--web-server-logging")]
+    [CliOption("--web-server-logging")]
     public string? WebServerLogging { get; set; }
 }

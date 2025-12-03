@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "app", "identity", "remove")]
+[CliCommand("spring", "app", "identity", "remove")]
 public record AzSpringAppIdentityRemoveOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--system-assigned")]
+    [CliFlag("--system-assigned")]
     public bool? SystemAssigned { get; set; }
 
-    [CommandSwitch("--user-assigned")]
+    [CliOption("--user-assigned")]
     public string? UserAssigned { get; set; }
 }

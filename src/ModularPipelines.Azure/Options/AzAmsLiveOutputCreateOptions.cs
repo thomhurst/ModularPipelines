@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "live-output", "create")]
+[CliCommand("ams", "live-output", "create")]
 public record AzAmsLiveOutputCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--archive-window-length")] string ArchiveWindowLength,
-[property: CommandSwitch("--asset-name")] string AssetName,
-[property: CommandSwitch("--live-event-name")] string LiveEventName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--archive-window-length")] string ArchiveWindowLength,
+[property: CliOption("--asset-name")] string AssetName,
+[property: CliOption("--live-event-name")] string LiveEventName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--fragments-per-ts-segment")]
+    [CliOption("--fragments-per-ts-segment")]
     public string? FragmentsPerTsSegment { get; set; }
 
-    [CommandSwitch("--manifest-name")]
+    [CliOption("--manifest-name")]
     public string? ManifestName { get; set; }
 
-    [CommandSwitch("--output-snap-time")]
+    [CliOption("--output-snap-time")]
     public string? OutputSnapTime { get; set; }
 }

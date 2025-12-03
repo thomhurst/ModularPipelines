@@ -5,66 +5,66 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("recaptcha", "keys", "create")]
+[CliCommand("recaptcha", "keys", "create")]
 public record GcloudRecaptchaKeysCreateOptions(
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: BooleanCommandSwitch("--android")] bool Android,
-[property: BooleanCommandSwitch("--support-non-google-app-store-distribution")] bool SupportNonGoogleAppStoreDistribution,
-[property: BooleanCommandSwitch("--allow-all-package-names")] bool AllowAllPackageNames,
-[property: CommandSwitch("--package-names")] string[] PackageNames,
-[property: BooleanCommandSwitch("--ios")] bool Ios,
-[property: BooleanCommandSwitch("--allow-all-bundle-ids")] bool AllowAllBundleIds,
-[property: CommandSwitch("--bundle-ids")] string[] BundleIds,
-[property: CommandSwitch("--key-id")] string KeyId,
-[property: CommandSwitch("--private-key-file")] string PrivateKeyFile,
-[property: CommandSwitch("--team-id")] string TeamId,
-[property: BooleanCommandSwitch("--web")] bool Web,
-[property: BooleanCommandSwitch("--allow-amp-traffic")] bool AllowAmpTraffic,
-[property: CommandSwitch("--integration-type")] string IntegrationType,
-[property: BooleanCommandSwitch("checkbox")] bool Checkbox,
-[property: BooleanCommandSwitch("invisible")] bool Invisible,
-[property: BooleanCommandSwitch("score")] bool Score,
-[property: CommandSwitch("--security-preference")] string SecurityPreference,
-[property: CommandSwitch("--testing-challenge")] string TestingChallenge,
-[property: BooleanCommandSwitch("challenge")] bool Challenge,
-[property: BooleanCommandSwitch("nocaptcha")] bool Nocaptcha,
-[property: BooleanCommandSwitch("--allow-all-domains")] bool AllowAllDomains,
-[property: CommandSwitch("--domains")] string[] Domains
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliFlag("--android")] bool Android,
+[property: CliFlag("--support-non-google-app-store-distribution")] bool SupportNonGoogleAppStoreDistribution,
+[property: CliFlag("--allow-all-package-names")] bool AllowAllPackageNames,
+[property: CliOption("--package-names")] string[] PackageNames,
+[property: CliFlag("--ios")] bool Ios,
+[property: CliFlag("--allow-all-bundle-ids")] bool AllowAllBundleIds,
+[property: CliOption("--bundle-ids")] string[] BundleIds,
+[property: CliOption("--key-id")] string KeyId,
+[property: CliOption("--private-key-file")] string PrivateKeyFile,
+[property: CliOption("--team-id")] string TeamId,
+[property: CliFlag("--web")] bool Web,
+[property: CliFlag("--allow-amp-traffic")] bool AllowAmpTraffic,
+[property: CliOption("--integration-type")] string IntegrationType,
+[property: CliFlag("checkbox")] bool Checkbox,
+[property: CliFlag("invisible")] bool Invisible,
+[property: CliFlag("score")] bool Score,
+[property: CliOption("--security-preference")] string SecurityPreference,
+[property: CliOption("--testing-challenge")] string TestingChallenge,
+[property: CliFlag("challenge")] bool Challenge,
+[property: CliFlag("nocaptcha")] bool Nocaptcha,
+[property: CliFlag("--allow-all-domains")] bool AllowAllDomains,
+[property: CliOption("--domains")] string[] Domains
 ) : GcloudOptions
 {
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--testing-score")]
+    [CliOption("--testing-score")]
     public string? TestingScore { get; set; }
 
-    [CommandSwitch("--waf-feature")]
+    [CliOption("--waf-feature")]
     public string? WafFeature { get; set; }
 
-    [BooleanCommandSwitch("action-token")]
+    [CliFlag("action-token")]
     public bool? ActionToken { get; set; }
 
-    [BooleanCommandSwitch("challenge-page")]
+    [CliFlag("challenge-page")]
     public bool? ChallengePage { get; set; }
 
-    [BooleanCommandSwitch("express")]
+    [CliFlag("express")]
     public bool? Express { get; set; }
 
-    [BooleanCommandSwitch("session-token")]
+    [CliFlag("session-token")]
     public bool? SessionToken { get; set; }
 
-    [CommandSwitch("--waf-service")]
+    [CliOption("--waf-service")]
     public string? WafService { get; set; }
 
-    [BooleanCommandSwitch("ca")]
+    [CliFlag("ca")]
     public bool? Ca { get; set; }
 
-    [BooleanCommandSwitch("cloudflare")]
+    [CliFlag("cloudflare")]
     public bool? Cloudflare { get; set; }
 
-    [BooleanCommandSwitch("fastly")]
+    [CliFlag("fastly")]
     public bool? Fastly { get; set; }
 
-    [BooleanCommandSwitch("unspecified")]
+    [CliFlag("unspecified")]
     public bool? Unspecified { get; set; }
 }

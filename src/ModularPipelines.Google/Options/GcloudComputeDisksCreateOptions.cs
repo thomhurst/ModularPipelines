@@ -5,104 +5,104 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "disks", "create")]
+[CliCommand("compute", "disks", "create")]
 public record GcloudComputeDisksCreateOptions(
-[property: PositionalArgument] string DiskName
+[property: CliArgument] string DiskName
 ) : GcloudOptions
 {
-    [CommandSwitch("--architecture")]
+    [CliOption("--architecture")]
     public string? Architecture { get; set; }
 
-    [BooleanCommandSwitch("--confidential-compute")]
+    [CliFlag("--confidential-compute")]
     public bool? ConfidentialCompute { get; set; }
 
-    [CommandSwitch("--csek-key-file")]
+    [CliOption("--csek-key-file")]
     public string? CsekKeyFile { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--guest-os-features")]
+    [CliOption("--guest-os-features")]
     public string[]? GuestOsFeatures { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--licenses")]
+    [CliOption("--licenses")]
     public string[]? Licenses { get; set; }
 
-    [CommandSwitch("--primary-disk-project")]
+    [CliOption("--primary-disk-project")]
     public string? PrimaryDiskProject { get; set; }
 
-    [CommandSwitch("--provisioned-iops")]
+    [CliOption("--provisioned-iops")]
     public string? ProvisionedIops { get; set; }
 
-    [CommandSwitch("--provisioned-throughput")]
+    [CliOption("--provisioned-throughput")]
     public string? ProvisionedThroughput { get; set; }
 
-    [CommandSwitch("--replica-zones")]
+    [CliOption("--replica-zones")]
     public string? ReplicaZones { get; set; }
 
-    [BooleanCommandSwitch("--require-csek-key-create")]
+    [CliFlag("--require-csek-key-create")]
     public bool? RequireCsekKeyCreate { get; set; }
 
-    [CommandSwitch("--resource-policies")]
+    [CliOption("--resource-policies")]
     public string[]? ResourcePolicies { get; set; }
 
-    [CommandSwitch("--size")]
+    [CliOption("--size")]
     public string? Size { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--image-family-scope")]
+    [CliOption("--image-family-scope")]
     public string? ImageFamilyScope { get; set; }
 
-    [CommandSwitch("--image-project")]
+    [CliOption("--image-project")]
     public string? ImageProject { get; set; }
 
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--image-family")]
+    [CliOption("--image-family")]
     public string? ImageFamily { get; set; }
 
-    [CommandSwitch("--primary-disk")]
+    [CliOption("--primary-disk")]
     public string? PrimaryDisk { get; set; }
 
-    [CommandSwitch("--source-disk")]
+    [CliOption("--source-disk")]
     public string? SourceDisk { get; set; }
 
-    [CommandSwitch("--source-snapshot")]
+    [CliOption("--source-snapshot")]
     public string? SourceSnapshot { get; set; }
 
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--kms-keyring")]
+    [CliOption("--kms-keyring")]
     public string? KmsKeyring { get; set; }
 
-    [CommandSwitch("--kms-location")]
+    [CliOption("--kms-location")]
     public string? KmsLocation { get; set; }
 
-    [CommandSwitch("--kms-project")]
+    [CliOption("--kms-project")]
     public string? KmsProject { get; set; }
 
-    [CommandSwitch("--primary-disk-region")]
+    [CliOption("--primary-disk-region")]
     public string? PrimaryDiskRegion { get; set; }
 
-    [CommandSwitch("--primary-disk-zone")]
+    [CliOption("--primary-disk-zone")]
     public string? PrimaryDiskZone { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--source-disk-region")]
+    [CliOption("--source-disk-region")]
     public string? SourceDiskRegion { get; set; }
 
-    [CommandSwitch("--source-disk-zone")]
+    [CliOption("--source-disk-zone")]
     public string? SourceDiskZone { get; set; }
 }

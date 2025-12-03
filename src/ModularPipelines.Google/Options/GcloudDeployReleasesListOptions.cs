@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "releases", "list")]
+[CliCommand("deploy", "releases", "list")]
 public record GcloudDeployReleasesListOptions : GcloudOptions
 {
-    [CommandSwitch("--delivery-pipeline")]
+    [CliOption("--delivery-pipeline")]
     public string? DeliveryPipeline { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

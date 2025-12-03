@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "update-user")]
+[CliCommand("quicksight", "update-user")]
 public record AwsQuicksightUpdateUserOptions(
-[property: CommandSwitch("--user-name")] string UserName,
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--namespace")] string Namespace,
-[property: CommandSwitch("--email")] string Email,
-[property: CommandSwitch("--role")] string Role
+[property: CliOption("--user-name")] string UserName,
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--namespace")] string Namespace,
+[property: CliOption("--email")] string Email,
+[property: CliOption("--role")] string Role
 ) : AwsOptions
 {
-    [CommandSwitch("--custom-permissions-name")]
+    [CliOption("--custom-permissions-name")]
     public string? CustomPermissionsName { get; set; }
 
-    [CommandSwitch("--external-login-federation-provider-type")]
+    [CliOption("--external-login-federation-provider-type")]
     public string? ExternalLoginFederationProviderType { get; set; }
 
-    [CommandSwitch("--custom-federation-provider-url")]
+    [CliOption("--custom-federation-provider-url")]
     public string? CustomFederationProviderUrl { get; set; }
 
-    [CommandSwitch("--external-login-id")]
+    [CliOption("--external-login-id")]
     public string? ExternalLoginId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

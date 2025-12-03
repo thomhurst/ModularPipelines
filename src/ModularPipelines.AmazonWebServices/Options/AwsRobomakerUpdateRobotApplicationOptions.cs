@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("robomaker", "update-robot-application")]
+[CliCommand("robomaker", "update-robot-application")]
 public record AwsRobomakerUpdateRobotApplicationOptions(
-[property: CommandSwitch("--application")] string Application,
-[property: CommandSwitch("--robot-software-suite")] string RobotSoftwareSuite
+[property: CliOption("--application")] string Application,
+[property: CliOption("--robot-software-suite")] string RobotSoftwareSuite
 ) : AwsOptions
 {
-    [CommandSwitch("--sources")]
+    [CliOption("--sources")]
     public string[]? Sources { get; set; }
 
-    [CommandSwitch("--current-revision-id")]
+    [CliOption("--current-revision-id")]
     public string? CurrentRevisionId { get; set; }
 
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public string? Environment { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

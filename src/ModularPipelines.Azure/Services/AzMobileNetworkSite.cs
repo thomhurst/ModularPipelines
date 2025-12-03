@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mobile-network")]
+[CliCommand("mobile-network")]
 public class AzMobileNetworkSite
 {
     public AzMobileNetworkSite(

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "start-activity-stream")]
+[CliCommand("rds", "start-activity-stream")]
 public record AwsRdsStartActivityStreamOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn,
-[property: CommandSwitch("--mode")] string Mode,
-[property: CommandSwitch("--kms-key-id")] string KmsKeyId
+[property: CliOption("--resource-arn")] string ResourceArn,
+[property: CliOption("--mode")] string Mode,
+[property: CliOption("--kms-key-id")] string KmsKeyId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

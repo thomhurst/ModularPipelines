@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "copy")]
+[CliCommand("storage", "copy")]
 public class AzStorageAzcopyBlob
 {
     public AzStorageAzcopyBlob(

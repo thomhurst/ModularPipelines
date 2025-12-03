@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cloud", "container", "vpn-connections", "describe")]
+[CliCommand("edge-cloud", "container", "vpn-connections", "describe")]
 public record GcloudEdgeCloudContainerVpnConnectionsDescribeOptions(
-[property: PositionalArgument] string VpnConnection,
-[property: PositionalArgument] string Location
+[property: CliArgument] string VpnConnection,
+[property: CliArgument] string Location
 ) : GcloudOptions;

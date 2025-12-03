@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "twin", "relationship", "list")]
+[CliCommand("dt", "twin", "relationship", "list")]
 public record AzDtTwinRelationshipListOptions(
-[property: CommandSwitch("--dt-name")] string DtName,
-[property: CommandSwitch("--source")] string Source
+[property: CliOption("--dt-name")] string DtName,
+[property: CliOption("--source")] string Source
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--incoming")]
+    [CliFlag("--incoming")]
     public bool? Incoming { get; set; }
 
-    [CommandSwitch("--kind")]
+    [CliOption("--kind")]
     public string? Kind { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

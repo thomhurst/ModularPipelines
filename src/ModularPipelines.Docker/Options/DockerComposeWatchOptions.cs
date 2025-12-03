@@ -3,16 +3,16 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "watch")]
+[CliCommand("compose", "watch")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeWatchOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Service { get; set; }
 
-    [CommandSwitch("--no-up")]
+    [CliOption("--no-up")]
     public virtual string? NoUp { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 }

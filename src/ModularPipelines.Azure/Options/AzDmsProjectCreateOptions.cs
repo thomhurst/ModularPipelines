@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "project", "create")]
+[CliCommand("dms", "project", "create")]
 public record AzDmsProjectCreateOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-name")] string ServiceName,
-[property: CommandSwitch("--source-platform")] string SourcePlatform,
-[property: CommandSwitch("--target-platform")] string TargetPlatform
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-name")] string ServiceName,
+[property: CliOption("--source-platform")] string SourcePlatform,
+[property: CliOption("--target-platform")] string TargetPlatform
 ) : AzOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

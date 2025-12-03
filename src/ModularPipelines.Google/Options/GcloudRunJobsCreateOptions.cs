@@ -5,78 +5,78 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("run", "jobs", "create")]
+[CliCommand("run", "jobs", "create")]
 public record GcloudRunJobsCreateOptions(
-[property: PositionalArgument] string Job,
-[property: CommandSwitch("--image")] string Image
+[property: CliArgument] string Job,
+[property: CliOption("--image")] string Image
 ) : GcloudOptions
 {
-    [CommandSwitch("--args")]
+    [CliOption("--args")]
     public string[]? Args { get; set; }
 
-    [CommandSwitch("--binary-authorization")]
+    [CliOption("--binary-authorization")]
     public string? BinaryAuthorization { get; set; }
 
-    [CommandSwitch("--breakglass")]
+    [CliOption("--breakglass")]
     public string? Breakglass { get; set; }
 
-    [CommandSwitch("--command")]
+    [CliOption("--command")]
     public string[]? Command { get; set; }
 
-    [CommandSwitch("--cpu")]
+    [CliOption("--cpu")]
     public string? Cpu { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--max-retries")]
+    [CliOption("--max-retries")]
     public string? MaxRetries { get; set; }
 
-    [CommandSwitch("--memory")]
+    [CliOption("--memory")]
     public string? Memory { get; set; }
 
-    [CommandSwitch("--parallelism")]
+    [CliOption("--parallelism")]
     public string? Parallelism { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [CommandSwitch("--set-cloudsql-instances")]
+    [CliOption("--set-cloudsql-instances")]
     public string[]? SetCloudsqlInstances { get; set; }
 
-    [CommandSwitch("--set-secrets")]
+    [CliOption("--set-secrets")]
     public string[]? SetSecrets { get; set; }
 
-    [CommandSwitch("--task-timeout")]
+    [CliOption("--task-timeout")]
     public string? TaskTimeout { get; set; }
 
-    [CommandSwitch("--tasks")]
+    [CliOption("--tasks")]
     public string? Tasks { get; set; }
 
-    [CommandSwitch("--vpc-connector")]
+    [CliOption("--vpc-connector")]
     public string? VpcConnector { get; set; }
 
-    [CommandSwitch("--vpc-egress")]
+    [CliOption("--vpc-egress")]
     public string? VpcEgress { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--execute-now")]
+    [CliFlag("--execute-now")]
     public bool? ExecuteNow { get; set; }
 
-    [BooleanCommandSwitch("--wait")]
+    [CliFlag("--wait")]
     public bool? Wait { get; set; }
 
-    [CommandSwitch("--env-vars-file")]
+    [CliOption("--env-vars-file")]
     public string? EnvVarsFile { get; set; }
 
-    [CommandSwitch("--set-env-vars")]
+    [CliOption("--set-env-vars")]
     public IEnumerable<KeyValue>? SetEnvVars { get; set; }
 }

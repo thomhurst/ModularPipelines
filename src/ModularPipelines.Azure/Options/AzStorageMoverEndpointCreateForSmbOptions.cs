@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage-mover", "endpoint", "create-for-smb")]
+[CliCommand("storage-mover", "endpoint", "create-for-smb")]
 public record AzStorageMoverEndpointCreateForSmbOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--host")] string Host,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--share-name")] string ShareName,
-[property: CommandSwitch("--storage-mover-name")] string StorageMoverName
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--host")] string Host,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--share-name")] string ShareName,
+[property: CliOption("--storage-mover-name")] string StorageMoverName
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--password-uri")]
+    [CliOption("--password-uri")]
     public string? PasswordUri { get; set; }
 
-    [CommandSwitch("--username-uri")]
+    [CliOption("--username-uri")]
     public string? UsernameUri { get; set; }
 }

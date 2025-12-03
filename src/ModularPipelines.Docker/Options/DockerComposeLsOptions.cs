@@ -3,19 +3,19 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "ls")]
+[CliCommand("compose", "ls")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeLsOptions : DockerOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public virtual string? Filter { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 }

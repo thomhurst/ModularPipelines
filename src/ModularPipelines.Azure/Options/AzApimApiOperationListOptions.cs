@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "api", "operation", "list")]
+[CliCommand("apim", "api", "operation", "list")]
 public record AzApimApiOperationListOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-name")] string ServiceName
 ) : AzOptions;

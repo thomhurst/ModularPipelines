@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("config", "configurations", "rename")]
+[CliCommand("config", "configurations", "rename")]
 public record GcloudConfigConfigurationsRenameOptions(
-[property: PositionalArgument] string ConfigurationName,
-[property: CommandSwitch("--new-name")] string NewName
+[property: CliArgument] string ConfigurationName,
+[property: CliOption("--new-name")] string NewName
 ) : GcloudOptions;

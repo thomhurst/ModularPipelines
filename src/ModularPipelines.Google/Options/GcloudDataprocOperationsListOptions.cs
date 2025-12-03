@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "operations", "list")]
+[CliCommand("dataproc", "operations", "list")]
 public record GcloudDataprocOperationsListOptions : GcloudOptions
 {
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--state-filter")]
+    [CliOption("--state-filter")]
     public string? StateFilter { get; set; }
 }

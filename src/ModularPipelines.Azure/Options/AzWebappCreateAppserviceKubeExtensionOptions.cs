@@ -6,61 +6,61 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("webapp", "create", "(appservice-kube", "extension)")]
 public record AzWebappCreateAppserviceKubeExtensionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--assign-identity")]
+    [CliOption("--assign-identity")]
     public string? AssignIdentity { get; set; }
 
-    [CommandSwitch("--custom-location")]
+    [CliOption("--custom-location")]
     public string? CustomLocation { get; set; }
 
-    [CommandSwitch("--deployment-container-image-name")]
+    [CliOption("--deployment-container-image-name")]
     public string? DeploymentContainerImageName { get; set; }
 
-    [CommandSwitch("--deployment-local-git")]
+    [CliOption("--deployment-local-git")]
     public string? DeploymentLocalGit { get; set; }
 
-    [CommandSwitch("--deployment-source-branch")]
+    [CliOption("--deployment-source-branch")]
     public string? DeploymentSourceBranch { get; set; }
 
-    [CommandSwitch("--deployment-source-url")]
+    [CliOption("--deployment-source-url")]
     public string? DeploymentSourceUrl { get; set; }
 
-    [CommandSwitch("--docker-registry-server-password")]
+    [CliOption("--docker-registry-server-password")]
     public string? DockerRegistryServerPassword { get; set; }
 
-    [CommandSwitch("--docker-registry-server-user")]
+    [CliOption("--docker-registry-server-user")]
     public string? DockerRegistryServerUser { get; set; }
 
-    [CommandSwitch("--max-worker-count")]
+    [CliOption("--max-worker-count")]
     public int? MaxWorkerCount { get; set; }
 
-    [CommandSwitch("--min-worker-count")]
+    [CliOption("--min-worker-count")]
     public int? MinWorkerCount { get; set; }
 
-    [CommandSwitch("--multicontainer-config-file")]
+    [CliOption("--multicontainer-config-file")]
     public string? MulticontainerConfigFile { get; set; }
 
-    [CommandSwitch("--multicontainer-config-type")]
+    [CliOption("--multicontainer-config-type")]
     public string? MulticontainerConfigType { get; set; }
 
-    [CommandSwitch("--plan")]
+    [CliOption("--plan")]
     public string? Plan { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--runtime")]
+    [CliOption("--runtime")]
     public string? Runtime { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--startup-file")]
+    [CliOption("--startup-file")]
     public string? StartupFile { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

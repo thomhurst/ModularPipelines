@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("proton", "get-repository-sync-status")]
+[CliCommand("proton", "get-repository-sync-status")]
 public record AwsProtonGetRepositorySyncStatusOptions(
-[property: CommandSwitch("--branch")] string Branch,
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--repository-provider")] string RepositoryProvider,
-[property: CommandSwitch("--sync-type")] string SyncType
+[property: CliOption("--branch")] string Branch,
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--repository-provider")] string RepositoryProvider,
+[property: CliOption("--sync-type")] string SyncType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

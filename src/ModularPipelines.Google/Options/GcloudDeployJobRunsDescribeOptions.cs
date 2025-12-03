@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "job-runs", "describe")]
+[CliCommand("deploy", "job-runs", "describe")]
 public record GcloudDeployJobRunsDescribeOptions(
-[property: PositionalArgument] string JobRun,
-[property: PositionalArgument] string DeliveryPipeline,
-[property: PositionalArgument] string Region,
-[property: PositionalArgument] string Release,
-[property: PositionalArgument] string Rollout
+[property: CliArgument] string JobRun,
+[property: CliArgument] string DeliveryPipeline,
+[property: CliArgument] string Region,
+[property: CliArgument] string Release,
+[property: CliArgument] string Rollout
 ) : GcloudOptions;

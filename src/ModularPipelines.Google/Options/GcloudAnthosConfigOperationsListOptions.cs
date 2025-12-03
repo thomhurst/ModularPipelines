@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("anthos", "config", "operations", "list")]
+[CliCommand("anthos", "config", "operations", "list")]
 public record GcloudAnthosConfigOperationsListOptions : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("postgres", "flexible-server", "deploy", "setup")]
+[CliCommand("postgres", "flexible-server", "deploy", "setup")]
 public record AzPostgresFlexibleServerDeploySetupOptions(
-[property: CommandSwitch("--admin-password")] string AdminPassword,
-[property: CommandSwitch("--admin-user")] string AdminUser,
-[property: CommandSwitch("--repo")] string Repo,
-[property: CommandSwitch("--sql-file")] string SqlFile
+[property: CliOption("--admin-password")] string AdminPassword,
+[property: CliOption("--admin-user")] string AdminUser,
+[property: CliOption("--repo")] string Repo,
+[property: CliOption("--sql-file")] string SqlFile
 ) : AzOptions
 {
-    [CommandSwitch("--action-name")]
+    [CliOption("--action-name")]
     public string? ActionName { get; set; }
 
-    [BooleanCommandSwitch("--allow-push")]
+    [CliFlag("--allow-push")]
     public bool? AllowPush { get; set; }
 
-    [CommandSwitch("--branch")]
+    [CliOption("--branch")]
     public string? Branch { get; set; }
 
-    [CommandSwitch("--database-name")]
+    [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--server-name")]
+    [CliOption("--server-name")]
     public string? ServerName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

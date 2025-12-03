@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("offure", "vmware", "site", "create")]
+[CliCommand("offure", "vmware", "site", "create")]
 public record AzOffazureVmwareSiteCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--agent")]
+    [CliOption("--agent")]
     public string? Agent { get; set; }
 
-    [CommandSwitch("--appliance-name")]
+    [CliOption("--appliance-name")]
     public string? ApplianceName { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--solution-id")]
+    [CliOption("--solution-id")]
     public string? SolutionId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

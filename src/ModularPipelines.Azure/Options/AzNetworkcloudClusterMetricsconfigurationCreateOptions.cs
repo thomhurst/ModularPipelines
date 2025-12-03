@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "cluster", "metricsconfiguration", "create")]
+[CliCommand("networkcloud", "cluster", "metricsconfiguration", "create")]
 public record AzNetworkcloudClusterMetricsconfigurationCreateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--collection-interval")] string CollectionInterval,
-[property: CommandSwitch("--extended-location")] string ExtendedLocation,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--collection-interval")] string CollectionInterval,
+[property: CliOption("--extended-location")] string ExtendedLocation,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--enabled-metrics")]
+    [CliFlag("--enabled-metrics")]
     public bool? EnabledMetrics { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

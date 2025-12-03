@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53-recovery-control-config")]
+[CliCommand("route53-recovery-control-config")]
 public class AwsRoute53RecoveryControlConfigWait
 {
     public AwsRoute53RecoveryControlConfigWait(

@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("relay", "wcfrelay", "authorization-rule", "keys", "renew")]
+[CliCommand("relay", "wcfrelay", "authorization-rule", "keys", "renew")]
 public record AzRelayWcfrelayAuthorizationRuleKeysRenewOptions(
-[property: CommandSwitch("--key")] string Key
+[property: CliOption("--key")] string Key
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--key-value")]
+    [CliOption("--key-value")]
     public string? KeyValue { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--namespace-name")]
+    [CliOption("--namespace-name")]
     public string? NamespaceName { get; set; }
 
-    [CommandSwitch("--relay-name")]
+    [CliOption("--relay-name")]
     public string? RelayName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

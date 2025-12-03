@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("api-gateway", "operations", "describe")]
+[CliCommand("api-gateway", "operations", "describe")]
 public record GcloudApiGatewayOperationsDescribeOptions(
-[property: PositionalArgument] string Operation,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Operation,
+[property: CliArgument] string Location
 ) : GcloudOptions;

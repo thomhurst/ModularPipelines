@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spanner", "databases")]
+[CliCommand("spanner", "databases")]
 public class GcloudSpannerDatabasesDdl
 {
     public GcloudSpannerDatabasesDdl(

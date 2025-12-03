@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("infra-manager", "revisions", "export-statefile")]
+[CliCommand("infra-manager", "revisions", "export-statefile")]
 public record GcloudInfraManagerRevisionsExportStatefileOptions(
-[property: PositionalArgument] string Revision,
-[property: PositionalArgument] string Deployment,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Revision,
+[property: CliArgument] string Deployment,
+[property: CliArgument] string Location
 ) : GcloudOptions;

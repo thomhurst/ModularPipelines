@@ -6,8 +6,8 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cosmosdb", "table", "restorable-resource", "list", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbTableRestorableResourceListCosmosdbPreviewExtensionOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--restore-location")] string RestoreLocation,
-[property: CommandSwitch("--restore-timestamp")] string RestoreTimestamp
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--restore-location")] string RestoreLocation,
+[property: CliOption("--restore-timestamp")] string RestoreTimestamp
 ) : AzOptions;

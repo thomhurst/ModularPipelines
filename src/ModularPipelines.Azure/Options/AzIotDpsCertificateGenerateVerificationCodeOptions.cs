@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "dps", "certificate", "generate-verification-code")]
+[CliCommand("iot", "dps", "certificate", "generate-verification-code")]
 public record AzIotDpsCertificateGenerateVerificationCodeOptions(
-[property: CommandSwitch("--certificate-name")] string CertificateName,
-[property: CommandSwitch("--dps-name")] string DpsName,
-[property: CommandSwitch("--etag")] string Etag
+[property: CliOption("--certificate-name")] string CertificateName,
+[property: CliOption("--dps-name")] string DpsName,
+[property: CliOption("--etag")] string Etag
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

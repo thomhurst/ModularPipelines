@@ -5,17 +5,17 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pca-connector-ad", "create-directory-registration")]
+[CliCommand("pca-connector-ad", "create-directory-registration")]
 public record AwsPcaConnectorAdCreateDirectoryRegistrationOptions(
-[property: CommandSwitch("--directory-id")] string DirectoryId
+[property: CliOption("--directory-id")] string DirectoryId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

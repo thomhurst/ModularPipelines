@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stack-hci-vm", "storagepath", "create")]
+[CliCommand("stack-hci-vm", "storagepath", "create")]
 public record AzStackHciVmStoragepathCreateOptions(
-[property: CommandSwitch("--custom-location")] string CustomLocation,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--path")] string Path,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--custom-location")] string CustomLocation,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--path")] string Path,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--polling-interval")]
+    [CliOption("--polling-interval")]
     public string? PollingInterval { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

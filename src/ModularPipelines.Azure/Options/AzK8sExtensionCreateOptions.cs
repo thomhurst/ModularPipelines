@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("k8s-extension", "create")]
+[CliCommand("k8s-extension", "create")]
 public record AzK8sExtensionCreateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--cluster-type")] string ClusterType,
-[property: CommandSwitch("--extension-type")] string ExtensionType,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--cluster-type")] string ClusterType,
+[property: CliOption("--extension-type")] string ExtensionType,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--auto-upgrade")]
+    [CliFlag("--auto-upgrade")]
     public bool? AutoUpgrade { get; set; }
 
-    [CommandSwitch("--cluster-resource-provider")]
+    [CliOption("--cluster-resource-provider")]
     public string? ClusterResourceProvider { get; set; }
 
-    [CommandSwitch("--config")]
+    [CliOption("--config")]
     public string? Config { get; set; }
 
-    [CommandSwitch("--config-file")]
+    [CliOption("--config-file")]
     public string? ConfigFile { get; set; }
 
-    [CommandSwitch("--config-protected")]
+    [CliOption("--config-protected")]
     public string? ConfigProtected { get; set; }
 
-    [CommandSwitch("--config-protected-file")]
+    [CliOption("--config-protected-file")]
     public string? ConfigProtectedFile { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--plan-name")]
+    [CliOption("--plan-name")]
     public string? PlanName { get; set; }
 
-    [CommandSwitch("--plan-product")]
+    [CliOption("--plan-product")]
     public string? PlanProduct { get; set; }
 
-    [CommandSwitch("--plan-publisher")]
+    [CliOption("--plan-publisher")]
     public string? PlanPublisher { get; set; }
 
-    [CommandSwitch("--release-namespace")]
+    [CliOption("--release-namespace")]
     public string? ReleaseNamespace { get; set; }
 
-    [CommandSwitch("--release-train")]
+    [CliOption("--release-train")]
     public string? ReleaseTrain { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--target-namespace")]
+    [CliOption("--target-namespace")]
     public string? TargetNamespace { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 }

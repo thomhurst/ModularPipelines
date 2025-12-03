@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datastream", "private-connections", "describe")]
+[CliCommand("datastream", "private-connections", "describe")]
 public record GcloudDatastreamPrivateConnectionsDescribeOptions(
-[property: PositionalArgument] string PrivateConnection,
-[property: PositionalArgument] string Location
+[property: CliArgument] string PrivateConnection,
+[property: CliArgument] string Location
 ) : GcloudOptions;

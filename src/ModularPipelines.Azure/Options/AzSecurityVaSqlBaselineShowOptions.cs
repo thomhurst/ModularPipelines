@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "va", "sql", "baseline", "show")]
+[CliCommand("security", "va", "sql", "baseline", "show")]
 public record AzSecurityVaSqlBaselineShowOptions(
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--rule-id")] string RuleId,
-[property: CommandSwitch("--server-name")] string ServerName,
-[property: CommandSwitch("--vm-resource-id")] string VmResourceId,
-[property: CommandSwitch("--workspace-id")] string WorkspaceId
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--rule-id")] string RuleId,
+[property: CliOption("--server-name")] string ServerName,
+[property: CliOption("--vm-resource-id")] string VmResourceId,
+[property: CliOption("--workspace-id")] string WorkspaceId
 ) : AzOptions
 {
-    [CommandSwitch("--agent-id")]
+    [CliOption("--agent-id")]
     public string? AgentId { get; set; }
 
-    [CommandSwitch("--vm-name")]
+    [CliOption("--vm-name")]
     public string? VmName { get; set; }
 
-    [CommandSwitch("--vm-uuid")]
+    [CliOption("--vm-uuid")]
     public string? VmUuid { get; set; }
 }

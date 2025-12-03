@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "service-accounts")]
+[CliCommand("iam", "service-accounts")]
 public class GcloudIamServiceAccountsKeys
 {
     public GcloudIamServiceAccountsKeys(

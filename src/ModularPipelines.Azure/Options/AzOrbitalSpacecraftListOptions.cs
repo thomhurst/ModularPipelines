@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("orbital", "spacecraft", "list")]
+[CliCommand("orbital", "spacecraft", "list")]
 public record AzOrbitalSpacecraftListOptions : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--skiptoken")]
+    [CliOption("--skiptoken")]
     public string? Skiptoken { get; set; }
 }

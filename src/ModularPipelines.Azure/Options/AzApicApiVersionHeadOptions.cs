@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apic", "api", "version", "head")]
+[CliCommand("apic", "api", "version", "head")]
 public record AzApicApiVersionHeadOptions : AzOptions
 {
-    [CommandSwitch("--api")]
+    [CliOption("--api")]
     public string? Api { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public string? Workspace { get; set; }
 }

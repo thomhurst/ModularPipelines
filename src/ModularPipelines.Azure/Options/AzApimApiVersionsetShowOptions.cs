@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "api", "versionset", "show")]
+[CliCommand("apim", "api", "versionset", "show")]
 public record AzApimApiVersionsetShowOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-name")] string ServiceName,
-[property: CommandSwitch("--version-set-id")] string VersionSetId
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-name")] string ServiceName,
+[property: CliOption("--version-set-id")] string VersionSetId
 ) : AzOptions;

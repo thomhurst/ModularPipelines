@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-context-manager", "policies", "update")]
+[CliCommand("access-context-manager", "policies", "update")]
 public record GcloudAccessContextManagerPoliciesUpdateOptions(
-[property: PositionalArgument] string Policy
+[property: CliArgument] string Policy
 ) : GcloudOptions
 {
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 }

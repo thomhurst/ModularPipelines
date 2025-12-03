@@ -4,108 +4,108 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "firewall", "policy", "intrusion-detection", "add")]
+[CliCommand("network", "firewall", "policy", "intrusion-detection", "add")]
 public record AzNetworkFirewallPolicyIntrusionDetectionAddOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--auto-learn-private-ranges")]
+    [CliOption("--auto-learn-private-ranges")]
     public string? AutoLearnPrivateRanges { get; set; }
 
-    [CommandSwitch("--cert-name")]
+    [CliOption("--cert-name")]
     public string? CertName { get; set; }
 
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
-    [CommandSwitch("--dns-servers")]
+    [CliOption("--dns-servers")]
     public string? DnsServers { get; set; }
 
-    [BooleanCommandSwitch("--enable-dns-proxy")]
+    [CliFlag("--enable-dns-proxy")]
     public bool? EnableDnsProxy { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--fqdns")]
+    [CliOption("--fqdns")]
     public string? Fqdns { get; set; }
 
-    [CommandSwitch("--identity-type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
-    [CommandSwitch("--idps-mode")]
+    [CliOption("--idps-mode")]
     public string? IdpsMode { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--ip-addresses")]
+    [CliOption("--ip-addresses")]
     public string? IpAddresses { get; set; }
 
-    [CommandSwitch("--key-vault-secret-id")]
+    [CliOption("--key-vault-secret-id")]
     public string? KeyVaultSecretId { get; set; }
 
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public string? Mode { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--policy-name")]
+    [CliOption("--policy-name")]
     public string? PolicyName { get; set; }
 
-    [CommandSwitch("--private-ranges")]
+    [CliOption("--private-ranges")]
     public string? PrivateRanges { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rule-description")]
+    [CliOption("--rule-description")]
     public string? RuleDescription { get; set; }
 
-    [CommandSwitch("--rule-dest-addresses")]
+    [CliOption("--rule-dest-addresses")]
     public string? RuleDestAddresses { get; set; }
 
-    [CommandSwitch("--rule-dest-ip-groups")]
+    [CliOption("--rule-dest-ip-groups")]
     public string? RuleDestIpGroups { get; set; }
 
-    [CommandSwitch("--rule-dest-ports")]
+    [CliOption("--rule-dest-ports")]
     public string? RuleDestPorts { get; set; }
 
-    [CommandSwitch("--rule-name")]
+    [CliOption("--rule-name")]
     public string? RuleName { get; set; }
 
-    [CommandSwitch("--rule-protocol")]
+    [CliOption("--rule-protocol")]
     public string? RuleProtocol { get; set; }
 
-    [CommandSwitch("--rule-src-addresses")]
+    [CliOption("--rule-src-addresses")]
     public string? RuleSrcAddresses { get; set; }
 
-    [CommandSwitch("--rule-src-ip-groups")]
+    [CliOption("--rule-src-ip-groups")]
     public string? RuleSrcIpGroups { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--signature-id")]
+    [CliOption("--signature-id")]
     public string? SignatureId { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [BooleanCommandSwitch("--sql")]
+    [CliFlag("--sql")]
     public bool? Sql { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--threat-intel-mode")]
+    [CliOption("--threat-intel-mode")]
     public string? ThreatIntelMode { get; set; }
 }

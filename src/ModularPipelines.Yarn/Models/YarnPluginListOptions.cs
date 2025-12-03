@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("plugin", "list")]
+[CliCommand("plugin", "list")]
 public record YarnPluginListOptions : YarnOptions
 {
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 }

@@ -3,19 +3,19 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("login")]
+[CliCommand("login")]
 [ExcludeFromCodeCoverage]
 public record DockerLoginOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Server { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public virtual string? Password { get; set; }
 
-    [CommandSwitch("--password-stdin")]
+    [CliOption("--password-stdin")]
     public virtual string? PasswordStdin { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public virtual string? Username { get; set; }
 }

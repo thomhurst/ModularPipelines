@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("verifiedpermissions", "update-policy")]
+[CliCommand("verifiedpermissions", "update-policy")]
 public record AwsVerifiedpermissionsUpdatePolicyOptions(
-[property: CommandSwitch("--policy-store-id")] string PolicyStoreId,
-[property: CommandSwitch("--policy-id")] string PolicyId,
-[property: CommandSwitch("--definition")] string Definition
+[property: CliOption("--policy-store-id")] string PolicyStoreId,
+[property: CliOption("--policy-id")] string PolicyId,
+[property: CliOption("--definition")] string Definition
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

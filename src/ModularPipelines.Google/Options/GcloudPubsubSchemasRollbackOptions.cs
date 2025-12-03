@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "schemas", "rollback")]
+[CliCommand("pubsub", "schemas", "rollback")]
 public record GcloudPubsubSchemasRollbackOptions(
-[property: PositionalArgument] string Schema,
-[property: CommandSwitch("--revision-id")] string RevisionId
+[property: CliArgument] string Schema,
+[property: CliOption("--revision-id")] string RevisionId
 ) : GcloudOptions;

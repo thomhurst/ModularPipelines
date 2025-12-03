@@ -3,43 +3,43 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("proxy")]
+[CliCommand("proxy")]
 [ExcludeFromCodeCoverage]
 public record KubernetesProxyOptions : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--accept-hosts", SwitchValueSeparator = " ")]
+    [CliOption("--accept-hosts")]
     public string? AcceptHosts { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--accept-paths", SwitchValueSeparator = " ")]
+    [CliOption("--accept-paths")]
     public string? AcceptPaths { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--address", SwitchValueSeparator = " ")]
+    [CliOption("--address")]
     public string? Address { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--api-prefix", SwitchValueSeparator = " ")]
+    [CliOption("--api-prefix")]
     public string? ApiPrefix { get; set; }
 
-    [BooleanCommandSwitch("--disable-filter")]
+    [CliFlag("--disable-filter")]
     public virtual bool? DisableFilter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--keepalive", SwitchValueSeparator = " ")]
+    [CliOption("--keepalive")]
     public string? Keepalive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--port", SwitchValueSeparator = " ")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--reject-methods", SwitchValueSeparator = " ")]
+    [CliOption("--reject-methods")]
     public string? RejectMethods { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--reject-paths", SwitchValueSeparator = " ")]
+    [CliOption("--reject-paths")]
     public string? RejectPaths { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--unix-socket", SwitchValueSeparator = " ")]
+    [CliOption("--unix-socket")]
     public string? UnixSocket { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--www", SwitchValueSeparator = " ")]
+    [CliOption("--www")]
     public string? Www { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--www-prefix", SwitchValueSeparator = " ")]
+    [CliOption("--www-prefix")]
     public string? WwwPrefix { get; set; }
 }

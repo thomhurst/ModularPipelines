@@ -4,46 +4,46 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datashare", "list-synchronization-detail")]
+[CliCommand("datashare", "list-synchronization-detail")]
 public record AzDatashareListSynchronizationDetailOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--consumer-email")]
+    [CliOption("--consumer-email")]
     public string? ConsumerEmail { get; set; }
 
-    [CommandSwitch("--consumer-name")]
+    [CliOption("--consumer-name")]
     public string? ConsumerName { get; set; }
 
-    [CommandSwitch("--consumer-tenant-name")]
+    [CliOption("--consumer-tenant-name")]
     public string? ConsumerTenantName { get; set; }
 
-    [CommandSwitch("--duration-ms")]
+    [CliOption("--duration-ms")]
     public string? DurationMs { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--message")]
+    [CliOption("--message")]
     public string? Message { get; set; }
 
-    [CommandSwitch("--orderby")]
+    [CliOption("--orderby")]
     public string? Orderby { get; set; }
 
-    [CommandSwitch("--skip-token")]
+    [CliOption("--skip-token")]
     public string? SkipToken { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--synchronization-id")]
+    [CliOption("--synchronization-id")]
     public string? SynchronizationId { get; set; }
 }

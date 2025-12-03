@@ -6,7 +6,7 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cosmosdb", "mongodb", "user", "definition", "update", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbMongodbUserDefinitionUpdateCosmosdbPreviewExtensionOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--body")] string Body,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--body")] string Body,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

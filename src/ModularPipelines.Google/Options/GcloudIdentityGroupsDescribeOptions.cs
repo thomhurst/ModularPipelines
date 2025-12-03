@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("identity", "groups", "describe")]
+[CliCommand("identity", "groups", "describe")]
 public record GcloudIdentityGroupsDescribeOptions(
-[property: PositionalArgument] string Email
+[property: CliArgument] string Email
 ) : GcloudOptions;

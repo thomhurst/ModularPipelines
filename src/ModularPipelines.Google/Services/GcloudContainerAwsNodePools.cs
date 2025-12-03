@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "aws")]
+[CliCommand("container", "aws")]
 public class GcloudContainerAwsNodePools
 {
     public GcloudContainerAwsNodePools(

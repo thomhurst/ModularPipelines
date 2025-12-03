@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitoring", "dashboards", "delete")]
+[CliCommand("monitoring", "dashboards", "delete")]
 public record GcloudMonitoringDashboardsDeleteOptions(
-[property: PositionalArgument] string Dashboard
+[property: CliArgument] string Dashboard
 ) : GcloudOptions;

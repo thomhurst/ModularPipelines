@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "ops", "asset", "query")]
+[CliCommand("iot", "ops", "asset", "query")]
 public record AzIotOpsAssetQueryOptions : AzOptions
 {
-    [CommandSwitch("--asset-type")]
+    [CliOption("--asset-type")]
     public string? AssetType { get; set; }
 
-    [CommandSwitch("--cl")]
+    [CliOption("--cl")]
     public string? Cl { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--documentation-uri")]
+    [CliOption("--documentation-uri")]
     public string? DocumentationUri { get; set; }
 
-    [CommandSwitch("--eai")]
+    [CliOption("--eai")]
     public string? Eai { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [CommandSwitch("--hardware-revision")]
+    [CliOption("--hardware-revision")]
     public string? HardwareRevision { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--manufacturer")]
+    [CliOption("--manufacturer")]
     public string? Manufacturer { get; set; }
 
-    [CommandSwitch("--manufacturer-uri")]
+    [CliOption("--manufacturer-uri")]
     public string? ManufacturerUri { get; set; }
 
-    [CommandSwitch("--model")]
+    [CliOption("--model")]
     public string? Model { get; set; }
 
-    [CommandSwitch("--pc")]
+    [CliOption("--pc")]
     public string? Pc { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--serial-number")]
+    [CliOption("--serial-number")]
     public string? SerialNumber { get; set; }
 
-    [CommandSwitch("--software-revision")]
+    [CliOption("--software-revision")]
     public string? SoftwareRevision { get; set; }
 }

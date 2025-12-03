@@ -3,34 +3,34 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("reflog")]
+[CliCommand("reflog")]
 [ExcludeFromCodeCoverage]
 public record GitReflogOptions : GitOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--single-worktree")]
+    [CliFlag("--single-worktree")]
     public virtual bool? SingleWorktree { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--expire")]
+    [CliOption("--expire", Format = OptionFormat.EqualsSeparated)]
     public string? Expire { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--expire-unreachable")]
+    [CliOption("--expire-unreachable", Format = OptionFormat.EqualsSeparated)]
     public string? ExpireUnreachable { get; set; }
 
-    [BooleanCommandSwitch("--updateref")]
+    [CliFlag("--updateref")]
     public virtual bool? Updateref { get; set; }
 
-    [BooleanCommandSwitch("--rewrite")]
+    [CliFlag("--rewrite")]
     public virtual bool? Rewrite { get; set; }
 
-    [BooleanCommandSwitch("--stale-fix")]
+    [CliFlag("--stale-fix")]
     public virtual bool? StaleFix { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 }

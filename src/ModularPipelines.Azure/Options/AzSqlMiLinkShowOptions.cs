@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "mi", "link", "show")]
+[CliCommand("sql", "mi", "link", "show")]
 public record AzSqlMiLinkShowOptions : AzOptions
 {
-    [CommandSwitch("--distributed-availability-group-name")]
+    [CliOption("--distributed-availability-group-name")]
     public string? DistributedAvailabilityGroupName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--instance-name")]
+    [CliOption("--instance-name")]
     public string? InstanceName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

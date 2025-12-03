@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "modify-tenant-database")]
+[CliCommand("rds", "modify-tenant-database")]
 public record AwsRdsModifyTenantDatabaseOptions(
-[property: CommandSwitch("--db-instance-identifier")] string DbInstanceIdentifier,
-[property: CommandSwitch("--tenant-db-name")] string TenantDbName
+[property: CliOption("--db-instance-identifier")] string DbInstanceIdentifier,
+[property: CliOption("--tenant-db-name")] string TenantDbName
 ) : AwsOptions
 {
-    [CommandSwitch("--master-user-password")]
+    [CliOption("--master-user-password")]
     public string? MasterUserPassword { get; set; }
 
-    [CommandSwitch("--new-tenant-db-name")]
+    [CliOption("--new-tenant-db-name")]
     public string? NewTenantDbName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

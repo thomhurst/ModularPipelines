@@ -3,85 +3,85 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout", "cves")]
+[CliCommand("scout", "cves")]
 [ExcludeFromCodeCoverage]
 public record DockerScoutCvesOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? ImageOrDirectoryOrArchive { get; set; }
 
-    [BooleanCommandSwitch("--details")]
+    [CliFlag("--details")]
     public virtual bool? Details { get; set; }
 
-    [CommandSwitch("--env")]
+    [CliOption("--env")]
     public virtual string? Env { get; set; }
 
-    [CommandSwitch("--exit-code")]
+    [CliOption("--exit-code")]
     public virtual string? ExitCode { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [CommandSwitch("--ignore-base")]
+    [CliOption("--ignore-base")]
     public virtual string? IgnoreBase { get; set; }
 
-    [CommandSwitch("--locations")]
+    [CliOption("--locations")]
     public virtual string? Locations { get; set; }
 
-    [CommandSwitch("--multi-stage")]
+    [CliOption("--multi-stage")]
     public virtual string? MultiStage { get; set; }
 
-    [CommandSwitch("--only-cve-id")]
+    [CliOption("--only-cve-id")]
     public virtual string? OnlyCveId { get; set; }
 
-    [CommandSwitch("--only-fixed")]
+    [CliOption("--only-fixed")]
     public virtual string? OnlyFixed { get; set; }
 
-    [CommandSwitch("--only-metric")]
+    [CliOption("--only-metric")]
     public virtual string? OnlyMetric { get; set; }
 
-    [CommandSwitch("--only-package")]
+    [CliOption("--only-package")]
     public virtual string? OnlyPackage { get; set; }
 
-    [CommandSwitch("--only-package-type")]
+    [CliOption("--only-package-type")]
     public virtual string? OnlyPackageType { get; set; }
 
-    [CommandSwitch("--only-severity")]
+    [CliOption("--only-severity")]
     public virtual string? OnlySeverity { get; set; }
 
-    [CommandSwitch("--only-stage")]
+    [CliOption("--only-stage")]
     public virtual string? OnlyStage { get; set; }
 
-    [CommandSwitch("--only-unfixed")]
+    [CliOption("--only-unfixed")]
     public virtual string? OnlyUnfixed { get; set; }
 
-    [CommandSwitch("--only-vex-affected")]
+    [CliOption("--only-vex-affected")]
     public virtual string? OnlyVexAffected { get; set; }
 
-    [CommandSwitch("--only-vuln-packages")]
+    [CliOption("--only-vuln-packages")]
     public virtual string? OnlyVulnPackages { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public virtual string? Org { get; set; }
 
-    [CommandSwitch("--output")]
+    [CliOption("--output")]
     public virtual string? Output { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public virtual string? Platform { get; set; }
 
-    [CommandSwitch("--ref")]
+    [CliOption("--ref")]
     public virtual string? Ref { get; set; }
 
-    [CommandSwitch("--stream")]
+    [CliOption("--stream")]
     public virtual string? Stream { get; set; }
 
-    [CommandSwitch("--vex")]
+    [CliOption("--vex")]
     public virtual string? Vex { get; set; }
 
-    [CommandSwitch("--vex-author")]
+    [CliOption("--vex-author")]
     public virtual string? VexAuthor { get; set; }
 
-    [CommandSwitch("--vex-location")]
+    [CliOption("--vex-location")]
     public virtual string? VexLocation { get; set; }
 }

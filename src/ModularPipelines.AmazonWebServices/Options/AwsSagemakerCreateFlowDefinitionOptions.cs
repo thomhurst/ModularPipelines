@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-flow-definition")]
+[CliCommand("sagemaker", "create-flow-definition")]
 public record AwsSagemakerCreateFlowDefinitionOptions(
-[property: CommandSwitch("--flow-definition-name")] string FlowDefinitionName,
-[property: CommandSwitch("--output-config")] string OutputConfig,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--flow-definition-name")] string FlowDefinitionName,
+[property: CliOption("--output-config")] string OutputConfig,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--human-loop-request-source")]
+    [CliOption("--human-loop-request-source")]
     public string? HumanLoopRequestSource { get; set; }
 
-    [CommandSwitch("--human-loop-activation-config")]
+    [CliOption("--human-loop-activation-config")]
     public string? HumanLoopActivationConfig { get; set; }
 
-    [CommandSwitch("--human-loop-config")]
+    [CliOption("--human-loop-config")]
     public string? HumanLoopConfig { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

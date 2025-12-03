@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "endpoint")]
+[CliCommand("ml", "endpoint")]
 public class AzMlEndpointRealtime
 {
     public AzMlEndpointRealtime(

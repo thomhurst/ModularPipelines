@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mysql", "flexible-server", "parameter", "list")]
+[CliCommand("mysql", "flexible-server", "parameter", "list")]
 public record AzMysqlFlexibleServerParameterListOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--server-name")] string ServerName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--server-name")] string ServerName
 ) : AzOptions
 {
-    [CommandSwitch("--keyword")]
+    [CliOption("--keyword")]
     public string? Keyword { get; set; }
 
-    [CommandSwitch("--page")]
+    [CliOption("--page")]
     public string? Page { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public string? PageSize { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

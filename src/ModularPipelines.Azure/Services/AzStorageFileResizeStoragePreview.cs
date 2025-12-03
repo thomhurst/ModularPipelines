@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "file", "resize")]
+[CliCommand("storage", "file", "resize")]
 public class AzStorageFileResizeStoragePreview
 {
     public AzStorageFileResizeStoragePreview(

@@ -4,179 +4,179 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "mi-arc", "create")]
+[CliCommand("sql", "mi-arc", "create")]
 public record AzSqlMiArcCreateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--ad-account-name")]
+    [CliOption("--ad-account-name")]
     public int? AdAccountName { get; set; }
 
-    [CommandSwitch("--ad-connector-name")]
+    [CliOption("--ad-connector-name")]
     public string? AdConnectorName { get; set; }
 
-    [CommandSwitch("--ad-encryption-types")]
+    [CliOption("--ad-encryption-types")]
     public string? AdEncryptionTypes { get; set; }
 
-    [CommandSwitch("--admin-login-secret")]
+    [CliOption("--admin-login-secret")]
     public string? AdminLoginSecret { get; set; }
 
-    [BooleanCommandSwitch("--agent-enabled")]
+    [CliFlag("--agent-enabled")]
     public bool? AgentEnabled { get; set; }
 
-    [CommandSwitch("--annotations")]
+    [CliOption("--annotations")]
     public string? Annotations { get; set; }
 
-    [CommandSwitch("--cert-private-key-file")]
+    [CliOption("--cert-private-key-file")]
     public string? CertPrivateKeyFile { get; set; }
 
-    [CommandSwitch("--cert-public-key-file")]
+    [CliOption("--cert-public-key-file")]
     public string? CertPublicKeyFile { get; set; }
 
-    [CommandSwitch("--collation")]
+    [CliOption("--collation")]
     public string? Collation { get; set; }
 
-    [CommandSwitch("--cores-limit")]
+    [CliOption("--cores-limit")]
     public string? CoresLimit { get; set; }
 
-    [CommandSwitch("--cores-request")]
+    [CliOption("--cores-request")]
     public string? CoresRequest { get; set; }
 
-    [CommandSwitch("--custom-location")]
+    [CliOption("--custom-location")]
     public string? CustomLocation { get; set; }
 
-    [CommandSwitch("--dev")]
+    [CliOption("--dev")]
     public string? Dev { get; set; }
 
-    [CommandSwitch("--k8s-namespace")]
+    [CliOption("--k8s-namespace")]
     public string? K8sNamespace { get; set; }
 
-    [CommandSwitch("--keytab-secret")]
+    [CliOption("--keytab-secret")]
     public string? KeytabSecret { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [CommandSwitch("--language")]
+    [CliOption("--language")]
     public string? Language { get; set; }
 
-    [CommandSwitch("--license-type")]
+    [CliOption("--license-type")]
     public string? LicenseType { get; set; }
 
-    [CommandSwitch("--memory-limit")]
+    [CliOption("--memory-limit")]
     public string? MemoryLimit { get; set; }
 
-    [CommandSwitch("--memory-request")]
+    [CliOption("--memory-request")]
     public string? MemoryRequest { get; set; }
 
-    [BooleanCommandSwitch("--no-external-endpoint")]
+    [CliFlag("--no-external-endpoint")]
     public bool? NoExternalEndpoint { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--orchestrator-replicas")]
+    [CliOption("--orchestrator-replicas")]
     public string? OrchestratorReplicas { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--primary-dns-name")]
+    [CliOption("--primary-dns-name")]
     public string? PrimaryDnsName { get; set; }
 
-    [CommandSwitch("--primary-port-number")]
+    [CliOption("--primary-port-number")]
     public string? PrimaryPortNumber { get; set; }
 
-    [CommandSwitch("--readable-secondaries")]
+    [CliOption("--readable-secondaries")]
     public string? ReadableSecondaries { get; set; }
 
-    [CommandSwitch("--replicas")]
+    [CliOption("--replicas")]
     public string? Replicas { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--retention-days")]
+    [CliOption("--retention-days")]
     public string? RetentionDays { get; set; }
 
-    [CommandSwitch("--secondary-dns-name")]
+    [CliOption("--secondary-dns-name")]
     public string? SecondaryDnsName { get; set; }
 
-    [CommandSwitch("--secondary-port-number")]
+    [CliOption("--secondary-port-number")]
     public string? SecondaryPortNumber { get; set; }
 
-    [CommandSwitch("--service-annotations")]
+    [CliOption("--service-annotations")]
     public string? ServiceAnnotations { get; set; }
 
-    [CommandSwitch("--service-cert-secret")]
+    [CliOption("--service-cert-secret")]
     public string? ServiceCertSecret { get; set; }
 
-    [CommandSwitch("--service-labels")]
+    [CliOption("--service-labels")]
     public string? ServiceLabels { get; set; }
 
-    [CommandSwitch("--service-type")]
+    [CliOption("--service-type")]
     public string? ServiceType { get; set; }
 
-    [CommandSwitch("--storage-annotations")]
+    [CliOption("--storage-annotations")]
     public string? StorageAnnotations { get; set; }
 
-    [CommandSwitch("--storage-class-backups")]
+    [CliOption("--storage-class-backups")]
     public string? StorageClassBackups { get; set; }
 
-    [CommandSwitch("--storage-class-data")]
+    [CliOption("--storage-class-data")]
     public string? StorageClassData { get; set; }
 
-    [CommandSwitch("--storage-class-datalogs")]
+    [CliOption("--storage-class-datalogs")]
     public string? StorageClassDatalogs { get; set; }
 
-    [CommandSwitch("--storage-class-logs")]
+    [CliOption("--storage-class-logs")]
     public string? StorageClassLogs { get; set; }
 
-    [CommandSwitch("--storage-class-orchestrator-logs")]
+    [CliOption("--storage-class-orchestrator-logs")]
     public string? StorageClassOrchestratorLogs { get; set; }
 
-    [CommandSwitch("--storage-labels")]
+    [CliOption("--storage-labels")]
     public string? StorageLabels { get; set; }
 
-    [CommandSwitch("--sync-secondary-to-commit")]
+    [CliOption("--sync-secondary-to-commit")]
     public string? SyncSecondaryToCommit { get; set; }
 
-    [CommandSwitch("--tde-mode")]
+    [CliOption("--tde-mode")]
     public string? TdeMode { get; set; }
 
-    [CommandSwitch("--tde-protector-private-key-file")]
+    [CliOption("--tde-protector-private-key-file")]
     public string? TdeProtectorPrivateKeyFile { get; set; }
 
-    [CommandSwitch("--tde-protector-public-key-file")]
+    [CliOption("--tde-protector-public-key-file")]
     public string? TdeProtectorPublicKeyFile { get; set; }
 
-    [CommandSwitch("--tde-protector-secret")]
+    [CliOption("--tde-protector-secret")]
     public string? TdeProtectorSecret { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [CommandSwitch("--time-zone")]
+    [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
 
-    [CommandSwitch("--trace-flags")]
+    [CliOption("--trace-flags")]
     public string? TraceFlags { get; set; }
 
-    [BooleanCommandSwitch("--use-k8s")]
+    [CliFlag("--use-k8s")]
     public bool? UseK8s { get; set; }
 
-    [CommandSwitch("--volume-size-backups")]
+    [CliOption("--volume-size-backups")]
     public string? VolumeSizeBackups { get; set; }
 
-    [CommandSwitch("--volume-size-data")]
+    [CliOption("--volume-size-data")]
     public string? VolumeSizeData { get; set; }
 
-    [CommandSwitch("--volume-size-datalogs")]
+    [CliOption("--volume-size-datalogs")]
     public string? VolumeSizeDatalogs { get; set; }
 
-    [CommandSwitch("--volume-size-logs")]
+    [CliOption("--volume-size-logs")]
     public string? VolumeSizeLogs { get; set; }
 
-    [CommandSwitch("--volume-size-orchestrator-logs")]
+    [CliOption("--volume-size-orchestrator-logs")]
     public string? VolumeSizeOrchestratorLogs { get; set; }
 }

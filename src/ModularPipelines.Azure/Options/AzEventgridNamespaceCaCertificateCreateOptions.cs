@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "namespace", "ca-certificate", "create")]
+[CliCommand("eventgrid", "namespace", "ca-certificate", "create")]
 public record AzEventgridNamespaceCaCertificateCreateOptions(
-[property: CommandSwitch("--ca-certificate-name")] string CaCertificateName,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--ca-certificate-name")] string CaCertificateName,
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--certificate")]
+    [CliOption("--certificate")]
     public string? Certificate { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

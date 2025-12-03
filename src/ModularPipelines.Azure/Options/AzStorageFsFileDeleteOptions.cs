@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "fs", "file", "delete")]
+[CliCommand("storage", "fs", "file", "delete")]
 public record AzStorageFsFileDeleteOptions(
-[property: CommandSwitch("--file-system")] string FileSystem,
-[property: CommandSwitch("--path")] string Path
+[property: CliOption("--file-system")] string FileSystem,
+[property: CliOption("--path")] string Path
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--blob-endpoint")]
+    [CliOption("--blob-endpoint")]
     public string? BlobEndpoint { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

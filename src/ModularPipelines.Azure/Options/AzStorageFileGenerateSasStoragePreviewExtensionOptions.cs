@@ -6,52 +6,52 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "file", "generate-sas", "(storage-preview", "extension)")]
 public record AzStorageFileGenerateSasStoragePreviewExtensionOptions(
-[property: CommandSwitch("--path")] string Path,
-[property: CommandSwitch("--share-name")] string ShareName
+[property: CliOption("--path")] string Path,
+[property: CliOption("--share-name")] string ShareName
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--cache-control")]
+    [CliOption("--cache-control")]
     public string? CacheControl { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--content-disposition")]
+    [CliOption("--content-disposition")]
     public string? ContentDisposition { get; set; }
 
-    [CommandSwitch("--content-encoding")]
+    [CliOption("--content-encoding")]
     public string? ContentEncoding { get; set; }
 
-    [CommandSwitch("--content-language")]
+    [CliOption("--content-language")]
     public string? ContentLanguage { get; set; }
 
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [BooleanCommandSwitch("--disallow-trailing-dot")]
+    [CliFlag("--disallow-trailing-dot")]
     public bool? DisallowTrailingDot { get; set; }
 
-    [CommandSwitch("--expiry")]
+    [CliOption("--expiry")]
     public string? Expiry { get; set; }
 
-    [CommandSwitch("--https-only")]
+    [CliOption("--https-only")]
     public string? HttpsOnly { get; set; }
 
-    [CommandSwitch("--ip")]
+    [CliOption("--ip")]
     public string? Ip { get; set; }
 
-    [CommandSwitch("--permissions")]
+    [CliOption("--permissions")]
     public string? Permissions { get; set; }
 
-    [CommandSwitch("--policy-name")]
+    [CliOption("--policy-name")]
     public string? PolicyName { get; set; }
 
-    [CommandSwitch("--start")]
+    [CliOption("--start")]
     public string? Start { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spanner", "samples", "workload")]
+[CliCommand("spanner", "samples", "workload")]
 public record GcloudSpannerSamplesWorkloadOptions(
-[property: PositionalArgument] string Appname
+[property: CliArgument] string Appname
 ) : GcloudOptions
 {
-    [CommandSwitch("--duration")]
+    [CliOption("--duration")]
     public string? Duration { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public string? Port { get; set; }
 
-    [CommandSwitch("--target-qps")]
+    [CliOption("--target-qps")]
     public string? TargetQps { get; set; }
 }

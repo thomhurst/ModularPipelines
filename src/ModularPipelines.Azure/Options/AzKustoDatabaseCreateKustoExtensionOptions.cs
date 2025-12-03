@@ -6,17 +6,17 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("kusto", "database", "create", "(kusto", "extension)")]
 public record AzKustoDatabaseCreateKustoExtensionOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--read-only-following-database")]
+    [CliOption("--read-only-following-database")]
     public string? ReadOnlyFollowingDatabase { get; set; }
 
-    [CommandSwitch("--read-write-database")]
+    [CliOption("--read-write-database")]
     public string? ReadWriteDatabase { get; set; }
 }

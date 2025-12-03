@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "elastic-pool")]
+[CliCommand("sql", "elastic-pool")]
 public class AzSqlElasticPoolOp
 {
     public AzSqlElasticPoolOp(

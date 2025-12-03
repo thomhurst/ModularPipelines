@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("staticwebapp")]
+[CliCommand("staticwebapp")]
 public class AzStaticwebappSecrets
 {
     public AzStaticwebappSecrets(

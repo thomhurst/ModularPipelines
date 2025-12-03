@@ -4,59 +4,59 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datafactory", "dataset", "update")]
+[CliCommand("datafactory", "dataset", "update")]
 public record AzDatafactoryDatasetUpdateOptions(
-[property: CommandSwitch("--linked-service-name")] string LinkedServiceName
+[property: CliOption("--linked-service-name")] string LinkedServiceName
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--annotations")]
+    [CliOption("--annotations")]
     public string? Annotations { get; set; }
 
-    [CommandSwitch("--dataset-name")]
+    [CliOption("--dataset-name")]
     public string? DatasetName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--factory-name")]
+    [CliOption("--factory-name")]
     public string? FactoryName { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string? Folder { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--if-none-match")]
+    [CliOption("--if-none-match")]
     public string? IfNoneMatch { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--schema")]
+    [CliOption("--schema")]
     public string? Schema { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--structure")]
+    [CliOption("--structure")]
     public string? Structure { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

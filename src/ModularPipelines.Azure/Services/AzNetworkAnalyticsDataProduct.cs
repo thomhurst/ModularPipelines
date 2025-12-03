@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-analytics")]
+[CliCommand("network-analytics")]
 public class AzNetworkAnalyticsDataProduct
 {
     public AzNetworkAnalyticsDataProduct(

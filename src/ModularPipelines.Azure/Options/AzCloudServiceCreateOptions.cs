@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloud-service", "create")]
+[CliCommand("cloud-service", "create")]
 public record AzCloudServiceCreateOptions(
-[property: CommandSwitch("--cloud-service-name")] string CloudServiceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cloud-service-name")] string CloudServiceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
-    [CommandSwitch("--configuration-url")]
+    [CliOption("--configuration-url")]
     public string? ConfigurationUrl { get; set; }
 
-    [CommandSwitch("--extensions")]
+    [CliOption("--extensions")]
     public string? Extensions { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--lb")]
+    [CliOption("--lb")]
     public string? Lb { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--package-url")]
+    [CliOption("--package-url")]
     public string? PackageUrl { get; set; }
 
-    [CommandSwitch("--roles")]
+    [CliOption("--roles")]
     public string? Roles { get; set; }
 
-    [CommandSwitch("--secrets")]
+    [CliOption("--secrets")]
     public string? Secrets { get; set; }
 
-    [BooleanCommandSwitch("--start-cloud-service")]
+    [CliFlag("--start-cloud-service")]
     public bool? StartCloudService { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--upgrade-mode")]
+    [CliOption("--upgrade-mode")]
     public string? UpgradeMode { get; set; }
 }

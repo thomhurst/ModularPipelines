@@ -3,22 +3,22 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("buildx", "rm")]
+[CliCommand("buildx", "rm")]
 [ExcludeFromCodeCoverage]
 public record DockerBuildxRmOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Name { get; set; }
 
-    [CommandSwitch("--all-inactive")]
+    [CliOption("--all-inactive")]
     public virtual string? AllInactive { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [CommandSwitch("--keep-daemon")]
+    [CliOption("--keep-daemon")]
     public virtual string? KeepDaemon { get; set; }
 
-    [CommandSwitch("--keep-state")]
+    [CliOption("--keep-state")]
     public virtual string? KeepState { get; set; }
 }

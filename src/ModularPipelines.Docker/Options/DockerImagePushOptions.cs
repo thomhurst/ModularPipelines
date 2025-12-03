@@ -15,15 +15,15 @@ public record DockerImagePushOptions : DockerOptions
         Name = name;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--all-tags")]
+    [CliFlag("--all-tags")]
     public virtual bool? AllTags { get; set; }
 
-    [BooleanCommandSwitch("--disable-content-trust")]
+    [CliFlag("--disable-content-trust")]
     public virtual bool? DisableContentTrust { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 }

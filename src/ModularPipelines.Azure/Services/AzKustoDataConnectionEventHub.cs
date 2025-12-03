@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "data-connection")]
+[CliCommand("kusto", "data-connection")]
 public class AzKustoDataConnectionEventHub
 {
     public AzKustoDataConnectionEventHub(

@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("consumption", "budget", "create")]
+[CliCommand("consumption", "budget", "create")]
 public record AzConsumptionBudgetCreateOptions(
-[property: CommandSwitch("--amount")] string Amount,
-[property: CommandSwitch("--budget-name")] string BudgetName,
-[property: CommandSwitch("--category")] string Category,
-[property: CommandSwitch("--end-date")] string EndDate,
-[property: CommandSwitch("--start-date")] string StartDate,
-[property: CommandSwitch("--time-grain")] string TimeGrain
+[property: CliOption("--amount")] string Amount,
+[property: CliOption("--budget-name")] string BudgetName,
+[property: CliOption("--category")] string Category,
+[property: CliOption("--end-date")] string EndDate,
+[property: CliOption("--start-date")] string StartDate,
+[property: CliOption("--time-grain")] string TimeGrain
 ) : AzOptions
 {
-    [CommandSwitch("--meter-filter")]
+    [CliOption("--meter-filter")]
     public string? MeterFilter { get; set; }
 
-    [CommandSwitch("--resource-filter")]
+    [CliOption("--resource-filter")]
     public string? ResourceFilter { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-group-filter")]
+    [CliOption("--resource-group-filter")]
     public string? ResourceGroupFilter { get; set; }
 }

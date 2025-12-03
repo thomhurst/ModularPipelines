@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "security-domain", "upload")]
+[CliCommand("keyvault", "security-domain", "upload")]
 public record AzKeyvaultSecurityDomainUploadOptions(
-[property: CommandSwitch("--sd-file")] string SdFile
+[property: CliOption("--sd-file")] string SdFile
 ) : AzOptions
 {
-    [CommandSwitch("--hsm-name")]
+    [CliOption("--hsm-name")]
     public string? HsmName { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--passwords")]
+    [CliOption("--passwords")]
     public string? Passwords { get; set; }
 
-    [BooleanCommandSwitch("--restore-blob")]
+    [CliFlag("--restore-blob")]
     public bool? RestoreBlob { get; set; }
 
-    [CommandSwitch("--sd-exchange-key")]
+    [CliOption("--sd-exchange-key")]
     public string? SdExchangeKey { get; set; }
 
-    [CommandSwitch("--sd-wrapping-keys")]
+    [CliOption("--sd-wrapping-keys")]
     public string? SdWrappingKeys { get; set; }
 }

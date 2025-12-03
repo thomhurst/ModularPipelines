@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("container", "port")]
+[CliCommand("container", "port")]
 [ExcludeFromCodeCoverage]
 public record DockerContainerPortOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? PrivatePortOrProto { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "assessment", "show")]
+[CliCommand("security", "assessment", "show")]
 public record AzSecurityAssessmentShowOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--assessed-resource-id")]
+    [CliOption("--assessed-resource-id")]
     public string? AssessedResourceId { get; set; }
 }

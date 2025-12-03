@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("org-policies", "set-custom-constraint")]
+[CliCommand("org-policies", "set-custom-constraint")]
 public record GcloudOrgPoliciesSetCustomConstraintOptions(
-[property: PositionalArgument] string CustomConstraintFile
+[property: CliArgument] string CustomConstraintFile
 ) : GcloudOptions;

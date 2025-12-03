@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "admin", "banner", "update")]
+[CliCommand("devops", "admin", "banner", "update")]
 public record AzDevopsAdminBannerUpdateOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--expiration")]
+    [CliOption("--expiration")]
     public string? Expiration { get; set; }
 
-    [CommandSwitch("--message")]
+    [CliOption("--message")]
     public string? Message { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 }

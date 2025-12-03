@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quota", "request", "list")]
+[CliCommand("quota", "request", "list")]
 public record AzQuotaRequestListOptions(
-[property: CommandSwitch("--scope")] string Scope
+[property: CliOption("--scope")] string Scope
 ) : AzOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--skiptoken")]
+    [CliOption("--skiptoken")]
     public string? Skiptoken { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

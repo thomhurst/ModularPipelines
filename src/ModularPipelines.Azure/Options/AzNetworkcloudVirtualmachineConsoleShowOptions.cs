@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "virtualmachine", "console", "show")]
+[CliCommand("networkcloud", "virtualmachine", "console", "show")]
 public record AzNetworkcloudVirtualmachineConsoleShowOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--virtual-machine-name")]
+    [CliOption("--virtual-machine-name")]
     public string? VirtualMachineName { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("self-help", "discovery-solution", "list")]
+[CliCommand("self-help", "discovery-solution", "list")]
 public record AzSelfHelpDiscoverySolutionListOptions(
-[property: CommandSwitch("--scope")] string Scope
+[property: CliOption("--scope")] string Scope
 ) : AzOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--skiptoken")]
+    [CliOption("--skiptoken")]
     public string? Skiptoken { get; set; }
 }

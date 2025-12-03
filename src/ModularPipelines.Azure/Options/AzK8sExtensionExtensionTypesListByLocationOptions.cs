@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("k8s-extension", "extension-types", "list-by-location")]
+[CliCommand("k8s-extension", "extension-types", "list-by-location")]
 public record AzK8sExtensionExtensionTypesListByLocationOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : AzOptions
 {
-    [CommandSwitch("--cluster-type")]
+    [CliOption("--cluster-type")]
     public string? ClusterType { get; set; }
 
-    [CommandSwitch("--plan-name")]
+    [CliOption("--plan-name")]
     public string? PlanName { get; set; }
 
-    [CommandSwitch("--plan-product")]
+    [CliOption("--plan-product")]
     public string? PlanProduct { get; set; }
 
-    [CommandSwitch("--plan-publisher")]
+    [CliOption("--plan-publisher")]
     public string? PlanPublisher { get; set; }
 
-    [CommandSwitch("--release-train")]
+    [CliOption("--release-train")]
     public string? ReleaseTrain { get; set; }
 }

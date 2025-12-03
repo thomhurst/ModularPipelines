@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("load", "test-run", "app-component", "list")]
+[CliCommand("load", "test-run", "app-component", "list")]
 public record AzLoadTestRunAppComponentListOptions(
-[property: CommandSwitch("--load-test-resource")] string LoadTestResource,
-[property: CommandSwitch("--test-run-id")] string TestRunId
+[property: CliOption("--load-test-resource")] string LoadTestResource,
+[property: CliOption("--test-run-id")] string TestRunId
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

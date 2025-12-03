@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("notebooks")]
+[CliCommand("notebooks")]
 public class GcloudNotebooksInstances
 {
     public GcloudNotebooksInstances(

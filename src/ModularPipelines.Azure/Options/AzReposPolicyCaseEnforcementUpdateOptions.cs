@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "policy", "case-enforcement", "update")]
+[CliCommand("repos", "policy", "case-enforcement", "update")]
 public record AzReposPolicyCaseEnforcementUpdateOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--blocking")]
+    [CliFlag("--blocking")]
     public bool? Blocking { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [CommandSwitch("--repository-id")]
+    [CliOption("--repository-id")]
     public string? RepositoryId { get; set; }
 }

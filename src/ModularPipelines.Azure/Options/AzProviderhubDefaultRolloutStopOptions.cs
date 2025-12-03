@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("providerhub", "default-rollout", "stop")]
+[CliCommand("providerhub", "default-rollout", "stop")]
 public record AzProviderhubDefaultRolloutStopOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--provider-namespace")]
+    [CliOption("--provider-namespace")]
     public string? ProviderNamespace { get; set; }
 
-    [CommandSwitch("--rollout-name")]
+    [CliOption("--rollout-name")]
     public string? RolloutName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

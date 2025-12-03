@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "message-route", "list")]
+[CliCommand("iot", "hub", "message-route", "list")]
 public record AzIotHubMessageRouteListOptions(
-[property: CommandSwitch("--hub-name")] string HubName
+[property: CliOption("--hub-name")] string HubName
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--source-type")]
+    [CliOption("--source-type")]
     public string? SourceType { get; set; }
 }

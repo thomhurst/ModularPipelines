@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "midb", "ltr-backup", "delete")]
+[CliCommand("sql", "midb", "ltr-backup", "delete")]
 public record AzSqlMidbLtrBackupDeleteOptions : AzOptions
 {
-    [CommandSwitch("--backup-id")]
+    [CliOption("--backup-id")]
     public string? BackupId { get; set; }
 
-    [CommandSwitch("--database")]
+    [CliOption("--database")]
     public string? Database { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--managed-instance")]
+    [CliOption("--managed-instance")]
     public string? ManagedInstance { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

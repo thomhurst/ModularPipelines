@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "autoscale", "rule", "list")]
+[CliCommand("monitor", "autoscale", "rule", "list")]
 public record AzMonitorAutoscaleRuleListOptions(
-[property: CommandSwitch("--autoscale-name")] string AutoscaleName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--autoscale-name")] string AutoscaleName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 }

@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "elastic-pool", "list-editions")]
+[CliCommand("sql", "elastic-pool", "list-editions")]
 public record AzSqlElasticPoolListEditionsOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--available")]
+    [CliFlag("--available")]
     public bool? Available { get; set; }
 
-    [CommandSwitch("--dtu")]
+    [CliOption("--dtu")]
     public string? Dtu { get; set; }
 
-    [CommandSwitch("--edition")]
+    [CliOption("--edition")]
     public string? Edition { get; set; }
 
-    [CommandSwitch("--show-details")]
+    [CliOption("--show-details")]
     public string? ShowDetails { get; set; }
 
-    [CommandSwitch("--vcores")]
+    [CliOption("--vcores")]
     public string? Vcores { get; set; }
 }

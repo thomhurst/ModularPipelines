@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines", "release", "list")]
+[CliCommand("pipelines", "release", "list")]
 public record AzPipelinesReleaseListOptions : AzOptions
 {
-    [CommandSwitch("--definition-id")]
+    [CliOption("--definition-id")]
     public string? DefinitionId { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [CommandSwitch("--source-branch")]
+    [CliOption("--source-branch")]
     public string? SourceBranch { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "trigger", "subscribe-to-event")]
+[CliCommand("synapse", "trigger", "subscribe-to-event")]
 public record AzSynapseTriggerSubscribeToEventOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

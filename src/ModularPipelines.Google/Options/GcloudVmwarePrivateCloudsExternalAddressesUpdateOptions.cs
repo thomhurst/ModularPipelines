@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-clouds", "external-addresses", "update")]
+[CliCommand("vmware", "private-clouds", "external-addresses", "update")]
 public record GcloudVmwarePrivateCloudsExternalAddressesUpdateOptions(
-[property: PositionalArgument] string ExternalAddress,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string PrivateCloud
+[property: CliArgument] string ExternalAddress,
+[property: CliArgument] string Location,
+[property: CliArgument] string PrivateCloud
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--internal-ip")]
+    [CliOption("--internal-ip")]
     public string? InternalIp { get; set; }
 }

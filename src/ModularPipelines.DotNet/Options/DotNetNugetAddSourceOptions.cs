@@ -15,24 +15,24 @@ public record DotNetNugetAddSourceOptions : DotNetOptions
         PackageSourcePath = packageSourcePath;
     }
 
-    [PositionalArgument(PlaceholderName = "<PACKAGE_SOURCE_PATH>")]
+    [CliArgument(Name = "<PACKAGE_SOURCE_PATH>")]
     public string? PackageSourcePath { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public virtual string? Name { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public virtual string? Username { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public virtual string? Password { get; set; }
 
-    [BooleanCommandSwitch("--store-password-in-clear-text")]
+    [CliFlag("--store-password-in-clear-text")]
     public virtual bool? StorePasswordInClearText { get; set; }
 
-    [CommandSwitch("--valid-authentication-types")]
+    [CliOption("--valid-authentication-types")]
     public virtual string? ValidAuthenticationTypes { get; set; }
 
-    [CommandSwitch("--configfile")]
+    [CliOption("--configfile")]
     public virtual string? Configfile { get; set; }
 }

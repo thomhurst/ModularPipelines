@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "redirect-config", "create")]
+[CliCommand("network", "application-gateway", "redirect-config", "create")]
 public record AzNetworkApplicationGatewayRedirectConfigCreateOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--include-path")]
+    [CliFlag("--include-path")]
     public bool? IncludePath { get; set; }
 
-    [BooleanCommandSwitch("--include-query-string")]
+    [CliFlag("--include-query-string")]
     public bool? IncludeQueryString { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--target-listener")]
+    [CliOption("--target-listener")]
     public string? TargetListener { get; set; }
 
-    [CommandSwitch("--target-url")]
+    [CliOption("--target-url")]
     public string? TargetUrl { get; set; }
 }

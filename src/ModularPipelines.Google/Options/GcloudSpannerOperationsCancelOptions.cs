@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spanner", "operations", "cancel")]
+[CliCommand("spanner", "operations", "cancel")]
 public record GcloudSpannerOperationsCancelOptions(
-[property: PositionalArgument] string OperationId,
-[property: CommandSwitch("--instance")] string Instance,
-[property: CommandSwitch("--instance-config")] string InstanceConfig
+[property: CliArgument] string OperationId,
+[property: CliOption("--instance")] string Instance,
+[property: CliOption("--instance-config")] string InstanceConfig
 ) : GcloudOptions
 {
-    [CommandSwitch("--backup")]
+    [CliOption("--backup")]
     public string? Backup { get; set; }
 
-    [CommandSwitch("--database")]
+    [CliOption("--database")]
     public string? Database { get; set; }
 }

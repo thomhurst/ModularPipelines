@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("relay", "hyco", "create")]
+[CliCommand("relay", "hyco", "create")]
 public record AzRelayHycoCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--requires-client-authorization")]
+    [CliFlag("--requires-client-authorization")]
     public bool? RequiresClientAuthorization { get; set; }
 
-    [CommandSwitch("--user-metadata")]
+    [CliOption("--user-metadata")]
     public string? UserMetadata { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("alloydb", "operations", "list")]
+[CliCommand("alloydb", "operations", "list")]
 public record GcloudAlloydbOperationsListOptions : GcloudOptions
 {
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

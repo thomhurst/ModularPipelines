@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "clusters", "start")]
+[CliCommand("dataproc", "clusters", "start")]
 public record GcloudDataprocClustersStartOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

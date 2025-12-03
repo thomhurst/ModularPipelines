@@ -3,20 +3,20 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("workspace delete")]
+[CliCommand("workspace delete")]
 [ExcludeFromCodeCoverage]
-public record TerraformWorkspaceDeleteOptions([property: PositionalArgument(Position = Position.AfterSwitches)]
+public record TerraformWorkspaceDeleteOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     string Name) : TerraformOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Directory { get; set; }
 
-    [BooleanCommandSwitch("-force")]
+    [CliFlag("-force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("-lock")]
+    [CliFlag("-lock")]
     public virtual bool? Lock { get; set; }
 
-    [CommandSwitch("-lock-timeout")]
+    [CliOption("-lock-timeout")]
     public virtual string? LockTimeout { get; set; }
 }

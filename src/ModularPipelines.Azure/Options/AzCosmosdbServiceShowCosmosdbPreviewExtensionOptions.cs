@@ -6,7 +6,7 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cosmosdb", "service", "show", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbServiceShowCosmosdbPreviewExtensionOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group-name")] string ResourceGroupName
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group-name")] string ResourceGroupName
 ) : AzOptions;

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dls", "fs", "access", "remove-all")]
+[CliCommand("dls", "fs", "access", "remove-all")]
 public record AzDlsFsAccessRemoveAllOptions(
-[property: CommandSwitch("--path")] string Path
+[property: CliOption("--path")] string Path
 ) : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [BooleanCommandSwitch("--default-acl")]
+    [CliFlag("--default-acl")]
     public bool? DefaultAcl { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

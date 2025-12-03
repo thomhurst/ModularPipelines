@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spanner", "instances", "create")]
+[CliCommand("spanner", "instances", "create")]
 public record GcloudSpannerInstancesCreateOptions(
-[property: PositionalArgument] string Instance,
-[property: CommandSwitch("--config")] string Config,
-[property: CommandSwitch("--description")] string Description
+[property: CliArgument] string Instance,
+[property: CliOption("--config")] string Config,
+[property: CliOption("--description")] string Description
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--expire-behavior")]
+    [CliOption("--expire-behavior")]
     public string? ExpireBehavior { get; set; }
 
-    [CommandSwitch("--instance-type")]
+    [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 
-    [CommandSwitch("--nodes")]
+    [CliOption("--nodes")]
     public string? Nodes { get; set; }
 
-    [CommandSwitch("--processing-units")]
+    [CliOption("--processing-units")]
     public string? ProcessingUnits { get; set; }
 }

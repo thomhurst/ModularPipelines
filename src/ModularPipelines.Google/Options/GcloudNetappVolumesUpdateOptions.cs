@@ -5,75 +5,75 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "volumes", "update")]
+[CliCommand("netapp", "volumes", "update")]
 public record GcloudNetappVolumesUpdateOptions(
-[property: PositionalArgument] string Volume,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Volume,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--capacity")]
+    [CliOption("--capacity")]
     public string? Capacity { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--enable-kerberos")]
+    [CliOption("--enable-kerberos")]
     public string? EnableKerberos { get; set; }
 
-    [CommandSwitch("--export-policy")]
+    [CliOption("--export-policy")]
     public string[]? ExportPolicy { get; set; }
 
-    [CommandSwitch("--protocols")]
+    [CliOption("--protocols")]
     public string[]? Protocols { get; set; }
 
-    [CommandSwitch("--restricted-actions")]
+    [CliOption("--restricted-actions")]
     public string[]? RestrictedActions { get; set; }
 
-    [CommandSwitch("--security-style")]
+    [CliOption("--security-style")]
     public string? SecurityStyle { get; set; }
 
-    [CommandSwitch("--share-name")]
+    [CliOption("--share-name")]
     public string? ShareName { get; set; }
 
-    [CommandSwitch("--smb-settings")]
+    [CliOption("--smb-settings")]
     public string[]? SmbSettings { get; set; }
 
-    [CommandSwitch("--snap-reserve")]
+    [CliOption("--snap-reserve")]
     public string? SnapReserve { get; set; }
 
-    [CommandSwitch("--snapshot-daily")]
+    [CliOption("--snapshot-daily")]
     public string[]? SnapshotDaily { get; set; }
 
-    [CommandSwitch("--snapshot-directory")]
+    [CliOption("--snapshot-directory")]
     public string? SnapshotDirectory { get; set; }
 
-    [CommandSwitch("--snapshot-hourly")]
+    [CliOption("--snapshot-hourly")]
     public string[]? SnapshotHourly { get; set; }
 
-    [CommandSwitch("--snapshot-monthly")]
+    [CliOption("--snapshot-monthly")]
     public string[]? SnapshotMonthly { get; set; }
 
-    [CommandSwitch("--snapshot-weekly")]
+    [CliOption("--snapshot-weekly")]
     public string[]? SnapshotWeekly { get; set; }
 
-    [CommandSwitch("--source-snapshot")]
+    [CliOption("--source-snapshot")]
     public string? SourceSnapshot { get; set; }
 
-    [CommandSwitch("--storage-pool")]
+    [CliOption("--storage-pool")]
     public string? StoragePool { get; set; }
 
-    [CommandSwitch("--unix-permissions")]
+    [CliOption("--unix-permissions")]
     public string? UnixPermissions { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 }

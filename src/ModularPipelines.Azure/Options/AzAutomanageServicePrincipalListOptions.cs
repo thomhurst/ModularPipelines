@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automanage", "service-principal", "list")]
+[CliCommand("automanage", "service-principal", "list")]
 public record AzAutomanageServicePrincipalListOptions : AzOptions;

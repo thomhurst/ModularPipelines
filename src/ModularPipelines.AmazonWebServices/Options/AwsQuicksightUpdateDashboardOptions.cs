@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "update-dashboard")]
+[CliCommand("quicksight", "update-dashboard")]
 public record AwsQuicksightUpdateDashboardOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--dashboard-id")] string DashboardId,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--dashboard-id")] string DashboardId,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--source-entity")]
+    [CliOption("--source-entity")]
     public string? SourceEntity { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string? Parameters { get; set; }
 
-    [CommandSwitch("--version-description")]
+    [CliOption("--version-description")]
     public string? VersionDescription { get; set; }
 
-    [CommandSwitch("--dashboard-publish-options")]
+    [CliOption("--dashboard-publish-options")]
     public string? DashboardPublishOptions { get; set; }
 
-    [CommandSwitch("--theme-arn")]
+    [CliOption("--theme-arn")]
     public string? ThemeArn { get; set; }
 
-    [CommandSwitch("--definition")]
+    [CliOption("--definition")]
     public string? Definition { get; set; }
 
-    [CommandSwitch("--validation-strategy")]
+    [CliOption("--validation-strategy")]
     public string? ValidationStrategy { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

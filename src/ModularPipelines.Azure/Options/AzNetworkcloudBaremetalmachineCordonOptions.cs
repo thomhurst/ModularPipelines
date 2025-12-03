@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "baremetalmachine", "cordon")]
+[CliCommand("networkcloud", "baremetalmachine", "cordon")]
 public record AzNetworkcloudBaremetalmachineCordonOptions : AzOptions
 {
-    [CommandSwitch("--bare-metal-machine-name")]
+    [CliOption("--bare-metal-machine-name")]
     public string? BareMetalMachineName { get; set; }
 
-    [BooleanCommandSwitch("--evacuate")]
+    [CliFlag("--evacuate")]
     public bool? Evacuate { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring")]
+[CliCommand("spring")]
 public class AzSpringApplicationConfigurationService
 {
     public AzSpringApplicationConfigurationService(

@@ -3,25 +3,25 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("range-diff")]
+[CliCommand("range-diff")]
 [ExcludeFromCodeCoverage]
 public record GitRangeDiffOptions : GitOptions
 {
-    [BooleanCommandSwitch("--no-dual-color")]
+    [CliFlag("--no-dual-color")]
     public virtual bool? NoDualColor { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--creation-factor")]
+    [CliOption("--creation-factor", Format = OptionFormat.EqualsSeparated)]
     public string? CreationFactor { get; set; }
 
-    [BooleanCommandSwitch("--left-only")]
+    [CliFlag("--left-only")]
     public virtual bool? LeftOnly { get; set; }
 
-    [BooleanCommandSwitch("--right-only")]
+    [CliFlag("--right-only")]
     public virtual bool? RightOnly { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--no-notes")]
+    [CliOption("--no-notes", Format = OptionFormat.EqualsSeparated)]
     public string? NoNotes { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--notes")]
+    [CliOption("--notes", Format = OptionFormat.EqualsSeparated)]
     public string? Notes { get; set; }
 }

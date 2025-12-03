@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "frontend-endpoint", "show")]
+[CliCommand("network", "front-door", "frontend-endpoint", "show")]
 public record AzNetworkFrontDoorFrontendEndpointShowOptions(
-[property: CommandSwitch("--front-door-name")] string FrontDoorName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--front-door-name")] string FrontDoorName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

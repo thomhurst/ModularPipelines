@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("looker", "instances", "import")]
+[CliCommand("looker", "instances", "import")]
 public record GcloudLookerInstancesImportOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--source-gcs-uri")] string SourceGcsUri
+[property: CliArgument] string Instance,
+[property: CliArgument] string Region,
+[property: CliOption("--source-gcs-uri")] string SourceGcsUri
 ) : GcloudOptions;

@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage-mover", "endpoint", "update-for-smb")]
+[CliCommand("storage-mover", "endpoint", "update-for-smb")]
 public record AzStorageMoverEndpointUpdateForSmbOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-mover-name")] string StorageMoverName
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--storage-mover-name")] string StorageMoverName
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--password-uri")]
+    [CliOption("--password-uri")]
     public string? PasswordUri { get; set; }
 
-    [CommandSwitch("--username-uri")]
+    [CliOption("--username-uri")]
     public string? UsernameUri { get; set; }
 }

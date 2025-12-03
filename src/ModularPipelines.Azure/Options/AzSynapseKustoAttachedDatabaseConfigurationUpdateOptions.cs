@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "kusto", "attached-database-configuration", "update")]
+[CliCommand("synapse", "kusto", "attached-database-configuration", "update")]
 public record AzSynapseKustoAttachedDatabaseConfigurationUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--attached-database-configuration-name")]
+    [CliFlag("--attached-database-configuration-name")]
     public bool? AttachedDatabaseConfigurationName { get; set; }
 
-    [CommandSwitch("--database-name")]
+    [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CommandSwitch("--default-principals-modification-kind")]
+    [CliOption("--default-principals-modification-kind")]
     public string? DefaultPrincipalsModificationKind { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--kusto-pool-name")]
+    [CliOption("--kusto-pool-name")]
     public string? KustoPoolName { get; set; }
 
-    [CommandSwitch("--kusto-pool-resource-id")]
+    [CliOption("--kusto-pool-resource-id")]
     public string? KustoPoolResourceId { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--table-level-sharing-properties")]
+    [CliOption("--table-level-sharing-properties")]
     public string? TableLevelSharingProperties { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

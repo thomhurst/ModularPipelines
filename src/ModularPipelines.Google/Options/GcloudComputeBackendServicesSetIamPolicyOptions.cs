@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "backend-services", "set-iam-policy")]
+[CliCommand("compute", "backend-services", "set-iam-policy")]
 public record GcloudComputeBackendServicesSetIamPolicyOptions(
-[property: PositionalArgument] string BackendServiceName,
-[property: PositionalArgument] string PolicyFile
+[property: CliArgument] string BackendServiceName,
+[property: CliArgument] string PolicyFile
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

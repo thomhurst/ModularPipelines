@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "repair", "run")]
+[CliCommand("vm", "repair", "run")]
 public record AzVmRepairRunOptions : AzOptions
 {
-    [CommandSwitch("--custom-script-file")]
+    [CliOption("--custom-script-file")]
     public string? CustomScriptFile { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--preview")]
+    [CliOption("--preview")]
     public string? Preview { get; set; }
 
-    [CommandSwitch("--repair-vm-id")]
+    [CliOption("--repair-vm-id")]
     public string? RepairVmId { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--run-id")]
+    [CliOption("--run-id")]
     public string? RunId { get; set; }
 
-    [BooleanCommandSwitch("--run-on-repair")]
+    [CliFlag("--run-on-repair")]
     public bool? RunOnRepair { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

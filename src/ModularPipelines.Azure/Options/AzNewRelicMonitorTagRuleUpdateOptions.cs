@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("new-relic", "monitor", "tag-rule", "update")]
+[CliCommand("new-relic", "monitor", "tag-rule", "update")]
 public record AzNewRelicMonitorTagRuleUpdateOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--log-rules")]
+    [CliOption("--log-rules")]
     public string? LogRules { get; set; }
 
-    [CommandSwitch("--metric-rules")]
+    [CliOption("--metric-rules")]
     public string? MetricRules { get; set; }
 
-    [CommandSwitch("--monitor-name")]
+    [CliOption("--monitor-name")]
     public string? MonitorName { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workforce-pools", "providers", "keys", "create")]
+[CliCommand("iam", "workforce-pools", "providers", "keys", "create")]
 public record GcloudIamWorkforcePoolsProvidersKeysCreateOptions(
-[property: PositionalArgument] string Key,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Provider,
-[property: PositionalArgument] string WorkforcePool,
-[property: CommandSwitch("--spec")] string Spec,
-[property: CommandSwitch("--use")] string Use
+[property: CliArgument] string Key,
+[property: CliArgument] string Location,
+[property: CliArgument] string Provider,
+[property: CliArgument] string WorkforcePool,
+[property: CliOption("--spec")] string Spec,
+[property: CliOption("--use")] string Use
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

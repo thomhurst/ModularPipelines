@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-groups", "delete-group")]
+[CliCommand("resource-groups", "delete-group")]
 public record AwsResourceGroupsDeleteGroupOptions : AwsOptions
 {
-    [CommandSwitch("--group-name")]
+    [CliOption("--group-name")]
     public string? GroupName { get; set; }
 
-    [CommandSwitch("--group")]
+    [CliOption("--group")]
     public string? Group { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

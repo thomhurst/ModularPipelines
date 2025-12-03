@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "volume", "replication", "approve")]
+[CliCommand("netappfiles", "volume", "replication", "approve")]
 public record AzNetappfilesVolumeReplicationApproveOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--pool-name")] string PoolName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--pool-name")] string PoolName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remote-volume-resource-id")]
+    [CliOption("--remote-volume-resource-id")]
     public string? RemoteVolumeResourceId { get; set; }
 }

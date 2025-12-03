@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "node")]
+[CliCommand("batch", "node")]
 public class AzBatchNodeServiceLogs
 {
     public AzBatchNodeServiceLogs(

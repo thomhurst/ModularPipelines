@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("login")]
+[CliCommand("login")]
 public record AzLoginOptions : AzOptions
 {
-    [BooleanCommandSwitch("--allow-no-subscriptions")]
+    [CliFlag("--allow-no-subscriptions")]
     public bool? AllowNoSubscriptions { get; set; }
 
-    [CommandSwitch("--federated-token")]
+    [CliOption("--federated-token")]
     public string? FederatedToken { get; set; }
 
-    [BooleanCommandSwitch("--identity")]
+    [CliFlag("--identity")]
     public bool? Identity { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--service-principal")]
+    [CliOption("--service-principal")]
     public string? ServicePrincipal { get; set; }
 
-    [CommandSwitch("--tenant")]
+    [CliOption("--tenant")]
     public string? Tenant { get; set; }
 
-    [BooleanCommandSwitch("--use-cert-sn-issuer")]
+    [CliFlag("--use-cert-sn-issuer")]
     public bool? UseCertSnIssuer { get; set; }
 
-    [BooleanCommandSwitch("--use-device-code")]
+    [CliFlag("--use-device-code")]
     public bool? UseDeviceCode { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 }

@@ -4,63 +4,63 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "server", "ms-support", "audit-policy", "update")]
+[CliCommand("sql", "server", "ms-support", "audit-policy", "update")]
 public record AzSqlServerMsSupportAuditPolicyUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--blob-storage-target-state")]
+    [CliOption("--blob-storage-target-state")]
     public string? BlobStorageTargetState { get; set; }
 
-    [CommandSwitch("--eh")]
+    [CliOption("--eh")]
     public string? Eh { get; set; }
 
-    [CommandSwitch("--ehari")]
+    [CliOption("--ehari")]
     public string? Ehari { get; set; }
 
-    [CommandSwitch("--ehts")]
+    [CliOption("--ehts")]
     public string? Ehts { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--lats")]
+    [CliOption("--lats")]
     public string? Lats { get; set; }
 
-    [CommandSwitch("--lawri")]
+    [CliOption("--lawri")]
     public string? Lawri { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--storage-account")]
+    [CliOption("--storage-account")]
     public int? StorageAccount { get; set; }
 
-    [CommandSwitch("--storage-endpoint")]
+    [CliOption("--storage-endpoint")]
     public string? StorageEndpoint { get; set; }
 
-    [CommandSwitch("--storage-key")]
+    [CliOption("--storage-key")]
     public string? StorageKey { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

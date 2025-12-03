@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "gremlin", "retrieve-latest-backup-time")]
+[CliCommand("cosmosdb", "gremlin", "retrieve-latest-backup-time")]
 public record AzCosmosdbGremlinRetrieveLatestBackupTimeOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--graph-name")] string GraphName,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--graph-name")] string GraphName,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

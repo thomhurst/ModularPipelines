@@ -4,84 +4,84 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "blob", "download")]
+[CliCommand("storage", "blob", "download")]
 public record AzStorageBlobDownloadOptions : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--blob-endpoint")]
+    [CliOption("--blob-endpoint")]
     public string? BlobEndpoint { get; set; }
 
-    [CommandSwitch("--blob-url")]
+    [CliOption("--blob-url")]
     public string? BlobUrl { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--container-name")]
+    [CliOption("--container-name")]
     public string? ContainerName { get; set; }
 
-    [CommandSwitch("--end-range")]
+    [CliOption("--end-range")]
     public string? EndRange { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--if-modified-since")]
+    [CliOption("--if-modified-since")]
     public string? IfModifiedSince { get; set; }
 
-    [CommandSwitch("--if-none-match")]
+    [CliOption("--if-none-match")]
     public string? IfNoneMatch { get; set; }
 
-    [CommandSwitch("--if-unmodified-since")]
+    [CliOption("--if-unmodified-since")]
     public string? IfUnmodifiedSince { get; set; }
 
-    [CommandSwitch("--lease-id")]
+    [CliOption("--lease-id")]
     public string? LeaseId { get; set; }
 
-    [CommandSwitch("--max-connections")]
+    [CliOption("--max-connections")]
     public string? MaxConnections { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-progress")]
+    [CliFlag("--no-progress")]
     public bool? NoProgress { get; set; }
 
-    [CommandSwitch("--open-mode")]
+    [CliOption("--open-mode")]
     public string? OpenMode { get; set; }
 
-    [BooleanCommandSwitch("--overwrite")]
+    [CliFlag("--overwrite")]
     public bool? Overwrite { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--snapshot")]
+    [CliOption("--snapshot")]
     public string? Snapshot { get; set; }
 
-    [CommandSwitch("--start-range")]
+    [CliOption("--start-range")]
     public string? StartRange { get; set; }
 
-    [CommandSwitch("--tags-condition")]
+    [CliOption("--tags-condition")]
     public string? TagsCondition { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [BooleanCommandSwitch("--validate-content")]
+    [CliFlag("--validate-content")]
     public bool? ValidateContent { get; set; }
 
-    [CommandSwitch("--version-id")]
+    [CliOption("--version-id")]
     public string? VersionId { get; set; }
 }

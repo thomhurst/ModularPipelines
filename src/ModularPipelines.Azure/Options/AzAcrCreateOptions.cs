@@ -4,43 +4,43 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "create")]
+[CliCommand("acr", "create")]
 public record AzAcrCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku")] string Sku
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sku")] string Sku
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--admin-enabled")]
+    [CliFlag("--admin-enabled")]
     public bool? AdminEnabled { get; set; }
 
-    [BooleanCommandSwitch("--allow-exports")]
+    [CliFlag("--allow-exports")]
     public bool? AllowExports { get; set; }
 
-    [BooleanCommandSwitch("--allow-trusted-services")]
+    [CliFlag("--allow-trusted-services")]
     public bool? AllowTrustedServices { get; set; }
 
-    [CommandSwitch("--default-action")]
+    [CliOption("--default-action")]
     public string? DefaultAction { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--key-encryption-key")]
+    [CliOption("--key-encryption-key")]
     public string? KeyEncryptionKey { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--public-network-enabled")]
+    [CliFlag("--public-network-enabled")]
     public bool? PublicNetworkEnabled { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public string? Workspace { get; set; }
 
-    [CommandSwitch("--zone-redundancy")]
+    [CliOption("--zone-redundancy")]
     public string? ZoneRedundancy { get; set; }
 }

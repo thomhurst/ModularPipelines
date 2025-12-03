@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qumulo", "storage", "file-system", "show")]
+[CliCommand("qumulo", "storage", "file-system", "show")]
 public record AzQumuloStorageFileSystemShowOptions : AzOptions
 {
-    [CommandSwitch("--file-system-name")]
+    [CliOption("--file-system-name")]
     public string? FileSystemName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

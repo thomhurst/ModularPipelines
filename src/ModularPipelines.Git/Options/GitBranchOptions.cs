@@ -3,109 +3,109 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("branch")]
+[CliCommand("branch")]
 [ExcludeFromCodeCoverage]
 public record GitBranchOptions : GitOptions
 {
-    [BooleanCommandSwitch("--delete")]
+    [CliFlag("--delete")]
     public virtual bool? Delete { get; set; }
 
-    [BooleanCommandSwitch("--create-reflog")]
+    [CliFlag("--create-reflog")]
     public virtual bool? CreateReflog { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--move")]
+    [CliFlag("--move")]
     public virtual bool? Move { get; set; }
 
-    [BooleanCommandSwitch("--c")]
+    [CliFlag("--c")]
     public virtual bool? C { get; set; }
 
-    [BooleanCommandSwitch("--copy")]
+    [CliFlag("--copy")]
     public virtual bool? Copy { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--color")]
+    [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
     public string? Color { get; set; }
 
-    [BooleanCommandSwitch("--no-color")]
+    [CliFlag("--no-color")]
     public virtual bool? NoColor { get; set; }
 
-    [BooleanCommandSwitch("--ignore-case")]
+    [CliFlag("--ignore-case")]
     public virtual bool? IgnoreCase { get; set; }
 
-    [BooleanCommandSwitch("--omit-empty")]
+    [CliFlag("--omit-empty")]
     public virtual bool? OmitEmpty { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--column")]
+    [CliOption("--column", Format = OptionFormat.EqualsSeparated)]
     public string? Column { get; set; }
 
-    [BooleanCommandSwitch("--no-column")]
+    [CliFlag("--no-column")]
     public virtual bool? NoColumn { get; set; }
 
-    [BooleanCommandSwitch("--remotes")]
+    [CliFlag("--remotes")]
     public virtual bool? Remotes { get; set; }
 
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--list")]
+    [CliFlag("--list")]
     public virtual bool? List { get; set; }
 
-    [BooleanCommandSwitch("--show-current")]
+    [CliFlag("--show-current")]
     public virtual bool? ShowCurrent { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--abbrev")]
+    [CliOption("--abbrev", Format = OptionFormat.EqualsSeparated)]
     public string? Abbrev { get; set; }
 
-    [BooleanCommandSwitch("--no-abbrev")]
+    [CliFlag("--no-abbrev")]
     public virtual bool? NoAbbrev { get; set; }
 
-    [BooleanCommandSwitch("--track")]
+    [CliFlag("--track")]
     public virtual bool? Track { get; set; }
 
-    [BooleanCommandSwitch("--no-track")]
+    [CliFlag("--no-track")]
     public virtual bool? NoTrack { get; set; }
 
-    [BooleanCommandSwitch("--recurse-submodules")]
+    [CliFlag("--recurse-submodules")]
     public virtual bool? RecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("--set-upstream")]
+    [CliFlag("--set-upstream")]
     public virtual bool? SetUpstream { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--set-upstream-to")]
+    [CliOption("--set-upstream-to", Format = OptionFormat.EqualsSeparated)]
     public string? SetUpstreamTo { get; set; }
 
-    [BooleanCommandSwitch("--unset-upstream")]
+    [CliFlag("--unset-upstream")]
     public virtual bool? UnsetUpstream { get; set; }
 
-    [BooleanCommandSwitch("--edit-description")]
+    [CliFlag("--edit-description")]
     public virtual bool? EditDescription { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--contains")]
+    [CliOption("--contains", Format = OptionFormat.EqualsSeparated)]
     public string? Contains { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--no-contains")]
+    [CliOption("--no-contains", Format = OptionFormat.EqualsSeparated)]
     public string? NoContains { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--merged")]
+    [CliOption("--merged", Format = OptionFormat.EqualsSeparated)]
     public string? Merged { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--no-merged")]
+    [CliOption("--no-merged", Format = OptionFormat.EqualsSeparated)]
     public string? NoMerged { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--sort")]
+    [CliOption("--sort", Format = OptionFormat.EqualsSeparated)]
     public string? Sort { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--points-at")]
+    [CliOption("--points-at", Format = OptionFormat.EqualsSeparated)]
     public string? PointsAt { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--format")]
+    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 }

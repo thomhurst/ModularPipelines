@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("timestream-write", "create-database")]
+[CliCommand("timestream-write", "create-database")]
 public record AwsTimestreamWriteCreateDatabaseOptions(
-[property: CommandSwitch("--database-name")] string DatabaseName
+[property: CliOption("--database-name")] string DatabaseName
 ) : AwsOptions
 {
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

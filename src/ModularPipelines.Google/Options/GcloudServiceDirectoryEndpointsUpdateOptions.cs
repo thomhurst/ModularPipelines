@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("service-directory", "endpoints", "update")]
+[CliCommand("service-directory", "endpoints", "update")]
 public record GcloudServiceDirectoryEndpointsUpdateOptions(
-[property: PositionalArgument] string Endpoint,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Namespace,
-[property: PositionalArgument] string Service
+[property: CliArgument] string Endpoint,
+[property: CliArgument] string Location,
+[property: CliArgument] string Namespace,
+[property: CliArgument] string Service
 ) : GcloudOptions
 {
-    [CommandSwitch("--address")]
+    [CliOption("--address")]
     public string? Address { get; set; }
 
-    [CommandSwitch("--annotations")]
+    [CliOption("--annotations")]
     public IEnumerable<KeyValue>? Annotations { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public string? Port { get; set; }
 }

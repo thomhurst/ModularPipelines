@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "roles", "list")]
+[CliCommand("iam", "roles", "list")]
 public record GcloudIamRolesListOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--show-deleted")]
+    [CliFlag("--show-deleted")]
     public bool? ShowDeleted { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public new string? Project { get; set; }
 }

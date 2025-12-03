@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "backup-instance", "initialize-restoreconfig")]
+[CliCommand("dataprotection", "backup-instance", "initialize-restoreconfig")]
 public record AzDataprotectionBackupInstanceInitializeRestoreconfigOptions(
-[property: CommandSwitch("--datasource-type")] string DatasourceType
+[property: CliOption("--datasource-type")] string DatasourceType
 ) : AzOptions
 {
-    [CommandSwitch("--conflict-policy")]
+    [CliOption("--conflict-policy")]
     public string? ConflictPolicy { get; set; }
 
-    [CommandSwitch("--excluded-namespaces")]
+    [CliOption("--excluded-namespaces")]
     public string? ExcludedNamespaces { get; set; }
 
-    [CommandSwitch("--excluded-resource-type")]
+    [CliOption("--excluded-resource-type")]
     public string? ExcludedResourceType { get; set; }
 
-    [BooleanCommandSwitch("--include-cluster-scope")]
+    [CliFlag("--include-cluster-scope")]
     public bool? IncludeClusterScope { get; set; }
 
-    [CommandSwitch("--included-namespaces")]
+    [CliOption("--included-namespaces")]
     public string? IncludedNamespaces { get; set; }
 
-    [CommandSwitch("--included-resource-type")]
+    [CliOption("--included-resource-type")]
     public string? IncludedResourceType { get; set; }
 
-    [CommandSwitch("--label-selectors")]
+    [CliOption("--label-selectors")]
     public string? LabelSelectors { get; set; }
 
-    [CommandSwitch("--namespace-mappings")]
+    [CliOption("--namespace-mappings")]
     public string? NamespaceMappings { get; set; }
 
-    [CommandSwitch("--persistent-restoremode")]
+    [CliOption("--persistent-restoremode")]
     public string? PersistentRestoremode { get; set; }
 
-    [CommandSwitch("--restore-hook-references")]
+    [CliOption("--restore-hook-references")]
     public string? RestoreHookReferences { get; set; }
 }

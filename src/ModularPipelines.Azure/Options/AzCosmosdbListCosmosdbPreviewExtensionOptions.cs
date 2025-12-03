@@ -7,6 +7,6 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("cosmosdb", "list", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbListCosmosdbPreviewExtensionOptions : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

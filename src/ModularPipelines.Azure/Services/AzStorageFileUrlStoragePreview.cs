@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "file", "url")]
+[CliCommand("storage", "file", "url")]
 public class AzStorageFileUrlStoragePreview
 {
     public AzStorageFileUrlStoragePreview(

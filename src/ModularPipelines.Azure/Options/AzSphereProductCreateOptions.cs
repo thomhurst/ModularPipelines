@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "product", "create")]
+[CliCommand("sphere", "product", "create")]
 public record AzSphereProductCreateOptions(
-[property: CommandSwitch("--catalog")] string Catalog,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--catalog")] string Catalog,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

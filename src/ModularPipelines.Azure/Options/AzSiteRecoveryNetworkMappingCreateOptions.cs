@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("site-recovery", "network", "mapping", "create")]
+[CliCommand("site-recovery", "network", "mapping", "create")]
 public record AzSiteRecoveryNetworkMappingCreateOptions(
-[property: CommandSwitch("--fabric-name")] string FabricName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--network-name")] string NetworkName,
-[property: CommandSwitch("--recovery-network-id")] string RecoveryNetworkId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--fabric-name")] string FabricName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--network-name")] string NetworkName,
+[property: CliOption("--recovery-network-id")] string RecoveryNetworkId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [CommandSwitch("--fabric-details")]
+    [CliOption("--fabric-details")]
     public string? FabricDetails { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--recovery-fabric-name")]
+    [CliOption("--recovery-fabric-name")]
     public string? RecoveryFabricName { get; set; }
 }

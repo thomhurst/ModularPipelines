@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datastore", "indexes", "create")]
+[CliCommand("datastore", "indexes", "create")]
 public record GcloudDatastoreIndexesCreateOptions(
-[property: PositionalArgument] string IndexFile
+[property: CliArgument] string IndexFile
 ) : GcloudOptions
 {
-    [CommandSwitch("--database")]
+    [CliOption("--database")]
     public string? Database { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "bookmark")]
+[CliCommand("sentinel", "bookmark")]
 public class AzSentinelBookmarkRelation
 {
     public AzSentinelBookmarkRelation(

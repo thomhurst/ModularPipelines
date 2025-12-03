@@ -27,9 +27,9 @@ public record DotNetRemovePackageOptions : DotNetOptions
         PackageName = packageName;
     }
 
-    [PositionalArgument(PlaceholderName = "[<PROJECT>]")]
+    [CliArgument(Name = "[<PROJECT>]")]
     public string? Project { get; set; }
 
-    [PositionalArgument(PlaceholderName = "<PACKAGE_NAME>")]
+    [CliArgument(Name = "<PACKAGE_NAME>")]
     public string? PackageName { get; set; }
 }

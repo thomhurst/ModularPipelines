@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "job", "list")]
+[CliCommand("ams", "job", "list")]
 public record AzAmsJobListOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--transform-name")] string TransformName
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--transform-name")] string TransformName
 ) : AzOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--orderby")]
+    [CliOption("--orderby")]
     public string? Orderby { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-connectivity", "internal-ranges", "delete")]
+[CliCommand("network-connectivity", "internal-ranges", "delete")]
 public record GcloudNetworkConnectivityInternalRangesDeleteOptions(
-[property: PositionalArgument] string InternalRange,
-[property: PositionalArgument] string Region
+[property: CliArgument] string InternalRange,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

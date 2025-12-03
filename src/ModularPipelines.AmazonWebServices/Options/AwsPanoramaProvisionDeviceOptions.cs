@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("panorama", "provision-device")]
+[CliCommand("panorama", "provision-device")]
 public record AwsPanoramaProvisionDeviceOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--networking-configuration")]
+    [CliOption("--networking-configuration")]
     public string? NetworkingConfiguration { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

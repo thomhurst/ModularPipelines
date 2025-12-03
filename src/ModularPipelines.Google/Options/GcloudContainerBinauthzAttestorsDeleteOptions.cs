@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "binauthz", "attestors", "delete")]
+[CliCommand("container", "binauthz", "attestors", "delete")]
 public record GcloudContainerBinauthzAttestorsDeleteOptions(
-[property: PositionalArgument] string Attestor
+[property: CliArgument] string Attestor
 ) : GcloudOptions;

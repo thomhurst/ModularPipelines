@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr")]
+[CliCommand("acr")]
 public class AzAcrPrivateEndpointConnection
 {
     public AzAcrPrivateEndpointConnection(

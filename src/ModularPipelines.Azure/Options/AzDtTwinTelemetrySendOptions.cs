@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "twin", "telemetry", "send")]
+[CliCommand("dt", "twin", "telemetry", "send")]
 public record AzDtTwinTelemetrySendOptions(
-[property: CommandSwitch("--dt-name")] string DtName,
-[property: CommandSwitch("--twin-id")] string TwinId
+[property: CliOption("--dt-name")] string DtName,
+[property: CliOption("--twin-id")] string TwinId
 ) : AzOptions
 {
-    [CommandSwitch("--component")]
+    [CliOption("--component")]
     public string? Component { get; set; }
 
-    [CommandSwitch("--dt-id")]
+    [CliOption("--dt-id")]
     public string? DtId { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--telemetry")]
+    [CliOption("--telemetry")]
     public string? Telemetry { get; set; }
 
-    [CommandSwitch("--telemetry-source-time")]
+    [CliOption("--telemetry-source-time")]
     public string? TelemetrySourceTime { get; set; }
 }

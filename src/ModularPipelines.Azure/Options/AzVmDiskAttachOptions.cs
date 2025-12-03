@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "disk", "attach")]
+[CliCommand("vm", "disk", "attach")]
 public record AzVmDiskAttachOptions(
-[property: CommandSwitch("--vm-name")] string VmName
+[property: CliOption("--vm-name")] string VmName
 ) : AzOptions
 {
-    [CommandSwitch("--caching")]
+    [CliOption("--caching")]
     public string? Caching { get; set; }
 
-    [CommandSwitch("--disks")]
+    [CliOption("--disks")]
     public string? Disks { get; set; }
 
-    [BooleanCommandSwitch("--enable-write-accelerator")]
+    [CliFlag("--enable-write-accelerator")]
     public bool? EnableWriteAccelerator { get; set; }
 
-    [CommandSwitch("--lun")]
+    [CliOption("--lun")]
     public string? Lun { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--new")]
+    [CliFlag("--new")]
     public bool? New { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--size-gb")]
+    [CliOption("--size-gb")]
     public string? SizeGb { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

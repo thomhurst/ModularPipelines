@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing-benefits", "savings-plan-order-aliases", "wait")]
+[CliCommand("billing-benefits", "savings-plan-order-aliases", "wait")]
 public record AzBillingBenefitsSavingsPlanOrderAliasesWaitOptions(
-[property: CommandSwitch("--order-alias-name")] string OrderAliasName
+[property: CliOption("--order-alias-name")] string OrderAliasName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--created")]
+    [CliFlag("--created")]
     public bool? Created { get; set; }
 
-    [CommandSwitch("--custom")]
+    [CliOption("--custom")]
     public string? Custom { get; set; }
 
-    [BooleanCommandSwitch("--deleted")]
+    [CliFlag("--deleted")]
     public bool? Deleted { get; set; }
 
-    [BooleanCommandSwitch("--exists")]
+    [CliFlag("--exists")]
     public bool? Exists { get; set; }
 
-    [CommandSwitch("--interval")]
+    [CliOption("--interval")]
     public int? Interval { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [BooleanCommandSwitch("--updated")]
+    [CliFlag("--updated")]
     public bool? Updated { get; set; }
 }

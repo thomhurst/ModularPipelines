@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "job", "list")]
+[CliCommand("backup", "job", "list")]
 public record AzBackupJobListOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [CommandSwitch("--backup-management-type")]
+    [CliOption("--backup-management-type")]
     public string? BackupManagementType { get; set; }
 
-    [CommandSwitch("--end-date")]
+    [CliOption("--end-date")]
     public string? EndDate { get; set; }
 
-    [CommandSwitch("--operation")]
+    [CliOption("--operation")]
     public string? Operation { get; set; }
 
-    [CommandSwitch("--start-date")]
+    [CliOption("--start-date")]
     public string? StartDate { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [BooleanCommandSwitch("--use-secondary-region")]
+    [CliFlag("--use-secondary-region")]
     public bool? UseSecondaryRegion { get; set; }
 }

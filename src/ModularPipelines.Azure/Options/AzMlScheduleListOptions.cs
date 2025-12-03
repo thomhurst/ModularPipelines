@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "schedule", "list")]
+[CliCommand("ml", "schedule", "list")]
 public record AzMlScheduleListOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--disabled-only")]
+    [CliFlag("--disabled-only")]
     public bool? DisabledOnly { get; set; }
 
-    [BooleanCommandSwitch("--include-disabled")]
+    [CliFlag("--include-disabled")]
     public bool? IncludeDisabled { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public string? MaxResults { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

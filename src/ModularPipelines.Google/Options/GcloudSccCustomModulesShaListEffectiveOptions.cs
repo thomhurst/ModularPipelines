@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scc", "custom-modules", "sha", "list-effective")]
+[CliCommand("scc", "custom-modules", "sha", "list-effective")]
 public record GcloudSccCustomModulesShaListEffectiveOptions : GcloudOptions
 {
     public GcloudSccCustomModulesShaListEffectiveOptions(
@@ -18,9 +18,9 @@ public record GcloudSccCustomModulesShaListEffectiveOptions : GcloudOptions
         Project = project;
     }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 }

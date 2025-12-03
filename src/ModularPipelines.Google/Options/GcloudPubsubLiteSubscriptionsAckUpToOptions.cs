@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "lite-subscriptions", "ack-up-to")]
+[CliCommand("pubsub", "lite-subscriptions", "ack-up-to")]
 public record GcloudPubsubLiteSubscriptionsAckUpToOptions(
-[property: PositionalArgument] string Subscription,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--offset")] string Offset,
-[property: CommandSwitch("--partition")] string Partition
+[property: CliArgument] string Subscription,
+[property: CliArgument] string Location,
+[property: CliOption("--offset")] string Offset,
+[property: CliOption("--partition")] string Partition
 ) : GcloudOptions;

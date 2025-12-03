@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "attached", "clusters", "import")]
+[CliCommand("container", "attached", "clusters", "import")]
 public record GcloudContainerAttachedClustersImportOptions(
-[property: CommandSwitch("--distribution")] string Distribution,
-[property: CommandSwitch("--platform-version")] string PlatformVersion,
-[property: CommandSwitch("--context")] string Context,
-[property: CommandSwitch("--kubeconfig")] string Kubeconfig,
-[property: CommandSwitch("--fleet-membership")] string FleetMembership,
-[property: CommandSwitch("--fleet-membership-location")] string FleetMembershipLocation
+[property: CliOption("--distribution")] string Distribution,
+[property: CliOption("--platform-version")] string PlatformVersion,
+[property: CliOption("--context")] string Context,
+[property: CliOption("--kubeconfig")] string Kubeconfig,
+[property: CliOption("--fleet-membership")] string FleetMembership,
+[property: CliOption("--fleet-membership-location")] string FleetMembershipLocation
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--proxy-secret-name")]
+    [CliOption("--proxy-secret-name")]
     public string? ProxySecretName { get; set; }
 
-    [CommandSwitch("--proxy-secret-namespace")]
+    [CliOption("--proxy-secret-namespace")]
     public string? ProxySecretNamespace { get; set; }
 }

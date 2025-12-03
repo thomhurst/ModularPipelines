@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stars")]
+[CliCommand("stars")]
 public record NpmStarsOptions : NpmOptions
 {
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string? User { get; set; }
 }

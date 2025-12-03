@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint-sms-voice-v2", "list-registration-associations")]
+[CliCommand("pinpoint-sms-voice-v2", "list-registration-associations")]
 public record AwsPinpointSmsVoiceV2ListRegistrationAssociationsOptions(
-[property: CommandSwitch("--registration-id")] string RegistrationId
+[property: CliOption("--registration-id")] string RegistrationId
 ) : AwsOptions
 {
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

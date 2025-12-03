@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "delete-db-cluster")]
+[CliCommand("rds", "delete-db-cluster")]
 public record AwsRdsDeleteDbClusterOptions(
-[property: CommandSwitch("--db-cluster-identifier")] string DbClusterIdentifier
+[property: CliOption("--db-cluster-identifier")] string DbClusterIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--final-db-snapshot-identifier")]
+    [CliOption("--final-db-snapshot-identifier")]
     public string? FinalDbSnapshotIdentifier { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

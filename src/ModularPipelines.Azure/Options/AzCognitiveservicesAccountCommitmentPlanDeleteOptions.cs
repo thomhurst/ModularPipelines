@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognitiveservices", "account", "commitment-plan", "delete")]
+[CliCommand("cognitiveservices", "account", "commitment-plan", "delete")]
 public record AzCognitiveservicesAccountCommitmentPlanDeleteOptions(
-[property: CommandSwitch("--commitment-plan-name")] string CommitmentPlanName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--commitment-plan-name")] string CommitmentPlanName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

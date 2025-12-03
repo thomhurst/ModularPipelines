@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication", "identity", "assign")]
+[CliCommand("communication", "identity", "assign")]
 public record AzCommunicationIdentityAssignOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--system-assigned")]
+    [CliFlag("--system-assigned")]
     public bool? SystemAssigned { get; set; }
 
-    [CommandSwitch("--user-assigned")]
+    [CliOption("--user-assigned")]
     public string? UserAssigned { get; set; }
 }

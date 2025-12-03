@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "task", "subtask", "list")]
+[CliCommand("batch", "task", "subtask", "list")]
 public record AzBatchTaskSubtaskListOptions(
-[property: CommandSwitch("--job-id")] string JobId,
-[property: CommandSwitch("--task-id")] string TaskId
+[property: CliOption("--job-id")] string JobId,
+[property: CliOption("--task-id")] string TaskId
 ) : AzOptions
 {
-    [CommandSwitch("--account-endpoint")]
+    [CliOption("--account-endpoint")]
     public int? AccountEndpoint { get; set; }
 
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--select")]
+    [CliOption("--select")]
     public string? Select { get; set; }
 }

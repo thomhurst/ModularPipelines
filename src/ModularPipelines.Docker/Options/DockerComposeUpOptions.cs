@@ -3,82 +3,82 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "up")]
+[CliCommand("compose", "up")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeUpOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Service { get; set; }
 
-    [BooleanCommandSwitch("--abort-on-container-exit")]
+    [CliFlag("--abort-on-container-exit")]
     public virtual bool? AbortOnContainerExit { get; set; }
 
-    [BooleanCommandSwitch("--always-recreate-deps")]
+    [CliFlag("--always-recreate-deps")]
     public virtual bool? AlwaysRecreateDeps { get; set; }
 
-    [BooleanCommandSwitch("--attach")]
+    [CliFlag("--attach")]
     public virtual bool? Attach { get; set; }
 
-    [CommandSwitch("--attach-dependencies")]
+    [CliOption("--attach-dependencies")]
     public virtual string? AttachDependencies { get; set; }
 
-    [BooleanCommandSwitch("--build")]
+    [CliFlag("--build")]
     public virtual bool? Build { get; set; }
 
-    [BooleanCommandSwitch("--detach")]
+    [CliFlag("--detach")]
     public virtual bool? Detach { get; set; }
 
-    [CommandSwitch("--exit-code-from")]
+    [CliOption("--exit-code-from")]
     public virtual string? ExitCodeFrom { get; set; }
 
-    [BooleanCommandSwitch("--force-recreate")]
+    [CliFlag("--force-recreate")]
     public virtual bool? ForceRecreate { get; set; }
 
-    [CommandSwitch("--no-attach")]
+    [CliOption("--no-attach")]
     public virtual string? NoAttach { get; set; }
 
-    [BooleanCommandSwitch("--no-build")]
+    [CliFlag("--no-build")]
     public virtual bool? NoBuild { get; set; }
 
-    [BooleanCommandSwitch("--no-color")]
+    [CliFlag("--no-color")]
     public virtual bool? NoColor { get; set; }
 
-    [BooleanCommandSwitch("--no-deps")]
+    [CliFlag("--no-deps")]
     public virtual bool? NoDeps { get; set; }
 
-    [CommandSwitch("--no-log-prefix")]
+    [CliOption("--no-log-prefix")]
     public virtual string? NoLogPrefix { get; set; }
 
-    [BooleanCommandSwitch("--no-recreate")]
+    [CliFlag("--no-recreate")]
     public virtual bool? NoRecreate { get; set; }
 
-    [BooleanCommandSwitch("--no-start")]
+    [CliFlag("--no-start")]
     public virtual bool? NoStart { get; set; }
 
-    [BooleanCommandSwitch("--pull")]
+    [CliFlag("--pull")]
     public virtual bool? Pull { get; set; }
 
-    [BooleanCommandSwitch("--quiet-pull")]
+    [CliFlag("--quiet-pull")]
     public virtual bool? QuietPull { get; set; }
 
-    [BooleanCommandSwitch("--remove-orphans")]
+    [CliFlag("--remove-orphans")]
     public virtual bool? RemoveOrphans { get; set; }
 
-    [BooleanCommandSwitch("--renew-anon-volumes")]
+    [CliFlag("--renew-anon-volumes")]
     public virtual bool? RenewAnonVolumes { get; set; }
 
-    [CommandSwitch("--scale")]
+    [CliOption("--scale")]
     public virtual string? Scale { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public virtual string? Timeout { get; set; }
 
-    [BooleanCommandSwitch("--timestamps")]
+    [CliFlag("--timestamps")]
     public virtual bool? Timestamps { get; set; }
 
-    [BooleanCommandSwitch("--wait")]
+    [CliFlag("--wait")]
     public virtual bool? Wait { get; set; }
 
-    [CommandSwitch("--wait-timeout")]
+    [CliOption("--wait-timeout")]
     public virtual string? WaitTimeout { get; set; }
 }

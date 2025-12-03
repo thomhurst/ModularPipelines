@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "ops", "mq", "stats")]
+[CliCommand("iot", "ops", "mq", "stats")]
 public record AzIotOpsMqStatsOptions : AzOptions
 {
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public string? Context { get; set; }
 
-    [CommandSwitch("--metrics-port")]
+    [CliOption("--metrics-port")]
     public string? MetricsPort { get; set; }
 
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--protobuf-port")]
+    [CliOption("--protobuf-port")]
     public string? ProtobufPort { get; set; }
 
-    [BooleanCommandSwitch("--raw")]
+    [CliFlag("--raw")]
     public bool? Raw { get; set; }
 
-    [CommandSwitch("--refresh")]
+    [CliOption("--refresh")]
     public string? Refresh { get; set; }
 
-    [CommandSwitch("--trace-dir")]
+    [CliOption("--trace-dir")]
     public string? TraceDir { get; set; }
 
-    [CommandSwitch("--trace-ids")]
+    [CliOption("--trace-ids")]
     public string? TraceIds { get; set; }
 
-    [BooleanCommandSwitch("--watch")]
+    [CliFlag("--watch")]
     public bool? Watch { get; set; }
 }

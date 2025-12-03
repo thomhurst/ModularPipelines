@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amlfs", "get-subnets-size")]
+[CliCommand("amlfs", "get-subnets-size")]
 public record AzAmlfsGetSubnetsSizeOptions : AzOptions
 {
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--storage-capacity")]
+    [CliOption("--storage-capacity")]
     public string? StorageCapacity { get; set; }
 }

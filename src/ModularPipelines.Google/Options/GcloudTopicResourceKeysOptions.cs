@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("topic", "resource-keys")]
+[CliCommand("topic", "resource-keys")]
 public record GcloudTopicResourceKeysOptions : GcloudOptions;

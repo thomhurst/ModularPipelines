@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "kubernetescluster")]
+[CliCommand("networkcloud", "kubernetescluster")]
 public class AzNetworkcloudKubernetesclusterAgentpool
 {
     public AzNetworkcloudKubernetesclusterAgentpool(

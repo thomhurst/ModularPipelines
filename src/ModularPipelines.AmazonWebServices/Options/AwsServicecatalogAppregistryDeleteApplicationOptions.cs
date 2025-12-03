@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicecatalog-appregistry", "delete-application")]
+[CliCommand("servicecatalog-appregistry", "delete-application")]
 public record AwsServicecatalogAppregistryDeleteApplicationOptions(
-[property: CommandSwitch("--application")] string Application
+[property: CliOption("--application")] string Application
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "config")]
+[CliCommand("acr", "config")]
 public class AzAcrConfigAuthenticationAsArm
 {
     public AzAcrConfigAuthenticationAsArm(

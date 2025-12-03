@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker-geospatial", "list-earth-observation-jobs")]
+[CliCommand("sagemaker-geospatial", "list-earth-observation-jobs")]
 public record AwsSagemakerGeospatialListEarthObservationJobsOptions : AwsOptions
 {
-    [CommandSwitch("--sort-by")]
+    [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
-    [CommandSwitch("--sort-order")]
+    [CliOption("--sort-order")]
     public string? SortOrder { get; set; }
 
-    [CommandSwitch("--status-equals")]
+    [CliOption("--status-equals")]
     public string? StatusEquals { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

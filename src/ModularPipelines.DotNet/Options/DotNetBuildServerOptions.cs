@@ -3,16 +3,16 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("build-server", "shutdown")]
+[CliCommand("build-server", "shutdown")]
 [ExcludeFromCodeCoverage]
 public record DotNetBuildServerOptions : DotNetOptions
 {
-    [BooleanCommandSwitch("--msbuild")]
+    [CliFlag("--msbuild")]
     public virtual bool? Msbuild { get; set; }
 
-    [BooleanCommandSwitch("--razor")]
+    [CliFlag("--razor")]
     public virtual bool? Razor { get; set; }
 
-    [BooleanCommandSwitch("--vbcscompiler")]
+    [CliFlag("--vbcscompiler")]
     public virtual bool? Vbcscompiler { get; set; }
 }

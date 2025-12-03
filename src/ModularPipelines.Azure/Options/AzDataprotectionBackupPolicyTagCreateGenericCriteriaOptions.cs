@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "backup-policy", "tag", "create-generic-criteria")]
+[CliCommand("dataprotection", "backup-policy", "tag", "create-generic-criteria")]
 public record AzDataprotectionBackupPolicyTagCreateGenericCriteriaOptions : AzOptions
 {
-    [CommandSwitch("--days-of-month")]
+    [CliOption("--days-of-month")]
     public string? DaysOfMonth { get; set; }
 
-    [CommandSwitch("--days-of-week")]
+    [CliOption("--days-of-week")]
     public string? DaysOfWeek { get; set; }
 
-    [CommandSwitch("--months-of-year")]
+    [CliOption("--months-of-year")]
     public string? MonthsOfYear { get; set; }
 
-    [CommandSwitch("--weeks-of-month")]
+    [CliOption("--weeks-of-month")]
     public string? WeeksOfMonth { get; set; }
 }

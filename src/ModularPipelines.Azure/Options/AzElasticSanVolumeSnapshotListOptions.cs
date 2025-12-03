@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastic-san", "volume", "snapshot", "list")]
+[CliCommand("elastic-san", "volume", "snapshot", "list")]
 public record AzElasticSanVolumeSnapshotListOptions(
-[property: CommandSwitch("--elastic-san")] string ElasticSan,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--volume-group")] string VolumeGroup
+[property: CliOption("--elastic-san")] string ElasticSan,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--volume-group")] string VolumeGroup
 ) : AzOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute")]
+[CliCommand("compute")]
 public class GcloudComputeExternalVpnGateways
 {
     public GcloudComputeExternalVpnGateways(

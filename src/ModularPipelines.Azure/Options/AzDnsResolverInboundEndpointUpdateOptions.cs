@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns-resolver", "inbound-endpoint", "update")]
+[CliCommand("dns-resolver", "inbound-endpoint", "update")]
 public record AzDnsResolverInboundEndpointUpdateOptions : AzOptions
 {
-    [CommandSwitch("--dns-resolver-name")]
+    [CliOption("--dns-resolver-name")]
     public string? DnsResolverName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--inbound-endpoint-name")]
+    [CliOption("--inbound-endpoint-name")]
     public string? InboundEndpointName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

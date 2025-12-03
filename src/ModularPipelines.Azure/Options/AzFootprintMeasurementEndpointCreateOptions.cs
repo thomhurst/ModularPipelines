@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("footprint", "measurement-endpoint", "create")]
+[CliCommand("footprint", "measurement-endpoint", "create")]
 public record AzFootprintMeasurementEndpointCreateOptions(
-[property: CommandSwitch("--endpoint")] string Endpoint,
-[property: CommandSwitch("--measurement-endpoint-name")] string MeasurementEndpointName,
-[property: CommandSwitch("--measurement-type")] string MeasurementType,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--weight")] string Weight
+[property: CliOption("--endpoint")] string Endpoint,
+[property: CliOption("--measurement-endpoint-name")] string MeasurementEndpointName,
+[property: CliOption("--measurement-type")] string MeasurementType,
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--weight")] string Weight
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--end-time-utc")]
+    [CliOption("--end-time-utc")]
     public string? EndTimeUtc { get; set; }
 
-    [CommandSwitch("--experiment-id")]
+    [CliOption("--experiment-id")]
     public string? ExperimentId { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
-    [CommandSwitch("--object-path")]
+    [CliOption("--object-path")]
     public string? ObjectPath { get; set; }
 
-    [CommandSwitch("--sample-rate-cold")]
+    [CliOption("--sample-rate-cold")]
     public string? SampleRateCold { get; set; }
 
-    [CommandSwitch("--sample-rate-hot")]
+    [CliOption("--sample-rate-hot")]
     public string? SampleRateHot { get; set; }
 
-    [CommandSwitch("--sample-rate-warm")]
+    [CliOption("--sample-rate-warm")]
     public string? SampleRateWarm { get; set; }
 
-    [CommandSwitch("--start-time-utc")]
+    [CliOption("--start-time-utc")]
     public string? StartTimeUtc { get; set; }
 }

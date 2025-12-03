@@ -5,36 +5,36 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iap", "web", "remove-iam-policy-binding")]
+[CliCommand("iap", "web", "remove-iam-policy-binding")]
 public record GcloudIapWebRemoveIamPolicyBindingOptions(
-[property: CommandSwitch("--member")] string Member,
-[property: CommandSwitch("--role")] string Role
+[property: CliOption("--member")] string Member,
+[property: CliOption("--role")] string Role
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public bool? All { get; set; }
 
-    [CommandSwitch("--condition")]
+    [CliOption("--condition")]
     public IEnumerable<KeyValue>? Condition { get; set; }
 
-    [BooleanCommandSwitch("expression")]
+    [CliFlag("expression")]
     public bool? Expression { get; set; }
 
-    [BooleanCommandSwitch("title")]
+    [CliFlag("title")]
     public bool? Title { get; set; }
 
-    [BooleanCommandSwitch("description")]
+    [CliFlag("description")]
     public bool? Description { get; set; }
 
-    [CommandSwitch("--condition-from-file")]
+    [CliOption("--condition-from-file")]
     public string? ConditionFromFile { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string? Version { get; set; }
 }

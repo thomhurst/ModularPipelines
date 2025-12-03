@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auth", "activate-service-account")]
+[CliCommand("auth", "activate-service-account")]
 public record GcloudAuthActivateServiceAccountOptions : GcloudOptions
 {
     public GcloudAuthActivateServiceAccountOptions(
@@ -16,15 +16,15 @@ public record GcloudAuthActivateServiceAccountOptions : GcloudOptions
         KeyFile = keyFile;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudAuthActivateServiceAccountOptionsAccount { get; set; }
 
-    [CommandSwitch("--key-file")]
+    [CliOption("--key-file")]
     public string KeyFile { get; set; }
 
-    [CommandSwitch("--password-file")]
+    [CliOption("--password-file")]
     public string? PasswordFile { get; set; }
 
-    [BooleanCommandSwitch("--prompt-for-password")]
+    [CliFlag("--prompt-for-password")]
     public bool? PromptForPassword { get; set; }
 }

@@ -4,52 +4,52 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logicapp", "create")]
+[CliCommand("logicapp", "create")]
 public record AzLogicappCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-account")] int StorageAccount
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--storage-account")] int StorageAccount
 ) : AzOptions
 {
-    [CommandSwitch("--app-insights")]
+    [CliOption("--app-insights")]
     public string? AppInsights { get; set; }
 
-    [CommandSwitch("--app-insights-key")]
+    [CliOption("--app-insights-key")]
     public string? AppInsightsKey { get; set; }
 
-    [CommandSwitch("--deployment-container-image-name")]
+    [CliOption("--deployment-container-image-name")]
     public string? DeploymentContainerImageName { get; set; }
 
-    [CommandSwitch("--deployment-local-git")]
+    [CliOption("--deployment-local-git")]
     public string? DeploymentLocalGit { get; set; }
 
-    [CommandSwitch("--deployment-source-branch")]
+    [CliOption("--deployment-source-branch")]
     public string? DeploymentSourceBranch { get; set; }
 
-    [CommandSwitch("--deployment-source-url")]
+    [CliOption("--deployment-source-url")]
     public string? DeploymentSourceUrl { get; set; }
 
-    [BooleanCommandSwitch("--disable-app-insights")]
+    [CliFlag("--disable-app-insights")]
     public bool? DisableAppInsights { get; set; }
 
-    [CommandSwitch("--docker-registry-server-password")]
+    [CliOption("--docker-registry-server-password")]
     public string? DockerRegistryServerPassword { get; set; }
 
-    [CommandSwitch("--docker-registry-server-user")]
+    [CliOption("--docker-registry-server-user")]
     public string? DockerRegistryServerUser { get; set; }
 
-    [CommandSwitch("--functions-version")]
+    [CliOption("--functions-version")]
     public string? FunctionsVersion { get; set; }
 
-    [BooleanCommandSwitch("--https-only")]
+    [CliFlag("--https-only")]
     public bool? HttpsOnly { get; set; }
 
-    [CommandSwitch("--plan")]
+    [CliOption("--plan")]
     public string? Plan { get; set; }
 
-    [CommandSwitch("--runtime-version")]
+    [CliOption("--runtime-version")]
     public string? RuntimeVersion { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

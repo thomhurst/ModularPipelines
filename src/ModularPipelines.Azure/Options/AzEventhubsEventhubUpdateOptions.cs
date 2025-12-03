@@ -4,78 +4,78 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventhubs", "eventhub", "update")]
+[CliCommand("eventhubs", "eventhub", "update")]
 public record AzEventhubsEventhubUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--archive-name-format")]
+    [CliOption("--archive-name-format")]
     public string? ArchiveNameFormat { get; set; }
 
-    [CommandSwitch("--blob-container")]
+    [CliOption("--blob-container")]
     public string? BlobContainer { get; set; }
 
-    [CommandSwitch("--capture-interval")]
+    [CliOption("--capture-interval")]
     public string? CaptureInterval { get; set; }
 
-    [CommandSwitch("--capture-size-limit")]
+    [CliOption("--capture-size-limit")]
     public string? CaptureSizeLimit { get; set; }
 
-    [CommandSwitch("--cleanup-policy")]
+    [CliOption("--cleanup-policy")]
     public string? CleanupPolicy { get; set; }
 
-    [CommandSwitch("--destination-name")]
+    [CliOption("--destination-name")]
     public string? DestinationName { get; set; }
 
-    [BooleanCommandSwitch("--enable-capture")]
+    [CliFlag("--enable-capture")]
     public bool? EnableCapture { get; set; }
 
-    [CommandSwitch("--encoding")]
+    [CliOption("--encoding")]
     public string? Encoding { get; set; }
 
-    [CommandSwitch("--event-hub-name")]
+    [CliOption("--event-hub-name")]
     public string? EventHubName { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--namespace-name")]
+    [CliOption("--namespace-name")]
     public string? NamespaceName { get; set; }
 
-    [CommandSwitch("--partition-count")]
+    [CliOption("--partition-count")]
     public int? PartitionCount { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--retention-time")]
+    [CliOption("--retention-time")]
     public string? RetentionTime { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [BooleanCommandSwitch("--skip-empty-archives")]
+    [CliFlag("--skip-empty-archives")]
     public bool? SkipEmptyArchives { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--storage-account")]
+    [CliOption("--storage-account")]
     public int? StorageAccount { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tombstone-retention-time-in-hours")]
+    [CliOption("--tombstone-retention-time-in-hours")]
     public string? TombstoneRetentionTimeInHours { get; set; }
 }

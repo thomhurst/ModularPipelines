@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bot", "email", "create")]
+[CliCommand("bot", "email", "create")]
 public record AzBotEmailCreateOptions(
-[property: CommandSwitch("--email-address")] string EmailAddress,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--password")] string Password,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--email-address")] string EmailAddress,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--password")] string Password,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--add-disabled")]
+    [CliFlag("--add-disabled")]
     public bool? AddDisabled { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

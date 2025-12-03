@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("palo-alto", "cloudngfw", "local-rulestack", "certificate", "create")]
+[CliCommand("palo-alto", "cloudngfw", "local-rulestack", "certificate", "create")]
 public record AzPaloAltoCloudngfwLocalRulestackCertificateCreateOptions(
-[property: BooleanCommandSwitch("--certificate-self-signed")] bool CertificateSelfSigned,
-[property: CommandSwitch("--local-rulestack-name")] string LocalRulestackName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliFlag("--certificate-self-signed")] bool CertificateSelfSigned,
+[property: CliOption("--local-rulestack-name")] string LocalRulestackName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--audit-comment")]
+    [CliOption("--audit-comment")]
     public string? AuditComment { get; set; }
 
-    [CommandSwitch("--certificate-signer-id")]
+    [CliOption("--certificate-signer-id")]
     public string? CertificateSignerId { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

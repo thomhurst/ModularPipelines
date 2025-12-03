@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auth", "revoke")]
+[CliCommand("auth", "revoke")]
 public record GcloudAuthRevokeOptions(
-[property: PositionalArgument] string Accounts
+[property: CliArgument] string Accounts
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public bool? All { get; set; }
 }

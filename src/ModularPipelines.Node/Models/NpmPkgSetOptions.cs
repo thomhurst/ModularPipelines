@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pkg", "set")]
+[CliCommand("pkg", "set")]
 public record NpmPkgSetOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Value
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value
 ) : NpmOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public virtual string[]? Workspace { get; set; }
 
-    [BooleanCommandSwitch("--workspaces")]
+    [CliFlag("--workspaces")]
     public virtual bool? Workspaces { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string? Key { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string? Array { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string? Index { get; set; }
 }

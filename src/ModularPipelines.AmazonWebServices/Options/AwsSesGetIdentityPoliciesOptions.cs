@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ses", "get-identity-policies")]
+[CliCommand("ses", "get-identity-policies")]
 public record AwsSesGetIdentityPoliciesOptions(
-[property: CommandSwitch("--identity")] string Identity,
-[property: CommandSwitch("--policy-names")] string[] PolicyNames
+[property: CliOption("--identity")] string Identity,
+[property: CliOption("--policy-names")] string[] PolicyNames
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

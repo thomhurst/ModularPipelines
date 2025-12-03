@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "pipeline", "show")]
+[CliCommand("ml", "pipeline", "show")]
 public record AzMlPipelineShowOptions(
-[property: CommandSwitch("--pipeline-id")] string PipelineId
+[property: CliOption("--pipeline-id")] string PipelineId
 ) : AzOptions
 {
-    [CommandSwitch("--output-file")]
+    [CliOption("--output-file")]
     public string? OutputFile { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

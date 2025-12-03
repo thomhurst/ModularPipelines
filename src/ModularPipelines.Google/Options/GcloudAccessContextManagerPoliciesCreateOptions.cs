@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-context-manager", "policies", "create")]
+[CliCommand("access-context-manager", "policies", "create")]
 public record GcloudAccessContextManagerPoliciesCreateOptions(
-[property: CommandSwitch("--organization")] string Organization,
-[property: CommandSwitch("--title")] string Title
+[property: CliOption("--organization")] string Organization,
+[property: CliOption("--title")] string Title
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string[]? Scopes { get; set; }
 }

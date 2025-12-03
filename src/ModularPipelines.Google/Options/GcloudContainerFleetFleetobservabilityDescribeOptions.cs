@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "fleetobservability", "describe")]
+[CliCommand("container", "fleet", "fleetobservability", "describe")]
 public record GcloudContainerFleetFleetobservabilityDescribeOptions : GcloudOptions;

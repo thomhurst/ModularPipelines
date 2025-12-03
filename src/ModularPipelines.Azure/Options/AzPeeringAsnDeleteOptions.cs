@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("peering", "asn", "delete")]
+[CliCommand("peering", "asn", "delete")]
 public record AzPeeringAsnDeleteOptions(
-[property: CommandSwitch("--peer-asn-name")] string PeerAsnName
+[property: CliOption("--peer-asn-name")] string PeerAsnName
 ) : AzOptions;

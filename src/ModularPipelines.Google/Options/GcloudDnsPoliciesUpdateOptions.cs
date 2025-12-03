@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns", "policies", "update")]
+[CliCommand("dns", "policies", "update")]
 public record GcloudDnsPoliciesUpdateOptions(
-[property: PositionalArgument] string Policy
+[property: CliArgument] string Policy
 ) : GcloudOptions
 {
-    [CommandSwitch("--alternative-name-servers")]
+    [CliOption("--alternative-name-servers")]
     public string[]? AlternativeNameServers { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enable-inbound-forwarding")]
+    [CliFlag("--enable-inbound-forwarding")]
     public bool? EnableInboundForwarding { get; set; }
 
-    [BooleanCommandSwitch("--enable-logging")]
+    [CliFlag("--enable-logging")]
     public bool? EnableLogging { get; set; }
 
-    [CommandSwitch("--networks")]
+    [CliOption("--networks")]
     public string[]? Networks { get; set; }
 
-    [CommandSwitch("--private-alternative-name-servers")]
+    [CliOption("--private-alternative-name-servers")]
     public string[]? PrivateAlternativeNameServers { get; set; }
 }

@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "cassandra", "table", "show")]
+[CliCommand("cosmosdb", "cassandra", "table", "show")]
 public record AzCosmosdbCassandraTableShowOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--keyspace-name")] string KeyspaceName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--keyspace-name")] string KeyspaceName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

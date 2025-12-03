@@ -15,15 +15,15 @@ public record DockerManifestInspectOptions : DockerOptions
         Manifest = manifest;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? ManifestList { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Manifest { get; set; }
 
-    [CommandSwitch("--insecure")]
+    [CliOption("--insecure")]
     public virtual string? Insecure { get; set; }
 
-    [CommandSwitch("--verbose")]
+    [CliOption("--verbose")]
     public virtual string? Verbose { get; set; }
 }

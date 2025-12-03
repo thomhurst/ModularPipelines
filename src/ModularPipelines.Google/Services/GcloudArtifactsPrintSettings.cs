@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts")]
+[CliCommand("artifacts")]
 public class GcloudArtifactsPrintSettings
 {
     public GcloudArtifactsPrintSettings(

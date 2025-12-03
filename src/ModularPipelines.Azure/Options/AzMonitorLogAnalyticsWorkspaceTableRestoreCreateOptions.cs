@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "log-analytics", "workspace", "table", "restore", "create")]
+[CliCommand("monitor", "log-analytics", "workspace", "table", "restore", "create")]
 public record AzMonitorLogAnalyticsWorkspaceTableRestoreCreateOptions(
-[property: CommandSwitch("--end-restore-time")] string EndRestoreTime,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--restore-source-table")] string RestoreSourceTable,
-[property: CommandSwitch("--start-restore-time")] string StartRestoreTime,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--end-restore-time")] string EndRestoreTime,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--restore-source-table")] string RestoreSourceTable,
+[property: CliOption("--start-restore-time")] string StartRestoreTime,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

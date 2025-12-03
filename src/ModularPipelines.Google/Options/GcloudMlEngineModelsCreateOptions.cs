@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml-engine", "models", "create")]
+[CliCommand("ml-engine", "models", "create")]
 public record GcloudMlEngineModelsCreateOptions(
-[property: PositionalArgument] string Model
+[property: CliArgument] string Model
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enable-logging")]
+    [CliFlag("--enable-logging")]
     public bool? EnableLogging { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--regions")]
+    [CliOption("--regions")]
     public string[]? Regions { get; set; }
 }

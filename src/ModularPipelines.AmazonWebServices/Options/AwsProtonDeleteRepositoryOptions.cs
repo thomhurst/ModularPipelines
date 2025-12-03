@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("proton", "delete-repository")]
+[CliCommand("proton", "delete-repository")]
 public record AwsProtonDeleteRepositoryOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--provider")] string Provider
+[property: CliOption("--name")] string Name,
+[property: CliOption("--provider")] string Provider
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

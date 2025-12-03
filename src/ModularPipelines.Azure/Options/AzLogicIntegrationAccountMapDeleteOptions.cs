@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logic", "integration-account", "map", "delete")]
+[CliCommand("logic", "integration-account", "map", "delete")]
 public record AzLogicIntegrationAccountMapDeleteOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--integration-account")]
+    [CliOption("--integration-account")]
     public int? IntegrationAccount { get; set; }
 
-    [CommandSwitch("--map-name")]
+    [CliOption("--map-name")]
     public string? MapName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

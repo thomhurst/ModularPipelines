@@ -4,59 +4,59 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "device-identity", "update")]
+[CliCommand("iot", "hub", "device-identity", "update")]
 public record AzIotHubDeviceIdentityUpdateOptions(
-[property: CommandSwitch("--device-id")] string DeviceId
+[property: CliOption("--device-id")] string DeviceId
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--am")]
+    [CliOption("--am")]
     public string? Am { get; set; }
 
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [BooleanCommandSwitch("--edge-enabled")]
+    [CliFlag("--edge-enabled")]
     public bool? EdgeEnabled { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--pk")]
+    [CliOption("--pk")]
     public string? Pk { get; set; }
 
-    [CommandSwitch("--primary-thumbprint")]
+    [CliOption("--primary-thumbprint")]
     public string? PrimaryThumbprint { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--secondary-key")]
+    [CliOption("--secondary-key")]
     public string? SecondaryKey { get; set; }
 
-    [CommandSwitch("--secondary-thumbprint")]
+    [CliOption("--secondary-thumbprint")]
     public string? SecondaryThumbprint { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--sta")]
+    [CliOption("--sta")]
     public string? Sta { get; set; }
 
-    [CommandSwitch("--star")]
+    [CliOption("--star")]
     public string? Star { get; set; }
 }

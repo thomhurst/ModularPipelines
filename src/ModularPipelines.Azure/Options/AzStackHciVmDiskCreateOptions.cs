@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stack-hci-vm", "disk", "create")]
+[CliCommand("stack-hci-vm", "disk", "create")]
 public record AzStackHciVmDiskCreateOptions(
-[property: CommandSwitch("--custom-location")] string CustomLocation,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--custom-location")] string CustomLocation,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--block-size-bytes")]
+    [CliOption("--block-size-bytes")]
     public string? BlockSizeBytes { get; set; }
 
-    [CommandSwitch("--disk-file-format")]
+    [CliOption("--disk-file-format")]
     public string? DiskFileFormat { get; set; }
 
-    [BooleanCommandSwitch("--dynamic")]
+    [CliFlag("--dynamic")]
     public bool? Dynamic { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--logical-sector-bytes")]
+    [CliOption("--logical-sector-bytes")]
     public string? LogicalSectorBytes { get; set; }
 
-    [CommandSwitch("--physical-sector-bytes")]
+    [CliOption("--physical-sector-bytes")]
     public string? PhysicalSectorBytes { get; set; }
 
-    [CommandSwitch("--polling-interval")]
+    [CliOption("--polling-interval")]
     public string? PollingInterval { get; set; }
 
-    [CommandSwitch("--size-gb")]
+    [CliOption("--size-gb")]
     public string? SizeGb { get; set; }
 
-    [CommandSwitch("--storage-path-id")]
+    [CliOption("--storage-path-id")]
     public string? StoragePathId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

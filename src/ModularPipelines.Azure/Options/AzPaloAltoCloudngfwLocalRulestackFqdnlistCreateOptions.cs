@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("palo-alto", "cloudngfw", "local-rulestack", "fqdnlist", "create")]
+[CliCommand("palo-alto", "cloudngfw", "local-rulestack", "fqdnlist", "create")]
 public record AzPaloAltoCloudngfwLocalRulestackFqdnlistCreateOptions(
-[property: CommandSwitch("--fqdn-list")] string FqdnList,
-[property: CommandSwitch("--local-rulestack-name")] string LocalRulestackName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--fqdn-list")] string FqdnList,
+[property: CliOption("--local-rulestack-name")] string LocalRulestackName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--audit-comment")]
+    [CliOption("--audit-comment")]
     public string? AuditComment { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

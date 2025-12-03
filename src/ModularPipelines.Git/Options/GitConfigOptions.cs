@@ -3,112 +3,112 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("config")]
+[CliCommand("config")]
 [ExcludeFromCodeCoverage]
 public record GitConfigOptions : GitOptions
 {
-    [BooleanCommandSwitch("--replace-all")]
+    [CliFlag("--replace-all")]
     public virtual bool? ReplaceAll { get; set; }
 
-    [BooleanCommandSwitch("--add")]
+    [CliFlag("--add")]
     public virtual bool? Add { get; set; }
 
-    [BooleanCommandSwitch("--get")]
+    [CliFlag("--get")]
     public virtual bool? Get { get; set; }
 
-    [BooleanCommandSwitch("--get-all")]
+    [CliFlag("--get-all")]
     public virtual bool? GetAll { get; set; }
 
-    [BooleanCommandSwitch("--get-regexp")]
+    [CliFlag("--get-regexp")]
     public virtual bool? GetRegexp { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--get-urlmatch")]
+    [CliOption("--get-urlmatch", Format = OptionFormat.EqualsSeparated)]
     public string? GetUrlmatch { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public virtual bool? Global { get; set; }
 
-    [BooleanCommandSwitch("--system")]
+    [CliFlag("--system")]
     public virtual bool? System { get; set; }
 
-    [BooleanCommandSwitch("--local")]
+    [CliFlag("--local")]
     public virtual bool? Local { get; set; }
 
-    [BooleanCommandSwitch("--worktree")]
+    [CliFlag("--worktree")]
     public virtual bool? Worktree { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--file")]
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
     public string? File { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--blob")]
+    [CliOption("--blob", Format = OptionFormat.EqualsSeparated)]
     public string? Blob { get; set; }
 
-    [BooleanCommandSwitch("--remove-section")]
+    [CliFlag("--remove-section")]
     public virtual bool? RemoveSection { get; set; }
 
-    [BooleanCommandSwitch("--rename-section")]
+    [CliFlag("--rename-section")]
     public virtual bool? RenameSection { get; set; }
 
-    [BooleanCommandSwitch("--unset")]
+    [CliFlag("--unset")]
     public virtual bool? Unset { get; set; }
 
-    [BooleanCommandSwitch("--unset-all")]
+    [CliFlag("--unset-all")]
     public virtual bool? UnsetAll { get; set; }
 
-    [BooleanCommandSwitch("--list")]
+    [CliFlag("--list")]
     public virtual bool? List { get; set; }
 
-    [BooleanCommandSwitch("--fixed-value")]
+    [CliFlag("--fixed-value")]
     public virtual bool? FixedValue { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--type")]
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
     public string? Type { get; set; }
 
-    [BooleanCommandSwitch("--bool")]
+    [CliFlag("--bool")]
     public virtual bool? Bool { get; set; }
 
-    [BooleanCommandSwitch("--int")]
+    [CliFlag("--int")]
     public virtual bool? Int { get; set; }
 
-    [BooleanCommandSwitch("--bool-or-int")]
+    [CliFlag("--bool-or-int")]
     public virtual bool? BoolOrInt { get; set; }
 
-    [BooleanCommandSwitch("--path")]
+    [CliFlag("--path")]
     public virtual bool? Path { get; set; }
 
-    [BooleanCommandSwitch("--expiry-date")]
+    [CliFlag("--expiry-date")]
     public virtual bool? ExpiryDate { get; set; }
 
-    [BooleanCommandSwitch("--no-type")]
+    [CliFlag("--no-type")]
     public virtual bool? NoType { get; set; }
 
-    [BooleanCommandSwitch("--null")]
+    [CliFlag("--null")]
     public virtual bool? Null { get; set; }
 
-    [BooleanCommandSwitch("--name-only")]
+    [CliFlag("--name-only")]
     public virtual bool? NameOnly { get; set; }
 
-    [BooleanCommandSwitch("--show-origin")]
+    [CliFlag("--show-origin")]
     public virtual bool? ShowOrigin { get; set; }
 
-    [BooleanCommandSwitch("--show-scope")]
+    [CliFlag("--show-scope")]
     public virtual bool? ShowScope { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--get-colorbool")]
+    [CliOption("--get-colorbool", Format = OptionFormat.EqualsSeparated)]
     public string? GetColorbool { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--get-color")]
+    [CliOption("--get-color", Format = OptionFormat.EqualsSeparated)]
     public string? GetColor { get; set; }
 
-    [BooleanCommandSwitch("--edit")]
+    [CliFlag("--edit")]
     public virtual bool? Edit { get; set; }
 
-    [BooleanCommandSwitch("--no-includes")]
+    [CliFlag("--no-includes")]
     public virtual bool? NoIncludes { get; set; }
 
-    [BooleanCommandSwitch("--includes")]
+    [CliFlag("--includes")]
     public virtual bool? Includes { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--default")]
+    [CliOption("--default", Format = OptionFormat.EqualsSeparated)]
     public string? Default { get; set; }
 }

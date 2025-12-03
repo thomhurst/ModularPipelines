@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift-data", "execute-statement")]
+[CliCommand("redshift-data", "execute-statement")]
 public record AwsRedshiftDataExecuteStatementOptions(
-[property: CommandSwitch("--database")] string Database,
-[property: CommandSwitch("--sql")] string Sql
+[property: CliOption("--database")] string Database,
+[property: CliOption("--sql")] string Sql
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--cluster-identifier")]
+    [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
-    [CommandSwitch("--db-user")]
+    [CliOption("--db-user")]
     public string? DbUser { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--secret-arn")]
+    [CliOption("--secret-arn")]
     public string? SecretArn { get; set; }
 
-    [CommandSwitch("--statement-name")]
+    [CliOption("--statement-name")]
     public string? StatementName { get; set; }
 
-    [CommandSwitch("--workgroup-name")]
+    [CliOption("--workgroup-name")]
     public string? WorkgroupName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "cassandra", "table", "throughput", "update")]
+[CliCommand("cosmosdb", "cassandra", "table", "throughput", "update")]
 public record AzCosmosdbCassandraTableThroughputUpdateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--keyspace-name")] string KeyspaceName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--keyspace-name")] string KeyspaceName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--max-throughput")]
+    [CliOption("--max-throughput")]
     public string? MaxThroughput { get; set; }
 
-    [CommandSwitch("--throughput")]
+    [CliOption("--throughput")]
     public string? Throughput { get; set; }
 }

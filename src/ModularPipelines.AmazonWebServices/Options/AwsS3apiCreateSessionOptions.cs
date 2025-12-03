@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api", "create-session")]
+[CliCommand("s3api", "create-session")]
 public record AwsS3apiCreateSessionOptions(
-[property: CommandSwitch("--bucket")] string Bucket
+[property: CliOption("--bucket")] string Bucket
 ) : AwsOptions
 {
-    [CommandSwitch("--session-mode")]
+    [CliOption("--session-mode")]
     public string? SessionMode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

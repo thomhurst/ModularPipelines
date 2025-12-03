@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "app", "up")]
+[CliCommand("aks", "app", "up")]
 public record AzAksAppUpOptions : AzOptions
 {
-    [CommandSwitch("--acr")]
+    [CliOption("--acr")]
     public string? Acr { get; set; }
 
-    [CommandSwitch("--aks-cluster")]
+    [CliOption("--aks-cluster")]
     public string? AksCluster { get; set; }
 
-    [CommandSwitch("--branch-name")]
+    [CliOption("--branch-name")]
     public string? BranchName { get; set; }
 
-    [BooleanCommandSwitch("--do-not-wait")]
+    [CliFlag("--do-not-wait")]
     public bool? DoNotWait { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--repository")]
+    [CliOption("--repository")]
     public string? Repository { get; set; }
 }

@@ -4,62 +4,62 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "networks", "subnets", "update")]
+[CliCommand("compute", "networks", "subnets", "update")]
 public record GcloudComputeNetworksSubnetsUpdateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--drain-timeout")]
+    [CliOption("--drain-timeout")]
     public string? DrainTimeout { get; set; }
 
-    [CommandSwitch("--ipv6-access-type")]
+    [CliOption("--ipv6-access-type")]
     public string? Ipv6AccessType { get; set; }
 
-    [CommandSwitch("--logging-aggregation-interval")]
+    [CliOption("--logging-aggregation-interval")]
     public string? LoggingAggregationInterval { get; set; }
 
-    [CommandSwitch("--logging-filter-expr")]
+    [CliOption("--logging-filter-expr")]
     public string? LoggingFilterExpr { get; set; }
 
-    [CommandSwitch("--logging-flow-sampling")]
+    [CliOption("--logging-flow-sampling")]
     public string? LoggingFlowSampling { get; set; }
 
-    [CommandSwitch("--logging-metadata")]
+    [CliOption("--logging-metadata")]
     public string? LoggingMetadata { get; set; }
 
-    [CommandSwitch("--logging-metadata-fields")]
+    [CliOption("--logging-metadata-fields")]
     public string[]? LoggingMetadataFields { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--stack-type")]
+    [CliOption("--stack-type")]
     public string? StackType { get; set; }
 
-    [CommandSwitch("--add-secondary-ranges")]
+    [CliOption("--add-secondary-ranges")]
     public string[]? AddSecondaryRanges { get; set; }
 
-    [CommandSwitch("--[no-]enable-flow-logs")]
+    [CliOption("--[no-]enable-flow-logs")]
     public string[]? NoEnableFlowLogs { get; set; }
 
-    [CommandSwitch("--[no-]enable-private-ip-google-access")]
+    [CliOption("--[no-]enable-private-ip-google-access")]
     public string[]? NoEnablePrivateIpGoogleAccess { get; set; }
 
-    [CommandSwitch("--private-ipv6-google-access-type")]
+    [CliOption("--private-ipv6-google-access-type")]
     public string? PrivateIpv6GoogleAccessType { get; set; }
 
-    [CommandSwitch("--purpose")]
+    [CliOption("--purpose")]
     public string? Purpose { get; set; }
 
-    [BooleanCommandSwitch("REGIONAL_MANAGED_PROXY")]
+    [CliFlag("REGIONAL_MANAGED_PROXY")]
     public bool? RegionalManagedProxy { get; set; }
 
-    [CommandSwitch("--remove-secondary-ranges")]
+    [CliOption("--remove-secondary-ranges")]
     public string[]? RemoveSecondaryRanges { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [BooleanCommandSwitch("ACTIVE")]
+    [CliFlag("ACTIVE")]
     public bool? Active { get; set; }
 }

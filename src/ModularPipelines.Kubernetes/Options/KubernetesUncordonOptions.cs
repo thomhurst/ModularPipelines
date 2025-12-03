@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("uncordon")]
+[CliCommand("uncordon")]
 [ExcludeFromCodeCoverage]
-public record KubernetesUncordonOptions([property: PositionalArgument] string Node) : KubernetesOptions
+public record KubernetesUncordonOptions([property: CliArgument] string Node) : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CliOption("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CliOption("--selector")]
     public string? Selector { get; set; }
 }

@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sns", "create-topic")]
+[CliCommand("sns", "create-topic")]
 public record AwsSnsCreateTopicOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public IEnumerable<KeyValue>? Attributes { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--data-protection-policy")]
+    [CliOption("--data-protection-policy")]
     public string? DataProtectionPolicy { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

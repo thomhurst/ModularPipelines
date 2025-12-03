@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "backend-services", "remove-service-bindings")]
+[CliCommand("compute", "backend-services", "remove-service-bindings")]
 public record GcloudComputeBackendServicesRemoveServiceBindingsOptions(
-[property: PositionalArgument] string BackendServiceName,
-[property: CommandSwitch("--service-bindings")] string[] ServiceBindings
+[property: CliArgument] string BackendServiceName,
+[property: CliOption("--service-bindings")] string[] ServiceBindings
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datamigration", "sql-db", "cancel")]
+[CliCommand("datamigration", "sql-db", "cancel")]
 public record AzDatamigrationSqlDbCancelOptions(
-[property: CommandSwitch("--migration-operation-id")] string MigrationOperationId
+[property: CliOption("--migration-operation-id")] string MigrationOperationId
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sqldb-instance-name")]
+    [CliOption("--sqldb-instance-name")]
     public string? SqldbInstanceName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--target-db-name")]
+    [CliOption("--target-db-name")]
     public string? TargetDbName { get; set; }
 }

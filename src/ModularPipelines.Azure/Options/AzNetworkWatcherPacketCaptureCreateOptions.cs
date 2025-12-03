@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "watcher", "packet-capture", "create")]
+[CliCommand("network", "watcher", "packet-capture", "create")]
 public record AzNetworkWatcherPacketCaptureCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--capture-limit")]
+    [CliOption("--capture-limit")]
     public string? CaptureLimit { get; set; }
 
-    [CommandSwitch("--capture-size")]
+    [CliOption("--capture-size")]
     public string? CaptureSize { get; set; }
 
-    [CommandSwitch("--exclude")]
+    [CliOption("--exclude")]
     public string? Exclude { get; set; }
 
-    [CommandSwitch("--file-path")]
+    [CliOption("--file-path")]
     public string? FilePath { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string? Filters { get; set; }
 
-    [CommandSwitch("--include")]
+    [CliOption("--include")]
     public string? Include { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--storage-account")]
+    [CliOption("--storage-account")]
     public int? StorageAccount { get; set; }
 
-    [CommandSwitch("--storage-path")]
+    [CliOption("--storage-path")]
     public string? StoragePath { get; set; }
 
-    [CommandSwitch("--target")]
+    [CliOption("--target")]
     public string? Target { get; set; }
 
-    [CommandSwitch("--target-type")]
+    [CliOption("--target-type")]
     public string? TargetType { get; set; }
 
-    [CommandSwitch("--time-limit")]
+    [CliOption("--time-limit")]
     public string? TimeLimit { get; set; }
 
-    [CommandSwitch("--vm")]
+    [CliOption("--vm")]
     public string? Vm { get; set; }
 }

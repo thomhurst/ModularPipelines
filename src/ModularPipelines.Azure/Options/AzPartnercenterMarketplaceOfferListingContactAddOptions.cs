@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("partnercenter", "marketplace", "offer", "listing", "contact", "add")]
+[CliCommand("partnercenter", "marketplace", "offer", "listing", "contact", "add")]
 public record AzPartnercenterMarketplaceOfferListingContactAddOptions(
-[property: CommandSwitch("--offer-id")] string OfferId,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--offer-id")] string OfferId,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--email")]
+    [CliOption("--email")]
     public string? Email { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--phone")]
+    [CliOption("--phone")]
     public string? Phone { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--uri")]
+    [CliOption("--uri")]
     public string? Uri { get; set; }
 }

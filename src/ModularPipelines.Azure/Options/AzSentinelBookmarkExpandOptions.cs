@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "bookmark", "expand")]
+[CliCommand("sentinel", "bookmark", "expand")]
 public record AzSentinelBookmarkExpandOptions(
-[property: CommandSwitch("--bookmark-id")] string BookmarkId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--bookmark-id")] string BookmarkId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CommandSwitch("--expansion-id")]
+    [CliOption("--expansion-id")]
     public string? ExpansionId { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public string? StartTime { get; set; }
 }

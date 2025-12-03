@@ -4,44 +4,44 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines", "create")]
+[CliCommand("pipelines", "create")]
 public record AzPipelinesCreateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--branch")]
+    [CliOption("--branch")]
     public string? Branch { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--folder-path")]
+    [CliOption("--folder-path")]
     public string? FolderPath { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [CommandSwitch("--queue-id")]
+    [CliOption("--queue-id")]
     public string? QueueId { get; set; }
 
-    [CommandSwitch("--repository")]
+    [CliOption("--repository")]
     public string? Repository { get; set; }
 
-    [CommandSwitch("--repository-type")]
+    [CliOption("--repository-type")]
     public string? RepositoryType { get; set; }
 
-    [CommandSwitch("--service-connection")]
+    [CliOption("--service-connection")]
     public string? ServiceConnection { get; set; }
 
-    [BooleanCommandSwitch("--skip-first-run")]
+    [CliFlag("--skip-first-run")]
     public bool? SkipFirstRun { get; set; }
 
-    [CommandSwitch("--yaml-path")]
+    [CliOption("--yaml-path")]
     public string? YamlPath { get; set; }
 }

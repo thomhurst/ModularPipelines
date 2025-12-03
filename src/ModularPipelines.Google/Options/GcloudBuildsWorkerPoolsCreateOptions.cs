@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("builds", "worker-pools", "create")]
+[CliCommand("builds", "worker-pools", "create")]
 public record GcloudBuildsWorkerPoolsCreateOptions(
-[property: PositionalArgument] string WorkerPool,
-[property: CommandSwitch("--region")] string Region
+[property: CliArgument] string WorkerPool,
+[property: CliOption("--region")] string Region
 ) : GcloudOptions
 {
-    [CommandSwitch("--config-from-file")]
+    [CliOption("--config-from-file")]
     public string? ConfigFromFile { get; set; }
 
-    [CommandSwitch("--peered-network")]
+    [CliOption("--peered-network")]
     public string? PeeredNetwork { get; set; }
 
-    [CommandSwitch("--peered-network-ip-range")]
+    [CliOption("--peered-network-ip-range")]
     public string? PeeredNetworkIpRange { get; set; }
 
-    [BooleanCommandSwitch("--no-public-egress")]
+    [CliFlag("--no-public-egress")]
     public bool? NoPublicEgress { get; set; }
 
-    [CommandSwitch("--worker-disk-size")]
+    [CliOption("--worker-disk-size")]
     public string? WorkerDiskSize { get; set; }
 
-    [CommandSwitch("--worker-machine-type")]
+    [CliOption("--worker-machine-type")]
     public string? WorkerMachineType { get; set; }
 }

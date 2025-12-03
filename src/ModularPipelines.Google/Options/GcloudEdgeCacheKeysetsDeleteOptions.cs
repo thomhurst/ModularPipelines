@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cache", "keysets", "delete")]
+[CliCommand("edge-cache", "keysets", "delete")]
 public record GcloudEdgeCacheKeysetsDeleteOptions(
-[property: PositionalArgument] string Keyset,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Keyset,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

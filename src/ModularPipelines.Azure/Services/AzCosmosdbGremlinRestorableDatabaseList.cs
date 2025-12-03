@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "gremlin", "restorable-database")]
+[CliCommand("cosmosdb", "gremlin", "restorable-database")]
 public class AzCosmosdbGremlinRestorableDatabaseList
 {
     public AzCosmosdbGremlinRestorableDatabaseList(

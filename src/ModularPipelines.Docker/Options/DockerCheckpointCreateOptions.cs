@@ -18,15 +18,15 @@ public record DockerCheckpointCreateOptions : DockerOptions
         Checkpoint = checkpoint;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Container { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Checkpoint { get; set; }
 
-    [CommandSwitch("--checkpoint-dir")]
+    [CliOption("--checkpoint-dir")]
     public virtual string? CheckpointDir { get; set; }
 
-    [CommandSwitch("--leave-running")]
+    [CliOption("--leave-running")]
     public virtual string? LeaveRunning { get; set; }
 }

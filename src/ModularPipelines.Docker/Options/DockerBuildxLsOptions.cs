@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("buildx", "ls")]
+[CliCommand("buildx", "ls")]
 [ExcludeFromCodeCoverage]
 public record DockerBuildxLsOptions : DockerOptions
 {
-    [CommandSwitch("--builder")]
+    [CliOption("--builder")]
     public virtual string? Builder { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 }

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "security", "permission", "show")]
+[CliCommand("devops", "security", "permission", "show")]
 public record AzDevopsSecurityPermissionShowOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--subject")] string Subject,
-[property: CommandSwitch("--token")] string Token
+[property: CliOption("--id")] string Id,
+[property: CliOption("--subject")] string Subject,
+[property: CliOption("--token")] string Token
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 }

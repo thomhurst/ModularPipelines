@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("topic", "cli-trees")]
+[CliCommand("topic", "cli-trees")]
 public record GcloudTopicCliTreesOptions : GcloudOptions;

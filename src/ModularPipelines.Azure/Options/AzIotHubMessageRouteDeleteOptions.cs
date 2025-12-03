@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "message-route", "delete")]
+[CliCommand("iot", "hub", "message-route", "delete")]
 public record AzIotHubMessageRouteDeleteOptions(
-[property: CommandSwitch("--hub-name")] string HubName
+[property: CliOption("--hub-name")] string HubName
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rn")]
+    [CliOption("--rn")]
     public string? Rn { get; set; }
 
-    [CommandSwitch("--source-type")]
+    [CliOption("--source-type")]
     public string? SourceType { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

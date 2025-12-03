@@ -4,56 +4,56 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-gateway", "connection", "vpn-site-link-conn", "add")]
+[CliCommand("network", "vpn-gateway", "connection", "vpn-site-link-conn", "add")]
 public record AzNetworkVpnGatewayConnectionVpnSiteLinkConnAddOptions(
-[property: CommandSwitch("--vpn-site-link")] string VpnSiteLink
+[property: CliOption("--vpn-site-link")] string VpnSiteLink
 ) : AzOptions
 {
-    [CommandSwitch("--connection-bandwidth")]
+    [CliOption("--connection-bandwidth")]
     public string? ConnectionBandwidth { get; set; }
 
-    [CommandSwitch("--connection-name")]
+    [CliOption("--connection-name")]
     public string? ConnectionName { get; set; }
 
-    [BooleanCommandSwitch("--enable-bgp")]
+    [CliFlag("--enable-bgp")]
     public bool? EnableBgp { get; set; }
 
-    [CommandSwitch("--gateway-name")]
+    [CliOption("--gateway-name")]
     public string? GatewayName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--rate-limiting")]
+    [CliFlag("--rate-limiting")]
     public bool? RateLimiting { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--routing-weight")]
+    [CliOption("--routing-weight")]
     public string? RoutingWeight { get; set; }
 
-    [CommandSwitch("--shared-key")]
+    [CliOption("--shared-key")]
     public string? SharedKey { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--use-local-azure-ip-address")]
+    [CliFlag("--use-local-azure-ip-address")]
     public bool? UseLocalAzureIpAddress { get; set; }
 
-    [BooleanCommandSwitch("--use-policy-based-traffic-selectors")]
+    [CliFlag("--use-policy-based-traffic-selectors")]
     public bool? UsePolicyBasedTrafficSelectors { get; set; }
 
-    [CommandSwitch("--vpn-connection-protocol-type")]
+    [CliOption("--vpn-connection-protocol-type")]
     public string? VpnConnectionProtocolType { get; set; }
 
-    [CommandSwitch("--vpn-link-connection-mode")]
+    [CliOption("--vpn-link-connection-mode")]
     public string? VpnLinkConnectionMode { get; set; }
 }

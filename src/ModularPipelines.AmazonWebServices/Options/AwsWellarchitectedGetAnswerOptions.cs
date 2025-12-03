@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "get-answer")]
+[CliCommand("wellarchitected", "get-answer")]
 public record AwsWellarchitectedGetAnswerOptions(
-[property: CommandSwitch("--workload-id")] string WorkloadId,
-[property: CommandSwitch("--lens-alias")] string LensAlias,
-[property: CommandSwitch("--question-id")] string QuestionId
+[property: CliOption("--workload-id")] string WorkloadId,
+[property: CliOption("--lens-alias")] string LensAlias,
+[property: CliOption("--question-id")] string QuestionId
 ) : AwsOptions
 {
-    [CommandSwitch("--milestone-number")]
+    [CliOption("--milestone-number")]
     public int? MilestoneNumber { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

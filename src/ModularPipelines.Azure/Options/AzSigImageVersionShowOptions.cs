@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "image-version", "show")]
+[CliCommand("sig", "image-version", "show")]
 public record AzSigImageVersionShowOptions(
-[property: CommandSwitch("--gallery-image-definition")] string GalleryImageDefinition,
-[property: CommandSwitch("--gallery-image-version")] string GalleryImageVersion,
-[property: CommandSwitch("--gallery-name")] string GalleryName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gallery-image-definition")] string GalleryImageDefinition,
+[property: CliOption("--gallery-image-version")] string GalleryImageVersion,
+[property: CliOption("--gallery-name")] string GalleryName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--expand")]
+    [CliOption("--expand")]
     public string? Expand { get; set; }
 }

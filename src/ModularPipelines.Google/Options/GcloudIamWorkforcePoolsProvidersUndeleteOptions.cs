@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workforce-pools", "providers", "undelete")]
+[CliCommand("iam", "workforce-pools", "providers", "undelete")]
 public record GcloudIamWorkforcePoolsProvidersUndeleteOptions(
-[property: PositionalArgument] string Provider,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string WorkforcePool
+[property: CliArgument] string Provider,
+[property: CliArgument] string Location,
+[property: CliArgument] string WorkforcePool
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("capacity", "reservation", "show")]
+[CliCommand("capacity", "reservation", "show")]
 public record AzCapacityReservationShowOptions(
-[property: CommandSwitch("--capacity-reservation-group")] string CapacityReservationGroup,
-[property: CommandSwitch("--capacity-reservation-name")] string CapacityReservationName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--capacity-reservation-group")] string CapacityReservationGroup,
+[property: CliOption("--capacity-reservation-name")] string CapacityReservationName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--instance-view")]
+    [CliOption("--instance-view")]
     public string? InstanceView { get; set; }
 }

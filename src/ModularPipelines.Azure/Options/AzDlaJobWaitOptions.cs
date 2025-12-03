@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dla", "job", "wait")]
+[CliCommand("dla", "job", "wait")]
 public record AzDlaJobWaitOptions(
-[property: CommandSwitch("--job-id")] string JobId
+[property: CliOption("--job-id")] string JobId
 ) : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--max-wait-time-sec")]
+    [CliOption("--max-wait-time-sec")]
     public string? MaxWaitTimeSec { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--wait-interval-sec")]
+    [CliOption("--wait-interval-sec")]
     public string? WaitIntervalSec { get; set; }
 }

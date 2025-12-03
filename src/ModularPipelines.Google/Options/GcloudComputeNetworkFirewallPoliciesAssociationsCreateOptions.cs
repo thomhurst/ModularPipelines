@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "network-firewall-policies", "associations", "create")]
+[CliCommand("compute", "network-firewall-policies", "associations", "create")]
 public record GcloudComputeNetworkFirewallPoliciesAssociationsCreateOptions(
-[property: CommandSwitch("--firewall-policy")] string FirewallPolicy,
-[property: CommandSwitch("--network")] string Network
+[property: CliOption("--firewall-policy")] string FirewallPolicy,
+[property: CliOption("--network")] string Network
 ) : GcloudOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--replace-association-on-target")]
+    [CliFlag("--replace-association-on-target")]
     public bool? ReplaceAssociationOnTarget { get; set; }
 
-    [CommandSwitch("--firewall-policy-region")]
+    [CliOption("--firewall-policy-region")]
     public string? FirewallPolicyRegion { get; set; }
 
-    [BooleanCommandSwitch("--global-firewall-policy")]
+    [CliFlag("--global-firewall-policy")]
     public bool? GlobalFirewallPolicy { get; set; }
 }

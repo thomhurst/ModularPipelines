@@ -15,33 +15,33 @@ public record DockerServiceLogsOptions : DockerOptions
         ServiceOrTask = serviceOrTask;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? ServiceOrTask { get; set; }
 
-    [BooleanCommandSwitch("--details")]
+    [CliFlag("--details")]
     public virtual bool? Details { get; set; }
 
-    [BooleanCommandSwitch("--follow")]
+    [CliFlag("--follow")]
     public virtual bool? Follow { get; set; }
 
-    [BooleanCommandSwitch("--no-resolve")]
+    [CliFlag("--no-resolve")]
     public virtual bool? NoResolve { get; set; }
 
-    [BooleanCommandSwitch("--no-task-ids")]
+    [CliFlag("--no-task-ids")]
     public virtual bool? NoTaskIds { get; set; }
 
-    [BooleanCommandSwitch("--no-trunc")]
+    [CliFlag("--no-trunc")]
     public virtual bool? NoTrunc { get; set; }
 
-    [BooleanCommandSwitch("--raw")]
+    [CliFlag("--raw")]
     public virtual bool? Raw { get; set; }
 
-    [CommandSwitch("--since")]
+    [CliOption("--since")]
     public virtual string? Since { get; set; }
 
-    [CommandSwitch("--tail")]
+    [CliOption("--tail")]
     public virtual string? Tail { get; set; }
 
-    [BooleanCommandSwitch("--timestamps")]
+    [CliFlag("--timestamps")]
     public virtual bool? Timestamps { get; set; }
 }

@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "alert-rule", "create")]
+[CliCommand("sentinel", "alert-rule", "create")]
 public record AzSentinelAlertRuleCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--fusion")]
+    [CliOption("--fusion")]
     public string? Fusion { get; set; }
 
-    [CommandSwitch("--ml-behavior-analytics")]
+    [CliOption("--ml-behavior-analytics")]
     public string? MlBehaviorAnalytics { get; set; }
 
-    [CommandSwitch("--ms-security-incident")]
+    [CliOption("--ms-security-incident")]
     public string? MsSecurityIncident { get; set; }
 
-    [CommandSwitch("--nrt")]
+    [CliOption("--nrt")]
     public string? Nrt { get; set; }
 
-    [CommandSwitch("--scheduled")]
+    [CliOption("--scheduled")]
     public string? Scheduled { get; set; }
 
-    [CommandSwitch("--threat-intelligence")]
+    [CliOption("--threat-intelligence")]
     public string? ThreatIntelligence { get; set; }
 }

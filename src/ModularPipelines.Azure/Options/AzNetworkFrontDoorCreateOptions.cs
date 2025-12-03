@@ -4,55 +4,55 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "create")]
+[CliCommand("network", "front-door", "create")]
 public record AzNetworkFrontDoorCreateOptions(
-[property: CommandSwitch("--backend-address")] string BackendAddress,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--backend-address")] string BackendAddress,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--accepted-protocols")]
+    [CliOption("--accepted-protocols")]
     public string? AcceptedProtocols { get; set; }
 
-    [CommandSwitch("--backend-host-header")]
+    [CliOption("--backend-host-header")]
     public string? BackendHostHeader { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--enforce-certificate-name-check")]
+    [CliOption("--enforce-certificate-name-check")]
     public string? EnforceCertificateNameCheck { get; set; }
 
-    [CommandSwitch("--forwarding-protocol")]
+    [CliOption("--forwarding-protocol")]
     public string? ForwardingProtocol { get; set; }
 
-    [CommandSwitch("--friendly-name")]
+    [CliOption("--friendly-name")]
     public string? FriendlyName { get; set; }
 
-    [CommandSwitch("--frontend-host-name")]
+    [CliOption("--frontend-host-name")]
     public string? FrontendHostName { get; set; }
 
-    [CommandSwitch("--interval")]
+    [CliOption("--interval")]
     public int? Interval { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--patterns")]
+    [CliOption("--patterns")]
     public string? Patterns { get; set; }
 
-    [CommandSwitch("--probeMethod")]
+    [CliOption("--probeMethod")]
     public string? ProbeMethod { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--send-recv-timeout")]
+    [CliOption("--send-recv-timeout")]
     public string? SendRecvTimeout { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "region", "remove")]
+[CliCommand("keyvault", "region", "remove")]
 public record AzKeyvaultRegionRemoveOptions(
-[property: CommandSwitch("--hsm-name")] string HsmName,
-[property: CommandSwitch("--region")] string Region
+[property: CliOption("--hsm-name")] string HsmName,
+[property: CliOption("--region")] string Region
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

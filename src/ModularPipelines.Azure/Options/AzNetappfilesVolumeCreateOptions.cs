@@ -4,170 +4,170 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "volume", "create")]
+[CliCommand("netappfiles", "volume", "create")]
 public record AzNetappfilesVolumeCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--file-path")] string FilePath,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--pool-name")] string PoolName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--usage-threshold")] string UsageThreshold,
-[property: CommandSwitch("--vnet")] string Vnet
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--file-path")] string FilePath,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--pool-name")] string PoolName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--usage-threshold")] string UsageThreshold,
+[property: CliOption("--vnet")] string Vnet
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allowed-clients")]
+    [CliFlag("--allowed-clients")]
     public bool? AllowedClients { get; set; }
 
-    [CommandSwitch("--avs-data-store")]
+    [CliOption("--avs-data-store")]
     public string? AvsDataStore { get; set; }
 
-    [BooleanCommandSwitch("--backup-enabled")]
+    [CliFlag("--backup-enabled")]
     public bool? BackupEnabled { get; set; }
 
-    [CommandSwitch("--backup-id")]
+    [CliOption("--backup-id")]
     public string? BackupId { get; set; }
 
-    [CommandSwitch("--backup-policy-id")]
+    [CliOption("--backup-policy-id")]
     public string? BackupPolicyId { get; set; }
 
-    [CommandSwitch("--chown-mode")]
+    [CliOption("--chown-mode")]
     public string? ChownMode { get; set; }
 
-    [BooleanCommandSwitch("--cifs")]
+    [CliFlag("--cifs")]
     public bool? Cifs { get; set; }
 
-    [BooleanCommandSwitch("--cool-access")]
+    [CliFlag("--cool-access")]
     public bool? CoolAccess { get; set; }
 
-    [CommandSwitch("--coolness-period")]
+    [CliOption("--coolness-period")]
     public string? CoolnessPeriod { get; set; }
 
-    [CommandSwitch("--default-group-quota")]
+    [CliOption("--default-group-quota")]
     public string? DefaultGroupQuota { get; set; }
 
-    [CommandSwitch("--default-user-quota")]
+    [CliOption("--default-user-quota")]
     public string? DefaultUserQuota { get; set; }
 
-    [BooleanCommandSwitch("--delete-base-snapshot")]
+    [CliFlag("--delete-base-snapshot")]
     public bool? DeleteBaseSnapshot { get; set; }
 
-    [BooleanCommandSwitch("--enable-subvolumes")]
+    [CliFlag("--enable-subvolumes")]
     public bool? EnableSubvolumes { get; set; }
 
-    [CommandSwitch("--encryption-key-source")]
+    [CliOption("--encryption-key-source")]
     public string? EncryptionKeySource { get; set; }
 
-    [CommandSwitch("--endpoint-type")]
+    [CliOption("--endpoint-type")]
     public string? EndpointType { get; set; }
 
-    [BooleanCommandSwitch("--has-root-access")]
+    [CliFlag("--has-root-access")]
     public bool? HasRootAccess { get; set; }
 
-    [BooleanCommandSwitch("--is-def-quota-enabled")]
+    [CliFlag("--is-def-quota-enabled")]
     public bool? IsDefQuotaEnabled { get; set; }
 
-    [BooleanCommandSwitch("--is-large-volume")]
+    [CliFlag("--is-large-volume")]
     public bool? IsLargeVolume { get; set; }
 
-    [BooleanCommandSwitch("--kerberos-enabled")]
+    [CliFlag("--kerberos-enabled")]
     public bool? KerberosEnabled { get; set; }
 
-    [CommandSwitch("--kerberos5-r")]
+    [CliOption("--kerberos5-r")]
     public string? Kerberos5R { get; set; }
 
-    [CommandSwitch("--kerberos5-rw")]
+    [CliOption("--kerberos5-rw")]
     public string? Kerberos5Rw { get; set; }
 
-    [CommandSwitch("--kerberos5i-r")]
+    [CliOption("--kerberos5i-r")]
     public string? Kerberos5iR { get; set; }
 
-    [CommandSwitch("--kerberos5i-rw")]
+    [CliOption("--kerberos5i-rw")]
     public string? Kerberos5iRw { get; set; }
 
-    [CommandSwitch("--kerberos5p-r")]
+    [CliOption("--kerberos5p-r")]
     public string? Kerberos5pR { get; set; }
 
-    [CommandSwitch("--kerberos5p-rw")]
+    [CliOption("--kerberos5p-rw")]
     public string? Kerberos5pRw { get; set; }
 
-    [CommandSwitch("--kv-private-endpoint-id")]
+    [CliOption("--kv-private-endpoint-id")]
     public string? KvPrivateEndpointId { get; set; }
 
-    [BooleanCommandSwitch("--ldap-enabled")]
+    [CliFlag("--ldap-enabled")]
     public bool? LdapEnabled { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--network-features")]
+    [CliOption("--network-features")]
     public string? NetworkFeatures { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--policy-enforced")]
+    [CliFlag("--policy-enforced")]
     public bool? PolicyEnforced { get; set; }
 
-    [CommandSwitch("--protocol-types")]
+    [CliOption("--protocol-types")]
     public string? ProtocolTypes { get; set; }
 
-    [CommandSwitch("--remote-volume-resource-id")]
+    [CliOption("--remote-volume-resource-id")]
     public string? RemoteVolumeResourceId { get; set; }
 
-    [CommandSwitch("--replication-schedule")]
+    [CliOption("--replication-schedule")]
     public string? ReplicationSchedule { get; set; }
 
-    [CommandSwitch("--rule-index")]
+    [CliOption("--rule-index")]
     public string? RuleIndex { get; set; }
 
-    [CommandSwitch("--security-style")]
+    [CliOption("--security-style")]
     public string? SecurityStyle { get; set; }
 
-    [CommandSwitch("--service-level")]
+    [CliOption("--service-level")]
     public string? ServiceLevel { get; set; }
 
-    [CommandSwitch("--smb-access")]
+    [CliOption("--smb-access")]
     public string? SmbAccess { get; set; }
 
-    [CommandSwitch("--smb-browsable")]
+    [CliOption("--smb-browsable")]
     public string? SmbBrowsable { get; set; }
 
-    [BooleanCommandSwitch("--smb-continuously-avl")]
+    [CliFlag("--smb-continuously-avl")]
     public bool? SmbContinuouslyAvl { get; set; }
 
-    [BooleanCommandSwitch("--smb-encryption")]
+    [CliFlag("--smb-encryption")]
     public bool? SmbEncryption { get; set; }
 
-    [BooleanCommandSwitch("--snapshot-dir-visible")]
+    [CliFlag("--snapshot-dir-visible")]
     public bool? SnapshotDirVisible { get; set; }
 
-    [CommandSwitch("--snapshot-id")]
+    [CliOption("--snapshot-id")]
     public string? SnapshotId { get; set; }
 
-    [CommandSwitch("--snapshot-policy-id")]
+    [CliOption("--snapshot-policy-id")]
     public string? SnapshotPolicyId { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--throughput-mibps")]
+    [CliOption("--throughput-mibps")]
     public string? ThroughputMibps { get; set; }
 
-    [CommandSwitch("--unix-permissions")]
+    [CliOption("--unix-permissions")]
     public string? UnixPermissions { get; set; }
 
-    [BooleanCommandSwitch("--unix-read-only")]
+    [CliFlag("--unix-read-only")]
     public bool? UnixReadOnly { get; set; }
 
-    [BooleanCommandSwitch("--unix-read-write")]
+    [CliFlag("--unix-read-write")]
     public bool? UnixReadWrite { get; set; }
 
-    [CommandSwitch("--volume-type")]
+    [CliOption("--volume-type")]
     public string? VolumeType { get; set; }
 
-    [CommandSwitch("--zones")]
+    [CliOption("--zones")]
     public string? Zones { get; set; }
 }

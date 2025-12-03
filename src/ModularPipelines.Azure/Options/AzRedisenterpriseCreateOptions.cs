@@ -4,70 +4,70 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redisenterprise", "create")]
+[CliCommand("redisenterprise", "create")]
 public record AzRedisenterpriseCreateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku")] string Sku
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sku")] string Sku
 ) : AzOptions
 {
-    [CommandSwitch("--assigned-identities")]
+    [CliOption("--assigned-identities")]
     public string? AssignedIdentities { get; set; }
 
-    [CommandSwitch("--capacity")]
+    [CliOption("--capacity")]
     public string? Capacity { get; set; }
 
-    [CommandSwitch("--client-protocol")]
+    [CliOption("--client-protocol")]
     public string? ClientProtocol { get; set; }
 
-    [CommandSwitch("--clustering-policy")]
+    [CliOption("--clustering-policy")]
     public string? ClusteringPolicy { get; set; }
 
-    [CommandSwitch("--eviction-policy")]
+    [CliOption("--eviction-policy")]
     public string? EvictionPolicy { get; set; }
 
-    [CommandSwitch("--group-nickname")]
+    [CliOption("--group-nickname")]
     public string? GroupNickname { get; set; }
 
-    [CommandSwitch("--identity-resource-id")]
+    [CliOption("--identity-resource-id")]
     public string? IdentityResourceId { get; set; }
 
-    [CommandSwitch("--identity-type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
-    [CommandSwitch("--key-encryption-identity-type")]
+    [CliOption("--key-encryption-identity-type")]
     public string? KeyEncryptionIdentityType { get; set; }
 
-    [CommandSwitch("--key-encryption-key-url")]
+    [CliOption("--key-encryption-key-url")]
     public string? KeyEncryptionKeyUrl { get; set; }
 
-    [CommandSwitch("--linked-databases")]
+    [CliOption("--linked-databases")]
     public string? LinkedDatabases { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--minimum-tls-version")]
+    [CliOption("--minimum-tls-version")]
     public string? MinimumTlsVersion { get; set; }
 
-    [CommandSwitch("--module")]
+    [CliOption("--module")]
     public string? Module { get; set; }
 
-    [BooleanCommandSwitch("--no-database")]
+    [CliFlag("--no-database")]
     public bool? NoDatabase { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--persistence")]
+    [CliOption("--persistence")]
     public string? Persistence { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--zones")]
+    [CliOption("--zones")]
     public string? Zones { get; set; }
 }

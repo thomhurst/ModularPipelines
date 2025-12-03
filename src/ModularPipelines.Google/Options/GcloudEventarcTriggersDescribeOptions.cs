@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventarc", "triggers", "describe")]
+[CliCommand("eventarc", "triggers", "describe")]
 public record GcloudEventarcTriggersDescribeOptions(
-[property: PositionalArgument] string Trigger,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Trigger,
+[property: CliArgument] string Location
 ) : GcloudOptions;

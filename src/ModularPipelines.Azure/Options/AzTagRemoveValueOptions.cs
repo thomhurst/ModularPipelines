@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tag", "remove-value")]
+[CliCommand("tag", "remove-value")]
 public record AzTagRemoveValueOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--value")] string Value
+[property: CliOption("--name")] string Name,
+[property: CliOption("--value")] string Value
 ) : AzOptions;

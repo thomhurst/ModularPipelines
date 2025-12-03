@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "log-profiles", "create")]
+[CliCommand("monitor", "log-profiles", "create")]
 public record AzMonitorLogProfilesCreateOptions(
-[property: CommandSwitch("--categories")] string Categories,
-[property: CommandSwitch("--days")] int Days,
-[property: BooleanCommandSwitch("--enabled")] bool Enabled,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--locations")] string Locations,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--categories")] string Categories,
+[property: CliOption("--days")] int Days,
+[property: CliFlag("--enabled")] bool Enabled,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--locations")] string Locations,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--service-bus-rule-id")]
+    [CliOption("--service-bus-rule-id")]
     public string? ServiceBusRuleId { get; set; }
 
-    [CommandSwitch("--storage-account-id")]
+    [CliOption("--storage-account-id")]
     public int? StorageAccountId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -5,25 +5,25 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resiliencehub", "create-resiliency-policy")]
+[CliCommand("resiliencehub", "create-resiliency-policy")]
 public record AwsResiliencehubCreateResiliencyPolicyOptions(
-[property: CommandSwitch("--policy")] IEnumerable<KeyValue> Policy,
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--tier")] string Tier
+[property: CliOption("--policy")] IEnumerable<KeyValue> Policy,
+[property: CliOption("--policy-name")] string PolicyName,
+[property: CliOption("--tier")] string Tier
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--data-location-constraint")]
+    [CliOption("--data-location-constraint")]
     public string? DataLocationConstraint { get; set; }
 
-    [CommandSwitch("--policy-description")]
+    [CliOption("--policy-description")]
     public string? PolicyDescription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

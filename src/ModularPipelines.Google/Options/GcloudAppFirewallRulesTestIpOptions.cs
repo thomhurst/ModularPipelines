@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "firewall-rules", "test-ip")]
+[CliCommand("app", "firewall-rules", "test-ip")]
 public record GcloudAppFirewallRulesTestIpOptions(
-[property: PositionalArgument] string Ip
+[property: CliArgument] string Ip
 ) : GcloudOptions;

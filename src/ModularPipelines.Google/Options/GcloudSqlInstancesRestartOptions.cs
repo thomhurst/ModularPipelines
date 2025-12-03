@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "instances", "restart")]
+[CliCommand("sql", "instances", "restart")]
 public record GcloudSqlInstancesRestartOptions(
-[property: PositionalArgument] string Instance
+[property: CliArgument] string Instance
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

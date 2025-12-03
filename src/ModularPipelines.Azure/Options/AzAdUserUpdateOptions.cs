@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "user", "update")]
+[CliCommand("ad", "user", "update")]
 public record AzAdUserUpdateOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--account-enabled")]
+    [CliFlag("--account-enabled")]
     public bool? AccountEnabled { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [BooleanCommandSwitch("--force-change-password-next-sign-in")]
+    [CliFlag("--force-change-password-next-sign-in")]
     public bool? ForceChangePasswordNextSignIn { get; set; }
 
-    [CommandSwitch("--mail-nickname")]
+    [CliOption("--mail-nickname")]
     public string? MailNickname { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 }

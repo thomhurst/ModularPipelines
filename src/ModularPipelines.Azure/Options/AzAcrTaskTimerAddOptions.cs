@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "task", "timer", "add")]
+[CliCommand("acr", "task", "timer", "add")]
 public record AzAcrTaskTimerAddOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--registry")] string Registry,
-[property: CommandSwitch("--schedule")] string Schedule,
-[property: CommandSwitch("--timer-name")] string TimerName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--registry")] string Registry,
+[property: CliOption("--schedule")] string Schedule,
+[property: CliOption("--timer-name")] string TimerName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

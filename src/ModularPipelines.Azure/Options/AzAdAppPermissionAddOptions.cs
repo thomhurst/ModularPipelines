@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "app", "permission", "add")]
+[CliCommand("ad", "app", "permission", "add")]
 public record AzAdAppPermissionAddOptions(
-[property: CommandSwitch("--api")] string Api,
-[property: CommandSwitch("--api-permissions")] string ApiPermissions,
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--api")] string Api,
+[property: CliOption("--api-permissions")] string ApiPermissions,
+[property: CliOption("--id")] string Id
 ) : AzOptions;

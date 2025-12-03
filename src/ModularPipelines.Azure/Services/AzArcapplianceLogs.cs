@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcappliance")]
+[CliCommand("arcappliance")]
 public class AzArcapplianceLogs
 {
     public AzArcapplianceLogs(

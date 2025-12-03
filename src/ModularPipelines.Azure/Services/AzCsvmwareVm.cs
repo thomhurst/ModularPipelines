@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("csvmware")]
+[CliCommand("csvmware")]
 public class AzCsvmwareVm
 {
     public AzCsvmwareVm(

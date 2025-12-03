@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcappliance", "update-infracredentials", "vmware")]
+[CliCommand("arcappliance", "update-infracredentials", "vmware")]
 public record AzArcapplianceUpdateInfracredentialsVmwareOptions(
-[property: CommandSwitch("--kubeconfig")] string Kubeconfig
+[property: CliOption("--kubeconfig")] string Kubeconfig
 ) : AzOptions
 {
-    [CommandSwitch("--address")]
+    [CliOption("--address")]
     public string? Address { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [BooleanCommandSwitch("--skipWait")]
+    [CliFlag("--skipWait")]
     public bool? SkipWait { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("config", "list")]
+[CliCommand("config", "list")]
 public record GcloudConfigListOptions(
-[property: PositionalArgument] string Section
+[property: CliArgument] string Section
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public bool? All { get; set; }
 }

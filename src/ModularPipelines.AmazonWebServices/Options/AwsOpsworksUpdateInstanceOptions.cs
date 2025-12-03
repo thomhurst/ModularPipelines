@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "update-instance")]
+[CliCommand("opsworks", "update-instance")]
 public record AwsOpsworksUpdateInstanceOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliOption("--instance-id")] string InstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--layer-ids")]
+    [CliOption("--layer-ids")]
     public string[]? LayerIds { get; set; }
 
-    [CommandSwitch("--instance-type")]
+    [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 
-    [CommandSwitch("--auto-scaling-type")]
+    [CliOption("--auto-scaling-type")]
     public string? AutoScalingType { get; set; }
 
-    [CommandSwitch("--hostname")]
+    [CliOption("--hostname")]
     public string? Hostname { get; set; }
 
-    [CommandSwitch("--os")]
+    [CliOption("--os")]
     public string? Os { get; set; }
 
-    [CommandSwitch("--ami-id")]
+    [CliOption("--ami-id")]
     public string? AmiId { get; set; }
 
-    [CommandSwitch("--ssh-key-name")]
+    [CliOption("--ssh-key-name")]
     public string? SshKeyName { get; set; }
 
-    [CommandSwitch("--architecture")]
+    [CliOption("--architecture")]
     public string? Architecture { get; set; }
 
-    [CommandSwitch("--agent-version")]
+    [CliOption("--agent-version")]
     public string? AgentVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

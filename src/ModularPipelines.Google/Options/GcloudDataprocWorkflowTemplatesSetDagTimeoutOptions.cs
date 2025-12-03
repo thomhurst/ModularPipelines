@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "workflow-templates", "set-dag-timeout")]
+[CliCommand("dataproc", "workflow-templates", "set-dag-timeout")]
 public record GcloudDataprocWorkflowTemplatesSetDagTimeoutOptions(
-[property: PositionalArgument] string Template,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--dag-timeout")] string DagTimeout
+[property: CliArgument] string Template,
+[property: CliArgument] string Region,
+[property: CliOption("--dag-timeout")] string DagTimeout
 ) : GcloudOptions;

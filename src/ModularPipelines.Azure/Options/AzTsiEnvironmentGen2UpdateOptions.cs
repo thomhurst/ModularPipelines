@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tsi", "environment", "gen2", "update")]
+[CliCommand("tsi", "environment", "gen2", "update")]
 public record AzTsiEnvironmentGen2UpdateOptions : AzOptions
 {
-    [CommandSwitch("--environment-name")]
+    [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--storage-config")]
+    [CliOption("--storage-config")]
     public string? StorageConfig { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--warm-store-config")]
+    [CliOption("--warm-store-config")]
     public string? WarmStoreConfig { get; set; }
 }

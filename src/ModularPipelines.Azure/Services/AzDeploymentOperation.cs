@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deployment")]
+[CliCommand("deployment")]
 public class AzDeploymentOperation
 {
     public AzDeploymentOperation(

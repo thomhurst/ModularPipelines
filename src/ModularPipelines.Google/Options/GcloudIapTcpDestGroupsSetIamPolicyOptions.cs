@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iap", "tcp", "dest-groups", "set-iam-policy")]
+[CliCommand("iap", "tcp", "dest-groups", "set-iam-policy")]
 public record GcloudIapTcpDestGroupsSetIamPolicyOptions(
-[property: PositionalArgument] string PolicyFile,
-[property: CommandSwitch("--dest-group")] string DestGroup,
-[property: CommandSwitch("--region")] string Region
+[property: CliArgument] string PolicyFile,
+[property: CliOption("--dest-group")] string DestGroup,
+[property: CliOption("--region")] string Region
 ) : GcloudOptions;

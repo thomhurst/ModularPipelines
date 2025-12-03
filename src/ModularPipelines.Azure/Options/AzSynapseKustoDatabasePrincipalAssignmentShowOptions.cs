@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "kusto", "database-principal-assignment", "show")]
+[CliCommand("synapse", "kusto", "database-principal-assignment", "show")]
 public record AzSynapseKustoDatabasePrincipalAssignmentShowOptions : AzOptions
 {
-    [CommandSwitch("--database-name")]
+    [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--kusto-pool-name")]
+    [CliOption("--kusto-pool-name")]
     public string? KustoPoolName { get; set; }
 
-    [CommandSwitch("--principal-assignment-name")]
+    [CliOption("--principal-assignment-name")]
     public string? PrincipalAssignmentName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

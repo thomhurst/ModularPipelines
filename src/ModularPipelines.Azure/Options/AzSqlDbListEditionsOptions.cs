@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "db", "list-editions")]
+[CliCommand("sql", "db", "list-editions")]
 public record AzSqlDbListEditionsOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--available")]
+    [CliFlag("--available")]
     public bool? Available { get; set; }
 
-    [CommandSwitch("--dtu")]
+    [CliOption("--dtu")]
     public string? Dtu { get; set; }
 
-    [CommandSwitch("--edition")]
+    [CliOption("--edition")]
     public string? Edition { get; set; }
 
-    [CommandSwitch("--service-objective")]
+    [CliOption("--service-objective")]
     public string? ServiceObjective { get; set; }
 
-    [CommandSwitch("--show-details")]
+    [CliOption("--show-details")]
     public string? ShowDetails { get; set; }
 
-    [CommandSwitch("--vcores")]
+    [CliOption("--vcores")]
     public string? Vcores { get; set; }
 }

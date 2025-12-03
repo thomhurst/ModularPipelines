@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "app", "federated-credential", "create")]
+[CliCommand("ad", "app", "federated-credential", "create")]
 public record AzAdAppFederatedCredentialCreateOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--parameters")] string[] Parameters
+[property: CliOption("--id")] string Id,
+[property: CliOption("--parameters")] string[] Parameters
 ) : AzOptions;

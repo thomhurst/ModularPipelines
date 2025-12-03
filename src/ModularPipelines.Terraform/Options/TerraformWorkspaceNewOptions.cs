@@ -3,20 +3,20 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("workspace new")]
+[CliCommand("workspace new")]
 [ExcludeFromCodeCoverage]
-public record TerraformWorkspaceNewOptions([property: PositionalArgument(Position = Position.AfterSwitches)]
+public record TerraformWorkspaceNewOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     string Name) : TerraformOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Directory { get; set; }
 
-    [BooleanCommandSwitch("-state")]
+    [CliFlag("-state")]
     public virtual bool? State { get; set; }
 
-    [BooleanCommandSwitch("-lock")]
+    [CliFlag("-lock")]
     public virtual bool? Lock { get; set; }
 
-    [CommandSwitch("-lock-timeout")]
+    [CliOption("-lock-timeout")]
     public virtual string? LockTimeout { get; set; }
 }

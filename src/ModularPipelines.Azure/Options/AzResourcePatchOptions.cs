@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource", "patch")]
+[CliCommand("resource", "patch")]
 public record AzResourcePatchOptions(
-[property: CommandSwitch("--properties")] string Properties
+[property: CliOption("--properties")] string Properties
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
+    [CliOption("--api-version")]
     public string? ApiVersion { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--is-full-object")]
+    [CliFlag("--is-full-object")]
     public bool? IsFullObject { get; set; }
 
-    [BooleanCommandSwitch("--latest-include-preview")]
+    [CliFlag("--latest-include-preview")]
     public bool? LatestIncludePreview { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--parent")]
+    [CliOption("--parent")]
     public string? Parent { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 }

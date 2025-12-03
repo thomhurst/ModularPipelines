@@ -4,285 +4,285 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "create")]
+[CliCommand("vm", "create")]
 public record AzVmCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--accelerated-networking")]
+    [CliFlag("--accelerated-networking")]
     public bool? AcceleratedNetworking { get; set; }
 
-    [CommandSwitch("--accept-term")]
+    [CliOption("--accept-term")]
     public string? AcceptTerm { get; set; }
 
-    [CommandSwitch("--admin-password")]
+    [CliOption("--admin-password")]
     public string? AdminPassword { get; set; }
 
-    [CommandSwitch("--admin-username")]
+    [CliOption("--admin-username")]
     public string? AdminUsername { get; set; }
 
-    [CommandSwitch("--asgs")]
+    [CliOption("--asgs")]
     public string? Asgs { get; set; }
 
-    [CommandSwitch("--assign-identity")]
+    [CliOption("--assign-identity")]
     public string? AssignIdentity { get; set; }
 
-    [BooleanCommandSwitch("--attach-data-disks")]
+    [CliFlag("--attach-data-disks")]
     public bool? AttachDataDisks { get; set; }
 
-    [BooleanCommandSwitch("--attach-os-disk")]
+    [CliFlag("--attach-os-disk")]
     public bool? AttachOsDisk { get; set; }
 
-    [CommandSwitch("--authentication-type")]
+    [CliOption("--authentication-type")]
     public string? AuthenticationType { get; set; }
 
-    [CommandSwitch("--availability-set")]
+    [CliOption("--availability-set")]
     public string? AvailabilitySet { get; set; }
 
-    [CommandSwitch("--boot-diagnostics-storage")]
+    [CliOption("--boot-diagnostics-storage")]
     public string? BootDiagnosticsStorage { get; set; }
 
-    [CommandSwitch("--capacity-reservation-group")]
+    [CliOption("--capacity-reservation-group")]
     public string? CapacityReservationGroup { get; set; }
 
-    [CommandSwitch("--computer-name")]
+    [CliOption("--computer-name")]
     public string? ComputerName { get; set; }
 
-    [CommandSwitch("--count")]
+    [CliOption("--count")]
     public int? Count { get; set; }
 
-    [CommandSwitch("--custom-data")]
+    [CliOption("--custom-data")]
     public string? CustomData { get; set; }
 
-    [CommandSwitch("--data-disk-caching")]
+    [CliOption("--data-disk-caching")]
     public string? DataDiskCaching { get; set; }
 
-    [CommandSwitch("--data-disk-delete-option")]
+    [CliOption("--data-disk-delete-option")]
     public string? DataDiskDeleteOption { get; set; }
 
-    [CommandSwitch("--data-disk-encryption-sets")]
+    [CliOption("--data-disk-encryption-sets")]
     public string? DataDiskEncryptionSets { get; set; }
 
-    [CommandSwitch("--data-disk-sizes-gb")]
+    [CliOption("--data-disk-sizes-gb")]
     public string? DataDiskSizesGb { get; set; }
 
-    [BooleanCommandSwitch("--disable-integrity-monitoring-autoupgrade")]
+    [CliFlag("--disable-integrity-monitoring-autoupgrade")]
     public bool? DisableIntegrityMonitoringAutoupgrade { get; set; }
 
-    [CommandSwitch("--disk-controller-type")]
+    [CliOption("--disk-controller-type")]
     public string? DiskControllerType { get; set; }
 
-    [CommandSwitch("--edge-zone")]
+    [CliOption("--edge-zone")]
     public string? EdgeZone { get; set; }
 
-    [BooleanCommandSwitch("--enable-agent")]
+    [CliFlag("--enable-agent")]
     public bool? EnableAgent { get; set; }
 
-    [BooleanCommandSwitch("--enable-auto-update")]
+    [CliFlag("--enable-auto-update")]
     public bool? EnableAutoUpdate { get; set; }
 
-    [BooleanCommandSwitch("--enable-hibernation")]
+    [CliFlag("--enable-hibernation")]
     public bool? EnableHibernation { get; set; }
 
-    [BooleanCommandSwitch("--enable-hotpatching")]
+    [CliFlag("--enable-hotpatching")]
     public bool? EnableHotpatching { get; set; }
 
-    [BooleanCommandSwitch("--enable-integrity-monitoring")]
+    [CliFlag("--enable-integrity-monitoring")]
     public bool? EnableIntegrityMonitoring { get; set; }
 
-    [BooleanCommandSwitch("--enable-secure-boot")]
+    [CliFlag("--enable-secure-boot")]
     public bool? EnableSecureBoot { get; set; }
 
-    [BooleanCommandSwitch("--enable-vtpm")]
+    [CliFlag("--enable-vtpm")]
     public bool? EnableVtpm { get; set; }
 
-    [BooleanCommandSwitch("--encryption-at-host")]
+    [CliFlag("--encryption-at-host")]
     public bool? EncryptionAtHost { get; set; }
 
-    [BooleanCommandSwitch("--ephemeral-os-disk")]
+    [CliFlag("--ephemeral-os-disk")]
     public bool? EphemeralOsDisk { get; set; }
 
-    [CommandSwitch("--ephemeral-os-disk-placement")]
+    [CliOption("--ephemeral-os-disk-placement")]
     public string? EphemeralOsDiskPlacement { get; set; }
 
-    [CommandSwitch("--eviction-policy")]
+    [CliOption("--eviction-policy")]
     public string? EvictionPolicy { get; set; }
 
-    [BooleanCommandSwitch("--generate-ssh-keys")]
+    [CliFlag("--generate-ssh-keys")]
     public bool? GenerateSshKeys { get; set; }
 
-    [CommandSwitch("--host")]
+    [CliOption("--host")]
     public string? Host { get; set; }
 
-    [CommandSwitch("--host-group")]
+    [CliOption("--host-group")]
     public string? HostGroup { get; set; }
 
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--license-type")]
+    [CliOption("--license-type")]
     public string? LicenseType { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--max-price")]
+    [CliOption("--max-price")]
     public string? MaxPrice { get; set; }
 
-    [CommandSwitch("--nic-delete-option")]
+    [CliOption("--nic-delete-option")]
     public string? NicDeleteOption { get; set; }
 
-    [CommandSwitch("--nics")]
+    [CliOption("--nics")]
     public string? Nics { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--nsg")]
+    [CliOption("--nsg")]
     public string? Nsg { get; set; }
 
-    [CommandSwitch("--nsg-rule")]
+    [CliOption("--nsg-rule")]
     public string? NsgRule { get; set; }
 
-    [CommandSwitch("--os-disk-caching")]
+    [CliOption("--os-disk-caching")]
     public string? OsDiskCaching { get; set; }
 
-    [CommandSwitch("--os-disk-delete-option")]
+    [CliOption("--os-disk-delete-option")]
     public string? OsDiskDeleteOption { get; set; }
 
-    [CommandSwitch("--os-disk-encryption-set")]
+    [CliOption("--os-disk-encryption-set")]
     public string? OsDiskEncryptionSet { get; set; }
 
-    [CommandSwitch("--os-disk-name")]
+    [CliOption("--os-disk-name")]
     public string? OsDiskName { get; set; }
 
-    [CommandSwitch("--os-disk-secure-vm-disk-encryption-set")]
+    [CliOption("--os-disk-secure-vm-disk-encryption-set")]
     public string? OsDiskSecureVmDiskEncryptionSet { get; set; }
 
-    [CommandSwitch("--os-disk-security-encryption-type")]
+    [CliOption("--os-disk-security-encryption-type")]
     public string? OsDiskSecurityEncryptionType { get; set; }
 
-    [CommandSwitch("--os-disk-size-gb")]
+    [CliOption("--os-disk-size-gb")]
     public string? OsDiskSizeGb { get; set; }
 
-    [CommandSwitch("--os-type")]
+    [CliOption("--os-type")]
     public string? OsType { get; set; }
 
-    [CommandSwitch("--patch-mode")]
+    [CliOption("--patch-mode")]
     public string? PatchMode { get; set; }
 
-    [CommandSwitch("--plan-name")]
+    [CliOption("--plan-name")]
     public string? PlanName { get; set; }
 
-    [CommandSwitch("--plan-product")]
+    [CliOption("--plan-product")]
     public string? PlanProduct { get; set; }
 
-    [CommandSwitch("--plan-promotion-code")]
+    [CliOption("--plan-promotion-code")]
     public string? PlanPromotionCode { get; set; }
 
-    [CommandSwitch("--plan-publisher")]
+    [CliOption("--plan-publisher")]
     public string? PlanPublisher { get; set; }
 
-    [CommandSwitch("--platform-fault-domain")]
+    [CliOption("--platform-fault-domain")]
     public string? PlatformFaultDomain { get; set; }
 
-    [CommandSwitch("--ppg")]
+    [CliOption("--ppg")]
     public string? Ppg { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--private-ip-address")]
+    [CliOption("--private-ip-address")]
     public string? PrivateIpAddress { get; set; }
 
-    [CommandSwitch("--public-ip-address")]
+    [CliOption("--public-ip-address")]
     public string? PublicIpAddress { get; set; }
 
-    [CommandSwitch("--public-ip-address-allocation")]
+    [CliOption("--public-ip-address-allocation")]
     public string? PublicIpAddressAllocation { get; set; }
 
-    [CommandSwitch("--public-ip-address-dns-name")]
+    [CliOption("--public-ip-address-dns-name")]
     public string? PublicIpAddressDnsName { get; set; }
 
-    [CommandSwitch("--public-ip-sku")]
+    [CliOption("--public-ip-sku")]
     public string? PublicIpSku { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--secrets")]
+    [CliOption("--secrets")]
     public string? Secrets { get; set; }
 
-    [CommandSwitch("--security-type")]
+    [CliOption("--security-type")]
     public string? SecurityType { get; set; }
 
-    [CommandSwitch("--size")]
+    [CliOption("--size")]
     public string? Size { get; set; }
 
-    [BooleanCommandSwitch("--specialized")]
+    [CliFlag("--specialized")]
     public bool? Specialized { get; set; }
 
-    [CommandSwitch("--ssh-dest-key-path")]
+    [CliOption("--ssh-dest-key-path")]
     public string? SshDestKeyPath { get; set; }
 
-    [CommandSwitch("--ssh-key-name")]
+    [CliOption("--ssh-key-name")]
     public string? SshKeyName { get; set; }
 
-    [CommandSwitch("--ssh-key-values")]
+    [CliOption("--ssh-key-values")]
     public string? SshKeyValues { get; set; }
 
-    [CommandSwitch("--storage-account")]
+    [CliOption("--storage-account")]
     public int? StorageAccount { get; set; }
 
-    [CommandSwitch("--storage-container-name")]
+    [CliOption("--storage-container-name")]
     public string? StorageContainerName { get; set; }
 
-    [CommandSwitch("--storage-sku")]
+    [CliOption("--storage-sku")]
     public string? StorageSku { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--subnet-address-prefix")]
+    [CliOption("--subnet-address-prefix")]
     public string? SubnetAddressPrefix { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--ultra-ssd-enabled")]
+    [CliFlag("--ultra-ssd-enabled")]
     public bool? UltraSsdEnabled { get; set; }
 
-    [BooleanCommandSwitch("--use-unmanaged-disk")]
+    [CliFlag("--use-unmanaged-disk")]
     public bool? UseUnmanagedDisk { get; set; }
 
-    [CommandSwitch("--user-data")]
+    [CliOption("--user-data")]
     public string? UserData { get; set; }
 
-    [CommandSwitch("--v-cpus-available")]
+    [CliOption("--v-cpus-available")]
     public string? VCpusAvailable { get; set; }
 
-    [CommandSwitch("--v-cpus-per-core")]
+    [CliOption("--v-cpus-per-core")]
     public string? VCpusPerCore { get; set; }
 
-    [BooleanCommandSwitch("--validate")]
+    [CliFlag("--validate")]
     public bool? Validate { get; set; }
 
-    [CommandSwitch("--vmss")]
+    [CliOption("--vmss")]
     public string? Vmss { get; set; }
 
-    [CommandSwitch("--vnet-address-prefix")]
+    [CliOption("--vnet-address-prefix")]
     public string? VnetAddressPrefix { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public string? Workspace { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

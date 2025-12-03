@@ -5,12 +5,12 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "workflow-templates", "set-cluster-selector")]
+[CliCommand("dataproc", "workflow-templates", "set-cluster-selector")]
 public record GcloudDataprocWorkflowTemplatesSetClusterSelectorOptions(
-[property: PositionalArgument] string Template,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Template,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [CommandSwitch("--cluster-labels")]
+    [CliOption("--cluster-labels")]
     public IEnumerable<KeyValue>? ClusterLabels { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "data-history", "connection", "delete")]
+[CliCommand("dt", "data-history", "connection", "delete")]
 public record AzDtDataHistoryConnectionDeleteOptions(
-[property: CommandSwitch("--cn")] string Cn,
-[property: CommandSwitch("--dt-name")] string DtName
+[property: CliOption("--cn")] string Cn,
+[property: CliOption("--dt-name")] string DtName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--clean")]
+    [CliFlag("--clean")]
     public bool? Clean { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

@@ -15,54 +15,54 @@ public record DockerNetworkCreateOptions : DockerOptions
         Network = network;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Network { get; set; }
 
-    [CommandSwitch("--attachable")]
+    [CliOption("--attachable")]
     public virtual string? Attachable { get; set; }
 
-    [CommandSwitch("--aux-address")]
+    [CliOption("--aux-address")]
     public virtual string? AuxAddress { get; set; }
 
-    [CommandSwitch("--config-from")]
+    [CliOption("--config-from")]
     public virtual string? ConfigFrom { get; set; }
 
-    [CommandSwitch("--config-only")]
+    [CliOption("--config-only")]
     public virtual string? ConfigOnly { get; set; }
 
-    [CommandSwitch("--driver")]
+    [CliOption("--driver")]
     public virtual string? Driver { get; set; }
 
-    [CommandSwitch("--gateway")]
+    [CliOption("--gateway")]
     public virtual string? Gateway { get; set; }
 
-    [CommandSwitch("--ingress")]
+    [CliOption("--ingress")]
     public virtual string? Ingress { get; set; }
 
-    [CommandSwitch("--internal")]
+    [CliOption("--internal")]
     public virtual string? Internal { get; set; }
 
-    [CommandSwitch("--ip-range")]
+    [CliOption("--ip-range")]
     public virtual string? IpRange { get; set; }
 
-    [CommandSwitch("--ipam-driver")]
+    [CliOption("--ipam-driver")]
     public virtual string? IpamDriver { get; set; }
 
-    [CommandSwitch("--ipam-opt")]
+    [CliOption("--ipam-opt")]
     public virtual string? IpamOpt { get; set; }
 
-    [CommandSwitch("--ipv6")]
+    [CliOption("--ipv6")]
     public virtual string? Ipv6 { get; set; }
 
-    [CommandSwitch("--label")]
+    [CliOption("--label")]
     public virtual string? Label { get; set; }
 
-    [CommandSwitch("--opt")]
+    [CliOption("--opt")]
     public virtual string? Opt { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public virtual string? Scope { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public virtual string? Subnet { get; set; }
 }

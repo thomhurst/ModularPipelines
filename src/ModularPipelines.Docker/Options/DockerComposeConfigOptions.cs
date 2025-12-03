@@ -3,49 +3,49 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "config")]
+[CliCommand("compose", "config")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeConfigOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Service { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [BooleanCommandSwitch("--hash")]
+    [CliFlag("--hash")]
     public virtual bool? Hash { get; set; }
 
-    [CommandSwitch("--images")]
+    [CliOption("--images")]
     public virtual string? Images { get; set; }
 
-    [BooleanCommandSwitch("--no-consistency")]
+    [CliFlag("--no-consistency")]
     public virtual bool? NoConsistency { get; set; }
 
-    [BooleanCommandSwitch("--no-interpolate")]
+    [CliFlag("--no-interpolate")]
     public virtual bool? NoInterpolate { get; set; }
 
-    [BooleanCommandSwitch("--no-normalize")]
+    [CliFlag("--no-normalize")]
     public virtual bool? NoNormalize { get; set; }
 
-    [BooleanCommandSwitch("--no-path-resolution")]
+    [CliFlag("--no-path-resolution")]
     public virtual bool? NoPathResolution { get; set; }
 
-    [CommandSwitch("--output")]
+    [CliOption("--output")]
     public virtual string? Output { get; set; }
 
-    [CommandSwitch("--profiles")]
+    [CliOption("--profiles")]
     public virtual string? Profiles { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [CommandSwitch("--resolve-image-digests")]
+    [CliOption("--resolve-image-digests")]
     public virtual string? ResolveImageDigests { get; set; }
 
-    [CommandSwitch("--services")]
+    [CliOption("--services")]
     public virtual string? Services { get; set; }
 
-    [CommandSwitch("--volumes")]
+    [CliOption("--volumes")]
     public virtual string? Volumes { get; set; }
 }

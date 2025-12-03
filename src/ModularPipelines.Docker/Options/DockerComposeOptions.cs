@@ -3,49 +3,49 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose")]
+[CliCommand("compose")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeOptions : DockerOptions
 {
-    [CommandSwitch("--ansi")]
+    [CliOption("--ansi")]
     public virtual string? Ansi { get; set; }
 
-    [CommandSwitch("--compatibility")]
+    [CliOption("--compatibility")]
     public virtual string? Compatibility { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [CommandSwitch("--env-file")]
+    [CliOption("--env-file")]
     public virtual string? EnvFile { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public virtual string? File { get; set; }
 
-    [CommandSwitch("--no-ansi")]
+    [CliOption("--no-ansi")]
     public virtual string? NoAnsi { get; set; }
 
-    [CommandSwitch("--parallel")]
+    [CliOption("--parallel")]
     public virtual int? Parallel { get; set; }
 
-    [CommandSwitch("--profile")]
+    [CliOption("--profile")]
     public virtual string? Profile { get; set; }
 
-    [CommandSwitch("--progress")]
+    [CliOption("--progress")]
     public virtual string? Progress { get; set; }
 
-    [CommandSwitch("--project-directory")]
+    [CliOption("--project-directory")]
     public virtual string? ProjectDirectory { get; set; }
 
-    [CommandSwitch("--project-name")]
+    [CliOption("--project-name")]
     public virtual string? ProjectName { get; set; }
 
-    [CommandSwitch("--verbose")]
+    [CliOption("--verbose")]
     public virtual string? Verbose { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public virtual string? Version { get; set; }
 
-    [CommandSwitch("--workdir")]
+    [CliOption("--workdir")]
     public virtual string? Workdir { get; set; }
 }

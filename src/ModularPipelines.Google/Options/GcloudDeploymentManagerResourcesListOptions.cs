@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deployment-manager", "resources", "list")]
+[CliCommand("deployment-manager", "resources", "list")]
 public record GcloudDeploymentManagerResourcesListOptions : GcloudOptions
 {
-    [CommandSwitch("--deployment")]
+    [CliOption("--deployment")]
     public string? Deployment { get; set; }
 
-    [BooleanCommandSwitch("--simple-list")]
+    [CliFlag("--simple-list")]
     public bool? SimpleList { get; set; }
 }

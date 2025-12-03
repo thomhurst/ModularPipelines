@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("postgres", "server-arc")]
+[CliCommand("postgres", "server-arc")]
 public class AzPostgresServerArcEndpoint
 {
     public AzPostgresServerArcEndpoint(

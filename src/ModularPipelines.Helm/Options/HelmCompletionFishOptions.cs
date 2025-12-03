@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("completion", "fish")]
+[CliCommand("completion", "fish")]
 [ExcludeFromCodeCoverage]
 public record HelmCompletionFishOptions : HelmOptions
 {
-    [BooleanCommandSwitch("--no-descriptions")]
+    [CliFlag("--no-descriptions")]
     public virtual bool? NoDescriptions { get; set; }
 }

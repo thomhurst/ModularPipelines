@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcappliance", "deploy", "scvmm")]
+[CliCommand("arcappliance", "deploy", "scvmm")]
 public record AzArcapplianceDeployScvmmOptions(
-[property: CommandSwitch("--config-file")] string ConfigFile
+[property: CliOption("--config-file")] string ConfigFile
 ) : AzOptions
 {
-    [CommandSwitch("--address")]
+    [CliOption("--address")]
     public string? Address { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--outfile")]
+    [CliOption("--outfile")]
     public string? Outfile { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 }

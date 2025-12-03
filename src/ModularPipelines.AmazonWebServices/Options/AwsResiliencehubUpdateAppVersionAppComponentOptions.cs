@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resiliencehub", "update-app-version-app-component")]
+[CliCommand("resiliencehub", "update-app-version-app-component")]
 public record AwsResiliencehubUpdateAppVersionAppComponentOptions(
-[property: CommandSwitch("--app-arn")] string AppArn,
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--app-arn")] string AppArn,
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--additional-info")]
+    [CliOption("--additional-info")]
     public IEnumerable<KeyValue>? AdditionalInfo { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

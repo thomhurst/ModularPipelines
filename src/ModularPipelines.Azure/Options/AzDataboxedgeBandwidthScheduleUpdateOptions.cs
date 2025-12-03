@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databoxedge", "bandwidth-schedule", "update")]
+[CliCommand("databoxedge", "bandwidth-schedule", "update")]
 public record AzDataboxedgeBandwidthScheduleUpdateOptions(
-[property: CommandSwitch("--days")] int Days,
-[property: CommandSwitch("--rate-in-mbps")] string RateInMbps,
-[property: CommandSwitch("--start")] string Start,
-[property: CommandSwitch("--stop")] string Stop
+[property: CliOption("--days")] int Days,
+[property: CliOption("--rate-in-mbps")] string RateInMbps,
+[property: CliOption("--start")] string Start,
+[property: CliOption("--stop")] string Stop
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--device-name")]
+    [CliOption("--device-name")]
     public string? DeviceName { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "dns", "record-set", "a", "remove-record")]
+[CliCommand("network", "dns", "record-set", "a", "remove-record")]
 public record AzNetworkDnsRecordSetARemoveRecordOptions(
-[property: CommandSwitch("--ipv4-address")] string Ipv4Address,
-[property: CommandSwitch("--record-set-name")] string RecordSetName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--zone-name")] string ZoneName
+[property: CliOption("--ipv4-address")] string Ipv4Address,
+[property: CliOption("--record-set-name")] string RecordSetName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--zone-name")] string ZoneName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--keep-empty-record-set")]
+    [CliFlag("--keep-empty-record-set")]
     public bool? KeepEmptyRecordSet { get; set; }
 }

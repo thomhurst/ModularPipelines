@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("system", "info")]
+[CliCommand("system", "info")]
 [ExcludeFromCodeCoverage]
 public record DockerSystemInfoOptions : DockerOptions
 {
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 }

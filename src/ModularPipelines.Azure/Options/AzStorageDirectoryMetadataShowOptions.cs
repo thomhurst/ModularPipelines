@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "directory", "metadata", "show")]
+[CliCommand("storage", "directory", "metadata", "show")]
 public record AzStorageDirectoryMetadataShowOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--share-name")] string ShareName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--share-name")] string ShareName
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [BooleanCommandSwitch("--backup-intent")]
+    [CliFlag("--backup-intent")]
     public bool? BackupIntent { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [BooleanCommandSwitch("--disallow-trailing-dot")]
+    [CliFlag("--disallow-trailing-dot")]
     public bool? DisallowTrailingDot { get; set; }
 
-    [CommandSwitch("--file-endpoint")]
+    [CliOption("--file-endpoint")]
     public string? FileEndpoint { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--snapshot")]
+    [CliOption("--snapshot")]
     public string? Snapshot { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

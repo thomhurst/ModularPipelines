@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("builds", "connections", "create", "github")]
+[CliCommand("builds", "connections", "create", "github")]
 public record GcloudBuildsConnectionsCreateGithubOptions(
-[property: PositionalArgument] string Connection,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Connection,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--authorizer-token-secret-version")]
+    [CliOption("--authorizer-token-secret-version")]
     public string? AuthorizerTokenSecretVersion { get; set; }
 
-    [CommandSwitch("--app-installation-id")]
+    [CliOption("--app-installation-id")]
     public string? AppInstallationId { get; set; }
 }

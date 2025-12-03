@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "express-route", "port", "link", "list")]
+[CliCommand("network", "express-route", "port", "link", "list")]
 public record AzNetworkExpressRoutePortLinkListOptions(
-[property: CommandSwitch("--port-name")] string PortName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--port-name")] string PortName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

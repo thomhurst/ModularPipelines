@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bigtable", "instances", "tables", "describe")]
+[CliCommand("bigtable", "instances", "tables", "describe")]
 public record GcloudBigtableInstancesTablesDescribeOptions(
-[property: PositionalArgument] string Table,
-[property: PositionalArgument] string Instance
+[property: CliArgument] string Table,
+[property: CliArgument] string Instance
 ) : GcloudOptions
 {
-    [CommandSwitch("--view")]
+    [CliOption("--view")]
     public string? View { get; set; }
 }

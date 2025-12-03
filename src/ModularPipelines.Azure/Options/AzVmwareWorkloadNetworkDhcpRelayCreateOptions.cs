@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "workload-network", "dhcp", "relay", "create")]
+[CliCommand("vmware", "workload-network", "dhcp", "relay", "create")]
 public record AzVmwareWorkloadNetworkDhcpRelayCreateOptions(
-[property: CommandSwitch("--dhcp")] string Dhcp,
-[property: CommandSwitch("--private-cloud")] string PrivateCloud,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--dhcp")] string Dhcp,
+[property: CliOption("--private-cloud")] string PrivateCloud,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--revision")]
+    [CliOption("--revision")]
     public string? Revision { get; set; }
 
-    [CommandSwitch("--server-addresses")]
+    [CliOption("--server-addresses")]
     public string? ServerAddresses { get; set; }
 }

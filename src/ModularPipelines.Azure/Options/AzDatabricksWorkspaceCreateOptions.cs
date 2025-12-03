@@ -4,69 +4,69 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databricks", "workspace", "create")]
+[CliCommand("databricks", "workspace", "create")]
 public record AzDatabricksWorkspaceCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--disk-key-auto-rotation")]
+    [CliFlag("--disk-key-auto-rotation")]
     public bool? DiskKeyAutoRotation { get; set; }
 
-    [CommandSwitch("--disk-key-name")]
+    [CliOption("--disk-key-name")]
     public string? DiskKeyName { get; set; }
 
-    [CommandSwitch("--disk-key-vault")]
+    [CliOption("--disk-key-vault")]
     public string? DiskKeyVault { get; set; }
 
-    [CommandSwitch("--disk-key-version")]
+    [CliOption("--disk-key-version")]
     public string? DiskKeyVersion { get; set; }
 
-    [BooleanCommandSwitch("--enable-no-public-ip")]
+    [CliFlag("--enable-no-public-ip")]
     public bool? EnableNoPublicIp { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--managed-resource-group")]
+    [CliOption("--managed-resource-group")]
     public string? ManagedResourceGroup { get; set; }
 
-    [CommandSwitch("--managed-services-key-name")]
+    [CliOption("--managed-services-key-name")]
     public string? ManagedServicesKeyName { get; set; }
 
-    [CommandSwitch("--managed-services-key-vault")]
+    [CliOption("--managed-services-key-vault")]
     public string? ManagedServicesKeyVault { get; set; }
 
-    [CommandSwitch("--managed-services-key-version")]
+    [CliOption("--managed-services-key-version")]
     public string? ManagedServicesKeyVersion { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--prepare-encryption")]
+    [CliFlag("--prepare-encryption")]
     public bool? PrepareEncryption { get; set; }
 
-    [CommandSwitch("--private-subnet")]
+    [CliOption("--private-subnet")]
     public string? PrivateSubnet { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--public-subnet")]
+    [CliOption("--public-subnet")]
     public string? PublicSubnet { get; set; }
 
-    [BooleanCommandSwitch("--require-infrastructure-encryption")]
+    [CliFlag("--require-infrastructure-encryption")]
     public bool? RequireInfrastructureEncryption { get; set; }
 
-    [CommandSwitch("--required-nsg-rules")]
+    [CliOption("--required-nsg-rules")]
     public string? RequiredNsgRules { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vnet")]
+    [CliOption("--vnet")]
     public string? Vnet { get; set; }
 }

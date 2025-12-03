@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securityhub", "describe-organization-configuration")]
+[CliCommand("securityhub", "describe-organization-configuration")]
 public record AwsSecurityhubDescribeOrganizationConfigurationOptions : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

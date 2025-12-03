@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "file", "metadata")]
+[CliCommand("storage", "file", "metadata")]
 public class AzStorageFileMetadataShow
 {
     public AzStorageFileMetadataShow(

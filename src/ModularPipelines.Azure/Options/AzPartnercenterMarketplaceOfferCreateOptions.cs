@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("partnercenter", "marketplace", "offer", "create")]
+[CliCommand("partnercenter", "marketplace", "offer", "create")]
 public record AzPartnercenterMarketplaceOfferCreateOptions(
-[property: CommandSwitch("--alias")] string Alias,
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--alias")] string Alias,
+[property: CliOption("--id")] string Id,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

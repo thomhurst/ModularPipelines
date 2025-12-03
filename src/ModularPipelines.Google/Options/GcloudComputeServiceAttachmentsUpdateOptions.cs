@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "service-attachments", "update")]
+[CliCommand("compute", "service-attachments", "update")]
 public record GcloudComputeServiceAttachmentsUpdateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--connection-preference")]
+    [CliOption("--connection-preference")]
     public string? ConnectionPreference { get; set; }
 
-    [CommandSwitch("--consumer-accept-list")]
+    [CliOption("--consumer-accept-list")]
     public string[]? ConsumerAcceptList { get; set; }
 
-    [CommandSwitch("--consumer-reject-list")]
+    [CliOption("--consumer-reject-list")]
     public string[]? ConsumerRejectList { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--[no-]enable-proxy-protocol")]
+    [CliOption("--[no-]enable-proxy-protocol")]
     public string[]? NoEnableProxyProtocol { get; set; }
 
-    [CommandSwitch("--nat-subnets")]
+    [CliOption("--nat-subnets")]
     public string[]? NatSubnets { get; set; }
 
-    [CommandSwitch("--nat-subnets-region")]
+    [CliOption("--nat-subnets-region")]
     public string? NatSubnetsRegion { get; set; }
 
-    [CommandSwitch("--[no-]reconcile-connections")]
+    [CliOption("--[no-]reconcile-connections")]
     public string[]? NoReconcileConnections { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

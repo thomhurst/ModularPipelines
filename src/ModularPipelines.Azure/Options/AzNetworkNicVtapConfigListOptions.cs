@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "nic", "vtap-config", "list")]
+[CliCommand("network", "nic", "vtap-config", "list")]
 public record AzNetworkNicVtapConfigListOptions(
-[property: CommandSwitch("--nic-name")] string NicName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--nic-name")] string NicName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

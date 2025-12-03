@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datafactory", "pipeline-run", "cancel")]
+[CliCommand("datafactory", "pipeline-run", "cancel")]
 public record AzDatafactoryPipelineRunCancelOptions : AzOptions
 {
-    [CommandSwitch("--factory-name")]
+    [CliOption("--factory-name")]
     public string? FactoryName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--is-recursive")]
+    [CliFlag("--is-recursive")]
     public bool? IsRecursive { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--run-id")]
+    [CliOption("--run-id")]
     public string? RunId { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

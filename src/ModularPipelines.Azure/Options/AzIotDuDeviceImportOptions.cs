@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "device", "import")]
+[CliCommand("iot", "du", "device", "import")]
 public record AzIotDuDeviceImportOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--instance")] string Instance
+[property: CliOption("--account")] int Account,
+[property: CliOption("--instance")] string Instance
 ) : AzOptions
 {
-    [CommandSwitch("--import-type")]
+    [CliOption("--import-type")]
     public string? ImportType { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

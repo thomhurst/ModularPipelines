@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-server-config")]
+[CliCommand("network", "vpn-server-config")]
 public class AzNetworkVpnServerConfigIpsecPolicy
 {
     public AzNetworkVpnServerConfigIpsecPolicy(

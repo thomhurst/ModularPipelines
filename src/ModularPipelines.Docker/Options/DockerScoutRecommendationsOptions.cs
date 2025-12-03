@@ -3,31 +3,31 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout", "recommendations")]
+[CliCommand("scout", "recommendations")]
 [ExcludeFromCodeCoverage]
 public record DockerScoutRecommendationsOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? ImageOrDirectoryOrArchive { get; set; }
 
-    [CommandSwitch("--only-refresh")]
+    [CliOption("--only-refresh")]
     public virtual string? OnlyRefresh { get; set; }
 
-    [CommandSwitch("--only-update")]
+    [CliOption("--only-update")]
     public virtual string? OnlyUpdate { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public virtual string? Org { get; set; }
 
-    [CommandSwitch("--output")]
+    [CliOption("--output")]
     public virtual string? Output { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public virtual string? Platform { get; set; }
 
-    [CommandSwitch("--ref")]
+    [CliOption("--ref")]
     public virtual string? Ref { get; set; }
 
-    [CommandSwitch("--tag")]
+    [CliOption("--tag")]
     public virtual string? Tag { get; set; }
 }

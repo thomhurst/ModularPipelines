@@ -20,39 +20,39 @@ public record DotNetNugetPushOptions : DotNetOptions
         CommandParts = ["nuget", "push", "[<ROOT>]"];
     }
 
-    [PositionalArgument(PlaceholderName = "[<ROOT>]")]
+    [CliArgument(Name = "[<ROOT>]")]
     public string? Path { get; set; }
 
-    [BooleanCommandSwitch("--disable-buffering")]
+    [CliFlag("--disable-buffering")]
     public virtual bool? DisableBuffering { get; set; }
 
-    [BooleanCommandSwitch("--force-english-output")]
+    [CliFlag("--force-english-output")]
     public virtual bool? ForceEnglishOutput { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [CommandSwitch("--api-key")]
+    [CliOption("--api-key")]
     public virtual string? ApiKey { get; set; }
 
-    [BooleanCommandSwitch("--no-symbols")]
+    [CliFlag("--no-symbols")]
     public virtual bool? NoSymbols { get; set; }
 
-    [BooleanCommandSwitch("--no-service-endpoint")]
+    [CliFlag("--no-service-endpoint")]
     public virtual bool? NoServiceEndpoint { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public virtual string? Source { get; set; }
 
-    [BooleanCommandSwitch("--skip-duplicate")]
+    [CliFlag("--skip-duplicate")]
     public virtual bool? SkipDuplicate { get; set; }
 
-    [CommandSwitch("--symbol-api-key")]
+    [CliOption("--symbol-api-key")]
     public virtual string? SymbolApiKey { get; set; }
 
-    [CommandSwitch("--symbol-source")]
+    [CliOption("--symbol-source")]
     public virtual string? SymbolSource { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public virtual string? Timeout { get; set; }
 }

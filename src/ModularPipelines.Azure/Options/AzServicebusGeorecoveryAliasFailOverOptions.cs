@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicebus", "georecovery-alias", "fail-over")]
+[CliCommand("servicebus", "georecovery-alias", "fail-over")]
 public record AzServicebusGeorecoveryAliasFailOverOptions : AzOptions
 {
-    [CommandSwitch("--alias")]
+    [CliOption("--alias")]
     public string? Alias { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--is-safe-failover")]
+    [CliFlag("--is-safe-failover")]
     public bool? IsSafeFailover { get; set; }
 
-    [CommandSwitch("--namespace-name")]
+    [CliOption("--namespace-name")]
     public string? NamespaceName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

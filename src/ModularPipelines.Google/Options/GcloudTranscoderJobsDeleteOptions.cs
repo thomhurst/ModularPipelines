@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transcoder", "jobs", "delete")]
+[CliCommand("transcoder", "jobs", "delete")]
 public record GcloudTranscoderJobsDeleteOptions(
-[property: PositionalArgument] string JobName,
-[property: PositionalArgument] string Location
+[property: CliArgument] string JobName,
+[property: CliArgument] string Location
 ) : GcloudOptions;

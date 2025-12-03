@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-cloud", "identity", "assign")]
+[CliCommand("vmware", "private-cloud", "identity", "assign")]
 public record AzVmwarePrivateCloudIdentityAssignOptions(
-[property: CommandSwitch("--private-cloud")] string PrivateCloud,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--private-cloud")] string PrivateCloud,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--system-assigned")]
+    [CliFlag("--system-assigned")]
     public bool? SystemAssigned { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "lb", "address-pool", "delete")]
+[CliCommand("network", "lb", "address-pool", "delete")]
 public record AzNetworkLbAddressPoolDeleteOptions(
-[property: CommandSwitch("--address-pool-name")] string AddressPoolName,
-[property: CommandSwitch("--lb-name")] string LbName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--address-pool-name")] string AddressPoolName,
+[property: CliOption("--lb-name")] string LbName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

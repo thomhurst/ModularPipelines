@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("private-link", "association", "delete")]
+[CliCommand("private-link", "association", "delete")]
 public record AzPrivateLinkAssociationDeleteOptions(
-[property: CommandSwitch("--management-group-id")] string ManagementGroupId,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--management-group-id")] string ManagementGroupId,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

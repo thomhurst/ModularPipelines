@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "service-accounts", "keys", "upload")]
+[CliCommand("iam", "service-accounts", "keys", "upload")]
 public record GcloudIamServiceAccountsKeysUploadOptions(
-[property: PositionalArgument] string PublicKeyFile,
-[property: CommandSwitch("--iam-account")] string IamAccount
+[property: CliArgument] string PublicKeyFile,
+[property: CliOption("--iam-account")] string IamAccount
 ) : GcloudOptions;

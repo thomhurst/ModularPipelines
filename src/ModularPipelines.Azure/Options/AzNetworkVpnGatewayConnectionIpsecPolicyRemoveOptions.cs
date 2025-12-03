@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-gateway", "connection", "ipsec-policy", "remove")]
+[CliCommand("network", "vpn-gateway", "connection", "ipsec-policy", "remove")]
 public record AzNetworkVpnGatewayConnectionIpsecPolicyRemoveOptions(
-[property: CommandSwitch("--connection-name")] string ConnectionName,
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--index")] string Index,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--connection-name")] string ConnectionName,
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--index")] string Index,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

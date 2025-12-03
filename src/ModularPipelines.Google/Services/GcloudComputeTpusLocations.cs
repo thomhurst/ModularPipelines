@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "tpus")]
+[CliCommand("compute", "tpus")]
 public class GcloudComputeTpusLocations
 {
     public GcloudComputeTpusLocations(

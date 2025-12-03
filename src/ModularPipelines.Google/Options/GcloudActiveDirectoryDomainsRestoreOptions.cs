@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("active-directory", "domains", "restore")]
+[CliCommand("active-directory", "domains", "restore")]
 public record GcloudActiveDirectoryDomainsRestoreOptions(
-[property: PositionalArgument] string Domain,
-[property: CommandSwitch("--backup")] string Backup
+[property: CliArgument] string Domain,
+[property: CliOption("--backup")] string Backup
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

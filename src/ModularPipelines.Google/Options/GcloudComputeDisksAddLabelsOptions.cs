@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "disks", "add-labels")]
+[CliCommand("compute", "disks", "add-labels")]
 public record GcloudComputeDisksAddLabelsOptions(
-[property: PositionalArgument] string DiskName,
-[property: CommandSwitch("--labels")] IEnumerable<KeyValue> Labels
+[property: CliArgument] string DiskName,
+[property: CliOption("--labels")] IEnumerable<KeyValue> Labels
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

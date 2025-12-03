@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "sbom", "load")]
+[CliCommand("artifacts", "sbom", "load")]
 public record GcloudArtifactsSbomLoadOptions(
-[property: CommandSwitch("--source")] string Source,
-[property: CommandSwitch("--uri")] string Uri
+[property: CliOption("--source")] string Source,
+[property: CliOption("--uri")] string Uri
 ) : GcloudOptions
 {
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 
-    [CommandSwitch("--kms-key-version")]
+    [CliOption("--kms-key-version")]
     public string? KmsKeyVersion { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "backend-services", "import")]
+[CliCommand("compute", "backend-services", "import")]
 public record GcloudComputeBackendServicesImportOptions(
-[property: PositionalArgument] string BackendServiceName
+[property: CliArgument] string BackendServiceName
 ) : GcloudOptions
 {
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

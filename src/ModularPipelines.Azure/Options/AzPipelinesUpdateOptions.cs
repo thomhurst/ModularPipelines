@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines", "update")]
+[CliCommand("pipelines", "update")]
 public record AzPipelinesUpdateOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [CommandSwitch("--branch")]
+    [CliOption("--branch")]
     public string? Branch { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--new-folder-path")]
+    [CliOption("--new-folder-path")]
     public string? NewFolderPath { get; set; }
 
-    [CommandSwitch("--new-name")]
+    [CliOption("--new-name")]
     public string? NewName { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [CommandSwitch("--queue-id")]
+    [CliOption("--queue-id")]
     public string? QueueId { get; set; }
 
-    [CommandSwitch("--yaml-path")]
+    [CliOption("--yaml-path")]
     public string? YamlPath { get; set; }
 }

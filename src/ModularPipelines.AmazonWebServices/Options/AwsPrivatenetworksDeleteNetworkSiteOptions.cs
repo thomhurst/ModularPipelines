@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("privatenetworks", "delete-network-site")]
+[CliCommand("privatenetworks", "delete-network-site")]
 public record AwsPrivatenetworksDeleteNetworkSiteOptions(
-[property: CommandSwitch("--network-site-arn")] string NetworkSiteArn
+[property: CliOption("--network-site-arn")] string NetworkSiteArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

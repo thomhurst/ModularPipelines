@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "reschedule-maintenance")]
+[CliCommand("sql", "reschedule-maintenance")]
 public record GcloudSqlRescheduleMaintenanceOptions(
-[property: PositionalArgument] string Instance,
-[property: CommandSwitch("--reschedule-type")] string RescheduleType
+[property: CliArgument] string Instance,
+[property: CliOption("--reschedule-type")] string RescheduleType
 ) : GcloudOptions
 {
-    [CommandSwitch("--schedule-time")]
+    [CliOption("--schedule-time")]
     public string? ScheduleTime { get; set; }
 }

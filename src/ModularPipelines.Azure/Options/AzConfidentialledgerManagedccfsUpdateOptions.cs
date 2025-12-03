@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("confidentialledger", "managedccfs", "update")]
+[CliCommand("confidentialledger", "managedccfs", "update")]
 public record AzConfidentialledgerManagedccfsUpdateOptions : AzOptions
 {
-    [CommandSwitch("--deployment-type")]
+    [CliOption("--deployment-type")]
     public string? DeploymentType { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--member-certificates")]
+    [CliOption("--member-certificates")]
     public string? MemberCertificates { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--node-count")]
+    [CliOption("--node-count")]
     public int? NodeCount { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

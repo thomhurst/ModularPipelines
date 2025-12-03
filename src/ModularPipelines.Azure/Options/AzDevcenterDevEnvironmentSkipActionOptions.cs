@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter", "dev", "environment", "skip-action")]
+[CliCommand("devcenter", "dev", "environment", "skip-action")]
 public record AzDevcenterDevEnvironmentSkipActionOptions(
-[property: CommandSwitch("--action-name")] string ActionName,
-[property: CommandSwitch("--environment-name")] string EnvironmentName,
-[property: CommandSwitch("--project")] string Project
+[property: CliOption("--action-name")] string ActionName,
+[property: CliOption("--environment-name")] string EnvironmentName,
+[property: CliOption("--project")] string Project
 ) : AzOptions
 {
-    [CommandSwitch("--dev-center")]
+    [CliOption("--dev-center")]
     public string? DevCenter { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [CommandSwitch("--user-id")]
+    [CliOption("--user-id")]
     public string? UserId { get; set; }
 }

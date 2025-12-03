@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad")]
+[CliCommand("ad")]
 public class AzAdSignedInUser
 {
     public AzAdSignedInUser(

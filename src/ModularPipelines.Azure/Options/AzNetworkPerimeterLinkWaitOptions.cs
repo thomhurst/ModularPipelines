@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "perimeter", "link", "wait")]
+[CliCommand("network", "perimeter", "link", "wait")]
 public record AzNetworkPerimeterLinkWaitOptions : AzOptions
 {
-    [BooleanCommandSwitch("--created")]
+    [CliFlag("--created")]
     public bool? Created { get; set; }
 
-    [CommandSwitch("--custom")]
+    [CliOption("--custom")]
     public string? Custom { get; set; }
 
-    [BooleanCommandSwitch("--deleted")]
+    [CliFlag("--deleted")]
     public bool? Deleted { get; set; }
 
-    [BooleanCommandSwitch("--exists")]
+    [CliFlag("--exists")]
     public bool? Exists { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--interval")]
+    [CliOption("--interval")]
     public int? Interval { get; set; }
 
-    [CommandSwitch("--link-name")]
+    [CliOption("--link-name")]
     public string? LinkName { get; set; }
 
-    [CommandSwitch("--perimeter-name")]
+    [CliOption("--perimeter-name")]
     public string? PerimeterName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [BooleanCommandSwitch("--updated")]
+    [CliFlag("--updated")]
     public bool? Updated { get; set; }
 }

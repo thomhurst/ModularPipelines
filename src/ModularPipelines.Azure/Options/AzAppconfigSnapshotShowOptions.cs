@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "snapshot", "show")]
+[CliCommand("appconfig", "snapshot", "show")]
 public record AzAppconfigSnapshotShowOptions(
-[property: CommandSwitch("--snapshot-name")] string SnapshotName
+[property: CliOption("--snapshot-name")] string SnapshotName
 ) : AzOptions
 {
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [CommandSwitch("--fields")]
+    [CliOption("--fields")]
     public string? Fields { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 }

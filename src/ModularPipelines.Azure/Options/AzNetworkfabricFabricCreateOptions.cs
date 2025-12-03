@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkfabric", "fabric", "create")]
+[CliCommand("networkfabric", "fabric", "create")]
 public record AzNetworkfabricFabricCreateOptions(
-[property: CommandSwitch("--fabric-asn")] string FabricAsn,
-[property: CommandSwitch("--ipv4-prefix")] string Ipv4Prefix,
-[property: CommandSwitch("--managed-network-config")] string ManagedNetworkConfig,
-[property: CommandSwitch("--nf-sku")] string NfSku,
-[property: CommandSwitch("--nfc-id")] string NfcId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-name")] string ResourceName,
-[property: CommandSwitch("--server-count-per-rack")] int ServerCountPerRack,
-[property: CommandSwitch("--ts-config")] string TsConfig
+[property: CliOption("--fabric-asn")] string FabricAsn,
+[property: CliOption("--ipv4-prefix")] string Ipv4Prefix,
+[property: CliOption("--managed-network-config")] string ManagedNetworkConfig,
+[property: CliOption("--nf-sku")] string NfSku,
+[property: CliOption("--nfc-id")] string NfcId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--resource-name")] string ResourceName,
+[property: CliOption("--server-count-per-rack")] int ServerCountPerRack,
+[property: CliOption("--ts-config")] string TsConfig
 ) : AzOptions
 {
-    [CommandSwitch("--annotation")]
+    [CliOption("--annotation")]
     public string? Annotation { get; set; }
 
-    [CommandSwitch("--ipv6-prefix")]
+    [CliOption("--ipv6-prefix")]
     public string? Ipv6Prefix { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--rack-count")]
+    [CliOption("--rack-count")]
     public int? RackCount { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

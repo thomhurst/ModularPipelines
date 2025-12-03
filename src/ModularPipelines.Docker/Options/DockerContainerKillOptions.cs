@@ -15,9 +15,9 @@ public record DockerContainerKillOptions : DockerOptions
         Container = container;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Container { get; set; }
 
-    [CommandSwitch("--signal")]
+    [CliOption("--signal")]
     public virtual string? Signal { get; set; }
 }

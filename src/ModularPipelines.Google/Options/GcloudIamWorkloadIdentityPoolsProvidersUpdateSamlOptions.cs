@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workload-identity-pools", "providers", "update-saml")]
+[CliCommand("iam", "workload-identity-pools", "providers", "update-saml")]
 public record GcloudIamWorkloadIdentityPoolsProvidersUpdateSamlOptions(
-[property: PositionalArgument] string Provider,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string WorkloadIdentityPool
+[property: CliArgument] string Provider,
+[property: CliArgument] string Location,
+[property: CliArgument] string WorkloadIdentityPool
 ) : GcloudOptions
 {
-    [CommandSwitch("--attribute-condition")]
+    [CliOption("--attribute-condition")]
     public string? AttributeCondition { get; set; }
 
-    [CommandSwitch("--attribute-mapping")]
+    [CliOption("--attribute-mapping")]
     public IEnumerable<KeyValue>? AttributeMapping { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--idp-metadata-path")]
+    [CliOption("--idp-metadata-path")]
     public string? IdpMetadataPath { get; set; }
 }

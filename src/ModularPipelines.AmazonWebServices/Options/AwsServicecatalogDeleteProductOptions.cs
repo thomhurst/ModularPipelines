@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicecatalog", "delete-product")]
+[CliCommand("servicecatalog", "delete-product")]
 public record AwsServicecatalogDeleteProductOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--accept-language")]
+    [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

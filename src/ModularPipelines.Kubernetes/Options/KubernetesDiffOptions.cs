@@ -3,28 +3,28 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("diff")]
+[CliCommand("diff")]
 [ExcludeFromCodeCoverage]
 public record KubernetesDiffOptions : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CliOption("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
+    [CliOption("--filename")]
     public string[]? Filename { get; set; }
 
-    [BooleanCommandSwitch("--force-conflicts")]
+    [CliFlag("--force-conflicts")]
     public virtual bool? ForceConflicts { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CliOption("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CliOption("--selector")]
     public string? Selector { get; set; }
 
-    [BooleanCommandSwitch("--server-side")]
+    [CliFlag("--server-side")]
     public virtual bool? ServerSide { get; set; }
 }

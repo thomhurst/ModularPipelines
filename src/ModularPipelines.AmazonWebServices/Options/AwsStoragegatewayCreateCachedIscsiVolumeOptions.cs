@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "create-cached-iscsi-volume")]
+[CliCommand("storagegateway", "create-cached-iscsi-volume")]
 public record AwsStoragegatewayCreateCachedIscsiVolumeOptions(
-[property: CommandSwitch("--gateway-arn")] string GatewayArn,
-[property: CommandSwitch("--volume-size-in-bytes")] long VolumeSizeInBytes,
-[property: CommandSwitch("--target-name")] string TargetName,
-[property: CommandSwitch("--network-interface-id")] string NetworkInterfaceId,
-[property: CommandSwitch("--client-token")] string ClientToken
+[property: CliOption("--gateway-arn")] string GatewayArn,
+[property: CliOption("--volume-size-in-bytes")] long VolumeSizeInBytes,
+[property: CliOption("--target-name")] string TargetName,
+[property: CliOption("--network-interface-id")] string NetworkInterfaceId,
+[property: CliOption("--client-token")] string ClientToken
 ) : AwsOptions
 {
-    [CommandSwitch("--snapshot-id")]
+    [CliOption("--snapshot-id")]
     public string? SnapshotId { get; set; }
 
-    [CommandSwitch("--source-volume-arn")]
+    [CliOption("--source-volume-arn")]
     public string? SourceVolumeArn { get; set; }
 
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

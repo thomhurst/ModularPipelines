@@ -3,31 +3,31 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("package")]
+[CliCommand("package")]
 [ExcludeFromCodeCoverage]
 public record HelmPackageOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--app-version", SwitchValueSeparator = " ")]
+    [CliOption("--app-version")]
     public string? AppVersion { get; set; }
 
-    [BooleanCommandSwitch("--dependency-update")]
+    [CliFlag("--dependency-update")]
     public virtual bool? DependencyUpdate { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--destination", SwitchValueSeparator = " ")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--key", SwitchValueSeparator = " ")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--keyring", SwitchValueSeparator = " ")]
+    [CliOption("--keyring")]
     public string? Keyring { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--passphrase-file", SwitchValueSeparator = " ")]
+    [CliOption("--passphrase-file")]
     public string? PassphraseFile { get; set; }
 
-    [BooleanCommandSwitch("--sign")]
+    [CliFlag("--sign")]
     public virtual bool? Sign { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--version", SwitchValueSeparator = " ")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 }

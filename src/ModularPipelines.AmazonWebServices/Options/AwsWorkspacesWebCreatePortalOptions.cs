@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces-web", "create-portal")]
+[CliCommand("workspaces-web", "create-portal")]
 public record AwsWorkspacesWebCreatePortalOptions : AwsOptions
 {
-    [CommandSwitch("--additional-encryption-context")]
+    [CliOption("--additional-encryption-context")]
     public IEnumerable<KeyValue>? AdditionalEncryptionContext { get; set; }
 
-    [CommandSwitch("--authentication-type")]
+    [CliOption("--authentication-type")]
     public string? AuthenticationType { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--customer-managed-key")]
+    [CliOption("--customer-managed-key")]
     public string? CustomerManagedKey { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

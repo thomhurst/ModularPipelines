@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "tpus", "tpu-vm", "get-guest-attributes")]
+[CliCommand("compute", "tpus", "tpu-vm", "get-guest-attributes")]
 public record GcloudComputeTpusTpuVmGetGuestAttributesOptions(
-[property: PositionalArgument] string Tpu,
-[property: PositionalArgument] string Zone
+[property: CliArgument] string Tpu,
+[property: CliArgument] string Zone
 ) : GcloudOptions
 {
-    [CommandSwitch("--query-path")]
+    [CliOption("--query-path")]
     public string? QueryPath { get; set; }
 }

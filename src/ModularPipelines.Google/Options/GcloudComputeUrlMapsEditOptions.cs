@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "url-maps", "edit")]
+[CliCommand("compute", "url-maps", "edit")]
 public record GcloudComputeUrlMapsEditOptions(
-[property: PositionalArgument] string UrlMap
+[property: CliArgument] string UrlMap
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

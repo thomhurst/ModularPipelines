@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connection", "update", "redis")]
+[CliCommand("connection", "update", "redis")]
 public record AzConnectionUpdateRedisOptions : AzOptions
 {
-    [CommandSwitch("--client-type")]
+    [CliOption("--client-type")]
     public string? ClientType { get; set; }
 
-    [CommandSwitch("--connection")]
+    [CliOption("--connection")]
     public string? Connection { get; set; }
 
-    [CommandSwitch("--customized-keys")]
+    [CliOption("--customized-keys")]
     public string? CustomizedKeys { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--secret")]
+    [CliOption("--secret")]
     public string? Secret { get; set; }
 }

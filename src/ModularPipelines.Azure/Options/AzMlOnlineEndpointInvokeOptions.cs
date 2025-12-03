@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "online-endpoint", "invoke")]
+[CliCommand("ml", "online-endpoint", "invoke")]
 public record AzMlOnlineEndpointInvokeOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--deployment-name")]
+    [CliOption("--deployment-name")]
     public string? DeploymentName { get; set; }
 
-    [BooleanCommandSwitch("--local")]
+    [CliFlag("--local")]
     public bool? Local { get; set; }
 
-    [CommandSwitch("--request-file")]
+    [CliOption("--request-file")]
     public string? RequestFile { get; set; }
 }

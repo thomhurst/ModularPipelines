@@ -5,31 +5,31 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "create-project-version")]
+[CliCommand("rekognition", "create-project-version")]
 public record AwsRekognitionCreateProjectVersionOptions(
-[property: CommandSwitch("--project-arn")] string ProjectArn,
-[property: CommandSwitch("--version-name")] string VersionName,
-[property: CommandSwitch("--output-config")] string OutputConfig
+[property: CliOption("--project-arn")] string ProjectArn,
+[property: CliOption("--version-name")] string VersionName,
+[property: CliOption("--output-config")] string OutputConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--training-data")]
+    [CliOption("--training-data")]
     public string? TrainingData { get; set; }
 
-    [CommandSwitch("--testing-data")]
+    [CliOption("--testing-data")]
     public string? TestingData { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--version-description")]
+    [CliOption("--version-description")]
     public string? VersionDescription { get; set; }
 
-    [CommandSwitch("--feature-config")]
+    [CliOption("--feature-config")]
     public string? FeatureConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

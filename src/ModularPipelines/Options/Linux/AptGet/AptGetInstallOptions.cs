@@ -11,9 +11,9 @@ public record AptGetInstallOptions : AptGetOptions
         Package = package;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string CommandName { get; } = "install";
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string Package { get; }
 }

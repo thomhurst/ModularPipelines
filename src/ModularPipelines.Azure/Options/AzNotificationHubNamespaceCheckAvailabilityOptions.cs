@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("notification-hub", "namespace", "check-availability")]
+[CliCommand("notification-hub", "namespace", "check-availability")]
 public record AzNotificationHubNamespaceCheckAvailabilityOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions;

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("immersive-stream", "xr", "contents", "build")]
+[CliCommand("immersive-stream", "xr", "contents", "build")]
 public record GcloudImmersiveStreamXrContentsBuildOptions : GcloudOptions
 {
     public GcloudImmersiveStreamXrContentsBuildOptions(
@@ -18,15 +18,15 @@ public record GcloudImmersiveStreamXrContentsBuildOptions : GcloudOptions
         Version = version;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Content { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Location { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string Version { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

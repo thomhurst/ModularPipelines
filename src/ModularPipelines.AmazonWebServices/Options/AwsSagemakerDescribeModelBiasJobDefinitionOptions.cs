@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "describe-model-bias-job-definition")]
+[CliCommand("sagemaker", "describe-model-bias-job-definition")]
 public record AwsSagemakerDescribeModelBiasJobDefinitionOptions(
-[property: CommandSwitch("--job-definition-name")] string JobDefinitionName
+[property: CliOption("--job-definition-name")] string JobDefinitionName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

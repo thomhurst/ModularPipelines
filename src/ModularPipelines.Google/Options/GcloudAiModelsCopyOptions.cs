@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "models", "copy")]
+[CliCommand("ai", "models", "copy")]
 public record GcloudAiModelsCopyOptions(
-[property: CommandSwitch("--source-model")] string SourceModel
+[property: CliOption("--source-model")] string SourceModel
 ) : GcloudOptions
 {
-    [CommandSwitch("--kms-key-name")]
+    [CliOption("--kms-key-name")]
     public string? KmsKeyName { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--destination-model-id")]
+    [CliOption("--destination-model-id")]
     public string? DestinationModelId { get; set; }
 
-    [CommandSwitch("--destination-parent-model")]
+    [CliOption("--destination-parent-model")]
     public string? DestinationParentModel { get; set; }
 }

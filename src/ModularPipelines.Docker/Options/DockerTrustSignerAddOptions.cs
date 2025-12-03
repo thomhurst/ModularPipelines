@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("trust", "signer", "add")]
+[CliCommand("trust", "signer", "add")]
 [ExcludeFromCodeCoverage]
 public record DockerTrustSignerAddOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Repository { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public virtual string? Key { get; set; }
 }

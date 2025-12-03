@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mesh", "deployment", "create")]
+[CliCommand("mesh", "deployment", "create")]
 public record AzMeshDeploymentCreateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--input-yaml-files")]
+    [CliOption("--input-yaml-files")]
     public string? InputYamlFiles { get; set; }
 
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public string? Mode { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--template-file")]
+    [CliOption("--template-file")]
     public string? TemplateFile { get; set; }
 
-    [CommandSwitch("--template-uri")]
+    [CliOption("--template-uri")]
     public string? TemplateUri { get; set; }
 }

@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicediscovery", "create-public-dns-namespace")]
+[CliCommand("servicediscovery", "create-public-dns-namespace")]
 public record AwsServicediscoveryCreatePublicDnsNamespaceOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--creator-request-id")]
+    [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string? Properties { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

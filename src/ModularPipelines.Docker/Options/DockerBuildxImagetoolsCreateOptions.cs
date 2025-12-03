@@ -3,28 +3,28 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("buildx", "imagetools", "create")]
+[CliCommand("buildx", "imagetools", "create")]
 [ExcludeFromCodeCoverage]
 public record DockerBuildxImagetoolsCreateOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Source { get; set; }
 
-    [CommandSwitch("--annotation")]
+    [CliOption("--annotation")]
     public virtual string? Annotation { get; set; }
 
-    [CommandSwitch("--append")]
+    [CliOption("--append")]
     public virtual string? Append { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public virtual string? File { get; set; }
 
-    [CommandSwitch("--progress")]
+    [CliOption("--progress")]
     public virtual string? Progress { get; set; }
 
-    [CommandSwitch("--tag")]
+    [CliOption("--tag")]
     public virtual string? Tag { get; set; }
 }

@@ -4,78 +4,78 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "firewall", "policy", "rule-collection-group", "collection", "add-filter-collection")]
+[CliCommand("network", "firewall", "policy", "rule-collection-group", "collection", "add-filter-collection")]
 public record AzNetworkFirewallPolicyRuleCollectionGroupCollectionAddFilterCollectionOptions(
-[property: CommandSwitch("--collection-priority")] string CollectionPriority,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--rcg-name")] string RcgName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--collection-priority")] string CollectionPriority,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--policy-name")] string PolicyName,
+[property: CliOption("--rcg-name")] string RcgName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--action")]
+    [CliOption("--action")]
     public string? Action { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--dest-addr")]
+    [CliOption("--dest-addr")]
     public string? DestAddr { get; set; }
 
-    [CommandSwitch("--dest-ipg")]
+    [CliOption("--dest-ipg")]
     public string? DestIpg { get; set; }
 
-    [CommandSwitch("--destination-fqdns")]
+    [CliOption("--destination-fqdns")]
     public string? DestinationFqdns { get; set; }
 
-    [CommandSwitch("--destination-ports")]
+    [CliOption("--destination-ports")]
     public string? DestinationPorts { get; set; }
 
-    [BooleanCommandSwitch("--enable-tls-insp")]
+    [CliFlag("--enable-tls-insp")]
     public bool? EnableTlsInsp { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--fqdn-tags")]
+    [CliOption("--fqdn-tags")]
     public string? FqdnTags { get; set; }
 
-    [CommandSwitch("--ip-protocols")]
+    [CliOption("--ip-protocols")]
     public string? IpProtocols { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--protocols")]
+    [CliOption("--protocols")]
     public string? Protocols { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--rule-name")]
+    [CliOption("--rule-name")]
     public string? RuleName { get; set; }
 
-    [CommandSwitch("--rule-type")]
+    [CliOption("--rule-type")]
     public string? RuleType { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--source-addresses")]
+    [CliOption("--source-addresses")]
     public string? SourceAddresses { get; set; }
 
-    [CommandSwitch("--source-ip-groups")]
+    [CliOption("--source-ip-groups")]
     public string? SourceIpGroups { get; set; }
 
-    [CommandSwitch("--target-fqdns")]
+    [CliOption("--target-fqdns")]
     public string? TargetFqdns { get; set; }
 
-    [CommandSwitch("--target-urls")]
+    [CliOption("--target-urls")]
     public string? TargetUrls { get; set; }
 
-    [CommandSwitch("--web-categories")]
+    [CliOption("--web-categories")]
     public string? WebCategories { get; set; }
 }

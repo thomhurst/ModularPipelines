@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mobile-network", "attached-data-network", "show")]
+[CliCommand("mobile-network", "attached-data-network", "show")]
 public record AzMobileNetworkAttachedDataNetworkShowOptions : AzOptions
 {
-    [CommandSwitch("--adn-name")]
+    [CliOption("--adn-name")]
     public string? AdnName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--pccp-name")]
+    [CliOption("--pccp-name")]
     public string? PccpName { get; set; }
 
-    [CommandSwitch("--pcdp-name")]
+    [CliOption("--pcdp-name")]
     public string? PcdpName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -5,99 +5,99 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "machine-images", "import")]
+[CliCommand("compute", "machine-images", "import")]
 public record GcloudComputeMachineImagesImportOptions(
-[property: PositionalArgument] string Image,
-[property: CommandSwitch("--source-uri")] string SourceUri
+[property: CliArgument] string Image,
+[property: CliOption("--source-uri")] string SourceUri
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--no-address")]
+    [CliFlag("--no-address")]
     public bool? NoAddress { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--byol")]
+    [CliFlag("--byol")]
     public bool? Byol { get; set; }
 
-    [BooleanCommandSwitch("--can-ip-forward")]
+    [CliFlag("--can-ip-forward")]
     public bool? CanIpForward { get; set; }
 
-    [CommandSwitch("--cloudbuild-service-account")]
+    [CliOption("--cloudbuild-service-account")]
     public string? CloudbuildServiceAccount { get; set; }
 
-    [CommandSwitch("--compute-service-account")]
+    [CliOption("--compute-service-account")]
     public string? ComputeServiceAccount { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--guest-environment")]
+    [CliFlag("--guest-environment")]
     public bool? GuestEnvironment { get; set; }
 
-    [BooleanCommandSwitch("--guest-flush")]
+    [CliFlag("--guest-flush")]
     public bool? GuestFlush { get; set; }
 
-    [CommandSwitch("--guest-os-features")]
+    [CliOption("--guest-os-features")]
     public string[]? GuestOsFeatures { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--log-location")]
+    [CliOption("--log-location")]
     public string? LogLocation { get; set; }
 
-    [CommandSwitch("--machine-type")]
+    [CliOption("--machine-type")]
     public string? MachineType { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--network-tier")]
+    [CliOption("--network-tier")]
     public string? NetworkTier { get; set; }
 
-    [CommandSwitch("--os")]
+    [CliOption("--os")]
     public string? Os { get; set; }
 
-    [BooleanCommandSwitch("--restart-on-failure")]
+    [CliFlag("--restart-on-failure")]
     public bool? RestartOnFailure { get; set; }
 
-    [CommandSwitch("--storage-location")]
+    [CliOption("--storage-location")]
     public string? StorageLocation { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--custom-cpu")]
+    [CliOption("--custom-cpu")]
     public string? CustomCpu { get; set; }
 
-    [CommandSwitch("--custom-memory")]
+    [CliOption("--custom-memory")]
     public string? CustomMemory { get; set; }
 
-    [BooleanCommandSwitch("--custom-extensions")]
+    [CliFlag("--custom-extensions")]
     public bool? CustomExtensions { get; set; }
 
-    [CommandSwitch("--custom-vm-type")]
+    [CliOption("--custom-vm-type")]
     public string? CustomVmType { get; set; }
 
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string[]? Scopes { get; set; }
 
-    [BooleanCommandSwitch("--no-scopes")]
+    [CliFlag("--no-scopes")]
     public bool? NoScopes { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [BooleanCommandSwitch("--no-service-account")]
+    [CliFlag("--no-service-account")]
     public bool? NoServiceAccount { get; set; }
 }

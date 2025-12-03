@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-gateway", "connection", "vpn-site-link-conn", "ipsec-policy", "remove")]
+[CliCommand("network", "vpn-gateway", "connection", "vpn-site-link-conn", "ipsec-policy", "remove")]
 public record AzNetworkVpnGatewayConnectionVpnSiteLinkConnIpsecPolicyRemoveOptions(
-[property: CommandSwitch("--index")] string Index
+[property: CliOption("--index")] string Index
 ) : AzOptions
 {
-    [CommandSwitch("--connection-name")]
+    [CliOption("--connection-name")]
     public string? ConnectionName { get; set; }
 
-    [CommandSwitch("--gateway-name")]
+    [CliOption("--gateway-name")]
     public string? GatewayName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

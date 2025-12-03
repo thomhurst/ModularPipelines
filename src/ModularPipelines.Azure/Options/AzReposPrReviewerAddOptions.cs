@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "pr", "reviewer", "add")]
+[CliCommand("repos", "pr", "reviewer", "add")]
 public record AzReposPrReviewerAddOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--reviewers")] string Reviewers
+[property: CliOption("--id")] string Id,
+[property: CliOption("--reviewers")] string Reviewers
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cloud", "container", "clusters", "upgrade")]
+[CliCommand("edge-cloud", "container", "clusters", "upgrade")]
 public record GcloudEdgeCloudContainerClustersUpgradeOptions : GcloudOptions
 {
     public GcloudEdgeCloudContainerClustersUpgradeOptions(
@@ -20,15 +20,15 @@ public record GcloudEdgeCloudContainerClustersUpgradeOptions : GcloudOptions
         Version = version;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Cluster { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Location { get; set; }
 
-    [CommandSwitch("--schedule")]
+    [CliOption("--schedule")]
     public string Schedule { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string Version { get; set; }
 }

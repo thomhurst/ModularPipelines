@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "hmac", "list")]
+[CliCommand("storage", "hmac", "list")]
 public record GcloudStorageHmacListOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public bool? All { get; set; }
 
-    [BooleanCommandSwitch("--long")]
+    [CliFlag("--long")]
     public bool? Long { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 }

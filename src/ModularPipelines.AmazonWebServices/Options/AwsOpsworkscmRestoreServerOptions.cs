@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworkscm", "restore-server")]
+[CliCommand("opsworkscm", "restore-server")]
 public record AwsOpsworkscmRestoreServerOptions(
-[property: CommandSwitch("--backup-id")] string BackupId,
-[property: CommandSwitch("--server-name")] string ServerName
+[property: CliOption("--backup-id")] string BackupId,
+[property: CliOption("--server-name")] string ServerName
 ) : AwsOptions
 {
-    [CommandSwitch("--instance-type")]
+    [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 
-    [CommandSwitch("--key-pair")]
+    [CliOption("--key-pair")]
     public string? KeyPair { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

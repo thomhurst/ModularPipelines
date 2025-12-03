@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter", "admin", "schedule", "create")]
+[CliCommand("devcenter", "admin", "schedule", "create")]
 public record AzDevcenterAdminScheduleCreateOptions(
-[property: CommandSwitch("--pool-name")] string PoolName,
-[property: CommandSwitch("--project")] string Project,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--time")] string Time,
-[property: CommandSwitch("--time-zone")] string TimeZone
+[property: CliOption("--pool-name")] string PoolName,
+[property: CliOption("--project")] string Project,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--time")] string Time,
+[property: CliOption("--time-zone")] string TimeZone
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 }

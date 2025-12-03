@@ -3,151 +3,151 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("rev-parse")]
+[CliCommand("rev-parse")]
 [ExcludeFromCodeCoverage]
 public record GitRevParseOptions : GitOptions
 {
-    [BooleanCommandSwitch("--parseopt")]
+    [CliFlag("--parseopt")]
     public virtual bool? Parseopt { get; set; }
 
-    [BooleanCommandSwitch("--sq-quote")]
+    [CliFlag("--sq-quote")]
     public virtual bool? SqQuote { get; set; }
 
-    [BooleanCommandSwitch("--keep-dashdash")]
+    [CliFlag("--keep-dashdash")]
     public virtual bool? KeepDashdash { get; set; }
 
-    [BooleanCommandSwitch("--stop-at-non-option")]
+    [CliFlag("--stop-at-non-option")]
     public virtual bool? StopAtNonOption { get; set; }
 
-    [BooleanCommandSwitch("--stuck-long")]
+    [CliFlag("--stuck-long")]
     public virtual bool? StuckLong { get; set; }
 
-    [BooleanCommandSwitch("--revs-only")]
+    [CliFlag("--revs-only")]
     public virtual bool? RevsOnly { get; set; }
 
-    [BooleanCommandSwitch("--no-revs")]
+    [CliFlag("--no-revs")]
     public virtual bool? NoRevs { get; set; }
 
-    [BooleanCommandSwitch("--flags")]
+    [CliFlag("--flags")]
     public virtual bool? Flags { get; set; }
 
-    [BooleanCommandSwitch("--no-flags")]
+    [CliFlag("--no-flags")]
     public virtual bool? NoFlags { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--default")]
+    [CliOption("--default", Format = OptionFormat.EqualsSeparated)]
     public string? Default { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--prefix")]
+    [CliOption("--prefix", Format = OptionFormat.EqualsSeparated)]
     public string? Prefix { get; set; }
 
-    [BooleanCommandSwitch("--verify")]
+    [CliFlag("--verify")]
     public virtual bool? Verify { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--sq")]
+    [CliFlag("--sq")]
     public virtual bool? Sq { get; set; }
 
-    [BooleanCommandSwitch("--short")]
+    [CliFlag("--short")]
     public virtual bool? Short { get; set; }
 
-    [BooleanCommandSwitch("--not")]
+    [CliFlag("--not")]
     public virtual bool? Not { get; set; }
 
-    [BooleanCommandSwitch("--abbrev-ref")]
+    [CliFlag("--abbrev-ref")]
     public virtual bool? AbbrevRef { get; set; }
 
-    [BooleanCommandSwitch("--symbolic")]
+    [CliFlag("--symbolic")]
     public virtual bool? Symbolic { get; set; }
 
-    [BooleanCommandSwitch("--symbolic-full-name")]
+    [CliFlag("--symbolic-full-name")]
     public virtual bool? SymbolicFullName { get; set; }
 
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--branches")]
+    [CliFlag("--branches")]
     public virtual bool? Branches { get; set; }
 
-    [BooleanCommandSwitch("--tags")]
+    [CliFlag("--tags")]
     public virtual bool? Tags { get; set; }
 
-    [BooleanCommandSwitch("--remotes")]
+    [CliFlag("--remotes")]
     public virtual bool? Remotes { get; set; }
 
-    [BooleanCommandSwitch("--glob")]
+    [CliFlag("--glob")]
     public virtual bool? Glob { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--exclude")]
+    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
     public string? Exclude { get; set; }
 
-    [BooleanCommandSwitch("--exclude-hidden")]
+    [CliFlag("--exclude-hidden")]
     public virtual bool? ExcludeHidden { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--disambiguate")]
+    [CliOption("--disambiguate", Format = OptionFormat.EqualsSeparated)]
     public string? Disambiguate { get; set; }
 
-    [BooleanCommandSwitch("--local-env-vars")]
+    [CliFlag("--local-env-vars")]
     public virtual bool? LocalEnvVars { get; set; }
 
-    [BooleanCommandSwitch("--path-format")]
+    [CliFlag("--path-format")]
     public virtual bool? PathFormat { get; set; }
 
-    [BooleanCommandSwitch("--git-dir")]
+    [CliFlag("--git-dir")]
     public virtual bool? GitDir { get; set; }
 
-    [BooleanCommandSwitch("--git-common-dir")]
+    [CliFlag("--git-common-dir")]
     public virtual bool? GitCommonDir { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--resolve-git-dir")]
+    [CliOption("--resolve-git-dir", Format = OptionFormat.EqualsSeparated)]
     public string? ResolveGitDir { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--git-path")]
+    [CliOption("--git-path", Format = OptionFormat.EqualsSeparated)]
     public string? GitPath { get; set; }
 
-    [BooleanCommandSwitch("--show-toplevel")]
+    [CliFlag("--show-toplevel")]
     public virtual bool? ShowToplevel { get; set; }
 
-    [BooleanCommandSwitch("--show-superproject-working-tree")]
+    [CliFlag("--show-superproject-working-tree")]
     public virtual bool? ShowSuperprojectWorkingTree { get; set; }
 
-    [BooleanCommandSwitch("--shared-index-path")]
+    [CliFlag("--shared-index-path")]
     public virtual bool? SharedIndexPath { get; set; }
 
-    [BooleanCommandSwitch("--absolute-git-dir")]
+    [CliFlag("--absolute-git-dir")]
     public virtual bool? AbsoluteGitDir { get; set; }
 
-    [BooleanCommandSwitch("--is-inside-git-dir")]
+    [CliFlag("--is-inside-git-dir")]
     public virtual bool? IsInsideGitDir { get; set; }
 
-    [BooleanCommandSwitch("--is-inside-work-tree")]
+    [CliFlag("--is-inside-work-tree")]
     public virtual bool? IsInsideWorkTree { get; set; }
 
-    [BooleanCommandSwitch("--is-bare-repository")]
+    [CliFlag("--is-bare-repository")]
     public virtual bool? IsBareRepository { get; set; }
 
-    [BooleanCommandSwitch("--is-shallow-repository")]
+    [CliFlag("--is-shallow-repository")]
     public virtual bool? IsShallowRepository { get; set; }
 
-    [BooleanCommandSwitch("--show-cdup")]
+    [CliFlag("--show-cdup")]
     public virtual bool? ShowCdup { get; set; }
 
-    [BooleanCommandSwitch("--show-prefix")]
+    [CliFlag("--show-prefix")]
     public virtual bool? ShowPrefix { get; set; }
 
-    [BooleanCommandSwitch("--show-object-format")]
+    [CliFlag("--show-object-format")]
     public virtual bool? ShowObjectFormat { get; set; }
 
-    [BooleanCommandSwitch("--since")]
+    [CliFlag("--since")]
     public virtual bool? Since { get; set; }
 
-    [BooleanCommandSwitch("--after")]
+    [CliFlag("--after")]
     public virtual bool? After { get; set; }
 
-    [BooleanCommandSwitch("--until")]
+    [CliFlag("--until")]
     public virtual bool? Until { get; set; }
 
-    [BooleanCommandSwitch("--before")]
+    [CliFlag("--before")]
     public virtual bool? Before { get; set; }
 }

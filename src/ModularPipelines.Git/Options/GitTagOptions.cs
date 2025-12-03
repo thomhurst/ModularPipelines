@@ -3,82 +3,82 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("tag")]
+[CliCommand("tag")]
 [ExcludeFromCodeCoverage]
 public record GitTagOptions : GitOptions
 {
-    [BooleanCommandSwitch("--annotate")]
+    [CliFlag("--annotate")]
     public virtual bool? Annotate { get; set; }
 
-    [BooleanCommandSwitch("--sign")]
+    [CliFlag("--sign")]
     public virtual bool? Sign { get; set; }
 
-    [BooleanCommandSwitch("--no-sign")]
+    [CliFlag("--no-sign")]
     public virtual bool? NoSign { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--local-user")]
+    [CliOption("--local-user", Format = OptionFormat.EqualsSeparated)]
     public string? LocalUser { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--delete")]
+    [CliFlag("--delete")]
     public virtual bool? Delete { get; set; }
 
-    [BooleanCommandSwitch("--verify")]
+    [CliFlag("--verify")]
     public virtual bool? Verify { get; set; }
 
-    [BooleanCommandSwitch("--list")]
+    [CliFlag("--list")]
     public virtual bool? List { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--sort")]
+    [CliOption("--sort", Format = OptionFormat.EqualsSeparated)]
     public string? Sort { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--color")]
+    [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
     public string? Color { get; set; }
 
-    [BooleanCommandSwitch("--ignore-case")]
+    [CliFlag("--ignore-case")]
     public virtual bool? IgnoreCase { get; set; }
 
-    [BooleanCommandSwitch("--omit-empty")]
+    [CliFlag("--omit-empty")]
     public virtual bool? OmitEmpty { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--column")]
+    [CliOption("--column", Format = OptionFormat.EqualsSeparated)]
     public string? Column { get; set; }
 
-    [BooleanCommandSwitch("--no-column")]
+    [CliFlag("--no-column")]
     public virtual bool? NoColumn { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--contains")]
+    [CliOption("--contains", Format = OptionFormat.EqualsSeparated)]
     public string? Contains { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--no-contains")]
+    [CliOption("--no-contains", Format = OptionFormat.EqualsSeparated)]
     public string? NoContains { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--merged")]
+    [CliOption("--merged", Format = OptionFormat.EqualsSeparated)]
     public string? Merged { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--no-merged")]
+    [CliOption("--no-merged", Format = OptionFormat.EqualsSeparated)]
     public string? NoMerged { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--points-at")]
+    [CliOption("--points-at", Format = OptionFormat.EqualsSeparated)]
     public string? PointsAt { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--message")]
+    [CliOption("--message", Format = OptionFormat.EqualsSeparated)]
     public string? Message { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--file")]
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
     public string? File { get; set; }
 
-    [BooleanCommandSwitch("--edit")]
+    [CliFlag("--edit")]
     public virtual bool? Edit { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cleanup")]
+    [CliOption("--cleanup", Format = OptionFormat.EqualsSeparated)]
     public string? Cleanup { get; set; }
 
-    [BooleanCommandSwitch("--create-reflog")]
+    [CliFlag("--create-reflog")]
     public virtual bool? CreateReflog { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--format")]
+    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 }

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "rewrite-rule", "condition", "create")]
+[CliCommand("network", "application-gateway", "rewrite-rule", "condition", "create")]
 public record AzNetworkApplicationGatewayRewriteRuleConditionCreateOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--rule-name")] string RuleName,
-[property: CommandSwitch("--rule-set-name")] string RuleSetName,
-[property: CommandSwitch("--variable")] string Variable
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--rule-name")] string RuleName,
+[property: CliOption("--rule-set-name")] string RuleSetName,
+[property: CliOption("--variable")] string Variable
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--ignore-case")]
+    [CliFlag("--ignore-case")]
     public bool? IgnoreCase { get; set; }
 
-    [BooleanCommandSwitch("--negate")]
+    [CliFlag("--negate")]
     public bool? Negate { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--pattern")]
+    [CliOption("--pattern")]
     public string? Pattern { get; set; }
 }

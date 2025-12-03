@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "function")]
+[CliCommand("functionapp", "function")]
 public class AzFunctionappFunctionKeys
 {
     public AzFunctionappFunctionKeys(

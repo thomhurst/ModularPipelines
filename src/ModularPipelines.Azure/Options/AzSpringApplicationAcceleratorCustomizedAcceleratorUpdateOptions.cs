@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "application-accelerator", "customized-accelerator", "update")]
+[CliCommand("spring", "application-accelerator", "customized-accelerator", "update")]
 public record AzSpringApplicationAcceleratorCustomizedAcceleratorUpdateOptions(
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--git-url")] string GitUrl,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--git-url")] string GitUrl,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--accelerator-tags")]
+    [CliOption("--accelerator-tags")]
     public string? AcceleratorTags { get; set; }
 
-    [CommandSwitch("--ca-cert-name")]
+    [CliOption("--ca-cert-name")]
     public string? CaCertName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--git-branch")]
+    [CliOption("--git-branch")]
     public string? GitBranch { get; set; }
 
-    [CommandSwitch("--git-commit")]
+    [CliOption("--git-commit")]
     public string? GitCommit { get; set; }
 
-    [CommandSwitch("--git-interval")]
+    [CliOption("--git-interval")]
     public string? GitInterval { get; set; }
 
-    [CommandSwitch("--git-sub-path")]
+    [CliOption("--git-sub-path")]
     public string? GitSubPath { get; set; }
 
-    [CommandSwitch("--git-tag")]
+    [CliOption("--git-tag")]
     public string? GitTag { get; set; }
 
-    [CommandSwitch("--host-key")]
+    [CliOption("--host-key")]
     public string? HostKey { get; set; }
 
-    [CommandSwitch("--host-key-algorithm")]
+    [CliOption("--host-key-algorithm")]
     public string? HostKeyAlgorithm { get; set; }
 
-    [CommandSwitch("--icon-url")]
+    [CliOption("--icon-url")]
     public string? IconUrl { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--private-key")]
+    [CliOption("--private-key")]
     public string? PrivateKey { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 }

@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workflows", "run")]
+[CliCommand("workflows", "run")]
 public record GcloudWorkflowsRunOptions(
-[property: PositionalArgument] string Workflow,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Workflow,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--call-log-level")]
+    [CliOption("--call-log-level")]
     public string? CallLogLevel { get; set; }
 
-    [CommandSwitch("--data")]
+    [CliOption("--data")]
     public string? Data { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

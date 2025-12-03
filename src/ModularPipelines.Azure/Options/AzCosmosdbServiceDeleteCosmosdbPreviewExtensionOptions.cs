@@ -6,14 +6,14 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cosmosdb", "service", "delete", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbServiceDeleteCosmosdbPreviewExtensionOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group-name")] string ResourceGroupName
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group-name")] string ResourceGroupName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

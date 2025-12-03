@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("providerhub", "provider-registration", "show")]
+[CliCommand("providerhub", "provider-registration", "show")]
 public record AzProviderhubProviderRegistrationShowOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--provider-namespace")]
+    [CliOption("--provider-namespace")]
     public string? ProviderNamespace { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

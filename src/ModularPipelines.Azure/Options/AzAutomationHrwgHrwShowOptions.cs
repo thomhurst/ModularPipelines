@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automation", "hrwg", "hrw", "show")]
+[CliCommand("automation", "hrwg", "hrw", "show")]
 public record AzAutomationHrwgHrwShowOptions : AzOptions
 {
-    [CommandSwitch("--automation-account-name")]
+    [CliOption("--automation-account-name")]
     public int? AutomationAccountName { get; set; }
 
-    [CommandSwitch("--hybrid-runbook-worker-group-name")]
+    [CliOption("--hybrid-runbook-worker-group-name")]
     public string? HybridRunbookWorkerGroupName { get; set; }
 
-    [CommandSwitch("--hybrid-runbook-worker-id")]
+    [CliOption("--hybrid-runbook-worker-id")]
     public string? HybridRunbookWorkerId { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

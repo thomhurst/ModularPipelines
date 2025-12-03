@@ -3,46 +3,46 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("drain")]
+[CliCommand("drain")]
 [ExcludeFromCodeCoverage]
-public record KubernetesDrainOptions([property: PositionalArgument] string Node) : KubernetesOptions
+public record KubernetesDrainOptions([property: CliArgument] string Node) : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--chunk-size", SwitchValueSeparator = " ")]
+    [CliOption("--chunk-size")]
     public int? ChunkSize { get; set; }
 
-    [BooleanCommandSwitch("--delete-emptydir-data")]
+    [CliFlag("--delete-emptydir-data")]
     public virtual bool? DeleteEmptydirData { get; set; }
 
-    [BooleanCommandSwitch("--delete-local-data")]
+    [CliFlag("--delete-local-data")]
     public virtual bool? DeleteLocalData { get; set; }
 
-    [BooleanCommandSwitch("--disable-eviction")]
+    [CliFlag("--disable-eviction")]
     public virtual bool? DisableEviction { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CliOption("--dry-run")]
     public string? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--grace-period", SwitchValueSeparator = " ")]
+    [CliOption("--grace-period")]
     public int? GracePeriod { get; set; }
 
-    [BooleanCommandSwitch("--ignore-daemonsets")]
+    [CliFlag("--ignore-daemonsets")]
     public virtual bool? IgnoreDaemonsets { get; set; }
 
-    [BooleanCommandSwitch("--ignore-errors")]
+    [CliFlag("--ignore-errors")]
     public virtual bool? IgnoreErrors { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--pod-selector", SwitchValueSeparator = " ")]
+    [CliOption("--pod-selector")]
     public string? PodSelector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CliOption("--selector")]
     public string? Selector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--skip-wait-for-delete-timeout", SwitchValueSeparator = " ")]
+    [CliOption("--skip-wait-for-delete-timeout")]
     public int? SkipWaitForDeleteTimeout { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

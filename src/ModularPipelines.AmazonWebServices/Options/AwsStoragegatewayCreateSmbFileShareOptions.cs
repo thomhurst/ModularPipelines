@@ -4,59 +4,59 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "create-smb-file-share")]
+[CliCommand("storagegateway", "create-smb-file-share")]
 public record AwsStoragegatewayCreateSmbFileShareOptions(
-[property: CommandSwitch("--client-token")] string ClientToken,
-[property: CommandSwitch("--gateway-arn")] string GatewayArn,
-[property: CommandSwitch("--role")] string Role,
-[property: CommandSwitch("--location-arn")] string LocationArn
+[property: CliOption("--client-token")] string ClientToken,
+[property: CliOption("--gateway-arn")] string GatewayArn,
+[property: CliOption("--role")] string Role,
+[property: CliOption("--location-arn")] string LocationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--default-storage-class")]
+    [CliOption("--default-storage-class")]
     public string? DefaultStorageClass { get; set; }
 
-    [CommandSwitch("--object-acl")]
+    [CliOption("--object-acl")]
     public string? ObjectAcl { get; set; }
 
-    [CommandSwitch("--admin-user-list")]
+    [CliOption("--admin-user-list")]
     public string[]? AdminUserList { get; set; }
 
-    [CommandSwitch("--valid-user-list")]
+    [CliOption("--valid-user-list")]
     public string[]? ValidUserList { get; set; }
 
-    [CommandSwitch("--invalid-user-list")]
+    [CliOption("--invalid-user-list")]
     public string[]? InvalidUserList { get; set; }
 
-    [CommandSwitch("--audit-destination-arn")]
+    [CliOption("--audit-destination-arn")]
     public string? AuditDestinationArn { get; set; }
 
-    [CommandSwitch("--authentication")]
+    [CliOption("--authentication")]
     public string? Authentication { get; set; }
 
-    [CommandSwitch("--case-sensitivity")]
+    [CliOption("--case-sensitivity")]
     public string? CaseSensitivity { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--file-share-name")]
+    [CliOption("--file-share-name")]
     public string? FileShareName { get; set; }
 
-    [CommandSwitch("--cache-attributes")]
+    [CliOption("--cache-attributes")]
     public string? CacheAttributes { get; set; }
 
-    [CommandSwitch("--notification-policy")]
+    [CliOption("--notification-policy")]
     public string? NotificationPolicy { get; set; }
 
-    [CommandSwitch("--vpc-endpoint-dns-name")]
+    [CliOption("--vpc-endpoint-dns-name")]
     public string? VpcEndpointDnsName { get; set; }
 
-    [CommandSwitch("--bucket-region")]
+    [CliOption("--bucket-region")]
     public string? BucketRegion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

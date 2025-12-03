@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "hl7v2-stores", "create")]
+[CliCommand("healthcare", "hl7v2-stores", "create")]
 public record GcloudHealthcareHl7v2StoresCreateOptions(
-[property: PositionalArgument] string HL7V2Store,
-[property: PositionalArgument] string Dataset,
-[property: PositionalArgument] string Location
+[property: CliArgument] string HL7V2Store,
+[property: CliArgument] string Dataset,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--notification-config")]
+    [CliOption("--notification-config")]
     public string[]? NotificationConfig { get; set; }
 
-    [CommandSwitch("--parser-version")]
+    [CliOption("--parser-version")]
     public string? ParserVersion { get; set; }
 }

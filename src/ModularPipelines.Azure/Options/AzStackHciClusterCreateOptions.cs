@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stack-hci", "cluster", "create")]
+[CliCommand("stack-hci", "cluster", "create")]
 public record AzStackHciClusterCreateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--aad-application-object-id")]
+    [CliOption("--aad-application-object-id")]
     public string? AadApplicationObjectId { get; set; }
 
-    [CommandSwitch("--aad-client-id")]
+    [CliOption("--aad-client-id")]
     public string? AadClientId { get; set; }
 
-    [CommandSwitch("--aad-service-principal-object-id")]
+    [CliOption("--aad-service-principal-object-id")]
     public string? AadServicePrincipalObjectId { get; set; }
 
-    [CommandSwitch("--aad-tenant-id")]
+    [CliOption("--aad-tenant-id")]
     public string? AadTenantId { get; set; }
 
-    [CommandSwitch("--desired-properties")]
+    [CliOption("--desired-properties")]
     public string? DesiredProperties { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--mi-system-assigned")]
+    [CliFlag("--mi-system-assigned")]
     public bool? MiSystemAssigned { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

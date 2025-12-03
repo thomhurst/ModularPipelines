@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wafv2", "update-rule-group")]
+[CliCommand("wafv2", "update-rule-group")]
 public record AwsWafv2UpdateRuleGroupOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--scope")] string Scope,
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--visibility-config")] string VisibilityConfig,
-[property: CommandSwitch("--lock-token")] string LockToken
+[property: CliOption("--name")] string Name,
+[property: CliOption("--scope")] string Scope,
+[property: CliOption("--id")] string Id,
+[property: CliOption("--visibility-config")] string VisibilityConfig,
+[property: CliOption("--lock-token")] string LockToken
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--rules")]
+    [CliOption("--rules")]
     public string[]? Rules { get; set; }
 
-    [CommandSwitch("--custom-response-bodies")]
+    [CliOption("--custom-response-bodies")]
     public IEnumerable<KeyValue>? CustomResponseBodies { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "operations", "list")]
+[CliCommand("app", "operations", "list")]
 public record GcloudAppOperationsListOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--pending")]
+    [CliFlag("--pending")]
     public bool? Pending { get; set; }
 }

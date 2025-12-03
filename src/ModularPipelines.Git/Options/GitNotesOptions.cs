@@ -3,52 +3,52 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("notes")]
+[CliCommand("notes")]
 [ExcludeFromCodeCoverage]
 public record GitNotesOptions : GitOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--message")]
+    [CliOption("--message", Format = OptionFormat.EqualsSeparated)]
     public string? Message { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--file")]
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
     public string? File { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--reuse-message")]
+    [CliOption("--reuse-message", Format = OptionFormat.EqualsSeparated)]
     public string? ReuseMessage { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--reedit-message")]
+    [CliOption("--reedit-message", Format = OptionFormat.EqualsSeparated)]
     public string? ReeditMessage { get; set; }
 
-    [BooleanCommandSwitch("--allow-empty")]
+    [CliFlag("--allow-empty")]
     public virtual bool? AllowEmpty { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--ref")]
+    [CliOption("--ref", Format = OptionFormat.EqualsSeparated)]
     public string? Ref { get; set; }
 
-    [BooleanCommandSwitch("--ignore-missing")]
+    [CliFlag("--ignore-missing")]
     public virtual bool? IgnoreMissing { get; set; }
 
-    [BooleanCommandSwitch("--stdin")]
+    [CliFlag("--stdin")]
     public virtual bool? Stdin { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--strategy")]
+    [CliOption("--strategy", Format = OptionFormat.EqualsSeparated)]
     public string? Strategy { get; set; }
 
-    [BooleanCommandSwitch("--commit")]
+    [CliFlag("--commit")]
     public virtual bool? Commit { get; set; }
 
-    [BooleanCommandSwitch("--abort")]
+    [CliFlag("--abort")]
     public virtual bool? Abort { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 }

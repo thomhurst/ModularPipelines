@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instance-groups", "managed", "update-instances")]
+[CliCommand("compute", "instance-groups", "managed", "update-instances")]
 public record GcloudComputeInstanceGroupsManagedUpdateInstancesOptions(
-[property: PositionalArgument] string Name,
-[property: BooleanCommandSwitch("--all-instances")] bool AllInstances,
-[property: CommandSwitch("--instances")] string[] Instances
+[property: CliArgument] string Name,
+[property: CliFlag("--all-instances")] bool AllInstances,
+[property: CliOption("--instances")] string[] Instances
 ) : GcloudOptions
 {
-    [CommandSwitch("--minimal-action")]
+    [CliOption("--minimal-action")]
     public string? MinimalAction { get; set; }
 
-    [CommandSwitch("--most-disruptive-allowed-action")]
+    [CliOption("--most-disruptive-allowed-action")]
     public string? MostDisruptiveAllowedAction { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

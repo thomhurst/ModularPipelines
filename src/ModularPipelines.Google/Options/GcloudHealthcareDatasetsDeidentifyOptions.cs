@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "datasets", "deidentify")]
+[CliCommand("healthcare", "datasets", "deidentify")]
 public record GcloudHealthcareDatasetsDeidentifyOptions(
-[property: PositionalArgument] string Dataset,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--destination-dataset")] string DestinationDataset
+[property: CliArgument] string Dataset,
+[property: CliArgument] string Location,
+[property: CliOption("--destination-dataset")] string DestinationDataset
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--default-fhir-config")]
+    [CliFlag("--default-fhir-config")]
     public bool? DefaultFhirConfig { get; set; }
 
-    [CommandSwitch("--dicom-filter-tags")]
+    [CliOption("--dicom-filter-tags")]
     public string[]? DicomFilterTags { get; set; }
 
-    [CommandSwitch("--text-redaction-mode")]
+    [CliOption("--text-redaction-mode")]
     public string? TextRedactionMode { get; set; }
 }

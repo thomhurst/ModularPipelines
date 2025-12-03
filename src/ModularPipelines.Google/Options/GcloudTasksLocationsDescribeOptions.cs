@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tasks", "locations", "describe")]
+[CliCommand("tasks", "locations", "describe")]
 public record GcloudTasksLocationsDescribeOptions(
-[property: PositionalArgument] string Location
+[property: CliArgument] string Location
 ) : GcloudOptions;

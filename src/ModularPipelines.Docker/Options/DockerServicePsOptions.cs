@@ -15,21 +15,21 @@ public record DockerServicePsOptions : DockerOptions
         Service = service;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Service { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public virtual string? Filter { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [BooleanCommandSwitch("--no-resolve")]
+    [CliFlag("--no-resolve")]
     public virtual bool? NoResolve { get; set; }
 
-    [BooleanCommandSwitch("--no-trunc")]
+    [CliFlag("--no-trunc")]
     public virtual bool? NoTrunc { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 }

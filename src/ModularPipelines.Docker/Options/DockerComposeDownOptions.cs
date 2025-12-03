@@ -3,22 +3,22 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "down")]
+[CliCommand("compose", "down")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeDownOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Services { get; set; }
 
-    [BooleanCommandSwitch("--remove-orphans")]
+    [CliFlag("--remove-orphans")]
     public virtual bool? RemoveOrphans { get; set; }
 
-    [BooleanCommandSwitch("--rmi")]
+    [CliFlag("--rmi")]
     public virtual bool? Rmi { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public virtual string? Timeout { get; set; }
 
-    [CommandSwitch("--volumes")]
+    [CliOption("--volumes")]
     public virtual string? Volumes { get; set; }
 }

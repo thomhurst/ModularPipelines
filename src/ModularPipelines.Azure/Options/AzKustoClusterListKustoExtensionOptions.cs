@@ -7,6 +7,6 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("kusto", "cluster", "list", "(kusto", "extension)")]
 public record AzKustoClusterListKustoExtensionOptions : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

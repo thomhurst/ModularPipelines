@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "role-definition", "show")]
+[CliCommand("billing", "role-definition", "show")]
 public record AzBillingRoleDefinitionShowOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--invoice-section-name")]
+    [CliOption("--invoice-section-name")]
     public string? InvoiceSectionName { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 }

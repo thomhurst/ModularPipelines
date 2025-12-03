@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edgeorder", "address", "create")]
+[CliCommand("edgeorder", "address", "create")]
 public record AzEdgeorderAddressCreateOptions(
-[property: CommandSwitch("--address-name")] string AddressName,
-[property: CommandSwitch("--contact-details")] string ContactDetails,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--address-name")] string AddressName,
+[property: CliOption("--contact-details")] string ContactDetails,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--shipping-address")]
+    [CliOption("--shipping-address")]
     public string? ShippingAddress { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

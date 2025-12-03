@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "recoverypoint", "show-log-chain")]
+[CliCommand("backup", "recoverypoint", "show-log-chain")]
 public record AzBackupRecoverypointShowLogChainOptions(
-[property: CommandSwitch("--container-name")] string ContainerName,
-[property: CommandSwitch("--item-name")] string ItemName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--container-name")] string ContainerName,
+[property: CliOption("--item-name")] string ItemName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [CommandSwitch("--backup-management-type")]
+    [CliOption("--backup-management-type")]
     public string? BackupManagementType { get; set; }
 
-    [CommandSwitch("--end-date")]
+    [CliOption("--end-date")]
     public string? EndDate { get; set; }
 
-    [CommandSwitch("--start-date")]
+    [CliOption("--start-date")]
     public string? StartDate { get; set; }
 
-    [BooleanCommandSwitch("--use-secondary-region")]
+    [CliFlag("--use-secondary-region")]
     public bool? UseSecondaryRegion { get; set; }
 
-    [CommandSwitch("--workload-type")]
+    [CliOption("--workload-type")]
     public string? WorkloadType { get; set; }
 }

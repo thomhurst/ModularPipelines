@@ -4,86 +4,86 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("providerhub", "provider-registration", "create")]
+[CliCommand("providerhub", "provider-registration", "create")]
 public record AzProviderhubProviderRegistrationCreateOptions(
-[property: CommandSwitch("--provider-namespace")] string ProviderNamespace
+[property: CliOption("--provider-namespace")] string ProviderNamespace
 ) : AzOptions
 {
-    [CommandSwitch("--capabilities")]
+    [CliOption("--capabilities")]
     public string? Capabilities { get; set; }
 
-    [CommandSwitch("--incident-contact-email")]
+    [CliOption("--incident-contact-email")]
     public string? IncidentContactEmail { get; set; }
 
-    [CommandSwitch("--incident-routing-service")]
+    [CliOption("--incident-routing-service")]
     public string? IncidentRoutingService { get; set; }
 
-    [CommandSwitch("--incident-routing-team")]
+    [CliOption("--incident-routing-team")]
     public string? IncidentRoutingTeam { get; set; }
 
-    [CommandSwitch("--lighthouse-auth")]
+    [CliOption("--lighthouse-auth")]
     public string? LighthouseAuth { get; set; }
 
-    [CommandSwitch("--managed-by-tenant-id")]
+    [CliOption("--managed-by-tenant-id")]
     public string? ManagedByTenantId { get; set; }
 
-    [CommandSwitch("--manifest-owners")]
+    [CliOption("--manifest-owners")]
     public string? ManifestOwners { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
-    [CommandSwitch("--metadata-authn")]
+    [CliOption("--metadata-authn")]
     public string? MetadataAuthn { get; set; }
 
-    [CommandSwitch("--metadata-authz")]
+    [CliOption("--metadata-authz")]
     public string? MetadataAuthz { get; set; }
 
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--opt-in-headers")]
+    [CliOption("--opt-in-headers")]
     public string? OptInHeaders { get; set; }
 
-    [CommandSwitch("--override-actions")]
+    [CliOption("--override-actions")]
     public string? OverrideActions { get; set; }
 
-    [CommandSwitch("--provider-authentication")]
+    [CliOption("--provider-authentication")]
     public string? ProviderAuthentication { get; set; }
 
-    [CommandSwitch("--provider-authorizations")]
+    [CliOption("--provider-authorizations")]
     public string? ProviderAuthorizations { get; set; }
 
-    [CommandSwitch("--provider-type")]
+    [CliOption("--provider-type")]
     public string? ProviderType { get; set; }
 
-    [CommandSwitch("--provider-version")]
+    [CliOption("--provider-version")]
     public string? ProviderVersion { get; set; }
 
-    [CommandSwitch("--req-features-policy")]
+    [CliOption("--req-features-policy")]
     public string? ReqFeaturesPolicy { get; set; }
 
-    [CommandSwitch("--required-features")]
+    [CliOption("--required-features")]
     public string? RequiredFeatures { get; set; }
 
-    [CommandSwitch("--resource-access-policy")]
+    [CliOption("--resource-access-policy")]
     public string? ResourceAccessPolicy { get; set; }
 
-    [CommandSwitch("--resource-access-roles")]
+    [CliOption("--resource-access-roles")]
     public string? ResourceAccessRoles { get; set; }
 
-    [CommandSwitch("--schema-owners")]
+    [CliOption("--schema-owners")]
     public string? SchemaOwners { get; set; }
 
-    [CommandSwitch("--service-tree-infos")]
+    [CliOption("--service-tree-infos")]
     public string? ServiceTreeInfos { get; set; }
 
-    [CommandSwitch("--soft-delete-ttl")]
+    [CliOption("--soft-delete-ttl")]
     public string? SoftDeleteTtl { get; set; }
 
-    [CommandSwitch("--template-deployment-options")]
+    [CliOption("--template-deployment-options")]
     public string? TemplateDeploymentOptions { get; set; }
 }

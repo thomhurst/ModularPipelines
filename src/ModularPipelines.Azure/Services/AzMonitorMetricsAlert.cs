@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "metrics")]
+[CliCommand("monitor", "metrics")]
 public class AzMonitorMetricsAlert
 {
     public AzMonitorMetricsAlert(

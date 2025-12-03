@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("consumption", "budget", "show")]
+[CliCommand("consumption", "budget", "show")]
 public record AzConsumptionBudgetShowOptions(
-[property: CommandSwitch("--budget-name")] string BudgetName
+[property: CliOption("--budget-name")] string BudgetName
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

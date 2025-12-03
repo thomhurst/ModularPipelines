@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "log-analytics", "query-pack", "query", "create")]
+[CliCommand("monitor", "log-analytics", "query-pack", "query", "create")]
 public record AzMonitorLogAnalyticsQueryPackQueryCreateOptions(
-[property: CommandSwitch("--body")] string Body,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--query-pack-name")] string QueryPackName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--body")] string Body,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--query-pack-name")] string QueryPackName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--categories")]
+    [CliOption("--categories")]
     public string? Categories { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--resource-types")]
+    [CliOption("--resource-types")]
     public string? ResourceTypes { get; set; }
 
-    [CommandSwitch("--solutions")]
+    [CliOption("--solutions")]
     public string? Solutions { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

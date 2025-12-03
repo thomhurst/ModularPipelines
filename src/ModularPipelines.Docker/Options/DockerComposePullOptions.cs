@@ -3,31 +3,31 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "pull")]
+[CliCommand("compose", "pull")]
 [ExcludeFromCodeCoverage]
 public record DockerComposePullOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Service { get; set; }
 
-    [CommandSwitch("--ignore-buildable")]
+    [CliOption("--ignore-buildable")]
     public virtual string? IgnoreBuildable { get; set; }
 
-    [CommandSwitch("--ignore-pull-failures")]
+    [CliOption("--ignore-pull-failures")]
     public virtual string? IgnorePullFailures { get; set; }
 
-    [CommandSwitch("--include-deps")]
+    [CliOption("--include-deps")]
     public virtual string? IncludeDeps { get; set; }
 
-    [BooleanCommandSwitch("--no-parallel")]
+    [CliFlag("--no-parallel")]
     public virtual bool? NoParallel { get; set; }
 
-    [BooleanCommandSwitch("--parallel")]
+    [CliFlag("--parallel")]
     public virtual bool? Parallel { get; set; }
 
-    [CommandSwitch("--policy")]
+    [CliOption("--policy")]
     public virtual string? Policy { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 }

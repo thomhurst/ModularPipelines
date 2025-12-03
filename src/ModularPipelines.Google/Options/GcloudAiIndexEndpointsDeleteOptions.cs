@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "index-endpoints", "delete")]
+[CliCommand("ai", "index-endpoints", "delete")]
 public record GcloudAiIndexEndpointsDeleteOptions(
-[property: PositionalArgument] string IndexEndpoint,
-[property: PositionalArgument] string Region
+[property: CliArgument] string IndexEndpoint,
+[property: CliArgument] string Region
 ) : GcloudOptions;

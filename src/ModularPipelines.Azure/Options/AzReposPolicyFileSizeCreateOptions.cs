@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "policy", "file-size", "create")]
+[CliCommand("repos", "policy", "file-size", "create")]
 public record AzReposPolicyFileSizeCreateOptions(
-[property: BooleanCommandSwitch("--blocking")] bool Blocking,
-[property: BooleanCommandSwitch("--enabled")] bool Enabled,
-[property: CommandSwitch("--maximum-git-blob-size")] string MaximumGitBlobSize,
-[property: CommandSwitch("--repository-id")] string RepositoryId,
-[property: BooleanCommandSwitch("--use-uncompressed-size")] bool UseUncompressedSize
+[property: CliFlag("--blocking")] bool Blocking,
+[property: CliFlag("--enabled")] bool Enabled,
+[property: CliOption("--maximum-git-blob-size")] string MaximumGitBlobSize,
+[property: CliOption("--repository-id")] string RepositoryId,
+[property: CliFlag("--use-uncompressed-size")] bool UseUncompressedSize
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 }

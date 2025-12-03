@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd")]
+[CliCommand("afd")]
 public class AzAfdWafLogAnalytic
 {
     public AzAfdWafLogAnalytic(

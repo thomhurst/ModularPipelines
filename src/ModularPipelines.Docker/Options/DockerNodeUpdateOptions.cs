@@ -15,18 +15,18 @@ public record DockerNodeUpdateOptions : DockerOptions
         Node = node;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Node { get; set; }
 
-    [CommandSwitch("--availability")]
+    [CliOption("--availability")]
     public virtual string? Availability { get; set; }
 
-    [CommandSwitch("--label-add")]
+    [CliOption("--label-add")]
     public virtual string? LabelAdd { get; set; }
 
-    [CommandSwitch("--label-rm")]
+    [CliOption("--label-rm")]
     public virtual string? LabelRm { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public virtual string? Role { get; set; }
 }

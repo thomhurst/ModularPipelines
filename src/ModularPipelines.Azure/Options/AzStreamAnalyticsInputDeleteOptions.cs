@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stream-analytics", "input", "delete")]
+[CliCommand("stream-analytics", "input", "delete")]
 public record AzStreamAnalyticsInputDeleteOptions(
-[property: CommandSwitch("--input-name")] string InputName,
-[property: CommandSwitch("--job-name")] string JobName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--input-name")] string InputName,
+[property: CliOption("--job-name")] string JobName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

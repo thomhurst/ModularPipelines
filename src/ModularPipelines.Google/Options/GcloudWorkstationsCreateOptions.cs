@@ -5,17 +5,17 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workstations", "create")]
+[CliCommand("workstations", "create")]
 public record GcloudWorkstationsCreateOptions(
-[property: PositionalArgument] string Workstation,
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Config,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Workstation,
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Config,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("service", "scale")]
+[CliCommand("service", "scale")]
 [ExcludeFromCodeCoverage]
 public record DockerServiceScaleOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<KeyValue>? ServiceReplicas { get; set; }
 
-    [BooleanCommandSwitch("--detach")]
+    [CliFlag("--detach")]
     public virtual bool? Detach { get; set; }
 }

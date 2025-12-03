@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmss")]
+[CliCommand("vmss")]
 public class AzVmssRollingUpgrade
 {
     public AzVmssRollingUpgrade(

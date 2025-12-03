@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("history")]
+[CliCommand("history")]
 [ExcludeFromCodeCoverage]
 public record HelmHistoryOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--max", SwitchValueSeparator = " ")]
+    [CliOption("--max")]
     public int? Max { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 }

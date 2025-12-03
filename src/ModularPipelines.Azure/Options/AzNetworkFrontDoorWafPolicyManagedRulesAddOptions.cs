@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "waf-policy", "managed-rules", "add")]
+[CliCommand("network", "front-door", "waf-policy", "managed-rules", "add")]
 public record AzNetworkFrontDoorWafPolicyManagedRulesAddOptions(
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--version")] string Version
+[property: CliOption("--type")] string Type,
+[property: CliOption("--version")] string Version
 ) : AzOptions
 {
-    [CommandSwitch("--action")]
+    [CliOption("--action")]
     public string? Action { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--policy-name")]
+    [CliOption("--policy-name")]
     public string? PolicyName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

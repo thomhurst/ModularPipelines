@@ -4,86 +4,86 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "event-subscription", "create")]
+[CliCommand("eventgrid", "event-subscription", "create")]
 public record AzEventgridEventSubscriptionCreateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--aad-tenant-id")]
+    [CliOption("--aad-tenant-id")]
     public string? AadTenantId { get; set; }
 
-    [CommandSwitch("--advanced-filter")]
+    [CliOption("--advanced-filter")]
     public string? AdvancedFilter { get; set; }
 
-    [CommandSwitch("--azure-active-directory-application-id-or-uri")]
+    [CliOption("--azure-active-directory-application-id-or-uri")]
     public string? AzureActiveDirectoryApplicationIdOrUri { get; set; }
 
-    [CommandSwitch("--deadletter-endpoint")]
+    [CliOption("--deadletter-endpoint")]
     public string? DeadletterEndpoint { get; set; }
 
-    [CommandSwitch("--deadletter-identity")]
+    [CliOption("--deadletter-identity")]
     public string? DeadletterIdentity { get; set; }
 
-    [CommandSwitch("--deadletter-identity-endpoint")]
+    [CliOption("--deadletter-identity-endpoint")]
     public string? DeadletterIdentityEndpoint { get; set; }
 
-    [CommandSwitch("--delivery-attribute-mapping")]
+    [CliOption("--delivery-attribute-mapping")]
     public string? DeliveryAttributeMapping { get; set; }
 
-    [CommandSwitch("--delivery-identity")]
+    [CliOption("--delivery-identity")]
     public string? DeliveryIdentity { get; set; }
 
-    [CommandSwitch("--delivery-identity-endpoint")]
+    [CliOption("--delivery-identity-endpoint")]
     public string? DeliveryIdentityEndpoint { get; set; }
 
-    [CommandSwitch("--delivery-identity-endpoint-type")]
+    [CliOption("--delivery-identity-endpoint-type")]
     public string? DeliveryIdentityEndpointType { get; set; }
 
-    [BooleanCommandSwitch("--enable-advanced-filtering-on-arrays")]
+    [CliFlag("--enable-advanced-filtering-on-arrays")]
     public bool? EnableAdvancedFilteringOnArrays { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [CommandSwitch("--endpoint-type")]
+    [CliOption("--endpoint-type")]
     public string? EndpointType { get; set; }
 
-    [CommandSwitch("--event-delivery-schema")]
+    [CliOption("--event-delivery-schema")]
     public string? EventDeliverySchema { get; set; }
 
-    [CommandSwitch("--event-ttl")]
+    [CliOption("--event-ttl")]
     public string? EventTtl { get; set; }
 
-    [CommandSwitch("--expiration-date")]
+    [CliOption("--expiration-date")]
     public string? ExpirationDate { get; set; }
 
-    [CommandSwitch("--included-event-types")]
+    [CliOption("--included-event-types")]
     public string? IncludedEventTypes { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [CommandSwitch("--max-delivery-attempts")]
+    [CliOption("--max-delivery-attempts")]
     public string? MaxDeliveryAttempts { get; set; }
 
-    [CommandSwitch("--max-events-per-batch")]
+    [CliOption("--max-events-per-batch")]
     public string? MaxEventsPerBatch { get; set; }
 
-    [CommandSwitch("--preferred-batch-size-in-kilobytes")]
+    [CliOption("--preferred-batch-size-in-kilobytes")]
     public string? PreferredBatchSizeInKilobytes { get; set; }
 
-    [CommandSwitch("--qttl")]
+    [CliOption("--qttl")]
     public string? Qttl { get; set; }
 
-    [CommandSwitch("--source-resource-id")]
+    [CliOption("--source-resource-id")]
     public string? SourceResourceId { get; set; }
 
-    [CommandSwitch("--subject-begins-with")]
+    [CliOption("--subject-begins-with")]
     public string? SubjectBeginsWith { get; set; }
 
-    [BooleanCommandSwitch("--subject-case-sensitive")]
+    [CliFlag("--subject-case-sensitive")]
     public bool? SubjectCaseSensitive { get; set; }
 
-    [CommandSwitch("--subject-ends-with")]
+    [CliOption("--subject-ends-with")]
     public string? SubjectEndsWith { get; set; }
 }

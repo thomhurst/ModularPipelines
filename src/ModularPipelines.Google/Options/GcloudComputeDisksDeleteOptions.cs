@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "disks", "delete")]
+[CliCommand("compute", "disks", "delete")]
 public record GcloudComputeDisksDeleteOptions(
-[property: PositionalArgument] string DiskName
+[property: CliArgument] string DiskName
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

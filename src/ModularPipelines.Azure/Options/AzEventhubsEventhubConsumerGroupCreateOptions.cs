@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventhubs", "eventhub", "consumer-group", "create")]
+[CliCommand("eventhubs", "eventhub", "consumer-group", "create")]
 public record AzEventhubsEventhubConsumerGroupCreateOptions(
-[property: CommandSwitch("--consumer-group-name")] string ConsumerGroupName,
-[property: CommandSwitch("--eventhub-name")] string EventhubName,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--consumer-group-name")] string ConsumerGroupName,
+[property: CliOption("--eventhub-name")] string EventhubName,
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--user-metadata")]
+    [CliOption("--user-metadata")]
     public string? UserMetadata { get; set; }
 }

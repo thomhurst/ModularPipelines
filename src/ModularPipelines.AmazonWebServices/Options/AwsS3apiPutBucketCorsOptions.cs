@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api", "put-bucket-cors")]
+[CliCommand("s3api", "put-bucket-cors")]
 public record AwsS3apiPutBucketCorsOptions(
-[property: CommandSwitch("--bucket")] string Bucket,
-[property: CommandSwitch("--cors-configuration")] string CorsConfiguration
+[property: CliOption("--bucket")] string Bucket,
+[property: CliOption("--cors-configuration")] string CorsConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--content-md5")]
+    [CliOption("--content-md5")]
     public string? ContentMd5 { get; set; }
 
-    [CommandSwitch("--checksum-algorithm")]
+    [CliOption("--checksum-algorithm")]
     public string? ChecksumAlgorithm { get; set; }
 
-    [CommandSwitch("--expected-bucket-owner")]
+    [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

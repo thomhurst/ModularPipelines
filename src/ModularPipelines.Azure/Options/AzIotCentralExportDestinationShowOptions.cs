@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "export", "destination", "show")]
+[CliCommand("iot", "central", "export", "destination", "show")]
 public record AzIotCentralExportDestinationShowOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--dest-id")] string DestId
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--dest-id")] string DestId
 ) : AzOptions
 {
-    [CommandSwitch("--central-api-uri")]
+    [CliOption("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 }

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "network-policies", "update")]
+[CliCommand("vmware", "network-policies", "update")]
 public record GcloudVmwareNetworkPoliciesUpdateOptions(
-[property: PositionalArgument] string NetworkPolicy,
-[property: PositionalArgument] string Location
+[property: CliArgument] string NetworkPolicy,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--edge-services-cidr")]
+    [CliOption("--edge-services-cidr")]
     public string? EdgeServicesCidr { get; set; }
 
-    [BooleanCommandSwitch("--external-ip-access")]
+    [CliFlag("--external-ip-access")]
     public bool? ExternalIpAccess { get; set; }
 
-    [BooleanCommandSwitch("--internet-access")]
+    [CliFlag("--internet-access")]
     public bool? InternetAccess { get; set; }
 }

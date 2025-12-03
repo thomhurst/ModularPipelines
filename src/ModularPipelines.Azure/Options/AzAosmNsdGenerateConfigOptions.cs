@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aosm", "nsd", "generate-config")]
+[CliCommand("aosm", "nsd", "generate-config")]
 public record AzAosmNsdGenerateConfigOptions : AzOptions
 {
-    [CommandSwitch("--output-file")]
+    [CliOption("--output-file")]
     public string? OutputFile { get; set; }
 }

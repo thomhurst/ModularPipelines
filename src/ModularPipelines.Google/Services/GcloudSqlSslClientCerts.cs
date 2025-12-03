@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "ssl")]
+[CliCommand("sql", "ssl")]
 public class GcloudSqlSslClientCerts
 {
     public GcloudSqlSslClientCerts(

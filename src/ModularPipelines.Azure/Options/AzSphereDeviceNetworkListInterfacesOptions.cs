@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "device", "network", "list-interfaces")]
+[CliCommand("sphere", "device", "network", "list-interfaces")]
 public record AzSphereDeviceNetworkListInterfacesOptions : AzOptions
 {
-    [CommandSwitch("--device")]
+    [CliOption("--device")]
     public string? Device { get; set; }
 }

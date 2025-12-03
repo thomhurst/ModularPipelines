@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logging", "links", "delete")]
+[CliCommand("logging", "links", "delete")]
 public record GcloudLoggingLinksDeleteOptions(
-[property: PositionalArgument] string LinkId,
-[property: CommandSwitch("--bucket")] string Bucket,
-[property: CommandSwitch("--location")] string Location
+[property: CliArgument] string LinkId,
+[property: CliOption("--bucket")] string Bucket,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--billing-account")]
+    [CliOption("--billing-account")]
     public string? BillingAccount { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string? Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public new string? Project { get; set; }
 }

@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "regions", "list")]
+[CliCommand("app", "regions", "list")]
 public record GcloudAppRegionsListOptions : GcloudOptions;

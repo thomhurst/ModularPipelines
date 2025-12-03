@@ -4,182 +4,182 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("upgrade")]
+[CliCommand("upgrade")]
 public record UpgradeOptions(
-    [property: PositionalArgument] string Pkg
+    [property: CliArgument] string Pkg
 ) : ChocoOptions
 {
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public virtual string? Source { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public virtual string? Version { get; set; }
 
-    [BooleanCommandSwitch("--prerelease")]
+    [CliFlag("--prerelease")]
     public virtual bool? Prerelease { get; set; }
 
-    [BooleanCommandSwitch("--forcex86")]
+    [CliFlag("--forcex86")]
     public virtual bool? Forcex86 { get; set; }
 
-    [CommandSwitch("--install-arguments")]
+    [CliOption("--install-arguments")]
     public virtual string? InstallArguments { get; set; }
 
-    [BooleanCommandSwitch("--override-arguments")]
+    [CliFlag("--override-arguments")]
     public virtual bool? OverrideArguments { get; set; }
 
-    [BooleanCommandSwitch("--not-silent")]
+    [CliFlag("--not-silent")]
     public virtual bool? NotSilent { get; set; }
 
-    [CommandSwitch("--package-parameters")]
+    [CliOption("--package-parameters")]
     public virtual string? PackageParameters { get; set; }
 
-    [BooleanCommandSwitch("--apply-install-arguments-to-dependencies")]
+    [CliFlag("--apply-install-arguments-to-dependencies")]
     public virtual bool? ApplyInstallArgumentsToDependencies { get; set; }
 
-    [BooleanCommandSwitch("--apply-package-parameters-to-dependencies")]
+    [CliFlag("--apply-package-parameters-to-dependencies")]
     public virtual bool? ApplyPackageParametersToDependencies { get; set; }
 
-    [BooleanCommandSwitch("--allow-downgrade")]
+    [CliFlag("--allow-downgrade")]
     public virtual bool? AllowDowngrade { get; set; }
 
-    [BooleanCommandSwitch("--ignore-dependencies")]
+    [CliFlag("--ignore-dependencies")]
     public virtual bool? IgnoreDependencies { get; set; }
 
-    [BooleanCommandSwitch("--skip-automation-scripts")]
+    [CliFlag("--skip-automation-scripts")]
     public virtual bool? SkipAutomationScripts { get; set; }
 
-    [BooleanCommandSwitch("--fail-on-unfound")]
+    [CliFlag("--fail-on-unfound")]
     public virtual bool? FailOnUnfound { get; set; }
 
-    [BooleanCommandSwitch("--ignore-unfound")]
+    [CliFlag("--ignore-unfound")]
     public virtual bool? IgnoreUnfound { get; set; }
 
-    [BooleanCommandSwitch("--fail-on-not-installed")]
+    [CliFlag("--fail-on-not-installed")]
     public virtual bool? FailOnNotInstalled { get; set; }
 
-    [CommandSwitch("--user")]
+    [CliOption("--user")]
     public virtual string? User { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public virtual string? Password { get; set; }
 
-    [CommandSwitch("--cert")]
+    [CliOption("--cert")]
     public virtual string? Cert { get; set; }
 
-    [CommandSwitch("--certpassword")]
+    [CliOption("--certpassword")]
     public virtual string? Certpassword { get; set; }
 
-    [BooleanCommandSwitch("--ignore-checksums")]
+    [CliFlag("--ignore-checksums")]
     public virtual bool? IgnoreChecksums { get; set; }
 
-    [BooleanCommandSwitch("--allow-empty-checksums")]
+    [CliFlag("--allow-empty-checksums")]
     public virtual bool? AllowEmptyChecksums { get; set; }
 
-    [BooleanCommandSwitch("--allow-empty-checksums-secure")]
+    [CliFlag("--allow-empty-checksums-secure")]
     public virtual bool? AllowEmptyChecksumsSecure { get; set; }
 
-    [BooleanCommandSwitch("--require-checksums")]
+    [CliFlag("--require-checksums")]
     public virtual bool? RequireChecksums { get; set; }
 
-    [CommandSwitch("--download-checksum")]
+    [CliOption("--download-checksum")]
     public virtual string? DownloadChecksum { get; set; }
 
-    [CommandSwitch("--download-checksum-x64")]
+    [CliOption("--download-checksum-x64")]
     public virtual string? DownloadChecksumX64 { get; set; }
 
-    [CommandSwitch("--download-checksum-type")]
+    [CliOption("--download-checksum-type")]
     public virtual string? DownloadChecksumType { get; set; }
 
-    [CommandSwitch("--download-checksum-type-x64")]
+    [CliOption("--download-checksum-type-x64")]
     public virtual string? DownloadChecksumTypeX64 { get; set; }
 
-    [BooleanCommandSwitch("--ignore-package-exit-codes")]
+    [CliFlag("--ignore-package-exit-codes")]
     public virtual bool? IgnorePackageExitCodes { get; set; }
 
-    [BooleanCommandSwitch("--use-package-exit-codes")]
+    [CliFlag("--use-package-exit-codes")]
     public virtual bool? UsePackageExitCodes { get; set; }
 
-    [CommandSwitch("--except")]
+    [CliOption("--except")]
     public virtual string? Except { get; set; }
 
-    [BooleanCommandSwitch("--stop-on-first-package-failure")]
+    [CliFlag("--stop-on-first-package-failure")]
     public virtual bool? StopOnFirstPackageFailure { get; set; }
 
-    [BooleanCommandSwitch("--skip-when-not-installed")]
+    [CliFlag("--skip-when-not-installed")]
     public virtual bool? SkipWhenNotInstalled { get; set; }
 
-    [BooleanCommandSwitch("--install-if-not-installed")]
+    [CliFlag("--install-if-not-installed")]
     public virtual bool? InstallIfNotInstalled { get; set; }
 
-    [BooleanCommandSwitch("--exclude-prereleases")]
+    [CliFlag("--exclude-prereleases")]
     public virtual bool? ExcludePrereleases { get; set; }
 
-    [BooleanCommandSwitch("--use-remembered-options")]
+    [CliFlag("--use-remembered-options")]
     public virtual bool? UseRememberedOptions { get; set; }
 
-    [BooleanCommandSwitch("--ignore-remembered-options")]
+    [CliFlag("--ignore-remembered-options")]
     public virtual bool? IgnoreRememberedOptions { get; set; }
 
-    [BooleanCommandSwitch("--exit-when-reboot-detected")]
+    [CliFlag("--exit-when-reboot-detected")]
     public virtual bool? ExitWhenRebootDetected { get; set; }
 
-    [BooleanCommandSwitch("--ignore-detected-reboot")]
+    [CliFlag("--ignore-detected-reboot")]
     public virtual bool? IgnoreDetectedReboot { get; set; }
 
-    [BooleanCommandSwitch("--disable-package-repository-optimizations")]
+    [CliFlag("--disable-package-repository-optimizations")]
     public virtual bool? DisablePackageRepositoryOptimizations { get; set; }
 
-    [BooleanCommandSwitch("--pin-package")]
+    [CliFlag("--pin-package")]
     public virtual bool? PinPackage { get; set; }
 
-    [BooleanCommandSwitch("--skip-hooks")]
+    [CliFlag("--skip-hooks")]
     public virtual bool? SkipHooks { get; set; }
 
-    [BooleanCommandSwitch("--skip-download-cache")]
+    [CliFlag("--skip-download-cache")]
     public virtual bool? SkipDownloadCache { get; set; }
 
-    [BooleanCommandSwitch("--use-download-cache")]
+    [CliFlag("--use-download-cache")]
     public virtual bool? UseDownloadCache { get; set; }
 
-    [BooleanCommandSwitch("--skip-virus-check")]
+    [CliFlag("--skip-virus-check")]
     public virtual bool? SkipVirusCheck { get; set; }
 
-    [BooleanCommandSwitch("--virus-check")]
+    [CliFlag("--virus-check")]
     public virtual bool? VirusCheck { get; set; }
 
-    [CommandSwitch("--virus-positives-minimum")]
+    [CliOption("--virus-positives-minimum")]
     public virtual string? VirusPositivesMinimum { get; set; }
 
-    [CommandSwitch("--install-arguments-sensitive")]
+    [CliOption("--install-arguments-sensitive")]
     public virtual string? InstallArgumentsSensitive { get; set; }
 
-    [CommandSwitch("--package-parameters-sensitive")]
+    [CliOption("--package-parameters-sensitive")]
     public virtual string? PackageParametersSensitive { get; set; }
 
-    [CommandSwitch("--install-directory")]
+    [CliOption("--install-directory")]
     public virtual string? InstallDirectory { get; set; }
 
-    [CommandSwitch("--maximum-download-bits-per-second")]
+    [CliOption("--maximum-download-bits-per-second")]
     public virtual string? MaximumDownloadBitsPerSecond { get; set; }
 
-    [BooleanCommandSwitch("--deflate-package-size")]
+    [CliFlag("--deflate-package-size")]
     public virtual bool? DeflatePackageSize { get; set; }
 
-    [BooleanCommandSwitch("--no-deflate-package-size")]
+    [CliFlag("--no-deflate-package-size")]
     public virtual bool? NoDeflatePackageSize { get; set; }
 
-    [BooleanCommandSwitch("--deflate-nupkg-only")]
+    [CliFlag("--deflate-nupkg-only")]
     public virtual bool? DeflateNupkgOnly { get; set; }
 
-    [BooleanCommandSwitch("--exclude-chocolatey-packages-during-upgrade-all")]
+    [CliFlag("--exclude-chocolatey-packages-during-upgrade-all")]
     public virtual bool? ExcludeChocolateyPackagesDuringUpgradeAll { get; set; }
 
-    [BooleanCommandSwitch("--include-chocolatey-packages-during-upgrade-all")]
+    [CliFlag("--include-chocolatey-packages-during-upgrade-all")]
     public virtual bool? IncludeChocolateyPackagesDuringUpgradeAll { get; set; }
 
-    [CommandSwitch("--note")]
+    [CliOption("--note")]
     public virtual string? Note { get; set; }
 
-    [BooleanCommandSwitch("--force-self-service")]
+    [CliFlag("--force-self-service")]
     public virtual bool? ForceSelfService { get; set; }
 }

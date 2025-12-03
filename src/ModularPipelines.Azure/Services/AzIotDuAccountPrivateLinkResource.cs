@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "account")]
+[CliCommand("iot", "du", "account")]
 public class AzIotDuAccountPrivateLinkResource
 {
     public AzIotDuAccountPrivateLinkResource(

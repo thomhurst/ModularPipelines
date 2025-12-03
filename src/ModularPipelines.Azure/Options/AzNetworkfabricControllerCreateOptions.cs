@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkfabric", "controller", "create")]
+[CliCommand("networkfabric", "controller", "create")]
 public record AzNetworkfabricControllerCreateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-name")] string ResourceName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--resource-name")] string ResourceName
 ) : AzOptions
 {
-    [CommandSwitch("--annotation")]
+    [CliOption("--annotation")]
     public string? Annotation { get; set; }
 
-    [CommandSwitch("--infra-er-connections")]
+    [CliOption("--infra-er-connections")]
     public string? InfraErConnections { get; set; }
 
-    [CommandSwitch("--ipv4-address-space")]
+    [CliOption("--ipv4-address-space")]
     public string? Ipv4AddressSpace { get; set; }
 
-    [CommandSwitch("--ipv6-address-space")]
+    [CliOption("--ipv6-address-space")]
     public string? Ipv6AddressSpace { get; set; }
 
-    [BooleanCommandSwitch("--is-workload-management-network-enabled")]
+    [CliFlag("--is-workload-management-network-enabled")]
     public bool? IsWorkloadManagementNetworkEnabled { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--managed-resource-group-configuration")]
+    [CliOption("--managed-resource-group-configuration")]
     public string? ManagedResourceGroupConfiguration { get; set; }
 
-    [CommandSwitch("--nfc-sku")]
+    [CliOption("--nfc-sku")]
     public string? NfcSku { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--workload-er-connections")]
+    [CliOption("--workload-er-connections")]
     public string? WorkloadErConnections { get; set; }
 }

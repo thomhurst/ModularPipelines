@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "cancel-resize")]
+[CliCommand("redshift", "cancel-resize")]
 public record AwsRedshiftCancelResizeOptions(
-[property: CommandSwitch("--cluster-identifier")] string ClusterIdentifier
+[property: CliOption("--cluster-identifier")] string ClusterIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

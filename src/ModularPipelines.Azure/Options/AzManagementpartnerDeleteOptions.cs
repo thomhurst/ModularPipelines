@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managementpartner", "delete")]
+[CliCommand("managementpartner", "delete")]
 public record AzManagementpartnerDeleteOptions(
-[property: CommandSwitch("--partner-id")] string PartnerId
+[property: CliOption("--partner-id")] string PartnerId
 ) : AzOptions;

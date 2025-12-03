@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "sql", "pool", "tde", "set")]
+[CliCommand("synapse", "sql", "pool", "tde", "set")]
 public record AzSynapseSqlPoolTdeSetOptions(
-[property: CommandSwitch("--status")] string Status,
-[property: CommandSwitch("--transparent-data-encryption-name")] string TransparentDataEncryptionName
+[property: CliOption("--status")] string Status,
+[property: CliOption("--transparent-data-encryption-name")] string TransparentDataEncryptionName
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

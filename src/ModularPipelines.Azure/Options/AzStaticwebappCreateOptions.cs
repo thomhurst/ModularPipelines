@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("staticwebapp", "create")]
+[CliCommand("staticwebapp", "create")]
 public record AzStaticwebappCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--api-location")]
+    [CliOption("--api-location")]
     public string? ApiLocation { get; set; }
 
-    [CommandSwitch("--app-location")]
+    [CliOption("--app-location")]
     public string? AppLocation { get; set; }
 
-    [CommandSwitch("--branch")]
+    [CliOption("--branch")]
     public string? Branch { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--login-with-ado")]
+    [CliFlag("--login-with-ado")]
     public bool? LoginWithAdo { get; set; }
 
-    [BooleanCommandSwitch("--login-with-github")]
+    [CliFlag("--login-with-github")]
     public bool? LoginWithGithub { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--output-location")]
+    [CliOption("--output-location")]
     public string? OutputLocation { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 }

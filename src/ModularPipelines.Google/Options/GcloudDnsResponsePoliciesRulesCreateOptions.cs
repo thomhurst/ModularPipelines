@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns", "response-policies", "rules", "create")]
+[CliCommand("dns", "response-policies", "rules", "create")]
 public record GcloudDnsResponsePoliciesRulesCreateOptions(
-[property: PositionalArgument] string ResponsePolicyRule,
-[property: PositionalArgument] string ResponsePolicy,
-[property: CommandSwitch("--dns-name")] string DnsName
+[property: CliArgument] string ResponsePolicyRule,
+[property: CliArgument] string ResponsePolicy,
+[property: CliOption("--dns-name")] string DnsName
 ) : GcloudOptions
 {
-    [CommandSwitch("--behavior")]
+    [CliOption("--behavior")]
     public string? Behavior { get; set; }
 
-    [CommandSwitch("--local-data")]
+    [CliOption("--local-data")]
     public string[]? LocalData { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "firewall", "application-rule", "collection", "list")]
+[CliCommand("network", "firewall", "application-rule", "collection", "list")]
 public record AzNetworkFirewallApplicationRuleCollectionListOptions(
-[property: CommandSwitch("--firewall-name")] string FirewallName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--firewall-name")] string FirewallName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

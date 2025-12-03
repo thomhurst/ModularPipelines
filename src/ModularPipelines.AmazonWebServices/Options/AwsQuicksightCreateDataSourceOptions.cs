@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "create-data-source")]
+[CliCommand("quicksight", "create-data-source")]
 public record AwsQuicksightCreateDataSourceOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--data-source-id")] string DataSourceId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--data-source-id")] string DataSourceId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--data-source-parameters")]
+    [CliOption("--data-source-parameters")]
     public string? DataSourceParameters { get; set; }
 
-    [CommandSwitch("--credentials")]
+    [CliOption("--credentials")]
     public string? Credentials { get; set; }
 
-    [CommandSwitch("--permissions")]
+    [CliOption("--permissions")]
     public string[]? Permissions { get; set; }
 
-    [CommandSwitch("--vpc-connection-properties")]
+    [CliOption("--vpc-connection-properties")]
     public string? VpcConnectionProperties { get; set; }
 
-    [CommandSwitch("--ssl-properties")]
+    [CliOption("--ssl-properties")]
     public string? SslProperties { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--folder-arns")]
+    [CliOption("--folder-arns")]
     public string[]? FolderArns { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

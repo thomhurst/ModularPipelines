@@ -5,50 +5,50 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "jobs", "submit", "spark-sql")]
+[CliCommand("dataproc", "jobs", "submit", "spark-sql")]
 public record GcloudDataprocJobsSubmitSparkSqlOptions(
-[property: CommandSwitch("--cluster")] string Cluster,
-[property: CommandSwitch("--cluster-labels")] IEnumerable<KeyValue> ClusterLabels,
-[property: CommandSwitch("--execute")] string Execute,
-[property: CommandSwitch("--file")] string File
+[property: CliOption("--cluster")] string Cluster,
+[property: CliOption("--cluster-labels")] IEnumerable<KeyValue> ClusterLabels,
+[property: CliOption("--execute")] string Execute,
+[property: CliOption("--file")] string File
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--bucket")]
+    [CliOption("--bucket")]
     public string? Bucket { get; set; }
 
-    [CommandSwitch("--driver-log-levels")]
+    [CliOption("--driver-log-levels")]
     public string[]? DriverLogLevels { get; set; }
 
-    [CommandSwitch("--driver-required-memory-mb")]
+    [CliOption("--driver-required-memory-mb")]
     public string? DriverRequiredMemoryMb { get; set; }
 
-    [CommandSwitch("--driver-required-vcores")]
+    [CliOption("--driver-required-vcores")]
     public string? DriverRequiredVcores { get; set; }
 
-    [CommandSwitch("--jars")]
+    [CliOption("--jars")]
     public string[]? Jars { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--max-failures-per-hour")]
+    [CliOption("--max-failures-per-hour")]
     public string? MaxFailuresPerHour { get; set; }
 
-    [CommandSwitch("--max-failures-total")]
+    [CliOption("--max-failures-total")]
     public string? MaxFailuresTotal { get; set; }
 
-    [CommandSwitch("--params")]
+    [CliOption("--params")]
     public string[]? Params { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string[]? Properties { get; set; }
 
-    [CommandSwitch("--properties-file")]
+    [CliOption("--properties-file")]
     public string? PropertiesFile { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

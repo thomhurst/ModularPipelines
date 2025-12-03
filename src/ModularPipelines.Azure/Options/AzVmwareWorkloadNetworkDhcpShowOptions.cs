@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "workload-network", "dhcp", "show")]
+[CliCommand("vmware", "workload-network", "dhcp", "show")]
 public record AzVmwareWorkloadNetworkDhcpShowOptions : AzOptions
 {
-    [CommandSwitch("--dhcp")]
+    [CliOption("--dhcp")]
     public string? Dhcp { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--private-cloud")]
+    [CliOption("--private-cloud")]
     public string? PrivateCloud { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

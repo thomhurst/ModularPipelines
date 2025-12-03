@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53", "list-traffic-policy-instances-by-hosted-zone")]
+[CliCommand("route53", "list-traffic-policy-instances-by-hosted-zone")]
 public record AwsRoute53ListTrafficPolicyInstancesByHostedZoneOptions(
-[property: CommandSwitch("--hosted-zone-id")] string HostedZoneId
+[property: CliOption("--hosted-zone-id")] string HostedZoneId
 ) : AwsOptions
 {
-    [CommandSwitch("--traffic-policy-instance-name-marker")]
+    [CliOption("--traffic-policy-instance-name-marker")]
     public string? TrafficPolicyInstanceNameMarker { get; set; }
 
-    [CommandSwitch("--traffic-policy-instance-type-marker")]
+    [CliOption("--traffic-policy-instance-type-marker")]
     public string? TrafficPolicyInstanceTypeMarker { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

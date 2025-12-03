@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "external-vpn-gateways", "delete")]
+[CliCommand("compute", "external-vpn-gateways", "delete")]
 public record GcloudComputeExternalVpnGatewaysDeleteOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions;

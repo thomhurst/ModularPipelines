@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tsi", "event-source", "eventhub", "create")]
+[CliCommand("tsi", "event-source", "eventhub", "create")]
 public record AzTsiEventSourceEventhubCreateOptions(
-[property: CommandSwitch("--consumer-group-name")] string ConsumerGroupName,
-[property: CommandSwitch("--environment-name")] string EnvironmentName,
-[property: CommandSwitch("--event-hub-name")] string EventHubName,
-[property: CommandSwitch("--event-source-name")] string EventSourceName,
-[property: CommandSwitch("--event-source-resource-id")] string EventSourceResourceId,
-[property: CommandSwitch("--key-name")] string KeyName,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--namespace")] string Namespace,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--shared-access-key")] string SharedAccessKey
+[property: CliOption("--consumer-group-name")] string ConsumerGroupName,
+[property: CliOption("--environment-name")] string EnvironmentName,
+[property: CliOption("--event-hub-name")] string EventHubName,
+[property: CliOption("--event-source-name")] string EventSourceName,
+[property: CliOption("--event-source-resource-id")] string EventSourceResourceId,
+[property: CliOption("--key-name")] string KeyName,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--namespace")] string Namespace,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--shared-access-key")] string SharedAccessKey
 ) : AzOptions
 {
-    [CommandSwitch("--local-timestamp")]
+    [CliOption("--local-timestamp")]
     public string? LocalTimestamp { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--timestamp-property-name")]
+    [CliOption("--timestamp-property-name")]
     public string? TimestampPropertyName { get; set; }
 }

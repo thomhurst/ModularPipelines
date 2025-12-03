@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bot", "kik", "create")]
+[CliCommand("bot", "kik", "create")]
 public record AzBotKikCreateOptions(
-[property: CommandSwitch("--key")] string Key,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--user-name")] string UserName
+[property: CliOption("--key")] string Key,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--user-name")] string UserName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--add-disabled")]
+    [CliFlag("--add-disabled")]
     public bool? AddDisabled { get; set; }
 
-    [BooleanCommandSwitch("--is-validated")]
+    [CliFlag("--is-validated")]
     public bool? IsValidated { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

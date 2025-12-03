@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "clone")]
+[CliCommand("monitor", "clone")]
 public record AzMonitorCloneOptions(
-[property: CommandSwitch("--source-resource")] string SourceResource,
-[property: CommandSwitch("--target-resource")] string TargetResource
+[property: CliOption("--source-resource")] string SourceResource,
+[property: CliOption("--target-resource")] string TargetResource
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--always-clone")]
+    [CliFlag("--always-clone")]
     public bool? AlwaysClone { get; set; }
 
-    [CommandSwitch("--types")]
+    [CliOption("--types")]
     public string? Types { get; set; }
 }

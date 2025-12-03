@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "kv", "set-keyvault")]
+[CliCommand("appconfig", "kv", "set-keyvault")]
 public record AzAppconfigKvSetKeyvaultOptions(
-[property: CommandSwitch("--key")] string Key,
-[property: CommandSwitch("--secret-identifier")] string SecretIdentifier
+[property: CliOption("--key")] string Key,
+[property: CliOption("--secret-identifier")] string SecretIdentifier
 ) : AzOptions
 {
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [CommandSwitch("--label")]
+    [CliOption("--label")]
     public string? Label { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

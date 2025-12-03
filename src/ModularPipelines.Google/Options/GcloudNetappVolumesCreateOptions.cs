@@ -5,61 +5,61 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "volumes", "create")]
+[CliCommand("netapp", "volumes", "create")]
 public record GcloudNetappVolumesCreateOptions(
-[property: PositionalArgument] string Volume,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--capacity")] string Capacity,
-[property: CommandSwitch("--protocols")] string[] Protocols,
-[property: CommandSwitch("--share-name")] string ShareName,
-[property: CommandSwitch("--storage-pool")] string StoragePool
+[property: CliArgument] string Volume,
+[property: CliArgument] string Location,
+[property: CliOption("--capacity")] string Capacity,
+[property: CliOption("--protocols")] string[] Protocols,
+[property: CliOption("--share-name")] string ShareName,
+[property: CliOption("--storage-pool")] string StoragePool
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--enable-kerberos")]
+    [CliOption("--enable-kerberos")]
     public string? EnableKerberos { get; set; }
 
-    [CommandSwitch("--export-policy")]
+    [CliOption("--export-policy")]
     public string[]? ExportPolicy { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--restricted-actions")]
+    [CliOption("--restricted-actions")]
     public string[]? RestrictedActions { get; set; }
 
-    [CommandSwitch("--security-style")]
+    [CliOption("--security-style")]
     public string? SecurityStyle { get; set; }
 
-    [CommandSwitch("--smb-settings")]
+    [CliOption("--smb-settings")]
     public string[]? SmbSettings { get; set; }
 
-    [CommandSwitch("--snap-reserve")]
+    [CliOption("--snap-reserve")]
     public string? SnapReserve { get; set; }
 
-    [CommandSwitch("--snapshot-daily")]
+    [CliOption("--snapshot-daily")]
     public string[]? SnapshotDaily { get; set; }
 
-    [CommandSwitch("--snapshot-directory")]
+    [CliOption("--snapshot-directory")]
     public string? SnapshotDirectory { get; set; }
 
-    [CommandSwitch("--snapshot-hourly")]
+    [CliOption("--snapshot-hourly")]
     public string[]? SnapshotHourly { get; set; }
 
-    [CommandSwitch("--snapshot-monthly")]
+    [CliOption("--snapshot-monthly")]
     public string[]? SnapshotMonthly { get; set; }
 
-    [CommandSwitch("--snapshot-weekly")]
+    [CliOption("--snapshot-weekly")]
     public string[]? SnapshotWeekly { get; set; }
 
-    [CommandSwitch("--source-snapshot")]
+    [CliOption("--source-snapshot")]
     public string? SourceSnapshot { get; set; }
 
-    [CommandSwitch("--unix-permissions")]
+    [CliOption("--unix-permissions")]
     public string? UnixPermissions { get; set; }
 }

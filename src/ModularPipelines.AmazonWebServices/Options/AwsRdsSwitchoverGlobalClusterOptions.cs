@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "switchover-global-cluster")]
+[CliCommand("rds", "switchover-global-cluster")]
 public record AwsRdsSwitchoverGlobalClusterOptions(
-[property: CommandSwitch("--global-cluster-identifier")] string GlobalClusterIdentifier,
-[property: CommandSwitch("--target-db-cluster-identifier")] string TargetDbClusterIdentifier
+[property: CliOption("--global-cluster-identifier")] string GlobalClusterIdentifier,
+[property: CliOption("--target-db-cluster-identifier")] string TargetDbClusterIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

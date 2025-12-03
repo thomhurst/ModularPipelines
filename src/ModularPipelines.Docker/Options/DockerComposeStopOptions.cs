@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "stop")]
+[CliCommand("compose", "stop")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeStopOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Service { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public virtual string? Timeout { get; set; }
 }

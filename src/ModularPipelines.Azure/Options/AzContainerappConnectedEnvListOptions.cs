@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "connected-env", "list")]
+[CliCommand("containerapp", "connected-env", "list")]
 public record AzContainerappConnectedEnvListOptions : AzOptions
 {
-    [CommandSwitch("--custom-location")]
+    [CliOption("--custom-location")]
     public string? CustomLocation { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

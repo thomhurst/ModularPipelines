@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scheduler", "jobs")]
+[CliCommand("scheduler", "jobs")]
 public class GcloudSchedulerJobsUpdate
 {
     public GcloudSchedulerJobsUpdate(

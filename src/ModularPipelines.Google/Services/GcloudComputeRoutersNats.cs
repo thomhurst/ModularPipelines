@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "routers")]
+[CliCommand("compute", "routers")]
 public class GcloudComputeRoutersNats
 {
     public GcloudComputeRoutersNats(

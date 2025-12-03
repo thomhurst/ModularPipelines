@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("serial-console", "send", "sysrq")]
+[CliCommand("serial-console", "send", "sysrq")]
 public record AzSerialConsoleSendSysrqOptions(
-[property: CommandSwitch("--input")] string Input,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--input")] string Input,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--instance-id")]
+    [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 }

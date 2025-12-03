@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tasks", "queues", "remove-iam-policy-binding")]
+[CliCommand("tasks", "queues", "remove-iam-policy-binding")]
 public record GcloudTasksQueuesRemoveIamPolicyBindingOptions(
-[property: PositionalArgument] string Queue,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--member")] string Member,
-[property: CommandSwitch("--role")] string Role
+[property: CliArgument] string Queue,
+[property: CliArgument] string Location,
+[property: CliOption("--member")] string Member,
+[property: CliOption("--role")] string Role
 ) : GcloudOptions;

@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("topic", "formats")]
+[CliCommand("topic", "formats")]
 public record GcloudTopicFormatsOptions : GcloudOptions;

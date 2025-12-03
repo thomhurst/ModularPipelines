@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "account", "private-link-resource", "list")]
+[CliCommand("storage", "account", "private-link-resource", "list")]
 public record AzStorageAccountPrivateLinkResourceListOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

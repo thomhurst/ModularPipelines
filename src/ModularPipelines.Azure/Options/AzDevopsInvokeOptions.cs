@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "invoke")]
+[CliCommand("devops", "invoke")]
 public record AzDevopsInvokeOptions : AzOptions
 {
-    [CommandSwitch("--accept-media-type")]
+    [CliOption("--accept-media-type")]
     public string? AcceptMediaType { get; set; }
 
-    [CommandSwitch("--api-version")]
+    [CliOption("--api-version")]
     public string? ApiVersion { get; set; }
 
-    [CommandSwitch("--area")]
+    [CliOption("--area")]
     public string? Area { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--encoding")]
+    [CliOption("--encoding")]
     public string? Encoding { get; set; }
 
-    [CommandSwitch("--http-method")]
+    [CliOption("--http-method")]
     public string? HttpMethod { get; set; }
 
-    [CommandSwitch("--in-file")]
+    [CliOption("--in-file")]
     public string? InFile { get; set; }
 
-    [CommandSwitch("--media-type")]
+    [CliOption("--media-type")]
     public string? MediaType { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--out-file")]
+    [CliOption("--out-file")]
     public string? OutFile { get; set; }
 
-    [CommandSwitch("--query-parameters")]
+    [CliOption("--query-parameters")]
     public string? QueryParameters { get; set; }
 
-    [CommandSwitch("--resource")]
+    [CliOption("--resource")]
     public string? Resource { get; set; }
 
-    [CommandSwitch("--route-parameters")]
+    [CliOption("--route-parameters")]
     public string? RouteParameters { get; set; }
 }

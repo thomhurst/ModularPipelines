@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("load", "test", "list")]
+[CliCommand("load", "test", "list")]
 public record AzLoadTestListOptions(
-[property: CommandSwitch("--load-test-resource")] string LoadTestResource
+[property: CliOption("--load-test-resource")] string LoadTestResource
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

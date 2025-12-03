@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "device", "registration", "create")]
+[CliCommand("iot", "device", "registration", "create")]
 public record AzIotDeviceRegistrationCreateOptions(
-[property: CommandSwitch("--registration-id")] string RegistrationId
+[property: CliOption("--registration-id")] string RegistrationId
 ) : AzOptions
 {
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--certificate-file-path")]
+    [CliOption("--certificate-file-path")]
     public string? CertificateFilePath { get; set; }
 
-    [BooleanCommandSwitch("--ck")]
+    [CliFlag("--ck")]
     public bool? Ck { get; set; }
 
-    [CommandSwitch("--dps-name")]
+    [CliOption("--dps-name")]
     public string? DpsName { get; set; }
 
-    [CommandSwitch("--enrollment-group-id")]
+    [CliOption("--enrollment-group-id")]
     public string? EnrollmentGroupId { get; set; }
 
-    [CommandSwitch("--host")]
+    [CliOption("--host")]
     public string? Host { get; set; }
 
-    [CommandSwitch("--id-scope")]
+    [CliOption("--id-scope")]
     public string? IdScope { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--key-file-path")]
+    [CliOption("--key-file-path")]
     public string? KeyFilePath { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--pass")]
+    [CliOption("--pass")]
     public string? Pass { get; set; }
 
-    [CommandSwitch("--payload")]
+    [CliOption("--payload")]
     public string? Payload { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

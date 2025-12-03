@@ -4,61 +4,61 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedvmware", "vm", "create")]
+[CliCommand("connectedvmware", "vm", "create")]
 public record AzConnectedvmwareVmCreateOptions(
-[property: CommandSwitch("--custom-location")] string CustomLocation,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--custom-location")] string CustomLocation,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--admin-password")]
+    [CliOption("--admin-password")]
     public string? AdminPassword { get; set; }
 
-    [CommandSwitch("--admin-username")]
+    [CliOption("--admin-username")]
     public string? AdminUsername { get; set; }
 
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--datastore")]
+    [CliOption("--datastore")]
     public string? Datastore { get; set; }
 
-    [CommandSwitch("--disk")]
+    [CliOption("--disk")]
     public string? Disk { get; set; }
 
-    [CommandSwitch("--host")]
+    [CliOption("--host")]
     public string? Host { get; set; }
 
-    [CommandSwitch("--inventory-item")]
+    [CliOption("--inventory-item")]
     public string? InventoryItem { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--memory-size")]
+    [CliOption("--memory-size")]
     public string? MemorySize { get; set; }
 
-    [CommandSwitch("--nic")]
+    [CliOption("--nic")]
     public string? Nic { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--num-CPUs")]
+    [CliOption("--num-CPUs")]
     public string? NumCPUs { get; set; }
 
-    [CommandSwitch("--num-cores-per-socket")]
+    [CliOption("--num-cores-per-socket")]
     public string? NumCoresPerSocket { get; set; }
 
-    [CommandSwitch("--resource-pool")]
+    [CliOption("--resource-pool")]
     public string? ResourcePool { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vcenter")]
+    [CliOption("--vcenter")]
     public string? Vcenter { get; set; }
 
-    [CommandSwitch("--vm-template")]
+    [CliOption("--vm-template")]
     public string? VmTemplate { get; set; }
 }

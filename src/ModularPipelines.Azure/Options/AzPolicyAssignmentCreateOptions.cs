@@ -4,51 +4,51 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("policy", "assignment", "create")]
+[CliCommand("policy", "assignment", "create")]
 public record AzPolicyAssignmentCreateOptions : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--enforcement-mode")]
+    [CliOption("--enforcement-mode")]
     public string? EnforcementMode { get; set; }
 
-    [CommandSwitch("--identity-scope")]
+    [CliOption("--identity-scope")]
     public string? IdentityScope { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--mi-system-assigned")]
+    [CliOption("--mi-system-assigned")]
     public string? MiSystemAssigned { get; set; }
 
-    [CommandSwitch("--mi-user-assigned")]
+    [CliOption("--mi-user-assigned")]
     public string? MiUserAssigned { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--not-scopes")]
+    [CliOption("--not-scopes")]
     public string? NotScopes { get; set; }
 
-    [CommandSwitch("--params")]
+    [CliOption("--params")]
     public string? Params { get; set; }
 
-    [CommandSwitch("--policy")]
+    [CliOption("--policy")]
     public string? Policy { get; set; }
 
-    [CommandSwitch("--policy-set-definition")]
+    [CliOption("--policy-set-definition")]
     public string? PolicySetDefinition { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 }

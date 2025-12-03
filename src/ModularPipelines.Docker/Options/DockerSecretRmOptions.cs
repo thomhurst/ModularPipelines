@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("secret", "rm")]
+[CliCommand("secret", "rm")]
 [ExcludeFromCodeCoverage]
 public record DockerSecretRmOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Secret { get; set; }
 }

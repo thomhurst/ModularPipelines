@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "resource", "query-region-info")]
+[CliCommand("netappfiles", "resource", "query-region-info")]
 public record AzNetappfilesResourceQueryRegionInfoOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : AzOptions;

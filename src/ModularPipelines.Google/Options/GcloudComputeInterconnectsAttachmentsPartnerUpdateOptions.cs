@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "interconnects", "attachments", "partner", "update")]
+[CliCommand("compute", "interconnects", "attachments", "partner", "update")]
 public record GcloudComputeInterconnectsAttachmentsPartnerUpdateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enable-admin")]
+    [CliFlag("--enable-admin")]
     public bool? EnableAdmin { get; set; }
 
-    [CommandSwitch("--mtu")]
+    [CliOption("--mtu")]
     public string? Mtu { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

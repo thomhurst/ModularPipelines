@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "gremlin", "database", "restore")]
+[CliCommand("cosmosdb", "gremlin", "database", "restore")]
 public record AzCosmosdbGremlinDatabaseRestoreOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--restore-timestamp")] string RestoreTimestamp
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--restore-timestamp")] string RestoreTimestamp
 ) : AzOptions;

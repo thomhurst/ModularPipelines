@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "image-definition", "show-shared")]
+[CliCommand("sig", "image-definition", "show-shared")]
 public record AzSigImageDefinitionShowSharedOptions : AzOptions
 {
-    [CommandSwitch("--gallery-image-definition")]
+    [CliOption("--gallery-image-definition")]
     public string? GalleryImageDefinition { get; set; }
 
-    [CommandSwitch("--gallery-unique-name")]
+    [CliOption("--gallery-unique-name")]
     public string? GalleryUniqueName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

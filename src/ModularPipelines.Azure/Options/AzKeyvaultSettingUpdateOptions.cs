@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "setting", "update")]
+[CliCommand("keyvault", "setting", "update")]
 public record AzKeyvaultSettingUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--value")] string Value
+[property: CliOption("--name")] string Name,
+[property: CliOption("--value")] string Value
 ) : AzOptions
 {
-    [CommandSwitch("--hsm-name")]
+    [CliOption("--hsm-name")]
     public string? HsmName { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--setting-type")]
+    [CliOption("--setting-type")]
     public string? SettingType { get; set; }
 }

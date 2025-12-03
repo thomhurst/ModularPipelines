@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ses", "clone-receipt-rule-set")]
+[CliCommand("ses", "clone-receipt-rule-set")]
 public record AwsSesCloneReceiptRuleSetOptions(
-[property: CommandSwitch("--rule-set-name")] string RuleSetName,
-[property: CommandSwitch("--original-rule-set-name")] string OriginalRuleSetName
+[property: CliOption("--rule-set-name")] string RuleSetName,
+[property: CliOption("--original-rule-set-name")] string OriginalRuleSetName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

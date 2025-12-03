@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hdinsight", "autoscale", "create")]
+[CliCommand("hdinsight", "autoscale", "create")]
 public record AzHdinsightAutoscaleCreateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [CommandSwitch("--days")]
+    [CliOption("--days")]
     public int? Days { get; set; }
 
-    [CommandSwitch("--max-workernode-count")]
+    [CliOption("--max-workernode-count")]
     public int? MaxWorkernodeCount { get; set; }
 
-    [CommandSwitch("--min-workernode-count")]
+    [CliOption("--min-workernode-count")]
     public int? MinWorkernodeCount { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--time")]
+    [CliOption("--time")]
     public string? Time { get; set; }
 
-    [CommandSwitch("--timezone")]
+    [CliOption("--timezone")]
     public string? Timezone { get; set; }
 
-    [CommandSwitch("--workernode-count")]
+    [CliOption("--workernode-count")]
     public int? WorkernodeCount { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

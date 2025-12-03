@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "apm", "update")]
+[CliCommand("spring", "apm", "update")]
 public record AzSpringApmUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string? Properties { get; set; }
 
-    [CommandSwitch("--secrets")]
+    [CliOption("--secrets")]
     public string? Secrets { get; set; }
 }

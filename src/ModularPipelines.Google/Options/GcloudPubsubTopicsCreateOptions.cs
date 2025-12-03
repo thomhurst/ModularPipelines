@@ -5,44 +5,44 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "topics", "create")]
+[CliCommand("pubsub", "topics", "create")]
 public record GcloudPubsubTopicsCreateOptions(
-[property: PositionalArgument] string Topic
+[property: CliArgument] string Topic
 ) : GcloudOptions
 {
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--message-retention-duration")]
+    [CliOption("--message-retention-duration")]
     public string? MessageRetentionDuration { get; set; }
 
-    [CommandSwitch("--message-storage-policy-allowed-regions")]
+    [CliOption("--message-storage-policy-allowed-regions")]
     public string[]? MessageStoragePolicyAllowedRegions { get; set; }
 
-    [CommandSwitch("--message-encoding")]
+    [CliOption("--message-encoding")]
     public string? MessageEncoding { get; set; }
 
-    [CommandSwitch("--first-revision-id")]
+    [CliOption("--first-revision-id")]
     public string? FirstRevisionId { get; set; }
 
-    [CommandSwitch("--last-revision-id")]
+    [CliOption("--last-revision-id")]
     public string? LastRevisionId { get; set; }
 
-    [CommandSwitch("--schema")]
+    [CliOption("--schema")]
     public string? Schema { get; set; }
 
-    [CommandSwitch("--schema-project")]
+    [CliOption("--schema-project")]
     public string? SchemaProject { get; set; }
 
-    [CommandSwitch("--topic-encryption-key")]
+    [CliOption("--topic-encryption-key")]
     public string? TopicEncryptionKey { get; set; }
 
-    [CommandSwitch("--topic-encryption-key-keyring")]
+    [CliOption("--topic-encryption-key-keyring")]
     public string? TopicEncryptionKeyKeyring { get; set; }
 
-    [CommandSwitch("--topic-encryption-key-location")]
+    [CliOption("--topic-encryption-key-location")]
     public string? TopicEncryptionKeyLocation { get; set; }
 
-    [CommandSwitch("--topic-encryption-key-project")]
+    [CliOption("--topic-encryption-key-project")]
     public string? TopicEncryptionKeyProject { get; set; }
 }

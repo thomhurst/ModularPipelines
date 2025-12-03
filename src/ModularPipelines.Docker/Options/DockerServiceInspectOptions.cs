@@ -15,12 +15,12 @@ public record DockerServiceInspectOptions : DockerOptions
         Service = service;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Service { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [CommandSwitch("--pretty")]
+    [CliOption("--pretty")]
     public virtual string? Pretty { get; set; }
 }

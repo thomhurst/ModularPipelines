@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "update")]
+[CliCommand("repos", "update")]
 public record AzReposUpdateOptions(
-[property: CommandSwitch("--repository")] string Repository
+[property: CliOption("--repository")] string Repository
 ) : AzOptions
 {
-    [CommandSwitch("--default-branch")]
+    [CliOption("--default-branch")]
     public string? DefaultBranch { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 }

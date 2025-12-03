@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "rsync")]
+[CliCommand("storage", "rsync")]
 public record GcloudStorageRsyncOptions(
-[property: PositionalArgument] string Source,
-[property: PositionalArgument] string Destination
+[property: CliArgument] string Source,
+[property: CliArgument] string Destination
 ) : GcloudOptions
 {
-    [CommandSwitch("--additional-headers")]
+    [CliOption("--additional-headers")]
     public string? AdditionalHeaders { get; set; }
 
-    [CommandSwitch("--canned-acl")]
+    [CliOption("--canned-acl")]
     public string? CannedAcl { get; set; }
 
-    [BooleanCommandSwitch("--checksums-only")]
+    [CliFlag("--checksums-only")]
     public bool? ChecksumsOnly { get; set; }
 
-    [BooleanCommandSwitch("--no-clobber")]
+    [CliFlag("--no-clobber")]
     public bool? NoClobber { get; set; }
 
-    [CommandSwitch("--content-md5")]
+    [CliOption("--content-md5")]
     public string? ContentMd5 { get; set; }
 
-    [BooleanCommandSwitch("--continue-on-error")]
+    [CliFlag("--continue-on-error")]
     public bool? ContinueOnError { get; set; }
 
-    [BooleanCommandSwitch("--delete-unmatched-destination-objects")]
+    [CliFlag("--delete-unmatched-destination-objects")]
     public bool? DeleteUnmatchedDestinationObjects { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CommandSwitch("--exclude")]
+    [CliOption("--exclude")]
     public string[]? Exclude { get; set; }
 
-    [CommandSwitch("--gzip-in-flight")]
+    [CliOption("--gzip-in-flight")]
     public string[]? GzipInFlight { get; set; }
 
-    [BooleanCommandSwitch("--gzip-in-flight-all")]
+    [CliFlag("--gzip-in-flight-all")]
     public bool? GzipInFlightAll { get; set; }
 
-    [BooleanCommandSwitch("--ignore-symlinks")]
+    [CliFlag("--ignore-symlinks")]
     public bool? IgnoreSymlinks { get; set; }
 
-    [BooleanCommandSwitch("--preserve-posix")]
+    [CliFlag("--preserve-posix")]
     public bool? PreservePosix { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public bool? Recursive { get; set; }
 
-    [BooleanCommandSwitch("--skip-if-dest-has-newer-mtime")]
+    [CliFlag("--skip-if-dest-has-newer-mtime")]
     public bool? SkipIfDestHasNewerMtime { get; set; }
 
-    [BooleanCommandSwitch("--skip-unsupported")]
+    [CliFlag("--skip-unsupported")]
     public bool? SkipUnsupported { get; set; }
 }

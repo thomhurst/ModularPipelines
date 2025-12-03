@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workbench", "instances", "describe")]
+[CliCommand("workbench", "instances", "describe")]
 public record GcloudWorkbenchInstancesDescribeOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Instance,
+[property: CliArgument] string Location
 ) : GcloudOptions;

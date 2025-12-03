@@ -4,44 +4,44 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "data-connection", "event-hub", "create")]
+[CliCommand("kusto", "data-connection", "event-hub", "create")]
 public record AzKustoDataConnectionEventHubCreateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--data-connection-name")] string DataConnectionName,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--data-connection-name")] string DataConnectionName,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--compression")]
+    [CliOption("--compression")]
     public string? Compression { get; set; }
 
-    [CommandSwitch("--consumer-group")]
+    [CliOption("--consumer-group")]
     public string? ConsumerGroup { get; set; }
 
-    [CommandSwitch("--data-format")]
+    [CliOption("--data-format")]
     public string? DataFormat { get; set; }
 
-    [CommandSwitch("--database-routing")]
+    [CliOption("--database-routing")]
     public string? DatabaseRouting { get; set; }
 
-    [CommandSwitch("--event-hub-resource-id")]
+    [CliOption("--event-hub-resource-id")]
     public string? EventHubResourceId { get; set; }
 
-    [CommandSwitch("--event-system-properties")]
+    [CliOption("--event-system-properties")]
     public string? EventSystemProperties { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--managed-identity")]
+    [CliOption("--managed-identity")]
     public string? ManagedIdentity { get; set; }
 
-    [CommandSwitch("--mapping-rule-name")]
+    [CliOption("--mapping-rule-name")]
     public string? MappingRuleName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--table-name")]
+    [CliOption("--table-name")]
     public string? TableName { get; set; }
 }

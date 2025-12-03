@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dla", "account")]
+[CliCommand("dla", "account")]
 public class AzDlaAccountDataLakeStore
 {
     public AzDlaAccountDataLakeStore(

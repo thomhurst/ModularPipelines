@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mysql", "server", "update")]
+[CliCommand("mysql", "server", "update")]
 public record AzMysqlServerUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--admin-password")]
+    [CliOption("--admin-password")]
     public string? AdminPassword { get; set; }
 
-    [BooleanCommandSwitch("--assign-identity")]
+    [CliFlag("--assign-identity")]
     public bool? AssignIdentity { get; set; }
 
-    [CommandSwitch("--auto-grow")]
+    [CliOption("--auto-grow")]
     public string? AutoGrow { get; set; }
 
-    [CommandSwitch("--backup-retention")]
+    [CliOption("--backup-retention")]
     public string? BackupRetention { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--minimal-tls-version")]
+    [CliOption("--minimal-tls-version")]
     public string? MinimalTlsVersion { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--public")]
+    [CliOption("--public")]
     public string? Public { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--sku-name")]
+    [CliOption("--sku-name")]
     public string? SkuName { get; set; }
 
-    [CommandSwitch("--ssl-enforcement")]
+    [CliOption("--ssl-enforcement")]
     public string? SslEnforcement { get; set; }
 
-    [CommandSwitch("--storage-size")]
+    [CliOption("--storage-size")]
     public string? StorageSize { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

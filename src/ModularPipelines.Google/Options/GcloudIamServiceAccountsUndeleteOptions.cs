@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "service-accounts", "undelete")]
+[CliCommand("iam", "service-accounts", "undelete")]
 public record GcloudIamServiceAccountsUndeleteOptions(
-[property: PositionalArgument] string AccountId
+[property: CliArgument] string AccountId
 ) : GcloudOptions;

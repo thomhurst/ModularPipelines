@@ -6,67 +6,67 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("storage", "file", "copy", "start", "(storage-preview", "extension)")]
 public record AzStorageFileCopyStartStoragePreviewExtensionOptions(
-[property: CommandSwitch("--destination-path")] string DestinationPath,
-[property: CommandSwitch("--destination-share")] string DestinationShare
+[property: CliOption("--destination-path")] string DestinationPath,
+[property: CliOption("--destination-share")] string DestinationShare
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [BooleanCommandSwitch("--backup-intent")]
+    [CliFlag("--backup-intent")]
     public bool? BackupIntent { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [BooleanCommandSwitch("--disallow-source-trailing-dot")]
+    [CliFlag("--disallow-source-trailing-dot")]
     public bool? DisallowSourceTrailingDot { get; set; }
 
-    [BooleanCommandSwitch("--disallow-trailing-dot")]
+    [CliFlag("--disallow-trailing-dot")]
     public bool? DisallowTrailingDot { get; set; }
 
-    [CommandSwitch("--file-snapshot")]
+    [CliOption("--file-snapshot")]
     public string? FileSnapshot { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--source-account-key")]
+    [CliOption("--source-account-key")]
     public int? SourceAccountKey { get; set; }
 
-    [CommandSwitch("--source-account-name")]
+    [CliOption("--source-account-name")]
     public int? SourceAccountName { get; set; }
 
-    [CommandSwitch("--source-blob")]
+    [CliOption("--source-blob")]
     public string? SourceBlob { get; set; }
 
-    [CommandSwitch("--source-container")]
+    [CliOption("--source-container")]
     public string? SourceContainer { get; set; }
 
-    [CommandSwitch("--source-path")]
+    [CliOption("--source-path")]
     public string? SourcePath { get; set; }
 
-    [CommandSwitch("--source-sas")]
+    [CliOption("--source-sas")]
     public string? SourceSas { get; set; }
 
-    [CommandSwitch("--source-share")]
+    [CliOption("--source-share")]
     public string? SourceShare { get; set; }
 
-    [CommandSwitch("--source-snapshot")]
+    [CliOption("--source-snapshot")]
     public string? SourceSnapshot { get; set; }
 
-    [CommandSwitch("--source-uri")]
+    [CliOption("--source-uri")]
     public string? SourceUri { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

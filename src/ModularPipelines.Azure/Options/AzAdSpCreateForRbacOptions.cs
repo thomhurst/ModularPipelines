@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "sp", "create-for-rbac")]
+[CliCommand("ad", "sp", "create-for-rbac")]
 public record AzAdSpCreateForRbacOptions : AzOptions
 {
-    [CommandSwitch("--cert")]
+    [CliOption("--cert")]
     public string? Cert { get; set; }
 
-    [BooleanCommandSwitch("--create-cert")]
+    [CliFlag("--create-cert")]
     public bool? CreateCert { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--keyvault")]
+    [CliOption("--keyvault")]
     public string? Keyvault { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string? Scopes { get; set; }
 
-    [CommandSwitch("--years")]
+    [CliOption("--years")]
     public string? Years { get; set; }
 }

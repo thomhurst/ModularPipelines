@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "env", "workload-profile", "update")]
+[CliCommand("containerapp", "env", "workload-profile", "update")]
 public record AzContainerappEnvWorkloadProfileUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workload-profile-name")] string WorkloadProfileName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workload-profile-name")] string WorkloadProfileName
 ) : AzOptions
 {
-    [CommandSwitch("--max-nodes")]
+    [CliOption("--max-nodes")]
     public string? MaxNodes { get; set; }
 
-    [CommandSwitch("--min-nodes")]
+    [CliOption("--min-nodes")]
     public string? MinNodes { get; set; }
 }

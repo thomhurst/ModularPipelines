@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("cordon")]
+[CliCommand("cordon")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCordonOptions([property: PositionalArgument] string Node) : KubernetesOptions
+public record KubernetesCordonOptions([property: CliArgument] string Node) : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CliOption("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CliOption("--selector")]
     public string? Selector { get; set; }
 }

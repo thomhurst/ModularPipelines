@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("confluent")]
+[CliCommand("confluent")]
 public class AzConfluentOfferDetail
 {
     public AzConfluentOfferDetail(

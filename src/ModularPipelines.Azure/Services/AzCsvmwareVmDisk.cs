@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("csvmware", "vm")]
+[CliCommand("csvmware", "vm")]
 public class AzCsvmwareVmDisk
 {
     public AzCsvmwareVmDisk(

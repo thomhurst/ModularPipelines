@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "data-collection")]
+[CliCommand("monitor", "data-collection")]
 public class AzMonitorDataCollectionRule
 {
     public AzMonitorDataCollectionRule(

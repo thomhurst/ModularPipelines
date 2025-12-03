@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication", "chat", "message", "update")]
+[CliCommand("communication", "chat", "message", "update")]
 public record AzCommunicationChatMessageUpdateOptions(
-[property: CommandSwitch("--content")] string Content,
-[property: CommandSwitch("--message-id")] string MessageId,
-[property: CommandSwitch("--thread")] string Thread
+[property: CliOption("--content")] string Content,
+[property: CliOption("--message-id")] string MessageId,
+[property: CliOption("--thread")] string Thread
 ) : AzOptions
 {
-    [CommandSwitch("--access-token")]
+    [CliOption("--access-token")]
     public string? AccessToken { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-services", "service-bindings", "describe")]
+[CliCommand("network-services", "service-bindings", "describe")]
 public record GcloudNetworkServicesServiceBindingsDescribeOptions(
-[property: PositionalArgument] string ServiceBinding,
-[property: PositionalArgument] string Location
+[property: CliArgument] string ServiceBinding,
+[property: CliArgument] string Location
 ) : GcloudOptions;

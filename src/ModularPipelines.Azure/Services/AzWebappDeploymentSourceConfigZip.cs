@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "deployment", "source")]
+[CliCommand("webapp", "deployment", "source")]
 public class AzWebappDeploymentSourceConfigZip
 {
     public AzWebappDeploymentSourceConfigZip(

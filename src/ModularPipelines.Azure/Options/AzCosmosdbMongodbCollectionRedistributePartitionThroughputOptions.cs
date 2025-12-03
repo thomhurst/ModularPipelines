@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "mongodb", "collection", "redistribute-partition-throughput")]
+[CliCommand("cosmosdb", "mongodb", "collection", "redistribute-partition-throughput")]
 public record AzCosmosdbMongodbCollectionRedistributePartitionThroughputOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--evenly-distribute")]
+    [CliFlag("--evenly-distribute")]
     public bool? EvenlyDistribute { get; set; }
 
-    [CommandSwitch("--source-partition-info")]
+    [CliOption("--source-partition-info")]
     public string? SourcePartitionInfo { get; set; }
 
-    [CommandSwitch("--target-partition-info")]
+    [CliOption("--target-partition-info")]
     public string? TargetPartitionInfo { get; set; }
 }

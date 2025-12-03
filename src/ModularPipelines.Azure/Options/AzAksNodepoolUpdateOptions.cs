@@ -4,58 +4,58 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "nodepool", "update")]
+[CliCommand("aks", "nodepool", "update")]
 public record AzAksNodepoolUpdateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--aks-custom-headers")]
+    [CliOption("--aks-custom-headers")]
     public string? AksCustomHeaders { get; set; }
 
-    [BooleanCommandSwitch("--allowed-host-ports")]
+    [CliFlag("--allowed-host-ports")]
     public bool? AllowedHostPorts { get; set; }
 
-    [CommandSwitch("--asg-ids")]
+    [CliOption("--asg-ids")]
     public string? AsgIds { get; set; }
 
-    [BooleanCommandSwitch("--disable-cluster-autoscaler")]
+    [CliFlag("--disable-cluster-autoscaler")]
     public bool? DisableClusterAutoscaler { get; set; }
 
-    [CommandSwitch("--drain-timeout")]
+    [CliOption("--drain-timeout")]
     public string? DrainTimeout { get; set; }
 
-    [BooleanCommandSwitch("--enable-cluster-autoscaler")]
+    [CliFlag("--enable-cluster-autoscaler")]
     public bool? EnableClusterAutoscaler { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [CommandSwitch("--max-count")]
+    [CliOption("--max-count")]
     public int? MaxCount { get; set; }
 
-    [CommandSwitch("--max-surge")]
+    [CliOption("--max-surge")]
     public string? MaxSurge { get; set; }
 
-    [CommandSwitch("--min-count")]
+    [CliOption("--min-count")]
     public int? MinCount { get; set; }
 
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public string? Mode { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--node-taints")]
+    [CliOption("--node-taints")]
     public string? NodeTaints { get; set; }
 
-    [CommandSwitch("--scale-down-mode")]
+    [CliOption("--scale-down-mode")]
     public string? ScaleDownMode { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--update-cluster-autoscaler")]
+    [CliFlag("--update-cluster-autoscaler")]
     public bool? UpdateClusterAutoscaler { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access", "grant")]
+[CliCommand("access", "grant")]
 public record NpmAccessGrantOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Value,
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Scope
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value,
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Scope
 ) : NpmOptions
 {
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [CommandSwitch("--otp")]
+    [CliOption("--otp")]
     public virtual string? Otp { get; set; }
 
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Package { get; set; }
 }

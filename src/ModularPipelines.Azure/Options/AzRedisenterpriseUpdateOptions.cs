@@ -4,63 +4,63 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redisenterprise", "update")]
+[CliCommand("redisenterprise", "update")]
 public record AzRedisenterpriseUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--assigned-identities")]
+    [CliOption("--assigned-identities")]
     public string? AssignedIdentities { get; set; }
 
-    [CommandSwitch("--capacity")]
+    [CliOption("--capacity")]
     public string? Capacity { get; set; }
 
-    [CommandSwitch("--cluster-name")]
+    [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--identity-resource-id")]
+    [CliOption("--identity-resource-id")]
     public string? IdentityResourceId { get; set; }
 
-    [CommandSwitch("--identity-type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--key-encryption-identity-type")]
+    [CliOption("--key-encryption-identity-type")]
     public string? KeyEncryptionIdentityType { get; set; }
 
-    [CommandSwitch("--key-encryption-key-url")]
+    [CliOption("--key-encryption-key-url")]
     public string? KeyEncryptionKeyUrl { get; set; }
 
-    [CommandSwitch("--minimum-tls-version")]
+    [CliOption("--minimum-tls-version")]
     public string? MinimumTlsVersion { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--zones")]
+    [CliOption("--zones")]
     public string? Zones { get; set; }
 }

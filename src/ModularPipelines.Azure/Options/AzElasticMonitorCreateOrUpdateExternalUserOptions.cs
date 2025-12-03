@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastic", "monitor", "create-or-update-external-user")]
+[CliCommand("elastic", "monitor", "create-or-update-external-user")]
 public record AzElasticMonitorCreateOrUpdateExternalUserOptions : AzOptions
 {
-    [CommandSwitch("--email-id")]
+    [CliOption("--email-id")]
     public string? EmailId { get; set; }
 
-    [CommandSwitch("--full-name")]
+    [CliOption("--full-name")]
     public string? FullName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--monitor-name")]
+    [CliOption("--monitor-name")]
     public string? MonitorName { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--roles")]
+    [CliOption("--roles")]
     public string? Roles { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--user-name")]
+    [CliOption("--user-name")]
     public string? UserName { get; set; }
 }

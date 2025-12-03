@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventarc", "audit-logs-provider")]
+[CliCommand("eventarc", "audit-logs-provider")]
 public class GcloudEventarcAuditLogsProviderMethodNames
 {
     public GcloudEventarcAuditLogsProviderMethodNames(

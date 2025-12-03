@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "alerts-suppression-rule", "update")]
+[CliCommand("security", "alerts-suppression-rule", "update")]
 public record AzSecurityAlertsSuppressionRuleUpdateOptions(
-[property: CommandSwitch("--alert-type")] string AlertType,
-[property: CommandSwitch("--reason")] string Reason,
-[property: CommandSwitch("--rule-name")] string RuleName,
-[property: CommandSwitch("--state")] string State
+[property: CliOption("--alert-type")] string AlertType,
+[property: CliOption("--reason")] string Reason,
+[property: CliOption("--rule-name")] string RuleName,
+[property: CliOption("--state")] string State
 ) : AzOptions
 {
-    [CommandSwitch("--comment")]
+    [CliOption("--comment")]
     public string? Comment { get; set; }
 
-    [CommandSwitch("--expiration-date-utc")]
+    [CliOption("--expiration-date-utc")]
     public string? ExpirationDateUtc { get; set; }
 }

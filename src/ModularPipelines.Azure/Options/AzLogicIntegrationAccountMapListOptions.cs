@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logic", "integration-account", "map", "list")]
+[CliCommand("logic", "integration-account", "map", "list")]
 public record AzLogicIntegrationAccountMapListOptions(
-[property: CommandSwitch("--integration-account")] int IntegrationAccount,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--integration-account")] int IntegrationAccount,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

@@ -3,52 +3,52 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("autoscale")]
+[CliCommand("autoscale")]
 [ExcludeFromCodeCoverage]
 public record KubernetesAutoscaleOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cpu-percent", SwitchValueSeparator = " ")]
+    [CliOption("--cpu-percent")]
     public int? CpuPercent { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CliOption("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CliOption("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
+    [CliOption("--filename")]
     public string[]? Filename { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CliOption("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--max", SwitchValueSeparator = " ")]
+    [CliOption("--max")]
     public int? Max { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--min", SwitchValueSeparator = " ")]
+    [CliOption("--min")]
     public int? Min { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--name", SwitchValueSeparator = " ")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 
-    [BooleanCommandSwitch("--record")]
+    [CliFlag("--record")]
     public virtual bool? Record { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [BooleanCommandSwitch("--save-config")]
+    [CliFlag("--save-config")]
     public virtual bool? SaveConfig { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CliOption("--template")]
     public string? Template { get; set; }
 }

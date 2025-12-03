@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "describe-cached-iscsi-volumes")]
+[CliCommand("storagegateway", "describe-cached-iscsi-volumes")]
 public record AwsStoragegatewayDescribeCachedIscsiVolumesOptions(
-[property: CommandSwitch("--volume-arns")] string[] VolumeArns
+[property: CliOption("--volume-arns")] string[] VolumeArns
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

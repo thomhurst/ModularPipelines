@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "cluster", "client-certificate", "add")]
+[CliCommand("sf", "cluster", "client-certificate", "add")]
 public record AzSfClusterClientCertificateAddOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--admin-client-thumbprints")]
+    [CliOption("--admin-client-thumbprints")]
     public string? AdminClientThumbprints { get; set; }
 
-    [CommandSwitch("--cert-common-name")]
+    [CliOption("--cert-common-name")]
     public string? CertCommonName { get; set; }
 
-    [CommandSwitch("--cert-issuer-tp")]
+    [CliOption("--cert-issuer-tp")]
     public string? CertIssuerTp { get; set; }
 
-    [CommandSwitch("--client-cert-cn")]
+    [CliOption("--client-cert-cn")]
     public string? ClientCertCn { get; set; }
 
-    [BooleanCommandSwitch("--is-admin")]
+    [CliFlag("--is-admin")]
     public bool? IsAdmin { get; set; }
 
-    [CommandSwitch("--readonly-client-thumbprints")]
+    [CliOption("--readonly-client-thumbprints")]
     public string? ReadonlyClientThumbprints { get; set; }
 
-    [CommandSwitch("--thumbprint")]
+    [CliOption("--thumbprint")]
     public string? Thumbprint { get; set; }
 }

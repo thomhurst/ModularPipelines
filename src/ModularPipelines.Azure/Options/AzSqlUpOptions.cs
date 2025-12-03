@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "up")]
+[CliCommand("sql", "up")]
 public record AzSqlUpOptions : AzOptions
 {
-    [CommandSwitch("--admin-password")]
+    [CliOption("--admin-password")]
     public string? AdminPassword { get; set; }
 
-    [CommandSwitch("--admin-user")]
+    [CliOption("--admin-user")]
     public string? AdminUser { get; set; }
 
-    [CommandSwitch("--database-name")]
+    [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CommandSwitch("--generate-password")]
+    [CliOption("--generate-password")]
     public string? GeneratePassword { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--server-name")]
+    [CliOption("--server-name")]
     public string? ServerName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 }

@@ -4,115 +4,115 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "volume-group", "create")]
+[CliCommand("netappfiles", "volume-group", "create")]
 public record AzNetappfilesVolumeGroupCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--group-name")] string GroupName,
-[property: CommandSwitch("--pool-name")] string PoolName,
-[property: CommandSwitch("--ppg")] string Ppg,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vnet")] string Vnet
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--group-name")] string GroupName,
+[property: CliOption("--pool-name")] string PoolName,
+[property: CliOption("--ppg")] string Ppg,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vnet")] string Vnet
 ) : AzOptions
 {
-    [CommandSwitch("--add-snapshot-capacity")]
+    [CliOption("--add-snapshot-capacity")]
     public string? AddSnapshotCapacity { get; set; }
 
-    [BooleanCommandSwitch("--backup-nfsv3")]
+    [CliFlag("--backup-nfsv3")]
     public bool? BackupNfsv3 { get; set; }
 
-    [CommandSwitch("--data-backup-repl-skd")]
+    [CliOption("--data-backup-repl-skd")]
     public string? DataBackupReplSkd { get; set; }
 
-    [CommandSwitch("--data-backup-size")]
+    [CliOption("--data-backup-size")]
     public string? DataBackupSize { get; set; }
 
-    [CommandSwitch("--data-backup-src-id")]
+    [CliOption("--data-backup-src-id")]
     public string? DataBackupSrcId { get; set; }
 
-    [CommandSwitch("--data-backup-throughput")]
+    [CliOption("--data-backup-throughput")]
     public string? DataBackupThroughput { get; set; }
 
-    [CommandSwitch("--data-repl-skd")]
+    [CliOption("--data-repl-skd")]
     public string? DataReplSkd { get; set; }
 
-    [CommandSwitch("--data-size")]
+    [CliOption("--data-size")]
     public string? DataSize { get; set; }
 
-    [CommandSwitch("--data-src-id")]
+    [CliOption("--data-src-id")]
     public string? DataSrcId { get; set; }
 
-    [CommandSwitch("--data-throughput")]
+    [CliOption("--data-throughput")]
     public string? DataThroughput { get; set; }
 
-    [CommandSwitch("--global-placement-rules")]
+    [CliOption("--global-placement-rules")]
     public string? GlobalPlacementRules { get; set; }
 
-    [CommandSwitch("--kv-private-endpoint-id")]
+    [CliOption("--kv-private-endpoint-id")]
     public string? KvPrivateEndpointId { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--log-backup-repl-skd")]
+    [CliOption("--log-backup-repl-skd")]
     public string? LogBackupReplSkd { get; set; }
 
-    [CommandSwitch("--log-backup-size")]
+    [CliOption("--log-backup-size")]
     public string? LogBackupSize { get; set; }
 
-    [CommandSwitch("--log-backup-src-id")]
+    [CliOption("--log-backup-src-id")]
     public string? LogBackupSrcId { get; set; }
 
-    [CommandSwitch("--log-backup-throughput")]
+    [CliOption("--log-backup-throughput")]
     public string? LogBackupThroughput { get; set; }
 
-    [CommandSwitch("--log-size")]
+    [CliOption("--log-size")]
     public string? LogSize { get; set; }
 
-    [CommandSwitch("--log-throughput")]
+    [CliOption("--log-throughput")]
     public string? LogThroughput { get; set; }
 
-    [CommandSwitch("--memory")]
+    [CliOption("--memory")]
     public string? Memory { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--number-of-hots")]
+    [CliOption("--number-of-hots")]
     public string? NumberOfHots { get; set; }
 
-    [CommandSwitch("--prefix")]
+    [CliOption("--prefix")]
     public string? Prefix { get; set; }
 
-    [CommandSwitch("--sap-sid")]
+    [CliOption("--sap-sid")]
     public string? SapSid { get; set; }
 
-    [CommandSwitch("--shared-repl-skd")]
+    [CliOption("--shared-repl-skd")]
     public string? SharedReplSkd { get; set; }
 
-    [CommandSwitch("--shared-size")]
+    [CliOption("--shared-size")]
     public string? SharedSize { get; set; }
 
-    [CommandSwitch("--shared-src-id")]
+    [CliOption("--shared-src-id")]
     public string? SharedSrcId { get; set; }
 
-    [CommandSwitch("--shared-throughput")]
+    [CliOption("--shared-throughput")]
     public string? SharedThroughput { get; set; }
 
-    [CommandSwitch("--smb-access")]
+    [CliOption("--smb-access")]
     public string? SmbAccess { get; set; }
 
-    [CommandSwitch("--smb-browsable")]
+    [CliOption("--smb-browsable")]
     public string? SmbBrowsable { get; set; }
 
-    [CommandSwitch("--start-host-id")]
+    [CliOption("--start-host-id")]
     public string? StartHostId { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--system-role")]
+    [CliOption("--system-role")]
     public string? SystemRole { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

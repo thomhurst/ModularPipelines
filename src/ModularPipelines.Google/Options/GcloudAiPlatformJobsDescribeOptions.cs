@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai-platform", "jobs", "describe")]
+[CliCommand("ai-platform", "jobs", "describe")]
 public record GcloudAiPlatformJobsDescribeOptions(
-[property: PositionalArgument] string Job
+[property: CliArgument] string Job
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--summarize")]
+    [CliFlag("--summarize")]
     public bool? Summarize { get; set; }
 }

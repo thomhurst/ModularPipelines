@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("system", "df")]
+[CliCommand("system", "df")]
 [ExcludeFromCodeCoverage]
 public record DockerSystemDfOptions : DockerOptions
 {
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [CommandSwitch("--verbose")]
+    [CliOption("--verbose")]
     public virtual string? Verbose { get; set; }
 }

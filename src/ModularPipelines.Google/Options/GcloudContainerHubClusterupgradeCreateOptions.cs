@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "hub", "clusterupgrade", "create")]
+[CliCommand("container", "hub", "clusterupgrade", "create")]
 public record GcloudContainerHubClusterupgradeCreateOptions : GcloudOptions
 {
-    [CommandSwitch("--default-upgrade-soaking")]
+    [CliOption("--default-upgrade-soaking")]
     public string? DefaultUpgradeSoaking { get; set; }
 
-    [CommandSwitch("--upstream-fleet")]
+    [CliOption("--upstream-fleet")]
     public string? UpstreamFleet { get; set; }
 
-    [CommandSwitch("--add-upgrade-soaking-override")]
+    [CliOption("--add-upgrade-soaking-override")]
     public string? AddUpgradeSoakingOverride { get; set; }
 
-    [CommandSwitch("--upgrade-selector")]
+    [CliOption("--upgrade-selector")]
     public string[]? UpgradeSelector { get; set; }
 }

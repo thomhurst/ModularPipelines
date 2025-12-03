@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vhub", "bgpconnection", "update")]
+[CliCommand("network", "vhub", "bgpconnection", "update")]
 public record AzNetworkVhubBgpconnectionUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--peer-asn")]
+    [CliOption("--peer-asn")]
     public string? PeerAsn { get; set; }
 
-    [CommandSwitch("--peer-ip")]
+    [CliOption("--peer-ip")]
     public string? PeerIp { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--vhub-conn")]
+    [CliOption("--vhub-conn")]
     public string? VhubConn { get; set; }
 
-    [CommandSwitch("--vhub-name")]
+    [CliOption("--vhub-name")]
     public string? VhubName { get; set; }
 }

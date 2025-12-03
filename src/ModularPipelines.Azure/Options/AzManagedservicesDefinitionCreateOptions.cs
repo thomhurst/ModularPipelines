@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managedservices", "definition", "create")]
+[CliCommand("managedservices", "definition", "create")]
 public record AzManagedservicesDefinitionCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--principal-id")] string PrincipalId,
-[property: CommandSwitch("--role-definition-id")] string RoleDefinitionId,
-[property: CommandSwitch("--tenant-id")] string TenantId
+[property: CliOption("--name")] string Name,
+[property: CliOption("--principal-id")] string PrincipalId,
+[property: CliOption("--role-definition-id")] string RoleDefinitionId,
+[property: CliOption("--tenant-id")] string TenantId
 ) : AzOptions
 {
-    [CommandSwitch("--definition-id")]
+    [CliOption("--definition-id")]
     public string? DefinitionId { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--plan-name")]
+    [CliOption("--plan-name")]
     public string? PlanName { get; set; }
 
-    [CommandSwitch("--plan-product")]
+    [CliOption("--plan-product")]
     public string? PlanProduct { get; set; }
 
-    [CommandSwitch("--plan-publisher")]
+    [CliOption("--plan-publisher")]
     public string? PlanPublisher { get; set; }
 
-    [CommandSwitch("--plan-version")]
+    [CliOption("--plan-version")]
     public string? PlanVersion { get; set; }
 }

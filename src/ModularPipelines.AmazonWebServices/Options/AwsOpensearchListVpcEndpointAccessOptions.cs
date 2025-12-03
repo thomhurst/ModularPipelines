@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opensearch", "list-vpc-endpoint-access")]
+[CliCommand("opensearch", "list-vpc-endpoint-access")]
 public record AwsOpensearchListVpcEndpointAccessOptions(
-[property: CommandSwitch("--domain-name")] string DomainName
+[property: CliOption("--domain-name")] string DomainName
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stepfunctions", "get-activity-task")]
+[CliCommand("stepfunctions", "get-activity-task")]
 public record AwsStepfunctionsGetActivityTaskOptions(
-[property: CommandSwitch("--activity-arn")] string ActivityArn
+[property: CliOption("--activity-arn")] string ActivityArn
 ) : AwsOptions
 {
-    [CommandSwitch("--worker-name")]
+    [CliOption("--worker-name")]
     public string? WorkerName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

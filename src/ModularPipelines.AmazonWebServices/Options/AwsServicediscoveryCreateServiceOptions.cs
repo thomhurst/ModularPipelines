@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicediscovery", "create-service")]
+[CliCommand("servicediscovery", "create-service")]
 public record AwsServicediscoveryCreateServiceOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--namespace-id")]
+    [CliOption("--namespace-id")]
     public string? NamespaceId { get; set; }
 
-    [CommandSwitch("--creator-request-id")]
+    [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--dns-config")]
+    [CliOption("--dns-config")]
     public string? DnsConfig { get; set; }
 
-    [CommandSwitch("--health-check-config")]
+    [CliOption("--health-check-config")]
     public string? HealthCheckConfig { get; set; }
 
-    [CommandSwitch("--health-check-custom-config")]
+    [CliOption("--health-check-custom-config")]
     public string? HealthCheckCustomConfig { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

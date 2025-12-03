@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("robomaker", "get-world-template-body")]
+[CliCommand("robomaker", "get-world-template-body")]
 public record AwsRobomakerGetWorldTemplateBodyOptions : AwsOptions
 {
-    [CommandSwitch("--template")]
+    [CliOption("--template")]
     public string? Template { get; set; }
 
-    [CommandSwitch("--generation-job")]
+    [CliOption("--generation-job")]
     public string? GenerationJob { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

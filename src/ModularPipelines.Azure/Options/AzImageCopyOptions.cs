@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("image", "copy")]
+[CliCommand("image", "copy")]
 public record AzImageCopyOptions(
-[property: CommandSwitch("--source-object-name")] string SourceObjectName,
-[property: CommandSwitch("--source-resource-group")] string SourceResourceGroup,
-[property: CommandSwitch("--target-location")] string TargetLocation,
-[property: CommandSwitch("--target-resource-group")] string TargetResourceGroup
+[property: CliOption("--source-object-name")] string SourceObjectName,
+[property: CliOption("--source-resource-group")] string SourceResourceGroup,
+[property: CliOption("--target-location")] string TargetLocation,
+[property: CliOption("--target-resource-group")] string TargetResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--cleanup")]
+    [CliFlag("--cleanup")]
     public bool? Cleanup { get; set; }
 
-    [BooleanCommandSwitch("--export-as-snapshot")]
+    [CliFlag("--export-as-snapshot")]
     public bool? ExportAsSnapshot { get; set; }
 
-    [CommandSwitch("--parallel-degree")]
+    [CliOption("--parallel-degree")]
     public string? ParallelDegree { get; set; }
 
-    [CommandSwitch("--source-type")]
+    [CliOption("--source-type")]
     public string? SourceType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--target-name")]
+    [CliOption("--target-name")]
     public string? TargetName { get; set; }
 
-    [CommandSwitch("--target-subscription")]
+    [CliOption("--target-subscription")]
     public string? TargetSubscription { get; set; }
 
-    [CommandSwitch("--temporary-resource-group-name")]
+    [CliOption("--temporary-resource-group-name")]
     public string? TemporaryResourceGroupName { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

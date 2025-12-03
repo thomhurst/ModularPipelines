@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53resolver", "list-firewall-rules")]
+[CliCommand("route53resolver", "list-firewall-rules")]
 public record AwsRoute53resolverListFirewallRulesOptions(
-[property: CommandSwitch("--firewall-rule-group-id")] string FirewallRuleGroupId
+[property: CliOption("--firewall-rule-group-id")] string FirewallRuleGroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public int? Priority { get; set; }
 
-    [CommandSwitch("--action")]
+    [CliOption("--action")]
     public string? Action { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

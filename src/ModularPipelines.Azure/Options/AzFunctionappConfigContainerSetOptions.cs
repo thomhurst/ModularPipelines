@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "config", "container", "set")]
+[CliCommand("functionapp", "config", "container", "set")]
 public record AzFunctionappConfigContainerSetOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--max-replicas")]
+    [CliOption("--max-replicas")]
     public string? MaxReplicas { get; set; }
 
-    [CommandSwitch("--min-replicas")]
+    [CliOption("--min-replicas")]
     public string? MinReplicas { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--registry-password")]
+    [CliOption("--registry-password")]
     public string? RegistryPassword { get; set; }
 
-    [CommandSwitch("--registry-server")]
+    [CliOption("--registry-server")]
     public string? RegistryServer { get; set; }
 
-    [CommandSwitch("--registry-username")]
+    [CliOption("--registry-username")]
     public string? RegistryUsername { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

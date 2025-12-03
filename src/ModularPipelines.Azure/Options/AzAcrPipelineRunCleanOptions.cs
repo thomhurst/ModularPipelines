@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "pipeline-run", "clean")]
+[CliCommand("acr", "pipeline-run", "clean")]
 public record AzAcrPipelineRunCleanOptions(
-[property: CommandSwitch("--registry")] string Registry,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--registry")] string Registry,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bicep", "decompile-params")]
+[CliCommand("bicep", "decompile-params")]
 public record AzBicepDecompileParamsOptions(
-[property: CommandSwitch("--file")] string File
+[property: CliOption("--file")] string File
 ) : AzOptions
 {
-    [CommandSwitch("--bicep-file")]
+    [CliOption("--bicep-file")]
     public string? BicepFile { get; set; }
 
-    [CommandSwitch("--outdir")]
+    [CliOption("--outdir")]
     public string? Outdir { get; set; }
 
-    [CommandSwitch("--outfile")]
+    [CliOption("--outfile")]
     public string? Outfile { get; set; }
 
-    [CommandSwitch("--stdout")]
+    [CliOption("--stdout")]
     public string? Stdout { get; set; }
 }

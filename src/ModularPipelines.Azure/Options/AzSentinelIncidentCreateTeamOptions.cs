@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "incident", "create-team")]
+[CliCommand("sentinel", "incident", "create-team")]
 public record AzSentinelIncidentCreateTeamOptions(
-[property: CommandSwitch("--incident-id")] string IncidentId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--team-name")] string TeamName,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--incident-id")] string IncidentId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--team-name")] string TeamName,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--group-ids")]
+    [CliOption("--group-ids")]
     public string? GroupIds { get; set; }
 
-    [CommandSwitch("--member-ids")]
+    [CliOption("--member-ids")]
     public string? MemberIds { get; set; }
 
-    [CommandSwitch("--team-description")]
+    [CliOption("--team-description")]
     public string? TeamDescription { get; set; }
 }

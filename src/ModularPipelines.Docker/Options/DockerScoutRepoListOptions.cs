@@ -3,22 +3,22 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout", "repo", "list")]
+[CliCommand("scout", "repo", "list")]
 [ExcludeFromCodeCoverage]
 public record DockerScoutRepoListOptions : DockerOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public virtual string? Filter { get; set; }
 
-    [CommandSwitch("--only-disabled")]
+    [CliOption("--only-disabled")]
     public virtual string? OnlyDisabled { get; set; }
 
-    [CommandSwitch("--only-enabled")]
+    [CliOption("--only-enabled")]
     public virtual string? OnlyEnabled { get; set; }
 
-    [CommandSwitch("--only-registry")]
+    [CliOption("--only-registry")]
     public virtual string? OnlyRegistry { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public virtual string? Org { get; set; }
 }

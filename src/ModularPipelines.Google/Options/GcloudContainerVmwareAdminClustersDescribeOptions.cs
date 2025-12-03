@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "vmware", "admin-clusters", "describe")]
+[CliCommand("container", "vmware", "admin-clusters", "describe")]
 public record GcloudContainerVmwareAdminClustersDescribeOptions(
-[property: PositionalArgument] string AdminCluster,
-[property: PositionalArgument] string Location
+[property: CliArgument] string AdminCluster,
+[property: CliArgument] string Location
 ) : GcloudOptions;

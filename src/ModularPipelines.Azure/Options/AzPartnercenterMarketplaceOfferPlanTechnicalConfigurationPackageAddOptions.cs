@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("partnercenter", "marketplace", "offer", "plan", "technical-configuration", "package", "add")]
+[CliCommand("partnercenter", "marketplace", "offer", "plan", "technical-configuration", "package", "add")]
 public record AzPartnercenterMarketplaceOfferPlanTechnicalConfigurationPackageAddOptions(
-[property: CommandSwitch("--offer-id")] string OfferId,
-[property: CommandSwitch("--plan-id")] string PlanId
+[property: CliOption("--offer-id")] string OfferId,
+[property: CliOption("--plan-id")] string PlanId
 ) : AzOptions
 {
-    [CommandSwitch("--cluster-extension-type")]
+    [CliOption("--cluster-extension-type")]
     public string? ClusterExtensionType { get; set; }
 
-    [CommandSwitch("--digest")]
+    [CliOption("--digest")]
     public string? Digest { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public string? Registry { get; set; }
 
-    [CommandSwitch("--repository")]
+    [CliOption("--repository")]
     public string? Repository { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription-id")]
+    [CliOption("--subscription-id")]
     public string? SubscriptionId { get; set; }
 
-    [CommandSwitch("--tag")]
+    [CliOption("--tag")]
     public string? Tag { get; set; }
 
-    [CommandSwitch("--tenant-id")]
+    [CliOption("--tenant-id")]
     public string? TenantId { get; set; }
 }

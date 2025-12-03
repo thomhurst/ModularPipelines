@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ses", "create-receipt-rule")]
+[CliCommand("ses", "create-receipt-rule")]
 public record AwsSesCreateReceiptRuleOptions(
-[property: CommandSwitch("--rule-set-name")] string RuleSetName,
-[property: CommandSwitch("--rule")] string Rule
+[property: CliOption("--rule-set-name")] string RuleSetName,
+[property: CliOption("--rule")] string Rule
 ) : AwsOptions
 {
-    [CommandSwitch("--after")]
+    [CliOption("--after")]
     public string? After { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

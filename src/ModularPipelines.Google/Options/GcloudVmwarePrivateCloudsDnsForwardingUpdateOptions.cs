@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-clouds", "dns-forwarding", "update")]
+[CliCommand("vmware", "private-clouds", "dns-forwarding", "update")]
 public record GcloudVmwarePrivateCloudsDnsForwardingUpdateOptions(
-[property: CommandSwitch("--private-cloud")] string PrivateCloud,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--private-cloud")] string PrivateCloud,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--rule")]
+    [CliOption("--rule")]
     public string[]? Rule { get; set; }
 }

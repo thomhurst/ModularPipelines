@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-security", "org-address-groups", "delete")]
+[CliCommand("network-security", "org-address-groups", "delete")]
 public record GcloudNetworkSecurityOrgAddressGroupsDeleteOptions(
-[property: PositionalArgument] string AddressGroup,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Organization
+[property: CliArgument] string AddressGroup,
+[property: CliArgument] string Location,
+[property: CliArgument] string Organization
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

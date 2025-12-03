@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "tpus", "tpu-vm", "service-identity", "create")]
+[CliCommand("compute", "tpus", "tpu-vm", "service-identity", "create")]
 public record GcloudComputeTpusTpuVmServiceIdentityCreateOptions : GcloudOptions
 {
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

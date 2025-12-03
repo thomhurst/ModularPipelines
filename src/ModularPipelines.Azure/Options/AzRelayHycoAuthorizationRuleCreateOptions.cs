@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("relay", "hyco", "authorization-rule", "create")]
+[CliCommand("relay", "hyco", "authorization-rule", "create")]
 public record AzRelayHycoAuthorizationRuleCreateOptions(
-[property: CommandSwitch("--hybrid-connection-name")] string HybridConnectionName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--hybrid-connection-name")] string HybridConnectionName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--rights")]
+    [CliOption("--rights")]
     public string? Rights { get; set; }
 }

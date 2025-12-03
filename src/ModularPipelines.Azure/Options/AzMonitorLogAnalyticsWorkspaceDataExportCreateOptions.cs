@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "log-analytics", "workspace", "data-export", "create")]
+[CliCommand("monitor", "log-analytics", "workspace", "data-export", "create")]
 public record AzMonitorLogAnalyticsWorkspaceDataExportCreateOptions(
-[property: CommandSwitch("--data-export-name")] string DataExportName,
-[property: CommandSwitch("--destination")] string Destination,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--tables")] string Tables,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--data-export-name")] string DataExportName,
+[property: CliOption("--destination")] string Destination,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--tables")] string Tables,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--enable")]
+    [CliFlag("--enable")]
     public bool? Enable { get; set; }
 
-    [CommandSwitch("--event-hub-name")]
+    [CliOption("--event-hub-name")]
     public string? EventHubName { get; set; }
 }

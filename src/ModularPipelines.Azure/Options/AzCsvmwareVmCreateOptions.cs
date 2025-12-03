@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("csvmware", "vm", "create")]
+[CliCommand("csvmware", "vm", "create")]
 public record AzCsvmwareVmCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--private-cloud")] string PrivateCloud,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-pool")] string ResourcePool,
-[property: CommandSwitch("--template")] string Template
+[property: CliOption("--name")] string Name,
+[property: CliOption("--private-cloud")] string PrivateCloud,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--resource-pool")] string ResourcePool,
+[property: CliOption("--template")] string Template
 ) : AzOptions
 {
-    [CommandSwitch("--cores")]
+    [CliOption("--cores")]
     public string? Cores { get; set; }
 
-    [CommandSwitch("--disk")]
+    [CliOption("--disk")]
     public string? Disk { get; set; }
 
-    [BooleanCommandSwitch("--expose-to-guest-vm")]
+    [CliFlag("--expose-to-guest-vm")]
     public bool? ExposeToGuestVm { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--nic")]
+    [CliOption("--nic")]
     public string? Nic { get; set; }
 
-    [CommandSwitch("--ram")]
+    [CliOption("--ram")]
     public string? Ram { get; set; }
 }

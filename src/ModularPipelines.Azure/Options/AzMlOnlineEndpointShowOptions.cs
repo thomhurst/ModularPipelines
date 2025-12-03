@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "online-endpoint", "show")]
+[CliCommand("ml", "online-endpoint", "show")]
 public record AzMlOnlineEndpointShowOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--local")]
+    [CliFlag("--local")]
     public bool? Local { get; set; }
 
-    [BooleanCommandSwitch("--web")]
+    [CliFlag("--web")]
     public bool? Web { get; set; }
 }

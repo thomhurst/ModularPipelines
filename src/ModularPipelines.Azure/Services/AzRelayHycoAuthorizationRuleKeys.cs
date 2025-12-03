@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("relay", "hyco", "authorization-rule")]
+[CliCommand("relay", "hyco", "authorization-rule")]
 public class AzRelayHycoAuthorizationRuleKeys
 {
     public AzRelayHycoAuthorizationRuleKeys(

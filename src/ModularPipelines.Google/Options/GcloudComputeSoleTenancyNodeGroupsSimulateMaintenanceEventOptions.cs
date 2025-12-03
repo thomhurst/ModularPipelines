@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "sole-tenancy", "node-groups", "simulate-maintenance-event")]
+[CliCommand("compute", "sole-tenancy", "node-groups", "simulate-maintenance-event")]
 public record GcloudComputeSoleTenancyNodeGroupsSimulateMaintenanceEventOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--nodes")]
+    [CliOption("--nodes")]
     public string[]? Nodes { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

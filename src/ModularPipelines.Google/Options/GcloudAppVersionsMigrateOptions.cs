@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "versions", "migrate")]
+[CliCommand("app", "versions", "migrate")]
 public record GcloudAppVersionsMigrateOptions : GcloudOptions
 {
     public GcloudAppVersionsMigrateOptions(
@@ -14,9 +14,9 @@ public record GcloudAppVersionsMigrateOptions : GcloudOptions
         GcloudAppVersionsMigrateOptionsVersion = version;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudAppVersionsMigrateOptionsVersion { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 }

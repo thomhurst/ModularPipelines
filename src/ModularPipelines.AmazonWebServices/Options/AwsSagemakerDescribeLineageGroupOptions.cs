@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "describe-lineage-group")]
+[CliCommand("sagemaker", "describe-lineage-group")]
 public record AwsSagemakerDescribeLineageGroupOptions(
-[property: CommandSwitch("--lineage-group-name")] string LineageGroupName
+[property: CliOption("--lineage-group-name")] string LineageGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

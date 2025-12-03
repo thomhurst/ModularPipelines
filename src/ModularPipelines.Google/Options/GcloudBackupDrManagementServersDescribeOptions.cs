@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup-dr", "management-servers", "describe")]
+[CliCommand("backup-dr", "management-servers", "describe")]
 public record GcloudBackupDrManagementServersDescribeOptions(
-[property: PositionalArgument] string ManagementServer,
-[property: PositionalArgument] string Location
+[property: CliArgument] string ManagementServer,
+[property: CliArgument] string Location
 ) : GcloudOptions;

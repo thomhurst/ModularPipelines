@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "delete-dashboard")]
+[CliCommand("quicksight", "delete-dashboard")]
 public record AwsQuicksightDeleteDashboardOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--dashboard-id")] string DashboardId
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--dashboard-id")] string DashboardId
 ) : AwsOptions
 {
-    [CommandSwitch("--version-number")]
+    [CliOption("--version-number")]
     public long? VersionNumber { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

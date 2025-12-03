@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cloud", "container", "vpn-connections", "delete")]
+[CliCommand("edge-cloud", "container", "vpn-connections", "delete")]
 public record GcloudEdgeCloudContainerVpnConnectionsDeleteOptions(
-[property: PositionalArgument] string VpnConnection,
-[property: PositionalArgument] string Location
+[property: CliArgument] string VpnConnection,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

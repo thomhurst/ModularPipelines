@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagesync", "sync-group")]
+[CliCommand("storagesync", "sync-group")]
 public class AzStoragesyncSyncGroupServerEndpoint
 {
     public AzStoragesyncSyncGroupServerEndpoint(

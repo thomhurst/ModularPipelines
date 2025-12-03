@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("source", "repos", "clone")]
+[CliCommand("source", "repos", "clone")]
 public record GcloudSourceReposCloneOptions(
-[property: PositionalArgument] string RepositoryName,
-[property: PositionalArgument] string DirectoryName
+[property: CliArgument] string RepositoryName,
+[property: CliArgument] string DirectoryName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 }

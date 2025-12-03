@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securityhub", "update-insight")]
+[CliCommand("securityhub", "update-insight")]
 public record AwsSecurityhubUpdateInsightOptions(
-[property: CommandSwitch("--insight-arn")] string InsightArn
+[property: CliOption("--insight-arn")] string InsightArn
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string? Filters { get; set; }
 
-    [CommandSwitch("--group-by-attribute")]
+    [CliOption("--group-by-attribute")]
     public string? GroupByAttribute { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

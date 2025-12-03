@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "agent-pools", "list")]
+[CliCommand("transfer", "agent-pools", "list")]
 public record GcloudTransferAgentPoolsListOptions : GcloudOptions
 {
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public string? Limit { get; set; }
 
-    [CommandSwitch("--names")]
+    [CliOption("--names")]
     public string[]? Names { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public string? PageSize { get; set; }
 }

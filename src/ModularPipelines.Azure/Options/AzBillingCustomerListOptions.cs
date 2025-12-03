@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "customer", "list")]
+[CliCommand("billing", "customer", "list")]
 public record AzBillingCustomerListOptions(
-[property: CommandSwitch("--account-name")] int AccountName
+[property: CliOption("--account-name")] int AccountName
 ) : AzOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
-    [CommandSwitch("--search")]
+    [CliOption("--search")]
     public string? Search { get; set; }
 }

@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "devops-pipeline", "create")]
+[CliCommand("functionapp", "devops-pipeline", "create")]
 public record AzFunctionappDevopsPipelineCreateOptions : AzOptions
 {
-    [BooleanCommandSwitch("--allow-force-push")]
+    [CliFlag("--allow-force-push")]
     public bool? AllowForcePush { get; set; }
 
-    [CommandSwitch("--functionapp-name")]
+    [CliOption("--functionapp-name")]
     public string? FunctionappName { get; set; }
 
-    [CommandSwitch("--github-pat")]
+    [CliOption("--github-pat")]
     public string? GithubPat { get; set; }
 
-    [CommandSwitch("--github-repository")]
+    [CliOption("--github-repository")]
     public string? GithubRepository { get; set; }
 
-    [CommandSwitch("--organization-name")]
+    [CliOption("--organization-name")]
     public string? OrganizationName { get; set; }
 
-    [BooleanCommandSwitch("--overwrite-yaml")]
+    [CliFlag("--overwrite-yaml")]
     public bool? OverwriteYaml { get; set; }
 
-    [CommandSwitch("--project-name")]
+    [CliOption("--project-name")]
     public string? ProjectName { get; set; }
 
-    [CommandSwitch("--repository-name")]
+    [CliOption("--repository-name")]
     public string? RepositoryName { get; set; }
 }

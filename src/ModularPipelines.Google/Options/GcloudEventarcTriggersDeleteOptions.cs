@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventarc", "triggers", "delete")]
+[CliCommand("eventarc", "triggers", "delete")]
 public record GcloudEventarcTriggersDeleteOptions(
-[property: PositionalArgument] string Trigger,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Trigger,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint", "update-journey")]
+[CliCommand("pinpoint", "update-journey")]
 public record AwsPinpointUpdateJourneyOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--journey-id")] string JourneyId,
-[property: CommandSwitch("--write-journey-request")] string WriteJourneyRequest
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--journey-id")] string JourneyId,
+[property: CliOption("--write-journey-request")] string WriteJourneyRequest
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

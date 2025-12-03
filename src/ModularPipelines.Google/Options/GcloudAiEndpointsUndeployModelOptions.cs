@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "endpoints", "undeploy-model")]
+[CliCommand("ai", "endpoints", "undeploy-model")]
 public record GcloudAiEndpointsUndeployModelOptions(
-[property: PositionalArgument] string Endpoint,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--deployed-model-id")] string DeployedModelId
+[property: CliArgument] string Endpoint,
+[property: CliArgument] string Region,
+[property: CliOption("--deployed-model-id")] string DeployedModelId
 ) : GcloudOptions
 {
-    [CommandSwitch("--traffic-split")]
+    [CliOption("--traffic-split")]
     public string[]? TrafficSplit { get; set; }
 }

@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("run")]
+[CliCommand("run")]
 public record YarnRunOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string ScriptName
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string ScriptName
 ) : YarnOptions
 {
-    [BooleanCommandSwitch("--inspect")]
+    [CliFlag("--inspect")]
     public virtual bool? Inspect { get; set; }
 
-    [BooleanCommandSwitch("--inspect-brk")]
+    [CliFlag("--inspect-brk")]
     public virtual bool? InspectBrk { get; set; }
 
-    [BooleanCommandSwitch("--top-level")]
+    [CliFlag("--top-level")]
     public virtual bool? TopLevel { get; set; }
 
-    [BooleanCommandSwitch("--binaries-only")]
+    [CliFlag("--binaries-only")]
     public virtual bool? BinariesOnly { get; set; }
 
-    [CommandSwitch("--require")]
+    [CliOption("--require")]
     public virtual string? Require { get; set; }
 }

@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "public-delegated-prefixes", "list")]
+[CliCommand("compute", "public-delegated-prefixes", "list")]
 public record GcloudComputePublicDelegatedPrefixesListOptions : GcloudOptions;

@@ -5,39 +5,39 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("personalize-runtime", "get-recommendations")]
+[CliCommand("personalize-runtime", "get-recommendations")]
 public record AwsPersonalizeRuntimeGetRecommendationsOptions : AwsOptions
 {
-    [CommandSwitch("--campaign-arn")]
+    [CliOption("--campaign-arn")]
     public string? CampaignArn { get; set; }
 
-    [CommandSwitch("--item-id")]
+    [CliOption("--item-id")]
     public string? ItemId { get; set; }
 
-    [CommandSwitch("--user-id")]
+    [CliOption("--user-id")]
     public string? UserId { get; set; }
 
-    [CommandSwitch("--num-results")]
+    [CliOption("--num-results")]
     public int? NumResults { get; set; }
 
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public IEnumerable<KeyValue>? Context { get; set; }
 
-    [CommandSwitch("--filter-arn")]
+    [CliOption("--filter-arn")]
     public string? FilterArn { get; set; }
 
-    [CommandSwitch("--filter-values")]
+    [CliOption("--filter-values")]
     public IEnumerable<KeyValue>? FilterValues { get; set; }
 
-    [CommandSwitch("--recommender-arn")]
+    [CliOption("--recommender-arn")]
     public string? RecommenderArn { get; set; }
 
-    [CommandSwitch("--promotions")]
+    [CliOption("--promotions")]
     public string[]? Promotions { get; set; }
 
-    [CommandSwitch("--metadata-columns")]
+    [CliOption("--metadata-columns")]
     public IEnumerable<KeyValue>? MetadataColumns { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

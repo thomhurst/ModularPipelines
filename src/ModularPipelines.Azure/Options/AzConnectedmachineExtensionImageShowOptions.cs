@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedmachine", "extension", "image", "show")]
+[CliCommand("connectedmachine", "extension", "image", "show")]
 public record AzConnectedmachineExtensionImageShowOptions : AzOptions
 {
-    [CommandSwitch("--extension-type")]
+    [CliOption("--extension-type")]
     public string? ExtensionType { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--publisher")]
+    [CliOption("--publisher")]
     public string? Publisher { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

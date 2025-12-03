@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("signer", "revoke-signing-profile")]
+[CliCommand("signer", "revoke-signing-profile")]
 public record AwsSignerRevokeSigningProfileOptions(
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--profile-version")] string ProfileVersion,
-[property: CommandSwitch("--reason")] string Reason,
-[property: CommandSwitch("--effective-time")] long EffectiveTime
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--profile-version")] string ProfileVersion,
+[property: CliOption("--reason")] string Reason,
+[property: CliOption("--effective-time")] long EffectiveTime
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

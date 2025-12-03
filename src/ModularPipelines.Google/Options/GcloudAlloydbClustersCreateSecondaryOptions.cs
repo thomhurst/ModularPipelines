@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("alloydb", "clusters", "create-secondary")]
+[CliCommand("alloydb", "clusters", "create-secondary")]
 public record GcloudAlloydbClustersCreateSecondaryOptions(
-[property: PositionalArgument] string Cluster,
-[property: CommandSwitch("--primary-cluster")] string PrimaryCluster,
-[property: CommandSwitch("--region")] string Region
+[property: CliArgument] string Cluster,
+[property: CliOption("--primary-cluster")] string PrimaryCluster,
+[property: CliOption("--region")] string Region
 ) : GcloudOptions
 {
-    [CommandSwitch("--allocated-ip-range-name")]
+    [CliOption("--allocated-ip-range-name")]
     public string? AllocatedIpRangeName { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--kms-keyring")]
+    [CliOption("--kms-keyring")]
     public string? KmsKeyring { get; set; }
 
-    [CommandSwitch("--kms-location")]
+    [CliOption("--kms-location")]
     public string? KmsLocation { get; set; }
 
-    [CommandSwitch("--kms-project")]
+    [CliOption("--kms-project")]
     public string? KmsProject { get; set; }
 }

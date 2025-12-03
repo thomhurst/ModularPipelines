@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "targets", "set-iam-policy")]
+[CliCommand("deploy", "targets", "set-iam-policy")]
 public record GcloudDeployTargetsSetIamPolicyOptions(
-[property: PositionalArgument] string Target,
-[property: PositionalArgument] string Region,
-[property: PositionalArgument] string PolicyFile
+[property: CliArgument] string Target,
+[property: CliArgument] string Region,
+[property: CliArgument] string PolicyFile
 ) : GcloudOptions;

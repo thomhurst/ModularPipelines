@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-connections", "update")]
+[CliCommand("vmware", "private-connections", "update")]
 public record GcloudVmwarePrivateConnectionsUpdateOptions(
-[property: PositionalArgument] string PrivateConnection,
-[property: PositionalArgument] string Location
+[property: CliArgument] string PrivateConnection,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--routing-mode")]
+    [CliOption("--routing-mode")]
     public string? RoutingMode { get; set; }
 }

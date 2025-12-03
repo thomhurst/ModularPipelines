@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("import-export")]
+[CliCommand("import-export")]
 public class AzImportExportLocation
 {
     public AzImportExportLocation(

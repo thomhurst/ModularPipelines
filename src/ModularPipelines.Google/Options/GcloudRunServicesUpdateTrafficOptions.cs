@@ -4,51 +4,51 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("run", "services", "update-traffic")]
+[CliCommand("run", "services", "update-traffic")]
 public record GcloudRunServicesUpdateTrafficOptions(
-[property: PositionalArgument] string Service,
-[property: PositionalArgument] string Namespace
+[property: CliArgument] string Service,
+[property: CliArgument] string Namespace
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public string? Platform { get; set; }
 
-    [BooleanCommandSwitch("--clear-tags")]
+    [CliFlag("--clear-tags")]
     public bool? ClearTags { get; set; }
 
-    [CommandSwitch("--set-tags")]
+    [CliOption("--set-tags")]
     public string[]? SetTags { get; set; }
 
-    [CommandSwitch("--remove-tags")]
+    [CliOption("--remove-tags")]
     public string[]? RemoveTags { get; set; }
 
-    [CommandSwitch("--update-tags")]
+    [CliOption("--update-tags")]
     public string[]? UpdateTags { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--cluster-location")]
+    [CliOption("--cluster-location")]
     public string? ClusterLocation { get; set; }
 
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public string? Context { get; set; }
 
-    [CommandSwitch("--kubeconfig")]
+    [CliOption("--kubeconfig")]
     public string? Kubeconfig { get; set; }
 
-    [BooleanCommandSwitch("--to-latest")]
+    [CliFlag("--to-latest")]
     public bool? ToLatest { get; set; }
 
-    [CommandSwitch("--to-revisions")]
+    [CliOption("--to-revisions")]
     public string[]? ToRevisions { get; set; }
 
-    [CommandSwitch("--to-tags")]
+    [CliOption("--to-tags")]
     public string[]? ToTags { get; set; }
 }

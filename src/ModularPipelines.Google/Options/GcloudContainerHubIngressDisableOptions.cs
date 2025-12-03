@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "hub", "ingress", "disable")]
+[CliCommand("container", "hub", "ingress", "disable")]
 public record GcloudContainerHubIngressDisableOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 }

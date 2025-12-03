@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkfabric", "tap", "create")]
+[CliCommand("networkfabric", "tap", "create")]
 public record AzNetworkfabricTapCreateOptions(
-[property: CommandSwitch("--destinations")] string Destinations,
-[property: CommandSwitch("--network-packet-broker-id")] string NetworkPacketBrokerId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-name")] string ResourceName
+[property: CliOption("--destinations")] string Destinations,
+[property: CliOption("--network-packet-broker-id")] string NetworkPacketBrokerId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--resource-name")] string ResourceName
 ) : AzOptions
 {
-    [CommandSwitch("--annotation")]
+    [CliOption("--annotation")]
     public string? Annotation { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--polling-type")]
+    [CliOption("--polling-type")]
     public string? PollingType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

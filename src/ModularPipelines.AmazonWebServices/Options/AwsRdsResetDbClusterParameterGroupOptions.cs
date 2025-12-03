@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "reset-db-cluster-parameter-group")]
+[CliCommand("rds", "reset-db-cluster-parameter-group")]
 public record AwsRdsResetDbClusterParameterGroupOptions(
-[property: CommandSwitch("--db-cluster-parameter-group-name")] string DbClusterParameterGroupName
+[property: CliOption("--db-cluster-parameter-group-name")] string DbClusterParameterGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

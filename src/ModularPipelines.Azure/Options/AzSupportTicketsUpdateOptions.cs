@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("support", "tickets", "update")]
+[CliCommand("support", "tickets", "update")]
 public record AzSupportTicketsUpdateOptions(
-[property: CommandSwitch("--ticket-name")] string TicketName
+[property: CliOption("--ticket-name")] string TicketName
 ) : AzOptions
 {
-    [CommandSwitch("--contact-additional-emails")]
+    [CliOption("--contact-additional-emails")]
     public string? ContactAdditionalEmails { get; set; }
 
-    [CommandSwitch("--contact-country")]
+    [CliOption("--contact-country")]
     public int? ContactCountry { get; set; }
 
-    [CommandSwitch("--contact-email")]
+    [CliOption("--contact-email")]
     public string? ContactEmail { get; set; }
 
-    [CommandSwitch("--contact-first-name")]
+    [CliOption("--contact-first-name")]
     public string? ContactFirstName { get; set; }
 
-    [CommandSwitch("--contact-language")]
+    [CliOption("--contact-language")]
     public string? ContactLanguage { get; set; }
 
-    [CommandSwitch("--contact-last-name")]
+    [CliOption("--contact-last-name")]
     public string? ContactLastName { get; set; }
 
-    [CommandSwitch("--contact-method")]
+    [CliOption("--contact-method")]
     public string? ContactMethod { get; set; }
 
-    [CommandSwitch("--contact-phone-number")]
+    [CliOption("--contact-phone-number")]
     public string? ContactPhoneNumber { get; set; }
 
-    [CommandSwitch("--contact-timezone")]
+    [CliOption("--contact-timezone")]
     public string? ContactTimezone { get; set; }
 
-    [CommandSwitch("--severity")]
+    [CliOption("--severity")]
     public string? Severity { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 }

@@ -7,36 +7,36 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 public record DockerOptions() : CommandLineToolOptions("docker")
 {
-    [CommandSwitch("--config")]
+    [CliOption("--config")]
     public virtual string? Config { get; set; }
 
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public virtual string? Context { get; set; }
 
-    [CommandSwitch("--debug")]
+    [CliOption("--debug")]
     public virtual string? Debug { get; set; }
 
-    [CommandSwitch("--help")]
+    [CliOption("--help")]
     public virtual string? Help { get; set; }
 
-    [CommandSwitch("--host")]
+    [CliOption("--host")]
     public virtual string? Host { get; set; }
 
-    [CommandSwitch("--log-level")]
+    [CliOption("--log-level")]
     public virtual string? LogLevel { get; set; }
 
-    [CommandSwitch("--tls")]
+    [CliOption("--tls")]
     public virtual string? Tls { get; set; }
 
-    [CommandSwitch("--tlscacert")]
+    [CliOption("--tlscacert")]
     public virtual string? Tlscacert { get; set; }
 
-    [CommandSwitch("--tlscert")]
+    [CliOption("--tlscert")]
     public virtual string? Tlscert { get; set; }
 
-    [CommandSwitch("--tlskey")]
+    [CliOption("--tlskey")]
     public virtual string? Tlskey { get; set; }
 
-    [CommandSwitch("--tlsverify")]
+    [CliOption("--tlsverify")]
     public virtual string? Tlsverify { get; set; }
 }

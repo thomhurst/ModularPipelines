@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "waf-policy", "rule", "create")]
+[CliCommand("network", "front-door", "waf-policy", "rule", "create")]
 public record AzNetworkFrontDoorWafPolicyRuleCreateOptions(
-[property: CommandSwitch("--action")] string Action,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--priority")] string Priority,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--rule-type")] string RuleType
+[property: CliOption("--action")] string Action,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--policy-name")] string PolicyName,
+[property: CliOption("--priority")] string Priority,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--rule-type")] string RuleType
 ) : AzOptions
 {
-    [CommandSwitch("--defer")]
+    [CliOption("--defer")]
     public string? Defer { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--rate-limit-duration")]
+    [CliOption("--rate-limit-duration")]
     public string? RateLimitDuration { get; set; }
 
-    [CommandSwitch("--rate-limit-threshold")]
+    [CliOption("--rate-limit-threshold")]
     public string? RateLimitThreshold { get; set; }
 }

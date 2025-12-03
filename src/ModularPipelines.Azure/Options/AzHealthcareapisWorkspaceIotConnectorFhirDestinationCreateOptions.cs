@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcareapis", "workspace", "iot-connector", "fhir-destination", "create")]
+[CliCommand("healthcareapis", "workspace", "iot-connector", "fhir-destination", "create")]
 public record AzHealthcareapisWorkspaceIotConnectorFhirDestinationCreateOptions(
-[property: CommandSwitch("--fhir-destination-name")] string FhirDestinationName,
-[property: CommandSwitch("--fhir-service-resource-id")] string FhirServiceResourceId,
-[property: CommandSwitch("--iot-connector-name")] string IotConnectorName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-identity-resolution-type")] string ResourceIdentityResolutionType,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--fhir-destination-name")] string FhirDestinationName,
+[property: CliOption("--fhir-service-resource-id")] string FhirServiceResourceId,
+[property: CliOption("--iot-connector-name")] string IotConnectorName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--resource-identity-resolution-type")] string ResourceIdentityResolutionType,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--content")]
+    [CliOption("--content")]
     public string? Content { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

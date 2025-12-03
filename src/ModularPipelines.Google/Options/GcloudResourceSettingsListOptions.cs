@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-settings", "list")]
+[CliCommand("resource-settings", "list")]
 public record GcloudResourceSettingsListOptions : GcloudOptions
 {
     public GcloudResourceSettingsListOptions(
@@ -18,9 +18,9 @@ public record GcloudResourceSettingsListOptions : GcloudOptions
         Project = project;
     }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 }

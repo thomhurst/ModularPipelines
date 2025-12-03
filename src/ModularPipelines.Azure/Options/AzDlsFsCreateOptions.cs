@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dls", "fs", "create")]
+[CliCommand("dls", "fs", "create")]
 public record AzDlsFsCreateOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--path")] string Path
+[property: CliOption("--account")] int Account,
+[property: CliOption("--path")] string Path
 ) : AzOptions
 {
-    [CommandSwitch("--content")]
+    [CliOption("--content")]
     public string? Content { get; set; }
 
-    [BooleanCommandSwitch("--folder")]
+    [CliFlag("--folder")]
     public bool? Folder { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 }

@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "recoverypoint", "list")]
+[CliCommand("backup", "recoverypoint", "list")]
 public record AzBackupRecoverypointListOptions(
-[property: CommandSwitch("--container-name")] string ContainerName,
-[property: CommandSwitch("--item-name")] string ItemName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--container-name")] string ContainerName,
+[property: CliOption("--item-name")] string ItemName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [CommandSwitch("--backup-management-type")]
+    [CliOption("--backup-management-type")]
     public string? BackupManagementType { get; set; }
 
-    [CommandSwitch("--end-date")]
+    [CliOption("--end-date")]
     public string? EndDate { get; set; }
 
-    [BooleanCommandSwitch("--is-ready-for-move")]
+    [CliFlag("--is-ready-for-move")]
     public bool? IsReadyForMove { get; set; }
 
-    [CommandSwitch("--recommended-for-archive")]
+    [CliOption("--recommended-for-archive")]
     public string? RecommendedForArchive { get; set; }
 
-    [CommandSwitch("--start-date")]
+    [CliOption("--start-date")]
     public string? StartDate { get; set; }
 
-    [CommandSwitch("--target-tier")]
+    [CliOption("--target-tier")]
     public string? TargetTier { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [BooleanCommandSwitch("--use-secondary-region")]
+    [CliFlag("--use-secondary-region")]
     public bool? UseSecondaryRegion { get; set; }
 
-    [CommandSwitch("--workload-type")]
+    [CliOption("--workload-type")]
     public string? WorkloadType { get; set; }
 }

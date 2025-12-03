@@ -4,52 +4,52 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "maintenanceconfiguration", "add")]
+[CliCommand("aks", "maintenanceconfiguration", "add")]
 public record AzAksMaintenanceconfigurationAddOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--config-file")]
+    [CliOption("--config-file")]
     public string? ConfigFile { get; set; }
 
-    [CommandSwitch("--day-of-month")]
+    [CliOption("--day-of-month")]
     public string? DayOfMonth { get; set; }
 
-    [CommandSwitch("--day-of-week")]
+    [CliOption("--day-of-week")]
     public string? DayOfWeek { get; set; }
 
-    [CommandSwitch("--duration")]
+    [CliOption("--duration")]
     public string? Duration { get; set; }
 
-    [CommandSwitch("--interval-days")]
+    [CliOption("--interval-days")]
     public int? IntervalDays { get; set; }
 
-    [CommandSwitch("--interval-months")]
+    [CliOption("--interval-months")]
     public int? IntervalMonths { get; set; }
 
-    [CommandSwitch("--interval-weeks")]
+    [CliOption("--interval-weeks")]
     public int? IntervalWeeks { get; set; }
 
-    [CommandSwitch("--schedule-type")]
+    [CliOption("--schedule-type")]
     public string? ScheduleType { get; set; }
 
-    [CommandSwitch("--start-date")]
+    [CliOption("--start-date")]
     public string? StartDate { get; set; }
 
-    [CommandSwitch("--start-hour")]
+    [CliOption("--start-hour")]
     public string? StartHour { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
-    [CommandSwitch("--utc-offset")]
+    [CliOption("--utc-offset")]
     public string? UtcOffset { get; set; }
 
-    [CommandSwitch("--week-index")]
+    [CliOption("--week-index")]
     public string? WeekIndex { get; set; }
 
-    [CommandSwitch("--weekday")]
+    [CliOption("--weekday")]
     public string? Weekday { get; set; }
 }

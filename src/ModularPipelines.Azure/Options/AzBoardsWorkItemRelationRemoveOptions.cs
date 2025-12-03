@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("boards", "work-item", "relation", "remove")]
+[CliCommand("boards", "work-item", "relation", "remove")]
 public record AzBoardsWorkItemRelationRemoveOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--relation-type")] string RelationType,
-[property: CommandSwitch("--target-id")] string TargetId
+[property: CliOption("--id")] string Id,
+[property: CliOption("--relation-type")] string RelationType,
+[property: CliOption("--target-id")] string TargetId
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

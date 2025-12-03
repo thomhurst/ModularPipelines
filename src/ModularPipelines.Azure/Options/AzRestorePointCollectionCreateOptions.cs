@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("restore-point", "collection", "create")]
+[CliCommand("restore-point", "collection", "create")]
 public record AzRestorePointCollectionCreateOptions(
-[property: CommandSwitch("--collection-name")] string CollectionName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--source-id")] string SourceId
+[property: CliOption("--collection-name")] string CollectionName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--source-id")] string SourceId
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

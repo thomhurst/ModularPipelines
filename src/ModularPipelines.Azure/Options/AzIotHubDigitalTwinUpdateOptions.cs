@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "digital-twin", "update")]
+[CliCommand("iot", "hub", "digital-twin", "update")]
 public record AzIotHubDigitalTwinUpdateOptions(
-[property: CommandSwitch("--device-id")] string DeviceId,
-[property: CommandSwitch("--json-patch")] string JsonPatch
+[property: CliOption("--device-id")] string DeviceId,
+[property: CliOption("--json-patch")] string JsonPatch
 ) : AzOptions
 {
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

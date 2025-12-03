@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "list")]
+[CliCommand("containerapp", "list")]
 public record AzContainerappListOptions : AzOptions
 {
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public string? Environment { get; set; }
 
-    [CommandSwitch("--environment-type")]
+    [CliOption("--environment-type")]
     public string? EnvironmentType { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

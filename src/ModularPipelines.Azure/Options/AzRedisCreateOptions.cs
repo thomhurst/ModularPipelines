@@ -4,51 +4,51 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redis", "create")]
+[CliCommand("redis", "create")]
 public record AzRedisCreateOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku")] string Sku,
-[property: CommandSwitch("--vm-size")] string VmSize
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sku")] string Sku,
+[property: CliOption("--vm-size")] string VmSize
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--enable-non-ssl-port")]
+    [CliFlag("--enable-non-ssl-port")]
     public bool? EnableNonSslPort { get; set; }
 
-    [CommandSwitch("--mi-system-assigned")]
+    [CliOption("--mi-system-assigned")]
     public string? MiSystemAssigned { get; set; }
 
-    [CommandSwitch("--mi-user-assigned")]
+    [CliOption("--mi-user-assigned")]
     public string? MiUserAssigned { get; set; }
 
-    [CommandSwitch("--minimum-tls-version")]
+    [CliOption("--minimum-tls-version")]
     public string? MinimumTlsVersion { get; set; }
 
-    [CommandSwitch("--redis-configuration")]
+    [CliOption("--redis-configuration")]
     public string? RedisConfiguration { get; set; }
 
-    [CommandSwitch("--redis-version")]
+    [CliOption("--redis-version")]
     public string? RedisVersion { get; set; }
 
-    [CommandSwitch("--replicas-per-master")]
+    [CliOption("--replicas-per-master")]
     public string? ReplicasPerMaster { get; set; }
 
-    [CommandSwitch("--shard-count")]
+    [CliOption("--shard-count")]
     public int? ShardCount { get; set; }
 
-    [CommandSwitch("--static-ip")]
+    [CliOption("--static-ip")]
     public string? StaticIp { get; set; }
 
-    [CommandSwitch("--subnet-id")]
+    [CliOption("--subnet-id")]
     public string? SubnetId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--tenant-settings")]
+    [CliOption("--tenant-settings")]
     public string? TenantSettings { get; set; }
 
-    [CommandSwitch("--zones")]
+    [CliOption("--zones")]
     public string? Zones { get; set; }
 }

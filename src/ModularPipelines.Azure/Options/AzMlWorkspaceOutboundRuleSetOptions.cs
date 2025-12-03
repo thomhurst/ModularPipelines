@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "workspace", "outbound-rule", "set")]
+[CliCommand("ml", "workspace", "outbound-rule", "set")]
 public record AzMlWorkspaceOutboundRuleSetOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--rule")] string Rule,
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--rule")] string Rule,
+[property: CliOption("--type")] string Type,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--port-ranges")]
+    [CliOption("--port-ranges")]
     public string? PortRanges { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--service-resource-id")]
+    [CliOption("--service-resource-id")]
     public string? ServiceResourceId { get; set; }
 
-    [CommandSwitch("--service-tag")]
+    [CliOption("--service-tag")]
     public string? ServiceTag { get; set; }
 
-    [BooleanCommandSwitch("--spark-enabled")]
+    [CliFlag("--spark-enabled")]
     public bool? SparkEnabled { get; set; }
 
-    [CommandSwitch("--subresource-target")]
+    [CliOption("--subresource-target")]
     public string? SubresourceTarget { get; set; }
 }

@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "perimeter", "profile", "access-rule", "update")]
+[CliCommand("network", "perimeter", "profile", "access-rule", "update")]
 public record AzNetworkPerimeterProfileAccessRuleUpdateOptions : AzOptions
 {
-    [CommandSwitch("--access-rule-name")]
+    [CliOption("--access-rule-name")]
     public string? AccessRuleName { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--address-prefixes")]
+    [CliOption("--address-prefixes")]
     public string? AddressPrefixes { get; set; }
 
-    [CommandSwitch("--direction")]
+    [CliOption("--direction")]
     public string? Direction { get; set; }
 
-    [CommandSwitch("--email-addresses")]
+    [CliOption("--email-addresses")]
     public string? EmailAddresses { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--fqdn")]
+    [CliOption("--fqdn")]
     public string? Fqdn { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--perimeter-name")]
+    [CliOption("--perimeter-name")]
     public string? PerimeterName { get; set; }
 
-    [CommandSwitch("--phone-numbers")]
+    [CliOption("--phone-numbers")]
     public string? PhoneNumbers { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--subscriptions")]
+    [CliOption("--subscriptions")]
     public string? Subscriptions { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

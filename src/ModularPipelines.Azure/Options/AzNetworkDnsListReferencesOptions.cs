@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "dns", "list-references")]
+[CliCommand("network", "dns", "list-references")]
 public record AzNetworkDnsListReferencesOptions : AzOptions
 {
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 }

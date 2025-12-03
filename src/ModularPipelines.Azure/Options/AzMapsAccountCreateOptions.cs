@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("maps", "account", "create")]
+[CliCommand("maps", "account", "create")]
 public record AzMapsAccountCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku")] string Sku
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sku")] string Sku
 ) : AzOptions
 {
-    [CommandSwitch("--accept-tos")]
+    [CliOption("--accept-tos")]
     public string? AcceptTos { get; set; }
 
-    [BooleanCommandSwitch("--disable-local-auth")]
+    [CliFlag("--disable-local-auth")]
     public bool? DisableLocalAuth { get; set; }
 
-    [CommandSwitch("--kind")]
+    [CliOption("--kind")]
     public string? Kind { get; set; }
 
-    [CommandSwitch("--linked-resources")]
+    [CliOption("--linked-resources")]
     public string? LinkedResources { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--user-identities")]
+    [CliOption("--user-identities")]
     public string? UserIdentities { get; set; }
 }

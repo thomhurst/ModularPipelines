@@ -3,28 +3,28 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("uninstall")]
+[CliCommand("uninstall")]
 [ExcludeFromCodeCoverage]
 public record HelmUninstallOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--cascade", SwitchValueSeparator = " ")]
+    [CliOption("--cascade")]
     public string? Cascade { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--description", SwitchValueSeparator = " ")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--keep-history")]
+    [CliFlag("--keep-history")]
     public virtual bool? KeepHistory { get; set; }
 
-    [BooleanCommandSwitch("--no-hooks")]
+    [CliFlag("--no-hooks")]
     public virtual bool? NoHooks { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [BooleanCommandSwitch("--wait")]
+    [CliFlag("--wait")]
     public virtual bool? Wait { get; set; }
 }

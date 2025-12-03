@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cloud", "container", "clusters")]
+[CliCommand("edge-cloud", "container", "clusters")]
 public class GcloudEdgeCloudContainerClustersNodePools
 {
     public GcloudEdgeCloudContainerClustersNodePools(

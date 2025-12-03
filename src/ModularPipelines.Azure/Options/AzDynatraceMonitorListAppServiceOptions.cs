@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynatrace", "monitor", "list-app-service")]
+[CliCommand("dynatrace", "monitor", "list-app-service")]
 public record AzDynatraceMonitorListAppServiceOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--monitor-name")] string MonitorName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

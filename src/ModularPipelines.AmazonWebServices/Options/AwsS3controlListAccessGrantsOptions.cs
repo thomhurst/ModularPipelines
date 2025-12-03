@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3control", "list-access-grants")]
+[CliCommand("s3control", "list-access-grants")]
 public record AwsS3controlListAccessGrantsOptions(
-[property: CommandSwitch("--account-id")] string AccountId
+[property: CliOption("--account-id")] string AccountId
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--grantee-type")]
+    [CliOption("--grantee-type")]
     public string? GranteeType { get; set; }
 
-    [CommandSwitch("--grantee-identifier")]
+    [CliOption("--grantee-identifier")]
     public string? GranteeIdentifier { get; set; }
 
-    [CommandSwitch("--permission")]
+    [CliOption("--permission")]
     public string? Permission { get; set; }
 
-    [CommandSwitch("--grant-scope")]
+    [CliOption("--grant-scope")]
     public string? GrantScope { get; set; }
 
-    [CommandSwitch("--application-arn")]
+    [CliOption("--application-arn")]
     public string? ApplicationArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

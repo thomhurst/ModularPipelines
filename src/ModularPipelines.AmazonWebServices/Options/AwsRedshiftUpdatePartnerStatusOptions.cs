@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "update-partner-status")]
+[CliCommand("redshift", "update-partner-status")]
 public record AwsRedshiftUpdatePartnerStatusOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--cluster-identifier")] string ClusterIdentifier,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--partner-name")] string PartnerName,
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--cluster-identifier")] string ClusterIdentifier,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--partner-name")] string PartnerName,
+[property: CliOption("--status")] string Status
 ) : AwsOptions
 {
-    [CommandSwitch("--status-message")]
+    [CliOption("--status-message")]
     public string? StatusMessage { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

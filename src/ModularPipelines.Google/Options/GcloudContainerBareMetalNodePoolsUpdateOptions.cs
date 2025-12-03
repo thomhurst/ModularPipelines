@@ -5,43 +5,43 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "bare-metal", "node-pools", "update")]
+[CliCommand("container", "bare-metal", "node-pools", "update")]
 public record GcloudContainerBareMetalNodePoolsUpdateOptions(
-[property: PositionalArgument] string NodePool,
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Location
+[property: CliArgument] string NodePool,
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--allow-missing")]
+    [CliFlag("--allow-missing")]
     public bool? AllowMissing { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--node-configs")]
+    [CliOption("--node-configs")]
     public string[]? NodeConfigs { get; set; }
 
-    [CommandSwitch("--node-labels")]
+    [CliOption("--node-labels")]
     public IEnumerable<KeyValue>? NodeLabels { get; set; }
 
-    [CommandSwitch("--node-taints")]
+    [CliOption("--node-taints")]
     public IEnumerable<KeyValue>? NodeTaints { get; set; }
 
-    [CommandSwitch("--registry-burst")]
+    [CliOption("--registry-burst")]
     public string? RegistryBurst { get; set; }
 
-    [CommandSwitch("--registry-pull-qps")]
+    [CliOption("--registry-pull-qps")]
     public string? RegistryPullQps { get; set; }
 
-    [BooleanCommandSwitch("--disable-serialize-image-pulls")]
+    [CliFlag("--disable-serialize-image-pulls")]
     public bool? DisableSerializeImagePulls { get; set; }
 
-    [BooleanCommandSwitch("--enable-serialize-image-pulls")]
+    [CliFlag("--enable-serialize-image-pulls")]
     public bool? EnableSerializeImagePulls { get; set; }
 }

@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lab", "artifact", "list")]
+[CliCommand("lab", "artifact", "list")]
 public record AzLabArtifactListOptions(
-[property: CommandSwitch("--artifact-source-name")] string ArtifactSourceName,
-[property: CommandSwitch("--lab-name")] string LabName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--artifact-source-name")] string ArtifactSourceName,
+[property: CliOption("--lab-name")] string LabName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--expand")]
+    [CliOption("--expand")]
     public string? Expand { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--orderby")]
+    [CliOption("--orderby")]
     public string? Orderby { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

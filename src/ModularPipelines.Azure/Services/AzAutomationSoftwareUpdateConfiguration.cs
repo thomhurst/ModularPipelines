@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automation")]
+[CliCommand("automation")]
 public class AzAutomationSoftwareUpdateConfiguration
 {
     public AzAutomationSoftwareUpdateConfiguration(

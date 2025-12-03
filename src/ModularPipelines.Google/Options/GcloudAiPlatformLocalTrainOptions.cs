@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai-platform", "local", "train")]
+[CliCommand("ai-platform", "local", "train")]
 public record GcloudAiPlatformLocalTrainOptions(
-[property: PositionalArgument] string UserArgs,
-[property: CommandSwitch("--module-name")] string ModuleName
+[property: CliArgument] string UserArgs,
+[property: CliOption("--module-name")] string ModuleName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--distributed")]
+    [CliFlag("--distributed")]
     public bool? Distributed { get; set; }
 
-    [CommandSwitch("--evaluator-count")]
+    [CliOption("--evaluator-count")]
     public string? EvaluatorCount { get; set; }
 
-    [CommandSwitch("--job-dir")]
+    [CliOption("--job-dir")]
     public string? JobDir { get; set; }
 
-    [CommandSwitch("--package-path")]
+    [CliOption("--package-path")]
     public string? PackagePath { get; set; }
 
-    [CommandSwitch("--parameter-server-count")]
+    [CliOption("--parameter-server-count")]
     public string? ParameterServerCount { get; set; }
 
-    [CommandSwitch("--start-port")]
+    [CliOption("--start-port")]
     public string? StartPort { get; set; }
 
-    [CommandSwitch("--worker-count")]
+    [CliOption("--worker-count")]
     public string? WorkerCount { get; set; }
 }

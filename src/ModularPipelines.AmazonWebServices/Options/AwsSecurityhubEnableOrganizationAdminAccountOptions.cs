@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securityhub", "enable-organization-admin-account")]
+[CliCommand("securityhub", "enable-organization-admin-account")]
 public record AwsSecurityhubEnableOrganizationAdminAccountOptions(
-[property: CommandSwitch("--admin-account-id")] string AdminAccountId
+[property: CliOption("--admin-account-id")] string AdminAccountId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

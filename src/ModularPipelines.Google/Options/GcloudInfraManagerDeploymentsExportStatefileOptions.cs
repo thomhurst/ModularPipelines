@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("infra-manager", "deployments", "export-statefile")]
+[CliCommand("infra-manager", "deployments", "export-statefile")]
 public record GcloudInfraManagerDeploymentsExportStatefileOptions(
-[property: PositionalArgument] string Deployment,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Deployment,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--draft")]
+    [CliFlag("--draft")]
     public bool? Draft { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bigtable", "app-profiles", "describe")]
+[CliCommand("bigtable", "app-profiles", "describe")]
 public record GcloudBigtableAppProfilesDescribeOptions(
-[property: PositionalArgument] string AppProfile,
-[property: PositionalArgument] string Instance
+[property: CliArgument] string AppProfile,
+[property: CliArgument] string Instance
 ) : GcloudOptions;

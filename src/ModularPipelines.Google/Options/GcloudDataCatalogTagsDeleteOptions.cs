@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("data-catalog", "tags", "delete")]
+[CliCommand("data-catalog", "tags", "delete")]
 public record GcloudDataCatalogTagsDeleteOptions(
-[property: PositionalArgument] string Tag,
-[property: PositionalArgument] string Entry,
-[property: PositionalArgument] string EntryGroup,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Tag,
+[property: CliArgument] string Entry,
+[property: CliArgument] string EntryGroup,
+[property: CliArgument] string Location
 ) : GcloudOptions;

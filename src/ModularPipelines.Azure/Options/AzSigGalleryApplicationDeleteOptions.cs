@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "gallery-application", "delete")]
+[CliCommand("sig", "gallery-application", "delete")]
 public record AzSigGalleryApplicationDeleteOptions : AzOptions
 {
-    [CommandSwitch("--application-name")]
+    [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
-    [CommandSwitch("--gallery-name")]
+    [CliOption("--gallery-name")]
     public string? GalleryName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "describe-option-group-options")]
+[CliCommand("rds", "describe-option-group-options")]
 public record AwsRdsDescribeOptionGroupOptionsOptions(
-[property: CommandSwitch("--engine-name")] string EngineName
+[property: CliOption("--engine-name")] string EngineName
 ) : AwsOptions
 {
-    [CommandSwitch("--major-engine-version")]
+    [CliOption("--major-engine-version")]
     public string? MajorEngineVersion { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

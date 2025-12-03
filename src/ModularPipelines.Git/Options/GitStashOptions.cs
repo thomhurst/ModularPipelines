@@ -3,43 +3,43 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("stash")]
+[CliCommand("stash")]
 [ExcludeFromCodeCoverage]
 public record GitStashOptions : GitOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--include-untracked")]
+    [CliFlag("--include-untracked")]
     public virtual bool? IncludeUntracked { get; set; }
 
-    [BooleanCommandSwitch("--no-include-untracked")]
+    [CliFlag("--no-include-untracked")]
     public virtual bool? NoIncludeUntracked { get; set; }
 
-    [BooleanCommandSwitch("--only-untracked")]
+    [CliFlag("--only-untracked")]
     public virtual bool? OnlyUntracked { get; set; }
 
-    [BooleanCommandSwitch("--index")]
+    [CliFlag("--index")]
     public virtual bool? Index { get; set; }
 
-    [BooleanCommandSwitch("--keep-index")]
+    [CliFlag("--keep-index")]
     public virtual bool? KeepIndex { get; set; }
 
-    [BooleanCommandSwitch("--no-keep-index")]
+    [CliFlag("--no-keep-index")]
     public virtual bool? NoKeepIndex { get; set; }
 
-    [BooleanCommandSwitch("--patch")]
+    [CliFlag("--patch")]
     public virtual bool? Patch { get; set; }
 
-    [BooleanCommandSwitch("--staged")]
+    [CliFlag("--staged")]
     public virtual bool? Staged { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--pathspec-from-file")]
+    [CliOption("--pathspec-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? PathspecFromFile { get; set; }
 
-    [BooleanCommandSwitch("--pathspec-file-nul")]
+    [CliFlag("--pathspec-file-nul")]
     public virtual bool? PathspecFileNul { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 }

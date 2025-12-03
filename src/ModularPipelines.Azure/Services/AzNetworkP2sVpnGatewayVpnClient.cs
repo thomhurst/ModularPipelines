@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "p2s-vpn-gateway")]
+[CliCommand("network", "p2s-vpn-gateway")]
 public class AzNetworkP2sVpnGatewayVpnClient
 {
     public AzNetworkP2sVpnGatewayVpnClient(

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspace-add-ons", "deployments", "delete")]
+[CliCommand("workspace-add-ons", "deployments", "delete")]
 public record GcloudWorkspaceAddOnsDeploymentsDeleteOptions(
-[property: PositionalArgument] string Deployment
+[property: CliArgument] string Deployment
 ) : GcloudOptions
 {
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 }

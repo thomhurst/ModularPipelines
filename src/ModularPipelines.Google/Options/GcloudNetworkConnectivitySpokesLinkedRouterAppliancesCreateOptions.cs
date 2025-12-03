@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-connectivity", "spokes", "linked-router-appliances", "create")]
+[CliCommand("network-connectivity", "spokes", "linked-router-appliances", "create")]
 public record GcloudNetworkConnectivitySpokesLinkedRouterAppliancesCreateOptions(
-[property: PositionalArgument] string Spoke,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--hub")] string Hub,
-[property: CommandSwitch("--router-appliance")] string[] RouterAppliance
+[property: CliArgument] string Spoke,
+[property: CliArgument] string Region,
+[property: CliOption("--hub")] string Hub,
+[property: CliOption("--router-appliance")] string[] RouterAppliance
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [BooleanCommandSwitch("--site-to-site-data-transfer")]
+    [CliFlag("--site-to-site-data-transfer")]
     public bool? SiteToSiteDataTransfer { get; set; }
 }

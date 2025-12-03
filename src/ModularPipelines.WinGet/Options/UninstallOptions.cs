@@ -4,71 +4,71 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("uninstall")]
+[CliCommand("uninstall")]
 public record UninstallOptions(
-    [property: CommandSwitch("--query")] string Query
+    [property: CliOption("--query")] string Query
 ) : WingetOptions
 {
-    [CommandSwitch("--manifest")]
+    [CliOption("--manifest")]
     public virtual string? Manifest { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public virtual string? Id { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public virtual string? Name { get; set; }
 
-    [CommandSwitch("--moniker")]
+    [CliOption("--moniker")]
     public virtual string? Moniker { get; set; }
 
-    [BooleanCommandSwitch("--product-code")]
+    [CliFlag("--product-code")]
     public virtual bool? ProductCode { get; set; }
 
-    [BooleanCommandSwitch("--version")]
+    [CliFlag("--version")]
     public virtual bool? Version { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public virtual string? Source { get; set; }
 
-    [BooleanCommandSwitch("--exact")]
+    [CliFlag("--exact")]
     public virtual bool? Exact { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public virtual string? Scope { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [BooleanCommandSwitch("--silent")]
+    [CliFlag("--silent")]
     public virtual bool? Silent { get; set; } = true;
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--purge")]
+    [CliFlag("--purge")]
     public virtual bool? Purge { get; set; }
 
-    [BooleanCommandSwitch("--preserve")]
+    [CliFlag("--preserve")]
     public virtual bool? Preserve { get; set; }
 
-    [CommandSwitch("--log")]
+    [CliOption("--log")]
     public virtual string? Log { get; set; }
 
-    [CommandSwitch("--header")]
+    [CliOption("--header")]
     public virtual string? Header { get; set; }
 
-    [CommandSwitch("--accept-source-agreements")]
+    [CliOption("--accept-source-agreements")]
     public virtual string? AcceptSourceAgreements { get; set; }
 
-    [BooleanCommandSwitch("--wait")]
+    [CliFlag("--wait")]
     public virtual bool? Wait { get; set; }
 
-    [BooleanCommandSwitch("--open-logs")]
+    [CliFlag("--open-logs")]
     public virtual bool? OpenLogs { get; set; }
 
-    [BooleanCommandSwitch("--verbose-logs")]
+    [CliFlag("--verbose-logs")]
     public virtual bool? VerboseLogs { get; set; }
 
-    [BooleanCommandSwitch("--disable-interactivity")]
+    [CliFlag("--disable-interactivity")]
     public virtual bool? DisableInteractivity { get; set; }
 }

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "application", "create")]
+[CliCommand("sf", "application", "create")]
 public record AzSfApplicationCreateOptions(
-[property: CommandSwitch("--application-name")] string ApplicationName,
-[property: CommandSwitch("--application-type-name")] string ApplicationTypeName,
-[property: CommandSwitch("--application-type-version")] string ApplicationTypeVersion,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--application-name")] string ApplicationName,
+[property: CliOption("--application-type-name")] string ApplicationTypeName,
+[property: CliOption("--application-type-version")] string ApplicationTypeVersion,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--application-parameters")]
+    [CliOption("--application-parameters")]
     public string? ApplicationParameters { get; set; }
 
-    [CommandSwitch("--max-nodes")]
+    [CliOption("--max-nodes")]
     public string? MaxNodes { get; set; }
 
-    [CommandSwitch("--min-nodes")]
+    [CliOption("--min-nodes")]
     public string? MinNodes { get; set; }
 
-    [CommandSwitch("--package-url")]
+    [CliOption("--package-url")]
     public string? PackageUrl { get; set; }
 }

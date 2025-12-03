@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("import-export", "update")]
+[CliCommand("import-export", "update")]
 public record AzImportExportUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--backup-drive-manifest")]
+    [CliFlag("--backup-drive-manifest")]
     public bool? BackupDriveManifest { get; set; }
 
-    [BooleanCommandSwitch("--cancel-requested")]
+    [CliFlag("--cancel-requested")]
     public bool? CancelRequested { get; set; }
 
-    [CommandSwitch("--delivery-package")]
+    [CliOption("--delivery-package")]
     public string? DeliveryPackage { get; set; }
 
-    [CommandSwitch("--drive-list")]
+    [CliOption("--drive-list")]
     public string? DriveList { get; set; }
 
-    [CommandSwitch("--log-level")]
+    [CliOption("--log-level")]
     public string? LogLevel { get; set; }
 
-    [CommandSwitch("--return-address")]
+    [CliOption("--return-address")]
     public string? ReturnAddress { get; set; }
 
-    [CommandSwitch("--return-shipping")]
+    [CliOption("--return-shipping")]
     public string? ReturnShipping { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

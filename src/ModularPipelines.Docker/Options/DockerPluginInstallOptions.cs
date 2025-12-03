@@ -16,21 +16,21 @@ public record DockerPluginInstallOptions : DockerOptions
         Plugin = plugin;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Plugin { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<KeyValue>? KeyValue { get; set; }
 
-    [CommandSwitch("--alias")]
+    [CliOption("--alias")]
     public virtual string? Alias { get; set; }
 
-    [CommandSwitch("--disable")]
+    [CliOption("--disable")]
     public virtual string? Disable { get; set; }
 
-    [BooleanCommandSwitch("--disable-content-trust")]
+    [CliFlag("--disable-content-trust")]
     public virtual bool? DisableContentTrust { get; set; }
 
-    [CommandSwitch("--grant-all-permissions")]
+    [CliOption("--grant-all-permissions")]
     public virtual string? GrantAllPermissions { get; set; }
 }

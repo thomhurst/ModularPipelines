@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-connectivity", "service-connection-policies", "create")]
+[CliCommand("network-connectivity", "service-connection-policies", "create")]
 public record GcloudNetworkConnectivityServiceConnectionPoliciesCreateOptions(
-[property: PositionalArgument] string ServiceConnectionPolicy,
-[property: CommandSwitch("--network")] string Network,
-[property: CommandSwitch("--service-class")] string ServiceClass,
-[property: CommandSwitch("--subnets")] string[] Subnets,
-[property: CommandSwitch("--psc-connection-limit")] string PscConnectionLimit
+[property: CliArgument] string ServiceConnectionPolicy,
+[property: CliOption("--network")] string Network,
+[property: CliOption("--service-class")] string ServiceClass,
+[property: CliOption("--subnets")] string[] Subnets,
+[property: CliOption("--psc-connection-limit")] string PscConnectionLimit
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

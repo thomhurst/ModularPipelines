@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tasks")]
+[CliCommand("tasks")]
 public class GcloudTasksQueues
 {
     public GcloudTasksQueues(

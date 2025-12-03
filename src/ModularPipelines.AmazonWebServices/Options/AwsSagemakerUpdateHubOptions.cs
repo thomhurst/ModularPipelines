@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "update-hub")]
+[CliCommand("sagemaker", "update-hub")]
 public record AwsSagemakerUpdateHubOptions(
-[property: CommandSwitch("--hub-name")] string HubName
+[property: CliOption("--hub-name")] string HubName
 ) : AwsOptions
 {
-    [CommandSwitch("--hub-description")]
+    [CliOption("--hub-description")]
     public string? HubDescription { get; set; }
 
-    [CommandSwitch("--hub-display-name")]
+    [CliOption("--hub-display-name")]
     public string? HubDisplayName { get; set; }
 
-    [CommandSwitch("--hub-search-keywords")]
+    [CliOption("--hub-search-keywords")]
     public string[]? HubSearchKeywords { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

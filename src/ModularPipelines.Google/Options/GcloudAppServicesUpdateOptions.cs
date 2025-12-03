@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "services", "update")]
+[CliCommand("app", "services", "update")]
 public record GcloudAppServicesUpdateOptions(
-[property: PositionalArgument] string Services,
-[property: CommandSwitch("--ingress")] string Ingress
+[property: CliArgument] string Services,
+[property: CliOption("--ingress")] string Ingress
 ) : GcloudOptions;

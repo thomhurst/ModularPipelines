@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bugs")]
+[CliCommand("bugs")]
 public record NpmBugsOptions : NpmOptions
 {
-    [CommandSwitch("--browser")]
+    [CliOption("--browser")]
     public virtual string? Browser { get; set; }
 
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public virtual string[]? Workspace { get; set; }
 
-    [BooleanCommandSwitch("--workspaces")]
+    [CliFlag("--workspaces")]
     public virtual bool? Workspaces { get; set; }
 
-    [BooleanCommandSwitch("--include-workspace-root")]
+    [CliFlag("--include-workspace-root")]
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string? Pkgname { get; set; }
 }

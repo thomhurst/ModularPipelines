@@ -3,55 +3,55 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("pull")]
+[CliCommand("pull")]
 [ExcludeFromCodeCoverage]
 public record HelmPullOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--ca-file", SwitchValueSeparator = " ")]
+    [CliOption("--ca-file")]
     public string? CaFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cert-file", SwitchValueSeparator = " ")]
+    [CliOption("--cert-file")]
     public string? CertFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--destination", SwitchValueSeparator = " ")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 
-    [BooleanCommandSwitch("--devel")]
+    [CliFlag("--devel")]
     public virtual bool? Devel { get; set; }
 
-    [BooleanCommandSwitch("--insecure-skip-tls-verify")]
+    [CliFlag("--insecure-skip-tls-verify")]
     public virtual bool? InsecureSkipTlsVerify { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--key-file", SwitchValueSeparator = " ")]
+    [CliOption("--key-file")]
     public string? KeyFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--keyring", SwitchValueSeparator = " ")]
+    [CliOption("--keyring")]
     public string? Keyring { get; set; }
 
-    [BooleanCommandSwitch("--pass-credentials")]
+    [CliFlag("--pass-credentials")]
     public virtual bool? PassCredentials { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--password", SwitchValueSeparator = " ")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [BooleanCommandSwitch("--prov")]
+    [CliFlag("--prov")]
     public virtual bool? Prov { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--repo", SwitchValueSeparator = " ")]
+    [CliOption("--repo")]
     public string? Repo { get; set; }
 
-    [BooleanCommandSwitch("--untar")]
+    [CliFlag("--untar")]
     public virtual bool? Untar { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--untardir", SwitchValueSeparator = " ")]
+    [CliOption("--untardir")]
     public string? Untardir { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--username", SwitchValueSeparator = " ")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 
-    [BooleanCommandSwitch("--verify")]
+    [CliFlag("--verify")]
     public virtual bool? Verify { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--version", SwitchValueSeparator = " ")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 }

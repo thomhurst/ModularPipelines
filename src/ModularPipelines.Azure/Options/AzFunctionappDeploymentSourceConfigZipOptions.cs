@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "deployment", "source", "config-zip")]
+[CliCommand("functionapp", "deployment", "source", "config-zip")]
 public record AzFunctionappDeploymentSourceConfigZipOptions(
-[property: CommandSwitch("--src")] string Src
+[property: CliOption("--src")] string Src
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--build-remote")]
+    [CliFlag("--build-remote")]
     public bool? BuildRemote { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

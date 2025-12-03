@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("certificate-manager", "maps", "entries", "update")]
+[CliCommand("certificate-manager", "maps", "entries", "update")]
 public record GcloudCertificateManagerMapsEntriesUpdateOptions(
-[property: PositionalArgument] string Entry,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Map
+[property: CliArgument] string Entry,
+[property: CliArgument] string Location,
+[property: CliArgument] string Map
 ) : GcloudOptions;

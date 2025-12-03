@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("powerbi")]
+[CliCommand("powerbi")]
 public class AzPowerbiEmbeddedCapacity
 {
     public AzPowerbiEmbeddedCapacity(

@@ -6,9 +6,9 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("eventgrid", "event-subscription", "delete", "(eventgrid", "extension)")]
 public record AzEventgridEventSubscriptionDeleteEventgridExtensionOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--source-resource-id")]
+    [CliOption("--source-resource-id")]
     public string? SourceResourceId { get; set; }
 }

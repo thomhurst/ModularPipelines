@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("projects", "delete")]
+[CliCommand("projects", "delete")]
 public record GcloudProjectsDeleteOptions(
-[property: PositionalArgument] string ProjectIdOrNumber
+[property: CliArgument] string ProjectIdOrNumber
 ) : GcloudOptions;

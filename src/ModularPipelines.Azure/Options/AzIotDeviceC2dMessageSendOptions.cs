@@ -4,59 +4,59 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "device", "c2d-message", "send")]
+[CliCommand("iot", "device", "c2d-message", "send")]
 public record AzIotDeviceC2dMessageSendOptions(
-[property: CommandSwitch("--device-id")] string DeviceId
+[property: CliOption("--device-id")] string DeviceId
 ) : AzOptions
 {
-    [CommandSwitch("--ack")]
+    [CliOption("--ack")]
     public string? Ack { get; set; }
 
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--ce")]
+    [CliOption("--ce")]
     public string? Ce { get; set; }
 
-    [CommandSwitch("--cid")]
+    [CliOption("--cid")]
     public string? Cid { get; set; }
 
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CommandSwitch("--da")]
+    [CliOption("--da")]
     public string? Da { get; set; }
 
-    [CommandSwitch("--data-file-path")]
+    [CliOption("--data-file-path")]
     public string? DataFilePath { get; set; }
 
-    [CommandSwitch("--expiry")]
+    [CliOption("--expiry")]
     public string? Expiry { get; set; }
 
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--message-id")]
+    [CliOption("--message-id")]
     public string? MessageId { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string? Properties { get; set; }
 
-    [BooleanCommandSwitch("--repair")]
+    [CliFlag("--repair")]
     public bool? Repair { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--uid")]
+    [CliOption("--uid")]
     public string? Uid { get; set; }
 
-    [BooleanCommandSwitch("--wait")]
+    [CliFlag("--wait")]
     public bool? Wait { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

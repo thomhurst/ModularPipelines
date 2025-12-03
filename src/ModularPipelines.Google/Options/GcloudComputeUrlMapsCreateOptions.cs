@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "url-maps", "create")]
+[CliCommand("compute", "url-maps", "create")]
 public record GcloudComputeUrlMapsCreateOptions(
-[property: PositionalArgument] string UrlMap,
-[property: CommandSwitch("--default-backend-bucket")] string DefaultBackendBucket,
-[property: CommandSwitch("--default-service")] string DefaultService
+[property: CliArgument] string UrlMap,
+[property: CliOption("--default-backend-bucket")] string DefaultBackendBucket,
+[property: CliOption("--default-service")] string DefaultService
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

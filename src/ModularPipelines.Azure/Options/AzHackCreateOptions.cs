@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hack", "create")]
+[CliCommand("hack", "create")]
 public record AzHackCreateOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--runtime")] string Runtime
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--runtime")] string Runtime
 ) : AzOptions
 {
-    [CommandSwitch("--ai")]
+    [CliOption("--ai")]
     public string? Ai { get; set; }
 
-    [CommandSwitch("--database")]
+    [CliOption("--database")]
     public string? Database { get; set; }
 }

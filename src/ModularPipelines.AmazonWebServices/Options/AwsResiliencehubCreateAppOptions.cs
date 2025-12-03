@@ -5,32 +5,32 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resiliencehub", "create-app")]
+[CliCommand("resiliencehub", "create-app")]
 public record AwsResiliencehubCreateAppOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--assessment-schedule")]
+    [CliOption("--assessment-schedule")]
     public string? AssessmentSchedule { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--event-subscriptions")]
+    [CliOption("--event-subscriptions")]
     public string[]? EventSubscriptions { get; set; }
 
-    [CommandSwitch("--permission-model")]
+    [CliOption("--permission-model")]
     public string? PermissionModel { get; set; }
 
-    [CommandSwitch("--policy-arn")]
+    [CliOption("--policy-arn")]
     public string? PolicyArn { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

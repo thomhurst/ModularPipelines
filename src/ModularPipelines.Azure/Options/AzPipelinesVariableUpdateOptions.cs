@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines", "variable", "update")]
+[CliCommand("pipelines", "variable", "update")]
 public record AzPipelinesVariableUpdateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allow-override")]
+    [CliFlag("--allow-override")]
     public bool? AllowOverride { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--new-name")]
+    [CliOption("--new-name")]
     public string? NewName { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--pipeline-id")]
+    [CliOption("--pipeline-id")]
     public string? PipelineId { get; set; }
 
-    [CommandSwitch("--pipeline-name")]
+    [CliOption("--pipeline-name")]
     public string? PipelineName { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [BooleanCommandSwitch("--prompt-value")]
+    [CliFlag("--prompt-value")]
     public bool? PromptValue { get; set; }
 
-    [BooleanCommandSwitch("--secret")]
+    [CliFlag("--secret")]
     public bool? Secret { get; set; }
 
-    [CommandSwitch("--value")]
+    [CliOption("--value")]
     public string? Value { get; set; }
 }

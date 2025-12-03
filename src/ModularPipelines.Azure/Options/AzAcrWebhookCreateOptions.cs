@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "webhook", "create")]
+[CliCommand("acr", "webhook", "create")]
 public record AzAcrWebhookCreateOptions(
-[property: CommandSwitch("--actions")] string Actions,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--registry")] string Registry,
-[property: CommandSwitch("--uri")] string Uri
+[property: CliOption("--actions")] string Actions,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--registry")] string Registry,
+[property: CliOption("--uri")] string Uri
 ) : AzOptions
 {
-    [CommandSwitch("--headers")]
+    [CliOption("--headers")]
     public string? Headers { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

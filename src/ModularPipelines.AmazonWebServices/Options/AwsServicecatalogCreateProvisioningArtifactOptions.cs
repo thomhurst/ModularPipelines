@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicecatalog", "create-provisioning-artifact")]
+[CliCommand("servicecatalog", "create-provisioning-artifact")]
 public record AwsServicecatalogCreateProvisioningArtifactOptions(
-[property: CommandSwitch("--product-id")] string ProductId,
-[property: CommandSwitch("--parameters")] string Parameters
+[property: CliOption("--product-id")] string ProductId,
+[property: CliOption("--parameters")] string Parameters
 ) : AwsOptions
 {
-    [CommandSwitch("--accept-language")]
+    [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

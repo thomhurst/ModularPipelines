@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("manifest", "rm")]
+[CliCommand("manifest", "rm")]
 [ExcludeFromCodeCoverage]
 public record DockerManifestRmOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? ManifestList { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("filestore", "operations", "cancel")]
+[CliCommand("filestore", "operations", "cancel")]
 public record GcloudFilestoreOperationsCancelOptions(
-[property: PositionalArgument] string Operation,
-[property: PositionalArgument] string Zone
+[property: CliArgument] string Operation,
+[property: CliArgument] string Zone
 ) : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

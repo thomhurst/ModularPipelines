@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "databases", "patch")]
+[CliCommand("sql", "databases", "patch")]
 public record GcloudSqlDatabasesPatchOptions(
-[property: PositionalArgument] string Database,
-[property: CommandSwitch("--instance")] string Instance
+[property: CliArgument] string Database,
+[property: CliOption("--instance")] string Instance
 ) : GcloudOptions
 {
-    [CommandSwitch("--charset")]
+    [CliOption("--charset")]
     public string? Charset { get; set; }
 
-    [CommandSwitch("--collation")]
+    [CliOption("--collation")]
     public string? Collation { get; set; }
 
-    [BooleanCommandSwitch("--diff")]
+    [CliFlag("--diff")]
     public bool? Diff { get; set; }
 }

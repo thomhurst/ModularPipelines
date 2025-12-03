@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage-mover", "job-run", "list")]
+[CliCommand("storage-mover", "job-run", "list")]
 public record AzStorageMoverJobRunListOptions(
-[property: CommandSwitch("--job-definition-name")] string JobDefinitionName,
-[property: CommandSwitch("--project-name")] string ProjectName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-mover-name")] string StorageMoverName
+[property: CliOption("--job-definition-name")] string JobDefinitionName,
+[property: CliOption("--project-name")] string ProjectName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--storage-mover-name")] string StorageMoverName
 ) : AzOptions
 {
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 }

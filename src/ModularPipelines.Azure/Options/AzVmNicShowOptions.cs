@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "nic", "show")]
+[CliCommand("vm", "nic", "show")]
 public record AzVmNicShowOptions(
-[property: CommandSwitch("--nic")] string Nic,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vm-name")] string VmName
+[property: CliOption("--nic")] string Nic,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vm-name")] string VmName
 ) : AzOptions;

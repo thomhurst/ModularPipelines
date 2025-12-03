@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "firewall", "nat-rule")]
+[CliCommand("network", "firewall", "nat-rule")]
 public class AzNetworkFirewallNatRuleCollection
 {
     public AzNetworkFirewallNatRuleCollection(

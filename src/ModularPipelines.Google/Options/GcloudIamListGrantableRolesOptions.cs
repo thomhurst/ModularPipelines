@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "list-grantable-roles")]
+[CliCommand("iam", "list-grantable-roles")]
 public record GcloudIamListGrantableRolesOptions(
-[property: PositionalArgument] string Resource
+[property: CliArgument] string Resource
 ) : GcloudOptions;

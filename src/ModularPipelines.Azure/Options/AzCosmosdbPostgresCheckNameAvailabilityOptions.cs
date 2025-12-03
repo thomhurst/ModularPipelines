@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "postgres", "check-name-availability")]
+[CliCommand("cosmosdb", "postgres", "check-name-availability")]
 public record AzCosmosdbPostgresCheckNameAvailabilityOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--name")] string Name,
+[property: CliOption("--type")] string Type
 ) : AzOptions;

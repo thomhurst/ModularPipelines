@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("k8s-extension", "extension-types", "list-versions-by-location")]
+[CliCommand("k8s-extension", "extension-types", "list-versions-by-location")]
 public record AzK8sExtensionExtensionTypesListVersionsByLocationOptions(
-[property: CommandSwitch("--extension-type")] string ExtensionType,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--extension-type")] string ExtensionType,
+[property: CliOption("--location")] string Location
 ) : AzOptions
 {
-    [CommandSwitch("--cluster-type")]
+    [CliOption("--cluster-type")]
     public string? ClusterType { get; set; }
 
-    [CommandSwitch("--major-version")]
+    [CliOption("--major-version")]
     public string? MajorVersion { get; set; }
 
-    [CommandSwitch("--release-train")]
+    [CliOption("--release-train")]
     public string? ReleaseTrain { get; set; }
 
-    [BooleanCommandSwitch("--show-latest")]
+    [CliFlag("--show-latest")]
     public bool? ShowLatest { get; set; }
 }

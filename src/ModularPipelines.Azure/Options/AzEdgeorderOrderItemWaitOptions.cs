@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edgeorder", "order-item", "wait")]
+[CliCommand("edgeorder", "order-item", "wait")]
 public record AzEdgeorderOrderItemWaitOptions(
-[property: CommandSwitch("--order-item-name")] string OrderItemName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--order-item-name")] string OrderItemName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--created")]
+    [CliFlag("--created")]
     public bool? Created { get; set; }
 
-    [CommandSwitch("--custom")]
+    [CliOption("--custom")]
     public string? Custom { get; set; }
 
-    [BooleanCommandSwitch("--deleted")]
+    [CliFlag("--deleted")]
     public bool? Deleted { get; set; }
 
-    [BooleanCommandSwitch("--exists")]
+    [CliFlag("--exists")]
     public bool? Exists { get; set; }
 
-    [CommandSwitch("--expand")]
+    [CliOption("--expand")]
     public string? Expand { get; set; }
 
-    [CommandSwitch("--interval")]
+    [CliOption("--interval")]
     public int? Interval { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [BooleanCommandSwitch("--updated")]
+    [CliFlag("--updated")]
     public bool? Updated { get; set; }
 }

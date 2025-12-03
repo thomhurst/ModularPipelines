@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "connection", "create", "confluent-cloud")]
+[CliCommand("webapp", "connection", "create", "confluent-cloud")]
 public record AzWebappConnectionCreateConfluentCloudOptions(
-[property: CommandSwitch("--bootstrap-server")] string BootstrapServer,
-[property: CommandSwitch("--kafka-key")] string KafkaKey,
-[property: CommandSwitch("--kafka-secret")] string KafkaSecret,
-[property: CommandSwitch("--schema-key")] string SchemaKey,
-[property: CommandSwitch("--schema-registry")] string SchemaRegistry,
-[property: CommandSwitch("--schema-secret")] string SchemaSecret
+[property: CliOption("--bootstrap-server")] string BootstrapServer,
+[property: CliOption("--kafka-key")] string KafkaKey,
+[property: CliOption("--kafka-secret")] string KafkaSecret,
+[property: CliOption("--schema-key")] string SchemaKey,
+[property: CliOption("--schema-registry")] string SchemaRegistry,
+[property: CliOption("--schema-secret")] string SchemaSecret
 ) : AzOptions
 {
-    [CommandSwitch("--client-type")]
+    [CliOption("--client-type")]
     public string? ClientType { get; set; }
 
-    [CommandSwitch("--connection")]
+    [CliOption("--connection")]
     public string? Connection { get; set; }
 
-    [CommandSwitch("--customized-keys")]
+    [CliOption("--customized-keys")]
     public string? CustomizedKeys { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--source-id")]
+    [CliOption("--source-id")]
     public string? SourceId { get; set; }
 
-    [CommandSwitch("--vault-id")]
+    [CliOption("--vault-id")]
     public string? VaultId { get; set; }
 }

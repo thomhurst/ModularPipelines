@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("config", "rm")]
+[CliCommand("config", "rm")]
 [ExcludeFromCodeCoverage]
 public record DockerConfigRmOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? RmConfig { get; set; }
 }

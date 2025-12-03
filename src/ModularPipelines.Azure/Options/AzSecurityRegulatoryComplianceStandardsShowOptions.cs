@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "regulatory-compliance-standards", "show")]
+[CliCommand("security", "regulatory-compliance-standards", "show")]
 public record AzSecurityRegulatoryComplianceStandardsShowOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions;

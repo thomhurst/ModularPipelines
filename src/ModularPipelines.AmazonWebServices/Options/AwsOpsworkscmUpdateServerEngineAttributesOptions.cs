@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworkscm", "update-server-engine-attributes")]
+[CliCommand("opsworkscm", "update-server-engine-attributes")]
 public record AwsOpsworkscmUpdateServerEngineAttributesOptions(
-[property: CommandSwitch("--server-name")] string ServerName,
-[property: CommandSwitch("--attribute-name")] string AttributeName
+[property: CliOption("--server-name")] string ServerName,
+[property: CliOption("--attribute-name")] string AttributeName
 ) : AwsOptions
 {
-    [CommandSwitch("--attribute-value")]
+    [CliOption("--attribute-value")]
     public string? AttributeValue { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

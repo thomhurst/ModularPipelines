@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spanner", "databases", "roles", "list")]
+[CliCommand("spanner", "databases", "roles", "list")]
 public record GcloudSpannerDatabasesRolesListOptions(
-[property: CommandSwitch("--database")] string Database,
-[property: CommandSwitch("--instance")] string Instance
+[property: CliOption("--database")] string Database,
+[property: CliOption("--instance")] string Instance
 ) : GcloudOptions;

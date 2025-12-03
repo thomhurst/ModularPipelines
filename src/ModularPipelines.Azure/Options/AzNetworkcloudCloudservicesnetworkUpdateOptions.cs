@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "cloudservicesnetwork", "update")]
+[CliCommand("networkcloud", "cloudservicesnetwork", "update")]
 public record AzNetworkcloudCloudservicesnetworkUpdateOptions : AzOptions
 {
-    [CommandSwitch("--additional-egress-endpoints")]
+    [CliOption("--additional-egress-endpoints")]
     public string? AdditionalEgressEndpoints { get; set; }
 
-    [CommandSwitch("--cloud-services-network-name")]
+    [CliOption("--cloud-services-network-name")]
     public string? CloudServicesNetworkName { get; set; }
 
-    [BooleanCommandSwitch("--enable-default-egress-endpoints")]
+    [CliFlag("--enable-default-egress-endpoints")]
     public bool? EnableDefaultEgressEndpoints { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

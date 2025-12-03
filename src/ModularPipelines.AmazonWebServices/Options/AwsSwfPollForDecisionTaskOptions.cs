@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("swf", "poll-for-decision-task")]
+[CliCommand("swf", "poll-for-decision-task")]
 public record AwsSwfPollForDecisionTaskOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--task-list")] string TaskList
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--task-list")] string TaskList
 ) : AwsOptions
 {
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

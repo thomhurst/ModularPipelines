@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource", "tag")]
+[CliCommand("resource", "tag")]
 public record AzResourceTagOptions(
-[property: CommandSwitch("--tags")] string Tags
+[property: CliOption("--tags")] string Tags
 ) : AzOptions
 {
-    [CommandSwitch("--api-version")]
+    [CliOption("--api-version")]
     public string? ApiVersion { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--is-incremental")]
+    [CliOption("--is-incremental")]
     public string? IsIncremental { get; set; }
 
-    [BooleanCommandSwitch("--latest-include-preview")]
+    [CliFlag("--latest-include-preview")]
     public bool? LatestIncludePreview { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--parent")]
+    [CliOption("--parent")]
     public string? Parent { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 }

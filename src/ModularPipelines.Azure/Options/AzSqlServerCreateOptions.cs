@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "server", "create")]
+[CliCommand("sql", "server", "create")]
 public record AzSqlServerCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--admin-password")]
+    [CliOption("--admin-password")]
     public string? AdminPassword { get; set; }
 
-    [CommandSwitch("--admin-user")]
+    [CliOption("--admin-user")]
     public string? AdminUser { get; set; }
 
-    [BooleanCommandSwitch("--assign-identity")]
+    [CliFlag("--assign-identity")]
     public bool? AssignIdentity { get; set; }
 
-    [BooleanCommandSwitch("--enable-ad-only-auth")]
+    [CliFlag("--enable-ad-only-auth")]
     public bool? EnableAdOnlyAuth { get; set; }
 
-    [BooleanCommandSwitch("--enable-public-network")]
+    [CliFlag("--enable-public-network")]
     public bool? EnablePublicNetwork { get; set; }
 
-    [CommandSwitch("--external-admin-name")]
+    [CliOption("--external-admin-name")]
     public string? ExternalAdminName { get; set; }
 
-    [CommandSwitch("--external-admin-principal-type")]
+    [CliOption("--external-admin-principal-type")]
     public string? ExternalAdminPrincipalType { get; set; }
 
-    [CommandSwitch("--external-admin-sid")]
+    [CliOption("--external-admin-sid")]
     public string? ExternalAdminSid { get; set; }
 
-    [CommandSwitch("--federated-client-id")]
+    [CliOption("--federated-client-id")]
     public string? FederatedClientId { get; set; }
 
-    [CommandSwitch("--identity-type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
-    [CommandSwitch("--key-id")]
+    [CliOption("--key-id")]
     public string? KeyId { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--minimal-tls-version")]
+    [CliOption("--minimal-tls-version")]
     public string? MinimalTlsVersion { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--pid")]
+    [CliOption("--pid")]
     public string? Pid { get; set; }
 
-    [BooleanCommandSwitch("--restrict-outbound-network-access")]
+    [CliFlag("--restrict-outbound-network-access")]
     public bool? RestrictOutboundNetworkAccess { get; set; }
 
-    [CommandSwitch("--user-assigned-identity-id")]
+    [CliOption("--user-assigned-identity-id")]
     public string? UserAssignedIdentityId { get; set; }
 }

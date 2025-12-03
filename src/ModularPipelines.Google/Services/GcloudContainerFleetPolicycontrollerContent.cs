@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "policycontroller")]
+[CliCommand("container", "fleet", "policycontroller")]
 public class GcloudContainerFleetPolicycontrollerContent
 {
     public GcloudContainerFleetPolicycontrollerContent(

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "nsg", "rule", "list")]
+[CliCommand("network", "nsg", "rule", "list")]
 public record AzNetworkNsgRuleListOptions(
-[property: CommandSwitch("--nsg-name")] string NsgName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--nsg-name")] string NsgName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--include-default")]
+    [CliFlag("--include-default")]
     public bool? IncludeDefault { get; set; }
 }

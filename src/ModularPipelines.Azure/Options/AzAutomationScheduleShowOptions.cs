@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automation", "schedule", "show")]
+[CliCommand("automation", "schedule", "show")]
 public record AzAutomationScheduleShowOptions(
-[property: CommandSwitch("--automation-account-name")] int AutomationAccountName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--automation-account-name")] int AutomationAccountName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

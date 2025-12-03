@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "check-acr")]
+[CliCommand("aks", "check-acr")]
 public record AzAksCheckAcrOptions(
-[property: CommandSwitch("--acr")] string Acr,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--acr")] string Acr,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--node-name")]
+    [CliOption("--node-name")]
     public string? NodeName { get; set; }
 }

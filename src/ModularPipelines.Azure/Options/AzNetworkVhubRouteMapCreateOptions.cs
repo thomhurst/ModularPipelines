@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vhub", "route-map", "create")]
+[CliCommand("network", "vhub", "route-map", "create")]
 public record AzNetworkVhubRouteMapCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vhub-name")] string VhubName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vhub-name")] string VhubName
 ) : AzOptions
 {
-    [CommandSwitch("--inbound-connection")]
+    [CliOption("--inbound-connection")]
     public string? InboundConnection { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--outbound-connections")]
+    [CliOption("--outbound-connections")]
     public string? OutboundConnections { get; set; }
 
-    [CommandSwitch("--rules")]
+    [CliOption("--rules")]
     public string? Rules { get; set; }
 }

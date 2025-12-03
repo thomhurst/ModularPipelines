@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "backup")]
+[CliCommand("grafana", "backup")]
 public record AzGrafanaBackupOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--components")]
+    [CliOption("--components")]
     public string? Components { get; set; }
 
-    [CommandSwitch("--directory")]
+    [CliOption("--directory")]
     public string? Directory { get; set; }
 
-    [CommandSwitch("--folders-to-exclude")]
+    [CliOption("--folders-to-exclude")]
     public string? FoldersToExclude { get; set; }
 
-    [CommandSwitch("--folders-to-include")]
+    [CliOption("--folders-to-include")]
     public string? FoldersToInclude { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ram", "reject-resource-share-invitation")]
+[CliCommand("ram", "reject-resource-share-invitation")]
 public record AwsRamRejectResourceShareInvitationOptions(
-[property: CommandSwitch("--resource-share-invitation-arn")] string ResourceShareInvitationArn
+[property: CliOption("--resource-share-invitation-arn")] string ResourceShareInvitationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

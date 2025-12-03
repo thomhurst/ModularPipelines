@@ -3,29 +3,29 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("state rm")]
+[CliCommand("state rm")]
 [ExcludeFromCodeCoverage]
-public record TerraformStateRmOptions([property: PositionalArgument(Position = Position.AfterSwitches)]
+public record TerraformStateRmOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     IEnumerable<string> Address) : TerraformOptions
 {
-    [BooleanCommandSwitch("-dry-run")]
+    [CliFlag("-dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("-lock")]
+    [CliFlag("-lock")]
     public virtual bool? Lock { get; set; }
 
-    [CommandSwitch("-lock-timeout")]
+    [CliOption("-lock-timeout")]
     public virtual string? LockTimeout { get; set; }
 
-    [BooleanCommandSwitch("-ignore-remote-version")]
+    [CliFlag("-ignore-remote-version")]
     public virtual bool? IgnoreRemoteVersion { get; set; }
 
-    [BooleanCommandSwitch("-state")]
+    [CliFlag("-state")]
     public virtual bool? State { get; set; }
 
-    [BooleanCommandSwitch("-state-out")]
+    [CliFlag("-state-out")]
     public virtual bool? StateOut { get; set; }
 
-    [BooleanCommandSwitch("-backup")]
+    [CliFlag("-backup")]
     public virtual bool? Backup { get; set; }
 }

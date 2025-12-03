@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "account", "storage", "sync-storage-keys")]
+[CliCommand("ams", "account", "storage", "sync-storage-keys")]
 public record AzAmsAccountStorageSyncStorageKeysOptions(
-[property: CommandSwitch("--storage-account-id")] int StorageAccountId
+[property: CliOption("--storage-account-id")] int StorageAccountId
 ) : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

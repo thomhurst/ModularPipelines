@@ -4,51 +4,51 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "diagnose", "routes")]
+[CliCommand("compute", "diagnose", "routes")]
 public record GcloudComputeDiagnoseRoutesOptions(
-[property: PositionalArgument] string Name,
-[property: PositionalArgument] string TracerouteArgs
+[property: CliArgument] string Name,
+[property: CliArgument] string TracerouteArgs
 ) : GcloudOptions
 {
-    [CommandSwitch("--container")]
+    [CliOption("--container")]
     public string? Container { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CommandSwitch("--external-route-ip")]
+    [CliOption("--external-route-ip")]
     public string? ExternalRouteIp { get; set; }
 
-    [BooleanCommandSwitch("--force-key-file-overwrite")]
+    [CliFlag("--force-key-file-overwrite")]
     public bool? ForceKeyFileOverwrite { get; set; }
 
-    [BooleanCommandSwitch("--plain")]
+    [CliFlag("--plain")]
     public bool? Plain { get; set; }
 
-    [CommandSwitch("--regexp")]
+    [CliOption("--regexp")]
     public string? Regexp { get; set; }
 
-    [BooleanCommandSwitch("--reverse-traceroute")]
+    [CliFlag("--reverse-traceroute")]
     public bool? ReverseTraceroute { get; set; }
 
-    [CommandSwitch("--ssh-flag")]
+    [CliOption("--ssh-flag")]
     public string? SshFlag { get; set; }
 
-    [CommandSwitch("--ssh-key-file")]
+    [CliOption("--ssh-key-file")]
     public string? SshKeyFile { get; set; }
 
-    [CommandSwitch("--strict-host-key-checking")]
+    [CliOption("--strict-host-key-checking")]
     public string? StrictHostKeyChecking { get; set; }
 
-    [CommandSwitch("--user")]
+    [CliOption("--user")]
     public string? User { get; set; }
 
-    [CommandSwitch("--zones")]
+    [CliOption("--zones")]
     public string[]? Zones { get; set; }
 
-    [CommandSwitch("--ssh-key-expiration")]
+    [CliOption("--ssh-key-expiration")]
     public string? SshKeyExpiration { get; set; }
 
-    [CommandSwitch("--ssh-key-expire-after")]
+    [CliOption("--ssh-key-expire-after")]
     public string? SshKeyExpireAfter { get; set; }
 }

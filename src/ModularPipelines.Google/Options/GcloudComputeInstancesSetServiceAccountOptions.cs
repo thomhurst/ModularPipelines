@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "set-service-account")]
+[CliCommand("compute", "instances", "set-service-account")]
 public record GcloudComputeInstancesSetServiceAccountOptions(
-[property: PositionalArgument] string InstanceName
+[property: CliArgument] string InstanceName
 ) : GcloudOptions
 {
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string[]? Scopes { get; set; }
 
-    [BooleanCommandSwitch("--no-scopes")]
+    [CliFlag("--no-scopes")]
     public bool? NoScopes { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [BooleanCommandSwitch("--no-service-account")]
+    [CliFlag("--no-service-account")]
     public bool? NoServiceAccount { get; set; }
 }

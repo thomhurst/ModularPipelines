@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "cluster")]
+[CliCommand("kusto", "cluster")]
 public class AzKustoClusterStop
 {
     public AzKustoClusterStop(

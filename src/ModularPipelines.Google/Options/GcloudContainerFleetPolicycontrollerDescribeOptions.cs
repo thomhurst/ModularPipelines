@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "policycontroller", "describe")]
+[CliCommand("container", "fleet", "policycontroller", "describe")]
 public record GcloudContainerFleetPolicycontrollerDescribeOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--all-memberships")]
+    [CliFlag("--all-memberships")]
     public bool? AllMemberships { get; set; }
 
-    [CommandSwitch("--memberships")]
+    [CliOption("--memberships")]
     public string[]? Memberships { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

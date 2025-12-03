@@ -15,18 +15,18 @@ public record DockerImageHistoryOptions : DockerOptions
         Image = image;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Image { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [BooleanCommandSwitch("--human")]
+    [CliFlag("--human")]
     public virtual bool? Human { get; set; }
 
-    [BooleanCommandSwitch("--no-trunc")]
+    [CliFlag("--no-trunc")]
     public virtual bool? NoTrunc { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 }

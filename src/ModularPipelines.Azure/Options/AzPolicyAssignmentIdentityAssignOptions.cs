@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("policy", "assignment", "identity", "assign")]
+[CliCommand("policy", "assignment", "identity", "assign")]
 public record AzPolicyAssignmentIdentityAssignOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--identity-scope")]
+    [CliOption("--identity-scope")]
     public string? IdentityScope { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--system-assigned")]
+    [CliOption("--system-assigned")]
     public string? SystemAssigned { get; set; }
 
-    [CommandSwitch("--user-assigned")]
+    [CliOption("--user-assigned")]
     public string? UserAssigned { get; set; }
 }

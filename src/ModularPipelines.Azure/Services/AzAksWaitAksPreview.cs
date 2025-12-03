@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "wait")]
+[CliCommand("aks", "wait")]
 public class AzAksWaitAksPreview
 {
     public AzAksWaitAksPreview(

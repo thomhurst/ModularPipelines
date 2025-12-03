@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aro", "validate")]
+[CliCommand("aro", "validate")]
 public record AzAroValidateOptions(
-[property: CommandSwitch("--master-subnet")] string MasterSubnet,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--worker-subnet")] string WorkerSubnet
+[property: CliOption("--master-subnet")] string MasterSubnet,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--worker-subnet")] string WorkerSubnet
 ) : AzOptions
 {
-    [CommandSwitch("--client-id")]
+    [CliOption("--client-id")]
     public string? ClientId { get; set; }
 
-    [CommandSwitch("--client-secret")]
+    [CliOption("--client-secret")]
     public string? ClientSecret { get; set; }
 
-    [CommandSwitch("--cluster-resource-group")]
+    [CliOption("--cluster-resource-group")]
     public string? ClusterResourceGroup { get; set; }
 
-    [CommandSwitch("--disk-encryption-set")]
+    [CliOption("--disk-encryption-set")]
     public string? DiskEncryptionSet { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--pod-cidr")]
+    [CliOption("--pod-cidr")]
     public string? PodCidr { get; set; }
 
-    [CommandSwitch("--service-cidr")]
+    [CliOption("--service-cidr")]
     public string? ServiceCidr { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 
-    [CommandSwitch("--vnet")]
+    [CliOption("--vnet")]
     public string? Vnet { get; set; }
 
-    [CommandSwitch("--vnet-resource-group")]
+    [CliOption("--vnet-resource-group")]
     public string? VnetResourceGroup { get; set; }
 }

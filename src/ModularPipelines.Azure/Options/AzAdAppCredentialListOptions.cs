@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "app", "credential", "list")]
+[CliCommand("ad", "app", "credential", "list")]
 public record AzAdAppCredentialListOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--cert")]
+    [CliFlag("--cert")]
     public bool? Cert { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("composer", "environments", "snapshots", "save")]
+[CliCommand("composer", "environments", "snapshots", "save")]
 public record GcloudComposerEnvironmentsSnapshotsSaveOptions(
-[property: PositionalArgument] string Environment,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Environment,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--snapshot-location")]
+    [CliOption("--snapshot-location")]
     public string? SnapshotLocation { get; set; }
 }

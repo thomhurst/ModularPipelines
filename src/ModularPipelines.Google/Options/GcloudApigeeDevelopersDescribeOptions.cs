@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigee", "developers", "describe")]
+[CliCommand("apigee", "developers", "describe")]
 public record GcloudApigeeDevelopersDescribeOptions(
-[property: PositionalArgument] string Developer,
-[property: PositionalArgument] string Organization
+[property: CliArgument] string Developer,
+[property: CliArgument] string Organization
 ) : GcloudOptions;

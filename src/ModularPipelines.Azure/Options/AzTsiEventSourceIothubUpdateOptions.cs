@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tsi", "event-source", "iothub", "update")]
+[CliCommand("tsi", "event-source", "iothub", "update")]
 public record AzTsiEventSourceIothubUpdateOptions : AzOptions
 {
-    [CommandSwitch("--environment-name")]
+    [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
-    [CommandSwitch("--event-source-name")]
+    [CliOption("--event-source-name")]
     public string? EventSourceName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--local-timestamp")]
+    [CliOption("--local-timestamp")]
     public string? LocalTimestamp { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--shared-access-key")]
+    [CliOption("--shared-access-key")]
     public string? SharedAccessKey { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--timestamp-property-name")]
+    [CliOption("--timestamp-property-name")]
     public string? TimestampPropertyName { get; set; }
 }

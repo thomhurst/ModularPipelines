@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "put-compliance-items")]
+[CliCommand("ssm", "put-compliance-items")]
 public record AwsSsmPutComplianceItemsOptions(
-[property: CommandSwitch("--resource-id")] string ResourceId,
-[property: CommandSwitch("--resource-type")] string ResourceType,
-[property: CommandSwitch("--compliance-type")] string ComplianceType,
-[property: CommandSwitch("--execution-summary")] string ExecutionSummary,
-[property: CommandSwitch("--items")] string[] Items
+[property: CliOption("--resource-id")] string ResourceId,
+[property: CliOption("--resource-type")] string ResourceType,
+[property: CliOption("--compliance-type")] string ComplianceType,
+[property: CliOption("--execution-summary")] string ExecutionSummary,
+[property: CliOption("--items")] string[] Items
 ) : AwsOptions
 {
-    [CommandSwitch("--item-content-hash")]
+    [CliOption("--item-content-hash")]
     public string? ItemContentHash { get; set; }
 
-    [CommandSwitch("--upload-type")]
+    [CliOption("--upload-type")]
     public string? UploadType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

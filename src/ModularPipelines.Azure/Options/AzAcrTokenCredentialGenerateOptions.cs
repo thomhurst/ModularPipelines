@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "token", "credential", "generate")]
+[CliCommand("acr", "token", "credential", "generate")]
 public record AzAcrTokenCredentialGenerateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--name")] string Name,
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--expiration")]
+    [CliOption("--expiration")]
     public string? Expiration { get; set; }
 
-    [CommandSwitch("--expiration-in-days")]
+    [CliOption("--expiration-in-days")]
     public string? ExpirationInDays { get; set; }
 
-    [BooleanCommandSwitch("--password1")]
+    [CliFlag("--password1")]
     public bool? Password1 { get; set; }
 
-    [BooleanCommandSwitch("--password2")]
+    [CliFlag("--password2")]
     public bool? Password2 { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

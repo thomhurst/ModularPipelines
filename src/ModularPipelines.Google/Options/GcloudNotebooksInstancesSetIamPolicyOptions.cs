@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("notebooks", "instances", "set-iam-policy")]
+[CliCommand("notebooks", "instances", "set-iam-policy")]
 public record GcloudNotebooksInstancesSetIamPolicyOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string PolicyFile
+[property: CliArgument] string Instance,
+[property: CliArgument] string Location,
+[property: CliArgument] string PolicyFile
 ) : GcloudOptions;

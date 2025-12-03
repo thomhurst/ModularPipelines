@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("search", "terms")]
+[CliCommand("search", "terms")]
 public record NpmSearchOptions
     (
-        [property: PositionalArgument(Position = Position.BeforeSwitches)] string Value
+        [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value
         ) : NpmOptions
 {
-    [BooleanCommandSwitch("--long")]
+    [CliFlag("--long")]
     public virtual bool? Long { get; set; }
 
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [CommandSwitch("--color")]
+    [CliOption("--color")]
     public virtual string? Color { get; set; }
 
-    [BooleanCommandSwitch("--parseable")]
+    [CliFlag("--parseable")]
     public virtual bool? Parseable { get; set; }
 
-    [BooleanCommandSwitch("--description")]
+    [CliFlag("--description")]
     public virtual bool? Description { get; set; }
 
-    [CommandSwitch("--searchopts")]
+    [CliOption("--searchopts")]
     public virtual string? Searchopts { get; set; }
 
-    [CommandSwitch("--searchexclude")]
+    [CliOption("--searchexclude")]
     public virtual string? Searchexclude { get; set; }
 
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }
 
-    [BooleanCommandSwitch("--prefer-online")]
+    [CliFlag("--prefer-online")]
     public virtual bool? PreferOnline { get; set; }
 
-    [BooleanCommandSwitch("--prefer-offline")]
+    [CliFlag("--prefer-offline")]
     public virtual bool? PreferOffline { get; set; }
 
-    [BooleanCommandSwitch("--offline")]
+    [CliFlag("--offline")]
     public virtual bool? Offline { get; set; }
 }

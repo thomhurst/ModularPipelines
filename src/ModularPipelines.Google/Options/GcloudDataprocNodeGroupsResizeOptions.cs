@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "node-groups", "resize")]
+[CliCommand("dataproc", "node-groups", "resize")]
 public record GcloudDataprocNodeGroupsResizeOptions(
-[property: PositionalArgument] string NodeGroup,
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--size")] string Size
+[property: CliArgument] string NodeGroup,
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Region,
+[property: CliOption("--size")] string Size
 ) : GcloudOptions
 {
-    [CommandSwitch("--graceful-decommission-timeout")]
+    [CliOption("--graceful-decommission-timeout")]
     public string? GracefulDecommissionTimeout { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "config", "ssl", "show")]
+[CliCommand("webapp", "config", "ssl", "show")]
 public record AzWebappConfigSslShowOptions(
-[property: CommandSwitch("--certificate-name")] string CertificateName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--certificate-name")] string CertificateName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

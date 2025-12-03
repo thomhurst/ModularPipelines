@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "partner", "namespace")]
+[CliCommand("eventgrid", "partner", "namespace")]
 public class AzEventgridPartnerNamespaceKey
 {
     public AzEventgridPartnerNamespaceKey(

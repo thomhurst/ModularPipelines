@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "pipeline", "create")]
+[CliCommand("ml", "pipeline", "create")]
 public record AzMlPipelineCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--pipeline-yaml")] string PipelineYaml
+[property: CliOption("--name")] string Name,
+[property: CliOption("--pipeline-yaml")] string PipelineYaml
 ) : AzOptions
 {
-    [CommandSwitch("--continue")]
+    [CliOption("--continue")]
     public string? Continue { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--output-file")]
+    [CliOption("--output-file")]
     public string? OutputFile { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

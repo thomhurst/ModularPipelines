@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "device-identity", "connection-string", "show")]
+[CliCommand("iot", "hub", "device-identity", "connection-string", "show")]
 public record AzIotHubDeviceIdentityConnectionStringShowOptions(
-[property: CommandSwitch("--device-id")] string DeviceId
+[property: CliOption("--device-id")] string DeviceId
 ) : AzOptions
 {
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--key-type")]
+    [CliOption("--key-type")]
     public string? KeyType { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

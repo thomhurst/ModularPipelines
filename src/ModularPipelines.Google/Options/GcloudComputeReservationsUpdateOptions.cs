@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "reservations", "update")]
+[CliCommand("compute", "reservations", "update")]
 public record GcloudComputeReservationsUpdateOptions(
-[property: PositionalArgument] string Reservation
+[property: CliArgument] string Reservation
 ) : GcloudOptions
 {
-    [CommandSwitch("--add-share-with")]
+    [CliOption("--add-share-with")]
     public string[]? AddShareWith { get; set; }
 
-    [CommandSwitch("--remove-share-with")]
+    [CliOption("--remove-share-with")]
     public string[]? RemoveShareWith { get; set; }
 
-    [CommandSwitch("--vm-count")]
+    [CliOption("--vm-count")]
     public string? VmCount { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

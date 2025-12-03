@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logging", "sinks", "update")]
+[CliCommand("logging", "sinks", "update")]
 public record GcloudLoggingSinksUpdateOptions(
-[property: PositionalArgument] string SinkName,
-[property: PositionalArgument] string Destination
+[property: CliArgument] string SinkName,
+[property: CliArgument] string Destination
 ) : GcloudOptions
 {
-    [CommandSwitch("--add-exclusion")]
+    [CliOption("--add-exclusion")]
     public string[]? AddExclusion { get; set; }
 
-    [BooleanCommandSwitch("--clear-exclusions")]
+    [CliFlag("--clear-exclusions")]
     public bool? ClearExclusions { get; set; }
 
-    [CommandSwitch("--custom-writer-identity")]
+    [CliOption("--custom-writer-identity")]
     public string? CustomWriterIdentity { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--log-filter")]
+    [CliOption("--log-filter")]
     public string? LogFilter { get; set; }
 
-    [CommandSwitch("--remove-exclusions")]
+    [CliOption("--remove-exclusions")]
     public string[]? RemoveExclusions { get; set; }
 
-    [CommandSwitch("--update-exclusion")]
+    [CliOption("--update-exclusion")]
     public string[]? UpdateExclusion { get; set; }
 
-    [BooleanCommandSwitch("--use-partitioned-tables")]
+    [CliFlag("--use-partitioned-tables")]
     public bool? UsePartitionedTables { get; set; }
 
-    [CommandSwitch("--billing-account")]
+    [CliOption("--billing-account")]
     public string? BillingAccount { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string? Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public new string? Project { get; set; }
 }

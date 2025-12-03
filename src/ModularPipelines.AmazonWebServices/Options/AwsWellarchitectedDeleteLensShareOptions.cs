@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "delete-lens-share")]
+[CliCommand("wellarchitected", "delete-lens-share")]
 public record AwsWellarchitectedDeleteLensShareOptions(
-[property: CommandSwitch("--share-id")] string ShareId,
-[property: CommandSwitch("--lens-alias")] string LensAlias
+[property: CliOption("--share-id")] string ShareId,
+[property: CliOption("--lens-alias")] string LensAlias
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

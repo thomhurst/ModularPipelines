@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("container", "unpause")]
+[CliCommand("container", "unpause")]
 [ExcludeFromCodeCoverage]
 public record DockerContainerUnpauseOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Container { get; set; }
 }

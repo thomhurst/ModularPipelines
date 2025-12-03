@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "service-agent")]
+[CliCommand("storage", "service-agent")]
 public record GcloudStorageServiceAgentOptions : GcloudOptions
 {
-    [CommandSwitch("--authorize-cmek")]
+    [CliOption("--authorize-cmek")]
     public string? AuthorizeCmek { get; set; }
 }

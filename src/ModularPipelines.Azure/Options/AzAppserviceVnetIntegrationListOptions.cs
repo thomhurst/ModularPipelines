@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appservice", "vnet-integration", "list")]
+[CliCommand("appservice", "vnet-integration", "list")]
 public record AzAppserviceVnetIntegrationListOptions(
-[property: CommandSwitch("--plan")] string Plan,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--plan")] string Plan,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

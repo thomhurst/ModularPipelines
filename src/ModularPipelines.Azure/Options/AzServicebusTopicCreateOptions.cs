@@ -4,43 +4,43 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicebus", "topic", "create")]
+[CliCommand("servicebus", "topic", "create")]
 public record AzServicebusTopicCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--auto-delete-on-idle")]
+    [CliOption("--auto-delete-on-idle")]
     public string? AutoDeleteOnIdle { get; set; }
 
-    [CommandSwitch("--default-message-time-to-live")]
+    [CliOption("--default-message-time-to-live")]
     public string? DefaultMessageTimeToLive { get; set; }
 
-    [BooleanCommandSwitch("--duplicate-detection")]
+    [CliFlag("--duplicate-detection")]
     public bool? DuplicateDetection { get; set; }
 
-    [CommandSwitch("--duplicate-detection-history-time-window")]
+    [CliOption("--duplicate-detection-history-time-window")]
     public string? DuplicateDetectionHistoryTimeWindow { get; set; }
 
-    [BooleanCommandSwitch("--enable-batched-operations")]
+    [CliFlag("--enable-batched-operations")]
     public bool? EnableBatchedOperations { get; set; }
 
-    [BooleanCommandSwitch("--enable-express")]
+    [CliFlag("--enable-express")]
     public bool? EnableExpress { get; set; }
 
-    [BooleanCommandSwitch("--enable-ordering")]
+    [CliFlag("--enable-ordering")]
     public bool? EnableOrdering { get; set; }
 
-    [BooleanCommandSwitch("--enable-partitioning")]
+    [CliFlag("--enable-partitioning")]
     public bool? EnablePartitioning { get; set; }
 
-    [CommandSwitch("--max-message-size")]
+    [CliOption("--max-message-size")]
     public string? MaxMessageSize { get; set; }
 
-    [CommandSwitch("--max-size")]
+    [CliOption("--max-size")]
     public string? MaxSize { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 }

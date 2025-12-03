@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sesv2", "put-suppressed-destination")]
+[CliCommand("sesv2", "put-suppressed-destination")]
 public record AwsSesv2PutSuppressedDestinationOptions(
-[property: CommandSwitch("--email-address")] string EmailAddress,
-[property: CommandSwitch("--reason")] string Reason
+[property: CliOption("--email-address")] string EmailAddress,
+[property: CliOption("--reason")] string Reason
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

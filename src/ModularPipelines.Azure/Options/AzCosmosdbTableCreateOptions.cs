@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "table", "create")]
+[CliCommand("cosmosdb", "table", "create")]
 public record AzCosmosdbTableCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--max-throughput")]
+    [CliOption("--max-throughput")]
     public string? MaxThroughput { get; set; }
 
-    [CommandSwitch("--throughput")]
+    [CliOption("--throughput")]
     public string? Throughput { get; set; }
 }

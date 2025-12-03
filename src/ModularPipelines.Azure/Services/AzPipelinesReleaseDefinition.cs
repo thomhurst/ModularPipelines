@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines", "release")]
+[CliCommand("pipelines", "release")]
 public class AzPipelinesReleaseDefinition
 {
     public AzPipelinesReleaseDefinition(

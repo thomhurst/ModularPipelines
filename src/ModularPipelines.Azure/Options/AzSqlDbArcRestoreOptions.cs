@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "db-arc", "restore")]
+[CliCommand("sql", "db-arc", "restore")]
 public record AzSqlDbArcRestoreOptions(
-[property: CommandSwitch("--dest-name")] string DestName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--server")] string Server
+[property: CliOption("--dest-name")] string DestName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--server")] string Server
 ) : AzOptions
 {
-    [CommandSwitch("--time")]
+    [CliOption("--time")]
     public string? Time { get; set; }
 }

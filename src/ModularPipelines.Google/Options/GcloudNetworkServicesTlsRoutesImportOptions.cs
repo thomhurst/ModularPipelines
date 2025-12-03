@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-services", "tls-routes", "import")]
+[CliCommand("network-services", "tls-routes", "import")]
 public record GcloudNetworkServicesTlsRoutesImportOptions(
-[property: PositionalArgument] string TlsRoute,
-[property: PositionalArgument] string Location
+[property: CliArgument] string TlsRoute,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 }

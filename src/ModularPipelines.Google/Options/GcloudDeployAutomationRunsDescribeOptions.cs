@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "automation-runs", "describe")]
+[CliCommand("deploy", "automation-runs", "describe")]
 public record GcloudDeployAutomationRunsDescribeOptions(
-[property: PositionalArgument] string AutomationRun,
-[property: PositionalArgument] string DeliveryPipeline,
-[property: PositionalArgument] string Region
+[property: CliArgument] string AutomationRun,
+[property: CliArgument] string DeliveryPipeline,
+[property: CliArgument] string Region
 ) : GcloudOptions;

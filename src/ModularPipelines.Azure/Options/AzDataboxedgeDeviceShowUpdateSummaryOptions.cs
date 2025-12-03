@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databoxedge", "device", "show-update-summary")]
+[CliCommand("databoxedge", "device", "show-update-summary")]
 public record AzDataboxedgeDeviceShowUpdateSummaryOptions : AzOptions
 {
-    [CommandSwitch("--device-name")]
+    [CliOption("--device-name")]
     public string? DeviceName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("swf", "record-activity-task-heartbeat")]
+[CliCommand("swf", "record-activity-task-heartbeat")]
 public record AwsSwfRecordActivityTaskHeartbeatOptions(
-[property: CommandSwitch("--task-token")] string TaskToken
+[property: CliOption("--task-token")] string TaskToken
 ) : AwsOptions
 {
-    [CommandSwitch("--details")]
+    [CliOption("--details")]
     public string? Details { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

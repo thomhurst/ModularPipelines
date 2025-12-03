@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connection", "create", "confluent-cloud")]
+[CliCommand("connection", "create", "confluent-cloud")]
 public record AzConnectionCreateConfluentCloudOptions(
-[property: CommandSwitch("--bootstrap-server")] string BootstrapServer,
-[property: CommandSwitch("--kafka-key")] string KafkaKey,
-[property: CommandSwitch("--kafka-secret")] string KafkaSecret,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--schema-key")] string SchemaKey,
-[property: CommandSwitch("--schema-registry")] string SchemaRegistry,
-[property: CommandSwitch("--schema-secret")] string SchemaSecret
+[property: CliOption("--bootstrap-server")] string BootstrapServer,
+[property: CliOption("--kafka-key")] string KafkaKey,
+[property: CliOption("--kafka-secret")] string KafkaSecret,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--schema-key")] string SchemaKey,
+[property: CliOption("--schema-registry")] string SchemaRegistry,
+[property: CliOption("--schema-secret")] string SchemaSecret
 ) : AzOptions
 {
-    [CommandSwitch("--client-type")]
+    [CliOption("--client-type")]
     public string? ClientType { get; set; }
 
-    [CommandSwitch("--connection")]
+    [CliOption("--connection")]
     public string? Connection { get; set; }
 
-    [CommandSwitch("--customized-keys")]
+    [CliOption("--customized-keys")]
     public string? CustomizedKeys { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("data-catalog", "tag-templates", "fields", "delete")]
+[CliCommand("data-catalog", "tag-templates", "fields", "delete")]
 public record GcloudDataCatalogTagTemplatesFieldsDeleteOptions(
-[property: PositionalArgument] string Field,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string TagTemplate
+[property: CliArgument] string Field,
+[property: CliArgument] string Location,
+[property: CliArgument] string TagTemplate
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "open-console")]
+[CliCommand("app", "open-console")]
 public record GcloudAppOpenConsoleOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--logs")]
+    [CliFlag("--logs")]
     public bool? Logs { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string? Version { get; set; }
 }

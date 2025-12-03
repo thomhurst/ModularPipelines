@@ -4,66 +4,66 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "metrics", "alert", "update")]
+[CliCommand("monitor", "metrics", "alert", "update")]
 public record AzMonitorMetricsAlertUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--add-action")]
+    [CliOption("--add-action")]
     public string? AddAction { get; set; }
 
-    [CommandSwitch("--add-condition")]
+    [CliOption("--add-condition")]
     public string? AddCondition { get; set; }
 
-    [BooleanCommandSwitch("--auto-mitigate")]
+    [CliFlag("--auto-mitigate")]
     public bool? AutoMitigate { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [CommandSwitch("--evaluation-frequency")]
+    [CliOption("--evaluation-frequency")]
     public string? EvaluationFrequency { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--remove-actions")]
+    [CliOption("--remove-actions")]
     public string? RemoveActions { get; set; }
 
-    [CommandSwitch("--remove-conditions")]
+    [CliOption("--remove-conditions")]
     public string? RemoveConditions { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string? Scopes { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--severity")]
+    [CliOption("--severity")]
     public string? Severity { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--window-size")]
+    [CliOption("--window-size")]
     public string? WindowSize { get; set; }
 }

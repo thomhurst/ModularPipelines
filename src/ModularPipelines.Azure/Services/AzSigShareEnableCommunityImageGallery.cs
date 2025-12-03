@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "share", "enable-community")]
+[CliCommand("sig", "share", "enable-community")]
 public class AzSigShareEnableCommunityImageGallery
 {
     public AzSigShareEnableCommunityImageGallery(

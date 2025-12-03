@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("change-analysis", "list")]
+[CliCommand("change-analysis", "list")]
 public record AzChangeAnalysisListOptions(
-[property: CommandSwitch("--end-time")] string EndTime,
-[property: CommandSwitch("--start-time")] string StartTime
+[property: CliOption("--end-time")] string EndTime,
+[property: CliOption("--start-time")] string StartTime
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--skip-token")]
+    [CliOption("--skip-token")]
     public string? SkipToken { get; set; }
 }

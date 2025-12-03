@@ -5,37 +5,37 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "content", "update")]
+[CliCommand("dataplex", "content", "update")]
 public record GcloudDataplexContentUpdateOptions(
-[property: PositionalArgument] string Content,
-[property: PositionalArgument] string Lake,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Content,
+[property: CliArgument] string Lake,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--data-text")]
+    [CliOption("--data-text")]
     public string? DataText { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--kernel-type")]
+    [CliOption("--kernel-type")]
     public string? KernelType { get; set; }
 
-    [BooleanCommandSwitch("PYTHON3")]
+    [CliFlag("PYTHON3")]
     public bool? PYTHON3 { get; set; }
 
-    [CommandSwitch("--query-engine")]
+    [CliOption("--query-engine")]
     public string? QueryEngine { get; set; }
 
-    [BooleanCommandSwitch("SPARK")]
+    [CliFlag("SPARK")]
     public bool? Spark { get; set; }
 }

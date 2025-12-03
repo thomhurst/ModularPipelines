@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "local-gateway", "create")]
+[CliCommand("network", "local-gateway", "create")]
 public record AzNetworkLocalGatewayCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--address-prefixes")]
+    [CliOption("--address-prefixes")]
     public string? AddressPrefixes { get; set; }
 
-    [CommandSwitch("--asn")]
+    [CliOption("--asn")]
     public string? Asn { get; set; }
 
-    [CommandSwitch("--bgp-peering-address")]
+    [CliOption("--bgp-peering-address")]
     public string? BgpPeeringAddress { get; set; }
 
-    [CommandSwitch("--gateway-ip-address")]
+    [CliOption("--gateway-ip-address")]
     public string? GatewayIpAddress { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--peer-weight")]
+    [CliOption("--peer-weight")]
     public string? PeerWeight { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-connectivity", "hubs", "get-iam-policy")]
+[CliCommand("network-connectivity", "hubs", "get-iam-policy")]
 public record GcloudNetworkConnectivityHubsGetIamPolicyOptions(
-[property: PositionalArgument] string Hub
+[property: CliArgument] string Hub
 ) : GcloudOptions;

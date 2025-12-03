@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "recoverypoint", "move")]
+[CliCommand("backup", "recoverypoint", "move")]
 public record AzBackupRecoverypointMoveOptions(
-[property: CommandSwitch("--container-name")] string ContainerName,
-[property: CommandSwitch("--destination-tier")] string DestinationTier,
-[property: CommandSwitch("--item-name")] string ItemName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--source-tier")] string SourceTier,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--container-name")] string ContainerName,
+[property: CliOption("--destination-tier")] string DestinationTier,
+[property: CliOption("--item-name")] string ItemName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--source-tier")] string SourceTier,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [CommandSwitch("--backup-management-type")]
+    [CliOption("--backup-management-type")]
     public string? BackupManagementType { get; set; }
 
-    [CommandSwitch("--workload-type")]
+    [CliOption("--workload-type")]
     public string? WorkloadType { get; set; }
 }

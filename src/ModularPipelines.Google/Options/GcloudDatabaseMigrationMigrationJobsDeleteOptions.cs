@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("database-migration", "migration-jobs", "delete")]
+[CliCommand("database-migration", "migration-jobs", "delete")]
 public record GcloudDatabaseMigrationMigrationJobsDeleteOptions(
-[property: PositionalArgument] string MigrationJob,
-[property: PositionalArgument] string Region
+[property: CliArgument] string MigrationJob,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 }

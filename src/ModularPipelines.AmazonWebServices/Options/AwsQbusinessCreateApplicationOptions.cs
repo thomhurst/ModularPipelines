@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qbusiness", "create-application")]
+[CliCommand("qbusiness", "create-application")]
 public record AwsQbusinessCreateApplicationOptions(
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--attachments-configuration")]
+    [CliOption("--attachments-configuration")]
     public string? AttachmentsConfiguration { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--encryption-configuration")]
+    [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

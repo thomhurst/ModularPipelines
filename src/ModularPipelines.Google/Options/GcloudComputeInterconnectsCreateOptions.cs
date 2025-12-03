@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "interconnects", "create")]
+[CliCommand("compute", "interconnects", "create")]
 public record GcloudComputeInterconnectsCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--interconnect-type")] string InterconnectType,
-[property: CommandSwitch("--link-type")] string LinkType,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--requested-link-count")] string RequestedLinkCount
+[property: CliArgument] string Name,
+[property: CliOption("--interconnect-type")] string InterconnectType,
+[property: CliOption("--link-type")] string LinkType,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--requested-link-count")] string RequestedLinkCount
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--admin-enabled")]
+    [CliFlag("--admin-enabled")]
     public bool? AdminEnabled { get; set; }
 
-    [CommandSwitch("--customer-name")]
+    [CliOption("--customer-name")]
     public string? CustomerName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--noc-contact-email")]
+    [CliOption("--noc-contact-email")]
     public string? NocContactEmail { get; set; }
 
-    [CommandSwitch("--remote-location")]
+    [CliOption("--remote-location")]
     public string? RemoteLocation { get; set; }
 
-    [CommandSwitch("--requested-features")]
+    [CliOption("--requested-features")]
     public string[]? RequestedFeatures { get; set; }
 }

@@ -5,19 +5,19 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scc", "findings", "update-marks")]
+[CliCommand("scc", "findings", "update-marks")]
 public record GcloudSccFindingsUpdateMarksOptions(
-[property: PositionalArgument] string Finding,
-[property: PositionalArgument] string Organization,
-[property: PositionalArgument] string Source
+[property: CliArgument] string Finding,
+[property: CliArgument] string Organization,
+[property: CliArgument] string Source
 ) : GcloudOptions
 {
-    [CommandSwitch("--security-marks")]
+    [CliOption("--security-marks")]
     public IEnumerable<KeyValue>? SecurityMarks { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
-    [CommandSwitch("--update-mask")]
+    [CliOption("--update-mask")]
     public string? UpdateMask { get; set; }
 }

@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "routeserver", "peering", "create")]
+[CliCommand("network", "routeserver", "peering", "create")]
 public record AzNetworkRouteserverPeeringCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--routeserver")] string Routeserver
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--routeserver")] string Routeserver
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--peer-asn")]
+    [CliOption("--peer-asn")]
     public string? PeerAsn { get; set; }
 
-    [CommandSwitch("--peer-ip")]
+    [CliOption("--peer-ip")]
     public string? PeerIp { get; set; }
 }

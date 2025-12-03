@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("config", "get-users")]
+[CliCommand("config", "get-users")]
 [ExcludeFromCodeCoverage]
 public record KubernetesConfigGetUsersOptions : KubernetesOptions
 {
-    [BooleanCommandSwitch("--set-raw-bytes")]
+    [CliFlag("--set-raw-bytes")]
     public virtual bool? SetRawBytes { get; set; }
 }

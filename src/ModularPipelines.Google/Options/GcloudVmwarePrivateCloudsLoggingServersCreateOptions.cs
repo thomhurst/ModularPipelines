@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-clouds", "logging-servers", "create")]
+[CliCommand("vmware", "private-clouds", "logging-servers", "create")]
 public record GcloudVmwarePrivateCloudsLoggingServersCreateOptions(
-[property: PositionalArgument] string LoggingServer,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string PrivateCloud,
-[property: CommandSwitch("--hostname")] string Hostname,
-[property: CommandSwitch("--port")] string Port,
-[property: CommandSwitch("--protocol")] string Protocol,
-[property: CommandSwitch("--source-type")] string SourceType
+[property: CliArgument] string LoggingServer,
+[property: CliArgument] string Location,
+[property: CliArgument] string PrivateCloud,
+[property: CliOption("--hostname")] string Hostname,
+[property: CliOption("--port")] string Port,
+[property: CliOption("--protocol")] string Protocol,
+[property: CliOption("--source-type")] string SourceType
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

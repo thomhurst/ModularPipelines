@@ -3,55 +3,55 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("for-each-ref")]
+[CliCommand("for-each-ref")]
 [ExcludeFromCodeCoverage]
 public record GitForEachRefOptions : GitOptions
 {
-    [BooleanCommandSwitch("--stdin")]
+    [CliFlag("--stdin")]
     public virtual bool? Stdin { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--count")]
+    [CliOption("--count", Format = OptionFormat.EqualsSeparated)]
     public string? Count { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--sort")]
+    [CliOption("--sort", Format = OptionFormat.EqualsSeparated)]
     public string? Sort { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--format")]
+    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--color")]
+    [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
     public string? Color { get; set; }
 
-    [BooleanCommandSwitch("--shell")]
+    [CliFlag("--shell")]
     public virtual bool? Shell { get; set; }
 
-    [BooleanCommandSwitch("--perl")]
+    [CliFlag("--perl")]
     public virtual bool? Perl { get; set; }
 
-    [BooleanCommandSwitch("--python")]
+    [CliFlag("--python")]
     public virtual bool? Python { get; set; }
 
-    [BooleanCommandSwitch("--tcl")]
+    [CliFlag("--tcl")]
     public virtual bool? Tcl { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--points-at")]
+    [CliOption("--points-at", Format = OptionFormat.EqualsSeparated)]
     public string? PointsAt { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--merged")]
+    [CliOption("--merged", Format = OptionFormat.EqualsSeparated)]
     public string? Merged { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--no-merged")]
+    [CliOption("--no-merged", Format = OptionFormat.EqualsSeparated)]
     public string? NoMerged { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--contains")]
+    [CliOption("--contains", Format = OptionFormat.EqualsSeparated)]
     public string? Contains { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--no-contains")]
+    [CliOption("--no-contains", Format = OptionFormat.EqualsSeparated)]
     public string? NoContains { get; set; }
 
-    [BooleanCommandSwitch("--ignore-case")]
+    [CliFlag("--ignore-case")]
     public virtual bool? IgnoreCase { get; set; }
 
-    [BooleanCommandSwitch("--omit-empty")]
+    [CliFlag("--omit-empty")]
     public virtual bool? OmitEmpty { get; set; }
 }

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "revision", "label", "add")]
+[CliCommand("containerapp", "revision", "label", "add")]
 public record AzContainerappRevisionLabelAddOptions(
-[property: CommandSwitch("--label")] string Label,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--revision")] string Revision
+[property: CliOption("--label")] string Label,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--revision")] string Revision
 ) : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-prompt")]
+    [CliFlag("--no-prompt")]
     public bool? NoPrompt { get; set; }
 }

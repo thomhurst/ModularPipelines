@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("schemas", "update-schema")]
+[CliCommand("schemas", "update-schema")]
 public record AwsSchemasUpdateSchemaOptions(
-[property: CommandSwitch("--registry-name")] string RegistryName,
-[property: CommandSwitch("--schema-name")] string SchemaName
+[property: CliOption("--registry-name")] string RegistryName,
+[property: CliOption("--schema-name")] string SchemaName
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token-id")]
+    [CliOption("--client-token-id")]
     public string? ClientTokenId { get; set; }
 
-    [CommandSwitch("--content")]
+    [CliOption("--content")]
     public string? Content { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

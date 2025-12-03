@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("trust", "sign")]
+[CliCommand("trust", "sign")]
 [ExcludeFromCodeCoverage]
 public record DockerTrustSignOptions : DockerOptions
 {
-    [CommandSwitch("--local")]
+    [CliOption("--local")]
     public virtual string? Local { get; set; }
 }

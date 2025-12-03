@@ -3,43 +3,43 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("create", "rolebinding")]
+[CliCommand("create", "rolebinding")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCreateRoleBindingOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesCreateRoleBindingOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--clusterrole", SwitchValueSeparator = " ")]
+    [CliOption("--clusterrole")]
     public string? Clusterrole { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CliOption("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CliOption("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--group", SwitchValueSeparator = " ")]
+    [CliOption("--group")]
     public string[]? Group { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--role", SwitchValueSeparator = " ")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [BooleanCommandSwitch("--save-config")]
+    [CliFlag("--save-config")]
     public virtual bool? SaveConfig { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--serviceaccount", SwitchValueSeparator = " ")]
+    [CliOption("--serviceaccount")]
     public string[]? Serviceaccount { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CliOption("--template")]
     public string? Template { get; set; }
 
-    [BooleanCommandSwitch("--validate")]
+    [CliFlag("--validate")]
     public virtual bool? Validate { get; set; }
 }

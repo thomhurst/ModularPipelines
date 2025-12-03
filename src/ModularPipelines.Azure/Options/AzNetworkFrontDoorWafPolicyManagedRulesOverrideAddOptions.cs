@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "waf-policy", "managed-rules", "override", "add")]
+[CliCommand("network", "front-door", "waf-policy", "managed-rules", "override", "add")]
 public record AzNetworkFrontDoorWafPolicyManagedRulesOverrideAddOptions(
-[property: CommandSwitch("--rule-group-id")] string RuleGroupId,
-[property: CommandSwitch("--rule-id")] string RuleId,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--rule-group-id")] string RuleGroupId,
+[property: CliOption("--rule-id")] string RuleId,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [CommandSwitch("--action")]
+    [CliOption("--action")]
     public string? Action { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--policy-name")]
+    [CliOption("--policy-name")]
     public string? PolicyName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

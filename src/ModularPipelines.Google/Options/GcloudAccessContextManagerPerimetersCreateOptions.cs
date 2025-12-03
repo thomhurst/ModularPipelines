@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-context-manager", "perimeters", "create")]
+[CliCommand("access-context-manager", "perimeters", "create")]
 public record GcloudAccessContextManagerPerimetersCreateOptions(
-[property: PositionalArgument] string Perimeter,
-[property: PositionalArgument] string Policy,
-[property: CommandSwitch("--title")] string Title
+[property: CliArgument] string Perimeter,
+[property: CliArgument] string Policy,
+[property: CliOption("--title")] string Title
 ) : GcloudOptions
 {
-    [CommandSwitch("--access-levels")]
+    [CliOption("--access-levels")]
     public string[]? AccessLevels { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--egress-policies")]
+    [CliOption("--egress-policies")]
     public string? EgressPolicies { get; set; }
 
-    [CommandSwitch("--ingress-policies")]
+    [CliOption("--ingress-policies")]
     public string? IngressPolicies { get; set; }
 
-    [CommandSwitch("--perimeter-type")]
+    [CliOption("--perimeter-type")]
     public string? PerimeterType { get; set; }
 
-    [CommandSwitch("--resources")]
+    [CliOption("--resources")]
     public string[]? Resources { get; set; }
 
-    [CommandSwitch("--restricted-services")]
+    [CliOption("--restricted-services")]
     public string[]? RestrictedServices { get; set; }
 
-    [BooleanCommandSwitch("--enable-vpc-accessible-services")]
+    [CliFlag("--enable-vpc-accessible-services")]
     public bool? EnableVpcAccessibleServices { get; set; }
 
-    [CommandSwitch("--vpc-allowed-services")]
+    [CliOption("--vpc-allowed-services")]
     public string[]? VpcAllowedServices { get; set; }
 }

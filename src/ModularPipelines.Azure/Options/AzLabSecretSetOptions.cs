@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lab", "secret", "set")]
+[CliCommand("lab", "secret", "set")]
 public record AzLabSecretSetOptions(
-[property: CommandSwitch("--lab-name")] string LabName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--value")] string Value
+[property: CliOption("--lab-name")] string LabName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--value")] string Value
 ) : AzOptions;

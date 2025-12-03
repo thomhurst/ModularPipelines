@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("textract", "analyze-document")]
+[CliCommand("textract", "analyze-document")]
 public record AwsTextractAnalyzeDocumentOptions(
-[property: CommandSwitch("--document")] string Document,
-[property: CommandSwitch("--feature-types")] string[] FeatureTypes
+[property: CliOption("--document")] string Document,
+[property: CliOption("--feature-types")] string[] FeatureTypes
 ) : AwsOptions
 {
-    [CommandSwitch("--human-loop-config")]
+    [CliOption("--human-loop-config")]
     public string? HumanLoopConfig { get; set; }
 
-    [CommandSwitch("--queries-config")]
+    [CliOption("--queries-config")]
     public string? QueriesConfig { get; set; }
 
-    [CommandSwitch("--adapters-config")]
+    [CliOption("--adapters-config")]
     public string? AdaptersConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

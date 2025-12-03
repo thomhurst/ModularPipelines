@@ -5,63 +5,63 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("database-migration", "migration-jobs", "create")]
+[CliCommand("database-migration", "migration-jobs", "create")]
 public record GcloudDatabaseMigrationMigrationJobsCreateOptions(
-[property: PositionalArgument] string MigrationJob,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--destination")] string Destination,
-[property: CommandSwitch("--source")] string Source,
-[property: CommandSwitch("--type")] string Type
+[property: CliArgument] string MigrationJob,
+[property: CliArgument] string Region,
+[property: CliOption("--destination")] string Destination,
+[property: CliOption("--source")] string Source,
+[property: CliOption("--type")] string Type
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--no-async")]
+    [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
 
-    [CommandSwitch("--commit-id")]
+    [CliOption("--commit-id")]
     public string? CommitId { get; set; }
 
-    [CommandSwitch("--conversion-workspace")]
+    [CliOption("--conversion-workspace")]
     public string? ConversionWorkspace { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--dump-parallel-level")]
+    [CliOption("--dump-parallel-level")]
     public string? DumpParallelLevel { get; set; }
 
-    [CommandSwitch("--dump-path")]
+    [CliOption("--dump-path")]
     public string? DumpPath { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--cmek-key")]
+    [CliOption("--cmek-key")]
     public string? CmekKey { get; set; }
 
-    [CommandSwitch("--cmek-keyring")]
+    [CliOption("--cmek-keyring")]
     public string? CmekKeyring { get; set; }
 
-    [CommandSwitch("--cmek-project")]
+    [CliOption("--cmek-project")]
     public string? CmekProject { get; set; }
 
-    [CommandSwitch("--peer-vpc")]
+    [CliOption("--peer-vpc")]
     public string? PeerVpc { get; set; }
 
-    [BooleanCommandSwitch("--static-ip")]
+    [CliFlag("--static-ip")]
     public bool? StaticIp { get; set; }
 
-    [CommandSwitch("--vm-ip")]
+    [CliOption("--vm-ip")]
     public string? VmIp { get; set; }
 
-    [CommandSwitch("--vm-port")]
+    [CliOption("--vm-port")]
     public string? VmPort { get; set; }
 
-    [CommandSwitch("--vpc")]
+    [CliOption("--vpc")]
     public string? Vpc { get; set; }
 
-    [CommandSwitch("--vm")]
+    [CliOption("--vm")]
     public string? Vm { get; set; }
 }

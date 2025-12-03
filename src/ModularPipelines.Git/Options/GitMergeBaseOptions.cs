@@ -3,22 +3,22 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("merge-base")]
+[CliCommand("merge-base")]
 [ExcludeFromCodeCoverage]
 public record GitMergeBaseOptions : GitOptions
 {
-    [BooleanCommandSwitch("--octopus")]
+    [CliFlag("--octopus")]
     public virtual bool? Octopus { get; set; }
 
-    [BooleanCommandSwitch("--independent")]
+    [CliFlag("--independent")]
     public virtual bool? Independent { get; set; }
 
-    [BooleanCommandSwitch("--is-ancestor")]
+    [CliFlag("--is-ancestor")]
     public virtual bool? IsAncestor { get; set; }
 
-    [BooleanCommandSwitch("--fork-point")]
+    [CliFlag("--fork-point")]
     public virtual bool? ForkPoint { get; set; }
 
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 }

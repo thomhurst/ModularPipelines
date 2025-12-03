@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "vision", "suggest-crop")]
+[CliCommand("ml", "vision", "suggest-crop")]
 public record GcloudMlVisionSuggestCropOptions(
-[property: PositionalArgument] string ImagePath
+[property: CliArgument] string ImagePath
 ) : GcloudOptions
 {
-    [CommandSwitch("--aspect-ratios")]
+    [CliOption("--aspect-ratios")]
     public string[]? AspectRatios { get; set; }
 }

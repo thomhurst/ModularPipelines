@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("plugin", "install")]
+[CliCommand("plugin", "install")]
 [ExcludeFromCodeCoverage]
 public record HelmPluginInstallOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--version", SwitchValueSeparator = " ")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 }

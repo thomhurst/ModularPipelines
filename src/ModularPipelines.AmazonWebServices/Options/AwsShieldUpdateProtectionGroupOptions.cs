@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("shield", "update-protection-group")]
+[CliCommand("shield", "update-protection-group")]
 public record AwsShieldUpdateProtectionGroupOptions(
-[property: CommandSwitch("--protection-group-id")] string ProtectionGroupId,
-[property: CommandSwitch("--aggregation")] string Aggregation,
-[property: CommandSwitch("--pattern")] string Pattern
+[property: CliOption("--protection-group-id")] string ProtectionGroupId,
+[property: CliOption("--aggregation")] string Aggregation,
+[property: CliOption("--pattern")] string Pattern
 ) : AwsOptions
 {
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--members")]
+    [CliOption("--members")]
     public string[]? Members { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

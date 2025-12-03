@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("personalize", "create-solution")]
+[CliCommand("personalize", "create-solution")]
 public record AwsPersonalizeCreateSolutionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--dataset-group-arn")] string DatasetGroupArn
+[property: CliOption("--name")] string Name,
+[property: CliOption("--dataset-group-arn")] string DatasetGroupArn
 ) : AwsOptions
 {
-    [CommandSwitch("--recipe-arn")]
+    [CliOption("--recipe-arn")]
     public string? RecipeArn { get; set; }
 
-    [CommandSwitch("--event-type")]
+    [CliOption("--event-type")]
     public string? EventType { get; set; }
 
-    [CommandSwitch("--solution-config")]
+    [CliOption("--solution-config")]
     public string? SolutionConfig { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

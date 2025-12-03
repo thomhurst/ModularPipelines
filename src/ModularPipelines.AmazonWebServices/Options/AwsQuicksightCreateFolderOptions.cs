@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "create-folder")]
+[CliCommand("quicksight", "create-folder")]
 public record AwsQuicksightCreateFolderOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--folder-id")] string FolderId
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--folder-id")] string FolderId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--folder-type")]
+    [CliOption("--folder-type")]
     public string? FolderType { get; set; }
 
-    [CommandSwitch("--parent-folder-arn")]
+    [CliOption("--parent-folder-arn")]
     public string? ParentFolderArn { get; set; }
 
-    [CommandSwitch("--permissions")]
+    [CliOption("--permissions")]
     public string[]? Permissions { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--sharing-model")]
+    [CliOption("--sharing-model")]
     public string? SharingModel { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

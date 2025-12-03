@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "auth", "facebook", "update")]
+[CliCommand("containerapp", "auth", "facebook", "update")]
 public record AzContainerappAuthFacebookUpdateOptions : AzOptions
 {
-    [CommandSwitch("--app-id")]
+    [CliOption("--app-id")]
     public string? AppId { get; set; }
 
-    [CommandSwitch("--app-secret")]
+    [CliOption("--app-secret")]
     public string? AppSecret { get; set; }
 
-    [CommandSwitch("--app-secret-name")]
+    [CliOption("--app-secret-name")]
     public string? AppSecretName { get; set; }
 
-    [CommandSwitch("--graph-api-version")]
+    [CliOption("--graph-api-version")]
     public string? GraphApiVersion { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string? Scopes { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

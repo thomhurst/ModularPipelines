@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("policy-intelligence", "troubleshoot-policy", "iam")]
+[CliCommand("policy-intelligence", "troubleshoot-policy", "iam")]
 public record GcloudPolicyIntelligenceTroubleshootPolicyIamOptions(
-[property: PositionalArgument] string Resource,
-[property: CommandSwitch("--permission")] string Permission,
-[property: CommandSwitch("--principal-email")] string PrincipalEmail
+[property: CliArgument] string Resource,
+[property: CliOption("--permission")] string Permission,
+[property: CliOption("--principal-email")] string PrincipalEmail
 ) : GcloudOptions
 {
-    [CommandSwitch("--destination-ip")]
+    [CliOption("--destination-ip")]
     public string? DestinationIp { get; set; }
 
-    [CommandSwitch("--destination-port")]
+    [CliOption("--destination-port")]
     public string? DestinationPort { get; set; }
 
-    [CommandSwitch("--request-time")]
+    [CliOption("--request-time")]
     public string? RequestTime { get; set; }
 
-    [CommandSwitch("--resource-name")]
+    [CliOption("--resource-name")]
     public string? ResourceName { get; set; }
 
-    [CommandSwitch("--resource-service")]
+    [CliOption("--resource-service")]
     public string? ResourceService { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 }

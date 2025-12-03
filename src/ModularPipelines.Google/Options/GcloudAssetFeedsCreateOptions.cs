@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("asset", "feeds", "create")]
+[CliCommand("asset", "feeds", "create")]
 public record GcloudAssetFeedsCreateOptions : GcloudOptions
 {
     public GcloudAssetFeedsCreateOptions(
@@ -28,36 +28,36 @@ public record GcloudAssetFeedsCreateOptions : GcloudOptions
         Project = project;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string FeedId { get; set; }
 
-    [CommandSwitch("--pubsub-topic")]
+    [CliOption("--pubsub-topic")]
     public string PubsubTopic { get; set; }
 
-    [CommandSwitch("--asset-names")]
+    [CliOption("--asset-names")]
     public string[] AssetNames { get; set; }
 
-    [CommandSwitch("--asset-types")]
+    [CliOption("--asset-types")]
     public string[] AssetTypes { get; set; }
 
-    [CommandSwitch("--relationship-types")]
+    [CliOption("--relationship-types")]
     public string[] RelationshipTypes { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 
-    [CommandSwitch("--condition-description")]
+    [CliOption("--condition-description")]
     public string? ConditionDescription { get; set; }
 
-    [CommandSwitch("--condition-expression")]
+    [CliOption("--condition-expression")]
     public string? ConditionExpression { get; set; }
 
-    [CommandSwitch("--condition-title")]
+    [CliOption("--condition-title")]
     public string? ConditionTitle { get; set; }
 
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 }

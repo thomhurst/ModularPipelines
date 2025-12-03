@@ -5,29 +5,29 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cloud", "networking", "interconnects", "attachments", "dedicated", "create")]
+[CliCommand("edge-cloud", "networking", "interconnects", "attachments", "dedicated", "create")]
 public record GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicatedCreateOptions(
-[property: PositionalArgument] string InterconnectAttachment,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Zone,
-[property: CommandSwitch("--interconnect")] string Interconnect
+[property: CliArgument] string InterconnectAttachment,
+[property: CliArgument] string Location,
+[property: CliArgument] string Zone,
+[property: CliOption("--interconnect")] string Interconnect
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--mtu")]
+    [CliOption("--mtu")]
     public string? Mtu { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--vlan-id")]
+    [CliOption("--vlan-id")]
     public string? VlanId { get; set; }
 }

@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "policy", "merge-strategy", "create")]
+[CliCommand("repos", "policy", "merge-strategy", "create")]
 public record AzReposPolicyMergeStrategyCreateOptions(
-[property: BooleanCommandSwitch("--blocking")] bool Blocking,
-[property: CommandSwitch("--branch")] string Branch,
-[property: BooleanCommandSwitch("--enabled")] bool Enabled,
-[property: CommandSwitch("--repository-id")] string RepositoryId
+[property: CliFlag("--blocking")] bool Blocking,
+[property: CliOption("--branch")] string Branch,
+[property: CliFlag("--enabled")] bool Enabled,
+[property: CliOption("--repository-id")] string RepositoryId
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allow-no-fast-forward")]
+    [CliFlag("--allow-no-fast-forward")]
     public bool? AllowNoFastForward { get; set; }
 
-    [BooleanCommandSwitch("--allow-rebase")]
+    [CliFlag("--allow-rebase")]
     public bool? AllowRebase { get; set; }
 
-    [BooleanCommandSwitch("--allow-rebase-merge")]
+    [CliFlag("--allow-rebase-merge")]
     public bool? AllowRebaseMerge { get; set; }
 
-    [BooleanCommandSwitch("--allow-squash")]
+    [CliFlag("--allow-squash")]
     public bool? AllowSquash { get; set; }
 
-    [CommandSwitch("--branch-match-type")]
+    [CliOption("--branch-match-type")]
     public string? BranchMatchType { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 }

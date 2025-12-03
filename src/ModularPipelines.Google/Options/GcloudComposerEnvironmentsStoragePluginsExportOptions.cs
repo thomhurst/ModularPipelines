@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("composer", "environments", "storage", "plugins", "export")]
+[CliCommand("composer", "environments", "storage", "plugins", "export")]
 public record GcloudComposerEnvironmentsStoragePluginsExportOptions(
-[property: CommandSwitch("--destination")] string Destination,
-[property: CommandSwitch("--environment")] string Environment,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--destination")] string Destination,
+[property: CliOption("--environment")] string Environment,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 }

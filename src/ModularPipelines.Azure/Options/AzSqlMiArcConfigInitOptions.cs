@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "mi-arc", "config", "init")]
+[CliCommand("sql", "mi-arc", "config", "init")]
 public record AzSqlMiArcConfigInitOptions(
-[property: CommandSwitch("--path")] string Path
+[property: CliOption("--path")] string Path
 ) : AzOptions;

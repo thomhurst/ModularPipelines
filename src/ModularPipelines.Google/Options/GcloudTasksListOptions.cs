@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tasks", "list")]
+[CliCommand("tasks", "list")]
 public record GcloudTasksListOptions(
-[property: CommandSwitch("--queue")] string Queue
+[property: CliOption("--queue")] string Queue
 ) : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

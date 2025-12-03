@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "create-project")]
+[CliCommand("rekognition", "create-project")]
 public record AwsRekognitionCreateProjectOptions(
-[property: CommandSwitch("--project-name")] string ProjectName
+[property: CliOption("--project-name")] string ProjectName
 ) : AwsOptions
 {
-    [CommandSwitch("--feature")]
+    [CliOption("--feature")]
     public string? Feature { get; set; }
 
-    [CommandSwitch("--auto-update")]
+    [CliOption("--auto-update")]
     public string? AutoUpdate { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

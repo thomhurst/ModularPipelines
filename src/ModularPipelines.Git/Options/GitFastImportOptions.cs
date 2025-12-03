@@ -3,64 +3,64 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("fast-import")]
+[CliCommand("fast-import")]
 [ExcludeFromCodeCoverage]
 public record GitFastImportOptions : GitOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--stats")]
+    [CliFlag("--stats")]
     public virtual bool? Stats { get; set; }
 
-    [BooleanCommandSwitch("--allow-unsafe-features")]
+    [CliFlag("--allow-unsafe-features")]
     public virtual bool? AllowUnsafeFeatures { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cat-blob-fd")]
+    [CliOption("--cat-blob-fd", Format = OptionFormat.EqualsSeparated)]
     public string? CatBlobFd { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--date-format")]
+    [CliOption("--date-format", Format = OptionFormat.EqualsSeparated)]
     public string? DateFormat { get; set; }
 
-    [BooleanCommandSwitch("--done")]
+    [CliFlag("--done")]
     public virtual bool? Done { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--export-marks")]
+    [CliOption("--export-marks", Format = OptionFormat.EqualsSeparated)]
     public string? ExportMarks { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--import-marks")]
+    [CliOption("--import-marks", Format = OptionFormat.EqualsSeparated)]
     public string? ImportMarks { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--import-marks-if-exists")]
+    [CliOption("--import-marks-if-exists", Format = OptionFormat.EqualsSeparated)]
     public string? ImportMarksIfExists { get; set; }
 
-    [BooleanCommandSwitch("--no-relative-marks")]
+    [CliFlag("--no-relative-marks")]
     public virtual bool? NoRelativeMarks { get; set; }
 
-    [BooleanCommandSwitch("--relative-marks")]
+    [CliFlag("--relative-marks")]
     public virtual bool? RelativeMarks { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--rewrite-submodules-from")]
+    [CliOption("--rewrite-submodules-from", Format = OptionFormat.EqualsSeparated)]
     public string? RewriteSubmodulesFrom { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--rewrite-submodules-to")]
+    [CliOption("--rewrite-submodules-to", Format = OptionFormat.EqualsSeparated)]
     public string? RewriteSubmodulesTo { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--active-branches")]
+    [CliOption("--active-branches", Format = OptionFormat.EqualsSeparated)]
     public string? ActiveBranches { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--big-file-threshold")]
+    [CliOption("--big-file-threshold", Format = OptionFormat.EqualsSeparated)]
     public string? BigFileThreshold { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--depth")]
+    [CliOption("--depth", Format = OptionFormat.EqualsSeparated)]
     public string? Depth { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--export-pack-edges")]
+    [CliOption("--export-pack-edges", Format = OptionFormat.EqualsSeparated)]
     public string? ExportPackEdges { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--max-pack-size")]
+    [CliOption("--max-pack-size", Format = OptionFormat.EqualsSeparated)]
     public string? MaxPackSize { get; set; }
 }

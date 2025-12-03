@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication", "chat", "thread", "delete")]
+[CliCommand("communication", "chat", "thread", "delete")]
 public record AzCommunicationChatThreadDeleteOptions(
-[property: CommandSwitch("--thread")] string Thread
+[property: CliOption("--thread")] string Thread
 ) : AzOptions
 {
-    [CommandSwitch("--access-token")]
+    [CliOption("--access-token")]
     public string? AccessToken { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "operations", "list")]
+[CliCommand("sql", "operations", "list")]
 public record GcloudSqlOperationsListOptions(
-[property: CommandSwitch("--instance")] string Instance
+[property: CliOption("--instance")] string Instance
 ) : GcloudOptions;

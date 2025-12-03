@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "disassociate-ip-groups")]
+[CliCommand("workspaces", "disassociate-ip-groups")]
 public record AwsWorkspacesDisassociateIpGroupsOptions(
-[property: CommandSwitch("--directory-id")] string DirectoryId,
-[property: CommandSwitch("--group-ids")] string[] GroupIds
+[property: CliOption("--directory-id")] string DirectoryId,
+[property: CliOption("--group-ids")] string[] GroupIds
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-management", "connectivity-tests", "rerun")]
+[CliCommand("network-management", "connectivity-tests", "rerun")]
 public record GcloudNetworkManagementConnectivityTestsRerunOptions(
-[property: PositionalArgument] string ConnectivityTest
+[property: CliArgument] string ConnectivityTest
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

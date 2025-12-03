@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tasks", "queues", "set-iam-policy")]
+[CliCommand("tasks", "queues", "set-iam-policy")]
 public record GcloudTasksQueuesSetIamPolicyOptions(
-[property: PositionalArgument] string Queue,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string PolicyFile
+[property: CliArgument] string Queue,
+[property: CliArgument] string Location,
+[property: CliArgument] string PolicyFile
 ) : GcloudOptions;

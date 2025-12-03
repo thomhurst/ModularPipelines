@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scc", "findings", "set-mute")]
+[CliCommand("scc", "findings", "set-mute")]
 public record GcloudSccFindingsSetMuteOptions(
-[property: PositionalArgument] string Finding,
-[property: CommandSwitch("--mute")] string Mute
+[property: CliArgument] string Finding,
+[property: CliOption("--mute")] string Mute
 ) : GcloudOptions
 {
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string? Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public new string? Project { get; set; }
 }

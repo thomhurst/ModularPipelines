@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("site-recovery", "protection-container", "mapping", "create")]
+[CliCommand("site-recovery", "protection-container", "mapping", "create")]
 public record AzSiteRecoveryProtectionContainerMappingCreateOptions(
-[property: CommandSwitch("--fabric-name")] string FabricName,
-[property: CommandSwitch("--mapping-name")] string MappingName,
-[property: CommandSwitch("--protection-container")] string ProtectionContainer,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--fabric-name")] string FabricName,
+[property: CliOption("--mapping-name")] string MappingName,
+[property: CliOption("--protection-container")] string ProtectionContainer,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--policy-id")]
+    [CliOption("--policy-id")]
     public string? PolicyId { get; set; }
 
-    [CommandSwitch("--provider-input")]
+    [CliOption("--provider-input")]
     public string? ProviderInput { get; set; }
 
-    [CommandSwitch("--target-container")]
+    [CliOption("--target-container")]
     public string? TargetContainer { get; set; }
 }

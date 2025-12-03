@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datastream", "connection-profiles", "describe")]
+[CliCommand("datastream", "connection-profiles", "describe")]
 public record GcloudDatastreamConnectionProfilesDescribeOptions(
-[property: PositionalArgument] string ConnectionProfile,
-[property: PositionalArgument] string Location
+[property: CliArgument] string ConnectionProfile,
+[property: CliArgument] string Location
 ) : GcloudOptions;

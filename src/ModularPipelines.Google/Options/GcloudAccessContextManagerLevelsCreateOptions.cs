@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("access-context-manager", "levels", "create")]
+[CliCommand("access-context-manager", "levels", "create")]
 public record GcloudAccessContextManagerLevelsCreateOptions(
-[property: PositionalArgument] string Level,
-[property: PositionalArgument] string Policy,
-[property: CommandSwitch("--title")] string Title,
-[property: CommandSwitch("--custom-level-spec")] string CustomLevelSpec,
-[property: CommandSwitch("--basic-level-spec")] string BasicLevelSpec,
-[property: CommandSwitch("--combine-function")] string CombineFunction
+[property: CliArgument] string Level,
+[property: CliArgument] string Policy,
+[property: CliOption("--title")] string Title,
+[property: CliOption("--custom-level-spec")] string CustomLevelSpec,
+[property: CliOption("--basic-level-spec")] string BasicLevelSpec,
+[property: CliOption("--combine-function")] string CombineFunction
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 }

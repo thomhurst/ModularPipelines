@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "hub", "policycontroller", "deployment", "remove")]
+[CliCommand("container", "hub", "policycontroller", "deployment", "remove")]
 public record GcloudContainerHubPolicycontrollerDeploymentRemoveOptions(
-[property: PositionalArgument] string Deployment,
-[property: PositionalArgument] string Property,
-[property: PositionalArgument] string Value
+[property: CliArgument] string Deployment,
+[property: CliArgument] string Property,
+[property: CliArgument] string Value
 ) : GcloudOptions
 {
-    [CommandSwitch("--effect")]
+    [CliOption("--effect")]
     public string? Effect { get; set; }
 
-    [BooleanCommandSwitch("--all-memberships")]
+    [CliFlag("--all-memberships")]
     public bool? AllMemberships { get; set; }
 
-    [CommandSwitch("--memberships")]
+    [CliOption("--memberships")]
     public string[]? Memberships { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

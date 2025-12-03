@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("notebooks", "environments", "create")]
+[CliCommand("notebooks", "environments", "create")]
 public record GcloudNotebooksEnvironmentsCreateOptions(
-[property: PositionalArgument] string Environment,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--container-repository")] string ContainerRepository,
-[property: CommandSwitch("--container-tag")] string ContainerTag,
-[property: CommandSwitch("--vm-image-project")] string VmImageProject,
-[property: CommandSwitch("--vm-image-family")] string VmImageFamily,
-[property: CommandSwitch("--vm-image-name")] string VmImageName
+[property: CliArgument] string Environment,
+[property: CliArgument] string Location,
+[property: CliOption("--container-repository")] string ContainerRepository,
+[property: CliOption("--container-tag")] string ContainerTag,
+[property: CliOption("--vm-image-project")] string VmImageProject,
+[property: CliOption("--vm-image-family")] string VmImageFamily,
+[property: CliOption("--vm-image-name")] string VmImageName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--post-startup-script")]
+    [CliOption("--post-startup-script")]
     public string? PostStartupScript { get; set; }
 }

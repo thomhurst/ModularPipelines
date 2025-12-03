@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "express-route", "peering", "connection")]
+[CliCommand("network", "express-route", "peering", "connection")]
 public class AzNetworkExpressRoutePeeringConnectionIpv6Config
 {
     public AzNetworkExpressRoutePeeringConnectionIpv6Config(

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "cross-region-lb", "rule", "list")]
+[CliCommand("network", "cross-region-lb", "rule", "list")]
 public record AzNetworkCrossRegionLbRuleListOptions(
-[property: CommandSwitch("--lb-name")] string LbName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--lb-name")] string LbName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("upgrade")]
+[CliCommand("upgrade")]
 public record AzUpgradeOptions : AzOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public bool? All { get; set; }
 
-    [CommandSwitch("--yes")]
+    [CliOption("--yes")]
     public bool? Yes { get; set; } = true;
 }

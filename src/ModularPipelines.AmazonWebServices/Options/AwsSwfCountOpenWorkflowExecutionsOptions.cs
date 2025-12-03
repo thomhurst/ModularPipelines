@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("swf", "count-open-workflow-executions")]
+[CliCommand("swf", "count-open-workflow-executions")]
 public record AwsSwfCountOpenWorkflowExecutionsOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--start-time-filter")] string StartTimeFilter
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--start-time-filter")] string StartTimeFilter
 ) : AwsOptions
 {
-    [CommandSwitch("--type-filter")]
+    [CliOption("--type-filter")]
     public string? TypeFilter { get; set; }
 
-    [CommandSwitch("--tag-filter")]
+    [CliOption("--tag-filter")]
     public string? TagFilter { get; set; }
 
-    [CommandSwitch("--execution-filter")]
+    [CliOption("--execution-filter")]
     public string? ExecutionFilter { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

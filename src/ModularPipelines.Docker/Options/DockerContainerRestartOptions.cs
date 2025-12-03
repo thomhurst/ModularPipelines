@@ -15,12 +15,12 @@ public record DockerContainerRestartOptions : DockerOptions
         Container = container;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Container { get; set; }
 
-    [CommandSwitch("--signal")]
+    [CliOption("--signal")]
     public virtual string? Signal { get; set; }
 
-    [CommandSwitch("--time")]
+    [CliOption("--time")]
     public virtual string? Time { get; set; }
 }

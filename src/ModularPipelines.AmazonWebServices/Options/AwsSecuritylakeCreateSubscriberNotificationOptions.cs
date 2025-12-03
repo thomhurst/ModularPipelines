@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securitylake", "create-subscriber-notification")]
+[CliCommand("securitylake", "create-subscriber-notification")]
 public record AwsSecuritylakeCreateSubscriberNotificationOptions(
-[property: CommandSwitch("--configuration")] string Configuration,
-[property: CommandSwitch("--subscriber-id")] string SubscriberId
+[property: CliOption("--configuration")] string Configuration,
+[property: CliOption("--subscriber-id")] string SubscriberId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

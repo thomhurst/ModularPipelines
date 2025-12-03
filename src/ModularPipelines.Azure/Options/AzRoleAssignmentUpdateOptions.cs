@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("role", "assignment", "update")]
+[CliCommand("role", "assignment", "update")]
 public record AzRoleAssignmentUpdateOptions(
-[property: CommandSwitch("--role-assignment")] string RoleAssignment
+[property: CliOption("--role-assignment")] string RoleAssignment
 ) : AzOptions;

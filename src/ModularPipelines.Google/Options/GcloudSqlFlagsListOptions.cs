@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "flags", "list")]
+[CliCommand("sql", "flags", "list")]
 public record GcloudSqlFlagsListOptions : GcloudOptions
 {
-    [CommandSwitch("--database-version")]
+    [CliOption("--database-version")]
     public string? DatabaseVersion { get; set; }
 }

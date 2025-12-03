@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amlfs", "archive")]
+[CliCommand("amlfs", "archive")]
 public record AzAmlfsArchiveOptions : AzOptions
 {
-    [CommandSwitch("--amlfs-name")]
+    [CliOption("--amlfs-name")]
     public string? AmlfsName { get; set; }
 
-    [CommandSwitch("--filesystem-path")]
+    [CliOption("--filesystem-path")]
     public string? FilesystemPath { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

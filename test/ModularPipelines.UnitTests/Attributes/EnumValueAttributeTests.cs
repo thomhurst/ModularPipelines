@@ -36,7 +36,7 @@ public class EnumValueAttributeTests
 
     private record NumberWrapper
     {
-        [CommandSwitch("--number")]
+        [CliOption("--number")]
         public Number Number { get; set; }
     }
 }

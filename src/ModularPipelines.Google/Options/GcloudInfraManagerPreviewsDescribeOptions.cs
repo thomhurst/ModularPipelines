@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("infra-manager", "previews", "describe")]
+[CliCommand("infra-manager", "previews", "describe")]
 public record GcloudInfraManagerPreviewsDescribeOptions(
-[property: PositionalArgument] string Preview,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Preview,
+[property: CliArgument] string Location
 ) : GcloudOptions;

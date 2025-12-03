@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("notebooks", "environments", "delete")]
+[CliCommand("notebooks", "environments", "delete")]
 public record GcloudNotebooksEnvironmentsDeleteOptions(
-[property: PositionalArgument] string Environment,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Environment,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

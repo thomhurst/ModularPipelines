@@ -15,51 +15,51 @@ public record DockerContainerUpdateOptions : DockerOptions
         Container = container;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Container { get; set; }
 
-    [CommandSwitch("--blkio-weight")]
+    [CliOption("--blkio-weight")]
     public virtual string? BlkioWeight { get; set; }
 
-    [CommandSwitch("--cpu-period")]
+    [CliOption("--cpu-period")]
     public virtual string? CpuPeriod { get; set; }
 
-    [CommandSwitch("--cpu-quota")]
+    [CliOption("--cpu-quota")]
     public virtual string? CpuQuota { get; set; }
 
-    [CommandSwitch("--cpu-rt-period")]
+    [CliOption("--cpu-rt-period")]
     public virtual string? CpuRtPeriod { get; set; }
 
-    [CommandSwitch("--cpu-rt-runtime")]
+    [CliOption("--cpu-rt-runtime")]
     public virtual string? CpuRtRuntime { get; set; }
 
-    [CommandSwitch("--cpu-shares")]
+    [CliOption("--cpu-shares")]
     public virtual string? CpuShares { get; set; }
 
-    [CommandSwitch("--cpus")]
+    [CliOption("--cpus")]
     public virtual string? Cpus { get; set; }
 
-    [CommandSwitch("--cpuset-cpus")]
+    [CliOption("--cpuset-cpus")]
     public virtual string? CpusetCpus { get; set; }
 
-    [CommandSwitch("--cpuset-mems")]
+    [CliOption("--cpuset-mems")]
     public virtual string? CpusetMems { get; set; }
 
-    [CommandSwitch("--kernel-memory")]
+    [CliOption("--kernel-memory")]
     public virtual string? KernelMemory { get; set; }
 
-    [CommandSwitch("--memory")]
+    [CliOption("--memory")]
     public virtual string? Memory { get; set; }
 
-    [CommandSwitch("--memory-reservation")]
+    [CliOption("--memory-reservation")]
     public virtual string? MemoryReservation { get; set; }
 
-    [CommandSwitch("--memory-swap")]
+    [CliOption("--memory-swap")]
     public virtual string? MemorySwap { get; set; }
 
-    [CommandSwitch("--pids-limit")]
+    [CliOption("--pids-limit")]
     public virtual string? PidsLimit { get; set; }
 
-    [CommandSwitch("--restart")]
+    [CliOption("--restart")]
     public virtual string? Restart { get; set; }
 }

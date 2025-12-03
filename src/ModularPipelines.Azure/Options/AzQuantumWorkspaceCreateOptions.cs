@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quantum", "workspace", "create")]
+[CliCommand("quantum", "workspace", "create")]
 public record AzQuantumWorkspaceCreateOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-account")] int StorageAccount,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--location")] string Location,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--storage-account")] int StorageAccount,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--auto-accept")]
+    [CliFlag("--auto-accept")]
     public bool? AutoAccept { get; set; }
 
-    [CommandSwitch("--provider-sku-list")]
+    [CliOption("--provider-sku-list")]
     public string? ProviderSkuList { get; set; }
 
-    [BooleanCommandSwitch("--skip-autoadd")]
+    [CliFlag("--skip-autoadd")]
     public bool? SkipAutoadd { get; set; }
 
-    [BooleanCommandSwitch("--skip-role-assignment")]
+    [CliFlag("--skip-role-assignment")]
     public bool? SkipRoleAssignment { get; set; }
 }

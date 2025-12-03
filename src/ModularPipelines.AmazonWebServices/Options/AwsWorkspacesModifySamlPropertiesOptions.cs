@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "modify-saml-properties")]
+[CliCommand("workspaces", "modify-saml-properties")]
 public record AwsWorkspacesModifySamlPropertiesOptions(
-[property: CommandSwitch("--resource-id")] string ResourceId
+[property: CliOption("--resource-id")] string ResourceId
 ) : AwsOptions
 {
-    [CommandSwitch("--saml-properties")]
+    [CliOption("--saml-properties")]
     public string? SamlProperties { get; set; }
 
-    [CommandSwitch("--properties-to-delete")]
+    [CliOption("--properties-to-delete")]
     public string[]? PropertiesToDelete { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

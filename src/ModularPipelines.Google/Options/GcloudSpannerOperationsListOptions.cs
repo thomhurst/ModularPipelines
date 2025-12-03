@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spanner", "operations", "list")]
+[CliCommand("spanner", "operations", "list")]
 public record GcloudSpannerOperationsListOptions(
-[property: CommandSwitch("--instance")] string Instance,
-[property: CommandSwitch("--instance-config")] string InstanceConfig
+[property: CliOption("--instance")] string Instance,
+[property: CliOption("--instance-config")] string InstanceConfig
 ) : GcloudOptions
 {
-    [CommandSwitch("--backup")]
+    [CliOption("--backup")]
     public string? Backup { get; set; }
 
-    [CommandSwitch("--database")]
+    [CliOption("--database")]
     public string? Database { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resiliencehub", "describe-app-version-app-component")]
+[CliCommand("resiliencehub", "describe-app-version-app-component")]
 public record AwsResiliencehubDescribeAppVersionAppComponentOptions(
-[property: CommandSwitch("--app-arn")] string AppArn,
-[property: CommandSwitch("--app-version")] string AppVersion,
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--app-arn")] string AppArn,
+[property: CliOption("--app-version")] string AppVersion,
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

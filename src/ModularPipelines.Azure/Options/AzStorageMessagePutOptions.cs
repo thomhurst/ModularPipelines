@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "message", "put")]
+[CliCommand("storage", "message", "put")]
 public record AzStorageMessagePutOptions(
-[property: CommandSwitch("--content")] string Content,
-[property: CommandSwitch("--queue-name")] string QueueName
+[property: CliOption("--content")] string Content,
+[property: CliOption("--queue-name")] string QueueName
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--queue-endpoint")]
+    [CliOption("--queue-endpoint")]
     public string? QueueEndpoint { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--time-to-live")]
+    [CliOption("--time-to-live")]
     public string? TimeToLive { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--visibility-timeout")]
+    [CliOption("--visibility-timeout")]
     public string? VisibilityTimeout { get; set; }
 }

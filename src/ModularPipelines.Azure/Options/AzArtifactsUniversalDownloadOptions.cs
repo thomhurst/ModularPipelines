@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "universal", "download")]
+[CliCommand("artifacts", "universal", "download")]
 public record AzArtifactsUniversalDownloadOptions(
-[property: CommandSwitch("--feed")] string Feed,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--path")] string Path,
-[property: CommandSwitch("--version")] string Version
+[property: CliOption("--feed")] string Feed,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--path")] string Path,
+[property: CliOption("--version")] string Version
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--file-filter")]
+    [CliOption("--file-filter")]
     public string? FileFilter { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 }

@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "lb", "rule", "create")]
+[CliCommand("network", "lb", "rule", "create")]
 public record AzNetworkLbRuleCreateOptions(
-[property: CommandSwitch("--backend-port")] string BackendPort,
-[property: CommandSwitch("--frontend-port")] string FrontendPort,
-[property: CommandSwitch("--lb-name")] string LbName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--protocol")] string Protocol,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--backend-port")] string BackendPort,
+[property: CliOption("--frontend-port")] string FrontendPort,
+[property: CliOption("--lb-name")] string LbName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--protocol")] string Protocol,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--backend-pool-name")]
+    [CliOption("--backend-pool-name")]
     public string? BackendPoolName { get; set; }
 
-    [BooleanCommandSwitch("--disable-outbound-snat")]
+    [CliFlag("--disable-outbound-snat")]
     public bool? DisableOutboundSnat { get; set; }
 
-    [BooleanCommandSwitch("--enable-floating-ip")]
+    [CliFlag("--enable-floating-ip")]
     public bool? EnableFloatingIp { get; set; }
 
-    [BooleanCommandSwitch("--enable-tcp-reset")]
+    [CliFlag("--enable-tcp-reset")]
     public bool? EnableTcpReset { get; set; }
 
-    [CommandSwitch("--frontend-ip")]
+    [CliOption("--frontend-ip")]
     public string? FrontendIp { get; set; }
 
-    [CommandSwitch("--idle-timeout")]
+    [CliOption("--idle-timeout")]
     public string? IdleTimeout { get; set; }
 
-    [CommandSwitch("--load-distribution")]
+    [CliOption("--load-distribution")]
     public string? LoadDistribution { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--probe")]
+    [CliOption("--probe")]
     public string? Probe { get; set; }
 }

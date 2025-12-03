@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("signalr", "custom-certificate", "create")]
+[CliCommand("signalr", "custom-certificate", "create")]
 public record AzSignalrCustomCertificateCreateOptions(
-[property: CommandSwitch("--keyvault-base-uri")] string KeyvaultBaseUri,
-[property: CommandSwitch("--keyvault-secret-name")] string KeyvaultSecretName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--signalr-name")] string SignalrName
+[property: CliOption("--keyvault-base-uri")] string KeyvaultBaseUri,
+[property: CliOption("--keyvault-secret-name")] string KeyvaultSecretName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--signalr-name")] string SignalrName
 ) : AzOptions
 {
-    [CommandSwitch("--keyvault-secret-version")]
+    [CliOption("--keyvault-secret-version")]
     public string? KeyvaultSecretVersion { get; set; }
 }

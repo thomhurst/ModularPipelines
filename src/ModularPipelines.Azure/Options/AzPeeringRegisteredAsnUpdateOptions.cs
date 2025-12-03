@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("peering", "registered-asn", "update")]
+[CliCommand("peering", "registered-asn", "update")]
 public record AzPeeringRegisteredAsnUpdateOptions(
-[property: CommandSwitch("--peering-name")] string PeeringName,
-[property: CommandSwitch("--registered-asn-name")] string RegisteredAsnName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--peering-name")] string PeeringName,
+[property: CliOption("--registered-asn-name")] string RegisteredAsnName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--asn")]
+    [CliOption("--asn")]
     public string? Asn { get; set; }
 }

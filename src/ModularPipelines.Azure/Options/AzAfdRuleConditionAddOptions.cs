@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "rule", "condition", "add")]
+[CliCommand("afd", "rule", "condition", "add")]
 public record AzAfdRuleConditionAddOptions(
-[property: CommandSwitch("--match-variable")] string MatchVariable,
-[property: CommandSwitch("--operator")] string Operator
+[property: CliOption("--match-variable")] string MatchVariable,
+[property: CliOption("--operator")] string Operator
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--match-values")]
+    [CliOption("--match-values")]
     public string? MatchValues { get; set; }
 
-    [BooleanCommandSwitch("--negate-condition")]
+    [CliFlag("--negate-condition")]
     public bool? NegateCondition { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rule-name")]
+    [CliOption("--rule-name")]
     public string? RuleName { get; set; }
 
-    [CommandSwitch("--rule-set-name")]
+    [CliOption("--rule-set-name")]
     public string? RuleSetName { get; set; }
 
-    [CommandSwitch("--selector")]
+    [CliOption("--selector")]
     public string? Selector { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--transforms")]
+    [CliOption("--transforms")]
     public string? Transforms { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "webjob")]
+[CliCommand("webapp", "webjob")]
 public class AzWebappWebjobTriggered
 {
     public AzWebappWebjobTriggered(

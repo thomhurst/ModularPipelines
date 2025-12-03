@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("infra-manager", "resources", "list")]
+[CliCommand("infra-manager", "resources", "list")]
 public record GcloudInfraManagerResourcesListOptions(
-[property: CommandSwitch("--revision")] string Revision,
-[property: CommandSwitch("--deployment")] string Deployment,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--revision")] string Revision,
+[property: CliOption("--deployment")] string Deployment,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions;

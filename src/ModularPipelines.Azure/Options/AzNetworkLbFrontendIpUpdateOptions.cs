@@ -4,49 +4,49 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "lb", "frontend-ip", "update")]
+[CliCommand("network", "lb", "frontend-ip", "update")]
 public record AzNetworkLbFrontendIpUpdateOptions(
-[property: CommandSwitch("--lb-name")] string LbName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--lb-name")] string LbName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--gateway-lb")]
+    [CliOption("--gateway-lb")]
     public string? GatewayLb { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--private-ip-address")]
+    [CliOption("--private-ip-address")]
     public string? PrivateIpAddress { get; set; }
 
-    [CommandSwitch("--private-ip-address-version")]
+    [CliOption("--private-ip-address-version")]
     public string? PrivateIpAddressVersion { get; set; }
 
-    [CommandSwitch("--public-ip-address")]
+    [CliOption("--public-ip-address")]
     public string? PublicIpAddress { get; set; }
 
-    [CommandSwitch("--public-ip-prefix")]
+    [CliOption("--public-ip-prefix")]
     public string? PublicIpPrefix { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

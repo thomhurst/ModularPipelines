@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("personalize-events", "put-action-interactions")]
+[CliCommand("personalize-events", "put-action-interactions")]
 public record AwsPersonalizeEventsPutActionInteractionsOptions(
-[property: CommandSwitch("--tracking-id")] string TrackingId,
-[property: CommandSwitch("--action-interactions")] string[] ActionInteractions
+[property: CliOption("--tracking-id")] string TrackingId,
+[property: CliOption("--action-interactions")] string[] ActionInteractions
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

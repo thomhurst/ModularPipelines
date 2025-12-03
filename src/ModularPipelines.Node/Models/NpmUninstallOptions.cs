@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("uninstall")]
+[CliCommand("uninstall")]
 public record NpmUninstallOptions : NpmOptions
 {
-    [BooleanCommandSwitch("--save")]
+    [CliFlag("--save")]
     public virtual bool? Save { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public virtual bool? Global { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public virtual string[]? Workspace { get; set; }
 
-    [BooleanCommandSwitch("--workspaces")]
+    [CliFlag("--workspaces")]
     public virtual bool? Workspaces { get; set; }
 
-    [BooleanCommandSwitch("--include-workspace-root")]
+    [CliFlag("--include-workspace-root")]
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 
-    [BooleanCommandSwitch("--install-links")]
+    [CliFlag("--install-links")]
     public virtual bool? InstallLinks { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string? Pkg { get; set; }
 }

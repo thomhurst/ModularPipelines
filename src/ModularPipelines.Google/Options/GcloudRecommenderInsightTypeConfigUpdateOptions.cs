@@ -5,7 +5,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("recommender", "insight-type-config", "update")]
+[CliCommand("recommender", "insight-type-config", "update")]
 public record GcloudRecommenderInsightTypeConfigUpdateOptions : GcloudOptions
 {
     public GcloudRecommenderInsightTypeConfigUpdateOptions(
@@ -25,30 +25,30 @@ public record GcloudRecommenderInsightTypeConfigUpdateOptions : GcloudOptions
         Project = project;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string InsightType { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string Etag { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string Location { get; set; }
 
-    [CommandSwitch("--billing-account")]
+    [CliOption("--billing-account")]
     public string BillingAccount { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 
-    [CommandSwitch("--annotations")]
+    [CliOption("--annotations")]
     public IEnumerable<KeyValue>? Annotations { get; set; }
 
-    [CommandSwitch("--config-file")]
+    [CliOption("--config-file")]
     public string? ConfigFile { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 }

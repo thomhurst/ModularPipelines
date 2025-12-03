@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "disks", "add-resource-policies")]
+[CliCommand("compute", "disks", "add-resource-policies")]
 public record GcloudComputeDisksAddResourcePoliciesOptions(
-[property: PositionalArgument] string DiskName,
-[property: CommandSwitch("--resource-policies")] string[] ResourcePolicies
+[property: CliArgument] string DiskName,
+[property: CliOption("--resource-policies")] string[] ResourcePolicies
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

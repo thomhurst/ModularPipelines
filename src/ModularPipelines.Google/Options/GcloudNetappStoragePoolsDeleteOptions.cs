@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "storage-pools", "delete")]
+[CliCommand("netapp", "storage-pools", "delete")]
 public record GcloudNetappStoragePoolsDeleteOptions(
-[property: PositionalArgument] string StoragePool,
-[property: PositionalArgument] string Location
+[property: CliArgument] string StoragePool,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

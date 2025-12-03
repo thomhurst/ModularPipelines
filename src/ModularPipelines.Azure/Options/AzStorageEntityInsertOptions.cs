@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "entity", "insert")]
+[CliCommand("storage", "entity", "insert")]
 public record AzStorageEntityInsertOptions(
-[property: CommandSwitch("--entity")] string Entity,
-[property: CommandSwitch("--table-name")] string TableName
+[property: CliOption("--entity")] string Entity,
+[property: CliOption("--table-name")] string TableName
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--if-exists")]
+    [CliOption("--if-exists")]
     public string? IfExists { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--table-endpoint")]
+    [CliOption("--table-endpoint")]
     public string? TableEndpoint { get; set; }
 }

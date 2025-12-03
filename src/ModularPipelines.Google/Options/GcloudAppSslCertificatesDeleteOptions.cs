@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "ssl-certificates", "delete")]
+[CliCommand("app", "ssl-certificates", "delete")]
 public record GcloudAppSslCertificatesDeleteOptions(
-[property: PositionalArgument] string Id
+[property: CliArgument] string Id
 ) : GcloudOptions;

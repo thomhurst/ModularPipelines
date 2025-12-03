@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "lb")]
+[CliCommand("network", "lb")]
 public class AzNetworkLbFrontendIp
 {
     public AzNetworkLbFrontendIp(

@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "bastion", "rdp")]
+[CliCommand("network", "bastion", "rdp")]
 public record AzNetworkBastionRdpOptions : AzOptions
 {
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [BooleanCommandSwitch("--configure")]
+    [CliFlag("--configure")]
     public bool? Configure { get; set; }
 
-    [BooleanCommandSwitch("--disable-gateway")]
+    [CliFlag("--disable-gateway")]
     public bool? DisableGateway { get; set; }
 
-    [BooleanCommandSwitch("--enable-mfa")]
+    [CliFlag("--enable-mfa")]
     public bool? EnableMfa { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-port")]
+    [CliOption("--resource-port")]
     public string? ResourcePort { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--target-ip-address")]
+    [CliOption("--target-ip-address")]
     public string? TargetIpAddress { get; set; }
 
-    [CommandSwitch("--target-resource-id")]
+    [CliOption("--target-resource-id")]
     public string? TargetResourceId { get; set; }
 }

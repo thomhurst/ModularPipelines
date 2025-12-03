@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "external-vpn-gateways", "create")]
+[CliCommand("compute", "external-vpn-gateways", "create")]
 public record GcloudComputeExternalVpnGatewaysCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--interfaces")] string[] Interfaces
+[property: CliArgument] string Name,
+[property: CliOption("--interfaces")] string[] Interfaces
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 }

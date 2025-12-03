@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ts", "export")]
+[CliCommand("ts", "export")]
 public record AzTsExportOptions(
-[property: CommandSwitch("--output-folder")] string OutputFolder
+[property: CliOption("--output-folder")] string OutputFolder
 ) : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--template-spec")]
+    [CliOption("--template-spec")]
     public string? TemplateSpec { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 }

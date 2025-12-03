@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "ssl-certificates", "update")]
+[CliCommand("app", "ssl-certificates", "update")]
 public record GcloudAppSslCertificatesUpdateOptions(
-[property: PositionalArgument] string Id
+[property: CliArgument] string Id
 ) : GcloudOptions
 {
-    [CommandSwitch("--certificate")]
+    [CliOption("--certificate")]
     public string? Certificate { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--private-key")]
+    [CliOption("--private-key")]
     public string? PrivateKey { get; set; }
 }

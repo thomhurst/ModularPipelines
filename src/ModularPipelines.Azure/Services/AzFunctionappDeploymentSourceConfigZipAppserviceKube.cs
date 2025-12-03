@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "deployment", "source", "config-zip")]
+[CliCommand("functionapp", "deployment", "source", "config-zip")]
 public class AzFunctionappDeploymentSourceConfigZipAppserviceKube
 {
     public AzFunctionappDeploymentSourceConfigZipAppserviceKube(

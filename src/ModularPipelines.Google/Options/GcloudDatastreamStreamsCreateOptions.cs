@@ -5,31 +5,31 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datastream", "streams", "create")]
+[CliCommand("datastream", "streams", "create")]
 public record GcloudDatastreamStreamsCreateOptions(
-[property: PositionalArgument] string Stream,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: BooleanCommandSwitch("--backfill-none")] bool BackfillNone,
-[property: BooleanCommandSwitch("--backfill-all")] bool BackfillAll,
-[property: CommandSwitch("--mysql-excluded-objects")] string MysqlExcludedObjects,
-[property: CommandSwitch("--oracle-excluded-objects")] string OracleExcludedObjects,
-[property: CommandSwitch("--postgresql-excluded-objects")] string PostgresqlExcludedObjects,
-[property: CommandSwitch("--destination")] string Destination,
-[property: CommandSwitch("--bigquery-destination-config")] string BigqueryDestinationConfig,
-[property: CommandSwitch("--gcs-destination-config")] string GcsDestinationConfig,
-[property: CommandSwitch("--source")] string Source,
-[property: CommandSwitch("--mysql-source-config")] string MysqlSourceConfig,
-[property: CommandSwitch("--oracle-source-config")] string OracleSourceConfig,
-[property: CommandSwitch("--postgresql-source-config")] string PostgresqlSourceConfig
+[property: CliArgument] string Stream,
+[property: CliArgument] string Location,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliFlag("--backfill-none")] bool BackfillNone,
+[property: CliFlag("--backfill-all")] bool BackfillAll,
+[property: CliOption("--mysql-excluded-objects")] string MysqlExcludedObjects,
+[property: CliOption("--oracle-excluded-objects")] string OracleExcludedObjects,
+[property: CliOption("--postgresql-excluded-objects")] string PostgresqlExcludedObjects,
+[property: CliOption("--destination")] string Destination,
+[property: CliOption("--bigquery-destination-config")] string BigqueryDestinationConfig,
+[property: CliOption("--gcs-destination-config")] string GcsDestinationConfig,
+[property: CliOption("--source")] string Source,
+[property: CliOption("--mysql-source-config")] string MysqlSourceConfig,
+[property: CliOption("--oracle-source-config")] string OracleSourceConfig,
+[property: CliOption("--postgresql-source-config")] string PostgresqlSourceConfig
 ) : GcloudOptions
 {
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 }

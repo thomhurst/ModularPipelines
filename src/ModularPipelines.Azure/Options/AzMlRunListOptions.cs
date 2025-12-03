@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "run", "list")]
+[CliCommand("ml", "run", "list")]
 public record AzMlRunListOptions : AzOptions
 {
-    [CommandSwitch("--compute-target-name")]
+    [CliOption("--compute-target-name")]
     public string? ComputeTargetName { get; set; }
 
-    [CommandSwitch("--experiment-name")]
+    [CliOption("--experiment-name")]
     public string? ExperimentName { get; set; }
 
-    [CommandSwitch("--last")]
+    [CliOption("--last")]
     public string? Last { get; set; }
 
-    [BooleanCommandSwitch("--minimal")]
+    [CliFlag("--minimal")]
     public bool? Minimal { get; set; }
 
-    [CommandSwitch("--output-metadata-file")]
+    [CliOption("--output-metadata-file")]
     public string? OutputMetadataFile { get; set; }
 
-    [CommandSwitch("--parent-run-id")]
+    [CliOption("--parent-run-id")]
     public string? ParentRunId { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--pipeline-run-id")]
+    [CliOption("--pipeline-run-id")]
     public string? PipelineRunId { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--subscription-id")]
+    [CliOption("--subscription-id")]
     public string? SubscriptionId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

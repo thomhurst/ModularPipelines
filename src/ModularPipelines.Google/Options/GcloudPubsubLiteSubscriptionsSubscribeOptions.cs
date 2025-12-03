@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "lite-subscriptions", "subscribe")]
+[CliCommand("pubsub", "lite-subscriptions", "subscribe")]
 public record GcloudPubsubLiteSubscriptionsSubscribeOptions(
-[property: PositionalArgument] string Subscription,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Subscription,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--auto-ack")]
+    [CliFlag("--auto-ack")]
     public bool? AutoAck { get; set; }
 
-    [CommandSwitch("--num-messages")]
+    [CliOption("--num-messages")]
     public string? NumMessages { get; set; }
 
-    [CommandSwitch("--partitions")]
+    [CliOption("--partitions")]
     public string[]? Partitions { get; set; }
 }

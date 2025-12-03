@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "spark-job-definition", "update")]
+[CliCommand("synapse", "spark-job-definition", "update")]
 public record AzSynapseSparkJobDefinitionUpdateOptions(
-[property: CommandSwitch("--file")] string File,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--file")] string File,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--folder-path")]
+    [CliOption("--folder-path")]
     public string? FolderPath { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

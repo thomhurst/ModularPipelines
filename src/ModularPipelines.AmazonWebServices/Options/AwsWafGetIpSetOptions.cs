@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("waf", "get-ip-set")]
+[CliCommand("waf", "get-ip-set")]
 public record AwsWafGetIpSetOptions(
-[property: CommandSwitch("--ip-set-id")] string IpSetId
+[property: CliOption("--ip-set-id")] string IpSetId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

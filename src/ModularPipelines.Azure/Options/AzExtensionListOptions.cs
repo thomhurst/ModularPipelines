@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("extension", "list")]
+[CliCommand("extension", "list")]
 public record AzExtensionListOptions : AzOptions;

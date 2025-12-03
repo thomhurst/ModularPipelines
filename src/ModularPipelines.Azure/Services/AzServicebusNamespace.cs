@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicebus")]
+[CliCommand("servicebus")]
 public class AzServicebusNamespace
 {
     public AzServicebusNamespace(

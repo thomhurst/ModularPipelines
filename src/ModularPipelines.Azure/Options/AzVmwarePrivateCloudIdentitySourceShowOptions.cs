@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-cloud", "identity-source", "show")]
+[CliCommand("vmware", "private-cloud", "identity-source", "show")]
 public record AzVmwarePrivateCloudIdentitySourceShowOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--private-cloud")] string PrivateCloud,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--private-cloud")] string PrivateCloud,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

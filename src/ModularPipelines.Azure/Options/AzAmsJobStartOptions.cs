@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "job", "start")]
+[CliCommand("ams", "job", "start")]
 public record AzAmsJobStartOptions(
-[property: CommandSwitch("--output-assets")] string OutputAssets
+[property: CliOption("--output-assets")] string OutputAssets
 ) : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--base-uri")]
+    [CliOption("--base-uri")]
     public string? BaseUri { get; set; }
 
-    [CommandSwitch("--correlation-data")]
+    [CliOption("--correlation-data")]
     public string? CorrelationData { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--files")]
+    [CliOption("--files")]
     public string? Files { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--input-asset-name")]
+    [CliOption("--input-asset-name")]
     public string? InputAssetName { get; set; }
 
-    [CommandSwitch("--label")]
+    [CliOption("--label")]
     public string? Label { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--transform-name")]
+    [CliOption("--transform-name")]
     public string? TransformName { get; set; }
 }

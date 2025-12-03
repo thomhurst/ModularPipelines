@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "custom-ip")]
+[CliCommand("network", "custom-ip")]
 public class AzNetworkCustomIpPrefix
 {
     public AzNetworkCustomIpPrefix(

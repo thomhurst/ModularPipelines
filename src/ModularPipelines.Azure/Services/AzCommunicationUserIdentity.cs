@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("communication")]
+[CliCommand("communication")]
 public class AzCommunicationUserIdentity
 {
     public AzCommunicationUserIdentity(

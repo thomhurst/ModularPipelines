@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "lite-topics", "publish")]
+[CliCommand("pubsub", "lite-topics", "publish")]
 public record GcloudPubsubLiteTopicsPublishOptions(
-[property: PositionalArgument] string Topic,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Topic,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public IEnumerable<KeyValue>? Attributes { get; set; }
 
-    [CommandSwitch("--event-time")]
+    [CliOption("--event-time")]
     public string? EventTime { get; set; }
 
-    [CommandSwitch("--message")]
+    [CliOption("--message")]
     public string? Message { get; set; }
 
-    [CommandSwitch("--ordering-key")]
+    [CliOption("--ordering-key")]
     public string? OrderingKey { get; set; }
 }

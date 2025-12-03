@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "binauthz")]
+[CliCommand("container", "binauthz")]
 public class GcloudContainerBinauthzAttestations
 {
     public GcloudContainerBinauthzAttestations(

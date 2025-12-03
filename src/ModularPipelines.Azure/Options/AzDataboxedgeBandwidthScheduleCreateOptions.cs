@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databoxedge", "bandwidth-schedule", "create")]
+[CliCommand("databoxedge", "bandwidth-schedule", "create")]
 public record AzDataboxedgeBandwidthScheduleCreateOptions(
-[property: CommandSwitch("--days")] int Days,
-[property: CommandSwitch("--device-name")] string DeviceName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--rate-in-mbps")] string RateInMbps,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--start")] string Start,
-[property: CommandSwitch("--stop")] string Stop
+[property: CliOption("--days")] int Days,
+[property: CliOption("--device-name")] string DeviceName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--rate-in-mbps")] string RateInMbps,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--start")] string Start,
+[property: CliOption("--stop")] string Stop
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

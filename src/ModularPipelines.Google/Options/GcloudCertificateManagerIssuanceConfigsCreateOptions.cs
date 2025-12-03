@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("certificate-manager", "issuance-configs", "create")]
+[CliCommand("certificate-manager", "issuance-configs", "create")]
 public record GcloudCertificateManagerIssuanceConfigsCreateOptions(
-[property: PositionalArgument] string CertificateIssuanceConfig,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--ca-pool")] string CaPool
+[property: CliArgument] string CertificateIssuanceConfig,
+[property: CliArgument] string Location,
+[property: CliOption("--ca-pool")] string CaPool
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--key-algorithm")]
+    [CliOption("--key-algorithm")]
     public string? KeyAlgorithm { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--lifetime")]
+    [CliOption("--lifetime")]
     public string? Lifetime { get; set; }
 
-    [CommandSwitch("--rotation-window-percentage")]
+    [CliOption("--rotation-window-percentage")]
     public string? RotationWindowPercentage { get; set; }
 }

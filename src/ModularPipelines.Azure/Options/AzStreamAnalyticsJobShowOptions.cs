@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stream-analytics", "job", "show")]
+[CliCommand("stream-analytics", "job", "show")]
 public record AzStreamAnalyticsJobShowOptions(
-[property: CommandSwitch("--job-name")] string JobName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--job-name")] string JobName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--expand")]
+    [CliOption("--expand")]
     public string? Expand { get; set; }
 }

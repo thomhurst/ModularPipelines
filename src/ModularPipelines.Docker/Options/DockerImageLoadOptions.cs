@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("image", "load")]
+[CliCommand("image", "load")]
 [ExcludeFromCodeCoverage]
 public record DockerImageLoadOptions : DockerOptions
 {
-    [CommandSwitch("--input")]
+    [CliOption("--input")]
     public virtual string? Input { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 }

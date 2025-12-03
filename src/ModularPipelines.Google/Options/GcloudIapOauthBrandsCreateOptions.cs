@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iap", "oauth-brands", "create")]
+[CliCommand("iap", "oauth-brands", "create")]
 public record GcloudIapOauthBrandsCreateOptions(
-[property: CommandSwitch("--application_title")] string ApplicationTitle,
-[property: CommandSwitch("--support_email")] string SupportEmail
+[property: CliOption("--application_title")] string ApplicationTitle,
+[property: CliOption("--support_email")] string SupportEmail
 ) : GcloudOptions;

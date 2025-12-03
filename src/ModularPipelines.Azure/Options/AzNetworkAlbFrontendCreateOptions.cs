@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "alb", "frontend", "create")]
+[CliCommand("network", "alb", "frontend", "create")]
 public record AzNetworkAlbFrontendCreateOptions(
-[property: CommandSwitch("--alb-name")] string AlbName,
-[property: CommandSwitch("--frontend-name")] string FrontendName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--alb-name")] string AlbName,
+[property: CliOption("--frontend-name")] string FrontendName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

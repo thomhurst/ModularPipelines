@@ -4,44 +4,44 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "account", "file-service-properties", "update")]
+[CliCommand("storage", "account", "file-service-properties", "update")]
 public record AzStorageAccountFileServicePropertiesUpdateOptions(
-[property: CommandSwitch("--account-name")] int AccountName
+[property: CliOption("--account-name")] int AccountName
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--auth-methods")]
+    [CliOption("--auth-methods")]
     public string? AuthMethods { get; set; }
 
-    [CommandSwitch("--channel-encryption")]
+    [CliOption("--channel-encryption")]
     public string? ChannelEncryption { get; set; }
 
-    [CommandSwitch("--delete-retention-days")]
+    [CliOption("--delete-retention-days")]
     public string? DeleteRetentionDays { get; set; }
 
-    [BooleanCommandSwitch("--enable-delete-retention")]
+    [CliFlag("--enable-delete-retention")]
     public bool? EnableDeleteRetention { get; set; }
 
-    [BooleanCommandSwitch("--enable-smb-multichannel")]
+    [CliFlag("--enable-smb-multichannel")]
     public bool? EnableSmbMultichannel { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--kerb-ticket-encryption")]
+    [CliOption("--kerb-ticket-encryption")]
     public string? KerbTicketEncryption { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--versions")]
+    [CliOption("--versions")]
     public string? Versions { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "hybrid-connection", "remove")]
+[CliCommand("functionapp", "hybrid-connection", "remove")]
 public record AzFunctionappHybridConnectionRemoveOptions(
-[property: CommandSwitch("--hybrid-connection")] string HybridConnection,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--namespace")] string Namespace,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--hybrid-connection")] string HybridConnection,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--namespace")] string Namespace,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 }

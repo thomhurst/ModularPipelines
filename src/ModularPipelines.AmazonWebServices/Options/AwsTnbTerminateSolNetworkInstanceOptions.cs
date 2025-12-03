@@ -5,14 +5,14 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tnb", "terminate-sol-network-instance")]
+[CliCommand("tnb", "terminate-sol-network-instance")]
 public record AwsTnbTerminateSolNetworkInstanceOptions(
-[property: CommandSwitch("--ns-instance-id")] string NsInstanceId
+[property: CliOption("--ns-instance-id")] string NsInstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

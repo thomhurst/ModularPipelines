@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "workflow-templates", "remove-job")]
+[CliCommand("dataproc", "workflow-templates", "remove-job")]
 public record GcloudDataprocWorkflowTemplatesRemoveJobOptions(
-[property: PositionalArgument] string Template,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Template,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [CommandSwitch("--step-id")]
+    [CliOption("--step-id")]
     public string? StepId { get; set; }
 }

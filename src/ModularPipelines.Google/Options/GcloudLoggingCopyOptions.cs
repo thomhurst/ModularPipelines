@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logging", "copy")]
+[CliCommand("logging", "copy")]
 public record GcloudLoggingCopyOptions(
-[property: PositionalArgument] string BucketId,
-[property: PositionalArgument] string Destination,
-[property: CommandSwitch("--location")] string Location
+[property: CliArgument] string BucketId,
+[property: CliArgument] string Destination,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--log-filter")]
+    [CliOption("--log-filter")]
     public string? LogFilter { get; set; }
 
-    [CommandSwitch("--billing-account")]
+    [CliOption("--billing-account")]
     public string? BillingAccount { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string? Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public new string? Project { get; set; }
 }

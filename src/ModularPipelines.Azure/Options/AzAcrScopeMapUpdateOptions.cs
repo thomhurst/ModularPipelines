@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "scope-map", "update")]
+[CliCommand("acr", "scope-map", "update")]
 public record AzAcrScopeMapUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--name")] string Name,
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--add-gateway")]
+    [CliOption("--add-gateway")]
     public string? AddGateway { get; set; }
 
-    [CommandSwitch("--add-repository")]
+    [CliOption("--add-repository")]
     public string? AddRepository { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--remove-gateway")]
+    [CliOption("--remove-gateway")]
     public string? RemoveGateway { get; set; }
 
-    [CommandSwitch("--remove-repository")]
+    [CliOption("--remove-repository")]
     public string? RemoveRepository { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

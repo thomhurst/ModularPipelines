@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "sql", "pool")]
+[CliCommand("synapse", "sql", "pool")]
 public class AzSynapseSqlPoolThreatPolicy
 {
     public AzSynapseSqlPoolThreatPolicy(

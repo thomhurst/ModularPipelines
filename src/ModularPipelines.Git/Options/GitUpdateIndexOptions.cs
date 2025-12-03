@@ -3,109 +3,109 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("update-index")]
+[CliCommand("update-index")]
 [ExcludeFromCodeCoverage]
 public record GitUpdateIndexOptions : GitOptions
 {
-    [BooleanCommandSwitch("--add")]
+    [CliFlag("--add")]
     public virtual bool? Add { get; set; }
 
-    [BooleanCommandSwitch("--remove")]
+    [CliFlag("--remove")]
     public virtual bool? Remove { get; set; }
 
-    [BooleanCommandSwitch("--refresh")]
+    [CliFlag("--refresh")]
     public virtual bool? Refresh { get; set; }
 
-    [BooleanCommandSwitch("--ignore-submodules")]
+    [CliFlag("--ignore-submodules")]
     public virtual bool? IgnoreSubmodules { get; set; }
 
-    [BooleanCommandSwitch("--unmerged")]
+    [CliFlag("--unmerged")]
     public virtual bool? Unmerged { get; set; }
 
-    [BooleanCommandSwitch("--ignore-missing")]
+    [CliFlag("--ignore-missing")]
     public virtual bool? IgnoreMissing { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cacheinfo")]
+    [CliOption("--cacheinfo", Format = OptionFormat.EqualsSeparated)]
     public string? Cacheinfo { get; set; }
 
-    [BooleanCommandSwitch("--index-info")]
+    [CliFlag("--index-info")]
     public virtual bool? IndexInfo { get; set; }
 
-    [BooleanCommandSwitch("--chmod")]
+    [CliFlag("--chmod")]
     public virtual bool? Chmod { get; set; }
 
-    [BooleanCommandSwitch("--no-assume-unchanged")]
+    [CliFlag("--no-assume-unchanged")]
     public virtual bool? NoAssumeUnchanged { get; set; }
 
-    [BooleanCommandSwitch("--assume-unchanged")]
+    [CliFlag("--assume-unchanged")]
     public virtual bool? AssumeUnchanged { get; set; }
 
-    [BooleanCommandSwitch("--really-refresh")]
+    [CliFlag("--really-refresh")]
     public virtual bool? ReallyRefresh { get; set; }
 
-    [BooleanCommandSwitch("--no-skip-worktree")]
+    [CliFlag("--no-skip-worktree")]
     public virtual bool? NoSkipWorktree { get; set; }
 
-    [BooleanCommandSwitch("--skip-worktree")]
+    [CliFlag("--skip-worktree")]
     public virtual bool? SkipWorktree { get; set; }
 
-    [BooleanCommandSwitch("--no-ignore-skip-worktree-entries")]
+    [CliFlag("--no-ignore-skip-worktree-entries")]
     public virtual bool? NoIgnoreSkipWorktreeEntries { get; set; }
 
-    [BooleanCommandSwitch("--ignore-skip-worktree-entries")]
+    [CliFlag("--ignore-skip-worktree-entries")]
     public virtual bool? IgnoreSkipWorktreeEntries { get; set; }
 
-    [BooleanCommandSwitch("--no-fsmonitor-valid")]
+    [CliFlag("--no-fsmonitor-valid")]
     public virtual bool? NoFsmonitorValid { get; set; }
 
-    [BooleanCommandSwitch("--fsmonitor-valid")]
+    [CliFlag("--fsmonitor-valid")]
     public virtual bool? FsmonitorValid { get; set; }
 
-    [BooleanCommandSwitch("--again")]
+    [CliFlag("--again")]
     public virtual bool? Again { get; set; }
 
-    [BooleanCommandSwitch("--unresolve")]
+    [CliFlag("--unresolve")]
     public virtual bool? Unresolve { get; set; }
 
-    [BooleanCommandSwitch("--info-only")]
+    [CliFlag("--info-only")]
     public virtual bool? InfoOnly { get; set; }
 
-    [BooleanCommandSwitch("--force-remove")]
+    [CliFlag("--force-remove")]
     public virtual bool? ForceRemove { get; set; }
 
-    [BooleanCommandSwitch("--replace")]
+    [CliFlag("--replace")]
     public virtual bool? Replace { get; set; }
 
-    [BooleanCommandSwitch("--stdin")]
+    [CliFlag("--stdin")]
     public virtual bool? Stdin { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--index-version")]
+    [CliOption("--index-version", Format = OptionFormat.EqualsSeparated)]
     public string? IndexVersion { get; set; }
 
-    [BooleanCommandSwitch("--split-index")]
+    [CliFlag("--split-index")]
     public virtual bool? SplitIndex { get; set; }
 
-    [BooleanCommandSwitch("--no-split-index")]
+    [CliFlag("--no-split-index")]
     public virtual bool? NoSplitIndex { get; set; }
 
-    [BooleanCommandSwitch("--untracked-cache")]
+    [CliFlag("--untracked-cache")]
     public virtual bool? UntrackedCache { get; set; }
 
-    [BooleanCommandSwitch("--no-untracked-cache")]
+    [CliFlag("--no-untracked-cache")]
     public virtual bool? NoUntrackedCache { get; set; }
 
-    [BooleanCommandSwitch("--test-untracked-cache")]
+    [CliFlag("--test-untracked-cache")]
     public virtual bool? TestUntrackedCache { get; set; }
 
-    [BooleanCommandSwitch("--force-untracked-cache")]
+    [CliFlag("--force-untracked-cache")]
     public virtual bool? ForceUntrackedCache { get; set; }
 
-    [BooleanCommandSwitch("--fsmonitor")]
+    [CliFlag("--fsmonitor")]
     public virtual bool? Fsmonitor { get; set; }
 
-    [BooleanCommandSwitch("--no-fsmonitor")]
+    [CliFlag("--no-fsmonitor")]
     public virtual bool? NoFsmonitor { get; set; }
 }

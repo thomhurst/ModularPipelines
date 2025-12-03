@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "secret", "download")]
+[CliCommand("keyvault", "secret", "download")]
 public record AzKeyvaultSecretDownloadOptions(
-[property: CommandSwitch("--file")] string File
+[property: CliOption("--file")] string File
 ) : AzOptions
 {
-    [CommandSwitch("--encoding")]
+    [CliOption("--encoding")]
     public string? Encoding { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 }

@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "image", "list")]
+[CliCommand("vm", "image", "list")]
 public record AzVmImageListOptions : AzOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public bool? All { get; set; }
 
-    [CommandSwitch("--architecture")]
+    [CliOption("--architecture")]
     public string? Architecture { get; set; }
 
-    [CommandSwitch("--edge-zone")]
+    [CliOption("--edge-zone")]
     public string? EdgeZone { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--offer")]
+    [CliOption("--offer")]
     public string? Offer { get; set; }
 
-    [CommandSwitch("--publisher")]
+    [CliOption("--publisher")]
     public string? Publisher { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 }

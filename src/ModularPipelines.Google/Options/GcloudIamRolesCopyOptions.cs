@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "roles", "copy")]
+[CliCommand("iam", "roles", "copy")]
 public record GcloudIamRolesCopyOptions : GcloudOptions
 {
-    [CommandSwitch("--dest-organization")]
+    [CliOption("--dest-organization")]
     public string? DestOrganization { get; set; }
 
-    [CommandSwitch("--dest-project")]
+    [CliOption("--dest-project")]
     public string? DestProject { get; set; }
 
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--source-organization")]
+    [CliOption("--source-organization")]
     public string? SourceOrganization { get; set; }
 
-    [CommandSwitch("--source-project")]
+    [CliOption("--source-project")]
     public string? SourceProject { get; set; }
 }

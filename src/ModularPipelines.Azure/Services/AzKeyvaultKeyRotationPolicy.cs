@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "key")]
+[CliCommand("keyvault", "key")]
 public class AzKeyvaultKeyRotationPolicy
 {
     public AzKeyvaultKeyRotationPolicy(

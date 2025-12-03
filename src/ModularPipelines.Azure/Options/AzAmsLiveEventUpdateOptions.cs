@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "live-event", "update")]
+[CliCommand("ams", "live-event", "update")]
 public record AzAmsLiveEventUpdateOptions : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--client-access-policy")]
+    [CliOption("--client-access-policy")]
     public string? ClientAccessPolicy { get; set; }
 
-    [CommandSwitch("--cross-domain-policy")]
+    [CliOption("--cross-domain-policy")]
     public string? CrossDomainPolicy { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--ips")]
+    [CliOption("--ips")]
     public string? Ips { get; set; }
 
-    [CommandSwitch("--key-frame-interval-duration")]
+    [CliOption("--key-frame-interval-duration")]
     public string? KeyFrameIntervalDuration { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--preview-ips")]
+    [CliOption("--preview-ips")]
     public string? PreviewIps { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

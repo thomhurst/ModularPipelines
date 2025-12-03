@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("service-directory", "endpoints", "describe")]
+[CliCommand("service-directory", "endpoints", "describe")]
 public record GcloudServiceDirectoryEndpointsDescribeOptions(
-[property: PositionalArgument] string Endpoint,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Namespace,
-[property: PositionalArgument] string Service
+[property: CliArgument] string Endpoint,
+[property: CliArgument] string Location,
+[property: CliArgument] string Namespace,
+[property: CliArgument] string Service
 ) : GcloudOptions;

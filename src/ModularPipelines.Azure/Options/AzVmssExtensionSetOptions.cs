@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmss", "extension", "set")]
+[CliCommand("vmss", "extension", "set")]
 public record AzVmssExtensionSetOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--publisher")] string Publisher,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vmss-name")] string VmssName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--publisher")] string Publisher,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vmss-name")] string VmssName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--enable-auto-upgrade")]
+    [CliFlag("--enable-auto-upgrade")]
     public bool? EnableAutoUpgrade { get; set; }
 
-    [CommandSwitch("--extension-instance-name")]
+    [CliOption("--extension-instance-name")]
     public string? ExtensionInstanceName { get; set; }
 
-    [BooleanCommandSwitch("--force-update")]
+    [CliFlag("--force-update")]
     public bool? ForceUpdate { get; set; }
 
-    [BooleanCommandSwitch("--no-auto-upgrade-minor-version")]
+    [CliFlag("--no-auto-upgrade-minor-version")]
     public bool? NoAutoUpgradeMinorVersion { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--protected-settings")]
+    [CliOption("--protected-settings")]
     public string? ProtectedSettings { get; set; }
 
-    [CommandSwitch("--provision-after-extensions")]
+    [CliOption("--provision-after-extensions")]
     public string? ProvisionAfterExtensions { get; set; }
 
-    [CommandSwitch("--settings")]
+    [CliOption("--settings")]
     public string? Settings { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 }

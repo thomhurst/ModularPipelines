@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bigtable", "instances", "create")]
+[CliCommand("bigtable", "instances", "create")]
 public record GcloudBigtableInstancesCreateOptions(
-[property: PositionalArgument] string Instance,
-[property: CommandSwitch("--display-name")] string DisplayName
+[property: CliArgument] string Instance,
+[property: CliOption("--display-name")] string DisplayName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--cluster-config")]
+    [CliOption("--cluster-config")]
     public string[]? ClusterConfig { get; set; }
 
-    [CommandSwitch("--cluster-num-nodes")]
+    [CliOption("--cluster-num-nodes")]
     public string? ClusterNumNodes { get; set; }
 
-    [CommandSwitch("--cluster-storage-type")]
+    [CliOption("--cluster-storage-type")]
     public string? ClusterStorageType { get; set; }
 
-    [CommandSwitch("--cluster-zone")]
+    [CliOption("--cluster-zone")]
     public string? ClusterZone { get; set; }
 
-    [CommandSwitch("--instance-type")]
+    [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 }

@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "bastion", "ssh")]
+[CliCommand("network", "bastion", "ssh")]
 public record AzNetworkBastionSshOptions(
-[property: CommandSwitch("--auth-type")] string AuthType
+[property: CliOption("--auth-type")] string AuthType
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-port")]
+    [CliOption("--resource-port")]
     public string? ResourcePort { get; set; }
 
-    [CommandSwitch("--ssh-key")]
+    [CliOption("--ssh-key")]
     public string? SshKey { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--target-ip-address")]
+    [CliOption("--target-ip-address")]
     public string? TargetIpAddress { get; set; }
 
-    [CommandSwitch("--target-resource-id")]
+    [CliOption("--target-resource-id")]
     public string? TargetResourceId { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 }

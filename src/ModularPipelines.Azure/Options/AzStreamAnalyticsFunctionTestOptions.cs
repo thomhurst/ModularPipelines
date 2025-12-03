@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stream-analytics", "function", "test")]
+[CliCommand("stream-analytics", "function", "test")]
 public record AzStreamAnalyticsFunctionTestOptions(
-[property: CommandSwitch("--function-name")] string FunctionName,
-[property: CommandSwitch("--job-name")] string JobName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--function-name")] string FunctionName,
+[property: CliOption("--job-name")] string JobName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string? Properties { get; set; }
 }

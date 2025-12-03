@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "image", "list-targeted")]
+[CliCommand("sphere", "image", "list-targeted")]
 public record AzSphereImageListTargetedOptions(
-[property: CommandSwitch("--catalog")] string Catalog,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--catalog")] string Catalog,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--device")]
+    [CliOption("--device")]
     public string? Device { get; set; }
 
-    [BooleanCommandSwitch("--full")]
+    [CliFlag("--full")]
     public bool? Full { get; set; }
 }

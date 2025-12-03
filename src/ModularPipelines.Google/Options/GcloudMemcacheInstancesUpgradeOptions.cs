@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memcache", "instances", "upgrade")]
+[CliCommand("memcache", "instances", "upgrade")]
 public record GcloudMemcacheInstancesUpgradeOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--memcached-version")] string MemcachedVersion
+[property: CliArgument] string Instance,
+[property: CliArgument] string Region,
+[property: CliOption("--memcached-version")] string MemcachedVersion
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

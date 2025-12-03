@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "wait", "instance-registered")]
+[CliCommand("opsworks", "wait", "instance-registered")]
 public record AwsOpsworksWaitInstanceRegisteredOptions : AwsOptions
 {
-    [CommandSwitch("--stack-id")]
+    [CliOption("--stack-id")]
     public string? StackId { get; set; }
 
-    [CommandSwitch("--layer-id")]
+    [CliOption("--layer-id")]
     public string? LayerId { get; set; }
 
-    [CommandSwitch("--instance-ids")]
+    [CliOption("--instance-ids")]
     public string[]? InstanceIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

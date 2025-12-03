@@ -4,69 +4,69 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-site", "update")]
+[CliCommand("network", "vpn-site", "update")]
 public record AzNetworkVpnSiteUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--address-prefixes")]
+    [CliOption("--address-prefixes")]
     public string? AddressPrefixes { get; set; }
 
-    [CommandSwitch("--asn")]
+    [CliOption("--asn")]
     public string? Asn { get; set; }
 
-    [CommandSwitch("--bgp-peering-address")]
+    [CliOption("--bgp-peering-address")]
     public string? BgpPeeringAddress { get; set; }
 
-    [CommandSwitch("--device-model")]
+    [CliOption("--device-model")]
     public string? DeviceModel { get; set; }
 
-    [CommandSwitch("--device-vendor")]
+    [CliOption("--device-vendor")]
     public string? DeviceVendor { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--ip-address")]
+    [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
 
-    [CommandSwitch("--link-speed")]
+    [CliOption("--link-speed")]
     public string? LinkSpeed { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--peer-weight")]
+    [CliOption("--peer-weight")]
     public string? PeerWeight { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--security-site")]
+    [CliFlag("--security-site")]
     public bool? SecuritySite { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--site-key")]
+    [CliOption("--site-key")]
     public string? SiteKey { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--virtual-wan")]
+    [CliOption("--virtual-wan")]
     public string? VirtualWan { get; set; }
 }

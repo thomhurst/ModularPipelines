@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "pool", "autoscale", "evaluate")]
+[CliCommand("batch", "pool", "autoscale", "evaluate")]
 public record AzBatchPoolAutoscaleEvaluateOptions(
-[property: CommandSwitch("--auto-scale-formula")] string AutoScaleFormula,
-[property: CommandSwitch("--pool-id")] string PoolId
+[property: CliOption("--auto-scale-formula")] string AutoScaleFormula,
+[property: CliOption("--pool-id")] string PoolId
 ) : AzOptions
 {
-    [CommandSwitch("--account-endpoint")]
+    [CliOption("--account-endpoint")]
     public int? AccountEndpoint { get; set; }
 
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 }

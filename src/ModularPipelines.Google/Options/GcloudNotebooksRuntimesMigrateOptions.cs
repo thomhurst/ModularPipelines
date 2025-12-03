@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("notebooks", "runtimes", "migrate")]
+[CliCommand("notebooks", "runtimes", "migrate")]
 public record GcloudNotebooksRuntimesMigrateOptions(
-[property: PositionalArgument] string Runtime,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Runtime,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--post-startup-script-option")]
+    [CliOption("--post-startup-script-option")]
     public string? PostStartupScriptOption { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--subnet-region")]
+    [CliOption("--subnet-region")]
     public string? SubnetRegion { get; set; }
 }

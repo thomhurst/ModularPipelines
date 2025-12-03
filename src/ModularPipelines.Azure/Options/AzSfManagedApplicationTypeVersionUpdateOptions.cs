@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "managed-application-type", "version", "update")]
+[CliCommand("sf", "managed-application-type", "version", "update")]
 public record AzSfManagedApplicationTypeVersionUpdateOptions(
-[property: CommandSwitch("--application-type-name")] string ApplicationTypeName,
-[property: CommandSwitch("--application-type-version")] string ApplicationTypeVersion,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--application-type-name")] string ApplicationTypeName,
+[property: CliOption("--application-type-version")] string ApplicationTypeVersion,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--package-url")]
+    [CliOption("--package-url")]
     public string? PackageUrl { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

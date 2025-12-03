@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("asset", "analyze-move")]
+[CliCommand("asset", "analyze-move")]
 public record GcloudAssetAnalyzeMoveOptions : GcloudOptions
 {
     public GcloudAssetAnalyzeMoveOptions(
@@ -18,12 +18,12 @@ public record GcloudAssetAnalyzeMoveOptions : GcloudOptions
         DestinationOrganization = destinationOrganization;
     }
 
-    [CommandSwitch("--destination-folder")]
+    [CliOption("--destination-folder")]
     public string DestinationFolder { get; set; }
 
-    [CommandSwitch("--destination-organization")]
+    [CliOption("--destination-organization")]
     public string DestinationOrganization { get; set; }
 
-    [CommandSwitch("--blockers-only")]
+    [CliOption("--blockers-only")]
     public string? BlockersOnly { get; set; }
 }

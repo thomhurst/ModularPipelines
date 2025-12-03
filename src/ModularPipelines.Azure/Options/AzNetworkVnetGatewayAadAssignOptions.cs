@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vnet-gateway", "aad", "assign")]
+[CliCommand("network", "vnet-gateway", "aad", "assign")]
 public record AzNetworkVnetGatewayAadAssignOptions(
-[property: CommandSwitch("--audience")] string Audience,
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--issuer")] string Issuer,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--tenant")] string Tenant
+[property: CliOption("--audience")] string Audience,
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--issuer")] string Issuer,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--tenant")] string Tenant
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

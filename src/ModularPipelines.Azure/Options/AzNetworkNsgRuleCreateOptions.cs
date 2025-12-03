@@ -4,44 +4,44 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "nsg", "rule", "create")]
+[CliCommand("network", "nsg", "rule", "create")]
 public record AzNetworkNsgRuleCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--nsg-name")] string NsgName,
-[property: CommandSwitch("--priority")] string Priority,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--nsg-name")] string NsgName,
+[property: CliOption("--priority")] string Priority,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--access")]
+    [CliOption("--access")]
     public string? Access { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--destination-address-prefixes")]
+    [CliOption("--destination-address-prefixes")]
     public string? DestinationAddressPrefixes { get; set; }
 
-    [CommandSwitch("--destination-asgs")]
+    [CliOption("--destination-asgs")]
     public string? DestinationAsgs { get; set; }
 
-    [CommandSwitch("--destination-port-ranges")]
+    [CliOption("--destination-port-ranges")]
     public string? DestinationPortRanges { get; set; }
 
-    [CommandSwitch("--direction")]
+    [CliOption("--direction")]
     public string? Direction { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--source-address-prefixes")]
+    [CliOption("--source-address-prefixes")]
     public string? SourceAddressPrefixes { get; set; }
 
-    [CommandSwitch("--source-asgs")]
+    [CliOption("--source-asgs")]
     public string? SourceAsgs { get; set; }
 
-    [CommandSwitch("--source-port-ranges")]
+    [CliOption("--source-port-ranges")]
     public string? SourcePortRanges { get; set; }
 }

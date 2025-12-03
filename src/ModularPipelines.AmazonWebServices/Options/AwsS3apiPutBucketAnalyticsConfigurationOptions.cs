@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api", "put-bucket-analytics-configuration")]
+[CliCommand("s3api", "put-bucket-analytics-configuration")]
 public record AwsS3apiPutBucketAnalyticsConfigurationOptions(
-[property: CommandSwitch("--bucket")] string Bucket,
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--analytics-configuration")] string AnalyticsConfiguration
+[property: CliOption("--bucket")] string Bucket,
+[property: CliOption("--id")] string Id,
+[property: CliOption("--analytics-configuration")] string AnalyticsConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--expected-bucket-owner")]
+    [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

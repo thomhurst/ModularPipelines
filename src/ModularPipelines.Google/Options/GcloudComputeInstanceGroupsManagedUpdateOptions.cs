@@ -4,104 +4,104 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instance-groups", "managed", "update")]
+[CliCommand("compute", "instance-groups", "managed", "update")]
 public record GcloudComputeInstanceGroupsManagedUpdateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--[no-]force-update-on-repair")]
+    [CliOption("--[no-]force-update-on-repair")]
     public string[]? NoForceUpdateOnRepair { get; set; }
 
-    [CommandSwitch("--instance-redistribution-type")]
+    [CliOption("--instance-redistribution-type")]
     public string? InstanceRedistributionType { get; set; }
 
-    [CommandSwitch("--list-managed-instances-results")]
+    [CliOption("--list-managed-instances-results")]
     public string? ListManagedInstancesResults { get; set; }
 
-    [CommandSwitch("--remove-stateful-disks")]
+    [CliOption("--remove-stateful-disks")]
     public string[]? RemoveStatefulDisks { get; set; }
 
-    [CommandSwitch("--remove-stateful-external-ips")]
+    [CliOption("--remove-stateful-external-ips")]
     public string[]? RemoveStatefulExternalIps { get; set; }
 
-    [CommandSwitch("--remove-stateful-internal-ips")]
+    [CliOption("--remove-stateful-internal-ips")]
     public string[]? RemoveStatefulInternalIps { get; set; }
 
-    [CommandSwitch("--stateful-disk")]
+    [CliOption("--stateful-disk")]
     public string[]? StatefulDisk { get; set; }
 
-    [CommandSwitch("--stateful-external-ip")]
+    [CliOption("--stateful-external-ip")]
     public string[]? StatefulExternalIp { get; set; }
 
-    [CommandSwitch("--stateful-internal-ip")]
+    [CliOption("--stateful-internal-ip")]
     public string[]? StatefulInternalIp { get; set; }
 
-    [CommandSwitch("--target-distribution-shape")]
+    [CliOption("--target-distribution-shape")]
     public string? TargetDistributionShape { get; set; }
 
-    [BooleanCommandSwitch("--clear-autohealing")]
+    [CliFlag("--clear-autohealing")]
     public bool? ClearAutohealing { get; set; }
 
-    [CommandSwitch("--initial-delay")]
+    [CliOption("--initial-delay")]
     public string? InitialDelay { get; set; }
 
-    [CommandSwitch("--health-check")]
+    [CliOption("--health-check")]
     public string? HealthCheck { get; set; }
 
-    [CommandSwitch("--http-health-check")]
+    [CliOption("--http-health-check")]
     public string? HttpHealthCheck { get; set; }
 
-    [CommandSwitch("--https-health-check")]
+    [CliOption("--https-health-check")]
     public string? HttpsHealthCheck { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--update-policy-max-surge")]
+    [CliOption("--update-policy-max-surge")]
     public string? UpdatePolicyMaxSurge { get; set; }
 
-    [CommandSwitch("--update-policy-max-unavailable")]
+    [CliOption("--update-policy-max-unavailable")]
     public string? UpdatePolicyMaxUnavailable { get; set; }
 
-    [CommandSwitch("--update-policy-minimal-action")]
+    [CliOption("--update-policy-minimal-action")]
     public string? UpdatePolicyMinimalAction { get; set; }
 
-    [BooleanCommandSwitch("none")]
+    [CliFlag("none")]
     public bool? None { get; set; }
 
-    [BooleanCommandSwitch("refresh")]
+    [CliFlag("refresh")]
     public bool? Refresh { get; set; }
 
-    [BooleanCommandSwitch("restart")]
+    [CliFlag("restart")]
     public bool? Restart { get; set; }
 
-    [BooleanCommandSwitch("replace")]
+    [CliFlag("replace")]
     public bool? Replace { get; set; }
 
-    [CommandSwitch("--update-policy-most-disruptive-action")]
+    [CliOption("--update-policy-most-disruptive-action")]
     public string? UpdatePolicyMostDisruptiveAction { get; set; }
 
-    [CommandSwitch("--update-policy-replacement-method")]
+    [CliOption("--update-policy-replacement-method")]
     public string? UpdatePolicyReplacementMethod { get; set; }
 
-    [BooleanCommandSwitch("recreate")]
+    [CliFlag("recreate")]
     public bool? Recreate { get; set; }
 
-    [BooleanCommandSwitch("substitute")]
+    [CliFlag("substitute")]
     public bool? Substitute { get; set; }
 
-    [CommandSwitch("--update-policy-type")]
+    [CliOption("--update-policy-type")]
     public string? UpdatePolicyType { get; set; }
 
-    [BooleanCommandSwitch("opportunistic")]
+    [CliFlag("opportunistic")]
     public bool? Opportunistic { get; set; }
 
-    [BooleanCommandSwitch("proactive")]
+    [CliFlag("proactive")]
     public bool? Proactive { get; set; }
 }

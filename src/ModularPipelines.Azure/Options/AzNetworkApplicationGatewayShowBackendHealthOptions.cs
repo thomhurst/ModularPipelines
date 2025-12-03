@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "show-backend-health")]
+[CliCommand("network", "application-gateway", "show-backend-health")]
 public record AzNetworkApplicationGatewayShowBackendHealthOptions : AzOptions
 {
-    [CommandSwitch("--address-pool")]
+    [CliOption("--address-pool")]
     public string? AddressPool { get; set; }
 
-    [CommandSwitch("--expand")]
+    [CliOption("--expand")]
     public string? Expand { get; set; }
 
-    [CommandSwitch("--host")]
+    [CliOption("--host")]
     public string? Host { get; set; }
 
-    [BooleanCommandSwitch("--host-name-from-http-settings")]
+    [CliFlag("--host-name-from-http-settings")]
     public bool? HostNameFromHttpSettings { get; set; }
 
-    [CommandSwitch("--http-settings")]
+    [CliOption("--http-settings")]
     public string? HttpSettings { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--match-body")]
+    [CliOption("--match-body")]
     public string? MatchBody { get; set; }
 
-    [CommandSwitch("--match-status-codes")]
+    [CliOption("--match-status-codes")]
     public string? MatchStatusCodes { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

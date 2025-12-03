@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "feature-set", "list-materialization-operation")]
+[CliCommand("ml", "feature-set", "list-materialization-operation")]
 public record AzMlFeatureSetListMaterializationOperationOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--version")] string Version
+[property: CliOption("--name")] string Name,
+[property: CliOption("--version")] string Version
 ) : AzOptions
 {
-    [CommandSwitch("--feature-store-name")]
+    [CliOption("--feature-store-name")]
     public string? FeatureStoreName { get; set; }
 
-    [CommandSwitch("--feature-window-end-time")]
+    [CliOption("--feature-window-end-time")]
     public string? FeatureWindowEndTime { get; set; }
 
-    [CommandSwitch("--feature-window-start-time")]
+    [CliOption("--feature-window-start-time")]
     public string? FeatureWindowStartTime { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string? Filters { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

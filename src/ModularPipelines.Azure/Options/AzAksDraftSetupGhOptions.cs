@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "draft", "setup-gh")]
+[CliCommand("aks", "draft", "setup-gh")]
 public record AzAksDraftSetupGhOptions : AzOptions
 {
-    [CommandSwitch("--app")]
+    [CliOption("--app")]
     public string? App { get; set; }
 
-    [CommandSwitch("--gh-repo")]
+    [CliOption("--gh-repo")]
     public string? GhRepo { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--provider")]
+    [CliOption("--provider")]
     public string? Provider { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription-id")]
+    [CliOption("--subscription-id")]
     public string? SubscriptionId { get; set; }
 }

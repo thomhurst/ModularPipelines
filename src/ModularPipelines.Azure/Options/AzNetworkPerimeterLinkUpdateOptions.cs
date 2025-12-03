@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "perimeter", "link", "update")]
+[CliCommand("network", "perimeter", "link", "update")]
 public record AzNetworkPerimeterLinkUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--link-name")]
+    [CliOption("--link-name")]
     public string? LinkName { get; set; }
 
-    [CommandSwitch("--local-inbound-profile")]
+    [CliOption("--local-inbound-profile")]
     public string? LocalInboundProfile { get; set; }
 
-    [CommandSwitch("--perimeter-name")]
+    [CliOption("--perimeter-name")]
     public string? PerimeterName { get; set; }
 
-    [CommandSwitch("--remote-inbound-profile")]
+    [CliOption("--remote-inbound-profile")]
     public string? RemoteInboundProfile { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

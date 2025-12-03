@@ -3,22 +3,22 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("output")]
+[CliCommand("output")]
 [ExcludeFromCodeCoverage]
 public record TerraformOutputOptions : TerraformOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("-json")]
+    [CliFlag("-json")]
     public virtual bool? Json { get; set; }
 
-    [BooleanCommandSwitch("-raw")]
+    [CliFlag("-raw")]
     public virtual bool? Raw { get; set; }
 
-    [BooleanCommandSwitch("-no-color")]
+    [CliFlag("-no-color")]
     public virtual bool? NoColor { get; set; }
 
-    [CommandSwitch("-state")]
+    [CliOption("-state")]
     public virtual string? State { get; set; }
 }

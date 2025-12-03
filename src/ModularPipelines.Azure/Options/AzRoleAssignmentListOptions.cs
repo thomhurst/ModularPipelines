@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("role", "assignment", "list")]
+[CliCommand("role", "assignment", "list")]
 public record AzRoleAssignmentListOptions : AzOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public bool? All { get; set; }
 
-    [CommandSwitch("--assignee")]
+    [CliOption("--assignee")]
     public string? Assignee { get; set; }
 
-    [BooleanCommandSwitch("--include-classic-administrators")]
+    [CliFlag("--include-classic-administrators")]
     public bool? IncludeClassicAdministrators { get; set; }
 
-    [BooleanCommandSwitch("--include-groups")]
+    [CliFlag("--include-groups")]
     public bool? IncludeGroups { get; set; }
 
-    [BooleanCommandSwitch("--include-inherited")]
+    [CliFlag("--include-inherited")]
     public bool? IncludeInherited { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 }

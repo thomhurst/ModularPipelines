@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("alloydb", "clusters", "delete")]
+[CliCommand("alloydb", "clusters", "delete")]
 public record GcloudAlloydbClustersDeleteOptions(
-[property: PositionalArgument] string Cluster,
-[property: CommandSwitch("--region")] string Region
+[property: CliArgument] string Cluster,
+[property: CliOption("--region")] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 }

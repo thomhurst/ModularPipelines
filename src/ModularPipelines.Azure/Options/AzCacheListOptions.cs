@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cache", "list")]
+[CliCommand("cache", "list")]
 public record AzCacheListOptions : AzOptions;

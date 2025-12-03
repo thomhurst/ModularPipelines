@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("database-migration", "conversion-workspaces", "delete")]
+[CliCommand("database-migration", "conversion-workspaces", "delete")]
 public record GcloudDatabaseMigrationConversionWorkspacesDeleteOptions(
-[property: PositionalArgument] string ConversionWorkspace,
-[property: PositionalArgument] string Region
+[property: CliArgument] string ConversionWorkspace,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--no-async")]
+    [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
 }

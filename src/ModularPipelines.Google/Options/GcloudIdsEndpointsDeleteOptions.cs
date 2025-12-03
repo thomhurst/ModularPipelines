@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ids", "endpoints", "delete")]
+[CliCommand("ids", "endpoints", "delete")]
 public record GcloudIdsEndpointsDeleteOptions(
-[property: PositionalArgument] string Endpoint,
-[property: PositionalArgument] string Zone
+[property: CliArgument] string Endpoint,
+[property: CliArgument] string Zone
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--max-wait")]
+    [CliOption("--max-wait")]
     public string? MaxWait { get; set; }
 }

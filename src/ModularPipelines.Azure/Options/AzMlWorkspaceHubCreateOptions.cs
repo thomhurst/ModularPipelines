@@ -4,59 +4,59 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "workspace-hub", "create")]
+[CliCommand("ml", "workspace-hub", "create")]
 public record AzMlWorkspaceHubCreateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--additional-workspace-storage-accounts")]
+    [CliOption("--additional-workspace-storage-accounts")]
     public int? AdditionalWorkspaceStorageAccounts { get; set; }
 
-    [CommandSwitch("--container-registry")]
+    [CliOption("--container-registry")]
     public string? ContainerRegistry { get; set; }
 
-    [CommandSwitch("--default-workspace-resource-group")]
+    [CliOption("--default-workspace-resource-group")]
     public string? DefaultWorkspaceResourceGroup { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 
-    [CommandSwitch("--key-vault")]
+    [CliOption("--key-vault")]
     public string? KeyVault { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--managed-network")]
+    [CliOption("--managed-network")]
     public string? ManagedNetwork { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--primary-user-assigned-identity")]
+    [CliOption("--primary-user-assigned-identity")]
     public string? PrimaryUserAssignedIdentity { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--storage-account")]
+    [CliOption("--storage-account")]
     public int? StorageAccount { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--update-dependent-resources")]
+    [CliFlag("--update-dependent-resources")]
     public bool? UpdateDependentResources { get; set; }
 }

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "update-maintenance-window-target")]
+[CliCommand("ssm", "update-maintenance-window-target")]
 public record AwsSsmUpdateMaintenanceWindowTargetOptions(
-[property: CommandSwitch("--window-id")] string WindowId,
-[property: CommandSwitch("--window-target-id")] string WindowTargetId
+[property: CliOption("--window-id")] string WindowId,
+[property: CliOption("--window-target-id")] string WindowTargetId
 ) : AwsOptions
 {
-    [CommandSwitch("--targets")]
+    [CliOption("--targets")]
     public string[]? Targets { get; set; }
 
-    [CommandSwitch("--owner-information")]
+    [CliOption("--owner-information")]
     public string? OwnerInformation { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

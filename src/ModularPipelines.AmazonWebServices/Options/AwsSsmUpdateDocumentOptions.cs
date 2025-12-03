@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "update-document")]
+[CliCommand("ssm", "update-document")]
 public record AwsSsmUpdateDocumentOptions(
-[property: CommandSwitch("--content")] string Content,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--content")] string Content,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--attachments")]
+    [CliOption("--attachments")]
     public string[]? Attachments { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--version-name")]
+    [CliOption("--version-name")]
     public string? VersionName { get; set; }
 
-    [CommandSwitch("--document-version")]
+    [CliOption("--document-version")]
     public string? DocumentVersion { get; set; }
 
-    [CommandSwitch("--document-format")]
+    [CliOption("--document-format")]
     public string? DocumentFormat { get; set; }
 
-    [CommandSwitch("--target-type")]
+    [CliOption("--target-type")]
     public string? TargetType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

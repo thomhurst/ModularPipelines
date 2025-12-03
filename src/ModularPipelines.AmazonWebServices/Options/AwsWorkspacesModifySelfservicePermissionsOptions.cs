@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "modify-selfservice-permissions")]
+[CliCommand("workspaces", "modify-selfservice-permissions")]
 public record AwsWorkspacesModifySelfservicePermissionsOptions(
-[property: CommandSwitch("--resource-id")] string ResourceId,
-[property: CommandSwitch("--selfservice-permissions")] string SelfservicePermissions
+[property: CliOption("--resource-id")] string ResourceId,
+[property: CliOption("--selfservice-permissions")] string SelfservicePermissions
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

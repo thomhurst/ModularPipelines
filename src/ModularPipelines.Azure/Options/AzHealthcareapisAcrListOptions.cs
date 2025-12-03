@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcareapis", "acr", "list")]
+[CliCommand("healthcareapis", "acr", "list")]
 public record AzHealthcareapisAcrListOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-name")] string ResourceName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--resource-name")] string ResourceName
 ) : AzOptions;

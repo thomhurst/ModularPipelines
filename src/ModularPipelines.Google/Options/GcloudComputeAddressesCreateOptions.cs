@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "addresses", "create")]
+[CliCommand("compute", "addresses", "create")]
 public record GcloudComputeAddressesCreateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--endpoint-type")]
+    [CliOption("--endpoint-type")]
     public string? EndpointType { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--network-tier")]
+    [CliOption("--network-tier")]
     public string? NetworkTier { get; set; }
 
-    [CommandSwitch("--prefix-length")]
+    [CliOption("--prefix-length")]
     public string? PrefixLength { get; set; }
 
-    [CommandSwitch("--purpose")]
+    [CliOption("--purpose")]
     public string? Purpose { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--addresses")]
+    [CliOption("--addresses")]
     public string[]? Addresses { get; set; }
 
-    [CommandSwitch("--ip-version")]
+    [CliOption("--ip-version")]
     public string? IpVersion { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

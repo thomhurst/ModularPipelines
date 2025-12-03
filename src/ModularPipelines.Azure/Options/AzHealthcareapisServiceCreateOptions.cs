@@ -4,50 +4,50 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcareapis", "service", "create")]
+[CliCommand("healthcareapis", "service", "create")]
 public record AzHealthcareapisServiceCreateOptions(
-[property: CommandSwitch("--kind")] string Kind,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-name")] string ResourceName
+[property: CliOption("--kind")] string Kind,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--resource-name")] string ResourceName
 ) : AzOptions
 {
-    [CommandSwitch("--access-policies")]
+    [CliOption("--access-policies")]
     public string? AccessPolicies { get; set; }
 
-    [CommandSwitch("--authentication-configuration")]
+    [CliOption("--authentication-configuration")]
     public string? AuthenticationConfiguration { get; set; }
 
-    [CommandSwitch("--cors-configuration")]
+    [CliOption("--cors-configuration")]
     public string? CorsConfiguration { get; set; }
 
-    [CommandSwitch("--cosmos-db-configuration")]
+    [CliOption("--cosmos-db-configuration")]
     public string? CosmosDbConfiguration { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--export-configuration-storage-account-name")]
+    [CliOption("--export-configuration-storage-account-name")]
     public int? ExportConfigurationStorageAccountName { get; set; }
 
-    [CommandSwitch("--identity-type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
-    [CommandSwitch("--login-servers")]
+    [CliOption("--login-servers")]
     public string? LoginServers { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--oci-artifacts")]
+    [CliOption("--oci-artifacts")]
     public string? OciArtifacts { get; set; }
 
-    [CommandSwitch("--private-endpoint-connections")]
+    [CliOption("--private-endpoint-connections")]
     public string? PrivateEndpointConnections { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("support", "create-case")]
+[CliCommand("support", "create-case")]
 public record AwsSupportCreateCaseOptions(
-[property: CommandSwitch("--subject")] string Subject,
-[property: CommandSwitch("--communication-body")] string CommunicationBody
+[property: CliOption("--subject")] string Subject,
+[property: CliOption("--communication-body")] string CommunicationBody
 ) : AwsOptions
 {
-    [CommandSwitch("--service-code")]
+    [CliOption("--service-code")]
     public string? ServiceCode { get; set; }
 
-    [CommandSwitch("--severity-code")]
+    [CliOption("--severity-code")]
     public string? SeverityCode { get; set; }
 
-    [CommandSwitch("--category-code")]
+    [CliOption("--category-code")]
     public string? CategoryCode { get; set; }
 
-    [CommandSwitch("--cc-email-addresses")]
+    [CliOption("--cc-email-addresses")]
     public string[]? CcEmailAddresses { get; set; }
 
-    [CommandSwitch("--language")]
+    [CliOption("--language")]
     public string? Language { get; set; }
 
-    [CommandSwitch("--issue-type")]
+    [CliOption("--issue-type")]
     public string? IssueType { get; set; }
 
-    [CommandSwitch("--attachment-set-id")]
+    [CliOption("--attachment-set-id")]
     public string? AttachmentSetId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "atp", "storage", "update")]
+[CliCommand("security", "atp", "storage", "update")]
 public record AzSecurityAtpStorageUpdateOptions(
-[property: BooleanCommandSwitch("--is-enabled")] bool IsEnabled,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-account")] int StorageAccount
+[property: CliFlag("--is-enabled")] bool IsEnabled,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--storage-account")] int StorageAccount
 ) : AzOptions;

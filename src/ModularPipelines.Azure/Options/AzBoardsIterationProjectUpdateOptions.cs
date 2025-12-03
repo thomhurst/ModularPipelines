@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("boards", "iteration", "project", "update")]
+[CliCommand("boards", "iteration", "project", "update")]
 public record AzBoardsIterationProjectUpdateOptions(
-[property: CommandSwitch("--path")] string Path
+[property: CliOption("--path")] string Path
 ) : AzOptions
 {
-    [CommandSwitch("--child-id")]
+    [CliOption("--child-id")]
     public string? ChildId { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--finish-date")]
+    [CliOption("--finish-date")]
     public string? FinishDate { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [CommandSwitch("--start-date")]
+    [CliOption("--start-date")]
     public string? StartDate { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("account", "lock", "update")]
+[CliCommand("account", "lock", "update")]
 public record AzAccountLockUpdateOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--lock-type")]
+    [CliOption("--lock-type")]
     public string? LockType { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--notes")]
+    [CliOption("--notes")]
     public string? Notes { get; set; }
 }

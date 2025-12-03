@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("metastore", "federations", "describe")]
+[CliCommand("metastore", "federations", "describe")]
 public record GcloudMetastoreFederationsDescribeOptions(
-[property: PositionalArgument] string Federation,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Federation,
+[property: CliArgument] string Location
 ) : GcloudOptions;

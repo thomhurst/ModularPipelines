@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-security", "org-address-groups", "list")]
+[CliCommand("network-security", "org-address-groups", "list")]
 public record GcloudNetworkSecurityOrgAddressGroupsListOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--organization")] string Organization
+[property: CliOption("--location")] string Location,
+[property: CliOption("--organization")] string Organization
 ) : GcloudOptions;

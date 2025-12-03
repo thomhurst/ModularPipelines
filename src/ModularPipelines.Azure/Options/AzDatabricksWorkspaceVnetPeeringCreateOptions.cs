@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databricks", "workspace", "vnet-peering", "create")]
+[CliCommand("databricks", "workspace", "vnet-peering", "create")]
 public record AzDatabricksWorkspaceVnetPeeringCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allow-forwarded-traffic")]
+    [CliFlag("--allow-forwarded-traffic")]
     public bool? AllowForwardedTraffic { get; set; }
 
-    [BooleanCommandSwitch("--allow-gateway-transit")]
+    [CliFlag("--allow-gateway-transit")]
     public bool? AllowGatewayTransit { get; set; }
 
-    [BooleanCommandSwitch("--allow-virtual-network-access")]
+    [CliFlag("--allow-virtual-network-access")]
     public bool? AllowVirtualNetworkAccess { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remote-vnet")]
+    [CliOption("--remote-vnet")]
     public string? RemoteVnet { get; set; }
 
-    [BooleanCommandSwitch("--use-remote-gateways")]
+    [CliFlag("--use-remote-gateways")]
     public bool? UseRemoteGateways { get; set; }
 }

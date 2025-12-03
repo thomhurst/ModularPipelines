@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("state list")]
+[CliCommand("state list")]
 [ExcludeFromCodeCoverage]
 public record TerraformStateListOptions : TerraformOptions
 {
-    [CommandSwitch("-state")]
+    [CliOption("-state")]
     public virtual string? State { get; set; }
 
-    [CommandSwitch("-id")]
+    [CliOption("-id")]
     public virtual string? Id { get; set; }
 }

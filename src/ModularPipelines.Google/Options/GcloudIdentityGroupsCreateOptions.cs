@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("identity", "groups", "create")]
+[CliCommand("identity", "groups", "create")]
 public record GcloudIdentityGroupsCreateOptions(
-[property: PositionalArgument] string Email,
-[property: CommandSwitch("--customer")] string Customer,
-[property: CommandSwitch("--organization")] string Organization
+[property: CliArgument] string Email,
+[property: CliOption("--customer")] string Customer,
+[property: CliOption("--organization")] string Organization
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--dynamic-user-query")]
+    [CliOption("--dynamic-user-query")]
     public string? DynamicUserQuery { get; set; }
 
-    [CommandSwitch("--with-initial-owner")]
+    [CliOption("--with-initial-owner")]
     public string? WithInitialOwner { get; set; }
 
-    [CommandSwitch("--group-type")]
+    [CliOption("--group-type")]
     public string? GroupType { get; set; }
 
-    [BooleanCommandSwitch("discussion")]
+    [CliFlag("discussion")]
     public bool? Discussion { get; set; }
 
-    [BooleanCommandSwitch("dynamic")]
+    [CliFlag("dynamic")]
     public bool? Dynamic { get; set; }
 
-    [BooleanCommandSwitch("security")]
+    [CliFlag("security")]
     public bool? Security { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 }

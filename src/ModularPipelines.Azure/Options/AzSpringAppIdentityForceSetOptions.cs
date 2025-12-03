@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "app", "identity", "force-set")]
+[CliCommand("spring", "app", "identity", "force-set")]
 public record AzSpringAppIdentityForceSetOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service,
-[property: CommandSwitch("--system-assigned")] string SystemAssigned,
-[property: CommandSwitch("--user-assigned")] string UserAssigned
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service,
+[property: CliOption("--system-assigned")] string SystemAssigned,
+[property: CliOption("--user-assigned")] string UserAssigned
 ) : AzOptions;

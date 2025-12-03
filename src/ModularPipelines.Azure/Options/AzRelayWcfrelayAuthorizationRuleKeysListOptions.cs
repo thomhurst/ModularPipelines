@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("relay", "wcfrelay", "authorization-rule", "keys", "list")]
+[CliCommand("relay", "wcfrelay", "authorization-rule", "keys", "list")]
 public record AzRelayWcfrelayAuthorizationRuleKeysListOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--relay-name")] string RelayName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--relay-name")] string RelayName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

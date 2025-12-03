@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fzf", "install")]
+[CliCommand("fzf", "install")]
 public record AzFzfInstallOptions : AzOptions
 {
-    [CommandSwitch("--install-dir")]
+    [CliOption("--install-dir")]
     public string? InstallDir { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 }

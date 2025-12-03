@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "update", "stage")]
+[CliCommand("iot", "du", "update", "stage")]
 public record AzIotDuUpdateStageOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--instance")] string Instance,
-[property: CommandSwitch("--manifest-path")] string ManifestPath,
-[property: CommandSwitch("--storage-account")] int StorageAccount,
-[property: CommandSwitch("--storage-container")] string StorageContainer
+[property: CliOption("--account")] int Account,
+[property: CliOption("--instance")] string Instance,
+[property: CliOption("--manifest-path")] string ManifestPath,
+[property: CliOption("--storage-account")] int StorageAccount,
+[property: CliOption("--storage-container")] string StorageContainer
 ) : AzOptions
 {
-    [CommandSwitch("--friendly-name")]
+    [CliOption("--friendly-name")]
     public string? FriendlyName { get; set; }
 
-    [BooleanCommandSwitch("--overwrite")]
+    [CliFlag("--overwrite")]
     public bool? Overwrite { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--storage-subscription")]
+    [CliOption("--storage-subscription")]
     public string? StorageSubscription { get; set; }
 
-    [BooleanCommandSwitch("--then-import")]
+    [CliFlag("--then-import")]
     public bool? ThenImport { get; set; }
 }

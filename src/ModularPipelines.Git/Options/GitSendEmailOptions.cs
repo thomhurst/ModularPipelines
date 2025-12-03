@@ -3,190 +3,190 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("send-email")]
+[CliCommand("send-email")]
 [ExcludeFromCodeCoverage]
 public record GitSendEmailOptions : GitOptions
 {
-    [BooleanCommandSwitch("--annotate")]
+    [CliFlag("--annotate")]
     public virtual bool? Annotate { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--bcc")]
+    [CliOption("--bcc", Format = OptionFormat.EqualsSeparated)]
     public string? Bcc { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cc")]
+    [CliOption("--cc", Format = OptionFormat.EqualsSeparated)]
     public string? Cc { get; set; }
 
-    [BooleanCommandSwitch("--compose")]
+    [CliFlag("--compose")]
     public virtual bool? Compose { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--from")]
+    [CliOption("--from", Format = OptionFormat.EqualsSeparated)]
     public string? From { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--reply-to")]
+    [CliOption("--reply-to", Format = OptionFormat.EqualsSeparated)]
     public string? ReplyTo { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--in-reply-to")]
+    [CliOption("--in-reply-to", Format = OptionFormat.EqualsSeparated)]
     public string? InReplyTo { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--subject")]
+    [CliOption("--subject", Format = OptionFormat.EqualsSeparated)]
     public string? Subject { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--to")]
+    [CliOption("--to", Format = OptionFormat.EqualsSeparated)]
     public string? To { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--8bit-encoding")]
+    [CliOption("--8bit-encoding", Format = OptionFormat.EqualsSeparated)]
     public string? EightBitEncoding { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--compose-encoding")]
+    [CliOption("--compose-encoding", Format = OptionFormat.EqualsSeparated)]
     public string? ComposeEncoding { get; set; }
 
-    [BooleanCommandSwitch("--transfer-encoding")]
+    [CliFlag("--transfer-encoding")]
     public virtual bool? TransferEncoding { get; set; }
 
-    [BooleanCommandSwitch("--xmailer")]
+    [CliFlag("--xmailer")]
     public virtual bool? Xmailer { get; set; }
 
-    [BooleanCommandSwitch("--no-xmailer")]
+    [CliFlag("--no-xmailer")]
     public virtual bool? NoXmailer { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--envelope-sender")]
+    [CliOption("--envelope-sender", Format = OptionFormat.EqualsSeparated)]
     public string? EnvelopeSender { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--sendmail-cmd")]
+    [CliOption("--sendmail-cmd", Format = OptionFormat.EqualsSeparated)]
     public string? SendmailCmd { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--smtp-encryption")]
+    [CliOption("--smtp-encryption", Format = OptionFormat.EqualsSeparated)]
     public string? SmtpEncryption { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--smtp-domain")]
+    [CliOption("--smtp-domain", Format = OptionFormat.EqualsSeparated)]
     public string? SmtpDomain { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--smtp-auth")]
+    [CliOption("--smtp-auth", Format = OptionFormat.EqualsSeparated)]
     public string? SmtpAuth { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--smtp-pass")]
+    [CliOption("--smtp-pass", Format = OptionFormat.EqualsSeparated)]
     public string? SmtpPass { get; set; }
 
-    [BooleanCommandSwitch("--no-smtp-auth")]
+    [CliFlag("--no-smtp-auth")]
     public virtual bool? NoSmtpAuth { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--smtp-server")]
+    [CliOption("--smtp-server", Format = OptionFormat.EqualsSeparated)]
     public string? SmtpServer { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--smtp-server-port")]
+    [CliOption("--smtp-server-port", Format = OptionFormat.EqualsSeparated)]
     public string? SmtpServerPort { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--smtp-server-option")]
+    [CliOption("--smtp-server-option", Format = OptionFormat.EqualsSeparated)]
     public string? SmtpServerOption { get; set; }
 
-    [BooleanCommandSwitch("--smtp-ssl")]
+    [CliFlag("--smtp-ssl")]
     public virtual bool? SmtpSsl { get; set; }
 
-    [BooleanCommandSwitch("--smtp-ssl-cert-path")]
+    [CliFlag("--smtp-ssl-cert-path")]
     public virtual bool? SmtpSslCertPath { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--smtp-user")]
+    [CliOption("--smtp-user", Format = OptionFormat.EqualsSeparated)]
     public string? SmtpUser { get; set; }
 
-    [BooleanCommandSwitch("--smtp-debug")]
+    [CliFlag("--smtp-debug")]
     public virtual bool? SmtpDebug { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--batch-size")]
+    [CliOption("--batch-size", Format = OptionFormat.EqualsSeparated)]
     public string? BatchSize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--relogin-delay")]
+    [CliOption("--relogin-delay", Format = OptionFormat.EqualsSeparated)]
     public string? ReloginDelay { get; set; }
 
-    [BooleanCommandSwitch("--no-to")]
+    [CliFlag("--no-to")]
     public virtual bool? NoTo { get; set; }
 
-    [BooleanCommandSwitch("--no-cc")]
+    [CliFlag("--no-cc")]
     public virtual bool? NoCc { get; set; }
 
-    [BooleanCommandSwitch("--no-bcc")]
+    [CliFlag("--no-bcc")]
     public virtual bool? NoBcc { get; set; }
 
-    [BooleanCommandSwitch("--no-identity")]
+    [CliFlag("--no-identity")]
     public virtual bool? NoIdentity { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--to-cmd")]
+    [CliOption("--to-cmd", Format = OptionFormat.EqualsSeparated)]
     public string? ToCmd { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cc-cmd")]
+    [CliOption("--cc-cmd", Format = OptionFormat.EqualsSeparated)]
     public string? CcCmd { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--header-cmd")]
+    [CliOption("--header-cmd", Format = OptionFormat.EqualsSeparated)]
     public string? HeaderCmd { get; set; }
 
-    [BooleanCommandSwitch("--no-header-cmd")]
+    [CliFlag("--no-header-cmd")]
     public virtual bool? NoHeaderCmd { get; set; }
 
-    [BooleanCommandSwitch("--no-chain-reply-to")]
+    [CliFlag("--no-chain-reply-to")]
     public virtual bool? NoChainReplyTo { get; set; }
 
-    [BooleanCommandSwitch("--chain-reply-to")]
+    [CliFlag("--chain-reply-to")]
     public virtual bool? ChainReplyTo { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--identity")]
+    [CliOption("--identity", Format = OptionFormat.EqualsSeparated)]
     public string? Identity { get; set; }
 
-    [BooleanCommandSwitch("--no-signed-off-by-cc")]
+    [CliFlag("--no-signed-off-by-cc")]
     public virtual bool? NoSignedOffByCc { get; set; }
 
-    [BooleanCommandSwitch("--signed-off-by-cc")]
+    [CliFlag("--signed-off-by-cc")]
     public virtual bool? SignedOffByCc { get; set; }
 
-    [BooleanCommandSwitch("--no-cc-cover")]
+    [CliFlag("--no-cc-cover")]
     public virtual bool? NoCcCover { get; set; }
 
-    [BooleanCommandSwitch("--cc-cover")]
+    [CliFlag("--cc-cover")]
     public virtual bool? CcCover { get; set; }
 
-    [BooleanCommandSwitch("--no-to-cover")]
+    [CliFlag("--no-to-cover")]
     public virtual bool? NoToCover { get; set; }
 
-    [BooleanCommandSwitch("--to-cover")]
+    [CliFlag("--to-cover")]
     public virtual bool? ToCover { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--suppress-cc")]
+    [CliOption("--suppress-cc", Format = OptionFormat.EqualsSeparated)]
     public string? SuppressCc { get; set; }
 
-    [BooleanCommandSwitch("--no-suppress-from")]
+    [CliFlag("--no-suppress-from")]
     public virtual bool? NoSuppressFrom { get; set; }
 
-    [BooleanCommandSwitch("--suppress-from")]
+    [CliFlag("--suppress-from")]
     public virtual bool? SuppressFrom { get; set; }
 
-    [BooleanCommandSwitch("--no-thread")]
+    [CliFlag("--no-thread")]
     public virtual bool? NoThread { get; set; }
 
-    [BooleanCommandSwitch("--thread")]
+    [CliFlag("--thread")]
     public virtual bool? Thread { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--confirm")]
+    [CliOption("--confirm", Format = OptionFormat.EqualsSeparated)]
     public string? Confirm { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--no-format-patch")]
+    [CliFlag("--no-format-patch")]
     public virtual bool? NoFormatPatch { get; set; }
 
-    [BooleanCommandSwitch("--format-patch")]
+    [CliFlag("--format-patch")]
     public virtual bool? FormatPatch { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--no-validate")]
+    [CliFlag("--no-validate")]
     public virtual bool? NoValidate { get; set; }
 
-    [BooleanCommandSwitch("--validate")]
+    [CliFlag("--validate")]
     public virtual bool? Validate { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--dump-aliases")]
+    [CliFlag("--dump-aliases")]
     public virtual bool? DumpAliases { get; set; }
 }

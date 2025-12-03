@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "repositories", "get-iam-policy")]
+[CliCommand("artifacts", "repositories", "get-iam-policy")]
 public record GcloudArtifactsRepositoriesGetIamPolicyOptions(
-[property: PositionalArgument] string Repository,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Repository,
+[property: CliArgument] string Location
 ) : GcloudOptions;

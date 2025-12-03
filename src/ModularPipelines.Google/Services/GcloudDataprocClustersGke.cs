@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "clusters")]
+[CliCommand("dataproc", "clusters")]
 public class GcloudDataprocClustersGke
 {
     public GcloudDataprocClustersGke(

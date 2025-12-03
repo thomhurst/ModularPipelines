@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops")]
+[CliCommand("devops")]
 public class AzDevopsExtension
 {
     public AzDevopsExtension(

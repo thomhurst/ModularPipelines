@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "service-endpoint", "urerm", "create")]
+[CliCommand("devops", "service-endpoint", "urerm", "create")]
 public record AzDevopsServiceEndpointAzurermCreateOptions(
-[property: CommandSwitch("--azure-rm-service-principal-id")] string AzureRmServicePrincipalId,
-[property: CommandSwitch("--azure-rm-subscription-id")] string AzureRmSubscriptionId,
-[property: CommandSwitch("--azure-rm-subscription-name")] string AzureRmSubscriptionName,
-[property: CommandSwitch("--azure-rm-tenant-id")] string AzureRmTenantId,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--azure-rm-service-principal-id")] string AzureRmServicePrincipalId,
+[property: CliOption("--azure-rm-subscription-id")] string AzureRmSubscriptionId,
+[property: CliOption("--azure-rm-subscription-name")] string AzureRmSubscriptionName,
+[property: CliOption("--azure-rm-tenant-id")] string AzureRmTenantId,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--azure-rm-service-principal-certificate-path")]
+    [CliOption("--azure-rm-service-principal-certificate-path")]
     public string? AzureRmServicePrincipalCertificatePath { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 }

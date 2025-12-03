@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lock", "update")]
+[CliCommand("lock", "update")]
 public record AzLockUpdateOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--lock-type")]
+    [CliOption("--lock-type")]
     public string? LockType { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--notes")]
+    [CliOption("--notes")]
     public string? Notes { get; set; }
 
-    [CommandSwitch("--parent")]
+    [CliOption("--parent")]
     public string? Parent { get; set; }
 
-    [CommandSwitch("--resource")]
+    [CliOption("--resource")]
     public string? Resource { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 }

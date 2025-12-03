@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "update-account-settings")]
+[CliCommand("quicksight", "update-account-settings")]
 public record AwsQuicksightUpdateAccountSettingsOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--default-namespace")] string DefaultNamespace
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--default-namespace")] string DefaultNamespace
 ) : AwsOptions
 {
-    [CommandSwitch("--notification-email")]
+    [CliOption("--notification-email")]
     public string? NotificationEmail { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

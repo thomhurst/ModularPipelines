@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "update")]
+[CliCommand("app", "update")]
 public record GcloudAppUpdateOptions : GcloudOptions
 {
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [CommandSwitch("--[no-]split-health-checks")]
+    [CliOption("--[no-]split-health-checks")]
     public string[]? NoSplitHealthChecks { get; set; }
 }

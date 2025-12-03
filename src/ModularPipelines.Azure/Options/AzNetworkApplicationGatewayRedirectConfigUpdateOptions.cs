@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "redirect-config", "update")]
+[CliCommand("network", "application-gateway", "redirect-config", "update")]
 public record AzNetworkApplicationGatewayRedirectConfigUpdateOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [BooleanCommandSwitch("--include-path")]
+    [CliFlag("--include-path")]
     public bool? IncludePath { get; set; }
 
-    [BooleanCommandSwitch("--include-query-string")]
+    [CliFlag("--include-query-string")]
     public bool? IncludeQueryString { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--target-listener")]
+    [CliOption("--target-listener")]
     public string? TargetListener { get; set; }
 
-    [CommandSwitch("--target-url")]
+    [CliOption("--target-url")]
     public string? TargetUrl { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 }

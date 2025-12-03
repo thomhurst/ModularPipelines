@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "list-inventory-entries")]
+[CliCommand("ssm", "list-inventory-entries")]
 public record AwsSsmListInventoryEntriesOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--type-name")] string TypeName
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--type-name")] string TypeName
 ) : AwsOptions
 {
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

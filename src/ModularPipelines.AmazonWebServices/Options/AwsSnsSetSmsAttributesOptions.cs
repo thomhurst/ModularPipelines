@@ -5,11 +5,11 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sns", "set-sms-attributes")]
+[CliCommand("sns", "set-sms-attributes")]
 public record AwsSnsSetSmsAttributesOptions(
-[property: CommandSwitch("--attributes")] IEnumerable<KeyValue> Attributes
+[property: CliOption("--attributes")] IEnumerable<KeyValue> Attributes
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

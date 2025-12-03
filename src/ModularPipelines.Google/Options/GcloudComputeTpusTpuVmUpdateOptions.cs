@@ -5,60 +5,60 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "tpus", "tpu-vm", "update")]
+[CliCommand("compute", "tpus", "tpu-vm", "update")]
 public record GcloudComputeTpusTpuVmUpdateOptions(
-[property: PositionalArgument] string Tpu,
-[property: PositionalArgument] string Zone
+[property: CliArgument] string Tpu,
+[property: CliArgument] string Zone
 ) : GcloudOptions
 {
-    [CommandSwitch("--add-tags")]
+    [CliOption("--add-tags")]
     public string[]? AddTags { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--internal-ips")]
+    [CliFlag("--internal-ips")]
     public bool? InternalIps { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [CommandSwitch("--attach-disk")]
+    [CliOption("--attach-disk")]
     public string[]? AttachDisk { get; set; }
 
-    [BooleanCommandSwitch("source")]
+    [CliFlag("source")]
     public bool? Source { get; set; }
 
-    [BooleanCommandSwitch("mode")]
+    [CliFlag("mode")]
     public bool? Mode { get; set; }
 
-    [CommandSwitch("--detach-disk")]
+    [CliOption("--detach-disk")]
     public string? DetachDisk { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-tags")]
+    [CliFlag("--clear-tags")]
     public bool? ClearTags { get; set; }
 
-    [CommandSwitch("--remove-tags")]
+    [CliOption("--remove-tags")]
     public string[]? RemoveTags { get; set; }
 
-    [CommandSwitch("--metadata-from-file")]
+    [CliOption("--metadata-from-file")]
     public IEnumerable<KeyValue>? MetadataFromFile { get; set; }
 
-    [CommandSwitch("--update-metadata")]
+    [CliOption("--update-metadata")]
     public IEnumerable<KeyValue>? UpdateMetadata { get; set; }
 
-    [BooleanCommandSwitch("--clear-metadata")]
+    [CliFlag("--clear-metadata")]
     public bool? ClearMetadata { get; set; }
 
-    [CommandSwitch("--remove-metadata")]
+    [CliOption("--remove-metadata")]
     public string[]? RemoveMetadata { get; set; }
 }

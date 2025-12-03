@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("run")]
+[CliCommand("run")]
 public record NpmRunOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string ScriptName
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string ScriptName
 ) : NpmOptions;

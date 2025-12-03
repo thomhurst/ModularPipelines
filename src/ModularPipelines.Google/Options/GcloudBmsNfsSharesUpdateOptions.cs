@@ -5,51 +5,51 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bms", "nfs-shares", "update")]
+[CliCommand("bms", "nfs-shares", "update")]
 public record GcloudBmsNfsSharesUpdateOptions(
-[property: PositionalArgument] string NfsShare,
-[property: PositionalArgument] string Region
+[property: CliArgument] string NfsShare,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [CommandSwitch("--add-allowed-client")]
+    [CliOption("--add-allowed-client")]
     public string[]? AddAllowedClient { get; set; }
 
-    [BooleanCommandSwitch("network")]
+    [CliFlag("network")]
     public bool? Network { get; set; }
 
-    [BooleanCommandSwitch("network-project-id")]
+    [CliFlag("network-project-id")]
     public bool? NetworkProjectId { get; set; }
 
-    [BooleanCommandSwitch("cidr")]
+    [CliFlag("cidr")]
     public bool? Cidr { get; set; }
 
-    [BooleanCommandSwitch("mount-permissions")]
+    [CliFlag("mount-permissions")]
     public bool? MountPermissions { get; set; }
 
-    [BooleanCommandSwitch("allow-dev")]
+    [CliFlag("allow-dev")]
     public bool? AllowDev { get; set; }
 
-    [BooleanCommandSwitch("allow-suid")]
+    [CliFlag("allow-suid")]
     public bool? AllowSuid { get; set; }
 
-    [BooleanCommandSwitch("enable-root-squash")]
+    [CliFlag("enable-root-squash")]
     public bool? EnableRootSquash { get; set; }
 
-    [BooleanCommandSwitch("--clear-allowed-clients")]
+    [CliFlag("--clear-allowed-clients")]
     public bool? ClearAllowedClients { get; set; }
 
-    [CommandSwitch("--remove-allowed-client")]
+    [CliOption("--remove-allowed-client")]
     public string[]? RemoveAllowedClient { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 }

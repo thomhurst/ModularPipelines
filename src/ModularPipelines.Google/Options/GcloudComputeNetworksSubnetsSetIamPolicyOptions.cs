@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "networks", "subnets", "set-iam-policy")]
+[CliCommand("compute", "networks", "subnets", "set-iam-policy")]
 public record GcloudComputeNetworksSubnetsSetIamPolicyOptions(
-[property: PositionalArgument] string Subnetwork,
-[property: PositionalArgument] string Region,
-[property: PositionalArgument] string PolicyFile
+[property: CliArgument] string Subnetwork,
+[property: CliArgument] string Region,
+[property: CliArgument] string PolicyFile
 ) : GcloudOptions;

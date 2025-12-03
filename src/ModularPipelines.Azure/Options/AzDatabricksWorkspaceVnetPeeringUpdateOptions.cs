@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databricks", "workspace", "vnet-peering", "update")]
+[CliCommand("databricks", "workspace", "vnet-peering", "update")]
 public record AzDatabricksWorkspaceVnetPeeringUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--allow-forwarded-traffic")]
+    [CliFlag("--allow-forwarded-traffic")]
     public bool? AllowForwardedTraffic { get; set; }
 
-    [BooleanCommandSwitch("--allow-gateway-transit")]
+    [CliFlag("--allow-gateway-transit")]
     public bool? AllowGatewayTransit { get; set; }
 
-    [BooleanCommandSwitch("--allow-virtual-network-access")]
+    [CliFlag("--allow-virtual-network-access")]
     public bool? AllowVirtualNetworkAccess { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--use-remote-gateways")]
+    [CliFlag("--use-remote-gateways")]
     public bool? UseRemoteGateways { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redis", "clusters", "get-cluster-certificate-authority")]
+[CliCommand("redis", "clusters", "get-cluster-certificate-authority")]
 public record GcloudRedisClustersGetClusterCertificateAuthorityOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Region
 ) : GcloudOptions;

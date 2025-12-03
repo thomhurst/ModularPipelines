@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "pipeline", "update-schedule")]
+[CliCommand("ml", "pipeline", "update-schedule")]
 public record AzMlPipelineUpdateScheduleOptions(
-[property: CommandSwitch("--schedule-id")] string ScheduleId
+[property: CliOption("--schedule-id")] string ScheduleId
 ) : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--schedule-yaml")]
+    [CliOption("--schedule-yaml")]
     public string? ScheduleYaml { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicecatalog-appregistry", "disassociate-attribute-group")]
+[CliCommand("servicecatalog-appregistry", "disassociate-attribute-group")]
 public record AwsServicecatalogAppregistryDisassociateAttributeGroupOptions(
-[property: CommandSwitch("--application")] string Application,
-[property: CommandSwitch("--attribute-group")] string AttributeGroup
+[property: CliOption("--application")] string Application,
+[property: CliOption("--attribute-group")] string AttributeGroup
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

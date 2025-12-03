@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "describe-projects")]
+[CliCommand("rekognition", "describe-projects")]
 public record AwsRekognitionDescribeProjectsOptions : AwsOptions
 {
-    [CommandSwitch("--project-names")]
+    [CliOption("--project-names")]
     public string[]? ProjectNames { get; set; }
 
-    [CommandSwitch("--features")]
+    [CliOption("--features")]
     public string[]? Features { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

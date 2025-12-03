@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "auth", "facebook", "update")]
+[CliCommand("webapp", "auth", "facebook", "update")]
 public record AzWebappAuthFacebookUpdateOptions : AzOptions
 {
-    [CommandSwitch("--app-id")]
+    [CliOption("--app-id")]
     public string? AppId { get; set; }
 
-    [CommandSwitch("--app-secret")]
+    [CliOption("--app-secret")]
     public string? AppSecret { get; set; }
 
-    [CommandSwitch("--app-secret-setting-name")]
+    [CliOption("--app-secret-setting-name")]
     public string? AppSecretSettingName { get; set; }
 
-    [CommandSwitch("--graph-api-version")]
+    [CliOption("--graph-api-version")]
     public string? GraphApiVersion { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string? Scopes { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

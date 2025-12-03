@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines", "runs", "list")]
+[CliCommand("pipelines", "runs", "list")]
 public record AzPipelinesRunsListOptions : AzOptions
 {
-    [CommandSwitch("--branch")]
+    [CliOption("--branch")]
     public string? Branch { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--pipeline-ids")]
+    [CliOption("--pipeline-ids")]
     public string? PipelineIds { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [CommandSwitch("--query-order")]
+    [CliOption("--query-order")]
     public string? QueryOrder { get; set; }
 
-    [CommandSwitch("--reason")]
+    [CliOption("--reason")]
     public string? Reason { get; set; }
 
-    [CommandSwitch("--requested-for")]
+    [CliOption("--requested-for")]
     public string? RequestedFor { get; set; }
 
-    [CommandSwitch("--result")]
+    [CliOption("--result")]
     public string? Result { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

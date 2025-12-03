@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("secrets", "versions", "list")]
+[CliCommand("secrets", "versions", "list")]
 public record GcloudSecretsVersionsListOptions(
-[property: PositionalArgument] string Secret
+[property: CliArgument] string Secret
 ) : GcloudOptions;

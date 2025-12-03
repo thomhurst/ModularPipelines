@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appservice", "ase", "update")]
+[CliCommand("appservice", "ase", "update")]
 public record AzAppserviceAseUpdateOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allow-incoming-ftp-connections")]
+    [CliFlag("--allow-incoming-ftp-connections")]
     public bool? AllowIncomingFtpConnections { get; set; }
 
-    [BooleanCommandSwitch("--allow-new-private-endpoint-connections")]
+    [CliFlag("--allow-new-private-endpoint-connections")]
     public bool? AllowNewPrivateEndpointConnections { get; set; }
 
-    [BooleanCommandSwitch("--allow-remote-debugging")]
+    [CliFlag("--allow-remote-debugging")]
     public bool? AllowRemoteDebugging { get; set; }
 
-    [CommandSwitch("--front-end-scale-factor")]
+    [CliOption("--front-end-scale-factor")]
     public string? FrontEndScaleFactor { get; set; }
 
-    [CommandSwitch("--front-end-sku")]
+    [CliOption("--front-end-sku")]
     public string? FrontEndSku { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

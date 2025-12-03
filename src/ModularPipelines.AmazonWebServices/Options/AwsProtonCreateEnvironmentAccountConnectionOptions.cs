@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("proton", "create-environment-account-connection")]
+[CliCommand("proton", "create-environment-account-connection")]
 public record AwsProtonCreateEnvironmentAccountConnectionOptions(
-[property: CommandSwitch("--environment-name")] string EnvironmentName,
-[property: CommandSwitch("--management-account-id")] string ManagementAccountId
+[property: CliOption("--environment-name")] string EnvironmentName,
+[property: CliOption("--management-account-id")] string ManagementAccountId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--codebuild-role-arn")]
+    [CliOption("--codebuild-role-arn")]
     public string? CodebuildRoleArn { get; set; }
 
-    [CommandSwitch("--component-role-arn")]
+    [CliOption("--component-role-arn")]
     public string? ComponentRoleArn { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

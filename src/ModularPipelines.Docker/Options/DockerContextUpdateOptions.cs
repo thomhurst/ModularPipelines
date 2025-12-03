@@ -15,12 +15,12 @@ public record DockerContextUpdateOptions : DockerOptions
         UpdateContext = context;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? UpdateContext { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public virtual string? Description { get; set; }
 
-    [CommandSwitch("--docker")]
+    [CliOption("--docker")]
     public virtual string? Docker { get; set; }
 }

@@ -4,73 +4,73 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "computetarget", "create", "amlcompute")]
+[CliCommand("ml", "computetarget", "create", "amlcompute")]
 public record AzMlComputetargetCreateAmlcomputeOptions(
-[property: CommandSwitch("--max-nodes")] string MaxNodes,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--vm-size")] string VmSize
+[property: CliOption("--max-nodes")] string MaxNodes,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--vm-size")] string VmSize
 ) : AzOptions
 {
-    [CommandSwitch("--admin-user-password")]
+    [CliOption("--admin-user-password")]
     public string? AdminUserPassword { get; set; }
 
-    [CommandSwitch("--admin-user-ssh-key")]
+    [CliOption("--admin-user-ssh-key")]
     public string? AdminUserSshKey { get; set; }
 
-    [CommandSwitch("--admin-username")]
+    [CliOption("--admin-username")]
     public string? AdminUsername { get; set; }
 
-    [CommandSwitch("--assign-identity")]
+    [CliOption("--assign-identity")]
     public string? AssignIdentity { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enable-node-public-ip")]
+    [CliFlag("--enable-node-public-ip")]
     public bool? EnableNodePublicIp { get; set; }
 
-    [CommandSwitch("--idle-seconds-before-scaledown")]
+    [CliOption("--idle-seconds-before-scaledown")]
     public string? IdleSecondsBeforeScaledown { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--min-nodes")]
+    [CliOption("--min-nodes")]
     public string? MinNodes { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--remote-login-port-public-access")]
+    [CliOption("--remote-login-port-public-access")]
     public string? RemoteLoginPortPublicAccess { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subnet-name")]
+    [CliOption("--subnet-name")]
     public string? SubnetName { get; set; }
 
-    [CommandSwitch("--subscription-id")]
+    [CliOption("--subscription-id")]
     public string? SubscriptionId { get; set; }
 
-    [CommandSwitch("--tag")]
+    [CliOption("--tag")]
     public string? Tag { get; set; }
 
-    [CommandSwitch("--vm-priority")]
+    [CliOption("--vm-priority")]
     public string? VmPriority { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 
-    [CommandSwitch("--vnet-resourcegroup-name")]
+    [CliOption("--vnet-resourcegroup-name")]
     public string? VnetResourcegroupName { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 
-    [BooleanCommandSwitch("-v")]
+    [CliFlag("-v")]
     public bool? V { get; set; }
 }

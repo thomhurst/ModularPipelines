@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "addresses", "move")]
+[CliCommand("compute", "addresses", "move")]
 public record GcloudComputeAddressesMoveOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--target-project")] string TargetProject
+[property: CliArgument] string Name,
+[property: CliOption("--target-project")] string TargetProject
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--new-name")]
+    [CliOption("--new-name")]
     public string? NewName { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

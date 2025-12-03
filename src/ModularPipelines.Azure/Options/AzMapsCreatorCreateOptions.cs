@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("maps", "creator", "create")]
+[CliCommand("maps", "creator", "create")]
 public record AzMapsCreatorCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--creator-name")] string CreatorName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-units")] string StorageUnits
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--creator-name")] string CreatorName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--storage-units")] string StorageUnits
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

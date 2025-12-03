@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workdocs", "create-custom-metadata")]
+[CliCommand("workdocs", "create-custom-metadata")]
 public record AwsWorkdocsCreateCustomMetadataOptions(
-[property: CommandSwitch("--resource-id")] string ResourceId,
-[property: CommandSwitch("--custom-metadata")] IEnumerable<KeyValue> CustomMetadata
+[property: CliOption("--resource-id")] string ResourceId,
+[property: CliOption("--custom-metadata")] IEnumerable<KeyValue> CustomMetadata
 ) : AwsOptions
 {
-    [CommandSwitch("--authentication-token")]
+    [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
-    [CommandSwitch("--version-id")]
+    [CliOption("--version-id")]
     public string? VersionId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

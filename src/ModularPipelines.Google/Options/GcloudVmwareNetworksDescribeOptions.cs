@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "networks", "describe")]
+[CliCommand("vmware", "networks", "describe")]
 public record GcloudVmwareNetworksDescribeOptions(
-[property: PositionalArgument] string VmwareEngineNetwork,
-[property: PositionalArgument] string Location
+[property: CliArgument] string VmwareEngineNetwork,
+[property: CliArgument] string Location
 ) : GcloudOptions;

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automanage", "configuration-profile-assignment", "arc")]
+[CliCommand("automanage", "configuration-profile-assignment", "arc")]
 public class AzAutomanageConfigurationProfileAssignmentArcReport
 {
     public AzAutomanageConfigurationProfileAssignmentArcReport(

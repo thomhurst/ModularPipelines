@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stack-hci", "extension", "show")]
+[CliCommand("stack-hci", "extension", "show")]
 public record AzStackHciExtensionShowOptions : AzOptions
 {
-    [CommandSwitch("--arc-setting-name")]
+    [CliOption("--arc-setting-name")]
     public string? ArcSettingName { get; set; }
 
-    [CommandSwitch("--cluster-name")]
+    [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CommandSwitch("--extension-name")]
+    [CliOption("--extension-name")]
     public string? ExtensionName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

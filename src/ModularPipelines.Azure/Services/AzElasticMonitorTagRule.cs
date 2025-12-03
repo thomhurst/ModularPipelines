@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastic", "monitor")]
+[CliCommand("elastic", "monitor")]
 public class AzElasticMonitorTagRule
 {
     public AzElasticMonitorTagRule(

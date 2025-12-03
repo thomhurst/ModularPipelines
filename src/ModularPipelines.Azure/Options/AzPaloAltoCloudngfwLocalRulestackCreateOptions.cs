@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("palo-alto", "cloudngfw", "local-rulestack", "create")]
+[CliCommand("palo-alto", "cloudngfw", "local-rulestack", "create")]
 public record AzPaloAltoCloudngfwLocalRulestackCreateOptions(
-[property: CommandSwitch("--local-rulestack-name")] string LocalRulestackName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--local-rulestack-name")] string LocalRulestackName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--associated-subs")]
+    [CliOption("--associated-subs")]
     public string? AssociatedSubs { get; set; }
 
-    [CommandSwitch("--default-mode")]
+    [CliOption("--default-mode")]
     public string? DefaultMode { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--min-app-id-version")]
+    [CliOption("--min-app-id-version")]
     public string? MinAppIdVersion { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--pan-etag")]
+    [CliOption("--pan-etag")]
     public string? PanEtag { get; set; }
 
-    [CommandSwitch("--pan-location")]
+    [CliOption("--pan-location")]
     public string? PanLocation { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--security-services")]
+    [CliOption("--security-services")]
     public string? SecurityServices { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

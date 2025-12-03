@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("remove")]
+[CliCommand("remove")]
 public record YarnRemoveOptions : YarnOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public virtual string? Mode { get; set; }
 }

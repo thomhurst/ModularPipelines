@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "list-volume-initiators")]
+[CliCommand("storagegateway", "list-volume-initiators")]
 public record AwsStoragegatewayListVolumeInitiatorsOptions(
-[property: CommandSwitch("--volume-arn")] string VolumeArn
+[property: CliOption("--volume-arn")] string VolumeArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

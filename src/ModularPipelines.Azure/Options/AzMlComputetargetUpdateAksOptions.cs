@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "computetarget", "update", "aks")]
+[CliCommand("ml", "computetarget", "update", "aks")]
 public record AzMlComputetargetUpdateAksOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--load-balancer-subnet")]
+    [CliOption("--load-balancer-subnet")]
     public string? LoadBalancerSubnet { get; set; }
 
-    [CommandSwitch("--load-balancer-type")]
+    [CliOption("--load-balancer-type")]
     public string? LoadBalancerType { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--ssl-cert-file")]
+    [CliOption("--ssl-cert-file")]
     public string? SslCertFile { get; set; }
 
-    [CommandSwitch("--ssl-cname")]
+    [CliOption("--ssl-cname")]
     public string? SslCname { get; set; }
 
-    [BooleanCommandSwitch("--ssl-disable")]
+    [CliFlag("--ssl-disable")]
     public bool? SslDisable { get; set; }
 
-    [CommandSwitch("--ssl-key-file")]
+    [CliOption("--ssl-key-file")]
     public string? SslKeyFile { get; set; }
 
-    [CommandSwitch("--ssl-leaf-domain-label")]
+    [CliOption("--ssl-leaf-domain-label")]
     public string? SslLeafDomainLabel { get; set; }
 
-    [CommandSwitch("--ssl-overwrite-domain")]
+    [CliOption("--ssl-overwrite-domain")]
     public string? SslOverwriteDomain { get; set; }
 
-    [CommandSwitch("--ssl-renew")]
+    [CliOption("--ssl-renew")]
     public string? SslRenew { get; set; }
 
-    [CommandSwitch("--subscription-id")]
+    [CliOption("--subscription-id")]
     public string? SubscriptionId { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 
-    [BooleanCommandSwitch("-v")]
+    [CliFlag("-v")]
     public bool? V { get; set; }
 }

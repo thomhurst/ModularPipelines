@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "search-users")]
+[CliCommand("rekognition", "search-users")]
 public record AwsRekognitionSearchUsersOptions(
-[property: CommandSwitch("--collection-id")] string CollectionId
+[property: CliOption("--collection-id")] string CollectionId
 ) : AwsOptions
 {
-    [CommandSwitch("--user-id")]
+    [CliOption("--user-id")]
     public string? UserId { get; set; }
 
-    [CommandSwitch("--face-id")]
+    [CliOption("--face-id")]
     public string? FaceId { get; set; }
 
-    [CommandSwitch("--user-match-threshold")]
+    [CliOption("--user-match-threshold")]
     public float? UserMatchThreshold { get; set; }
 
-    [CommandSwitch("--max-users")]
+    [CliOption("--max-users")]
     public int? MaxUsers { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

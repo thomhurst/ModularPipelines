@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("disk-encryption-set", "show")]
+[CliCommand("disk-encryption-set", "show")]
 public record AzDiskEncryptionSetShowOptions : AzOptions
 {
-    [CommandSwitch("--disk-encryption-set-name")]
+    [CliOption("--disk-encryption-set-name")]
     public string? DiskEncryptionSetName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

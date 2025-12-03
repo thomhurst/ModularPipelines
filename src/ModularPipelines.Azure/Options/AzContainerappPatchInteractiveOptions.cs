@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "patch", "interactive")]
+[CliCommand("containerapp", "patch", "interactive")]
 public record AzContainerappPatchInteractiveOptions : AzOptions
 {
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public string? Environment { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--show-all")]
+    [CliFlag("--show-all")]
     public bool? ShowAll { get; set; }
 }

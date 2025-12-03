@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("securityhub", "batch-get-security-controls")]
+[CliCommand("securityhub", "batch-get-security-controls")]
 public record AwsSecurityhubBatchGetSecurityControlsOptions(
-[property: CommandSwitch("--security-control-ids")] string[] SecurityControlIds
+[property: CliOption("--security-control-ids")] string[] SecurityControlIds
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

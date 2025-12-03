@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datafactory", "integration-runtime-node", "get-ip-address")]
+[CliCommand("datafactory", "integration-runtime-node", "get-ip-address")]
 public record AzDatafactoryIntegrationRuntimeNodeGetIpAddressOptions : AzOptions
 {
-    [CommandSwitch("--factory-name")]
+    [CliOption("--factory-name")]
     public string? FactoryName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--integration-runtime-name")]
+    [CliOption("--integration-runtime-name")]
     public string? IntegrationRuntimeName { get; set; }
 
-    [CommandSwitch("--node-name")]
+    [CliOption("--node-name")]
     public string? NodeName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

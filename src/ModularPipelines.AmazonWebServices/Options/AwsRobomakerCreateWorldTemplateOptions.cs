@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("robomaker", "create-world-template")]
+[CliCommand("robomaker", "create-world-template")]
 public record AwsRobomakerCreateWorldTemplateOptions : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--template-body")]
+    [CliOption("--template-body")]
     public string? TemplateBody { get; set; }
 
-    [CommandSwitch("--template-location")]
+    [CliOption("--template-location")]
     public string? TemplateLocation { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

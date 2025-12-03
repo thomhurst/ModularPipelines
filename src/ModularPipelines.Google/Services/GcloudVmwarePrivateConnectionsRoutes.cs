@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-connections")]
+[CliCommand("vmware", "private-connections")]
 public class GcloudVmwarePrivateConnectionsRoutes
 {
     public GcloudVmwarePrivateConnectionsRoutes(

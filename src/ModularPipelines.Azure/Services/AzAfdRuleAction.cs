@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "rule")]
+[CliCommand("afd", "rule")]
 public class AzAfdRuleAction
 {
     public AzAfdRuleAction(

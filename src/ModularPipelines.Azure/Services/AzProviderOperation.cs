@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("provider")]
+[CliCommand("provider")]
 public class AzProviderOperation
 {
     public AzProviderOperation(

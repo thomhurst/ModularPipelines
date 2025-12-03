@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("staticwebapp", "backends", "unlink")]
+[CliCommand("staticwebapp", "backends", "unlink")]
 public record AzStaticwebappBackendsUnlinkOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--environment-name")]
+    [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
-    [BooleanCommandSwitch("--remove-backend-auth")]
+    [CliFlag("--remove-backend-auth")]
     public bool? RemoveBackendAuth { get; set; }
 }

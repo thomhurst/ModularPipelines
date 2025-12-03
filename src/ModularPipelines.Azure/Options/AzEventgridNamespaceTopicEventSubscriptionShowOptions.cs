@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "namespace", "topic", "event-subscription", "show")]
+[CliCommand("eventgrid", "namespace", "topic", "event-subscription", "show")]
 public record AzEventgridNamespaceTopicEventSubscriptionShowOptions : AzOptions
 {
-    [CommandSwitch("--event-subscription-name")]
+    [CliOption("--event-subscription-name")]
     public string? EventSubscriptionName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--namespace-name")]
+    [CliOption("--namespace-name")]
     public string? NamespaceName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--topic-name")]
+    [CliOption("--topic-name")]
     public string? TopicName { get; set; }
 }

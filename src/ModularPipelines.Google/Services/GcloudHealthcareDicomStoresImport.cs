@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "dicom-stores")]
+[CliCommand("healthcare", "dicom-stores")]
 public class GcloudHealthcareDicomStoresImport
 {
     public GcloudHealthcareDicomStoresImport(

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("services", "peered-dns-domains", "create")]
+[CliCommand("services", "peered-dns-domains", "create")]
 public record GcloudServicesPeeredDnsDomainsCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--dns-suffix")] string DnsSuffix,
-[property: CommandSwitch("--network")] string Network
+[property: CliArgument] string Name,
+[property: CliOption("--dns-suffix")] string DnsSuffix,
+[property: CliOption("--network")] string Network
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 }

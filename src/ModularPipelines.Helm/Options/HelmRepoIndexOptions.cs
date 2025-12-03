@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("repo", "index")]
+[CliCommand("repo", "index")]
 [ExcludeFromCodeCoverage]
 public record HelmRepoIndexOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--merge", SwitchValueSeparator = " ")]
+    [CliOption("--merge")]
     public string? Merge { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--url", SwitchValueSeparator = " ")]
+    [CliOption("--url")]
     public string? Url { get; set; }
 }

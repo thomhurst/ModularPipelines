@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cache", "keysets", "export")]
+[CliCommand("edge-cache", "keysets", "export")]
 public record GcloudEdgeCacheKeysetsExportOptions(
-[property: PositionalArgument] string Keyset,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Keyset,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "alpha", "scale")]
+[CliCommand("compose", "alpha", "scale")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeAlphaScaleOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<KeyValue>? ServiceReplicas { get; set; }
 
-    [BooleanCommandSwitch("--no-deps")]
+    [CliFlag("--no-deps")]
     public virtual bool? NoDeps { get; set; }
 }

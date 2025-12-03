@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "private-link-scope", "scoped-resource", "create")]
+[CliCommand("monitor", "private-link-scope", "scoped-resource", "create")]
 public record AzMonitorPrivateLinkScopeScopedResourceCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--scope-name")] string ScopeName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--scope-name")] string ScopeName
 ) : AzOptions
 {
-    [CommandSwitch("--linked-resource")]
+    [CliOption("--linked-resource")]
     public string? LinkedResource { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

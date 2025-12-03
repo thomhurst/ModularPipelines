@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scheduler", "locations", "describe")]
+[CliCommand("scheduler", "locations", "describe")]
 public record GcloudSchedulerLocationsDescribeOptions(
-[property: PositionalArgument] string Location
+[property: CliArgument] string Location
 ) : GcloudOptions;

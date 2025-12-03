@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "fhir-stores", "export", "bq")]
+[CliCommand("healthcare", "fhir-stores", "export", "bq")]
 public record GcloudHealthcareFhirStoresExportBqOptions(
-[property: PositionalArgument] string FhirStore,
-[property: PositionalArgument] string Dataset,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--bq-dataset")] string BqDataset,
-[property: CommandSwitch("--schema-type")] string SchemaType
+[property: CliArgument] string FhirStore,
+[property: CliArgument] string Dataset,
+[property: CliArgument] string Location,
+[property: CliOption("--bq-dataset")] string BqDataset,
+[property: CliOption("--schema-type")] string SchemaType
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--recursive-depth")]
+    [CliOption("--recursive-depth")]
     public string? RecursiveDepth { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--since")]
+    [CliOption("--since")]
     public string? Since { get; set; }
 
-    [CommandSwitch("--write-disposition")]
+    [CliOption("--write-disposition")]
     public string? WriteDisposition { get; set; }
 }

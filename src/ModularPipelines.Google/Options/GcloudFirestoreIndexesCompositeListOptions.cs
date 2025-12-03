@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firestore", "indexes", "composite", "list")]
+[CliCommand("firestore", "indexes", "composite", "list")]
 public record GcloudFirestoreIndexesCompositeListOptions : GcloudOptions
 {
-    [CommandSwitch("--database")]
+    [CliOption("--database")]
     public string? Database { get; set; }
 }

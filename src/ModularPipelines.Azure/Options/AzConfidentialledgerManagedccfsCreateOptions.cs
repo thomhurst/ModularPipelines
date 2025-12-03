@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("confidentialledger", "managedccfs", "create")]
+[CliCommand("confidentialledger", "managedccfs", "create")]
 public record AzConfidentialledgerManagedccfsCreateOptions(
-[property: CommandSwitch("--members")] string Members,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--members")] string Members,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--app-type")]
+    [CliOption("--app-type")]
     public string? AppType { get; set; }
 
-    [CommandSwitch("--language-runtime")]
+    [CliOption("--language-runtime")]
     public string? LanguageRuntime { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--node-count")]
+    [CliOption("--node-count")]
     public int? NodeCount { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

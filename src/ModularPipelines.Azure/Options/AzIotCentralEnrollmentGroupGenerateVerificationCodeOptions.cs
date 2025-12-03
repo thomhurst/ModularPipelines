@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "enrollment-group", "generate-verification-code")]
+[CliCommand("iot", "central", "enrollment-group", "generate-verification-code")]
 public record AzIotCentralEnrollmentGroupGenerateVerificationCodeOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--group-id")] string GroupId
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--group-id")] string GroupId
 ) : AzOptions
 {
-    [CommandSwitch("--central-api-uri")]
+    [CliOption("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 
-    [CommandSwitch("--certificate-entry")]
+    [CliOption("--certificate-entry")]
     public string? CertificateEntry { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 }

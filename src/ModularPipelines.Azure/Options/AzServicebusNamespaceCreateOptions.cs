@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicebus", "namespace", "create")]
+[CliCommand("servicebus", "namespace", "create")]
 public record AzServicebusNamespaceCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--alternate-name")]
+    [CliOption("--alternate-name")]
     public string? AlternateName { get; set; }
 
-    [CommandSwitch("--capacity")]
+    [CliOption("--capacity")]
     public string? Capacity { get; set; }
 
-    [BooleanCommandSwitch("--disable-local-auth")]
+    [CliFlag("--disable-local-auth")]
     public bool? DisableLocalAuth { get; set; }
 
-    [CommandSwitch("--encryption-config")]
+    [CliOption("--encryption-config")]
     public string? EncryptionConfig { get; set; }
 
-    [BooleanCommandSwitch("--infra-encryption")]
+    [CliFlag("--infra-encryption")]
     public bool? InfraEncryption { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--mi-system-assigned")]
+    [CliFlag("--mi-system-assigned")]
     public bool? MiSystemAssigned { get; set; }
 
-    [CommandSwitch("--mi-user-assigned")]
+    [CliOption("--mi-user-assigned")]
     public string? MiUserAssigned { get; set; }
 
-    [CommandSwitch("--min-tls")]
+    [CliOption("--min-tls")]
     public string? MinTls { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--premium-messaging-partitions")]
+    [CliOption("--premium-messaging-partitions")]
     public string? PremiumMessagingPartitions { get; set; }
 
-    [CommandSwitch("--public-network")]
+    [CliOption("--public-network")]
     public string? PublicNetwork { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--zone-redundant")]
+    [CliFlag("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 }

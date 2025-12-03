@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "device", "class", "show")]
+[CliCommand("iot", "du", "device", "class", "show")]
 public record AzIotDuDeviceClassShowOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--cid")] string Cid,
-[property: CommandSwitch("--instance")] string Instance
+[property: CliOption("--account")] int Account,
+[property: CliOption("--cid")] string Cid,
+[property: CliOption("--instance")] string Instance
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--best-update")]
+    [CliFlag("--best-update")]
     public bool? BestUpdate { get; set; }
 
-    [CommandSwitch("--gid")]
+    [CliOption("--gid")]
     public string? Gid { get; set; }
 
-    [BooleanCommandSwitch("--installable-updates")]
+    [CliFlag("--installable-updates")]
     public bool? InstallableUpdates { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--update-compliance")]
+    [CliFlag("--update-compliance")]
     public bool? UpdateCompliance { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("anthos", "config", "operations", "describe")]
+[CliCommand("anthos", "config", "operations", "describe")]
 public record GcloudAnthosConfigOperationsDescribeOptions(
-[property: PositionalArgument] string Operation,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Operation,
+[property: CliArgument] string Location
 ) : GcloudOptions;

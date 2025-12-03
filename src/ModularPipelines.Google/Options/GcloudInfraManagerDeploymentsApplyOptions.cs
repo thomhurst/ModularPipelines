@@ -5,51 +5,51 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("infra-manager", "deployments", "apply")]
+[CliCommand("infra-manager", "deployments", "apply")]
 public record GcloudInfraManagerDeploymentsApplyOptions(
-[property: PositionalArgument] string Deployment,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Deployment,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--artifacts-gcs-bucket")]
+    [CliOption("--artifacts-gcs-bucket")]
     public string? ArtifactsGcsBucket { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--import-existing-resources")]
+    [CliFlag("--import-existing-resources")]
     public bool? ImportExistingResources { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [CommandSwitch("--worker-pool")]
+    [CliOption("--worker-pool")]
     public string? WorkerPool { get; set; }
 
-    [CommandSwitch("--gcs-source")]
+    [CliOption("--gcs-source")]
     public string? GcsSource { get; set; }
 
-    [CommandSwitch("--git-source-directory")]
+    [CliOption("--git-source-directory")]
     public string? GitSourceDirectory { get; set; }
 
-    [CommandSwitch("--git-source-ref")]
+    [CliOption("--git-source-ref")]
     public string? GitSourceRef { get; set; }
 
-    [CommandSwitch("--git-source-repo")]
+    [CliOption("--git-source-repo")]
     public string? GitSourceRepo { get; set; }
 
-    [CommandSwitch("--ignore-file")]
+    [CliOption("--ignore-file")]
     public string? IgnoreFile { get; set; }
 
-    [CommandSwitch("--local-source")]
+    [CliOption("--local-source")]
     public string? LocalSource { get; set; }
 
-    [CommandSwitch("--input-values")]
+    [CliOption("--input-values")]
     public IEnumerable<KeyValue>? InputValues { get; set; }
 
-    [CommandSwitch("--inputs-file")]
+    [CliOption("--inputs-file")]
     public string? InputsFile { get; set; }
 }

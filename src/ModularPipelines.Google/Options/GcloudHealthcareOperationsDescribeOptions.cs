@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "operations", "describe")]
+[CliCommand("healthcare", "operations", "describe")]
 public record GcloudHealthcareOperationsDescribeOptions(
-[property: PositionalArgument] string Operation,
-[property: PositionalArgument] string Dataset,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Operation,
+[property: CliArgument] string Dataset,
+[property: CliArgument] string Location
 ) : GcloudOptions;

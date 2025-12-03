@@ -5,77 +5,77 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "model-monitoring-jobs", "create")]
+[CliCommand("ai", "model-monitoring-jobs", "create")]
 public record GcloudAiModelMonitoringJobsCreateOptions(
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--emails")] string[] Emails,
-[property: CommandSwitch("--endpoint")] string Endpoint,
-[property: CommandSwitch("--prediction-sampling-rate")] string PredictionSamplingRate
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--emails")] string[] Emails,
+[property: CliOption("--endpoint")] string Endpoint,
+[property: CliOption("--prediction-sampling-rate")] string PredictionSamplingRate
 ) : GcloudOptions
 {
-    [CommandSwitch("--analysis-instance-schema")]
+    [CliOption("--analysis-instance-schema")]
     public string? AnalysisInstanceSchema { get; set; }
 
-    [CommandSwitch("--[no-]anomaly-cloud-logging")]
+    [CliOption("--[no-]anomaly-cloud-logging")]
     public string[]? NoAnomalyCloudLogging { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--log-ttl")]
+    [CliOption("--log-ttl")]
     public string? LogTtl { get; set; }
 
-    [CommandSwitch("--monitoring-frequency")]
+    [CliOption("--monitoring-frequency")]
     public string? MonitoringFrequency { get; set; }
 
-    [CommandSwitch("--notification-channels")]
+    [CliOption("--notification-channels")]
     public string[]? NotificationChannels { get; set; }
 
-    [CommandSwitch("--predict-instance-schema")]
+    [CliOption("--predict-instance-schema")]
     public string? PredictInstanceSchema { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--sample-predict-request")]
+    [CliOption("--sample-predict-request")]
     public string? SamplePredictRequest { get; set; }
 
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--kms-keyring")]
+    [CliOption("--kms-keyring")]
     public string? KmsKeyring { get; set; }
 
-    [CommandSwitch("--kms-location")]
+    [CliOption("--kms-location")]
     public string? KmsLocation { get; set; }
 
-    [CommandSwitch("--kms-project")]
+    [CliOption("--kms-project")]
     public string? KmsProject { get; set; }
 
-    [CommandSwitch("--monitoring-config-from-file")]
+    [CliOption("--monitoring-config-from-file")]
     public string? MonitoringConfigFromFile { get; set; }
 
-    [CommandSwitch("--feature-attribution-thresholds")]
+    [CliOption("--feature-attribution-thresholds")]
     public IEnumerable<KeyValue>? FeatureAttributionThresholds { get; set; }
 
-    [CommandSwitch("--feature-thresholds")]
+    [CliOption("--feature-thresholds")]
     public IEnumerable<KeyValue>? FeatureThresholds { get; set; }
 
-    [CommandSwitch("--target-field")]
+    [CliOption("--target-field")]
     public string? TargetField { get; set; }
 
-    [CommandSwitch("--training-sampling-rate")]
+    [CliOption("--training-sampling-rate")]
     public string? TrainingSamplingRate { get; set; }
 
-    [CommandSwitch("--bigquery-uri")]
+    [CliOption("--bigquery-uri")]
     public string? BigqueryUri { get; set; }
 
-    [CommandSwitch("--dataset")]
+    [CliOption("--dataset")]
     public string? Dataset { get; set; }
 
-    [CommandSwitch("--data-format")]
+    [CliOption("--data-format")]
     public string? DataFormat { get; set; }
 
-    [CommandSwitch("--gcs-uris")]
+    [CliOption("--gcs-uris")]
     public string[]? GcsUris { get; set; }
 }

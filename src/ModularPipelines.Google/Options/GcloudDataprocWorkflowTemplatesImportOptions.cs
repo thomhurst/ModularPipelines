@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "workflow-templates", "import")]
+[CliCommand("dataproc", "workflow-templates", "import")]
 public record GcloudDataprocWorkflowTemplatesImportOptions(
-[property: PositionalArgument] string Template,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Template,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 }

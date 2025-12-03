@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "pool")]
+[CliCommand("batch", "pool")]
 public class AzBatchPoolAutoscale
 {
     public AzBatchPoolAutoscale(

@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "job", "list-from-resourcegraph")]
+[CliCommand("dataprotection", "job", "list-from-resourcegraph")]
 public record AzDataprotectionJobListFromResourcegraphOptions(
-[property: CommandSwitch("--datasource-type")] string DatasourceType
+[property: CliOption("--datasource-type")] string DatasourceType
 ) : AzOptions
 {
-    [CommandSwitch("--datasource-id")]
+    [CliOption("--datasource-id")]
     public string? DatasourceId { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CommandSwitch("--operation")]
+    [CliOption("--operation")]
     public string? Operation { get; set; }
 
-    [CommandSwitch("--resource-groups")]
+    [CliOption("--resource-groups")]
     public string? ResourceGroups { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--subscriptions")]
+    [CliOption("--subscriptions")]
     public string? Subscriptions { get; set; }
 
-    [CommandSwitch("--vaults")]
+    [CliOption("--vaults")]
     public string? Vaults { get; set; }
 }

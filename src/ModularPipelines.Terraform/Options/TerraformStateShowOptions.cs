@@ -3,11 +3,11 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("state show")]
+[CliCommand("state show")]
 [ExcludeFromCodeCoverage]
-public record TerraformStateShowOptions([property: PositionalArgument(Position = Position.AfterSwitches)]
+public record TerraformStateShowOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     string Address) : TerraformOptions
 {
-    [CommandSwitch("-state")]
+    [CliOption("-state")]
     public virtual string? State { get; set; }
 }

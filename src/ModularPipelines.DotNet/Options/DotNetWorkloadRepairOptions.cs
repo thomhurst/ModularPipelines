@@ -3,31 +3,31 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("workload", "repair")]
+[CliCommand("workload", "repair")]
 [ExcludeFromCodeCoverage]
 public record DotNetWorkloadRepairOptions : DotNetOptions
 {
-    [BooleanCommandSwitch("--configfile")]
+    [CliFlag("--configfile")]
     public virtual bool? Configfile { get; set; }
 
-    [BooleanCommandSwitch("--disable-parallel")]
+    [CliFlag("--disable-parallel")]
     public virtual bool? DisableParallel { get; set; }
 
-    [BooleanCommandSwitch("--ignore-failed-sources")]
+    [CliFlag("--ignore-failed-sources")]
     public virtual bool? IgnoreFailedSources { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [BooleanCommandSwitch("--no-cache")]
+    [CliFlag("--no-cache")]
     public virtual bool? NoCache { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public virtual IEnumerable<string>? Source { get; set; }
 
-    [CommandSwitch("--temp-dir")]
+    [CliOption("--temp-dir")]
     public virtual string? TempDir { get; set; }
 
-    [CommandSwitch("--verbosity")]
+    [CliOption("--verbosity")]
     public virtual string? Verbosity { get; set; }
 }

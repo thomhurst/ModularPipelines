@@ -4,78 +4,78 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "account", "ad", "add")]
+[CliCommand("netappfiles", "account", "ad", "add")]
 public record AzNetappfilesAccountAdAddOptions(
-[property: CommandSwitch("--dns")] string Dns,
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--password")] string Password,
-[property: CommandSwitch("--smb-server-name")] string SmbServerName,
-[property: CommandSwitch("--username")] string Username
+[property: CliOption("--dns")] string Dns,
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--password")] string Password,
+[property: CliOption("--smb-server-name")] string SmbServerName,
+[property: CliOption("--username")] string Username
 ) : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--ad-name")]
+    [CliOption("--ad-name")]
     public string? AdName { get; set; }
 
-    [CommandSwitch("--administrators")]
+    [CliOption("--administrators")]
     public string? Administrators { get; set; }
 
-    [BooleanCommandSwitch("--aes-encryption")]
+    [CliFlag("--aes-encryption")]
     public bool? AesEncryption { get; set; }
 
-    [BooleanCommandSwitch("--allow-local-ldap-users")]
+    [CliFlag("--allow-local-ldap-users")]
     public bool? AllowLocalLdapUsers { get; set; }
 
-    [CommandSwitch("--backup-operators")]
+    [CliOption("--backup-operators")]
     public string? BackupOperators { get; set; }
 
-    [BooleanCommandSwitch("--encrypt-dc-conn")]
+    [CliFlag("--encrypt-dc-conn")]
     public bool? EncryptDcConn { get; set; }
 
-    [CommandSwitch("--group-dn")]
+    [CliOption("--group-dn")]
     public string? GroupDn { get; set; }
 
-    [CommandSwitch("--group-filter")]
+    [CliOption("--group-filter")]
     public string? GroupFilter { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--kdc-ip")]
+    [CliOption("--kdc-ip")]
     public string? KdcIp { get; set; }
 
-    [CommandSwitch("--ldap-over-tls")]
+    [CliOption("--ldap-over-tls")]
     public string? LdapOverTls { get; set; }
 
-    [BooleanCommandSwitch("--ldap-signing")]
+    [CliFlag("--ldap-signing")]
     public bool? LdapSigning { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--organizational-unit")]
+    [CliOption("--organizational-unit")]
     public string? OrganizationalUnit { get; set; }
 
-    [CommandSwitch("--preferred-servers-for-ldap-client")]
+    [CliOption("--preferred-servers-for-ldap-client")]
     public string? PreferredServersForLdapClient { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--security-operators")]
+    [CliOption("--security-operators")]
     public string? SecurityOperators { get; set; }
 
-    [CommandSwitch("--server-root-ca-cert")]
+    [CliOption("--server-root-ca-cert")]
     public string? ServerRootCaCert { get; set; }
 
-    [CommandSwitch("--site")]
+    [CliOption("--site")]
     public string? Site { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--user-dn")]
+    [CliOption("--user-dn")]
     public string? UserDn { get; set; }
 }

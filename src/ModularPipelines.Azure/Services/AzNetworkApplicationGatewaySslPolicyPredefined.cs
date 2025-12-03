@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "ssl-policy")]
+[CliCommand("network", "application-gateway", "ssl-policy")]
 public class AzNetworkApplicationGatewaySslPolicyPredefined
 {
     public AzNetworkApplicationGatewaySslPolicyPredefined(

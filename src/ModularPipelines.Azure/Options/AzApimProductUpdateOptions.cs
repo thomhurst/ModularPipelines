@@ -4,49 +4,49 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "product", "update")]
+[CliCommand("apim", "product", "update")]
 public record AzApimProductUpdateOptions(
-[property: CommandSwitch("--product-id")] string ProductId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--product-id")] string ProductId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-name")] string ServiceName
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--approval-required")]
+    [CliFlag("--approval-required")]
     public bool? ApprovalRequired { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--legal-terms")]
+    [CliOption("--legal-terms")]
     public string? LegalTerms { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--product-name")]
+    [CliOption("--product-name")]
     public string? ProductName { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [BooleanCommandSwitch("--subscription-required")]
+    [CliFlag("--subscription-required")]
     public bool? SubscriptionRequired { get; set; }
 
-    [CommandSwitch("--subscriptions-limit")]
+    [CliOption("--subscriptions-limit")]
     public string? SubscriptionsLimit { get; set; }
 }

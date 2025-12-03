@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deployment", "tenant", "validate")]
+[CliCommand("deployment", "tenant", "validate")]
 public record AzDeploymentTenantValidateOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-prompt")]
+    [CliFlag("--no-prompt")]
     public bool? NoPrompt { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--query-string")]
+    [CliOption("--query-string")]
     public string? QueryString { get; set; }
 
-    [CommandSwitch("--template-file")]
+    [CliOption("--template-file")]
     public string? TemplateFile { get; set; }
 
-    [CommandSwitch("--template-spec")]
+    [CliOption("--template-spec")]
     public string? TemplateSpec { get; set; }
 
-    [CommandSwitch("--template-uri")]
+    [CliOption("--template-uri")]
     public string? TemplateUri { get; set; }
 }

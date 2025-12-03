@@ -11,41 +11,9 @@ public static class CommandOptionsObjectArgumentParser
     {
         var properties = GetProperties(optionsArgumentsObject);
 
-        // Check if using new CLI attribute system
         var cliArgumentProperties = properties.Where(p => p.GetCustomAttribute<CliArgumentAttribute>() is not null).ToList();
-        var hasNewCliAttributes = cliArgumentProperties.Any()
-            || properties.Any(p => p.GetCustomAttribute<CliFlagAttribute>() is not null)
-            || properties.Any(p => p.GetCustomAttribute<CliOptionAttribute>() is not null);
 
-        if (hasNewCliAttributes)
-        {
-            AddArgumentsUsingNewAttributes(precedingArguments, optionsArgumentsObject, properties, cliArgumentProperties);
-            return;
-        }
-
-        // Legacy attribute handling
-        var positionalArgumentProperties = properties.Where(p => p.GetCustomAttribute<PositionalArgumentAttribute>() is not null).ToList();
-
-        AddPlaceholderArguments(precedingArguments, optionsArgumentsObject, positionalArgumentProperties);
-
-        var positionalArgumentsBefore = positionalArgumentProperties.Where(p =>
-        {
-            var positionalArgumentAttribute = p.GetCustomAttribute<PositionalArgumentAttribute>()!;
-            return positionalArgumentAttribute.PlaceholderName == null && positionalArgumentAttribute!.Position == Position.BeforeSwitches;
-        });
-
-        var positionalArgumentsAfter = positionalArgumentProperties
-            .Where(p =>
-            {
-                var positionalArgumentAttribute = p.GetCustomAttribute<PositionalArgumentAttribute>()!;
-                return positionalArgumentAttribute.PlaceholderName == null && positionalArgumentAttribute.Position == Position.AfterSwitches;
-            });
-
-        AddPositionalArguments(precedingArguments, optionsArgumentsObject, positionalArgumentsBefore);
-
-        AddSwitches(precedingArguments, optionsArgumentsObject, properties);
-
-        AddPositionalArguments(precedingArguments, optionsArgumentsObject, positionalArgumentsAfter);
+        AddArgumentsUsingNewAttributes(precedingArguments, optionsArgumentsObject, properties, cliArgumentProperties);
     }
 
     private static void AddArgumentsUsingNewAttributes(
@@ -145,63 +113,6 @@ public static class CommandOptionsObjectArgumentParser
 
                 continue;
             }
-
-            // Fall back to legacy attributes for mixed usage
-            AddSwitchesForProperty(args, propertyValues, propertyInfo);
-        }
-    }
-
-    private static void AddSwitchesForProperty(List<string> args, List<string> propertyValues, PropertyInfo propertyInfo)
-    {
-        foreach (var propertyValue in propertyValues)
-        {
-            if (TryAddBooleanSwitch(args, propertyInfo, propertyValue))
-            {
-                continue;
-            }
-
-            AddValueSwitch(args, propertyInfo, propertyValue);
-        }
-    }
-
-    private static void AddPlaceholderArguments(List<string> precedingArguments, object optionsArgumentsObject,
-        IEnumerable<PropertyInfo> positionalArgumentProperties)
-    {
-        var positionalPlaceholderArguments = positionalArgumentProperties
-            .Where(p => p.GetCustomAttribute<PositionalArgumentAttribute>()!.PlaceholderName != null);
-
-        foreach (var positionalPlaceholderArgument in positionalPlaceholderArguments)
-        {
-            var value = positionalPlaceholderArgument.GetValue(optionsArgumentsObject)?.ToString();
-            var placeholderName = positionalPlaceholderArgument.GetCustomAttribute<PositionalArgumentAttribute>()!
-                .PlaceholderName;
-
-            var indexOfMatchingPrecedingArgumentPlaceholder =
-                precedingArguments.FindIndex(x => x == placeholderName);
-
-            if (indexOfMatchingPrecedingArgumentPlaceholder < 0 && !string.IsNullOrEmpty(value))
-            {
-                precedingArguments.Add(value);
-                continue;
-            }
-
-            if (string.IsNullOrWhiteSpace(value) && precedingArguments[indexOfMatchingPrecedingArgumentPlaceholder].StartsWith('<'))
-            {
-                throw new ArgumentException($"No value provided for property {positionalPlaceholderArgument.Name}");
-            }
-
-            if (string.IsNullOrWhiteSpace(value) && indexOfMatchingPrecedingArgumentPlaceholder >= 0)
-            {
-                precedingArguments.RemoveAt(indexOfMatchingPrecedingArgumentPlaceholder);
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                return;
-            }
-
-            precedingArguments[indexOfMatchingPrecedingArgumentPlaceholder] = value;
         }
     }
 
@@ -216,89 +127,6 @@ public static class CommandOptionsObjectArgumentParser
             .GetProperties(BindingFlags.NonPublic | BindingFlags.Instance);
 
         return publicProperties.Concat(nonPublicProperties).ToArray();
-    }
-
-    private static void AddSwitches(List<string> parsedArgs, object optionsArgumentsObject, PropertyInfo[] properties)
-    {
-        foreach (var propertyInfo in properties)
-        {
-            var propertyValues = GetValues(optionsArgumentsObject, propertyInfo)?.ToList();
-
-            if (propertyValues is null || !propertyValues.Any())
-            {
-                continue;
-            }
-
-            AddSwitches(parsedArgs, propertyValues, propertyInfo);
-        }
-    }
-
-    private static void AddPositionalArguments(List<string> parsedArgs, object optionsArgumentsObject, IEnumerable<PropertyInfo> positionalArgumentProperties)
-    {
-        foreach (var positionalArgumentPropertyInfo in positionalArgumentProperties)
-        {
-            var propertyValues = GetValues(optionsArgumentsObject, positionalArgumentPropertyInfo)?.ToList();
-
-            if (propertyValues is null || !propertyValues.Any())
-            {
-                continue;
-            }
-
-            parsedArgs.AddRange(propertyValues);
-        }
-    }
-
-    private static void AddSwitches(List<string> parsedArgs, List<string> propertyValues, PropertyInfo propertyInfo)
-    {
-        foreach (var propertyValue in propertyValues)
-        {
-            if (TryAddBooleanSwitch(parsedArgs, propertyInfo, propertyValue))
-            {
-                continue;
-            }
-
-            AddValueSwitch(parsedArgs, propertyInfo, propertyValue);
-        }
-    }
-
-    private static void AddValueSwitch(ICollection<string> parsedArgs, MemberInfo propertyInfo, string propertyValue)
-    {
-        if (string.IsNullOrWhiteSpace(propertyValue))
-        {
-            return;
-        }
-
-        var commandSwitchAttribute = propertyInfo.GetCustomAttribute<CommandSwitchAttribute>(true);
-
-        if (commandSwitchAttribute == null)
-        {
-            return;
-        }
-
-        if (commandSwitchAttribute.SwitchValueSeparator == " ")
-        {
-            parsedArgs.Add(commandSwitchAttribute.SwitchName);
-            parsedArgs.Add(propertyValue);
-        }
-        else
-        {
-            parsedArgs.Add($"{commandSwitchAttribute.SwitchName}{commandSwitchAttribute.SwitchValueSeparator}{propertyValue}");
-        }
-    }
-
-    private static bool TryAddBooleanSwitch(List<string> parsedArgs, PropertyInfo propertyInfo, string propertyValue)
-    {
-        var booleanCommandSwitchAttribute = propertyInfo.GetCustomAttribute<BooleanCommandSwitchAttribute>();
-
-        if (booleanCommandSwitchAttribute is not null &&
-            bool.TryParse(propertyValue, out var boolValue)
-            && boolValue)
-        {
-            parsedArgs.Add(booleanCommandSwitchAttribute.SwitchName);
-            return true;
-        }
-
-        return false;
     }
 
     private static IEnumerable<string>? GetValues(object optionsArgumentsObject, PropertyInfo propertyInfo)

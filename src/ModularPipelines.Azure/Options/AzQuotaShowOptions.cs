@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quota", "show")]
+[CliCommand("quota", "show")]
 public record AzQuotaShowOptions(
-[property: CommandSwitch("--resource-name")] string ResourceName,
-[property: CommandSwitch("--scope")] string Scope
+[property: CliOption("--resource-name")] string ResourceName,
+[property: CliOption("--scope")] string Scope
 ) : AzOptions;

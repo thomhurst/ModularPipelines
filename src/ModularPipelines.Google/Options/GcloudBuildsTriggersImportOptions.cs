@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("builds", "triggers", "import")]
+[CliCommand("builds", "triggers", "import")]
 public record GcloudBuildsTriggersImportOptions(
-[property: CommandSwitch("--source")] string Source
+[property: CliOption("--source")] string Source
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

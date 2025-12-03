@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-services", "grpc-routes", "describe")]
+[CliCommand("network-services", "grpc-routes", "describe")]
 public record GcloudNetworkServicesGrpcRoutesDescribeOptions(
-[property: PositionalArgument] string GrpcRoute,
-[property: PositionalArgument] string Location
+[property: CliArgument] string GrpcRoute,
+[property: CliArgument] string Location
 ) : GcloudOptions;

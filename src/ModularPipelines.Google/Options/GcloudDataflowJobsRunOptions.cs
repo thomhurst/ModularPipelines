@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataflow", "jobs", "run")]
+[CliCommand("dataflow", "jobs", "run")]
 public record GcloudDataflowJobsRunOptions(
-[property: PositionalArgument] string JobName,
-[property: CommandSwitch("--gcs-location")] string GcsLocation
+[property: CliArgument] string JobName,
+[property: CliOption("--gcs-location")] string GcsLocation
 ) : GcloudOptions
 {
-    [CommandSwitch("--additional-experiments")]
+    [CliOption("--additional-experiments")]
     public string[]? AdditionalExperiments { get; set; }
 
-    [CommandSwitch("--dataflow-kms-key")]
+    [CliOption("--dataflow-kms-key")]
     public string? DataflowKmsKey { get; set; }
 
-    [BooleanCommandSwitch("--disable-public-ips")]
+    [CliFlag("--disable-public-ips")]
     public bool? DisablePublicIps { get; set; }
 
-    [BooleanCommandSwitch("--enable-streaming-engine")]
+    [CliFlag("--enable-streaming-engine")]
     public bool? EnableStreamingEngine { get; set; }
 
-    [CommandSwitch("--max-workers")]
+    [CliOption("--max-workers")]
     public string? MaxWorkers { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--num-workers")]
+    [CliOption("--num-workers")]
     public string? NumWorkers { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--service-account-email")]
+    [CliOption("--service-account-email")]
     public string? ServiceAccountEmail { get; set; }
 
-    [CommandSwitch("--staging-location")]
+    [CliOption("--staging-location")]
     public string? StagingLocation { get; set; }
 
-    [CommandSwitch("--subnetwork")]
+    [CliOption("--subnetwork")]
     public string? Subnetwork { get; set; }
 
-    [CommandSwitch("--worker-machine-type")]
+    [CliOption("--worker-machine-type")]
     public string? WorkerMachineType { get; set; }
 
-    [CommandSwitch("--worker-region")]
+    [CliOption("--worker-region")]
     public string? WorkerRegion { get; set; }
 
-    [CommandSwitch("--worker-zone")]
+    [CliOption("--worker-zone")]
     public string? WorkerZone { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cache", "services", "invalidate-cache")]
+[CliCommand("edge-cache", "services", "invalidate-cache")]
 public record GcloudEdgeCacheServicesInvalidateCacheOptions(
-[property: PositionalArgument] string Service,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--host")] string Host,
-[property: CommandSwitch("--path")] string Path,
-[property: CommandSwitch("--tags")] string[] Tags
+[property: CliArgument] string Service,
+[property: CliArgument] string Location,
+[property: CliOption("--host")] string Host,
+[property: CliOption("--path")] string Path,
+[property: CliOption("--tags")] string[] Tags
 ) : GcloudOptions;

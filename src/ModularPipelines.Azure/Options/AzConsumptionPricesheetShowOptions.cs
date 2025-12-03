@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("consumption", "pricesheet", "show")]
+[CliCommand("consumption", "pricesheet", "show")]
 public record AzConsumptionPricesheetShowOptions : AzOptions
 {
-    [CommandSwitch("--billing-period-name")]
+    [CliOption("--billing-period-name")]
     public string? BillingPeriodName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--include-meter-details")]
+    [CliOption("--include-meter-details")]
     public string? IncludeMeterDetails { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

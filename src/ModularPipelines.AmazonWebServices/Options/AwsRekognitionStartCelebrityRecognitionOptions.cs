@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "start-celebrity-recognition")]
+[CliCommand("rekognition", "start-celebrity-recognition")]
 public record AwsRekognitionStartCelebrityRecognitionOptions(
-[property: CommandSwitch("--video")] string Video
+[property: CliOption("--video")] string Video
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--notification-channel")]
+    [CliOption("--notification-channel")]
     public string? NotificationChannel { get; set; }
 
-    [CommandSwitch("--job-tag")]
+    [CliOption("--job-tag")]
     public string? JobTag { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

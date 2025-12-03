@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "managed-cluster", "update")]
+[CliCommand("sf", "managed-cluster", "update")]
 public record AzSfManagedClusterUpdateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--client-connection-port")]
+    [CliOption("--client-connection-port")]
     public string? ClientConnectionPort { get; set; }
 
-    [CommandSwitch("--dns-name")]
+    [CliOption("--dns-name")]
     public string? DnsName { get; set; }
 
-    [CommandSwitch("--gateway-connection-port")]
+    [CliOption("--gateway-connection-port")]
     public string? GatewayConnectionPort { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

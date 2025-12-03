@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "insights", "inventory-reports", "details", "list")]
+[CliCommand("storage", "insights", "inventory-reports", "details", "list")]
 public record GcloudStorageInsightsInventoryReportsDetailsListOptions(
-[property: PositionalArgument] string ReportConfig,
-[property: PositionalArgument] string Location
+[property: CliArgument] string ReportConfig,
+[property: CliArgument] string Location
 ) : GcloudOptions;

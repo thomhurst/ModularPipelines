@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventarc", "channel-connections", "create")]
+[CliCommand("eventarc", "channel-connections", "create")]
 public record GcloudEventarcChannelConnectionsCreateOptions(
-[property: PositionalArgument] string ChannelConnection,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--activation-token")] string ActivationToken,
-[property: CommandSwitch("--channel")] string Channel
+[property: CliArgument] string ChannelConnection,
+[property: CliArgument] string Location,
+[property: CliOption("--activation-token")] string ActivationToken,
+[property: CliOption("--channel")] string Channel
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

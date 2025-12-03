@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "target-pools", "create")]
+[CliCommand("compute", "target-pools", "create")]
 public record GcloudComputeTargetPoolsCreateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--backup-pool")]
+    [CliOption("--backup-pool")]
     public string? BackupPool { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--failover-ratio")]
+    [CliOption("--failover-ratio")]
     public string? FailoverRatio { get; set; }
 
-    [CommandSwitch("--health-check")]
+    [CliOption("--health-check")]
     public string? HealthCheck { get; set; }
 
-    [CommandSwitch("--http-health-check")]
+    [CliOption("--http-health-check")]
     public string? HttpHealthCheck { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--session-affinity")]
+    [CliOption("--session-affinity")]
     public string? SessionAffinity { get; set; }
 }

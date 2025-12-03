@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3outposts", "create-endpoint")]
+[CliCommand("s3outposts", "create-endpoint")]
 public record AwsS3outpostsCreateEndpointOptions(
-[property: CommandSwitch("--outpost-id")] string OutpostId,
-[property: CommandSwitch("--subnet-id")] string SubnetId,
-[property: CommandSwitch("--security-group-id")] string SecurityGroupId
+[property: CliOption("--outpost-id")] string OutpostId,
+[property: CliOption("--subnet-id")] string SubnetId,
+[property: CliOption("--security-group-id")] string SecurityGroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--access-type")]
+    [CliOption("--access-type")]
     public string? AccessType { get; set; }
 
-    [CommandSwitch("--customer-owned-ipv4-pool")]
+    [CliOption("--customer-owned-ipv4-pool")]
     public string? CustomerOwnedIpv4Pool { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bot", "skype", "create")]
+[CliCommand("bot", "skype", "create")]
 public record AzBotSkypeCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--add-disabled")]
+    [CliFlag("--add-disabled")]
     public bool? AddDisabled { get; set; }
 
-    [CommandSwitch("--calling-web-hook")]
+    [CliOption("--calling-web-hook")]
     public string? CallingWebHook { get; set; }
 
-    [BooleanCommandSwitch("--enable-calling")]
+    [CliFlag("--enable-calling")]
     public bool? EnableCalling { get; set; }
 
-    [BooleanCommandSwitch("--enable-groups")]
+    [CliFlag("--enable-groups")]
     public bool? EnableGroups { get; set; }
 
-    [BooleanCommandSwitch("--enable-media-cards")]
+    [CliFlag("--enable-media-cards")]
     public bool? EnableMediaCards { get; set; }
 
-    [BooleanCommandSwitch("--enable-messaging")]
+    [CliFlag("--enable-messaging")]
     public bool? EnableMessaging { get; set; }
 
-    [BooleanCommandSwitch("--enable-screen-sharing")]
+    [CliFlag("--enable-screen-sharing")]
     public bool? EnableScreenSharing { get; set; }
 
-    [BooleanCommandSwitch("--enable-video")]
+    [CliFlag("--enable-video")]
     public bool? EnableVideo { get; set; }
 
-    [CommandSwitch("--groups-mode")]
+    [CliOption("--groups-mode")]
     public string? GroupsMode { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

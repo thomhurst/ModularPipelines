@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "rules-engine", "rule", "condition", "add")]
+[CliCommand("network", "front-door", "rules-engine", "rule", "condition", "add")]
 public record AzNetworkFrontDoorRulesEngineRuleConditionAddOptions(
-[property: CommandSwitch("--front-door-name")] string FrontDoorName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--rules-engine-name")] string RulesEngineName
+[property: CliOption("--front-door-name")] string FrontDoorName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--rules-engine-name")] string RulesEngineName
 ) : AzOptions
 {
-    [CommandSwitch("--match-values")]
+    [CliOption("--match-values")]
     public string? MatchValues { get; set; }
 
-    [CommandSwitch("--match-variable")]
+    [CliOption("--match-variable")]
     public string? MatchVariable { get; set; }
 
-    [BooleanCommandSwitch("--negate-condition")]
+    [CliFlag("--negate-condition")]
     public bool? NegateCondition { get; set; }
 
-    [CommandSwitch("--operator")]
+    [CliOption("--operator")]
     public string? Operator { get; set; }
 
-    [CommandSwitch("--selector")]
+    [CliOption("--selector")]
     public string? Selector { get; set; }
 
-    [CommandSwitch("--transforms")]
+    [CliOption("--transforms")]
     public string? Transforms { get; set; }
 }

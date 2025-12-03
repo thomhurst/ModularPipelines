@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "inventory", "search-protected-resources")]
+[CliCommand("kms", "inventory", "search-protected-resources")]
 public record GcloudKmsInventorySearchProtectedResourcesOptions(
-[property: CommandSwitch("--scope")] string Scope,
-[property: CommandSwitch("--keyname")] string Keyname,
-[property: CommandSwitch("--keyring")] string Keyring,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--scope")] string Scope,
+[property: CliOption("--keyname")] string Keyname,
+[property: CliOption("--keyring")] string Keyring,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--resource-types")]
+    [CliOption("--resource-types")]
     public string[]? ResourceTypes { get; set; }
 }

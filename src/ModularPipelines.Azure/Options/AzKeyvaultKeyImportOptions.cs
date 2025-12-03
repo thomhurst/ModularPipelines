@@ -4,69 +4,69 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "key", "import")]
+[CliCommand("keyvault", "key", "import")]
 public record AzKeyvaultKeyImportOptions : AzOptions
 {
-    [CommandSwitch("--byok-file")]
+    [CliOption("--byok-file")]
     public string? ByokFile { get; set; }
 
-    [CommandSwitch("--byok-string")]
+    [CliOption("--byok-string")]
     public string? ByokString { get; set; }
 
-    [CommandSwitch("--curve")]
+    [CliOption("--curve")]
     public string? Curve { get; set; }
 
-    [BooleanCommandSwitch("--default-cvm-policy")]
+    [CliFlag("--default-cvm-policy")]
     public bool? DefaultCvmPolicy { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--expires")]
+    [CliOption("--expires")]
     public string? Expires { get; set; }
 
-    [BooleanCommandSwitch("--exportable")]
+    [CliFlag("--exportable")]
     public bool? Exportable { get; set; }
 
-    [CommandSwitch("--hsm-name")]
+    [CliOption("--hsm-name")]
     public string? HsmName { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [BooleanCommandSwitch("--immutable")]
+    [CliFlag("--immutable")]
     public bool? Immutable { get; set; }
 
-    [CommandSwitch("--kty")]
+    [CliOption("--kty")]
     public string? Kty { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--not-before")]
+    [CliOption("--not-before")]
     public string? NotBefore { get; set; }
 
-    [CommandSwitch("--ops")]
+    [CliOption("--ops")]
     public string? Ops { get; set; }
 
-    [CommandSwitch("--pem-file")]
+    [CliOption("--pem-file")]
     public string? PemFile { get; set; }
 
-    [CommandSwitch("--pem-password")]
+    [CliOption("--pem-password")]
     public string? PemPassword { get; set; }
 
-    [CommandSwitch("--pem-string")]
+    [CliOption("--pem-string")]
     public string? PemString { get; set; }
 
-    [CommandSwitch("--policy")]
+    [CliOption("--policy")]
     public string? Policy { get; set; }
 
-    [CommandSwitch("--protection")]
+    [CliOption("--protection")]
     public string? Protection { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 }

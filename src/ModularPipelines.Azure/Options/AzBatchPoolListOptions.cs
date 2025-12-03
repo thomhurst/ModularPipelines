@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "pool", "list")]
+[CliCommand("batch", "pool", "list")]
 public record AzBatchPoolListOptions : AzOptions
 {
-    [CommandSwitch("--account-endpoint")]
+    [CliOption("--account-endpoint")]
     public int? AccountEndpoint { get; set; }
 
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--expand")]
+    [CliOption("--expand")]
     public string? Expand { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--select")]
+    [CliOption("--select")]
     public string? Select { get; set; }
 }

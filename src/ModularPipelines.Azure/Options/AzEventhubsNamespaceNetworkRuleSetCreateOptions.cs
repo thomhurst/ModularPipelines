@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventhubs", "namespace", "network-rule-set", "create")]
+[CliCommand("eventhubs", "namespace", "network-rule-set", "create")]
 public record AzEventhubsNamespaceNetworkRuleSetCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--default-action")]
+    [CliOption("--default-action")]
     public string? DefaultAction { get; set; }
 
-    [BooleanCommandSwitch("--enable-trusted-service-access")]
+    [CliFlag("--enable-trusted-service-access")]
     public bool? EnableTrustedServiceAccess { get; set; }
 
-    [CommandSwitch("--ip-rules")]
+    [CliOption("--ip-rules")]
     public string? IpRules { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--virtual-network-rules")]
+    [CliOption("--virtual-network-rules")]
     public string? VirtualNetworkRules { get; set; }
 }

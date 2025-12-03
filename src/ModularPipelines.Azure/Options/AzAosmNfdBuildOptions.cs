@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aosm", "nfd", "build")]
+[CliCommand("aosm", "nfd", "build")]
 public record AzAosmNfdBuildOptions(
-[property: CommandSwitch("--config-file")] string ConfigFile,
-[property: CommandSwitch("--definition-type")] string DefinitionType
+[property: CliOption("--config-file")] string ConfigFile,
+[property: CliOption("--definition-type")] string DefinitionType
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public bool? Interactive { get; set; }
 
-    [BooleanCommandSwitch("--order-params")]
+    [CliFlag("--order-params")]
     public bool? OrderParams { get; set; }
 }

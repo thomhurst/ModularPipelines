@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynatrace", "monitor", "create")]
+[CliCommand("dynatrace", "monitor", "create")]
 public record AzDynatraceMonitorCreateOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--monitor-name")] string MonitorName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public string? Environment { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--monitoring-status")]
+    [CliOption("--monitoring-status")]
     public string? MonitoringStatus { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--plan-data")]
+    [CliOption("--plan-data")]
     public string? PlanData { get; set; }
 
-    [CommandSwitch("--subscription-status")]
+    [CliOption("--subscription-status")]
     public string? SubscriptionStatus { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--user-info")]
+    [CliOption("--user-info")]
     public string? UserInfo { get; set; }
 }

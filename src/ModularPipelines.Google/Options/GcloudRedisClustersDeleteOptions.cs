@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redis", "clusters", "delete")]
+[CliCommand("redis", "clusters", "delete")]
 public record GcloudRedisClustersDeleteOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

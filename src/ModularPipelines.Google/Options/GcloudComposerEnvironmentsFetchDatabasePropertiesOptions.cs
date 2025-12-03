@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("composer", "environments", "fetch-database-properties")]
+[CliCommand("composer", "environments", "fetch-database-properties")]
 public record GcloudComposerEnvironmentsFetchDatabasePropertiesOptions(
-[property: PositionalArgument] string Environment,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Environment,
+[property: CliArgument] string Location
 ) : GcloudOptions;

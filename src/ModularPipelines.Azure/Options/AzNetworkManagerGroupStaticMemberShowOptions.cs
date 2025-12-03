@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "manager", "group", "static-member", "show")]
+[CliCommand("network", "manager", "group", "static-member", "show")]
 public record AzNetworkManagerGroupStaticMemberShowOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--network-group")]
+    [CliOption("--network-group")]
     public string? NetworkGroup { get; set; }
 
-    [CommandSwitch("--network-manager")]
+    [CliOption("--network-manager")]
     public string? NetworkManager { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("feature")]
+[CliCommand("feature")]
 public class AzFeatureRegistration
 {
     public AzFeatureRegistration(

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("peering", "service", "prefix", "show")]
+[CliCommand("peering", "service", "prefix", "show")]
 public record AzPeeringServicePrefixShowOptions(
-[property: CommandSwitch("--peering-service-name")] string PeeringServiceName,
-[property: CommandSwitch("--prefix-name")] string PrefixName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--peering-service-name")] string PeeringServiceName,
+[property: CliOption("--prefix-name")] string PrefixName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--expand")]
+    [CliOption("--expand")]
     public string? Expand { get; set; }
 }

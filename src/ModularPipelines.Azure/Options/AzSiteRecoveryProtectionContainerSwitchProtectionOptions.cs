@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("site-recovery", "protection-container", "switch-protection")]
+[CliCommand("site-recovery", "protection-container", "switch-protection")]
 public record AzSiteRecoveryProtectionContainerSwitchProtectionOptions : AzOptions
 {
-    [CommandSwitch("--fabric-name")]
+    [CliOption("--fabric-name")]
     public string? FabricName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--protected-item")]
+    [CliOption("--protected-item")]
     public string? ProtectedItem { get; set; }
 
-    [CommandSwitch("--protection-container-name")]
+    [CliOption("--protection-container-name")]
     public string? ProtectionContainerName { get; set; }
 
-    [CommandSwitch("--provider-details")]
+    [CliOption("--provider-details")]
     public string? ProviderDetails { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 }

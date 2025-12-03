@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "manager", "connection", "subscription", "show")]
+[CliCommand("network", "manager", "connection", "subscription", "show")]
 public record AzNetworkManagerConnectionSubscriptionShowOptions : AzOptions
 {
-    [CommandSwitch("--connection-name")]
+    [CliOption("--connection-name")]
     public string? ConnectionName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

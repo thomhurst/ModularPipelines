@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("org", "rm", "orgname", "username")]
+[CliCommand("org", "rm", "orgname", "username")]
 public record NpmOrgRmOptions
 (
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string OrgName,
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Username
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string OrgName,
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Username
 ) : NpmOptions
 {
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }
 
-    [CommandSwitch("--otp")]
+    [CliOption("--otp")]
     public virtual string? Otp { get; set; }
 
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [BooleanCommandSwitch("--parseable")]
+    [CliFlag("--parseable")]
     public virtual bool? Parseable { get; set; }
 }

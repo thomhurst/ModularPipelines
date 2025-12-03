@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "instances", "clone")]
+[CliCommand("sql", "instances", "clone")]
 public record GcloudSqlInstancesCloneOptions(
-[property: PositionalArgument] string Source,
-[property: PositionalArgument] string Destination
+[property: CliArgument] string Source,
+[property: CliArgument] string Destination
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--bin-log-file-name")]
+    [CliOption("--bin-log-file-name")]
     public string? BinLogFileName { get; set; }
 
-    [CommandSwitch("--bin-log-position")]
+    [CliOption("--bin-log-position")]
     public string? BinLogPosition { get; set; }
 
-    [CommandSwitch("--point-in-time")]
+    [CliOption("--point-in-time")]
     public string? PointInTime { get; set; }
 
-    [CommandSwitch("--preferred-zone")]
+    [CliOption("--preferred-zone")]
     public string? PreferredZone { get; set; }
 
-    [CommandSwitch("--restore-database-name")]
+    [CliOption("--restore-database-name")]
     public string? RestoreDatabaseName { get; set; }
 }

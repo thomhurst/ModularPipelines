@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "multi-cluster-services", "disable")]
+[CliCommand("container", "fleet", "multi-cluster-services", "disable")]
 public record GcloudContainerFleetMultiClusterServicesDisableOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 }

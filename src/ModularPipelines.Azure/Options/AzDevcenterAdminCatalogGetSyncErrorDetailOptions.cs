@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter", "admin", "catalog", "get-sync-error-detail")]
+[CliCommand("devcenter", "admin", "catalog", "get-sync-error-detail")]
 public record AzDevcenterAdminCatalogGetSyncErrorDetailOptions : AzOptions
 {
-    [CommandSwitch("--catalog-name")]
+    [CliOption("--catalog-name")]
     public string? CatalogName { get; set; }
 
-    [CommandSwitch("--dev-center")]
+    [CliOption("--dev-center")]
     public string? DevCenter { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

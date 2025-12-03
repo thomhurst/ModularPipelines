@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automation", "python3-package", "create")]
+[CliCommand("automation", "python3-package", "create")]
 public record AzAutomationPython3PackageCreateOptions(
-[property: CommandSwitch("--automation-account-name")] int AutomationAccountName,
-[property: CommandSwitch("--content-link")] string ContentLink,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--automation-account-name")] int AutomationAccountName,
+[property: CliOption("--content-link")] string ContentLink,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage")]
+[CliCommand("storage")]
 public class AzStorageContainerRm
 {
     public AzStorageContainerRm(

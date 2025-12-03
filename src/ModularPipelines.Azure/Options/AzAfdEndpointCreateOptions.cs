@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "endpoint", "create")]
+[CliCommand("afd", "endpoint", "create")]
 public record AzAfdEndpointCreateOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--enabled-state")]
+    [CliFlag("--enabled-state")]
     public bool? EnabledState { get; set; }
 
-    [CommandSwitch("--name-reuse-scope")]
+    [CliOption("--name-reuse-scope")]
     public string? NameReuseScope { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

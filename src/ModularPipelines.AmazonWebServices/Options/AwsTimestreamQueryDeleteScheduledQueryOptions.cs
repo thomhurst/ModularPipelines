@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("timestream-query", "delete-scheduled-query")]
+[CliCommand("timestream-query", "delete-scheduled-query")]
 public record AwsTimestreamQueryDeleteScheduledQueryOptions(
-[property: CommandSwitch("--scheduled-query-arn")] string ScheduledQueryArn
+[property: CliOption("--scheduled-query-arn")] string ScheduledQueryArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

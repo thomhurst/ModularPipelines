@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "create-tenant-database")]
+[CliCommand("rds", "create-tenant-database")]
 public record AwsRdsCreateTenantDatabaseOptions(
-[property: CommandSwitch("--db-instance-identifier")] string DbInstanceIdentifier,
-[property: CommandSwitch("--tenant-db-name")] string TenantDbName,
-[property: CommandSwitch("--master-username")] string MasterUsername,
-[property: CommandSwitch("--master-user-password")] string MasterUserPassword
+[property: CliOption("--db-instance-identifier")] string DbInstanceIdentifier,
+[property: CliOption("--tenant-db-name")] string TenantDbName,
+[property: CliOption("--master-username")] string MasterUsername,
+[property: CliOption("--master-user-password")] string MasterUserPassword
 ) : AwsOptions
 {
-    [CommandSwitch("--character-set-name")]
+    [CliOption("--character-set-name")]
     public string? CharacterSetName { get; set; }
 
-    [CommandSwitch("--nchar-character-set-name")]
+    [CliOption("--nchar-character-set-name")]
     public string? NcharCharacterSetName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

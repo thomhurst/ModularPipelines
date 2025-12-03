@@ -15,18 +15,18 @@ public record DockerStackDeployOptions : DockerOptions
         Stack = stack;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Stack { get; set; }
 
-    [CommandSwitch("--compose-file")]
+    [CliOption("--compose-file")]
     public virtual string? ComposeFile { get; set; }
 
-    [CommandSwitch("--prune")]
+    [CliOption("--prune")]
     public virtual string? Prune { get; set; }
 
-    [CommandSwitch("--resolve-image")]
+    [CliOption("--resolve-image")]
     public virtual string? ResolveImage { get; set; }
 
-    [CommandSwitch("--with-registry-auth")]
+    [CliOption("--with-registry-auth")]
     public virtual string? WithRegistryAuth { get; set; }
 }

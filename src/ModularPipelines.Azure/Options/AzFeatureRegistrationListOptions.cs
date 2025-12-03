@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("feature", "registration", "list")]
+[CliCommand("feature", "registration", "list")]
 public record AzFeatureRegistrationListOptions : AzOptions
 {
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 }

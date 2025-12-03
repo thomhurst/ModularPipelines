@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "target-ssl-proxies", "delete")]
+[CliCommand("compute", "target-ssl-proxies", "delete")]
 public record GcloudComputeTargetSslProxiesDeleteOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions;

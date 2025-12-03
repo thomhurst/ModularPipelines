@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("telco-automation", "orchestration-cluster", "create")]
+[CliCommand("telco-automation", "orchestration-cluster", "create")]
 public record GcloudTelcoAutomationOrchestrationClusterCreateOptions(
-[property: PositionalArgument] string OrchestrationCluster,
-[property: PositionalArgument] string Location
+[property: CliArgument] string OrchestrationCluster,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--cidr-blocks")]
+    [CliOption("--cidr-blocks")]
     public string[]? CidrBlocks { get; set; }
 
-    [CommandSwitch("--cluster-cidr-block")]
+    [CliOption("--cluster-cidr-block")]
     public string? ClusterCidrBlock { get; set; }
 
-    [CommandSwitch("--cluster-named-range")]
+    [CliOption("--cluster-named-range")]
     public string? ClusterNamedRange { get; set; }
 
-    [BooleanCommandSwitch("--full-management-config")]
+    [CliFlag("--full-management-config")]
     public bool? FullManagementConfig { get; set; }
 
-    [CommandSwitch("--master-ipv4-cidr-block")]
+    [CliOption("--master-ipv4-cidr-block")]
     public string? MasterIpv4CidrBlock { get; set; }
 
-    [CommandSwitch("--services-cidr-block")]
+    [CliOption("--services-cidr-block")]
     public string? ServicesCidrBlock { get; set; }
 
-    [CommandSwitch("--services-named-range")]
+    [CliOption("--services-named-range")]
     public string? ServicesNamedRange { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 }

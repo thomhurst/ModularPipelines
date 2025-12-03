@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "reject-data-share")]
+[CliCommand("redshift", "reject-data-share")]
 public record AwsRedshiftRejectDataShareOptions(
-[property: CommandSwitch("--data-share-arn")] string DataShareArn
+[property: CliOption("--data-share-arn")] string DataShareArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "monitor")]
+[CliCommand("vm", "monitor")]
 public class AzVmMonitorLog
 {
     public AzVmMonitorLog(

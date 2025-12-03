@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "fhir-stores", "get-iam-policy")]
+[CliCommand("healthcare", "fhir-stores", "get-iam-policy")]
 public record GcloudHealthcareFhirStoresGetIamPolicyOptions(
-[property: PositionalArgument] string FhirStore,
-[property: PositionalArgument] string Dataset,
-[property: PositionalArgument] string Location
+[property: CliArgument] string FhirStore,
+[property: CliArgument] string Dataset,
+[property: CliArgument] string Location
 ) : GcloudOptions;

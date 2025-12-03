@@ -4,68 +4,68 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "forwarding-rules", "set-target")]
+[CliCommand("compute", "forwarding-rules", "set-target")]
 public record GcloudComputeForwardingRulesSetTargetOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--backend-service")] string BackendService,
-[property: CommandSwitch("--target-grpc-proxy")] string TargetGrpcProxy,
-[property: CommandSwitch("--target-http-proxy")] string TargetHttpProxy,
-[property: CommandSwitch("--target-https-proxy")] string TargetHttpsProxy,
-[property: CommandSwitch("--target-instance")] string TargetInstance,
-[property: CommandSwitch("--target-pool")] string TargetPool,
-[property: CommandSwitch("--target-ssl-proxy")] string TargetSslProxy,
-[property: CommandSwitch("--target-tcp-proxy")] string TargetTcpProxy,
-[property: CommandSwitch("--target-vpn-gateway")] string TargetVpnGateway
+[property: CliArgument] string Name,
+[property: CliOption("--backend-service")] string BackendService,
+[property: CliOption("--target-grpc-proxy")] string TargetGrpcProxy,
+[property: CliOption("--target-http-proxy")] string TargetHttpProxy,
+[property: CliOption("--target-https-proxy")] string TargetHttpsProxy,
+[property: CliOption("--target-instance")] string TargetInstance,
+[property: CliOption("--target-pool")] string TargetPool,
+[property: CliOption("--target-ssl-proxy")] string TargetSslProxy,
+[property: CliOption("--target-tcp-proxy")] string TargetTcpProxy,
+[property: CliOption("--target-vpn-gateway")] string TargetVpnGateway
 ) : GcloudOptions
 {
-    [CommandSwitch("--load-balancing-scheme")]
+    [CliOption("--load-balancing-scheme")]
     public string? LoadBalancingScheme { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--subnet-region")]
+    [CliOption("--subnet-region")]
     public string? SubnetRegion { get; set; }
 
-    [CommandSwitch("--target-instance-zone")]
+    [CliOption("--target-instance-zone")]
     public string? TargetInstanceZone { get; set; }
 
-    [CommandSwitch("--target-pool-region")]
+    [CliOption("--target-pool-region")]
     public string? TargetPoolRegion { get; set; }
 
-    [CommandSwitch("--target-vpn-gateway-region")]
+    [CliOption("--target-vpn-gateway-region")]
     public string? TargetVpnGatewayRegion { get; set; }
 
-    [CommandSwitch("--backend-service-region")]
+    [CliOption("--backend-service-region")]
     public string? BackendServiceRegion { get; set; }
 
-    [BooleanCommandSwitch("--global-backend-service")]
+    [CliFlag("--global-backend-service")]
     public bool? GlobalBackendService { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [BooleanCommandSwitch("--global-target-http-proxy")]
+    [CliFlag("--global-target-http-proxy")]
     public bool? GlobalTargetHttpProxy { get; set; }
 
-    [CommandSwitch("--target-http-proxy-region")]
+    [CliOption("--target-http-proxy-region")]
     public string? TargetHttpProxyRegion { get; set; }
 
-    [BooleanCommandSwitch("--global-target-https-proxy")]
+    [CliFlag("--global-target-https-proxy")]
     public bool? GlobalTargetHttpsProxy { get; set; }
 
-    [CommandSwitch("--target-https-proxy-region")]
+    [CliOption("--target-https-proxy-region")]
     public string? TargetHttpsProxyRegion { get; set; }
 
-    [BooleanCommandSwitch("--global-target-tcp-proxy")]
+    [CliFlag("--global-target-tcp-proxy")]
     public bool? GlobalTargetTcpProxy { get; set; }
 
-    [CommandSwitch("--target-tcp-proxy-region")]
+    [CliOption("--target-tcp-proxy-region")]
     public string? TargetTcpProxyRegion { get; set; }
 }

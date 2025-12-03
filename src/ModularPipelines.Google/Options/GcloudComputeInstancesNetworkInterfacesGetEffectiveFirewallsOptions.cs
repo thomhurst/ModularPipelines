@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "network-interfaces", "get-effective-firewalls")]
+[CliCommand("compute", "instances", "network-interfaces", "get-effective-firewalls")]
 public record GcloudComputeInstancesNetworkInterfacesGetEffectiveFirewallsOptions(
-[property: PositionalArgument] string InstanceName,
-[property: PositionalArgument] string Name
+[property: CliArgument] string InstanceName,
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--network-interface")]
+    [CliOption("--network-interface")]
     public string? NetworkInterface { get; set; }
 
-    [CommandSwitch("--regexp")]
+    [CliOption("--regexp")]
     public string? Regexp { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

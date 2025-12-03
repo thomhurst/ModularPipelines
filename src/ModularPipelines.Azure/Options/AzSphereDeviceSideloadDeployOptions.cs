@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "device", "sideload", "deploy")]
+[CliCommand("sphere", "device", "sideload", "deploy")]
 public record AzSphereDeviceSideloadDeployOptions(
-[property: CommandSwitch("--image-package")] string ImagePackage
+[property: CliOption("--image-package")] string ImagePackage
 ) : AzOptions
 {
-    [CommandSwitch("--device")]
+    [CliOption("--device")]
     public string? Device { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--manual-start")]
+    [CliFlag("--manual-start")]
     public bool? ManualStart { get; set; }
 }

@@ -3,36 +3,36 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("state mv")]
+[CliCommand("state mv")]
 [ExcludeFromCodeCoverage]
-public record TerraformStateMvOptions([property: PositionalArgument(Position = Position.AfterSwitches)]
-    string Source, [property: PositionalArgument(Position = Position.AfterSwitches)]
+public record TerraformStateMvOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    string Source, [property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     string Destination) : TerraformOptions
 {
-    [BooleanCommandSwitch("-dry-run")]
+    [CliFlag("-dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("-lock")]
+    [CliFlag("-lock")]
     public virtual bool? Lock { get; set; }
 
-    [CommandSwitch("-lock-timeout")]
+    [CliOption("-lock-timeout")]
     public virtual string? LockTimeout { get; set; }
 
-    [BooleanCommandSwitch("-ignore-remote-version")]
+    [CliFlag("-ignore-remote-version")]
     public virtual bool? IgnoreRemoteVersion { get; set; }
 
-    [BooleanCommandSwitch("-backup")]
+    [CliFlag("-backup")]
     public virtual bool? Backup { get; set; }
 
-    [BooleanCommandSwitch("-backup-out")]
+    [CliFlag("-backup-out")]
     public virtual bool? BackupOut { get; set; }
 
-    [BooleanCommandSwitch("-state")]
+    [CliFlag("-state")]
     public virtual bool? State { get; set; }
 
-    [BooleanCommandSwitch("-state-out")]
+    [CliFlag("-state-out")]
     public virtual bool? StateOut { get; set; }
 
-    [CommandSwitch("-resource")]
+    [CliOption("-resource")]
     public virtual string? Resource { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workmail", "deregister-from-work-mail")]
+[CliCommand("workmail", "deregister-from-work-mail")]
 public record AwsWorkmailDeregisterFromWorkMailOptions(
-[property: CommandSwitch("--organization-id")] string OrganizationId,
-[property: CommandSwitch("--entity-id")] string EntityId
+[property: CliOption("--organization-id")] string OrganizationId,
+[property: CliOption("--entity-id")] string EntityId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

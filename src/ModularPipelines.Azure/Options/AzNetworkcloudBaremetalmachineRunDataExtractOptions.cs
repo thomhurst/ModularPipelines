@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "baremetalmachine", "run-data-extract")]
+[CliCommand("networkcloud", "baremetalmachine", "run-data-extract")]
 public record AzNetworkcloudBaremetalmachineRunDataExtractOptions(
-[property: CommandSwitch("--commands")] string Commands,
-[property: CommandSwitch("--limit-time-seconds")] string LimitTimeSeconds
+[property: CliOption("--commands")] string Commands,
+[property: CliOption("--limit-time-seconds")] string LimitTimeSeconds
 ) : AzOptions
 {
-    [CommandSwitch("--bare-metal-machine-name")]
+    [CliOption("--bare-metal-machine-name")]
     public string? BareMetalMachineName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--output-directory")]
+    [CliOption("--output-directory")]
     public string? OutputDirectory { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

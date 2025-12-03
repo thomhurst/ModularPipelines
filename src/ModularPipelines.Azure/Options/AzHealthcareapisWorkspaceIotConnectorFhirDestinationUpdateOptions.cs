@@ -4,51 +4,51 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcareapis", "workspace", "iot-connector", "fhir-destination", "update")]
+[CliCommand("healthcareapis", "workspace", "iot-connector", "fhir-destination", "update")]
 public record AzHealthcareapisWorkspaceIotConnectorFhirDestinationUpdateOptions(
-[property: CommandSwitch("--fhir-service-resource-id")] string FhirServiceResourceId,
-[property: CommandSwitch("--resource-identity-resolution-type")] string ResourceIdentityResolutionType
+[property: CliOption("--fhir-service-resource-id")] string FhirServiceResourceId,
+[property: CliOption("--resource-identity-resolution-type")] string ResourceIdentityResolutionType
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--content")]
+    [CliOption("--content")]
     public string? Content { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--fhir-destination-name")]
+    [CliOption("--fhir-destination-name")]
     public string? FhirDestinationName { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--iot-connector-name")]
+    [CliOption("--iot-connector-name")]
     public string? IotConnectorName { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

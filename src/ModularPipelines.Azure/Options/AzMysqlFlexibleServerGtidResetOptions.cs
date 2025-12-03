@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mysql", "flexible-server", "gtid", "reset")]
+[CliCommand("mysql", "flexible-server", "gtid", "reset")]
 public record AzMysqlFlexibleServerGtidResetOptions(
-[property: CommandSwitch("--gtid-set")] string GtidSet,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--server-name")] string ServerName
+[property: CliOption("--gtid-set")] string GtidSet,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--server-name")] string ServerName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

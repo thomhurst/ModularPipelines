@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "api", "operation", "create")]
+[CliCommand("apim", "api", "operation", "create")]
 public record AzApimApiOperationCreateOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--method")] string Method,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-name")] string ServiceName,
-[property: CommandSwitch("--url-template")] string UrlTemplate
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--method")] string Method,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-name")] string ServiceName,
+[property: CliOption("--url-template")] string UrlTemplate
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--operation-id")]
+    [CliOption("--operation-id")]
     public string? OperationId { get; set; }
 
-    [CommandSwitch("--params")]
+    [CliOption("--params")]
     public string? Params { get; set; }
 }

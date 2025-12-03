@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("config")]
+[CliCommand("config")]
 public class AzConfigParamPersist
 {
     public AzConfigParamPersist(

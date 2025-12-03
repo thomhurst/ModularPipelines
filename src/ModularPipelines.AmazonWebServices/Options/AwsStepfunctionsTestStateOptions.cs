@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stepfunctions", "test-state")]
+[CliCommand("stepfunctions", "test-state")]
 public record AwsStepfunctionsTestStateOptions(
-[property: CommandSwitch("--definition")] string Definition,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--definition")] string Definition,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--input")]
+    [CliOption("--input")]
     public string? Input { get; set; }
 
-    [CommandSwitch("--inspection-level")]
+    [CliOption("--inspection-level")]
     public string? InspectionLevel { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "target-ssl-proxies", "update")]
+[CliCommand("compute", "target-ssl-proxies", "update")]
 public record GcloudComputeTargetSslProxiesUpdateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--backend-service")]
+    [CliOption("--backend-service")]
     public string? BackendService { get; set; }
 
-    [CommandSwitch("--proxy-header")]
+    [CliOption("--proxy-header")]
     public string? ProxyHeader { get; set; }
 
-    [BooleanCommandSwitch("--clear-ssl-policy")]
+    [CliFlag("--clear-ssl-policy")]
     public bool? ClearSslPolicy { get; set; }
 
-    [CommandSwitch("--ssl-policy")]
+    [CliOption("--ssl-policy")]
     public string? SslPolicy { get; set; }
 
-    [BooleanCommandSwitch("--global-ssl-policy")]
+    [CliFlag("--global-ssl-policy")]
     public bool? GlobalSslPolicy { get; set; }
 
-    [CommandSwitch("--ssl-policy-region")]
+    [CliOption("--ssl-policy-region")]
     public string? SslPolicyRegion { get; set; }
 
-    [CommandSwitch("--ssl-certificates")]
+    [CliOption("--ssl-certificates")]
     public string[]? SslCertificates { get; set; }
 
-    [BooleanCommandSwitch("--clear-ssl-certificates")]
+    [CliFlag("--clear-ssl-certificates")]
     public bool? ClearSslCertificates { get; set; }
 
-    [CommandSwitch("--certificate-map")]
+    [CliOption("--certificate-map")]
     public string? CertificateMap { get; set; }
 
-    [BooleanCommandSwitch("--clear-certificate-map")]
+    [CliFlag("--clear-certificate-map")]
     public bool? ClearCertificateMap { get; set; }
 }

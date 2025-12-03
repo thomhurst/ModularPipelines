@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "autoscale", "rule", "copy")]
+[CliCommand("monitor", "autoscale", "rule", "copy")]
 public record AzMonitorAutoscaleRuleCopyOptions(
-[property: CommandSwitch("--autoscale-name")] string AutoscaleName,
-[property: CommandSwitch("--dest-schedule")] string DestSchedule,
-[property: CommandSwitch("--index")] string Index,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--autoscale-name")] string AutoscaleName,
+[property: CliOption("--dest-schedule")] string DestSchedule,
+[property: CliOption("--index")] string Index,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--source-schedule")]
+    [CliOption("--source-schedule")]
     public string? SourceSchedule { get; set; }
 }

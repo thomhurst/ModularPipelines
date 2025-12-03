@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("staticwebapp", "appsettings", "delete")]
+[CliCommand("staticwebapp", "appsettings", "delete")]
 public record AzStaticwebappAppsettingsDeleteOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--setting-names")] string SettingNames
+[property: CliOption("--name")] string Name,
+[property: CliOption("--setting-names")] string SettingNames
 ) : AzOptions
 {
-    [CommandSwitch("--environment-name")]
+    [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

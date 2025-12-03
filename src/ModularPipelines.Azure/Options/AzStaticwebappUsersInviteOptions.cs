@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("staticwebapp", "users", "invite")]
+[CliCommand("staticwebapp", "users", "invite")]
 public record AzStaticwebappUsersInviteOptions(
-[property: CommandSwitch("--authentication-provider")] string AuthenticationProvider,
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--invitation-expiration-in-hours")] string InvitationExpirationInHours,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--roles")] string Roles,
-[property: CommandSwitch("--user-details")] string UserDetails
+[property: CliOption("--authentication-provider")] string AuthenticationProvider,
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--invitation-expiration-in-hours")] string InvitationExpirationInHours,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--roles")] string Roles,
+[property: CliOption("--user-details")] string UserDetails
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

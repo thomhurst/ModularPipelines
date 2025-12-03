@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sapmonitor", "create")]
+[CliCommand("sapmonitor", "create")]
 public record AzSapmonitorCreateOptions(
-[property: CommandSwitch("--hana-subnet")] string HanaSubnet,
-[property: CommandSwitch("--monitor-name")] string MonitorName,
-[property: CommandSwitch("--region")] string Region,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--hana-subnet")] string HanaSubnet,
+[property: CliOption("--monitor-name")] string MonitorName,
+[property: CliOption("--region")] string Region,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--dca")]
+    [CliFlag("--dca")]
     public bool? Dca { get; set; }
 
-    [CommandSwitch("--lawsid")]
+    [CliOption("--lawsid")]
     public string? Lawsid { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

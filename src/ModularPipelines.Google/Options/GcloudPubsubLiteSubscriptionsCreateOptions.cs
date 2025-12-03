@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "lite-subscriptions", "create")]
+[CliCommand("pubsub", "lite-subscriptions", "create")]
 public record GcloudPubsubLiteSubscriptionsCreateOptions(
-[property: PositionalArgument] string Subscription,
-[property: CommandSwitch("--topic")] string Topic
+[property: CliArgument] string Subscription,
+[property: CliOption("--topic")] string Topic
 ) : GcloudOptions
 {
-    [CommandSwitch("--delivery-requirement")]
+    [CliOption("--delivery-requirement")]
     public string? DeliveryRequirement { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--event-time")]
+    [CliOption("--event-time")]
     public string? EventTime { get; set; }
 
-    [CommandSwitch("--publish-time")]
+    [CliOption("--publish-time")]
     public string? PublishTime { get; set; }
 
-    [CommandSwitch("--starting-offset")]
+    [CliOption("--starting-offset")]
     public string? StartingOffset { get; set; }
 
-    [CommandSwitch("--export-pubsub-topic")]
+    [CliOption("--export-pubsub-topic")]
     public string? ExportPubsubTopic { get; set; }
 
-    [CommandSwitch("--export-dead-letter-topic")]
+    [CliOption("--export-dead-letter-topic")]
     public string? ExportDeadLetterTopic { get; set; }
 
-    [CommandSwitch("--export-desired-state")]
+    [CliOption("--export-desired-state")]
     public string? ExportDesiredState { get; set; }
 }

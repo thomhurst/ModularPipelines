@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("asset", "query")]
+[CliCommand("asset", "query")]
 public record GcloudAssetQueryOptions : GcloudOptions
 {
     public GcloudAssetQueryOptions(
@@ -22,51 +22,51 @@ public record GcloudAssetQueryOptions : GcloudOptions
         Statement = statement;
     }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 
-    [CommandSwitch("--job-reference")]
+    [CliOption("--job-reference")]
     public string JobReference { get; set; }
 
-    [CommandSwitch("--statement")]
+    [CliOption("--statement")]
     public string Statement { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public string? PageSize { get; set; }
 
-    [CommandSwitch("--page-token")]
+    [CliOption("--page-token")]
     public string? PageToken { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--snapshot-time")]
+    [CliOption("--snapshot-time")]
     public string? SnapshotTime { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public string? StartTime { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CommandSwitch("--write-disposition")]
+    [CliOption("--write-disposition")]
     public string? WriteDisposition { get; set; }
 
-    [BooleanCommandSwitch("write-append")]
+    [CliFlag("write-append")]
     public bool? WriteAppend { get; set; }
 
-    [BooleanCommandSwitch("write-empty")]
+    [CliFlag("write-empty")]
     public bool? WriteEmpty { get; set; }
 
-    [BooleanCommandSwitch("write-truncate")]
+    [CliFlag("write-truncate")]
     public bool? WriteTruncate { get; set; }
 
-    [CommandSwitch("--bigquery-table")]
+    [CliOption("--bigquery-table")]
     public string? BigqueryTable { get; set; }
 
-    [CommandSwitch("--bigquery-dataset")]
+    [CliOption("--bigquery-dataset")]
     public string? BigqueryDataset { get; set; }
 }

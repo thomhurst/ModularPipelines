@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "upgrade")]
+[CliCommand("aks", "upgrade")]
 public record AzAksUpgradeOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--control-plane-only")]
+    [CliFlag("--control-plane-only")]
     public bool? ControlPlaneOnly { get; set; }
 
-    [CommandSwitch("--kubernetes-version")]
+    [CliOption("--kubernetes-version")]
     public string? KubernetesVersion { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--node-image-only")]
+    [CliFlag("--node-image-only")]
     public bool? NodeImageOnly { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

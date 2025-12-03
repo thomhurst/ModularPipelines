@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("postgres", "flexible-server", "ad-admin", "create")]
+[CliCommand("postgres", "flexible-server", "ad-admin", "create")]
 public record AzPostgresFlexibleServerAdAdminCreateOptions(
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--object-id")] string ObjectId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--server-name")] string ServerName
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--object-id")] string ObjectId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--server-name")] string ServerName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 }

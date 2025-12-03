@@ -4,66 +4,66 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "streaming-endpoint", "update")]
+[CliCommand("ams", "streaming-endpoint", "update")]
 public record AzAmsStreamingEndpointUpdateOptions : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--cdn-profile")]
+    [CliOption("--cdn-profile")]
     public string? CdnProfile { get; set; }
 
-    [CommandSwitch("--cdn-provider")]
+    [CliOption("--cdn-provider")]
     public string? CdnProvider { get; set; }
 
-    [CommandSwitch("--client-access-policy")]
+    [CliOption("--client-access-policy")]
     public string? ClientAccessPolicy { get; set; }
 
-    [CommandSwitch("--cross-domain-policy")]
+    [CliOption("--cross-domain-policy")]
     public string? CrossDomainPolicy { get; set; }
 
-    [CommandSwitch("--custom-host-names")]
+    [CliOption("--custom-host-names")]
     public string? CustomHostNames { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--disable-cdn")]
+    [CliFlag("--disable-cdn")]
     public bool? DisableCdn { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--ips")]
+    [CliOption("--ips")]
     public string? Ips { get; set; }
 
-    [CommandSwitch("--max-cache-age")]
+    [CliOption("--max-cache-age")]
     public string? MaxCacheAge { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

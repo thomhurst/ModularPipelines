@@ -18,39 +18,39 @@ public record DockerComposeExecOptions : DockerOptions
         Command = command;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Service { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Command { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Args { get; set; }
 
-    [BooleanCommandSwitch("--detach")]
+    [CliFlag("--detach")]
     public virtual bool? Detach { get; set; }
 
-    [CommandSwitch("--env")]
+    [CliOption("--env")]
     public virtual string? Env { get; set; }
 
-    [CommandSwitch("--index")]
+    [CliOption("--index")]
     public virtual string? Index { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [BooleanCommandSwitch("--no-TTY")]
+    [CliFlag("--no-TTY")]
     public virtual bool? NoTty { get; set; }
 
-    [BooleanCommandSwitch("--privileged")]
+    [CliFlag("--privileged")]
     public virtual bool? Privileged { get; set; }
 
-    [BooleanCommandSwitch("--tty")]
+    [CliFlag("--tty")]
     public virtual bool? Tty { get; set; }
 
-    [CommandSwitch("--user")]
+    [CliOption("--user")]
     public virtual string? User { get; set; }
 
-    [CommandSwitch("--workdir")]
+    [CliOption("--workdir")]
     public virtual string? Workdir { get; set; }
 }

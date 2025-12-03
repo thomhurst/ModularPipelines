@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts")]
+[CliCommand("artifacts")]
 public class AzArtifactsUniversal
 {
     public AzArtifactsUniversal(

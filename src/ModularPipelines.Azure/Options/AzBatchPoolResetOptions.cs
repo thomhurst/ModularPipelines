@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "pool", "reset")]
+[CliCommand("batch", "pool", "reset")]
 public record AzBatchPoolResetOptions(
-[property: CommandSwitch("--pool-id")] string PoolId
+[property: CliOption("--pool-id")] string PoolId
 ) : AzOptions
 {
-    [CommandSwitch("--account-endpoint")]
+    [CliOption("--account-endpoint")]
     public int? AccountEndpoint { get; set; }
 
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--application-package-references")]
+    [CliOption("--application-package-references")]
     public string? ApplicationPackageReferences { get; set; }
 
-    [CommandSwitch("--certificate-references")]
+    [CliOption("--certificate-references")]
     public string? CertificateReferences { get; set; }
 
-    [CommandSwitch("--json-file")]
+    [CliOption("--json-file")]
     public string? JsonFile { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
-    [CommandSwitch("--start-task-command-line")]
+    [CliOption("--start-task-command-line")]
     public string? StartTaskCommandLine { get; set; }
 
-    [CommandSwitch("--start-task-environment-settings")]
+    [CliOption("--start-task-environment-settings")]
     public string? StartTaskEnvironmentSettings { get; set; }
 
-    [CommandSwitch("--start-task-max-task-retry-count")]
+    [CliOption("--start-task-max-task-retry-count")]
     public int? StartTaskMaxTaskRetryCount { get; set; }
 
-    [CommandSwitch("--start-task-wait-for-success")]
+    [CliOption("--start-task-wait-for-success")]
     public string? StartTaskWaitForSuccess { get; set; }
 }

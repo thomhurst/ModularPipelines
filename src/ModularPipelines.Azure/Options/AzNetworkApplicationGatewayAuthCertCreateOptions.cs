@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "auth-cert", "create")]
+[CliCommand("network", "application-gateway", "auth-cert", "create")]
 public record AzNetworkApplicationGatewayAuthCertCreateOptions(
-[property: CommandSwitch("--cert-file")] string CertFile,
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cert-file")] string CertFile,
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

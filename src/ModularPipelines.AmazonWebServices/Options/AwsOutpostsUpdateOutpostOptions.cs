@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("outposts", "update-outpost")]
+[CliCommand("outposts", "update-outpost")]
 public record AwsOutpostsUpdateOutpostOptions(
-[property: CommandSwitch("--outpost-id")] string OutpostId
+[property: CliOption("--outpost-id")] string OutpostId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--supported-hardware-type")]
+    [CliOption("--supported-hardware-type")]
     public string? SupportedHardwareType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

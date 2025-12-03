@@ -15,222 +15,222 @@ public record DockerServiceCreateOptions : DockerOptions
         Image = image;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Image { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Command { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Arg { get; set; }
 
-    [CommandSwitch("--cap-add")]
+    [CliOption("--cap-add")]
     public virtual string? CapAdd { get; set; }
 
-    [CommandSwitch("--cap-drop")]
+    [CliOption("--cap-drop")]
     public virtual string? CapDrop { get; set; }
 
-    [CommandSwitch("--constraint")]
+    [CliOption("--constraint")]
     public virtual string? Constraint { get; set; }
 
-    [CommandSwitch("--container-label")]
+    [CliOption("--container-label")]
     public virtual string? ContainerLabel { get; set; }
 
-    [CommandSwitch("--credential-spec")]
+    [CliOption("--credential-spec")]
     public virtual string? CredentialSpec { get; set; }
 
-    [BooleanCommandSwitch("--detach")]
+    [CliFlag("--detach")]
     public virtual bool? Detach { get; set; }
 
-    [CommandSwitch("--dns")]
+    [CliOption("--dns")]
     public virtual string? Dns { get; set; }
 
-    [CommandSwitch("--dns-option")]
+    [CliOption("--dns-option")]
     public virtual string? DnsOption { get; set; }
 
-    [CommandSwitch("--dns-search")]
+    [CliOption("--dns-search")]
     public virtual string? DnsSearch { get; set; }
 
-    [CommandSwitch("--endpoint-mode")]
+    [CliOption("--endpoint-mode")]
     public virtual string? EndpointMode { get; set; }
 
-    [CommandSwitch("--entrypoint")]
+    [CliOption("--entrypoint")]
     public virtual string? Entrypoint { get; set; }
 
-    [CommandSwitch("--env")]
+    [CliOption("--env")]
     public virtual string? Env { get; set; }
 
-    [CommandSwitch("--env-file")]
+    [CliOption("--env-file")]
     public virtual string? EnvFile { get; set; }
 
-    [CommandSwitch("--generic-resource")]
+    [CliOption("--generic-resource")]
     public virtual string? GenericResource { get; set; }
 
-    [CommandSwitch("--group")]
+    [CliOption("--group")]
     public virtual string? Group { get; set; }
 
-    [CommandSwitch("--health-cmd")]
+    [CliOption("--health-cmd")]
     public virtual string? HealthCmd { get; set; }
 
-    [CommandSwitch("--health-interval")]
+    [CliOption("--health-interval")]
     public virtual string? HealthInterval { get; set; }
 
-    [CommandSwitch("--health-retries")]
+    [CliOption("--health-retries")]
     public virtual string? HealthRetries { get; set; }
 
-    [CommandSwitch("--health-start-interval")]
+    [CliOption("--health-start-interval")]
     public virtual string? HealthStartInterval { get; set; }
 
-    [CommandSwitch("--health-start-period")]
+    [CliOption("--health-start-period")]
     public virtual string? HealthStartPeriod { get; set; }
 
-    [CommandSwitch("--health-timeout")]
+    [CliOption("--health-timeout")]
     public virtual string? HealthTimeout { get; set; }
 
-    [CommandSwitch("--hostname")]
+    [CliOption("--hostname")]
     public virtual string? Hostname { get; set; }
 
-    [CommandSwitch("--init")]
+    [CliOption("--init")]
     public virtual string? Init { get; set; }
 
-    [BooleanCommandSwitch("--isolation")]
+    [CliFlag("--isolation")]
     public virtual bool? Isolation { get; set; }
 
-    [CommandSwitch("--label")]
+    [CliOption("--label")]
     public virtual string? Label { get; set; }
 
-    [CommandSwitch("--limit-cpu")]
+    [CliOption("--limit-cpu")]
     public virtual string? LimitCpu { get; set; }
 
-    [CommandSwitch("--limit-memory")]
+    [CliOption("--limit-memory")]
     public virtual string? LimitMemory { get; set; }
 
-    [CommandSwitch("--limit-pids")]
+    [CliOption("--limit-pids")]
     public virtual string? LimitPids { get; set; }
 
-    [CommandSwitch("--log-driver")]
+    [CliOption("--log-driver")]
     public virtual string? LogDriver { get; set; }
 
-    [CommandSwitch("--log-opt")]
+    [CliOption("--log-opt")]
     public virtual string? LogOpt { get; set; }
 
-    [CommandSwitch("--max-concurrent")]
+    [CliOption("--max-concurrent")]
     public virtual string? MaxConcurrent { get; set; }
 
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public virtual string? Mode { get; set; }
 
-    [CommandSwitch("--mount")]
+    [CliOption("--mount")]
     public virtual string? Mount { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public virtual string? Name { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public virtual string? Network { get; set; }
 
-    [BooleanCommandSwitch("--no-healthcheck")]
+    [CliFlag("--no-healthcheck")]
     public virtual bool? NoHealthcheck { get; set; }
 
-    [CommandSwitch("--no-resolve-image")]
+    [CliOption("--no-resolve-image")]
     public virtual string? NoResolveImage { get; set; }
 
-    [CommandSwitch("--placement-pref")]
+    [CliOption("--placement-pref")]
     public virtual string? PlacementPref { get; set; }
 
-    [CommandSwitch("--publish")]
+    [CliOption("--publish")]
     public virtual string? Publish { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--read-only")]
+    [CliFlag("--read-only")]
     public virtual bool? ReadOnly { get; set; }
 
-    [CommandSwitch("--replicas")]
+    [CliOption("--replicas")]
     public virtual string? Replicas { get; set; }
 
-    [CommandSwitch("--replicas-max-per-node")]
+    [CliOption("--replicas-max-per-node")]
     public virtual string? ReplicasMaxPerNode { get; set; }
 
-    [CommandSwitch("--reserve-cpu")]
+    [CliOption("--reserve-cpu")]
     public virtual string? ReserveCpu { get; set; }
 
-    [CommandSwitch("--reserve-memory")]
+    [CliOption("--reserve-memory")]
     public virtual string? ReserveMemory { get; set; }
 
-    [CommandSwitch("--restart-condition")]
+    [CliOption("--restart-condition")]
     public virtual string? RestartCondition { get; set; }
 
-    [CommandSwitch("--restart-delay")]
+    [CliOption("--restart-delay")]
     public virtual string? RestartDelay { get; set; }
 
-    [CommandSwitch("--restart-max-attempts")]
+    [CliOption("--restart-max-attempts")]
     public virtual string? RestartMaxAttempts { get; set; }
 
-    [CommandSwitch("--restart-window")]
+    [CliOption("--restart-window")]
     public virtual string? RestartWindow { get; set; }
 
-    [CommandSwitch("--rollback-delay")]
+    [CliOption("--rollback-delay")]
     public virtual string? RollbackDelay { get; set; }
 
-    [CommandSwitch("--rollback-failure-action")]
+    [CliOption("--rollback-failure-action")]
     public virtual string? RollbackFailureAction { get; set; }
 
-    [CommandSwitch("--rollback-max-failure-ratio")]
+    [CliOption("--rollback-max-failure-ratio")]
     public virtual string? RollbackMaxFailureRatio { get; set; }
 
-    [CommandSwitch("--rollback-monitor")]
+    [CliOption("--rollback-monitor")]
     public virtual string? RollbackMonitor { get; set; }
 
-    [CommandSwitch("--rollback-order")]
+    [CliOption("--rollback-order")]
     public virtual string? RollbackOrder { get; set; }
 
-    [CommandSwitch("--rollback-parallelism")]
+    [CliOption("--rollback-parallelism")]
     public virtual int? RollbackParallelism { get; set; }
 
-    [CommandSwitch("--secret")]
+    [CliOption("--secret")]
     public virtual string? Secret { get; set; }
 
-    [CommandSwitch("--stop-grace-period")]
+    [CliOption("--stop-grace-period")]
     public virtual string? StopGracePeriod { get; set; }
 
-    [CommandSwitch("--stop-signal")]
+    [CliOption("--stop-signal")]
     public virtual string? StopSignal { get; set; }
 
-    [CommandSwitch("--sysctl")]
+    [CliOption("--sysctl")]
     public virtual string? Sysctl { get; set; }
 
-    [CommandSwitch("--tty")]
+    [CliOption("--tty")]
     public virtual string? Tty { get; set; }
 
-    [CommandSwitch("--ulimit")]
+    [CliOption("--ulimit")]
     public virtual string? Ulimit { get; set; }
 
-    [CommandSwitch("--update-delay")]
+    [CliOption("--update-delay")]
     public virtual string? UpdateDelay { get; set; }
 
-    [CommandSwitch("--update-failure-action")]
+    [CliOption("--update-failure-action")]
     public virtual string? UpdateFailureAction { get; set; }
 
-    [CommandSwitch("--update-max-failure-ratio")]
+    [CliOption("--update-max-failure-ratio")]
     public virtual string? UpdateMaxFailureRatio { get; set; }
 
-    [CommandSwitch("--update-monitor")]
+    [CliOption("--update-monitor")]
     public virtual string? UpdateMonitor { get; set; }
 
-    [CommandSwitch("--update-order")]
+    [CliOption("--update-order")]
     public virtual string? UpdateOrder { get; set; }
 
-    [CommandSwitch("--update-parallelism")]
+    [CliOption("--update-parallelism")]
     public virtual int? UpdateParallelism { get; set; }
 
-    [CommandSwitch("--user")]
+    [CliOption("--user")]
     public virtual string? User { get; set; }
 
-    [CommandSwitch("--with-registry-auth")]
+    [CliOption("--with-registry-auth")]
     public virtual string? WithRegistryAuth { get; set; }
 
-    [CommandSwitch("--workdir")]
+    [CliOption("--workdir")]
     public virtual string? Workdir { get; set; }
 }

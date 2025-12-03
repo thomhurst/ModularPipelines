@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns-resolver", "forwarding-ruleset", "list")]
+[CliCommand("dns-resolver", "forwarding-ruleset", "list")]
 public record AzDnsResolverForwardingRulesetListOptions : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 
-    [CommandSwitch("--virtual-network-name")]
+    [CliOption("--virtual-network-name")]
     public string? VirtualNetworkName { get; set; }
 }

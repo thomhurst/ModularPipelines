@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "url-maps", "add-path-matcher")]
+[CliCommand("compute", "url-maps", "add-path-matcher")]
 public record GcloudComputeUrlMapsAddPathMatcherOptions(
-[property: PositionalArgument] string UrlMap,
-[property: CommandSwitch("--path-matcher-name")] string PathMatcherName,
-[property: CommandSwitch("--default-backend-bucket")] string DefaultBackendBucket,
-[property: CommandSwitch("--default-service")] string DefaultService
+[property: CliArgument] string UrlMap,
+[property: CliOption("--path-matcher-name")] string PathMatcherName,
+[property: CliOption("--default-backend-bucket")] string DefaultBackendBucket,
+[property: CliOption("--default-service")] string DefaultService
 ) : GcloudOptions
 {
-    [CommandSwitch("--backend-bucket-path-rules")]
+    [CliOption("--backend-bucket-path-rules")]
     public string[]? BackendBucketPathRules { get; set; }
 
-    [CommandSwitch("--backend-service-path-rules")]
+    [CliOption("--backend-service-path-rules")]
     public string[]? BackendServicePathRules { get; set; }
 
-    [BooleanCommandSwitch("--delete-orphaned-path-matcher")]
+    [CliFlag("--delete-orphaned-path-matcher")]
     public bool? DeleteOrphanedPathMatcher { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--path-rules")]
+    [CliOption("--path-rules")]
     public string[]? PathRules { get; set; }
 
-    [CommandSwitch("--existing-host")]
+    [CliOption("--existing-host")]
     public string? ExistingHost { get; set; }
 
-    [CommandSwitch("--new-hosts")]
+    [CliOption("--new-hosts")]
     public string[]? NewHosts { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

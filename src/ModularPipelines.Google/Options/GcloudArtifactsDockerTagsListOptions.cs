@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "docker", "tags", "list")]
+[CliCommand("artifacts", "docker", "tags", "list")]
 public record GcloudArtifactsDockerTagsListOptions(
-[property: PositionalArgument] string ImagePath
+[property: CliArgument] string ImagePath
 ) : GcloudOptions;

@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("panorama", "deregister-package-version")]
+[CliCommand("panorama", "deregister-package-version")]
 public record AwsPanoramaDeregisterPackageVersionOptions(
-[property: CommandSwitch("--package-id")] string PackageId,
-[property: CommandSwitch("--package-version")] string PackageVersion,
-[property: CommandSwitch("--patch-version")] string PatchVersion
+[property: CliOption("--package-id")] string PackageId,
+[property: CliOption("--package-version")] string PackageVersion,
+[property: CliOption("--patch-version")] string PatchVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--owner-account")]
+    [CliOption("--owner-account")]
     public string? OwnerAccount { get; set; }
 
-    [CommandSwitch("--updated-latest-patch-version")]
+    [CliOption("--updated-latest-patch-version")]
     public string? UpdatedLatestPatchVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

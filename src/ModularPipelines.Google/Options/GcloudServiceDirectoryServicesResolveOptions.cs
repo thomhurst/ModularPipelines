@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("service-directory", "services", "resolve")]
+[CliCommand("service-directory", "services", "resolve")]
 public record GcloudServiceDirectoryServicesResolveOptions(
-[property: PositionalArgument] string Service,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Namespace
+[property: CliArgument] string Service,
+[property: CliArgument] string Location,
+[property: CliArgument] string Namespace
 ) : GcloudOptions
 {
-    [CommandSwitch("--endpoint-filter")]
+    [CliOption("--endpoint-filter")]
     public string? EndpointFilter { get; set; }
 
-    [CommandSwitch("--max-endpoints")]
+    [CliOption("--max-endpoints")]
     public string? MaxEndpoints { get; set; }
 }

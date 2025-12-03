@@ -15,15 +15,15 @@ public record DockerContextCreateOptions : DockerOptions
         CreateContext = context;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? CreateContext { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public virtual string? Description { get; set; }
 
-    [CommandSwitch("--docker")]
+    [CliOption("--docker")]
     public virtual string? Docker { get; set; }
 
-    [CommandSwitch("--from")]
+    [CliOption("--from")]
     public virtual string? From { get; set; }
 }

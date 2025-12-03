@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("group", "export")]
+[CliCommand("group", "export")]
 public record AzGroupExportOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--include-comments")]
+    [CliFlag("--include-comments")]
     public bool? IncludeComments { get; set; }
 
-    [BooleanCommandSwitch("--include-parameter-default-value")]
+    [CliFlag("--include-parameter-default-value")]
     public bool? IncludeParameterDefaultValue { get; set; }
 
-    [CommandSwitch("--resource-ids")]
+    [CliOption("--resource-ids")]
     public string? ResourceIds { get; set; }
 
-    [BooleanCommandSwitch("--skip-all-params")]
+    [CliFlag("--skip-all-params")]
     public bool? SkipAllParams { get; set; }
 
-    [BooleanCommandSwitch("--skip-resource-name-params")]
+    [CliFlag("--skip-resource-name-params")]
     public bool? SkipResourceNameParams { get; set; }
 }

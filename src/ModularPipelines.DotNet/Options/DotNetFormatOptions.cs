@@ -20,39 +20,39 @@ public record DotNetFormatOptions : DotNetOptions
         CommandParts = ["format"];
     }
 
-    [PositionalArgument(PlaceholderName = "[<PROJECT | SOLUTION>]")]
+    [CliArgument(Name = "[<PROJECT | SOLUTION>]")]
     public string? ProjectSolution { get; set; }
 
-    [CommandSwitch("--diagnostics")]
+    [CliOption("--diagnostics")]
     public virtual string? Diagnostics { get; set; }
 
-    [BooleanCommandSwitch("--severity")]
+    [CliFlag("--severity")]
     public virtual string? Severity { get; set; }
 
-    [BooleanCommandSwitch("--no-restore")]
+    [CliFlag("--no-restore")]
     public virtual bool? NoRestore { get; set; }
 
-    [BooleanCommandSwitch("--verify-no-changes")]
+    [CliFlag("--verify-no-changes")]
     public virtual bool? VerifyNoChanges { get; set; }
 
-    [CommandSwitch("--include")]
+    [CliOption("--include")]
     public virtual string? Include { get; set; }
 
-    [CommandSwitch("--exclude")]
+    [CliOption("--exclude")]
     public virtual string? Exclude { get; set; }
 
-    [BooleanCommandSwitch("--include-generated")]
+    [CliFlag("--include-generated")]
     public virtual bool? IncludeGenerated { get; set; }
 
-    [CommandSwitch("--verbosity")]
+    [CliOption("--verbosity")]
     public virtual string? Verbosity { get; set; }
 
-    [CommandSwitch("--binarylog")]
+    [CliOption("--binarylog")]
     public virtual string? Binarylog { get; set; }
 
-    [CommandSwitch("--report")]
+    [CliOption("--report")]
     public virtual string? Report { get; set; }
 
-    [BooleanCommandSwitch("--help")]
+    [CliFlag("--help")]
     public virtual bool? Help { get; set; }
 }

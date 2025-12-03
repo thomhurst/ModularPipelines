@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "keyrings", "set-iam-policy")]
+[CliCommand("kms", "keyrings", "set-iam-policy")]
 public record GcloudKmsKeyringsSetIamPolicyOptions(
-[property: PositionalArgument] string Keyring,
-[property: PositionalArgument] string PolicyFile
+[property: CliArgument] string Keyring,
+[property: CliArgument] string PolicyFile
 ) : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

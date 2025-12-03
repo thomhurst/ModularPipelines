@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "custom-ip", "prefix", "create")]
+[CliCommand("network", "custom-ip", "prefix", "create")]
 public record AzNetworkCustomIpPrefixCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--asn")]
+    [CliOption("--asn")]
     public string? Asn { get; set; }
 
-    [CommandSwitch("--authorization-message")]
+    [CliOption("--authorization-message")]
     public string? AuthorizationMessage { get; set; }
 
-    [CommandSwitch("--cidr")]
+    [CliOption("--cidr")]
     public string? Cidr { get; set; }
 
-    [CommandSwitch("--cip-prefix-parent")]
+    [CliOption("--cip-prefix-parent")]
     public string? CipPrefixParent { get; set; }
 
-    [BooleanCommandSwitch("--express-route-advertise")]
+    [CliFlag("--express-route-advertise")]
     public bool? ExpressRouteAdvertise { get; set; }
 
-    [CommandSwitch("--geo")]
+    [CliOption("--geo")]
     public string? Geo { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--signed-message")]
+    [CliOption("--signed-message")]
     public string? SignedMessage { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

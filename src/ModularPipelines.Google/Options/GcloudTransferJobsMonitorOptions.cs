@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("transfer", "jobs", "monitor")]
+[CliCommand("transfer", "jobs", "monitor")]
 public record GcloudTransferJobsMonitorOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions;

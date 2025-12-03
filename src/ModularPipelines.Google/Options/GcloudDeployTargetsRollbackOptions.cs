@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "targets", "rollback")]
+[CliCommand("deploy", "targets", "rollback")]
 public record GcloudDeployTargetsRollbackOptions(
-[property: PositionalArgument] string Target,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--delivery-pipeline")] string DeliveryPipeline
+[property: CliArgument] string Target,
+[property: CliArgument] string Region,
+[property: CliOption("--delivery-pipeline")] string DeliveryPipeline
 ) : GcloudOptions
 {
-    [CommandSwitch("--annotations")]
+    [CliOption("--annotations")]
     public IEnumerable<KeyValue>? Annotations { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--release")]
+    [CliOption("--release")]
     public string? Release { get; set; }
 
-    [CommandSwitch("--rollout-id")]
+    [CliOption("--rollout-id")]
     public string? RolloutId { get; set; }
 
-    [CommandSwitch("--starting-phase-id")]
+    [CliOption("--starting-phase-id")]
     public string? StartingPhaseId { get; set; }
 }

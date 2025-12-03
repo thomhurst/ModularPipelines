@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "cluster", "baremetalmachinekeyset", "create")]
+[CliCommand("networkcloud", "cluster", "baremetalmachinekeyset", "create")]
 public record AzNetworkcloudClusterBaremetalmachinekeysetCreateOptions(
-[property: CommandSwitch("--azure-group-id")] string AzureGroupId,
-[property: CommandSwitch("--bare-metal-machine-key-set-name")] string BareMetalMachineKeySetName,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--expiration")] string Expiration,
-[property: CommandSwitch("--extended-location")] string ExtendedLocation,
-[property: CommandSwitch("--jump-hosts-allowed")] string JumpHostsAllowed,
-[property: CommandSwitch("--privilege-level")] string PrivilegeLevel,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--user-list")] string UserList
+[property: CliOption("--azure-group-id")] string AzureGroupId,
+[property: CliOption("--bare-metal-machine-key-set-name")] string BareMetalMachineKeySetName,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--expiration")] string Expiration,
+[property: CliOption("--extended-location")] string ExtendedLocation,
+[property: CliOption("--jump-hosts-allowed")] string JumpHostsAllowed,
+[property: CliOption("--privilege-level")] string PrivilegeLevel,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--user-list")] string UserList
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--os-group-name")]
+    [CliOption("--os-group-name")]
     public string? OsGroupName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

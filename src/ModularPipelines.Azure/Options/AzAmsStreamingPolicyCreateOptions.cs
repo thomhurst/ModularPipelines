@@ -4,85 +4,85 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "streaming-policy", "create")]
+[CliCommand("ams", "streaming-policy", "create")]
 public record AzAmsStreamingPolicyCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--cbcs-clear-tracks")]
+    [CliOption("--cbcs-clear-tracks")]
     public string? CbcsClearTracks { get; set; }
 
-    [CommandSwitch("--cbcs-default-key-label")]
+    [CliOption("--cbcs-default-key-label")]
     public string? CbcsDefaultKeyLabel { get; set; }
 
-    [CommandSwitch("--cbcs-default-key-policy-name")]
+    [CliOption("--cbcs-default-key-policy-name")]
     public string? CbcsDefaultKeyPolicyName { get; set; }
 
-    [BooleanCommandSwitch("--cbcs-fair-play-allow-persistent-license")]
+    [CliFlag("--cbcs-fair-play-allow-persistent-license")]
     public bool? CbcsFairPlayAllowPersistentLicense { get; set; }
 
-    [CommandSwitch("--cbcs-fair-play-template")]
+    [CliOption("--cbcs-fair-play-template")]
     public string? CbcsFairPlayTemplate { get; set; }
 
-    [CommandSwitch("--cbcs-key-to-track-mappings")]
+    [CliOption("--cbcs-key-to-track-mappings")]
     public string? CbcsKeyToTrackMappings { get; set; }
 
-    [CommandSwitch("--cbcs-protocols")]
+    [CliOption("--cbcs-protocols")]
     public string? CbcsProtocols { get; set; }
 
-    [CommandSwitch("--cenc-clear-tracks")]
+    [CliOption("--cenc-clear-tracks")]
     public string? CencClearTracks { get; set; }
 
-    [CommandSwitch("--cenc-default-key-label")]
+    [CliOption("--cenc-default-key-label")]
     public string? CencDefaultKeyLabel { get; set; }
 
-    [CommandSwitch("--cenc-default-key-policy-name")]
+    [CliOption("--cenc-default-key-policy-name")]
     public string? CencDefaultKeyPolicyName { get; set; }
 
-    [BooleanCommandSwitch("--cenc-disable-play-ready")]
+    [CliFlag("--cenc-disable-play-ready")]
     public bool? CencDisablePlayReady { get; set; }
 
-    [BooleanCommandSwitch("--cenc-disable-widevine")]
+    [CliFlag("--cenc-disable-widevine")]
     public bool? CencDisableWidevine { get; set; }
 
-    [CommandSwitch("--cenc-key-to-track-mappings")]
+    [CliOption("--cenc-key-to-track-mappings")]
     public string? CencKeyToTrackMappings { get; set; }
 
-    [CommandSwitch("--cenc-play-ready-attributes")]
+    [CliOption("--cenc-play-ready-attributes")]
     public string? CencPlayReadyAttributes { get; set; }
 
-    [CommandSwitch("--cenc-play-ready-template")]
+    [CliOption("--cenc-play-ready-template")]
     public string? CencPlayReadyTemplate { get; set; }
 
-    [CommandSwitch("--cenc-protocols")]
+    [CliOption("--cenc-protocols")]
     public string? CencProtocols { get; set; }
 
-    [CommandSwitch("--cenc-widevine-template")]
+    [CliOption("--cenc-widevine-template")]
     public string? CencWidevineTemplate { get; set; }
 
-    [CommandSwitch("--default-content-key-policy-name")]
+    [CliOption("--default-content-key-policy-name")]
     public string? DefaultContentKeyPolicyName { get; set; }
 
-    [CommandSwitch("--envelope-clear-tracks")]
+    [CliOption("--envelope-clear-tracks")]
     public string? EnvelopeClearTracks { get; set; }
 
-    [CommandSwitch("--envelope-default-key-label")]
+    [CliOption("--envelope-default-key-label")]
     public string? EnvelopeDefaultKeyLabel { get; set; }
 
-    [CommandSwitch("--envelope-default-key-policy-name")]
+    [CliOption("--envelope-default-key-policy-name")]
     public string? EnvelopeDefaultKeyPolicyName { get; set; }
 
-    [CommandSwitch("--envelope-key-to-track-mappings")]
+    [CliOption("--envelope-key-to-track-mappings")]
     public string? EnvelopeKeyToTrackMappings { get; set; }
 
-    [CommandSwitch("--envelope-protocols")]
+    [CliOption("--envelope-protocols")]
     public string? EnvelopeProtocols { get; set; }
 
-    [CommandSwitch("--envelope-template")]
+    [CliOption("--envelope-template")]
     public string? EnvelopeTemplate { get; set; }
 
-    [BooleanCommandSwitch("--no-encryption-protocols")]
+    [CliFlag("--no-encryption-protocols")]
     public bool? NoEncryptionProtocols { get; set; }
 }

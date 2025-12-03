@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "project", "list")]
+[CliCommand("devops", "project", "list")]
 public record AzDevopsProjectListOptions : AzOptions
 {
-    [CommandSwitch("--continuation-token")]
+    [CliOption("--continuation-token")]
     public string? ContinuationToken { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [BooleanCommandSwitch("--get-default-team-image-url")]
+    [CliFlag("--get-default-team-image-url")]
     public bool? GetDefaultTeamImageUrl { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--skip")]
+    [CliOption("--skip")]
     public string? Skip { get; set; }
 
-    [CommandSwitch("--state-filter")]
+    [CliOption("--state-filter")]
     public string? StateFilter { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

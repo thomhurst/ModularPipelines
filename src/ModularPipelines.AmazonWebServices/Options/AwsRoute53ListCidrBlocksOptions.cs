@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53", "list-cidr-blocks")]
+[CliCommand("route53", "list-cidr-blocks")]
 public record AwsRoute53ListCidrBlocksOptions(
-[property: CommandSwitch("--collection-id")] string CollectionId
+[property: CliOption("--collection-id")] string CollectionId
 ) : AwsOptions
 {
-    [CommandSwitch("--location-name")]
+    [CliOption("--location-name")]
     public string? LocationName { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public string? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

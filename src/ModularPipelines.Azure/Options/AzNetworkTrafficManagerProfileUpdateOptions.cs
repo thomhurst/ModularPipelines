@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "traffic-manager", "profile", "update")]
+[CliCommand("network", "traffic-manager", "profile", "update")]
 public record AzNetworkTrafficManagerProfileUpdateOptions : AzOptions
 {
-    [CommandSwitch("--custom-headers")]
+    [CliOption("--custom-headers")]
     public string? CustomHeaders { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--interval")]
+    [CliOption("--interval")]
     public int? Interval { get; set; }
 
-    [CommandSwitch("--max-failures")]
+    [CliOption("--max-failures")]
     public string? MaxFailures { get; set; }
 
-    [CommandSwitch("--max-return")]
+    [CliOption("--max-return")]
     public string? MaxReturn { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--routing-method")]
+    [CliOption("--routing-method")]
     public string? RoutingMethod { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--status-code-ranges")]
+    [CliOption("--status-code-ranges")]
     public string? StatusCodeRanges { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--ttl")]
+    [CliOption("--ttl")]
     public string? Ttl { get; set; }
 }

@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "protection", "backup-now")]
+[CliCommand("backup", "protection", "backup-now")]
 public record AzBackupProtectionBackupNowOptions : AzOptions
 {
-    [CommandSwitch("--backup-management-type")]
+    [CliOption("--backup-management-type")]
     public string? BackupManagementType { get; set; }
 
-    [CommandSwitch("--backup-type")]
+    [CliOption("--backup-type")]
     public string? BackupType { get; set; }
 
-    [CommandSwitch("--container-name")]
+    [CliOption("--container-name")]
     public string? ContainerName { get; set; }
 
-    [BooleanCommandSwitch("--enable-compression")]
+    [CliFlag("--enable-compression")]
     public bool? EnableCompression { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--item-name")]
+    [CliOption("--item-name")]
     public string? ItemName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--retain-until")]
+    [CliOption("--retain-until")]
     public string? RetainUntil { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 
-    [CommandSwitch("--workload-type")]
+    [CliOption("--workload-type")]
     public string? WorkloadType { get; set; }
 }

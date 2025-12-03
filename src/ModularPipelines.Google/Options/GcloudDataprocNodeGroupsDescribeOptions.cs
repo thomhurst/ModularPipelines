@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "node-groups", "describe")]
+[CliCommand("dataproc", "node-groups", "describe")]
 public record GcloudDataprocNodeGroupsDescribeOptions(
-[property: PositionalArgument] string NodeGroup,
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Region
+[property: CliArgument] string NodeGroup,
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Region
 ) : GcloudOptions;

@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qbusiness", "chat-sync")]
+[CliCommand("qbusiness", "chat-sync")]
 public record AwsQbusinessChatSyncOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--user-id")] string UserId
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--user-id")] string UserId
 ) : AwsOptions
 {
-    [CommandSwitch("--action-execution")]
+    [CliOption("--action-execution")]
     public string? ActionExecution { get; set; }
 
-    [CommandSwitch("--attachments")]
+    [CliOption("--attachments")]
     public string[]? Attachments { get; set; }
 
-    [CommandSwitch("--attribute-filter")]
+    [CliOption("--attribute-filter")]
     public string? AttributeFilter { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--conversation-id")]
+    [CliOption("--conversation-id")]
     public string? ConversationId { get; set; }
 
-    [CommandSwitch("--parent-message-id")]
+    [CliOption("--parent-message-id")]
     public string? ParentMessageId { get; set; }
 
-    [CommandSwitch("--user-groups")]
+    [CliOption("--user-groups")]
     public string[]? UserGroups { get; set; }
 
-    [CommandSwitch("--user-message")]
+    [CliOption("--user-message")]
     public string? UserMessage { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "operations", "wait")]
+[CliCommand("sql", "operations", "wait")]
 public record GcloudSqlOperationsWaitOptions(
-[property: PositionalArgument] string Operation
+[property: CliArgument] string Operation
 ) : GcloudOptions
 {
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

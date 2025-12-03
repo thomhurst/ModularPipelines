@@ -5,7 +5,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "vmware", "clusters", "create")]
+[CliCommand("container", "vmware", "clusters", "create")]
 public record GcloudContainerVmwareClustersCreateOptions : GcloudOptions
 {
     public GcloudContainerVmwareClustersCreateOptions(
@@ -61,150 +61,150 @@ public record GcloudContainerVmwareClustersCreateOptions : GcloudOptions
         StaticIpConfigIpBlocks = staticIpConfigIpBlocks;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Cluster { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Location { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string Version { get; set; }
 
-    [CommandSwitch("--admin-cluster-membership")]
+    [CliOption("--admin-cluster-membership")]
     public string AdminClusterMembership { get; set; }
 
-    [CommandSwitch("--admin-cluster-membership-location")]
+    [CliOption("--admin-cluster-membership-location")]
     public string AdminClusterMembershipLocation { get; set; }
 
-    [CommandSwitch("--admin-cluster-membership-project")]
+    [CliOption("--admin-cluster-membership-project")]
     public string AdminClusterMembershipProject { get; set; }
 
-    [CommandSwitch("--control-plane-vip")]
+    [CliOption("--control-plane-vip")]
     public string ControlPlaneVip { get; set; }
 
-    [CommandSwitch("--ingress-vip")]
+    [CliOption("--ingress-vip")]
     public string IngressVip { get; set; }
 
-    [CommandSwitch("--metal-lb-config-address-pools")]
+    [CliOption("--metal-lb-config-address-pools")]
     public string[] MetalLbConfigAddressPools { get; set; }
 
-    [CommandSwitch("--control-plane-node-port")]
+    [CliOption("--control-plane-node-port")]
     public string ControlPlaneNodePort { get; set; }
 
-    [CommandSwitch("--ingress-http-node-port")]
+    [CliOption("--ingress-http-node-port")]
     public string IngressHttpNodePort { get; set; }
 
-    [CommandSwitch("--ingress-https-node-port")]
+    [CliOption("--ingress-https-node-port")]
     public string IngressHttpsNodePort { get; set; }
 
-    [CommandSwitch("--konnectivity-server-node-port")]
+    [CliOption("--konnectivity-server-node-port")]
     public string KonnectivityServerNodePort { get; set; }
 
-    [CommandSwitch("--f5-config-address")]
+    [CliOption("--f5-config-address")]
     public string F5ConfigAddress { get; set; }
 
-    [CommandSwitch("--f5-config-partition")]
+    [CliOption("--f5-config-partition")]
     public string F5ConfigPartition { get; set; }
 
-    [CommandSwitch("--f5-config-snat-pool")]
+    [CliOption("--f5-config-snat-pool")]
     public string F5ConfigSnatPool { get; set; }
 
-    [CommandSwitch("--pod-address-cidr-blocks")]
+    [CliOption("--pod-address-cidr-blocks")]
     public string PodAddressCidrBlocks { get; set; }
 
-    [CommandSwitch("--service-address-cidr-blocks")]
+    [CliOption("--service-address-cidr-blocks")]
     public string ServiceAddressCidrBlocks { get; set; }
 
-    [CommandSwitch("--control-plane-ip-block")]
+    [CliOption("--control-plane-ip-block")]
     public string[] ControlPlaneIpBlock { get; set; }
 
-    [CommandSwitch("--dns-search-domains")]
+    [CliOption("--dns-search-domains")]
     public string[] DnsSearchDomains { get; set; }
 
-    [CommandSwitch("--dns-servers")]
+    [CliOption("--dns-servers")]
     public string[] DnsServers { get; set; }
 
-    [CommandSwitch("--ntp-servers")]
+    [CliOption("--ntp-servers")]
     public string[] NtpServers { get; set; }
 
-    [BooleanCommandSwitch("--enable-dhcp")]
+    [CliFlag("--enable-dhcp")]
     public bool EnableDhcp { get; set; }
 
-    [CommandSwitch("--static-ip-config-ip-blocks")]
+    [CliOption("--static-ip-config-ip-blocks")]
     public string[] StaticIpConfigIpBlocks { get; set; }
 
-    [CommandSwitch("--admin-users")]
+    [CliOption("--admin-users")]
     public string? AdminUsers { get; set; }
 
-    [CommandSwitch("--annotations")]
+    [CliOption("--annotations")]
     public IEnumerable<KeyValue>? Annotations { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--disable-aag-config")]
+    [CliFlag("--disable-aag-config")]
     public bool? DisableAagConfig { get; set; }
 
-    [BooleanCommandSwitch("--disable-vsphere-csi")]
+    [CliFlag("--disable-vsphere-csi")]
     public bool? DisableVsphereCsi { get; set; }
 
-    [BooleanCommandSwitch("--enable-auto-repair")]
+    [CliFlag("--enable-auto-repair")]
     public bool? EnableAutoRepair { get; set; }
 
-    [BooleanCommandSwitch("--enable-vm-tracking")]
+    [CliFlag("--enable-vm-tracking")]
     public bool? EnableVmTracking { get; set; }
 
-    [CommandSwitch("--upgrade-policy")]
+    [CliOption("--upgrade-policy")]
     public string[]? UpgradePolicy { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--cpus")]
+    [CliOption("--cpus")]
     public string? Cpus { get; set; }
 
-    [BooleanCommandSwitch("--enable-auto-resize")]
+    [CliFlag("--enable-auto-resize")]
     public bool? EnableAutoResize { get; set; }
 
-    [CommandSwitch("--memory")]
+    [CliOption("--memory")]
     public string? Memory { get; set; }
 
-    [CommandSwitch("--replicas")]
+    [CliOption("--replicas")]
     public string? Replicas { get; set; }
 
-    [BooleanCommandSwitch("--disable-control-plane-v2")]
+    [CliFlag("--disable-control-plane-v2")]
     public bool? DisableControlPlaneV2 { get; set; }
 
-    [BooleanCommandSwitch("--enable-control-plane-v2")]
+    [CliFlag("--enable-control-plane-v2")]
     public bool? EnableControlPlaneV2 { get; set; }
 
-    [BooleanCommandSwitch("--enable-advanced-networking")]
+    [CliFlag("--enable-advanced-networking")]
     public bool? EnableAdvancedNetworking { get; set; }
 
-    [BooleanCommandSwitch("--enable-dataplane-v2")]
+    [CliFlag("--enable-dataplane-v2")]
     public bool? EnableDataplaneV2 { get; set; }
 
-    [CommandSwitch("--vcenter-ca-cert-data")]
+    [CliOption("--vcenter-ca-cert-data")]
     public string? VcenterCaCertData { get; set; }
 
-    [CommandSwitch("--vcenter-cluster")]
+    [CliOption("--vcenter-cluster")]
     public string? VcenterCluster { get; set; }
 
-    [CommandSwitch("--vcenter-datacenter")]
+    [CliOption("--vcenter-datacenter")]
     public string? VcenterDatacenter { get; set; }
 
-    [CommandSwitch("--vcenter-datastore")]
+    [CliOption("--vcenter-datastore")]
     public string? VcenterDatastore { get; set; }
 
-    [CommandSwitch("--vcenter-folder")]
+    [CliOption("--vcenter-folder")]
     public string? VcenterFolder { get; set; }
 
-    [CommandSwitch("--vcenter-resource-pool")]
+    [CliOption("--vcenter-resource-pool")]
     public string? VcenterResourcePool { get; set; }
 
-    [CommandSwitch("--vcenter-storage-policy-name")]
+    [CliOption("--vcenter-storage-policy-name")]
     public string? VcenterStoragePolicyName { get; set; }
 }

@@ -15,12 +15,12 @@ public record DockerBuildxUseOptions : DockerOptions
         Name = name;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Name { get; set; }
 
-    [CommandSwitch("--default")]
+    [CliOption("--default")]
     public virtual string? Default { get; set; }
 
-    [CommandSwitch("--global")]
+    [CliOption("--global")]
     public virtual string? Global { get; set; }
 }

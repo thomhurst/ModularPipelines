@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "update-refresh-schedule")]
+[CliCommand("quicksight", "update-refresh-schedule")]
 public record AwsQuicksightUpdateRefreshScheduleOptions(
-[property: CommandSwitch("--data-set-id")] string DataSetId,
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--schedule")] string Schedule
+[property: CliOption("--data-set-id")] string DataSetId,
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--schedule")] string Schedule
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

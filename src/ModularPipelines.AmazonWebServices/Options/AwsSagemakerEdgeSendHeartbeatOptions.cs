@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker-edge", "send-heartbeat")]
+[CliCommand("sagemaker-edge", "send-heartbeat")]
 public record AwsSagemakerEdgeSendHeartbeatOptions(
-[property: CommandSwitch("--agent-version")] string AgentVersion,
-[property: CommandSwitch("--device-name")] string DeviceName,
-[property: CommandSwitch("--device-fleet-name")] string DeviceFleetName
+[property: CliOption("--agent-version")] string AgentVersion,
+[property: CliOption("--device-name")] string DeviceName,
+[property: CliOption("--device-fleet-name")] string DeviceFleetName
 ) : AwsOptions
 {
-    [CommandSwitch("--agent-metrics")]
+    [CliOption("--agent-metrics")]
     public string[]? AgentMetrics { get; set; }
 
-    [CommandSwitch("--models")]
+    [CliOption("--models")]
     public string[]? Models { get; set; }
 
-    [CommandSwitch("--deployment-result")]
+    [CliOption("--deployment-result")]
     public string? DeploymentResult { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

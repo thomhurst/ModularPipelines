@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("disk-pool", "update")]
+[CliCommand("disk-pool", "update")]
 public record AzDiskPoolUpdateOptions : AzOptions
 {
-    [CommandSwitch("--disk-pool-name")]
+    [CliOption("--disk-pool-name")]
     public string? DiskPoolName { get; set; }
 
-    [CommandSwitch("--disks")]
+    [CliOption("--disks")]
     public string? Disks { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--managed-by")]
+    [CliOption("--managed-by")]
     public string? ManagedBy { get; set; }
 
-    [CommandSwitch("--managed-by-extended")]
+    [CliOption("--managed-by-extended")]
     public string? ManagedByExtended { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

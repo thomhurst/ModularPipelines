@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataprotection", "backup-policy", "get-default-policy-template")]
+[CliCommand("dataprotection", "backup-policy", "get-default-policy-template")]
 public record AzDataprotectionBackupPolicyGetDefaultPolicyTemplateOptions(
-[property: CommandSwitch("--datasource-type")] string DatasourceType
+[property: CliOption("--datasource-type")] string DatasourceType
 ) : AzOptions;

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "security-policies", "add-user-defined-field")]
+[CliCommand("compute", "security-policies", "add-user-defined-field")]
 public record GcloudComputeSecurityPoliciesAddUserDefinedFieldOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--base")] string Base,
-[property: CommandSwitch("--offset")] string Offset,
-[property: CommandSwitch("--size")] string Size,
-[property: CommandSwitch("--user-defined-field-name")] string UserDefinedFieldName
+[property: CliArgument] string Name,
+[property: CliOption("--base")] string Base,
+[property: CliOption("--offset")] string Offset,
+[property: CliOption("--size")] string Size,
+[property: CliOption("--user-defined-field-name")] string UserDefinedFieldName
 ) : GcloudOptions
 {
-    [CommandSwitch("--mask")]
+    [CliOption("--mask")]
     public string? Mask { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

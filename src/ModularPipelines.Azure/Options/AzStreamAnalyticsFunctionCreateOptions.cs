@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stream-analytics", "function", "create")]
+[CliCommand("stream-analytics", "function", "create")]
 public record AzStreamAnalyticsFunctionCreateOptions(
-[property: CommandSwitch("--function-name")] string FunctionName,
-[property: CommandSwitch("--job-name")] string JobName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--function-name")] string FunctionName,
+[property: CliOption("--job-name")] string JobName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--if-none-match")]
+    [CliOption("--if-none-match")]
     public string? IfNoneMatch { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string? Properties { get; set; }
 }

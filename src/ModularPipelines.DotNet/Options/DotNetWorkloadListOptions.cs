@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("workload", "list")]
+[CliCommand("workload", "list")]
 [ExcludeFromCodeCoverage]
 public record DotNetWorkloadListOptions : DotNetOptions
 {
-    [CommandSwitch("--verbosity")]
+    [CliOption("--verbosity")]
     public virtual string? Verbosity { get; set; }
 }

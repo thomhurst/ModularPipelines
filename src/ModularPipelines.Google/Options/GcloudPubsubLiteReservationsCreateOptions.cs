@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "lite-reservations", "create")]
+[CliCommand("pubsub", "lite-reservations", "create")]
 public record GcloudPubsubLiteReservationsCreateOptions(
-[property: PositionalArgument] string Reservation,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--throughput-capacity")] string ThroughputCapacity
+[property: CliArgument] string Reservation,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--throughput-capacity")] string ThroughputCapacity
 ) : GcloudOptions;

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pkg", "get")]
+[CliCommand("pkg", "get")]
 public record NpmPkgGetOptions : NpmOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public virtual string[]? Workspace { get; set; }
 
-    [BooleanCommandSwitch("--workspaces")]
+    [CliFlag("--workspaces")]
     public virtual bool? Workspaces { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string? Key { get; set; }
 }

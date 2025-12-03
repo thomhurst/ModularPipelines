@@ -20,27 +20,27 @@ public record DotNetMigrateOptions : DotNetOptions
         CommandParts = ["migrate", "[<SOLUTION_FILE|PROJECT_DIR>]"];
     }
 
-    [PositionalArgument(PlaceholderName = "[<SOLUTION_FILE|PROJECT_DIR>]")]
+    [CliArgument(Name = "[<SOLUTION_FILE|PROJECT_DIR>]")]
     public string? SolutionFileProjectDir { get; set; }
 
-    [CommandSwitch("--format-report-file-json")]
+    [CliOption("--format-report-file-json")]
     public virtual string? FormatReportFileJson { get; set; }
 
-    [CommandSwitch("--report-file")]
+    [CliOption("--report-file")]
     public virtual string? ReportFile { get; set; }
 
-    [BooleanCommandSwitch("--skip-project-references")]
+    [CliFlag("--skip-project-references")]
     public virtual bool? SkipProjectReferences { get; set; }
 
-    [BooleanCommandSwitch("--skip-backup")]
+    [CliFlag("--skip-backup")]
     public virtual bool? SkipBackup { get; set; }
 
-    [CommandSwitch("--template-file")]
+    [CliOption("--template-file")]
     public virtual string? TemplateFile { get; set; }
 
-    [BooleanCommandSwitch("--sdk-package-version")]
+    [CliFlag("--sdk-package-version")]
     public virtual bool? SdkPackageVersion { get; set; }
 
-    [BooleanCommandSwitch("--xproj-file")]
+    [CliFlag("--xproj-file")]
     public virtual bool? XprojFile { get; set; }
 }

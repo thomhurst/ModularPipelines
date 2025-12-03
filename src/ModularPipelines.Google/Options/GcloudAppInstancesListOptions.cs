@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "instances", "list")]
+[CliCommand("app", "instances", "list")]
 public record GcloudAppInstancesListOptions : GcloudOptions
 {
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string? Version { get; set; }
 }

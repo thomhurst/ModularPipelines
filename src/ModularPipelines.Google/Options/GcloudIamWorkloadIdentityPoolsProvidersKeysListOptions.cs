@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workload-identity-pools", "providers", "keys", "list")]
+[CliCommand("iam", "workload-identity-pools", "providers", "keys", "list")]
 public record GcloudIamWorkloadIdentityPoolsProvidersKeysListOptions(
-[property: CommandSwitch("--provider")] string Provider,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--workload-identity-pool")] string WorkloadIdentityPool
+[property: CliOption("--provider")] string Provider,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--workload-identity-pool")] string WorkloadIdentityPool
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--show-deleted")]
+    [CliFlag("--show-deleted")]
     public bool? ShowDeleted { get; set; }
 }

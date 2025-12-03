@@ -4,43 +4,43 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("data-catalog", "entries", "update")]
+[CliCommand("data-catalog", "entries", "update")]
 public record GcloudDataCatalogEntriesUpdateOptions(
-[property: PositionalArgument] string Entry,
-[property: PositionalArgument] string EntryGroup,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Entry,
+[property: CliArgument] string EntryGroup,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--lookup-entry")]
+    [CliOption("--lookup-entry")]
     public string? LookupEntry { get; set; }
 
-    [CommandSwitch("--add-file-patterns")]
+    [CliOption("--add-file-patterns")]
     public string[]? AddFilePatterns { get; set; }
 
-    [BooleanCommandSwitch("--clear-file-patterns")]
+    [CliFlag("--clear-file-patterns")]
     public bool? ClearFilePatterns { get; set; }
 
-    [CommandSwitch("--remove-file-patterns")]
+    [CliOption("--remove-file-patterns")]
     public string[]? RemoveFilePatterns { get; set; }
 
-    [CommandSwitch("--linked-resource")]
+    [CliOption("--linked-resource")]
     public string? LinkedResource { get; set; }
 
-    [CommandSwitch("--user-specified-system")]
+    [CliOption("--user-specified-system")]
     public string? UserSpecifiedSystem { get; set; }
 
-    [CommandSwitch("--user-specified-type")]
+    [CliOption("--user-specified-type")]
     public string? UserSpecifiedType { get; set; }
 
-    [CommandSwitch("--schema")]
+    [CliOption("--schema")]
     public string[]? Schema { get; set; }
 
-    [CommandSwitch("--schema-from-file")]
+    [CliOption("--schema-from-file")]
     public string? SchemaFromFile { get; set; }
 }

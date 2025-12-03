@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "domain", "private-link-resource", "list")]
+[CliCommand("eventgrid", "domain", "private-link-resource", "list")]
 public record AzEventgridDomainPrivateLinkResourceListOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

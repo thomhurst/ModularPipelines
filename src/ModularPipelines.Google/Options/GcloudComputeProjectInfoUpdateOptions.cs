@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "project-info", "update")]
+[CliCommand("compute", "project-info", "update")]
 public record GcloudComputeProjectInfoUpdateOptions : GcloudOptions
 {
-    [CommandSwitch("--default-network-tier")]
+    [CliOption("--default-network-tier")]
     public string? DefaultNetworkTier { get; set; }
 }

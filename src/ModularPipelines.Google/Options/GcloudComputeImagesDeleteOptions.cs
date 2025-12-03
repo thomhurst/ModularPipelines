@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "images", "delete")]
+[CliCommand("compute", "images", "delete")]
 public record GcloudComputeImagesDeleteOptions(
-[property: PositionalArgument] string ImageName
+[property: CliArgument] string ImageName
 ) : GcloudOptions;

@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventhubs", "namespace", "schema-registry", "create")]
+[CliCommand("eventhubs", "namespace", "schema-registry", "create")]
 public record AzEventhubsNamespaceSchemaRegistryCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--group-properties")]
+    [CliOption("--group-properties")]
     public string? GroupProperties { get; set; }
 
-    [CommandSwitch("--schema-compatibility")]
+    [CliOption("--schema-compatibility")]
     public string? SchemaCompatibility { get; set; }
 
-    [CommandSwitch("--schema-type")]
+    [CliOption("--schema-type")]
     public string? SchemaType { get; set; }
 }

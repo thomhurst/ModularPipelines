@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("desktopvirtualization", "hostpool", "create")]
+[CliCommand("desktopvirtualization", "hostpool", "create")]
 public record AzDesktopvirtualizationHostpoolCreateOptions(
-[property: CommandSwitch("--host-pool-type")] string HostPoolType,
-[property: CommandSwitch("--load-balancer-type")] string LoadBalancerType,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--preferred-app-group-type")] string PreferredAppGroupType,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--host-pool-type")] string HostPoolType,
+[property: CliOption("--load-balancer-type")] string LoadBalancerType,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--preferred-app-group-type")] string PreferredAppGroupType,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--custom-rdp-property")]
+    [CliOption("--custom-rdp-property")]
     public string? CustomRdpProperty { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--friendly-name")]
+    [CliOption("--friendly-name")]
     public string? FriendlyName { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--max-session-limit")]
+    [CliOption("--max-session-limit")]
     public string? MaxSessionLimit { get; set; }
 
-    [CommandSwitch("--personal-desktop-assignment-type")]
+    [CliOption("--personal-desktop-assignment-type")]
     public string? PersonalDesktopAssignmentType { get; set; }
 
-    [CommandSwitch("--registration-info")]
+    [CliOption("--registration-info")]
     public string? RegistrationInfo { get; set; }
 
-    [CommandSwitch("--ring")]
+    [CliOption("--ring")]
     public string? Ring { get; set; }
 
-    [CommandSwitch("--sso-client-id")]
+    [CliOption("--sso-client-id")]
     public string? SsoClientId { get; set; }
 
-    [CommandSwitch("--sso-client-secret-key-vault-path")]
+    [CliOption("--sso-client-secret-key-vault-path")]
     public string? SsoClientSecretKeyVaultPath { get; set; }
 
-    [CommandSwitch("--sso-secret-type")]
+    [CliOption("--sso-secret-type")]
     public string? SsoSecretType { get; set; }
 
-    [CommandSwitch("--ssoadfs-authority")]
+    [CliOption("--ssoadfs-authority")]
     public string? SsoadfsAuthority { get; set; }
 
-    [BooleanCommandSwitch("--start-vm-on-connect")]
+    [CliFlag("--start-vm-on-connect")]
     public bool? StartVmOnConnect { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--validation-environment")]
+    [CliFlag("--validation-environment")]
     public bool? ValidationEnvironment { get; set; }
 
-    [CommandSwitch("--vm-template")]
+    [CliOption("--vm-template")]
     public string? VmTemplate { get; set; }
 }

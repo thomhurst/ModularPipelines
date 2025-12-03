@@ -6,17 +6,17 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("aks", "scale", "(aks-preview", "extension)")]
 public record AzAksScaleAksPreviewExtensionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--node-count")] int NodeCount,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--node-count")] int NodeCount,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--aks-custom-headers")]
+    [CliOption("--aks-custom-headers")]
     public string? AksCustomHeaders { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--nodepool-name")]
+    [CliOption("--nodepool-name")]
     public string? NodepoolName { get; set; }
 }

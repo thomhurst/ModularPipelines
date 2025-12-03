@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "metrics", "list-namespaces")]
+[CliCommand("monitor", "metrics", "list-namespaces")]
 public record AzMonitorMetricsListNamespacesOptions(
-[property: CommandSwitch("--resource-uri")] string ResourceUri
+[property: CliOption("--resource-uri")] string ResourceUri
 ) : AzOptions
 {
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public string? StartTime { get; set; }
 }

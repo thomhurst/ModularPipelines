@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "api-portal", "update")]
+[CliCommand("spring", "api-portal", "update")]
 public record AzSpringApiPortalUpdateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--assign-endpoint")]
+    [CliFlag("--assign-endpoint")]
     public bool? AssignEndpoint { get; set; }
 
-    [CommandSwitch("--client-id")]
+    [CliOption("--client-id")]
     public string? ClientId { get; set; }
 
-    [CommandSwitch("--client-secret")]
+    [CliOption("--client-secret")]
     public string? ClientSecret { get; set; }
 
-    [BooleanCommandSwitch("--enable-api-try-out")]
+    [CliFlag("--enable-api-try-out")]
     public bool? EnableApiTryOut { get; set; }
 
-    [BooleanCommandSwitch("--https-only")]
+    [CliFlag("--https-only")]
     public bool? HttpsOnly { get; set; }
 
-    [CommandSwitch("--instance-count")]
+    [CliOption("--instance-count")]
     public int? InstanceCount { get; set; }
 
-    [CommandSwitch("--issuer-uri")]
+    [CliOption("--issuer-uri")]
     public string? IssuerUri { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 }

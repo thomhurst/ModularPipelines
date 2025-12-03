@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "index-endpoints", "undeploy-index")]
+[CliCommand("ai", "index-endpoints", "undeploy-index")]
 public record GcloudAiIndexEndpointsUndeployIndexOptions(
-[property: PositionalArgument] string IndexEndpoint,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--deployed-index-id")] string DeployedIndexId
+[property: CliArgument] string IndexEndpoint,
+[property: CliArgument] string Region,
+[property: CliOption("--deployed-index-id")] string DeployedIndexId
 ) : GcloudOptions;

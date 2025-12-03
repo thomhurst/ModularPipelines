@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint-sms-voice-v2", "create-registration")]
+[CliCommand("pinpoint-sms-voice-v2", "create-registration")]
 public record AwsPinpointSmsVoiceV2CreateRegistrationOptions(
-[property: CommandSwitch("--registration-type")] string RegistrationType
+[property: CliOption("--registration-type")] string RegistrationType
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

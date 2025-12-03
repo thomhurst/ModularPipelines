@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "export", "create")]
+[CliCommand("iot", "central", "export", "create")]
 public record AzIotCentralExportCreateOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--destinations")] string Destinations,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--export-id")] string ExportId,
-[property: CommandSwitch("--source")] string Source
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--destinations")] string Destinations,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--export-id")] string ExportId,
+[property: CliOption("--source")] string Source
 ) : AzOptions
 {
-    [CommandSwitch("--central-api-uri")]
+    [CliOption("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 
-    [CommandSwitch("--en")]
+    [CliOption("--en")]
     public string? En { get; set; }
 
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 }

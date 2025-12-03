@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicecatalog", "create-service-action")]
+[CliCommand("servicecatalog", "create-service-action")]
 public record AwsServicecatalogCreateServiceActionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--definition-type")] string DefinitionType,
-[property: CommandSwitch("--definition")] IEnumerable<KeyValue> Definition
+[property: CliOption("--name")] string Name,
+[property: CliOption("--definition-type")] string DefinitionType,
+[property: CliOption("--definition")] IEnumerable<KeyValue> Definition
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--accept-language")]
+    [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

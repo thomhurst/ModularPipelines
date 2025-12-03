@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "device", "deployment", "show")]
+[CliCommand("iot", "du", "device", "deployment", "show")]
 public record AzIotDuDeviceDeploymentShowOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--deployment-id")] string DeploymentId,
-[property: CommandSwitch("--gid")] string Gid,
-[property: CommandSwitch("--instance")] string Instance
+[property: CliOption("--account")] int Account,
+[property: CliOption("--deployment-id")] string DeploymentId,
+[property: CliOption("--gid")] string Gid,
+[property: CliOption("--instance")] string Instance
 ) : AzOptions
 {
-    [CommandSwitch("--cid")]
+    [CliOption("--cid")]
     public string? Cid { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--status")]
+    [CliFlag("--status")]
     public bool? Status { get; set; }
 }

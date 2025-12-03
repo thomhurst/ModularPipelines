@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("domains", "registrations", "configure", "dns")]
+[CliCommand("domains", "registrations", "configure", "dns")]
 public record GcloudDomainsRegistrationsConfigureDnsOptions(
-[property: PositionalArgument] string Registration
+[property: CliArgument] string Registration
 ) : GcloudOptions;

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3control", "create-access-grants-location")]
+[CliCommand("s3control", "create-access-grants-location")]
 public record AwsS3controlCreateAccessGrantsLocationOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--location-scope")] string LocationScope,
-[property: CommandSwitch("--iam-role-arn")] string IamRoleArn
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--location-scope")] string LocationScope,
+[property: CliOption("--iam-role-arn")] string IamRoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

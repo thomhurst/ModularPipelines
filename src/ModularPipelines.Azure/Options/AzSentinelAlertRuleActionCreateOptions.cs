@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sentinel", "alert-rule", "action", "create")]
+[CliCommand("sentinel", "alert-rule", "action", "create")]
 public record AzSentinelAlertRuleActionCreateOptions(
-[property: CommandSwitch("--action-name")] string ActionName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--rule-name")] string RuleName,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--action-name")] string ActionName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--rule-name")] string RuleName,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--logic-app-resource-id")]
+    [CliOption("--logic-app-resource-id")]
     public string? LogicAppResourceId { get; set; }
 
-    [CommandSwitch("--trigger-uri")]
+    [CliOption("--trigger-uri")]
     public string? TriggerUri { get; set; }
 }

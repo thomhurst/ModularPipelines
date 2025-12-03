@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "describe-commands")]
+[CliCommand("opsworks", "describe-commands")]
 public record AwsOpsworksDescribeCommandsOptions : AwsOptions
 {
-    [CommandSwitch("--deployment-id")]
+    [CliOption("--deployment-id")]
     public string? DeploymentId { get; set; }
 
-    [CommandSwitch("--instance-id")]
+    [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CommandSwitch("--command-ids")]
+    [CliOption("--command-ids")]
     public string[]? CommandIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "config", "ssl", "upload")]
+[CliCommand("webapp", "config", "ssl", "upload")]
 public record AzWebappConfigSslUploadOptions(
-[property: CommandSwitch("--certificate-file")] string CertificateFile,
-[property: CommandSwitch("--certificate-password")] string CertificatePassword
+[property: CliOption("--certificate-file")] string CertificateFile,
+[property: CliOption("--certificate-password")] string CertificatePassword
 ) : AzOptions
 {
-    [CommandSwitch("--certificate-name")]
+    [CliOption("--certificate-name")]
     public string? CertificateName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

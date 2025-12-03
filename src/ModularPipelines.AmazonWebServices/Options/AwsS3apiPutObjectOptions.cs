@@ -5,114 +5,114 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api", "put-object")]
+[CliCommand("s3api", "put-object")]
 public record AwsS3apiPutObjectOptions(
-[property: CommandSwitch("--bucket")] string Bucket,
-[property: CommandSwitch("--key")] string Key
+[property: CliOption("--bucket")] string Bucket,
+[property: CliOption("--key")] string Key
 ) : AwsOptions
 {
-    [CommandSwitch("--acl")]
+    [CliOption("--acl")]
     public string? Acl { get; set; }
 
-    [CommandSwitch("--body")]
+    [CliOption("--body")]
     public string? Body { get; set; }
 
-    [CommandSwitch("--cache-control")]
+    [CliOption("--cache-control")]
     public string? CacheControl { get; set; }
 
-    [CommandSwitch("--content-disposition")]
+    [CliOption("--content-disposition")]
     public string? ContentDisposition { get; set; }
 
-    [CommandSwitch("--content-encoding")]
+    [CliOption("--content-encoding")]
     public string? ContentEncoding { get; set; }
 
-    [CommandSwitch("--content-language")]
+    [CliOption("--content-language")]
     public string? ContentLanguage { get; set; }
 
-    [CommandSwitch("--content-length")]
+    [CliOption("--content-length")]
     public long? ContentLength { get; set; }
 
-    [CommandSwitch("--content-md5")]
+    [CliOption("--content-md5")]
     public string? ContentMd5 { get; set; }
 
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CommandSwitch("--checksum-algorithm")]
+    [CliOption("--checksum-algorithm")]
     public string? ChecksumAlgorithm { get; set; }
 
-    [CommandSwitch("--checksum-crc32")]
+    [CliOption("--checksum-crc32")]
     public string? ChecksumCrc32 { get; set; }
 
-    [CommandSwitch("--checksum-crc32-c")]
+    [CliOption("--checksum-crc32-c")]
     public string? ChecksumCrc32C { get; set; }
 
-    [CommandSwitch("--checksum-sha1")]
+    [CliOption("--checksum-sha1")]
     public string? ChecksumSha1 { get; set; }
 
-    [CommandSwitch("--checksum-sha256")]
+    [CliOption("--checksum-sha256")]
     public string? ChecksumSha256 { get; set; }
 
-    [CommandSwitch("--expires")]
+    [CliOption("--expires")]
     public long? Expires { get; set; }
 
-    [CommandSwitch("--grant-full-control")]
+    [CliOption("--grant-full-control")]
     public string? GrantFullControl { get; set; }
 
-    [CommandSwitch("--grant-read")]
+    [CliOption("--grant-read")]
     public string? GrantRead { get; set; }
 
-    [CommandSwitch("--grant-read-acp")]
+    [CliOption("--grant-read-acp")]
     public string? GrantReadAcp { get; set; }
 
-    [CommandSwitch("--grant-write-acp")]
+    [CliOption("--grant-write-acp")]
     public string? GrantWriteAcp { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public IEnumerable<KeyValue>? Metadata { get; set; }
 
-    [CommandSwitch("--server-side-encryption")]
+    [CliOption("--server-side-encryption")]
     public string? ServerSideEncryption { get; set; }
 
-    [CommandSwitch("--storage-class")]
+    [CliOption("--storage-class")]
     public string? StorageClass { get; set; }
 
-    [CommandSwitch("--website-redirect-location")]
+    [CliOption("--website-redirect-location")]
     public string? WebsiteRedirectLocation { get; set; }
 
-    [CommandSwitch("--sse-customer-algorithm")]
+    [CliOption("--sse-customer-algorithm")]
     public string? SseCustomerAlgorithm { get; set; }
 
-    [CommandSwitch("--sse-customer-key")]
+    [CliOption("--sse-customer-key")]
     public string? SseCustomerKey { get; set; }
 
-    [CommandSwitch("--sse-customer-key-md5")]
+    [CliOption("--sse-customer-key-md5")]
     public string? SseCustomerKeyMd5 { get; set; }
 
-    [CommandSwitch("--ssekms-key-id")]
+    [CliOption("--ssekms-key-id")]
     public string? SsekmsKeyId { get; set; }
 
-    [CommandSwitch("--ssekms-encryption-context")]
+    [CliOption("--ssekms-encryption-context")]
     public string? SsekmsEncryptionContext { get; set; }
 
-    [CommandSwitch("--request-payer")]
+    [CliOption("--request-payer")]
     public string? RequestPayer { get; set; }
 
-    [CommandSwitch("--tagging")]
+    [CliOption("--tagging")]
     public string? Tagging { get; set; }
 
-    [CommandSwitch("--object-lock-mode")]
+    [CliOption("--object-lock-mode")]
     public string? ObjectLockMode { get; set; }
 
-    [CommandSwitch("--object-lock-retain-until-date")]
+    [CliOption("--object-lock-retain-until-date")]
     public long? ObjectLockRetainUntilDate { get; set; }
 
-    [CommandSwitch("--object-lock-legal-hold-status")]
+    [CliOption("--object-lock-legal-hold-status")]
     public string? ObjectLockLegalHoldStatus { get; set; }
 
-    [CommandSwitch("--expected-bucket-owner")]
+    [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

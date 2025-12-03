@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "watcher", "troubleshooting", "start")]
+[CliCommand("network", "watcher", "troubleshooting", "start")]
 public record AzNetworkWatcherTroubleshootingStartOptions(
-[property: CommandSwitch("--resource")] string Resource,
-[property: CommandSwitch("--storage-account")] int StorageAccount,
-[property: CommandSwitch("--storage-path")] string StoragePath
+[property: CliOption("--resource")] string Resource,
+[property: CliOption("--storage-account")] int StorageAccount,
+[property: CliOption("--storage-path")] string StoragePath
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--watcher-rg")]
+    [CliOption("--watcher-rg")]
     public string? WatcherRg { get; set; }
 }

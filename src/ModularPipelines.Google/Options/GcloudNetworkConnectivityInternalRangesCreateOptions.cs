@@ -5,31 +5,31 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-connectivity", "internal-ranges", "create")]
+[CliCommand("network-connectivity", "internal-ranges", "create")]
 public record GcloudNetworkConnectivityInternalRangesCreateOptions(
-[property: PositionalArgument] string InternalRange,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--network")] string Network,
-[property: CommandSwitch("--ip-cidr-range")] string IpCidrRange,
-[property: CommandSwitch("--prefix-length")] string PrefixLength,
-[property: CommandSwitch("--target-cidr-range")] string[] TargetCidrRange
+[property: CliArgument] string InternalRange,
+[property: CliArgument] string Region,
+[property: CliOption("--network")] string Network,
+[property: CliOption("--ip-cidr-range")] string IpCidrRange,
+[property: CliOption("--prefix-length")] string PrefixLength,
+[property: CliOption("--target-cidr-range")] string[] TargetCidrRange
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--overlaps")]
+    [CliOption("--overlaps")]
     public string[]? Overlaps { get; set; }
 
-    [CommandSwitch("--peering")]
+    [CliOption("--peering")]
     public string? Peering { get; set; }
 
-    [CommandSwitch("--usage")]
+    [CliOption("--usage")]
     public string? Usage { get; set; }
 }

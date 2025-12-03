@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hpc-cache")]
+[CliCommand("hpc-cache")]
 public class AzHpcCacheNfsStorageTarget
 {
     public AzHpcCacheNfsStorageTarget(

@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "stop-inference-experiment")]
+[CliCommand("sagemaker", "stop-inference-experiment")]
 public record AwsSagemakerStopInferenceExperimentOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--model-variant-actions")] IEnumerable<KeyValue> ModelVariantActions
+[property: CliOption("--name")] string Name,
+[property: CliOption("--model-variant-actions")] IEnumerable<KeyValue> ModelVariantActions
 ) : AwsOptions
 {
-    [CommandSwitch("--desired-model-variants")]
+    [CliOption("--desired-model-variants")]
     public string[]? DesiredModelVariants { get; set; }
 
-    [CommandSwitch("--desired-state")]
+    [CliOption("--desired-state")]
     public string? DesiredState { get; set; }
 
-    [CommandSwitch("--reason")]
+    [CliOption("--reason")]
     public string? Reason { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

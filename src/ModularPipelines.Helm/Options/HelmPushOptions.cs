@@ -3,19 +3,19 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("push")]
+[CliCommand("push")]
 [ExcludeFromCodeCoverage]
 public record HelmPushOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--ca-file", SwitchValueSeparator = " ")]
+    [CliOption("--ca-file")]
     public string? CaFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cert-file", SwitchValueSeparator = " ")]
+    [CliOption("--cert-file")]
     public string? CertFile { get; set; }
 
-    [BooleanCommandSwitch("--insecure-skip-tls-verify")]
+    [CliFlag("--insecure-skip-tls-verify")]
     public virtual bool? InsecureSkipTlsVerify { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--key-file", SwitchValueSeparator = " ")]
+    [CliOption("--key-file")]
     public string? KeyFile { get; set; }
 }

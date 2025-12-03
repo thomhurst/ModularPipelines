@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qconnect", "delete-content")]
+[CliCommand("qconnect", "delete-content")]
 public record AwsQconnectDeleteContentOptions(
-[property: CommandSwitch("--content-id")] string ContentId,
-[property: CommandSwitch("--knowledge-base-id")] string KnowledgeBaseId
+[property: CliOption("--content-id")] string ContentId,
+[property: CliOption("--knowledge-base-id")] string KnowledgeBaseId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

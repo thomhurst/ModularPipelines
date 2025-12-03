@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "container", "list")]
+[CliCommand("storage", "container", "list")]
 public record AzStorageContainerListOptions : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--blob-endpoint")]
+    [CliOption("--blob-endpoint")]
     public string? BlobEndpoint { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [BooleanCommandSwitch("--include-deleted")]
+    [CliFlag("--include-deleted")]
     public bool? IncludeDeleted { get; set; }
 
-    [BooleanCommandSwitch("--include-metadata")]
+    [CliFlag("--include-metadata")]
     public bool? IncludeMetadata { get; set; }
 
-    [CommandSwitch("--marker")]
+    [CliOption("--marker")]
     public string? Marker { get; set; }
 
-    [CommandSwitch("--num-results")]
+    [CliOption("--num-results")]
     public string? NumResults { get; set; }
 
-    [CommandSwitch("--prefix")]
+    [CliOption("--prefix")]
     public string? Prefix { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--show-next-marker")]
+    [CliOption("--show-next-marker")]
     public string? ShowNextMarker { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

@@ -32,57 +32,57 @@ public record DotNetVstestOptions : DotNetOptions
         CommandParts = ["vstest", "[<TEST_FILE_NAMES>]"];
     }
 
-    [PositionalArgument(PlaceholderName = "[<TEST_FILE_NAMES>]")]
+    [CliArgument(Name = "[<TEST_FILE_NAMES>]")]
     public string? TestFileNames { get; set; }
 
-    [BooleanCommandSwitch("--Blame")]
+    [CliFlag("--Blame")]
     public virtual bool? Blame { get; set; }
 
-    [CommandSwitch("--Diag")]
+    [CliOption("--Diag")]
     public virtual string? Diag { get; set; }
 
-    [CommandSwitch("--Framework")]
+    [CliOption("--Framework")]
     public virtual string? Framework { get; set; }
 
-    [BooleanCommandSwitch("--InIsolation")]
+    [CliFlag("--InIsolation")]
     public virtual bool? InIsolation { get; set; }
 
-    [CommandSwitch("--ListTests")]
+    [CliOption("--ListTests")]
     public virtual string? ListTests { get; set; }
 
-    [CommandSwitch("--logger")]
+    [CliOption("--logger")]
     public virtual string? LoggerUriOrFriendlyName { get; set; }
 
-    [BooleanCommandSwitch("--Parallel")]
+    [CliFlag("--Parallel")]
     public virtual bool? Parallel { get; set; }
 
-    [CommandSwitch("--ParentProcessId")]
+    [CliOption("--ParentProcessId")]
     public virtual string? ParentProcessId { get; set; }
 
-    [BooleanCommandSwitch("--Platform")]
+    [CliFlag("--Platform")]
     public virtual bool? Platform { get; set; }
 
-    [PositionalArgument(PlaceholderName = "<PLATFORM_TYPE>")]
+    [CliArgument(Name = "<PLATFORM_TYPE>")]
     public string? PlatformType { get; set; }
 
-    [CommandSwitch("--Port")]
+    [CliOption("--Port")]
     public virtual string? Port { get; set; }
 
-    [CommandSwitch("--ResultsDirectory<PATH>")]
+    [CliOption("--ResultsDirectory<PATH>")]
     public virtual string? ResultsDirectoryPATH { get; set; }
 
-    [CommandSwitch("--Settings")]
+    [CliOption("--Settings")]
     public virtual string? SettingsFile { get; set; }
 
-    [CommandSwitch("--TestAdapterPath")]
+    [CliOption("--TestAdapterPath")]
     public virtual string? TestAdapterPath { get; set; }
 
-    [CommandSwitch("--TestCaseFilter")]
+    [CliOption("--TestCaseFilter")]
     public virtual string? TestCaseFilter { get; set; }
 
-    [CommandSwitch("--Tests")]
+    [CliOption("--Tests")]
     public virtual string? Tests { get; set; }
 
-    [BooleanCommandSwitch("--Help")]
+    [CliFlag("--Help")]
     public virtual bool? Help { get; set; }
 }

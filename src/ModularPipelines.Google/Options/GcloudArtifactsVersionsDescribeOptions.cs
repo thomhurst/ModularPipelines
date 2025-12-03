@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "versions", "describe")]
+[CliCommand("artifacts", "versions", "describe")]
 public record GcloudArtifactsVersionsDescribeOptions : GcloudOptions
 {
     public GcloudArtifactsVersionsDescribeOptions(
@@ -20,15 +20,15 @@ public record GcloudArtifactsVersionsDescribeOptions : GcloudOptions
         Repository = repository;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudArtifactsVersionsDescribeOptionsVersion { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Location { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Package { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Repository { get; set; }
 }

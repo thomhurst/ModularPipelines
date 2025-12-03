@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workload-identity-pools", "operations", "describe")]
+[CliCommand("iam", "workload-identity-pools", "operations", "describe")]
 public record GcloudIamWorkloadIdentityPoolsOperationsDescribeOptions(
-[property: PositionalArgument] string Operation,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string WorkloadIdentityPool
+[property: CliArgument] string Operation,
+[property: CliArgument] string Location,
+[property: CliArgument] string WorkloadIdentityPool
 ) : GcloudOptions;

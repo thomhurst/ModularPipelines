@@ -4,79 +4,79 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataflow", "flex-template", "build")]
+[CliCommand("dataflow", "flex-template", "build")]
 public record GcloudDataflowFlexTemplateBuildOptions(
-[property: PositionalArgument] string TemplateFileGcsPath,
-[property: CommandSwitch("--sdk-language")] string SdkLanguage,
-[property: CommandSwitch("--image")] string Image,
-[property: CommandSwitch("--env")] string[] Env,
-[property: CommandSwitch("--flex-template-base-image")] string FlexTemplateBaseImage,
-[property: CommandSwitch("--image-gcr-path")] string ImageGcrPath,
-[property: CommandSwitch("--go-binary-path")] string GoBinaryPath,
-[property: CommandSwitch("--jar")] string[] Jar,
-[property: CommandSwitch("--py-path")] string[] PyPath
+[property: CliArgument] string TemplateFileGcsPath,
+[property: CliOption("--sdk-language")] string SdkLanguage,
+[property: CliOption("--image")] string Image,
+[property: CliOption("--env")] string[] Env,
+[property: CliOption("--flex-template-base-image")] string FlexTemplateBaseImage,
+[property: CliOption("--image-gcr-path")] string ImageGcrPath,
+[property: CliOption("--go-binary-path")] string GoBinaryPath,
+[property: CliOption("--jar")] string[] Jar,
+[property: CliOption("--py-path")] string[] PyPath
 ) : GcloudOptions
 {
-    [CommandSwitch("--additional-experiments")]
+    [CliOption("--additional-experiments")]
     public string[]? AdditionalExperiments { get; set; }
 
-    [CommandSwitch("--additional-user-labels")]
+    [CliOption("--additional-user-labels")]
     public string[]? AdditionalUserLabels { get; set; }
 
-    [CommandSwitch("--dataflow-kms-key")]
+    [CliOption("--dataflow-kms-key")]
     public string? DataflowKmsKey { get; set; }
 
-    [BooleanCommandSwitch("--disable-public-ips")]
+    [CliFlag("--disable-public-ips")]
     public bool? DisablePublicIps { get; set; }
 
-    [BooleanCommandSwitch("--enable-streaming-engine")]
+    [CliFlag("--enable-streaming-engine")]
     public bool? EnableStreamingEngine { get; set; }
 
-    [CommandSwitch("--gcs-log-dir")]
+    [CliOption("--gcs-log-dir")]
     public string? GcsLogDir { get; set; }
 
-    [CommandSwitch("--image-repository-cert-path")]
+    [CliOption("--image-repository-cert-path")]
     public string? ImageRepositoryCertPath { get; set; }
 
-    [CommandSwitch("--image-repository-password-secret-id")]
+    [CliOption("--image-repository-password-secret-id")]
     public string? ImageRepositoryPasswordSecretId { get; set; }
 
-    [CommandSwitch("--image-repository-username-secret-id")]
+    [CliOption("--image-repository-username-secret-id")]
     public string? ImageRepositoryUsernameSecretId { get; set; }
 
-    [CommandSwitch("--max-workers")]
+    [CliOption("--max-workers")]
     public string? MaxWorkers { get; set; }
 
-    [CommandSwitch("--metadata-file")]
+    [CliOption("--metadata-file")]
     public string? MetadataFile { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--num-workers")]
+    [CliOption("--num-workers")]
     public string? NumWorkers { get; set; }
 
-    [BooleanCommandSwitch("--print-only")]
+    [CliFlag("--print-only")]
     public bool? PrintOnly { get; set; }
 
-    [CommandSwitch("--service-account-email")]
+    [CliOption("--service-account-email")]
     public string? ServiceAccountEmail { get; set; }
 
-    [CommandSwitch("--staging-location")]
+    [CliOption("--staging-location")]
     public string? StagingLocation { get; set; }
 
-    [CommandSwitch("--subnetwork")]
+    [CliOption("--subnetwork")]
     public string? Subnetwork { get; set; }
 
-    [CommandSwitch("--temp-location")]
+    [CliOption("--temp-location")]
     public string? TempLocation { get; set; }
 
-    [CommandSwitch("--worker-machine-type")]
+    [CliOption("--worker-machine-type")]
     public string? WorkerMachineType { get; set; }
 
-    [CommandSwitch("--worker-region")]
+    [CliOption("--worker-region")]
     public string? WorkerRegion { get; set; }
 
-    [CommandSwitch("--worker-zone")]
+    [CliOption("--worker-zone")]
     public string? WorkerZone { get; set; }
 }

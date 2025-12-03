@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("capacity")]
+[CliCommand("capacity")]
 public class AzCapacityReservation
 {
     public AzCapacityReservation(

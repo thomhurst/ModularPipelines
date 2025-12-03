@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qbusiness", "update-plugin")]
+[CliCommand("qbusiness", "update-plugin")]
 public record AwsQbusinessUpdatePluginOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--plugin-id")] string PluginId
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--plugin-id")] string PluginId
 ) : AwsOptions
 {
-    [CommandSwitch("--auth-configuration")]
+    [CliOption("--auth-configuration")]
     public string? AuthConfiguration { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--server-url")]
+    [CliOption("--server-url")]
     public string? ServerUrl { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

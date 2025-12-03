@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "device", "deployment", "create")]
+[CliCommand("iot", "du", "device", "deployment", "create")]
 public record AzIotDuDeviceDeploymentCreateOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--deployment-id")] string DeploymentId,
-[property: CommandSwitch("--gid")] string Gid,
-[property: CommandSwitch("--instance")] string Instance,
-[property: CommandSwitch("--un")] string Un,
-[property: CommandSwitch("--up")] string Up,
-[property: CommandSwitch("--update-version")] string UpdateVersion
+[property: CliOption("--account")] int Account,
+[property: CliOption("--deployment-id")] string DeploymentId,
+[property: CliOption("--gid")] string Gid,
+[property: CliOption("--instance")] string Instance,
+[property: CliOption("--un")] string Un,
+[property: CliOption("--up")] string Up,
+[property: CliOption("--update-version")] string UpdateVersion
 ) : AzOptions
 {
-    [CommandSwitch("--failed-count")]
+    [CliOption("--failed-count")]
     public int? FailedCount { get; set; }
 
-    [CommandSwitch("--failed-percentage")]
+    [CliOption("--failed-percentage")]
     public string? FailedPercentage { get; set; }
 
-    [CommandSwitch("--rbun")]
+    [CliOption("--rbun")]
     public string? Rbun { get; set; }
 
-    [CommandSwitch("--rbup")]
+    [CliOption("--rbup")]
     public string? Rbup { get; set; }
 
-    [CommandSwitch("--rbuv")]
+    [CliOption("--rbuv")]
     public string? Rbuv { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public string? StartTime { get; set; }
 }

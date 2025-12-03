@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cdn", "endpoint", "waf", "policy", "show")]
+[CliCommand("cdn", "endpoint", "waf", "policy", "show")]
 public record AzCdnEndpointWafPolicyShowOptions : AzOptions
 {
-    [CommandSwitch("--endpoint-name")]
+    [CliOption("--endpoint-name")]
     public string? EndpointName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

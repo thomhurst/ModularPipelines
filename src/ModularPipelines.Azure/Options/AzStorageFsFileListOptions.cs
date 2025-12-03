@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "fs", "file", "list")]
+[CliCommand("storage", "fs", "file", "list")]
 public record AzStorageFsFileListOptions(
-[property: CommandSwitch("--file-system")] string FileSystem
+[property: CliOption("--file-system")] string FileSystem
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--blob-endpoint")]
+    [CliOption("--blob-endpoint")]
     public string? BlobEndpoint { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--exclude-dir")]
+    [CliOption("--exclude-dir")]
     public string? ExcludeDir { get; set; }
 
-    [CommandSwitch("--marker")]
+    [CliOption("--marker")]
     public string? Marker { get; set; }
 
-    [CommandSwitch("--num-results")]
+    [CliOption("--num-results")]
     public string? NumResults { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public bool? Recursive { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--show-next-marker")]
+    [CliOption("--show-next-marker")]
     public string? ShowNextMarker { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

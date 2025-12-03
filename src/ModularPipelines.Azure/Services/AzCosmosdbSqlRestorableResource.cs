@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "sql")]
+[CliCommand("cosmosdb", "sql")]
 public class AzCosmosdbSqlRestorableResource
 {
     public AzCosmosdbSqlRestorableResource(

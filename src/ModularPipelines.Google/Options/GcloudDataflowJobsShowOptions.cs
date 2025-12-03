@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataflow", "jobs", "show")]
+[CliCommand("dataflow", "jobs", "show")]
 public record GcloudDataflowJobsShowOptions(
-[property: PositionalArgument] string JobId
+[property: CliArgument] string JobId
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--environment")]
+    [CliFlag("--environment")]
     public bool? Environment { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [BooleanCommandSwitch("--steps")]
+    [CliFlag("--steps")]
     public bool? Steps { get; set; }
 }

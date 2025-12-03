@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "cross-connection", "peering", "update")]
+[CliCommand("network", "cross-connection", "peering", "update")]
 public record AzNetworkCrossConnectionPeeringUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--advertised-public-prefixes")]
+    [CliOption("--advertised-public-prefixes")]
     public string? AdvertisedPublicPrefixes { get; set; }
 
-    [CommandSwitch("--cross-connection-name")]
+    [CliOption("--cross-connection-name")]
     public string? CrossConnectionName { get; set; }
 
-    [CommandSwitch("--customer-asn")]
+    [CliOption("--customer-asn")]
     public string? CustomerAsn { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--ip-version")]
+    [CliOption("--ip-version")]
     public string? IpVersion { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--peer-asn")]
+    [CliOption("--peer-asn")]
     public string? PeerAsn { get; set; }
 
-    [CommandSwitch("--primary-peer-subnet")]
+    [CliOption("--primary-peer-subnet")]
     public string? PrimaryPeerSubnet { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--routing-registry-name")]
+    [CliOption("--routing-registry-name")]
     public string? RoutingRegistryName { get; set; }
 
-    [CommandSwitch("--secondary-peer-subnet")]
+    [CliOption("--secondary-peer-subnet")]
     public string? SecondaryPeerSubnet { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--shared-key")]
+    [CliOption("--shared-key")]
     public string? SharedKey { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--vlan-id")]
+    [CliOption("--vlan-id")]
     public string? VlanId { get; set; }
 }

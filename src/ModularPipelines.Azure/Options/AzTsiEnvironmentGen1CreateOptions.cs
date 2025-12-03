@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tsi", "environment", "gen1", "create")]
+[CliCommand("tsi", "environment", "gen1", "create")]
 public record AzTsiEnvironmentGen1CreateOptions(
-[property: CommandSwitch("--data-retention-time")] string DataRetentionTime,
-[property: CommandSwitch("--environment-name")] string EnvironmentName,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku")] string Sku
+[property: CliOption("--data-retention-time")] string DataRetentionTime,
+[property: CliOption("--environment-name")] string EnvironmentName,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sku")] string Sku
 ) : AzOptions
 {
-    [CommandSwitch("--exceeded-behavior")]
+    [CliOption("--exceeded-behavior")]
     public string? ExceededBehavior { get; set; }
 
-    [CommandSwitch("--key-properties")]
+    [CliOption("--key-properties")]
     public string? KeyProperties { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

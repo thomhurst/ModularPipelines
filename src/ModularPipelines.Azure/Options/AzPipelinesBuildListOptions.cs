@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines", "build", "list")]
+[CliCommand("pipelines", "build", "list")]
 public record AzPipelinesBuildListOptions : AzOptions
 {
-    [CommandSwitch("--branch")]
+    [CliOption("--branch")]
     public string? Branch { get; set; }
 
-    [CommandSwitch("--definition-ids")]
+    [CliOption("--definition-ids")]
     public string? DefinitionIds { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [CommandSwitch("--reason")]
+    [CliOption("--reason")]
     public string? Reason { get; set; }
 
-    [CommandSwitch("--requested-for")]
+    [CliOption("--requested-for")]
     public string? RequestedFor { get; set; }
 
-    [CommandSwitch("--result")]
+    [CliOption("--result")]
     public string? Result { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

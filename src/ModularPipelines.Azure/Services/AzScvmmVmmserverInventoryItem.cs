@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scvmm", "vmmserver")]
+[CliCommand("scvmm", "vmmserver")]
 public class AzScvmmVmmserverInventoryItem
 {
     public AzScvmmVmmserverInventoryItem(

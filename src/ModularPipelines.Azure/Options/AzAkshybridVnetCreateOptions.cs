@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("akshybrid", "vnet", "create")]
+[CliCommand("akshybrid", "vnet", "create")]
 public record AzAkshybridVnetCreateOptions(
-[property: CommandSwitch("--custom-location")] string CustomLocation,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--custom-location")] string CustomLocation,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--moc-group")]
+    [CliOption("--moc-group")]
     public string? MocGroup { get; set; }
 
-    [CommandSwitch("--moc-location")]
+    [CliOption("--moc-location")]
     public string? MocLocation { get; set; }
 
-    [CommandSwitch("--moc-vnet-name")]
+    [CliOption("--moc-vnet-name")]
     public string? MocVnetName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vsphere-segment-name")]
+    [CliOption("--vsphere-segment-name")]
     public string? VsphereSegmentName { get; set; }
 }

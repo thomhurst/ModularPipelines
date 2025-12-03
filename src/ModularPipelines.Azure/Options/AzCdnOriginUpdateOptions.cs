@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cdn", "origin", "update")]
+[CliCommand("cdn", "origin", "update")]
 public record AzCdnOriginUpdateOptions : AzOptions
 {
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--endpoint-name")]
+    [CliOption("--endpoint-name")]
     public string? EndpointName { get; set; }
 
-    [CommandSwitch("--host-name")]
+    [CliOption("--host-name")]
     public string? HostName { get; set; }
 
-    [CommandSwitch("--http-port")]
+    [CliOption("--http-port")]
     public string? HttpPort { get; set; }
 
-    [CommandSwitch("--https-port")]
+    [CliOption("--https-port")]
     public string? HttpsPort { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--origin-host-header")]
+    [CliOption("--origin-host-header")]
     public string? OriginHostHeader { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--private-link-approval-message")]
+    [CliOption("--private-link-approval-message")]
     public string? PrivateLinkApprovalMessage { get; set; }
 
-    [CommandSwitch("--private-link-location")]
+    [CliOption("--private-link-location")]
     public string? PrivateLinkLocation { get; set; }
 
-    [CommandSwitch("--private-link-resource-id")]
+    [CliOption("--private-link-resource-id")]
     public string? PrivateLinkResourceId { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--weight")]
+    [CliOption("--weight")]
     public string? Weight { get; set; }
 }

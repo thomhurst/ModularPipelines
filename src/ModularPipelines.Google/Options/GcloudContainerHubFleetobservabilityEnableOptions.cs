@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "hub", "fleetobservability", "enable")]
+[CliCommand("container", "hub", "fleetobservability", "enable")]
 public record GcloudContainerHubFleetobservabilityEnableOptions : GcloudOptions;

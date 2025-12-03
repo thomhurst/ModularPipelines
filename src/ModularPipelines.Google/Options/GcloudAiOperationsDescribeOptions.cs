@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "operations", "describe")]
+[CliCommand("ai", "operations", "describe")]
 public record GcloudAiOperationsDescribeOptions(
-[property: PositionalArgument] string Operation,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Operation,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [CommandSwitch("--index")]
+    [CliOption("--index")]
     public string? Index { get; set; }
 
-    [CommandSwitch("--index-endpoint")]
+    [CliOption("--index-endpoint")]
     public string? IndexEndpoint { get; set; }
 }

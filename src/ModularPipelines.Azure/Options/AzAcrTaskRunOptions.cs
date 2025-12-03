@@ -4,51 +4,51 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "task", "run")]
+[CliCommand("acr", "task", "run")]
 public record AzAcrTaskRunOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--name")] string Name,
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--agent-pool")]
+    [CliOption("--agent-pool")]
     public string? AgentPool { get; set; }
 
-    [CommandSwitch("--arg")]
+    [CliOption("--arg")]
     public string? Arg { get; set; }
 
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public string? Context { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 
-    [CommandSwitch("--log-template")]
+    [CliOption("--log-template")]
     public string? LogTemplate { get; set; }
 
-    [BooleanCommandSwitch("--no-format")]
+    [CliFlag("--no-format")]
     public bool? NoFormat { get; set; }
 
-    [BooleanCommandSwitch("--no-logs")]
+    [CliFlag("--no-logs")]
     public bool? NoLogs { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--secret-arg")]
+    [CliOption("--secret-arg")]
     public string? SecretArg { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--set-secret")]
+    [CliOption("--set-secret")]
     public string? SetSecret { get; set; }
 
-    [CommandSwitch("--target")]
+    [CliOption("--target")]
     public string? Target { get; set; }
 
-    [CommandSwitch("--update-trigger-token")]
+    [CliOption("--update-trigger-token")]
     public string? UpdateTriggerToken { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wellarchitected", "update-review-template")]
+[CliCommand("wellarchitected", "update-review-template")]
 public record AwsWellarchitectedUpdateReviewTemplateOptions(
-[property: CommandSwitch("--template-arn")] string TemplateArn
+[property: CliOption("--template-arn")] string TemplateArn
 ) : AwsOptions
 {
-    [CommandSwitch("--template-name")]
+    [CliOption("--template-name")]
     public string? TemplateName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--notes")]
+    [CliOption("--notes")]
     public string? Notes { get; set; }
 
-    [CommandSwitch("--lenses-to-associate")]
+    [CliOption("--lenses-to-associate")]
     public string[]? LensesToAssociate { get; set; }
 
-    [CommandSwitch("--lenses-to-disassociate")]
+    [CliOption("--lenses-to-disassociate")]
     public string[]? LensesToDisassociate { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dla", "account", "compute-policy", "create")]
+[CliCommand("dla", "account", "compute-policy", "create")]
 public record AzDlaAccountComputePolicyCreateOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--compute-policy-name")] string ComputePolicyName,
-[property: CommandSwitch("--object-id")] string ObjectId,
-[property: CommandSwitch("--object-type")] string ObjectType
+[property: CliOption("--account")] int Account,
+[property: CliOption("--compute-policy-name")] string ComputePolicyName,
+[property: CliOption("--object-id")] string ObjectId,
+[property: CliOption("--object-type")] string ObjectType
 ) : AzOptions
 {
-    [CommandSwitch("--max-dop-per-job")]
+    [CliOption("--max-dop-per-job")]
     public string? MaxDopPerJob { get; set; }
 
-    [CommandSwitch("--min-priority-per-job")]
+    [CliOption("--min-priority-per-job")]
     public string? MinPriorityPerJob { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -4,44 +4,44 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "update-hsm")]
+[CliCommand("keyvault", "update-hsm")]
 public record AzKeyvaultUpdateHsmOptions(
-[property: CommandSwitch("--hsm-name")] string HsmName
+[property: CliOption("--hsm-name")] string HsmName
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--bypass")]
+    [CliOption("--bypass")]
     public string? Bypass { get; set; }
 
-    [CommandSwitch("--default-action")]
+    [CliOption("--default-action")]
     public string? DefaultAction { get; set; }
 
-    [BooleanCommandSwitch("--enable-purge-protection")]
+    [CliFlag("--enable-purge-protection")]
     public bool? EnablePurgeProtection { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--mi-user-assigned")]
+    [CliOption("--mi-user-assigned")]
     public string? MiUserAssigned { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--secondary-locations")]
+    [CliOption("--secondary-locations")]
     public string? SecondaryLocations { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 }

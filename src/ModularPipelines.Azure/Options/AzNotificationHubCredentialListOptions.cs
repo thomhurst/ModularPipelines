@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("notification-hub", "credential", "list")]
+[CliCommand("notification-hub", "credential", "list")]
 public record AzNotificationHubCredentialListOptions(
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--notification-hub-name")] string NotificationHubName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--notification-hub-name")] string NotificationHubName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

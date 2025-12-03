@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lab")]
+[CliCommand("lab")]
 public class AzLabFormula
 {
     public AzLabFormula(

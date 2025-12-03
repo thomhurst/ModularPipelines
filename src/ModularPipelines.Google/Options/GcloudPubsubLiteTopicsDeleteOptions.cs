@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "lite-topics", "delete")]
+[CliCommand("pubsub", "lite-topics", "delete")]
 public record GcloudPubsubLiteTopicsDeleteOptions(
-[property: PositionalArgument] string Topic,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Topic,
+[property: CliArgument] string Location
 ) : GcloudOptions;

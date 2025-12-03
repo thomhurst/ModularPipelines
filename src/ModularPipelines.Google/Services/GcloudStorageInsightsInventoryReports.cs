@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "insights")]
+[CliCommand("storage", "insights")]
 public class GcloudStorageInsightsInventoryReports
 {
     public GcloudStorageInsightsInventoryReports(

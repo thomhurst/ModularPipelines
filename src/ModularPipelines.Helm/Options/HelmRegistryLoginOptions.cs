@@ -3,28 +3,28 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("registry", "login")]
+[CliCommand("registry", "login")]
 [ExcludeFromCodeCoverage]
 public record HelmRegistryLoginOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--ca-file", SwitchValueSeparator = " ")]
+    [CliOption("--ca-file")]
     public string? CaFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cert-file", SwitchValueSeparator = " ")]
+    [CliOption("--cert-file")]
     public string? CertFile { get; set; }
 
-    [BooleanCommandSwitch("--insecure")]
+    [CliFlag("--insecure")]
     public virtual bool? Insecure { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--key-file", SwitchValueSeparator = " ")]
+    [CliOption("--key-file")]
     public string? KeyFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--password", SwitchValueSeparator = " ")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [BooleanCommandSwitch("--password-stdin")]
+    [CliFlag("--password-stdin")]
     public virtual bool? PasswordStdin { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--username", SwitchValueSeparator = " ")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 }

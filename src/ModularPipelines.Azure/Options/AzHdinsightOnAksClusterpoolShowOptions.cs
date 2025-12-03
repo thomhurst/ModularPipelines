@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hdinsight-on-aks", "clusterpool", "show")]
+[CliCommand("hdinsight-on-aks", "clusterpool", "show")]
 public record AzHdinsightOnAksClusterpoolShowOptions : AzOptions
 {
-    [CommandSwitch("--cluster-pool-name")]
+    [CliOption("--cluster-pool-name")]
     public string? ClusterPoolName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "vault", "encryption", "update")]
+[CliCommand("backup", "vault", "encryption", "update")]
 public record AzBackupVaultEncryptionUpdateOptions(
-[property: CommandSwitch("--encryption-key-id")] string EncryptionKeyId
+[property: CliOption("--encryption-key-id")] string EncryptionKeyId
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--infrastructure-encryption")]
+    [CliOption("--infrastructure-encryption")]
     public string? InfrastructureEncryption { get; set; }
 
-    [CommandSwitch("--mi-system-assigned")]
+    [CliOption("--mi-system-assigned")]
     public string? MiSystemAssigned { get; set; }
 
-    [CommandSwitch("--mi-user-assigned")]
+    [CliOption("--mi-user-assigned")]
     public string? MiUserAssigned { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

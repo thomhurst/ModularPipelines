@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("orbital", "contact-profile", "update")]
+[CliCommand("orbital", "contact-profile", "update")]
 public record AzOrbitalContactProfileUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--auto-tracking")]
+    [CliOption("--auto-tracking")]
     public string? AutoTracking { get; set; }
 
-    [CommandSwitch("--contact-profile-name")]
+    [CliOption("--contact-profile-name")]
     public string? ContactProfileName { get; set; }
 
-    [CommandSwitch("--event-hub-uri")]
+    [CliOption("--event-hub-uri")]
     public string? EventHubUri { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--links")]
+    [CliOption("--links")]
     public string? Links { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--min-elevation")]
+    [CliOption("--min-elevation")]
     public string? MinElevation { get; set; }
 
-    [CommandSwitch("--min-viable-duration")]
+    [CliOption("--min-viable-duration")]
     public string? MinViableDuration { get; set; }
 
-    [CommandSwitch("--network-configuration")]
+    [CliOption("--network-configuration")]
     public string? NetworkConfiguration { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

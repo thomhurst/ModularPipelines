@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("reservations", "reservation", "list-history")]
+[CliCommand("reservations", "reservation", "list-history")]
 public record AzReservationsReservationListHistoryOptions(
-[property: CommandSwitch("--reservation-id")] string ReservationId,
-[property: CommandSwitch("--reservation-order-id")] string ReservationOrderId
+[property: CliOption("--reservation-id")] string ReservationId,
+[property: CliOption("--reservation-order-id")] string ReservationOrderId
 ) : AzOptions
 {
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 }

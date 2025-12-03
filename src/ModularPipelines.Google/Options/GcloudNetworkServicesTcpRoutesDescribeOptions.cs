@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-services", "tcp-routes", "describe")]
+[CliCommand("network-services", "tcp-routes", "describe")]
 public record GcloudNetworkServicesTcpRoutesDescribeOptions(
-[property: PositionalArgument] string TcpRoute,
-[property: PositionalArgument] string Location
+[property: CliArgument] string TcpRoute,
+[property: CliArgument] string Location
 ) : GcloudOptions;

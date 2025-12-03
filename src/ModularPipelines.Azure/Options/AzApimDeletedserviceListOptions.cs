@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "deletedservice", "list")]
+[CliCommand("apim", "deletedservice", "list")]
 public record AzApimDeletedserviceListOptions : AzOptions;

@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datastream", "objects", "stop-backfill")]
+[CliCommand("datastream", "objects", "stop-backfill")]
 public record GcloudDatastreamObjectsStopBackfillOptions(
-[property: PositionalArgument] string Object,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Stream
+[property: CliArgument] string Object,
+[property: CliArgument] string Location,
+[property: CliArgument] string Stream
 ) : GcloudOptions;

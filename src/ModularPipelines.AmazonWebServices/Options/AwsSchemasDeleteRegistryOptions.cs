@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("schemas", "delete-registry")]
+[CliCommand("schemas", "delete-registry")]
 public record AwsSchemasDeleteRegistryOptions(
-[property: CommandSwitch("--registry-name")] string RegistryName
+[property: CliOption("--registry-name")] string RegistryName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

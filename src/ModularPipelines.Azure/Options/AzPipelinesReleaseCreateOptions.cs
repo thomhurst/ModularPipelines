@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines", "release", "create")]
+[CliCommand("pipelines", "release", "create")]
 public record AzPipelinesReleaseCreateOptions : AzOptions
 {
-    [CommandSwitch("--artifact-metadata-list")]
+    [CliOption("--artifact-metadata-list")]
     public string? ArtifactMetadataList { get; set; }
 
-    [CommandSwitch("--definition-id")]
+    [CliOption("--definition-id")]
     public string? DefinitionId { get; set; }
 
-    [CommandSwitch("--definition-name")]
+    [CliOption("--definition-name")]
     public string? DefinitionName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [BooleanCommandSwitch("--open")]
+    [CliFlag("--open")]
     public bool? Open { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bms", "nfs-shares", "describe")]
+[CliCommand("bms", "nfs-shares", "describe")]
 public record GcloudBmsNfsSharesDescribeOptions(
-[property: PositionalArgument] string NfsShare,
-[property: PositionalArgument] string Region
+[property: CliArgument] string NfsShare,
+[property: CliArgument] string Region
 ) : GcloudOptions;

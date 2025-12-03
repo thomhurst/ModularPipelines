@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "target-instances", "update")]
+[CliCommand("compute", "target-instances", "update")]
 public record GcloudComputeTargetInstancesUpdateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--security-policy")]
+    [CliOption("--security-policy")]
     public string? SecurityPolicy { get; set; }
 
-    [CommandSwitch("--security-policy-region")]
+    [CliOption("--security-policy-region")]
     public string? SecurityPolicyRegion { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

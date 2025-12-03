@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("data-catalog", "taxonomies")]
+[CliCommand("data-catalog", "taxonomies")]
 public class GcloudDataCatalogTaxonomiesPolicyTags
 {
     public GcloudDataCatalogTaxonomiesPolicyTags(

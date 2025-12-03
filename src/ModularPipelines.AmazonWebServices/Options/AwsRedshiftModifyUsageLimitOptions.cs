@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "modify-usage-limit")]
+[CliCommand("redshift", "modify-usage-limit")]
 public record AwsRedshiftModifyUsageLimitOptions(
-[property: CommandSwitch("--usage-limit-id")] string UsageLimitId
+[property: CliOption("--usage-limit-id")] string UsageLimitId
 ) : AwsOptions
 {
-    [CommandSwitch("--amount")]
+    [CliOption("--amount")]
     public long? Amount { get; set; }
 
-    [CommandSwitch("--breach-action")]
+    [CliOption("--breach-action")]
     public string? BreachAction { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

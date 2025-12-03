@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redis", "import")]
+[CliCommand("redis", "import")]
 public record AzRedisImportOptions(
-[property: CommandSwitch("--files")] string Files
+[property: CliOption("--files")] string Files
 ) : AzOptions
 {
-    [CommandSwitch("--auth-method")]
+    [CliOption("--auth-method")]
     public string? AuthMethod { get; set; }
 
-    [CommandSwitch("--file-format")]
+    [CliOption("--file-format")]
     public string? FileFormat { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

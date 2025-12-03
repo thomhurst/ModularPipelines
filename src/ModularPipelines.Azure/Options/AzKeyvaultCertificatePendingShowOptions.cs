@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "certificate", "pending", "show")]
+[CliCommand("keyvault", "certificate", "pending", "show")]
 public record AzKeyvaultCertificatePendingShowOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--vault-name")] string VaultName
 ) : AzOptions;

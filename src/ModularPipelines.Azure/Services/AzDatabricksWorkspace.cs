@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databricks")]
+[CliCommand("databricks")]
 public class AzDatabricksWorkspace
 {
     public AzDatabricksWorkspace(

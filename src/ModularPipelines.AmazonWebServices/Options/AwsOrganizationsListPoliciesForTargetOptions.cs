@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("organizations", "list-policies-for-target")]
+[CliCommand("organizations", "list-policies-for-target")]
 public record AwsOrganizationsListPoliciesForTargetOptions(
-[property: CommandSwitch("--target-id")] string TargetId,
-[property: CommandSwitch("--filter")] string Filter
+[property: CliOption("--target-id")] string TargetId,
+[property: CliOption("--filter")] string Filter
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -3,25 +3,25 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout", "sbom")]
+[CliCommand("scout", "sbom")]
 [ExcludeFromCodeCoverage]
 public record DockerScoutSbomOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? ImageOrDirectoryOrArchive { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [CommandSwitch("--only-package-type")]
+    [CliOption("--only-package-type")]
     public virtual string? OnlyPackageType { get; set; }
 
-    [CommandSwitch("--output")]
+    [CliOption("--output")]
     public virtual string? Output { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public virtual string? Platform { get; set; }
 
-    [CommandSwitch("--ref")]
+    [CliOption("--ref")]
     public virtual string? Ref { get; set; }
 }

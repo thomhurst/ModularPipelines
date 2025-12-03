@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "alerts-suppression-rule", "show")]
+[CliCommand("security", "alerts-suppression-rule", "show")]
 public record AzSecurityAlertsSuppressionRuleShowOptions(
-[property: CommandSwitch("--rule-name")] string RuleName
+[property: CliOption("--rule-name")] string RuleName
 ) : AzOptions;

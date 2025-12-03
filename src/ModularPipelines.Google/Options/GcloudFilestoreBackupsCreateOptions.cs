@@ -5,25 +5,25 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("filestore", "backups", "create")]
+[CliCommand("filestore", "backups", "create")]
 public record GcloudFilestoreBackupsCreateOptions(
-[property: PositionalArgument] string Backup,
-[property: CommandSwitch("--file-share")] string FileShare,
-[property: CommandSwitch("--instance")] string Instance,
-[property: CommandSwitch("--region")] string Region,
-[property: CommandSwitch("--instance-location")] string InstanceLocation,
-[property: CommandSwitch("--instance-zone")] string InstanceZone
+[property: CliArgument] string Backup,
+[property: CliOption("--file-share")] string FileShare,
+[property: CliOption("--instance")] string Instance,
+[property: CliOption("--region")] string Region,
+[property: CliOption("--instance-location")] string InstanceLocation,
+[property: CliOption("--instance-zone")] string InstanceZone
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

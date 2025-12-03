@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("secrets", "versions", "destroy")]
+[CliCommand("secrets", "versions", "destroy")]
 public record GcloudSecretsVersionsDestroyOptions : GcloudOptions
 {
     public GcloudSecretsVersionsDestroyOptions(
@@ -16,12 +16,12 @@ public record GcloudSecretsVersionsDestroyOptions : GcloudOptions
         Secret = secret;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudSecretsVersionsDestroyOptionsVersion { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Secret { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 }

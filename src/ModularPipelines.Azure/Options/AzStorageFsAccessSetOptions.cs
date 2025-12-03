@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "fs", "access", "set")]
+[CliCommand("storage", "fs", "access", "set")]
 public record AzStorageFsAccessSetOptions(
-[property: CommandSwitch("--file-system")] string FileSystem,
-[property: CommandSwitch("--path")] string Path
+[property: CliOption("--file-system")] string FileSystem,
+[property: CliOption("--path")] string Path
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--acl")]
+    [CliOption("--acl")]
     public string? Acl { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--blob-endpoint")]
+    [CliOption("--blob-endpoint")]
     public string? BlobEndpoint { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--group")]
+    [CliOption("--group")]
     public string? Group { get; set; }
 
-    [CommandSwitch("--owner")]
+    [CliOption("--owner")]
     public string? Owner { get; set; }
 
-    [CommandSwitch("--permissions")]
+    [CliOption("--permissions")]
     public string? Permissions { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 }

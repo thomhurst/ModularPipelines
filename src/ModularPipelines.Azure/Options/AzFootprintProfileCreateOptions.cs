@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("footprint", "profile", "create")]
+[CliCommand("footprint", "profile", "create")]
 public record AzFootprintProfileCreateOptions(
-[property: CommandSwitch("--measurement-count")] int MeasurementCount,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--start-delay-ms")] string StartDelayMs
+[property: CliOption("--measurement-count")] int MeasurementCount,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--start-delay-ms")] string StartDelayMs
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--reporting-endpoints")]
+    [CliOption("--reporting-endpoints")]
     public string? ReportingEndpoints { get; set; }
 
-    [CommandSwitch("--sample-rate-cold")]
+    [CliOption("--sample-rate-cold")]
     public string? SampleRateCold { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

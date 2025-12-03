@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "config", "storage-account", "add")]
+[CliCommand("webapp", "config", "storage-account", "add")]
 public record AzWebappConfigStorageAccountAddOptions(
-[property: CommandSwitch("--access-key")] string AccessKey,
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--custom-id")] string CustomId,
-[property: CommandSwitch("--share-name")] string ShareName,
-[property: CommandSwitch("--storage-type")] string StorageType
+[property: CliOption("--access-key")] string AccessKey,
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--custom-id")] string CustomId,
+[property: CliOption("--share-name")] string ShareName,
+[property: CliOption("--storage-type")] string StorageType
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--mount-path")]
+    [CliOption("--mount-path")]
     public string? MountPath { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [BooleanCommandSwitch("--slot-setting")]
+    [CliFlag("--slot-setting")]
     public bool? SlotSetting { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

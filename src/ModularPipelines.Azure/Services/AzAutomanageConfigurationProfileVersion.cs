@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automanage", "configuration-profile")]
+[CliCommand("automanage", "configuration-profile")]
 public class AzAutomanageConfigurationProfileVersion
 {
     public AzAutomanageConfigurationProfileVersion(

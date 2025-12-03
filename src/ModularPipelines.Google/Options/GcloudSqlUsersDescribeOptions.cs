@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "users", "describe")]
+[CliCommand("sql", "users", "describe")]
 public record GcloudSqlUsersDescribeOptions(
-[property: PositionalArgument] string Username,
-[property: CommandSwitch("--instance")] string Instance
+[property: CliArgument] string Username,
+[property: CliOption("--instance")] string Instance
 ) : GcloudOptions
 {
-    [CommandSwitch("--host")]
+    [CliOption("--host")]
     public string? Host { get; set; }
 }

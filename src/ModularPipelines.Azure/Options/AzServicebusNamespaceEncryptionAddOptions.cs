@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicebus", "namespace", "encryption", "add")]
+[CliCommand("servicebus", "namespace", "encryption", "add")]
 public record AzServicebusNamespaceEncryptionAddOptions(
-[property: CommandSwitch("--encryption-config")] string EncryptionConfig,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--encryption-config")] string EncryptionConfig,
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--infra-encryption")]
+    [CliFlag("--infra-encryption")]
     public bool? InfraEncryption { get; set; }
 }

@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "streaming-endpoint", "create")]
+[CliCommand("ams", "streaming-endpoint", "create")]
 public record AzAmsStreamingEndpointCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--scale-units")] string ScaleUnits
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--scale-units")] string ScaleUnits
 ) : AzOptions
 {
-    [CommandSwitch("--auto-start")]
+    [CliOption("--auto-start")]
     public string? AutoStart { get; set; }
 
-    [CommandSwitch("--availability-set-name")]
+    [CliOption("--availability-set-name")]
     public string? AvailabilitySetName { get; set; }
 
-    [CommandSwitch("--cdn-profile")]
+    [CliOption("--cdn-profile")]
     public string? CdnProfile { get; set; }
 
-    [CommandSwitch("--cdn-provider")]
+    [CliOption("--cdn-provider")]
     public string? CdnProvider { get; set; }
 
-    [CommandSwitch("--client-access-policy")]
+    [CliOption("--client-access-policy")]
     public string? ClientAccessPolicy { get; set; }
 
-    [CommandSwitch("--cross-domain-policy")]
+    [CliOption("--cross-domain-policy")]
     public string? CrossDomainPolicy { get; set; }
 
-    [CommandSwitch("--custom-host-names")]
+    [CliOption("--custom-host-names")]
     public string? CustomHostNames { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--ips")]
+    [CliOption("--ips")]
     public string? Ips { get; set; }
 
-    [CommandSwitch("--max-cache-age")]
+    [CliOption("--max-cache-age")]
     public string? MaxCacheAge { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

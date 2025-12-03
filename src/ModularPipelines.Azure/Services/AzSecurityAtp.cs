@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security")]
+[CliCommand("security")]
 public class AzSecurityAtp
 {
     public AzSecurityAtp(

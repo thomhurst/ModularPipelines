@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quantum", "job", "submit")]
+[CliCommand("quantum", "job", "submit")]
 public record AzQuantumJobSubmitOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--target-id")] string TargetId,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--location")] string Location,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--target-id")] string TargetId,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--entry-point")]
+    [CliOption("--entry-point")]
     public string? EntryPoint { get; set; }
 
-    [CommandSwitch("--job-input-file")]
+    [CliOption("--job-input-file")]
     public string? JobInputFile { get; set; }
 
-    [CommandSwitch("--job-input-format")]
+    [CliOption("--job-input-format")]
     public string? JobInputFormat { get; set; }
 
-    [CommandSwitch("--job-name")]
+    [CliOption("--job-name")]
     public string? JobName { get; set; }
 
-    [CommandSwitch("--job-output-format")]
+    [CliOption("--job-output-format")]
     public string? JobOutputFormat { get; set; }
 
-    [CommandSwitch("--job-params")]
+    [CliOption("--job-params")]
     public string? JobParams { get; set; }
 
-    [BooleanCommandSwitch("--no-build")]
+    [CliFlag("--no-build")]
     public bool? NoBuild { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [CommandSwitch("--shots")]
+    [CliOption("--shots")]
     public string? Shots { get; set; }
 
-    [CommandSwitch("--storage")]
+    [CliOption("--storage")]
     public string? Storage { get; set; }
 
-    [CommandSwitch("--target-capability")]
+    [CliOption("--target-capability")]
     public string? TargetCapability { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? PROGRAMARGS { get; set; }
 }

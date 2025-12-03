@@ -5,33 +5,33 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "hub", "update")]
+[CliCommand("container", "hub", "update")]
 public record GcloudContainerHubUpdateOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [CommandSwitch("--binauthz-evaluation-mode")]
+    [CliOption("--binauthz-evaluation-mode")]
     public string? BinauthzEvaluationMode { get; set; }
 
-    [CommandSwitch("--binauthz-policy-bindings")]
+    [CliOption("--binauthz-policy-bindings")]
     public string[]? BinauthzPolicyBindings { get; set; }
 
-    [CommandSwitch("--security-posture")]
+    [CliOption("--security-posture")]
     public string? SecurityPosture { get; set; }
 
-    [CommandSwitch("--workload-vulnerability-scanning")]
+    [CliOption("--workload-vulnerability-scanning")]
     public string? WorkloadVulnerabilityScanning { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 }

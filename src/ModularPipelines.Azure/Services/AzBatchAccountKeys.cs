@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "account")]
+[CliCommand("batch", "account")]
 public class AzBatchAccountKeys
 {
     public AzBatchAccountKeys(

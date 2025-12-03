@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mobile-network", "sim")]
+[CliCommand("mobile-network", "sim")]
 public class AzMobileNetworkSimGroup
 {
     public AzMobileNetworkSimGroup(

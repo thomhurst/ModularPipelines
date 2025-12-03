@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "keys", "get-iam-policy")]
+[CliCommand("kms", "keys", "get-iam-policy")]
 public record GcloudKmsKeysGetIamPolicyOptions(
-[property: PositionalArgument] string Key,
-[property: PositionalArgument] string Keyring,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Key,
+[property: CliArgument] string Keyring,
+[property: CliArgument] string Location
 ) : GcloudOptions;

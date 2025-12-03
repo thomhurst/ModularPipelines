@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bot", "authsetting", "create")]
+[CliCommand("bot", "authsetting", "create")]
 public record AzBotAuthsettingCreateOptions(
-[property: CommandSwitch("--client-id")] string ClientId,
-[property: CommandSwitch("--client-secret")] string ClientSecret,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--provider-scope-string")] string ProviderScopeString,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service,
-[property: CommandSwitch("--setting-name")] string SettingName
+[property: CliOption("--client-id")] string ClientId,
+[property: CliOption("--client-secret")] string ClientSecret,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--provider-scope-string")] string ProviderScopeString,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service,
+[property: CliOption("--setting-name")] string SettingName
 ) : AzOptions
 {
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 }

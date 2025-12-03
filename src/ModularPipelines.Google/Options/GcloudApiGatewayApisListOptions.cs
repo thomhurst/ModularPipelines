@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("api-gateway", "apis", "list")]
+[CliCommand("api-gateway", "apis", "list")]
 public record GcloudApiGatewayApisListOptions : GcloudOptions;

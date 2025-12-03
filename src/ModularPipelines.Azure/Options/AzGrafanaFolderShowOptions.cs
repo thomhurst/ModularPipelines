@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "folder", "show")]
+[CliCommand("grafana", "folder", "show")]
 public record AzGrafanaFolderShowOptions(
-[property: CommandSwitch("--folder")] string Folder,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--folder")] string Folder,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--api-key")]
+    [CliOption("--api-key")]
     public string? ApiKey { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

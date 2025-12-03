@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hpc-cache", "blob-storage-target", "add")]
+[CliCommand("hpc-cache", "blob-storage-target", "add")]
 public record AzHpcCacheBlobStorageTargetAddOptions(
-[property: CommandSwitch("--cache-name")] string CacheName,
-[property: CommandSwitch("--container-name")] string ContainerName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-account")] int StorageAccount,
-[property: CommandSwitch("--virtual-namespace-path")] string VirtualNamespacePath
+[property: CliOption("--cache-name")] string CacheName,
+[property: CliOption("--container-name")] string ContainerName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--storage-account")] int StorageAccount,
+[property: CliOption("--virtual-namespace-path")] string VirtualNamespacePath
 ) : AzOptions;

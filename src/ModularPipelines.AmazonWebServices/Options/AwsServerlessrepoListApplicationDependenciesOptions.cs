@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("serverlessrepo", "list-application-dependencies")]
+[CliCommand("serverlessrepo", "list-application-dependencies")]
 public record AwsServerlessrepoListApplicationDependenciesOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId
+[property: CliOption("--application-id")] string ApplicationId
 ) : AwsOptions
 {
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--semantic-version")]
+    [CliOption("--semantic-version")]
     public string? SemanticVersion { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

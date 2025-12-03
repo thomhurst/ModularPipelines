@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scc", "muteconfigs", "list")]
+[CliCommand("scc", "muteconfigs", "list")]
 public record GcloudSccMuteconfigsListOptions : GcloudOptions
 {
     public GcloudSccMuteconfigsListOptions(
@@ -18,9 +18,9 @@ public record GcloudSccMuteconfigsListOptions : GcloudOptions
         Project = project;
     }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 }

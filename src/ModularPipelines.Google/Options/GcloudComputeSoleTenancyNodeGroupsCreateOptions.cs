@@ -4,46 +4,46 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "sole-tenancy", "node-groups", "create")]
+[CliCommand("compute", "sole-tenancy", "node-groups", "create")]
 public record GcloudComputeSoleTenancyNodeGroupsCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--node-template")] string NodeTemplate,
-[property: CommandSwitch("--target-size")] string TargetSize
+[property: CliArgument] string Name,
+[property: CliOption("--node-template")] string NodeTemplate,
+[property: CliOption("--target-size")] string TargetSize
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--maintenance-policy")]
+    [CliOption("--maintenance-policy")]
     public string? MaintenancePolicy { get; set; }
 
-    [CommandSwitch("--maintenance-window-start-time")]
+    [CliOption("--maintenance-window-start-time")]
     public string? MaintenanceWindowStartTime { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--autoscaler-mode")]
+    [CliOption("--autoscaler-mode")]
     public string? AutoscalerMode { get; set; }
 
-    [BooleanCommandSwitch("off")]
+    [CliFlag("off")]
     public bool? Off { get; set; }
 
-    [BooleanCommandSwitch("on")]
+    [CliFlag("on")]
     public bool? On { get; set; }
 
-    [BooleanCommandSwitch("only-scale-out")]
+    [CliFlag("only-scale-out")]
     public bool? OnlyScaleOut { get; set; }
 
-    [CommandSwitch("--max-nodes")]
+    [CliOption("--max-nodes")]
     public string? MaxNodes { get; set; }
 
-    [CommandSwitch("--min-nodes")]
+    [CliOption("--min-nodes")]
     public string? MinNodes { get; set; }
 
-    [CommandSwitch("--share-setting")]
+    [CliOption("--share-setting")]
     public string? ShareSetting { get; set; }
 
-    [CommandSwitch("--share-with")]
+    [CliOption("--share-with")]
     public string[]? ShareWith { get; set; }
 }

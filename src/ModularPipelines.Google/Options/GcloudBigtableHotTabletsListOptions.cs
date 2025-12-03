@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bigtable", "hot-tablets", "list")]
+[CliCommand("bigtable", "hot-tablets", "list")]
 public record GcloudBigtableHotTabletsListOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Instance
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Instance
 ) : GcloudOptions
 {
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public string? EndTime { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public string? StartTime { get; set; }
 }

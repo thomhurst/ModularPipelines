@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter", "dev", "schedule", "show")]
+[CliCommand("devcenter", "dev", "schedule", "show")]
 public record AzDevcenterDevScheduleShowOptions(
-[property: CommandSwitch("--pool")] string Pool,
-[property: CommandSwitch("--project")] string Project
+[property: CliOption("--pool")] string Pool,
+[property: CliOption("--project")] string Project
 ) : AzOptions
 {
-    [CommandSwitch("--dev-center")]
+    [CliOption("--dev-center")]
     public string? DevCenter { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 }

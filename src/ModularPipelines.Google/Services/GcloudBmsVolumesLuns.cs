@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bms", "volumes")]
+[CliCommand("bms", "volumes")]
 public class GcloudBmsVolumesLuns
 {
     public GcloudBmsVolumesLuns(

@@ -3,28 +3,28 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("init")]
+[CliCommand("init")]
 [ExcludeFromCodeCoverage]
 public record GitInitOptions : GitOptions
 {
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--bare")]
+    [CliFlag("--bare")]
     public virtual bool? Bare { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--object-format")]
+    [CliOption("--object-format", Format = OptionFormat.EqualsSeparated)]
     public string? ObjectFormat { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template")]
+    [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
     public string? Template { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--separate-git-dir")]
+    [CliOption("--separate-git-dir", Format = OptionFormat.EqualsSeparated)]
     public string? SeparateGitDir { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--initial-branch")]
+    [CliOption("--initial-branch", Format = OptionFormat.EqualsSeparated)]
     public string? InitialBranch { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--shared")]
+    [CliOption("--shared", Format = OptionFormat.EqualsSeparated)]
     public string? Shared { get; set; }
 }

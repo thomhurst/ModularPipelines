@@ -4,57 +4,57 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "attached", "clusters", "update")]
+[CliCommand("container", "attached", "clusters", "update")]
 public record GcloudContainerAttachedClustersUpdateOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--annotations")]
+    [CliOption("--annotations")]
     public string[]? Annotations { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--binauthz-evaluation-mode")]
+    [CliOption("--binauthz-evaluation-mode")]
     public string? BinauthzEvaluationMode { get; set; }
 
-    [BooleanCommandSwitch("--clear-description")]
+    [CliFlag("--clear-description")]
     public bool? ClearDescription { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--logging")]
+    [CliOption("--logging")]
     public string[]? Logging { get; set; }
 
-    [CommandSwitch("--platform-version")]
+    [CliOption("--platform-version")]
     public string? PlatformVersion { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--admin-groups")]
+    [CliOption("--admin-groups")]
     public string[]? AdminGroups { get; set; }
 
-    [BooleanCommandSwitch("--clear-admin-groups")]
+    [CliFlag("--clear-admin-groups")]
     public bool? ClearAdminGroups { get; set; }
 
-    [CommandSwitch("--admin-users")]
+    [CliOption("--admin-users")]
     public string[]? AdminUsers { get; set; }
 
-    [BooleanCommandSwitch("--clear-admin-users")]
+    [CliFlag("--clear-admin-users")]
     public bool? ClearAdminUsers { get; set; }
 
-    [BooleanCommandSwitch("--disable-managed-prometheus")]
+    [CliFlag("--disable-managed-prometheus")]
     public bool? DisableManagedPrometheus { get; set; }
 
-    [BooleanCommandSwitch("--enable-managed-prometheus")]
+    [CliFlag("--enable-managed-prometheus")]
     public bool? EnableManagedPrometheus { get; set; }
 
-    [CommandSwitch("--proxy-secret-name")]
+    [CliOption("--proxy-secret-name")]
     public string? ProxySecretName { get; set; }
 
-    [CommandSwitch("--proxy-secret-namespace")]
+    [CliOption("--proxy-secret-namespace")]
     public string? ProxySecretNamespace { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "account")]
+[CliCommand("storage", "account")]
 public class AzStorageAccountCreate
 {
     public AzStorageAccountCreate(

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53domains", "check-domain-transferability")]
+[CliCommand("route53domains", "check-domain-transferability")]
 public record AwsRoute53domainsCheckDomainTransferabilityOptions(
-[property: CommandSwitch("--domain-name")] string DomainName
+[property: CliOption("--domain-name")] string DomainName
 ) : AwsOptions
 {
-    [CommandSwitch("--auth-code")]
+    [CliOption("--auth-code")]
     public string? AuthCode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

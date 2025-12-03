@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "blob", "set-tier")]
+[CliCommand("storage", "blob", "set-tier")]
 public class AzStorageBlobSetTierStorageBlobPreview
 {
     public AzStorageBlobSetTierStorageBlobPreview(

@@ -5,42 +5,42 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workbench", "instances", "update")]
+[CliCommand("workbench", "instances", "update")]
 public record GcloudWorkbenchInstancesUpdateOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Instance,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--machine-type")]
+    [CliOption("--machine-type")]
     public string? MachineType { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public IEnumerable<KeyValue>? Metadata { get; set; }
 
-    [CommandSwitch("--accelerator-core-count")]
+    [CliOption("--accelerator-core-count")]
     public string? AcceleratorCoreCount { get; set; }
 
-    [CommandSwitch("--accelerator-type")]
+    [CliOption("--accelerator-type")]
     public string? AcceleratorType { get; set; }
 
-    [CommandSwitch("--custom-gpu-driver-path")]
+    [CliOption("--custom-gpu-driver-path")]
     public string? CustomGpuDriverPath { get; set; }
 
-    [CommandSwitch("--install-gpu-driver")]
+    [CliOption("--install-gpu-driver")]
     public string? InstallGpuDriver { get; set; }
 
-    [CommandSwitch("--shielded-integrity-monitoring")]
+    [CliOption("--shielded-integrity-monitoring")]
     public string? ShieldedIntegrityMonitoring { get; set; }
 
-    [CommandSwitch("--shielded-secure-boot")]
+    [CliOption("--shielded-secure-boot")]
     public string? ShieldedSecureBoot { get; set; }
 
-    [CommandSwitch("--shielded-vtpm")]
+    [CliOption("--shielded-vtpm")]
     public string? ShieldedVtpm { get; set; }
 }

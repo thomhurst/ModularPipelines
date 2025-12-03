@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "log-analytics", "query")]
+[CliCommand("monitor", "log-analytics", "query")]
 public record AzMonitorLogAnalyticsQueryOptions(
-[property: CommandSwitch("--analytics-query")] string AnalyticsQuery,
-[property: CommandSwitch("--workspace")] string Workspace
+[property: CliOption("--analytics-query")] string AnalyticsQuery,
+[property: CliOption("--workspace")] string Workspace
 ) : AzOptions
 {
-    [CommandSwitch("--timespan")]
+    [CliOption("--timespan")]
     public string? Timespan { get; set; }
 
-    [CommandSwitch("--workspaces")]
+    [CliOption("--workspaces")]
     public string? Workspaces { get; set; }
 }

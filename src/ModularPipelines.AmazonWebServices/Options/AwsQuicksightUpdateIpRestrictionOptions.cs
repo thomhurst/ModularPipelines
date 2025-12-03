@@ -5,14 +5,14 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "update-ip-restriction")]
+[CliCommand("quicksight", "update-ip-restriction")]
 public record AwsQuicksightUpdateIpRestrictionOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId
+[property: CliOption("--aws-account-id")] string AwsAccountId
 ) : AwsOptions
 {
-    [CommandSwitch("--ip-restriction-rule-map")]
+    [CliOption("--ip-restriction-rule-map")]
     public IEnumerable<KeyValue>? IpRestrictionRuleMap { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

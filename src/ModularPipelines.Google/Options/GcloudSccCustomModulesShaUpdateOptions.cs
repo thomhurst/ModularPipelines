@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scc", "custom-modules", "sha", "update")]
+[CliCommand("scc", "custom-modules", "sha", "update")]
 public record GcloudSccCustomModulesShaUpdateOptions(
-[property: PositionalArgument] string CustomModule
+[property: CliArgument] string CustomModule
 ) : GcloudOptions
 {
-    [CommandSwitch("--custom-config-from-file")]
+    [CliOption("--custom-config-from-file")]
     public string? CustomConfigFromFile { get; set; }
 
-    [CommandSwitch("--enablement-state")]
+    [CliOption("--enablement-state")]
     public string? EnablementState { get; set; }
 
-    [CommandSwitch("--update-mask")]
+    [CliOption("--update-mask")]
     public string? UpdateMask { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string? Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public new string? Project { get; set; }
 }

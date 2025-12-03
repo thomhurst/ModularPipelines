@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "ingress", "cors", "update")]
+[CliCommand("containerapp", "ingress", "cors", "update")]
 public record AzContainerappIngressCorsUpdateOptions : AzOptions
 {
-    [BooleanCommandSwitch("--allow-credentials")]
+    [CliFlag("--allow-credentials")]
     public bool? AllowCredentials { get; set; }
 
-    [BooleanCommandSwitch("--allowed-headers")]
+    [CliFlag("--allowed-headers")]
     public bool? AllowedHeaders { get; set; }
 
-    [BooleanCommandSwitch("--allowed-methods")]
+    [CliFlag("--allowed-methods")]
     public bool? AllowedMethods { get; set; }
 
-    [BooleanCommandSwitch("--allowed-origins")]
+    [CliFlag("--allowed-origins")]
     public bool? AllowedOrigins { get; set; }
 
-    [CommandSwitch("--expose-headers")]
+    [CliOption("--expose-headers")]
     public string? ExposeHeaders { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--max-age")]
+    [CliOption("--max-age")]
     public string? MaxAge { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

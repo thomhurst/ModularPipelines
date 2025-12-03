@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "configuration", "create")]
+[CliCommand("iot", "hub", "configuration", "create")]
 public record AzIotHubConfigurationCreateOptions(
-[property: CommandSwitch("--config-id")] string ConfigId,
-[property: CommandSwitch("--content")] string Content
+[property: CliOption("--config-id")] string ConfigId,
+[property: CliOption("--content")] string Content
 ) : AzOptions
 {
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--cl")]
+    [CliOption("--cl")]
     public string? Cl { get; set; }
 
-    [CommandSwitch("--cmq")]
+    [CliOption("--cmq")]
     public string? Cmq { get; set; }
 
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--lab")]
+    [CliOption("--lab")]
     public string? Lab { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--metrics")]
+    [CliOption("--metrics")]
     public string? Metrics { get; set; }
 
-    [CommandSwitch("--pri")]
+    [CliOption("--pri")]
     public string? Pri { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--target-condition")]
+    [CliOption("--target-condition")]
     public string? TargetCondition { get; set; }
 }

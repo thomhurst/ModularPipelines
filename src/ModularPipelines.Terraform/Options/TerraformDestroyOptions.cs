@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("destroy")]
+[CliCommand("destroy")]
 [ExcludeFromCodeCoverage]
 public record TerraformDestroyOptions : TerraformOptions
 {
-    [BooleanCommandSwitch("-destroy")]
+    [CliFlag("-destroy")]
     public virtual bool? Destroy { get; set; }
 }

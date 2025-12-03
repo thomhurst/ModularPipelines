@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "alb", "association", "show")]
+[CliCommand("network", "alb", "association", "show")]
 public record AzNetworkAlbAssociationShowOptions : AzOptions
 {
-    [CommandSwitch("--alb-name")]
+    [CliOption("--alb-name")]
     public string? AlbName { get; set; }
 
-    [CommandSwitch("--association-name")]
+    [CliOption("--association-name")]
     public string? AssociationName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

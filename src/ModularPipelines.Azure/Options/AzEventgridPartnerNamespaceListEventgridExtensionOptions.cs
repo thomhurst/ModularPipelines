@@ -7,9 +7,9 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("eventgrid", "partner", "namespace", "list", "(eventgrid", "extension)")]
 public record AzEventgridPartnerNamespaceListEventgridExtensionOptions : AzOptions
 {
-    [CommandSwitch("--odata-query")]
+    [CliOption("--odata-query")]
     public string? OdataQuery { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

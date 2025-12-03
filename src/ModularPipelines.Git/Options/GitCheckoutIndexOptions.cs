@@ -3,37 +3,37 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("checkout-index")]
+[CliCommand("checkout-index")]
 [ExcludeFromCodeCoverage]
 public record GitCheckoutIndexOptions : GitOptions
 {
-    [BooleanCommandSwitch("--index")]
+    [CliFlag("--index")]
     public virtual bool? Index { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--no-create")]
+    [CliFlag("--no-create")]
     public virtual bool? NoCreate { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--prefix")]
+    [CliOption("--prefix", Format = OptionFormat.EqualsSeparated)]
     public string? Prefix { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--stage")]
+    [CliOption("--stage", Format = OptionFormat.EqualsSeparated)]
     public string? Stage { get; set; }
 
-    [BooleanCommandSwitch("--temp")]
+    [CliFlag("--temp")]
     public virtual bool? Temp { get; set; }
 
-    [BooleanCommandSwitch("--ignore-skip-worktree-bits")]
+    [CliFlag("--ignore-skip-worktree-bits")]
     public virtual bool? IgnoreSkipWorktreeBits { get; set; }
 
-    [BooleanCommandSwitch("--stdin")]
+    [CliFlag("--stdin")]
     public virtual bool? Stdin { get; set; }
 }

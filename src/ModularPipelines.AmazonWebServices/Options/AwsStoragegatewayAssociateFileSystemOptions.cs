@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagegateway", "associate-file-system")]
+[CliCommand("storagegateway", "associate-file-system")]
 public record AwsStoragegatewayAssociateFileSystemOptions(
-[property: CommandSwitch("--user-name")] string UserName,
-[property: CommandSwitch("--password")] string Password,
-[property: CommandSwitch("--client-token")] string ClientToken,
-[property: CommandSwitch("--gateway-arn")] string GatewayArn,
-[property: CommandSwitch("--location-arn")] string LocationArn
+[property: CliOption("--user-name")] string UserName,
+[property: CliOption("--password")] string Password,
+[property: CliOption("--client-token")] string ClientToken,
+[property: CliOption("--gateway-arn")] string GatewayArn,
+[property: CliOption("--location-arn")] string LocationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--audit-destination-arn")]
+    [CliOption("--audit-destination-arn")]
     public string? AuditDestinationArn { get; set; }
 
-    [CommandSwitch("--cache-attributes")]
+    [CliOption("--cache-attributes")]
     public string? CacheAttributes { get; set; }
 
-    [CommandSwitch("--endpoint-network-configuration")]
+    [CliOption("--endpoint-network-configuration")]
     public string? EndpointNetworkConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

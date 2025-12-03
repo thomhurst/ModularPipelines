@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "users", "delete")]
+[CliCommand("sql", "users", "delete")]
 public record GcloudSqlUsersDeleteOptions(
-[property: PositionalArgument] string Username,
-[property: CommandSwitch("--instance")] string Instance
+[property: CliArgument] string Username,
+[property: CliOption("--instance")] string Instance
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--host")]
+    [CliOption("--host")]
     public string? Host { get; set; }
 }

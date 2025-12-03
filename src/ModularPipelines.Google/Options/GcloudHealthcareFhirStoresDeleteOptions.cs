@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "fhir-stores", "delete")]
+[CliCommand("healthcare", "fhir-stores", "delete")]
 public record GcloudHealthcareFhirStoresDeleteOptions(
-[property: PositionalArgument] string FhirStore,
-[property: PositionalArgument] string Dataset,
-[property: PositionalArgument] string Location
+[property: CliArgument] string FhirStore,
+[property: CliArgument] string Dataset,
+[property: CliArgument] string Location
 ) : GcloudOptions;

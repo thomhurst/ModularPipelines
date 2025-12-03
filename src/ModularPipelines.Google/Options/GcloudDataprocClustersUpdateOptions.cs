@@ -5,54 +5,54 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "clusters", "update")]
+[CliCommand("dataproc", "clusters", "update")]
 public record GcloudDataprocClustersUpdateOptions(
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--graceful-decommission-timeout")]
+    [CliOption("--graceful-decommission-timeout")]
     public string? GracefulDecommissionTimeout { get; set; }
 
-    [CommandSwitch("--min-secondary-worker-fraction")]
+    [CliOption("--min-secondary-worker-fraction")]
     public string? MinSecondaryWorkerFraction { get; set; }
 
-    [CommandSwitch("--num-secondary-workers")]
+    [CliOption("--num-secondary-workers")]
     public string? NumSecondaryWorkers { get; set; }
 
-    [CommandSwitch("--num-workers")]
+    [CliOption("--num-workers")]
     public string? NumWorkers { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [CommandSwitch("--autoscaling-policy")]
+    [CliOption("--autoscaling-policy")]
     public string? AutoscalingPolicy { get; set; }
 
-    [BooleanCommandSwitch("--disable-autoscaling")]
+    [CliFlag("--disable-autoscaling")]
     public bool? DisableAutoscaling { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 
-    [CommandSwitch("--expiration-time")]
+    [CliOption("--expiration-time")]
     public string? ExpirationTime { get; set; }
 
-    [CommandSwitch("--max-age")]
+    [CliOption("--max-age")]
     public string? MaxAge { get; set; }
 
-    [BooleanCommandSwitch("--no-max-age")]
+    [CliFlag("--no-max-age")]
     public bool? NoMaxAge { get; set; }
 
-    [CommandSwitch("--max-idle")]
+    [CliOption("--max-idle")]
     public string? MaxIdle { get; set; }
 
-    [BooleanCommandSwitch("--no-max-idle")]
+    [CliFlag("--no-max-idle")]
     public bool? NoMaxIdle { get; set; }
 }

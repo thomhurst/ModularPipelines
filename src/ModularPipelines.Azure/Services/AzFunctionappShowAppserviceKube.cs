@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "show")]
+[CliCommand("functionapp", "show")]
 public class AzFunctionappShowAppserviceKube
 {
     public AzFunctionappShowAppserviceKube(

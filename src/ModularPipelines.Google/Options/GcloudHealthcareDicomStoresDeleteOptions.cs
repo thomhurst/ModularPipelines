@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "dicom-stores", "delete")]
+[CliCommand("healthcare", "dicom-stores", "delete")]
 public record GcloudHealthcareDicomStoresDeleteOptions(
-[property: PositionalArgument] string DicomStore,
-[property: PositionalArgument] string Dataset,
-[property: PositionalArgument] string Location
+[property: CliArgument] string DicomStore,
+[property: CliArgument] string Dataset,
+[property: CliArgument] string Location
 ) : GcloudOptions;

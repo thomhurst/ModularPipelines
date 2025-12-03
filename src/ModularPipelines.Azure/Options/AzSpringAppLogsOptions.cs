@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "app", "logs")]
+[CliCommand("spring", "app", "logs")]
 public record AzSpringAppLogsOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--deployment")]
+    [CliOption("--deployment")]
     public string? Deployment { get; set; }
 
-    [BooleanCommandSwitch("--follow")]
+    [CliFlag("--follow")]
     public bool? Follow { get; set; }
 
-    [CommandSwitch("--format-json")]
+    [CliOption("--format-json")]
     public string? FormatJson { get; set; }
 
-    [CommandSwitch("--instance")]
+    [CliOption("--instance")]
     public string? Instance { get; set; }
 
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public string? Limit { get; set; }
 
-    [CommandSwitch("--lines")]
+    [CliOption("--lines")]
     public string? Lines { get; set; }
 
-    [CommandSwitch("--since")]
+    [CliOption("--since")]
     public string? Since { get; set; }
 }

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("load", "test", "download-files")]
+[CliCommand("load", "test", "download-files")]
 public record AzLoadTestDownloadFilesOptions(
-[property: CommandSwitch("--load-test-resource")] string LoadTestResource,
-[property: CommandSwitch("--path")] string Path,
-[property: CommandSwitch("--test-id")] string TestId
+[property: CliOption("--load-test-resource")] string LoadTestResource,
+[property: CliOption("--path")] string Path,
+[property: CliOption("--test-id")] string TestId
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

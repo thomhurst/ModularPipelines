@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fluid-relay", "server", "list-key")]
+[CliCommand("fluid-relay", "server", "list-key")]
 public record AzFluidRelayServerListKeyOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--server-name")] string ServerName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--server-name")] string ServerName
 ) : AzOptions;

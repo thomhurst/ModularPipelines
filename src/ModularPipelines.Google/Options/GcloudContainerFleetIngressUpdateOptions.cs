@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "ingress", "update")]
+[CliCommand("container", "fleet", "ingress", "update")]
 public record GcloudContainerFleetIngressUpdateOptions : GcloudOptions
 {
-    [CommandSwitch("--config-membership")]
+    [CliOption("--config-membership")]
     public string? ConfigMembership { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

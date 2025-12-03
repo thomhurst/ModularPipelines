@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "pipeline", "list")]
+[CliCommand("synapse", "pipeline", "list")]
 public record AzSynapsePipelineListOptions(
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions;

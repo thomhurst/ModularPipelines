@@ -7,18 +7,18 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("eventgrid", "domain", "topic", "show", "(eventgrid", "extension)")]
 public record AzEventgridDomainTopicShowEventgridExtensionOptions : AzOptions
 {
-    [CommandSwitch("--domain-name")]
+    [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

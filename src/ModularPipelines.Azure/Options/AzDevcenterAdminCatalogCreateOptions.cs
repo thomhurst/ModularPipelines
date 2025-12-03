@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter", "admin", "catalog", "create")]
+[CliCommand("devcenter", "admin", "catalog", "create")]
 public record AzDevcenterAdminCatalogCreateOptions(
-[property: CommandSwitch("--catalog-name")] string CatalogName,
-[property: CommandSwitch("--dev-center")] string DevCenter,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--catalog-name")] string CatalogName,
+[property: CliOption("--dev-center")] string DevCenter,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--ado-git")]
+    [CliOption("--ado-git")]
     public string? AdoGit { get; set; }
 
-    [CommandSwitch("--git-hub")]
+    [CliOption("--git-hub")]
     public string? GitHub { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--sync-type")]
+    [CliOption("--sync-type")]
     public string? SyncType { get; set; }
 }

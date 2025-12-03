@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mysql", "flexible-server", "backup", "create")]
+[CliCommand("mysql", "flexible-server", "backup", "create")]
 public record AzMysqlFlexibleServerBackupCreateOptions(
-[property: CommandSwitch("--backup-name")] string BackupName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--backup-name")] string BackupName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

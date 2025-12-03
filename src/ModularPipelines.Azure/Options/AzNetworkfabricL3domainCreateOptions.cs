@@ -4,34 +4,34 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkfabric", "l3domain", "create")]
+[CliCommand("networkfabric", "l3domain", "create")]
 public record AzNetworkfabricL3domainCreateOptions(
-[property: CommandSwitch("--nf-id")] string NfId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-name")] string ResourceName
+[property: CliOption("--nf-id")] string NfId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--resource-name")] string ResourceName
 ) : AzOptions
 {
-    [CommandSwitch("--aggregate-route-configuration")]
+    [CliOption("--aggregate-route-configuration")]
     public string? AggregateRouteConfiguration { get; set; }
 
-    [CommandSwitch("--annotation")]
+    [CliOption("--annotation")]
     public string? Annotation { get; set; }
 
-    [CommandSwitch("--connected-subnet-route-policy")]
+    [CliOption("--connected-subnet-route-policy")]
     public string? ConnectedSubnetRoutePolicy { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--redistribute-connected-subnets")]
+    [CliFlag("--redistribute-connected-subnets")]
     public bool? RedistributeConnectedSubnets { get; set; }
 
-    [BooleanCommandSwitch("--redistribute-static-routes")]
+    [CliFlag("--redistribute-static-routes")]
     public bool? RedistributeStaticRoutes { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

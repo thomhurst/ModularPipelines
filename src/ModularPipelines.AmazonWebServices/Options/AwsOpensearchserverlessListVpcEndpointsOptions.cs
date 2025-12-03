@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opensearchserverless", "list-vpc-endpoints")]
+[CliCommand("opensearchserverless", "list-vpc-endpoints")]
 public record AwsOpensearchserverlessListVpcEndpointsOptions : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--vpc-endpoint-filters")]
+    [CliOption("--vpc-endpoint-filters")]
     public string? VpcEndpointFilters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

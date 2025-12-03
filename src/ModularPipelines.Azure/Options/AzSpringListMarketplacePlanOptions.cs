@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "list-marketplace-plan")]
+[CliCommand("spring", "list-marketplace-plan")]
 public record AzSpringListMarketplacePlanOptions : AzOptions;

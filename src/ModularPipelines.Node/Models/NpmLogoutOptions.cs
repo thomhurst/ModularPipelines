@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logout")]
+[CliCommand("logout")]
 public record NpmLogoutOptions : NpmOptions
 {
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public virtual string? Scope { get; set; }
 }

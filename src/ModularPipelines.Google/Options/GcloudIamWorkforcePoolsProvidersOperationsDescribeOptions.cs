@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workforce-pools", "providers", "operations", "describe")]
+[CliCommand("iam", "workforce-pools", "providers", "operations", "describe")]
 public record GcloudIamWorkforcePoolsProvidersOperationsDescribeOptions(
-[property: PositionalArgument] string Operation,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Provider,
-[property: PositionalArgument] string WorkforcePool
+[property: CliArgument] string Operation,
+[property: CliArgument] string Location,
+[property: CliArgument] string Provider,
+[property: CliArgument] string WorkforcePool
 ) : GcloudOptions;

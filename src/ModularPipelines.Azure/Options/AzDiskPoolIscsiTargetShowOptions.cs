@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("disk-pool", "iscsi-target", "show")]
+[CliCommand("disk-pool", "iscsi-target", "show")]
 public record AzDiskPoolIscsiTargetShowOptions : AzOptions
 {
-    [CommandSwitch("--disk-pool-name")]
+    [CliOption("--disk-pool-name")]
     public string? DiskPoolName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--iscsi-target-name")]
+    [CliOption("--iscsi-target-name")]
     public string? IscsiTargetName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

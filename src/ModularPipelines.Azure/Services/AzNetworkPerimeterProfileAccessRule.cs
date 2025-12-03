@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "perimeter", "profile")]
+[CliCommand("network", "perimeter", "profile")]
 public class AzNetworkPerimeterProfileAccessRule
 {
     public AzNetworkPerimeterProfileAccessRule(

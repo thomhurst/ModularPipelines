@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datadog", "tag-rule", "create")]
+[CliCommand("datadog", "tag-rule", "create")]
 public record AzDatadogTagRuleCreateOptions(
-[property: CommandSwitch("--monitor-name")] string MonitorName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--rule-set-name")] string RuleSetName
+[property: CliOption("--monitor-name")] string MonitorName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--rule-set-name")] string RuleSetName
 ) : AzOptions
 {
-    [CommandSwitch("--filtering-tags")]
+    [CliOption("--filtering-tags")]
     public string? FilteringTags { get; set; }
 
-    [CommandSwitch("--log-rules-filtering-tags")]
+    [CliOption("--log-rules-filtering-tags")]
     public string? LogRulesFilteringTags { get; set; }
 
-    [BooleanCommandSwitch("--send-aad-logs")]
+    [CliFlag("--send-aad-logs")]
     public bool? SendAadLogs { get; set; }
 
-    [BooleanCommandSwitch("--send-resource-logs")]
+    [CliFlag("--send-resource-logs")]
     public bool? SendResourceLogs { get; set; }
 
-    [BooleanCommandSwitch("--send-subscription-logs")]
+    [CliFlag("--send-subscription-logs")]
     public bool? SendSubscriptionLogs { get; set; }
 }

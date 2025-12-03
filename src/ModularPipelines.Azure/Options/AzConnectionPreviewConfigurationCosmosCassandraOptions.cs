@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connection", "preview-configuration", "cosmos-cassandra")]
+[CliCommand("connection", "preview-configuration", "cosmos-cassandra")]
 public record AzConnectionPreviewConfigurationCosmosCassandraOptions : AzOptions
 {
-    [CommandSwitch("--client-type")]
+    [CliOption("--client-type")]
     public string? ClientType { get; set; }
 
-    [CommandSwitch("--secret")]
+    [CliOption("--secret")]
     public string? Secret { get; set; }
 
-    [CommandSwitch("--service-principal")]
+    [CliOption("--service-principal")]
     public string? ServicePrincipal { get; set; }
 
-    [CommandSwitch("--user-account")]
+    [CliOption("--user-account")]
     public int? UserAccount { get; set; }
 }

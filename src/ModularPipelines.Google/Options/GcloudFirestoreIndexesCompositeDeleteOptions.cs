@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firestore", "indexes", "composite", "delete")]
+[CliCommand("firestore", "indexes", "composite", "delete")]
 public record GcloudFirestoreIndexesCompositeDeleteOptions(
-[property: PositionalArgument] string Index,
-[property: PositionalArgument] string Database
+[property: CliArgument] string Index,
+[property: CliArgument] string Database
 ) : GcloudOptions;

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "computetarget", "attach", "remote")]
+[CliCommand("ml", "computetarget", "attach", "remote")]
 public record AzMlComputetargetAttachRemoteOptions(
-[property: CommandSwitch("--address")] string Address,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--ssh-port")] string SshPort,
-[property: CommandSwitch("--username")] string Username
+[property: CliOption("--address")] string Address,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--ssh-port")] string SshPort,
+[property: CliOption("--username")] string Username
 ) : AzOptions
 {
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--private-key-file")]
+    [CliOption("--private-key-file")]
     public string? PrivateKeyFile { get; set; }
 
-    [CommandSwitch("--private-key-passphrase")]
+    [CliOption("--private-key-passphrase")]
     public string? PrivateKeyPassphrase { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

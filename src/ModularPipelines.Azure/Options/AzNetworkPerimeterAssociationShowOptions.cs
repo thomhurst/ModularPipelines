@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "perimeter", "association", "show")]
+[CliCommand("network", "perimeter", "association", "show")]
 public record AzNetworkPerimeterAssociationShowOptions : AzOptions
 {
-    [CommandSwitch("--association-name")]
+    [CliOption("--association-name")]
     public string? AssociationName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--perimeter-name")]
+    [CliOption("--perimeter-name")]
     public string? PerimeterName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

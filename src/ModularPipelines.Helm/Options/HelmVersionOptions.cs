@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("version")]
+[CliCommand("version")]
 [ExcludeFromCodeCoverage]
 public record HelmVersionOptions : HelmOptions
 {
-    [BooleanCommandSwitch("--short")]
+    [CliFlag("--short")]
     public virtual bool? Short { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CliOption("--template")]
     public string? Template { get; set; }
 }

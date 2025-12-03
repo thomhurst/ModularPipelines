@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastic-san", "create")]
+[CliCommand("elastic-san", "create")]
 public record AzElasticSanCreateOptions(
-[property: CommandSwitch("--base-size-tib")] string BaseSizeTib,
-[property: CommandSwitch("--elastic-san-name")] string ElasticSanName,
-[property: CommandSwitch("--extended-capacity-size-tib")] string ExtendedCapacitySizeTib,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku")] string Sku
+[property: CliOption("--base-size-tib")] string BaseSizeTib,
+[property: CliOption("--elastic-san-name")] string ElasticSanName,
+[property: CliOption("--extended-capacity-size-tib")] string ExtendedCapacitySizeTib,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sku")] string Sku
 ) : AzOptions
 {
-    [CommandSwitch("--availability-zones")]
+    [CliOption("--availability-zones")]
     public string? AvailabilityZones { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

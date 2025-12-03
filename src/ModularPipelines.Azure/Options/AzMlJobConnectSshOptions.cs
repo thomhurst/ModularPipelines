@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "job", "connect-ssh")]
+[CliCommand("ml", "job", "connect-ssh")]
 public record AzMlJobConnectSshOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--node-index")]
+    [CliOption("--node-index")]
     public string? NodeIndex { get; set; }
 
-    [CommandSwitch("--private-key-file-path")]
+    [CliOption("--private-key-file-path")]
     public string? PrivateKeyFilePath { get; set; }
 }

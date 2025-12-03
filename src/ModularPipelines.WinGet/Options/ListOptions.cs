@@ -4,56 +4,56 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.WinGet.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("list")]
+[CliCommand("list")]
 public record ListOptions(
-    [property: CommandSwitch("--query")] string Query
+    [property: CliOption("--query")] string Query
 ) : WingetOptions
 {
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public virtual string? Id { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public virtual string? Name { get; set; }
 
-    [CommandSwitch("--moniker")]
+    [CliOption("--moniker")]
     public virtual string? Moniker { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public virtual string? Source { get; set; }
 
-    [BooleanCommandSwitch("--tag")]
+    [CliFlag("--tag")]
     public virtual bool? Tag { get; set; }
 
-    [BooleanCommandSwitch("--command")]
+    [CliFlag("--command")]
     public virtual bool? Command { get; set; }
 
-    [BooleanCommandSwitch("--count")]
+    [CliFlag("--count")]
     public virtual bool? Count { get; set; }
 
-    [BooleanCommandSwitch("--exact")]
+    [CliFlag("--exact")]
     public virtual bool? Exact { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public virtual string? Scope { get; set; }
 
-    [CommandSwitch("--header")]
+    [CliOption("--header")]
     public virtual string? Header { get; set; }
 
-    [CommandSwitch("--accept-source-agreements")]
+    [CliOption("--accept-source-agreements")]
     public virtual string? AcceptSourceAgreements { get; set; }
 
-    [BooleanCommandSwitch("--upgrade-available")]
+    [CliFlag("--upgrade-available")]
     public virtual bool? UpgradeAvailable { get; set; }
 
-    [BooleanCommandSwitch("--wait")]
+    [CliFlag("--wait")]
     public virtual bool? Wait { get; set; }
 
-    [BooleanCommandSwitch("--open-logs")]
+    [CliFlag("--open-logs")]
     public virtual bool? OpenLogs { get; set; }
 
-    [BooleanCommandSwitch("--verbose-logs")]
+    [CliFlag("--verbose-logs")]
     public virtual bool? VerboseLogs { get; set; }
 
-    [BooleanCommandSwitch("--disable-interactivity")]
+    [CliFlag("--disable-interactivity")]
     public virtual bool? DisableInteractivity { get; set; }
 }

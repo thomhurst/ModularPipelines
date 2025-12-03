@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "networks", "peerings", "delete")]
+[CliCommand("compute", "networks", "peerings", "delete")]
 public record GcloudComputeNetworksPeeringsDeleteOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--network")] string Network
+[property: CliArgument] string Name,
+[property: CliOption("--network")] string Network
 ) : GcloudOptions;

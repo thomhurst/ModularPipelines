@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "vulnerabilities", "load-vex")]
+[CliCommand("artifacts", "vulnerabilities", "load-vex")]
 public record GcloudArtifactsVulnerabilitiesLoadVexOptions(
-[property: CommandSwitch("--source")] string Source,
-[property: CommandSwitch("--uri")] string Uri
+[property: CliOption("--source")] string Source,
+[property: CliOption("--uri")] string Uri
 ) : GcloudOptions
 {
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public new string? Project { get; set; }
 }

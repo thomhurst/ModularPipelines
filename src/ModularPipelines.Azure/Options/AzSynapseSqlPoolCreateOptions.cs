@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "sql", "pool", "create")]
+[CliCommand("synapse", "sql", "pool", "create")]
 public record AzSynapseSqlPoolCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--performance-level")] string PerformanceLevel,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--performance-level")] string PerformanceLevel,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--collation")]
+    [CliOption("--collation")]
     public string? Collation { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--storage-type")]
+    [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

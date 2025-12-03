@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("certificate-manager", "trust-configs", "export")]
+[CliCommand("certificate-manager", "trust-configs", "export")]
 public record GcloudCertificateManagerTrustConfigsExportOptions(
-[property: PositionalArgument] string TrustConfig,
-[property: PositionalArgument] string Location
+[property: CliArgument] string TrustConfig,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 }

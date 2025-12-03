@@ -3,25 +3,25 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout", "repo", "disable")]
+[CliCommand("scout", "repo", "disable")]
 [ExcludeFromCodeCoverage]
 public record DockerScoutRepoDisableOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Repository { get; set; }
 
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public virtual string? Filter { get; set; }
 
-    [CommandSwitch("--integration")]
+    [CliOption("--integration")]
     public virtual string? Integration { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public virtual string? Org { get; set; }
 
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public virtual string? Registry { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("npm", "tag", "add")]
+[CliCommand("npm", "tag", "add")]
 public record YarnNpmTagAddOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Package,
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Tag
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Package,
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Tag
 ) : YarnOptions;

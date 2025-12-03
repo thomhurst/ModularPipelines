@@ -5,17 +5,17 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "snapshots", "update")]
+[CliCommand("compute", "snapshots", "update")]
 public record GcloudComputeSnapshotsUpdateOptions(
-[property: PositionalArgument] string SnapshotName
+[property: CliArgument] string SnapshotName
 ) : GcloudOptions
 {
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 }

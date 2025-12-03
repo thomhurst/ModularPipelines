@@ -18,24 +18,24 @@ public record DockerManifestAnnotateOptions : DockerOptions
         Manifest = manifest;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? ManifestList { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Manifest { get; set; }
 
-    [CommandSwitch("--arch")]
+    [CliOption("--arch")]
     public virtual string? Arch { get; set; }
 
-    [CommandSwitch("--os")]
+    [CliOption("--os")]
     public virtual string? Os { get; set; }
 
-    [CommandSwitch("--os-features")]
+    [CliOption("--os-features")]
     public virtual string? OsFeatures { get; set; }
 
-    [CommandSwitch("--os-version")]
+    [CliOption("--os-version")]
     public virtual string? OsVersion { get; set; }
 
-    [CommandSwitch("--variant")]
+    [CliOption("--variant")]
     public virtual string? Variant { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cloud", "networking", "routers", "remove-interface")]
+[CliCommand("edge-cloud", "networking", "routers", "remove-interface")]
 public record GcloudEdgeCloudNetworkingRoutersRemoveInterfaceOptions(
-[property: PositionalArgument] string Router,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Zone,
-[property: CommandSwitch("--interface-name")] string InterfaceName,
-[property: CommandSwitch("--interface-names")] string[] InterfaceNames
+[property: CliArgument] string Router,
+[property: CliArgument] string Location,
+[property: CliArgument] string Zone,
+[property: CliOption("--interface-name")] string InterfaceName,
+[property: CliOption("--interface-names")] string[] InterfaceNames
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sesv2", "create-configuration-set")]
+[CliCommand("sesv2", "create-configuration-set")]
 public record AwsSesv2CreateConfigurationSetOptions(
-[property: CommandSwitch("--configuration-set-name")] string ConfigurationSetName
+[property: CliOption("--configuration-set-name")] string ConfigurationSetName
 ) : AwsOptions
 {
-    [CommandSwitch("--tracking-options")]
+    [CliOption("--tracking-options")]
     public string? TrackingOptions { get; set; }
 
-    [CommandSwitch("--delivery-options")]
+    [CliOption("--delivery-options")]
     public string? DeliveryOptions { get; set; }
 
-    [CommandSwitch("--reputation-options")]
+    [CliOption("--reputation-options")]
     public string? ReputationOptions { get; set; }
 
-    [CommandSwitch("--sending-options")]
+    [CliOption("--sending-options")]
     public string? SendingOptions { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--suppression-options")]
+    [CliOption("--suppression-options")]
     public string? SuppressionOptions { get; set; }
 
-    [CommandSwitch("--vdm-options")]
+    [CliOption("--vdm-options")]
     public string? VdmOptions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("support", "describe-severity-levels")]
+[CliCommand("support", "describe-severity-levels")]
 public record AwsSupportDescribeSeverityLevelsOptions : AwsOptions
 {
-    [CommandSwitch("--language")]
+    [CliOption("--language")]
     public string? Language { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

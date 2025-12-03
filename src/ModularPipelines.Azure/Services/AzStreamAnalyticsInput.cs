@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stream-analytics")]
+[CliCommand("stream-analytics")]
 public class AzStreamAnalyticsInput
 {
     public AzStreamAnalyticsInput(

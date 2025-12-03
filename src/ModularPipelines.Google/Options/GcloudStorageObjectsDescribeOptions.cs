@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "objects", "describe")]
+[CliCommand("storage", "objects", "describe")]
 public record GcloudStorageObjectsDescribeOptions(
-[property: PositionalArgument] string Url
+[property: CliArgument] string Url
 ) : GcloudOptions
 {
-    [CommandSwitch("--additional-headers")]
+    [CliOption("--additional-headers")]
     public string? AdditionalHeaders { get; set; }
 
-    [BooleanCommandSwitch("--fetch-encrypted-object-hashes")]
+    [CliFlag("--fetch-encrypted-object-hashes")]
     public bool? FetchEncryptedObjectHashes { get; set; }
 
-    [BooleanCommandSwitch("--raw")]
+    [CliFlag("--raw")]
     public bool? Raw { get; set; }
 
-    [BooleanCommandSwitch("--soft-deleted")]
+    [CliFlag("--soft-deleted")]
     public bool? SoftDeleted { get; set; }
 }

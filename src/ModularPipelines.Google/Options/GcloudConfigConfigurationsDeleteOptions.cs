@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("config", "configurations", "delete")]
+[CliCommand("config", "configurations", "delete")]
 public record GcloudConfigConfigurationsDeleteOptions(
-[property: PositionalArgument] string ConfigurationNames
+[property: CliArgument] string ConfigurationNames
 ) : GcloudOptions;

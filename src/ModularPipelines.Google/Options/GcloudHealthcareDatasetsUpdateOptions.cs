@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "datasets", "update")]
+[CliCommand("healthcare", "datasets", "update")]
 public record GcloudHealthcareDatasetsUpdateOptions(
-[property: PositionalArgument] string Dataset,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Dataset,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--time-zone")]
+    [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
 }

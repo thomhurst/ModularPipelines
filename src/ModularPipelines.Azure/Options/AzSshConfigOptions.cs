@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssh", "config")]
+[CliCommand("ssh", "config")]
 public record AzSshConfigOptions(
-[property: CommandSwitch("--file")] string File
+[property: CliOption("--file")] string File
 ) : AzOptions
 {
-    [CommandSwitch("--certificate-file")]
+    [CliOption("--certificate-file")]
     public string? CertificateFile { get; set; }
 
-    [CommandSwitch("--ip")]
+    [CliOption("--ip")]
     public string? Ip { get; set; }
 
-    [CommandSwitch("--keys-dest-folder")]
+    [CliOption("--keys-dest-folder")]
     public string? KeysDestFolder { get; set; }
 
-    [CommandSwitch("--local-user")]
+    [CliOption("--local-user")]
     public string? LocalUser { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--overwrite")]
+    [CliFlag("--overwrite")]
     public bool? Overwrite { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [BooleanCommandSwitch("--prefer-private-ip")]
+    [CliFlag("--prefer-private-ip")]
     public bool? PreferPrivateIp { get; set; }
 
-    [CommandSwitch("--private-key-file")]
+    [CliOption("--private-key-file")]
     public string? PrivateKeyFile { get; set; }
 
-    [CommandSwitch("--public-key-file")]
+    [CliOption("--public-key-file")]
     public string? PublicKeyFile { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--ssh-client-folder")]
+    [CliOption("--ssh-client-folder")]
     public string? SshClientFolder { get; set; }
 
-    [CommandSwitch("--ssh-proxy-folder")]
+    [CliOption("--ssh-proxy-folder")]
     public string? SshProxyFolder { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

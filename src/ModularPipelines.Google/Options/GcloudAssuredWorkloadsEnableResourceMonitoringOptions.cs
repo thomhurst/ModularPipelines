@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("assured", "workloads", "enable-resource-monitoring")]
+[CliCommand("assured", "workloads", "enable-resource-monitoring")]
 public record GcloudAssuredWorkloadsEnableResourceMonitoringOptions(
-[property: PositionalArgument] string Workload,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Organization
+[property: CliArgument] string Workload,
+[property: CliArgument] string Location,
+[property: CliArgument] string Organization
 ) : GcloudOptions;

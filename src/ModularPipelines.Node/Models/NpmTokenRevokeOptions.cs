@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("token", "revoke")]
+[CliCommand("token", "revoke")]
 public record NpmTokenRevokeOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Value
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value
 ) : NpmOptions
 {
-    [BooleanCommandSwitch("--read-only")]
+    [CliFlag("--read-only")]
     public virtual bool? ReadOnly { get; set; }
 
-    [CommandSwitch("--cidr")]
+    [CliOption("--cidr")]
     public virtual string? Cidr { get; set; }
 
-    [CommandSwitch("--registry")]
+    [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }
 
-    [CommandSwitch("--otp")]
+    [CliOption("--otp")]
     public virtual string? Otp { get; set; }
 }

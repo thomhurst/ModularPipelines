@@ -6,13 +6,13 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("eventgrid", "system-topic", "create", "(eventgrid", "extension)")]
 public record AzEventgridSystemTopicCreateEventgridExtensionOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--source")] string Source,
-[property: CommandSwitch("--topic-type")] string TopicType
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--source")] string Source,
+[property: CliOption("--topic-type")] string TopicType
 ) : AzOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

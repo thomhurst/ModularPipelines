@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "manager", "connection", "management-group", "update")]
+[CliCommand("network", "manager", "connection", "management-group", "update")]
 public record AzNetworkManagerConnectionManagementGroupUpdateOptions(
-[property: CommandSwitch("--connection-name")] string ConnectionName,
-[property: CommandSwitch("--management-group-id")] string ManagementGroupId
+[property: CliOption("--connection-name")] string ConnectionName,
+[property: CliOption("--management-group-id")] string ManagementGroupId
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 }

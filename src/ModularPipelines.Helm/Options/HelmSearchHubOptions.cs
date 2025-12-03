@@ -3,19 +3,19 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("search", "hub")]
+[CliCommand("search", "hub")]
 [ExcludeFromCodeCoverage]
 public record HelmSearchHubOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--endpoint", SwitchValueSeparator = " ")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [BooleanCommandSwitch("--list-repo-url")]
+    [CliFlag("--list-repo-url")]
     public virtual bool? ListRepoUrl { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--max-col-width", SwitchValueSeparator = " ")]
+    [CliOption("--max-col-width")]
     public string? MaxColWidth { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "account", "or-policy", "rule", "show")]
+[CliCommand("storage", "account", "or-policy", "rule", "show")]
 public record AzStorageAccountOrPolicyRuleShowOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--policy-id")] string PolicyId,
-[property: CommandSwitch("--rule-id")] string RuleId
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--policy-id")] string PolicyId,
+[property: CliOption("--rule-id")] string RuleId
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -5,31 +5,31 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cloud", "container", "clusters", "node-pools", "update")]
+[CliCommand("edge-cloud", "container", "clusters", "node-pools", "update")]
 public record GcloudEdgeCloudContainerClustersNodePoolsUpdateOptions(
-[property: PositionalArgument] string NodePool,
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Location
+[property: CliArgument] string NodePool,
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--lro-timeout")]
+    [CliOption("--lro-timeout")]
     public string? LroTimeout { get; set; }
 
-    [CommandSwitch("--machine-filter")]
+    [CliOption("--machine-filter")]
     public string? MachineFilter { get; set; }
 
-    [CommandSwitch("--node-count")]
+    [CliOption("--node-count")]
     public string? NodeCount { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 }

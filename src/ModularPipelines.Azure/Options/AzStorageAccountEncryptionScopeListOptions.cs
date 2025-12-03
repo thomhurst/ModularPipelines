@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "account", "encryption-scope", "list")]
+[CliCommand("storage", "account", "encryption-scope", "list")]
 public record AzStorageAccountEncryptionScopeListOptions(
-[property: CommandSwitch("--account-name")] int AccountName
+[property: CliOption("--account-name")] int AccountName
 ) : AzOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--include")]
+    [CliOption("--include")]
     public string? Include { get; set; }
 
-    [CommandSwitch("--marker")]
+    [CliOption("--marker")]
     public string? Marker { get; set; }
 
-    [CommandSwitch("--maxpagesize")]
+    [CliOption("--maxpagesize")]
     public string? Maxpagesize { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

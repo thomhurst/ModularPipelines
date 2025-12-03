@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "machine-images", "create")]
+[CliCommand("compute", "machine-images", "create")]
 public record GcloudComputeMachineImagesCreateOptions(
-[property: PositionalArgument] string Image,
-[property: CommandSwitch("--source-instance")] string SourceInstance
+[property: CliArgument] string Image,
+[property: CliOption("--source-instance")] string SourceInstance
 ) : GcloudOptions
 {
-    [CommandSwitch("--csek-key-file")]
+    [CliOption("--csek-key-file")]
     public string? CsekKeyFile { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--guest-flush")]
+    [CliFlag("--guest-flush")]
     public bool? GuestFlush { get; set; }
 
-    [BooleanCommandSwitch("--require-csek-key-create")]
+    [CliFlag("--require-csek-key-create")]
     public bool? RequireCsekKeyCreate { get; set; }
 
-    [CommandSwitch("--source-disk-csek-key")]
+    [CliOption("--source-disk-csek-key")]
     public string[]? SourceDiskCsekKey { get; set; }
 
-    [CommandSwitch("--source-instance-zone")]
+    [CliOption("--source-instance-zone")]
     public string? SourceInstanceZone { get; set; }
 
-    [CommandSwitch("--storage-location")]
+    [CliOption("--storage-location")]
     public string? StorageLocation { get; set; }
 
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--kms-keyring")]
+    [CliOption("--kms-keyring")]
     public string? KmsKeyring { get; set; }
 
-    [CommandSwitch("--kms-location")]
+    [CliOption("--kms-location")]
     public string? KmsLocation { get; set; }
 
-    [CommandSwitch("--kms-project")]
+    [CliOption("--kms-project")]
     public string? KmsProject { get; set; }
 }

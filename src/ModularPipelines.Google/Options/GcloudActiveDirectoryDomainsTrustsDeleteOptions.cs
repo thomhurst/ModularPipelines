@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("active-directory", "domains", "trusts", "delete")]
+[CliCommand("active-directory", "domains", "trusts", "delete")]
 public record GcloudActiveDirectoryDomainsTrustsDeleteOptions(
-[property: PositionalArgument] string Domain,
-[property: CommandSwitch("--target-domain-name")] string TargetDomainName
+[property: CliArgument] string Domain,
+[property: CliOption("--target-domain-name")] string TargetDomainName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

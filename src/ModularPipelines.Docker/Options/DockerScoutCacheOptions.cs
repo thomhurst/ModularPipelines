@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout", "cache")]
+[CliCommand("scout", "cache")]
 [ExcludeFromCodeCoverage]
 public record DockerScoutCacheOptions : DockerOptions
 {

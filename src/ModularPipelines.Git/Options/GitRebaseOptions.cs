@@ -3,160 +3,160 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("rebase")]
+[CliCommand("rebase")]
 [ExcludeFromCodeCoverage]
 public record GitRebaseOptions : GitOptions
 {
-    [BooleanCommandSwitch("--continue")]
+    [CliFlag("--continue")]
     public virtual bool? Continue { get; set; }
 
-    [BooleanCommandSwitch("--skip")]
+    [CliFlag("--skip")]
     public virtual bool? Skip { get; set; }
 
-    [BooleanCommandSwitch("--abort")]
+    [CliFlag("--abort")]
     public virtual bool? Abort { get; set; }
 
-    [BooleanCommandSwitch("--quit")]
+    [CliFlag("--quit")]
     public virtual bool? Quit { get; set; }
 
-    [BooleanCommandSwitch("--edit-todo")]
+    [CliFlag("--edit-todo")]
     public virtual bool? EditTodo { get; set; }
 
-    [BooleanCommandSwitch("--show-current-patch")]
+    [CliFlag("--show-current-patch")]
     public virtual bool? ShowCurrentPatch { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--onto")]
+    [CliOption("--onto", Format = OptionFormat.EqualsSeparated)]
     public string? Onto { get; set; }
 
-    [BooleanCommandSwitch("--keep-base")]
+    [CliFlag("--keep-base")]
     public virtual bool? KeepBase { get; set; }
 
-    [BooleanCommandSwitch("--apply")]
+    [CliFlag("--apply")]
     public virtual bool? Apply { get; set; }
 
-    [BooleanCommandSwitch("--empty")]
+    [CliFlag("--empty")]
     public virtual bool? Empty { get; set; }
 
-    [BooleanCommandSwitch("--no-keep-empty")]
+    [CliFlag("--no-keep-empty")]
     public virtual bool? NoKeepEmpty { get; set; }
 
-    [BooleanCommandSwitch("--keep-empty")]
+    [CliFlag("--keep-empty")]
     public virtual bool? KeepEmpty { get; set; }
 
-    [BooleanCommandSwitch("--reapply-cherry-picks")]
+    [CliFlag("--reapply-cherry-picks")]
     public virtual bool? ReapplyCherryPicks { get; set; }
 
-    [BooleanCommandSwitch("--no-reapply-cherry-picks")]
+    [CliFlag("--no-reapply-cherry-picks")]
     public virtual bool? NoReapplyCherryPicks { get; set; }
 
-    [BooleanCommandSwitch("--allow-empty-message")]
+    [CliFlag("--allow-empty-message")]
     public virtual bool? AllowEmptyMessage { get; set; }
 
-    [BooleanCommandSwitch("--merge")]
+    [CliFlag("--merge")]
     public virtual bool? Merge { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--strategy")]
+    [CliOption("--strategy", Format = OptionFormat.EqualsSeparated)]
     public string? Strategy { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--strategy-option")]
+    [CliOption("--strategy-option", Format = OptionFormat.EqualsSeparated)]
     public string? StrategyOption { get; set; }
 
-    [BooleanCommandSwitch("--rerere-autoupdate")]
+    [CliFlag("--rerere-autoupdate")]
     public virtual bool? RerereAutoupdate { get; set; }
 
-    [BooleanCommandSwitch("--no-rerere-autoupdate")]
+    [CliFlag("--no-rerere-autoupdate")]
     public virtual bool? NoRerereAutoupdate { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--gpg-sign")]
+    [CliOption("--gpg-sign", Format = OptionFormat.EqualsSeparated)]
     public string? GpgSign { get; set; }
 
-    [BooleanCommandSwitch("--no-gpg-sign")]
+    [CliFlag("--no-gpg-sign")]
     public virtual bool? NoGpgSign { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("--stat")]
+    [CliFlag("--stat")]
     public virtual bool? Stat { get; set; }
 
-    [BooleanCommandSwitch("--no-stat")]
+    [CliFlag("--no-stat")]
     public virtual bool? NoStat { get; set; }
 
-    [BooleanCommandSwitch("--no-verify")]
+    [CliFlag("--no-verify")]
     public virtual bool? NoVerify { get; set; }
 
-    [BooleanCommandSwitch("--verify")]
+    [CliFlag("--verify")]
     public virtual bool? Verify { get; set; }
 
-    [BooleanCommandSwitch("--no-ff")]
+    [CliFlag("--no-ff")]
     public virtual bool? NoFf { get; set; }
 
-    [BooleanCommandSwitch("--force-rebase")]
+    [CliFlag("--force-rebase")]
     public virtual bool? ForceRebase { get; set; }
 
-    [BooleanCommandSwitch("--fork-point")]
+    [CliFlag("--fork-point")]
     public virtual bool? ForkPoint { get; set; }
 
-    [BooleanCommandSwitch("--no-fork-point")]
+    [CliFlag("--no-fork-point")]
     public virtual bool? NoForkPoint { get; set; }
 
-    [BooleanCommandSwitch("--ignore-whitespace")]
+    [CliFlag("--ignore-whitespace")]
     public virtual bool? IgnoreWhitespace { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--whitespace")]
+    [CliOption("--whitespace", Format = OptionFormat.EqualsSeparated)]
     public string? Whitespace { get; set; }
 
-    [BooleanCommandSwitch("--committer-date-is-author-date")]
+    [CliFlag("--committer-date-is-author-date")]
     public virtual bool? CommitterDateIsAuthorDate { get; set; }
 
-    [BooleanCommandSwitch("--ignore-date")]
+    [CliFlag("--ignore-date")]
     public virtual bool? IgnoreDate { get; set; }
 
-    [BooleanCommandSwitch("--reset-author-date")]
+    [CliFlag("--reset-author-date")]
     public virtual bool? ResetAuthorDate { get; set; }
 
-    [BooleanCommandSwitch("--signoff")]
+    [CliFlag("--signoff")]
     public virtual bool? Signoff { get; set; }
 
-    [BooleanCommandSwitch("--interactive")]
+    [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
 
-    [BooleanCommandSwitch("--rebase-merges")]
+    [CliFlag("--rebase-merges")]
     public virtual bool? RebaseMerges { get; set; }
 
-    [BooleanCommandSwitch("--no-rebase-merges")]
+    [CliFlag("--no-rebase-merges")]
     public virtual bool? NoRebaseMerges { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--exec")]
+    [CliOption("--exec", Format = OptionFormat.EqualsSeparated)]
     public string? Exec { get; set; }
 
-    [BooleanCommandSwitch("--root")]
+    [CliFlag("--root")]
     public virtual bool? Root { get; set; }
 
-    [BooleanCommandSwitch("--autosquash")]
+    [CliFlag("--autosquash")]
     public virtual bool? Autosquash { get; set; }
 
-    [BooleanCommandSwitch("--no-autosquash")]
+    [CliFlag("--no-autosquash")]
     public virtual bool? NoAutosquash { get; set; }
 
-    [BooleanCommandSwitch("--autostash")]
+    [CliFlag("--autostash")]
     public virtual bool? Autostash { get; set; }
 
-    [BooleanCommandSwitch("--no-autostash")]
+    [CliFlag("--no-autostash")]
     public virtual bool? NoAutostash { get; set; }
 
-    [BooleanCommandSwitch("--reschedule-failed-exec")]
+    [CliFlag("--reschedule-failed-exec")]
     public virtual bool? RescheduleFailedExec { get; set; }
 
-    [BooleanCommandSwitch("--no-reschedule-failed-exec")]
+    [CliFlag("--no-reschedule-failed-exec")]
     public virtual bool? NoRescheduleFailedExec { get; set; }
 
-    [BooleanCommandSwitch("--update-refs")]
+    [CliFlag("--update-refs")]
     public virtual bool? UpdateRefs { get; set; }
 
-    [BooleanCommandSwitch("--no-update-refs")]
+    [CliFlag("--no-update-refs")]
     public virtual bool? NoUpdateRefs { get; set; }
 }

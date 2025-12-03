@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "create-ingestion")]
+[CliCommand("quicksight", "create-ingestion")]
 public record AwsQuicksightCreateIngestionOptions(
-[property: CommandSwitch("--data-set-id")] string DataSetId,
-[property: CommandSwitch("--ingestion-id")] string IngestionId,
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId
+[property: CliOption("--data-set-id")] string DataSetId,
+[property: CliOption("--ingestion-id")] string IngestionId,
+[property: CliOption("--aws-account-id")] string AwsAccountId
 ) : AwsOptions
 {
-    [CommandSwitch("--ingestion-type")]
+    [CliOption("--ingestion-type")]
     public string? IngestionType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

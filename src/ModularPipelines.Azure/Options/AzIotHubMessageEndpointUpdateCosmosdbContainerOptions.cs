@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "message-endpoint", "update", "cosmosdb-container")]
+[CliCommand("iot", "hub", "message-endpoint", "update", "cosmosdb-container")]
 public record AzIotHubMessageEndpointUpdateCosmosdbContainerOptions(
-[property: CommandSwitch("--en")] string En,
-[property: CommandSwitch("--hub-name")] string HubName
+[property: CliOption("--en")] string En,
+[property: CliOption("--hub-name")] string HubName
 ) : AzOptions
 {
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--database-name")]
+    [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CommandSwitch("--endpoint-resource-group")]
+    [CliOption("--endpoint-resource-group")]
     public string? EndpointResourceGroup { get; set; }
 
-    [CommandSwitch("--endpoint-subscription-id")]
+    [CliOption("--endpoint-subscription-id")]
     public string? EndpointSubscriptionId { get; set; }
 
-    [CommandSwitch("--endpoint-uri")]
+    [CliOption("--endpoint-uri")]
     public string? EndpointUri { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--partition-key-name")]
+    [CliOption("--partition-key-name")]
     public string? PartitionKeyName { get; set; }
 
-    [CommandSwitch("--partition-key-template")]
+    [CliOption("--partition-key-template")]
     public string? PartitionKeyTemplate { get; set; }
 
-    [CommandSwitch("--pk")]
+    [CliOption("--pk")]
     public string? Pk { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--secondary-key")]
+    [CliOption("--secondary-key")]
     public string? SecondaryKey { get; set; }
 }

@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitoring", "dashboards", "list")]
+[CliCommand("monitoring", "dashboards", "list")]
 public record GcloudMonitoringDashboardsListOptions : GcloudOptions;

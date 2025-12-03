@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "diagnose", "export-logs")]
+[CliCommand("compute", "diagnose", "export-logs")]
 public record GcloudComputeDiagnoseExportLogsOptions(
-[property: PositionalArgument] string InstanceName
+[property: CliArgument] string InstanceName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--collect-process-traces")]
+    [CliFlag("--collect-process-traces")]
     public bool? CollectProcessTraces { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

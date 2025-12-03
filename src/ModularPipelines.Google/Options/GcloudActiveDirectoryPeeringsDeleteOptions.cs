@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("active-directory", "peerings", "delete")]
+[CliCommand("active-directory", "peerings", "delete")]
 public record GcloudActiveDirectoryPeeringsDeleteOptions(
-[property: PositionalArgument] string Peering
+[property: CliArgument] string Peering
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

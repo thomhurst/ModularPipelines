@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("identity", "groups", "search")]
+[CliCommand("identity", "groups", "search")]
 public record GcloudIdentityGroupsSearchOptions(
-[property: CommandSwitch("--labels")] string Labels,
-[property: CommandSwitch("--customer")] string Customer,
-[property: CommandSwitch("--organization")] string Organization
+[property: CliOption("--labels")] string Labels,
+[property: CliOption("--customer")] string Customer,
+[property: CliOption("--organization")] string Organization
 ) : GcloudOptions
 {
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public string? PageSize { get; set; }
 
-    [CommandSwitch("--page-token")]
+    [CliOption("--page-token")]
     public string? PageToken { get; set; }
 
-    [CommandSwitch("--view")]
+    [CliOption("--view")]
     public string? View { get; set; }
 }

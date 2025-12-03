@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "fleetobservability", "update")]
+[CliCommand("container", "fleet", "fleetobservability", "update")]
 public record GcloudContainerFleetFleetobservabilityUpdateOptions : GcloudOptions
 {
-    [CommandSwitch("--logging-config")]
+    [CliOption("--logging-config")]
     public string? LoggingConfig { get; set; }
 }

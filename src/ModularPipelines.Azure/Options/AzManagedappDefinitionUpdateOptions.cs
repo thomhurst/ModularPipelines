@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managedapp", "definition", "update")]
+[CliCommand("managedapp", "definition", "update")]
 public record AzManagedappDefinitionUpdateOptions(
-[property: CommandSwitch("--authorizations")] string Authorizations,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--lock-level")] string LockLevel
+[property: CliOption("--authorizations")] string Authorizations,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--lock-level")] string LockLevel
 ) : AzOptions
 {
-    [CommandSwitch("--create-ui-definition")]
+    [CliOption("--create-ui-definition")]
     public string? CreateUiDefinition { get; set; }
 
-    [CommandSwitch("--deployment-mode")]
+    [CliOption("--deployment-mode")]
     public string? DeploymentMode { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--main-template")]
+    [CliOption("--main-template")]
     public string? MainTemplate { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--package-file-uri")]
+    [CliOption("--package-file-uri")]
     public string? PackageFileUri { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

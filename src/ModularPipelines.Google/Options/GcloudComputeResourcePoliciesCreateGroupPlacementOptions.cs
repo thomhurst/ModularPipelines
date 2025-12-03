@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "resource-policies", "create", "group-placement")]
+[CliCommand("compute", "resource-policies", "create", "group-placement")]
 public record GcloudComputeResourcePoliciesCreateGroupPlacementOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--availability-domain-count")]
+    [CliOption("--availability-domain-count")]
     public string? AvailabilityDomainCount { get; set; }
 
-    [CommandSwitch("--collocation")]
+    [CliOption("--collocation")]
     public string? Collocation { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--vm-count")]
+    [CliOption("--vm-count")]
     public string? VmCount { get; set; }
 }

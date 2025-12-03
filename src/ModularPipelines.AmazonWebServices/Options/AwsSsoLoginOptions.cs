@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sso", "login")]
+[CliCommand("sso", "login")]
 public record AwsSsoLoginOptions : AwsOptions
 {
-    [BooleanCommandSwitch("--no-browser")]
+    [CliFlag("--no-browser")]
     public bool? NoBrowser { get; set; }
 
-    [CommandSwitch("--sso-session")]
+    [CliOption("--sso-session")]
     public string? SsoSession { get; set; }
 }

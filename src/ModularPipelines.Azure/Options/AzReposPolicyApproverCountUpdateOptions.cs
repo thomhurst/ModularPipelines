@@ -4,44 +4,44 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "policy", "approver-count", "update")]
+[CliCommand("repos", "policy", "approver-count", "update")]
 public record AzReposPolicyApproverCountUpdateOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allow-downvotes")]
+    [CliFlag("--allow-downvotes")]
     public bool? AllowDownvotes { get; set; }
 
-    [BooleanCommandSwitch("--blocking")]
+    [CliFlag("--blocking")]
     public bool? Blocking { get; set; }
 
-    [CommandSwitch("--branch")]
+    [CliOption("--branch")]
     public string? Branch { get; set; }
 
-    [CommandSwitch("--branch-match-type")]
+    [CliOption("--branch-match-type")]
     public string? BranchMatchType { get; set; }
 
-    [BooleanCommandSwitch("--creator-vote-counts")]
+    [CliFlag("--creator-vote-counts")]
     public bool? CreatorVoteCounts { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [CommandSwitch("--minimum-approver-count")]
+    [CliOption("--minimum-approver-count")]
     public int? MinimumApproverCount { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [CommandSwitch("--repository-id")]
+    [CliOption("--repository-id")]
     public string? RepositoryId { get; set; }
 
-    [BooleanCommandSwitch("--reset-on-source-push")]
+    [CliFlag("--reset-on-source-push")]
     public bool? ResetOnSourcePush { get; set; }
 }

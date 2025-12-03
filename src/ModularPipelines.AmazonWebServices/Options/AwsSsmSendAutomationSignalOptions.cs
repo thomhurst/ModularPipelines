@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "send-automation-signal")]
+[CliCommand("ssm", "send-automation-signal")]
 public record AwsSsmSendAutomationSignalOptions(
-[property: CommandSwitch("--automation-execution-id")] string AutomationExecutionId,
-[property: CommandSwitch("--signal-type")] string SignalType
+[property: CliOption("--automation-execution-id")] string AutomationExecutionId,
+[property: CliOption("--signal-type")] string SignalType
 ) : AwsOptions
 {
-    [CommandSwitch("--payload")]
+    [CliOption("--payload")]
     public IEnumerable<KeyValue>? Payload { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("textract", "create-adapter-version")]
+[CliCommand("textract", "create-adapter-version")]
 public record AwsTextractCreateAdapterVersionOptions(
-[property: CommandSwitch("--adapter-id")] string AdapterId,
-[property: CommandSwitch("--dataset-config")] string DatasetConfig,
-[property: CommandSwitch("--output-config")] string OutputConfig
+[property: CliOption("--adapter-id")] string AdapterId,
+[property: CliOption("--dataset-config")] string DatasetConfig,
+[property: CliOption("--output-config")] string OutputConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

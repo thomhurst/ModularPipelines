@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automanage", "configuration-profile", "version", "list")]
+[CliCommand("automanage", "configuration-profile", "version", "list")]
 public record AzAutomanageConfigurationProfileVersionListOptions(
-[property: CommandSwitch("--configuration-profile-name")] string ConfigurationProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--configuration-profile-name")] string ConfigurationProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

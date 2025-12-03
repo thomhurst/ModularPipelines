@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "auth", "twitter", "update")]
+[CliCommand("webapp", "auth", "twitter", "update")]
 public record AzWebappAuthTwitterUpdateOptions : AzOptions
 {
-    [CommandSwitch("--consumer-key")]
+    [CliOption("--consumer-key")]
     public string? ConsumerKey { get; set; }
 
-    [CommandSwitch("--consumer-secret")]
+    [CliOption("--consumer-secret")]
     public string? ConsumerSecret { get; set; }
 
-    [CommandSwitch("--consumer-secret-setting-name")]
+    [CliOption("--consumer-secret-setting-name")]
     public string? ConsumerSecretSettingName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

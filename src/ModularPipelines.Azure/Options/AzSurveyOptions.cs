@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("survey")]
+[CliCommand("survey")]
 public record AzSurveyOptions : AzOptions;

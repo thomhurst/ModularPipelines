@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "environments", "set-iam-policy")]
+[CliCommand("dataplex", "environments", "set-iam-policy")]
 public record GcloudDataplexEnvironmentsSetIamPolicyOptions(
-[property: PositionalArgument] string Environment,
-[property: PositionalArgument] string Lake,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string PolicyFile
+[property: CliArgument] string Environment,
+[property: CliArgument] string Lake,
+[property: CliArgument] string Location,
+[property: CliArgument] string PolicyFile
 ) : GcloudOptions;

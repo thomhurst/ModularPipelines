@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("push")]
+[CliCommand("push")]
 public record PushOptions(
-    [property: PositionalArgument] string Pkg
+    [property: CliArgument] string Pkg
 ) : ChocoOptions
 {
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public virtual string? Source { get; set; }
 
-    [CommandSwitch("--api-key")]
+    [CliOption("--api-key")]
     public virtual string? ApiKey { get; set; }
 
-    [CommandSwitch("--code")]
+    [CliOption("--code")]
     public virtual string? Code { get; set; }
 
-    [CommandSwitch("--redirecturl")]
+    [CliOption("--redirecturl")]
     public virtual string? Redirecturl { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public virtual string? Endpoint { get; set; }
 
-    [BooleanCommandSwitch("--skip-cleanup")]
+    [CliFlag("--skip-cleanup")]
     public virtual bool? SkipCleanup { get; set; }
 
-    [BooleanCommandSwitch("--force-self-service")]
+    [CliFlag("--force-self-service")]
     public virtual bool? ForceSelfService { get; set; }
 }

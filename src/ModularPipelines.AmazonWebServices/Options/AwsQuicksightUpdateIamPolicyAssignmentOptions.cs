@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "update-iam-policy-assignment")]
+[CliCommand("quicksight", "update-iam-policy-assignment")]
 public record AwsQuicksightUpdateIamPolicyAssignmentOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--assignment-name")] string AssignmentName,
-[property: CommandSwitch("--namespace")] string Namespace
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--assignment-name")] string AssignmentName,
+[property: CliOption("--namespace")] string Namespace
 ) : AwsOptions
 {
-    [CommandSwitch("--assignment-status")]
+    [CliOption("--assignment-status")]
     public string? AssignmentStatus { get; set; }
 
-    [CommandSwitch("--policy-arn")]
+    [CliOption("--policy-arn")]
     public string? PolicyArn { get; set; }
 
-    [CommandSwitch("--identities")]
+    [CliOption("--identities")]
     public IEnumerable<KeyValue>? Identities { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

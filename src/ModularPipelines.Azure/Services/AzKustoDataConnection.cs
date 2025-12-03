@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto")]
+[CliCommand("kusto")]
 public class AzKustoDataConnection
 {
     public AzKustoDataConnection(

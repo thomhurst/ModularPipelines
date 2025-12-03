@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fleet")]
+[CliCommand("fleet")]
 public class AzFleetMember
 {
     public AzFleetMember(

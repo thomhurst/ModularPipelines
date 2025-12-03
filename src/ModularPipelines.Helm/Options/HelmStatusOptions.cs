@@ -3,19 +3,19 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("status")]
+[CliCommand("status")]
 [ExcludeFromCodeCoverage]
 public record HelmStatusOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--revision", SwitchValueSeparator = " ")]
+    [CliOption("--revision")]
     public int? Revision { get; set; }
 
-    [BooleanCommandSwitch("--show-desc")]
+    [CliFlag("--show-desc")]
     public virtual bool? ShowDesc { get; set; }
 
-    [BooleanCommandSwitch("--show-resources")]
+    [CliFlag("--show-resources")]
     public virtual bool? ShowResources { get; set; }
 }

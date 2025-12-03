@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "connection", "create", "sql")]
+[CliCommand("webapp", "connection", "create", "sql")]
 public class AzWebappConnectionCreateSqlServiceconnectorPasswordless
 {
     public AzWebappConnectionCreateSqlServiceconnectorPasswordless(

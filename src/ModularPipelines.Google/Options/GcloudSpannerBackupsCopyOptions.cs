@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spanner", "backups", "copy")]
+[CliCommand("spanner", "backups", "copy")]
 public record GcloudSpannerBackupsCopyOptions(
-[property: CommandSwitch("--destination-backup")] string DestinationBackup,
-[property: CommandSwitch("--destination-instance")] string DestinationInstance,
-[property: CommandSwitch("--expiration-date")] string ExpirationDate,
-[property: CommandSwitch("--retention-period")] string RetentionPeriod,
-[property: CommandSwitch("--source-backup")] string SourceBackup,
-[property: CommandSwitch("--source-instance")] string SourceInstance
+[property: CliOption("--destination-backup")] string DestinationBackup,
+[property: CliOption("--destination-instance")] string DestinationInstance,
+[property: CliOption("--expiration-date")] string ExpirationDate,
+[property: CliOption("--retention-period")] string RetentionPeriod,
+[property: CliOption("--source-backup")] string SourceBackup,
+[property: CliOption("--source-instance")] string SourceInstance
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--encryption-type")]
+    [CliOption("--encryption-type")]
     public string? EncryptionType { get; set; }
 
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--kms-keyring")]
+    [CliOption("--kms-keyring")]
     public string? KmsKeyring { get; set; }
 
-    [CommandSwitch("--kms-location")]
+    [CliOption("--kms-location")]
     public string? KmsLocation { get; set; }
 
-    [CommandSwitch("--kms-project")]
+    [CliOption("--kms-project")]
     public string? KmsProject { get; set; }
 }

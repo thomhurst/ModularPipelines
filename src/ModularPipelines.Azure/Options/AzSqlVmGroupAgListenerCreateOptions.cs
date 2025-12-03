@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "vm", "group", "ag-listener", "create")]
+[CliCommand("sql", "vm", "group", "ag-listener", "create")]
 public record AzSqlVmGroupAgListenerCreateOptions(
-[property: CommandSwitch("--ag-name")] string AgName,
-[property: CommandSwitch("--group-name")] string GroupName,
-[property: CommandSwitch("--ip-address")] string IpAddress,
-[property: CommandSwitch("--load-balancer")] string LoadBalancer,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--probe-port")] string ProbePort,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sqlvms")] string Sqlvms,
-[property: CommandSwitch("--subnet")] string Subnet
+[property: CliOption("--ag-name")] string AgName,
+[property: CliOption("--group-name")] string GroupName,
+[property: CliOption("--ip-address")] string IpAddress,
+[property: CliOption("--load-balancer")] string LoadBalancer,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--probe-port")] string ProbePort,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sqlvms")] string Sqlvms,
+[property: CliOption("--subnet")] string Subnet
 ) : AzOptions
 {
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--public-ip")]
+    [CliOption("--public-ip")]
     public string? PublicIp { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 }

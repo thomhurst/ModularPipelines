@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "deployment", "show")]
+[CliCommand("sphere", "deployment", "show")]
 public record AzSphereDeploymentShowOptions(
-[property: CommandSwitch("--catalog")] string Catalog,
-[property: CommandSwitch("--deployment-id")] string DeploymentId,
-[property: CommandSwitch("--device-group")] string DeviceGroup,
-[property: CommandSwitch("--product")] string Product,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--catalog")] string Catalog,
+[property: CliOption("--deployment-id")] string DeploymentId,
+[property: CliOption("--device-group")] string DeviceGroup,
+[property: CliOption("--product")] string Product,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

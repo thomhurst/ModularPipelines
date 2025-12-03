@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redis", "firewall-rules", "update")]
+[CliCommand("redis", "firewall-rules", "update")]
 public record AzRedisFirewallRulesUpdateOptions(
-[property: CommandSwitch("--end-ip")] string EndIp,
-[property: CommandSwitch("--rule-name")] string RuleName,
-[property: CommandSwitch("--start-ip")] string StartIp
+[property: CliOption("--end-ip")] string EndIp,
+[property: CliOption("--rule-name")] string RuleName,
+[property: CliOption("--start-ip")] string StartIp
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

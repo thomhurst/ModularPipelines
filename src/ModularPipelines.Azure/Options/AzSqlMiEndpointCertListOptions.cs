@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "mi", "endpoint-cert", "list")]
+[CliCommand("sql", "mi", "endpoint-cert", "list")]
 public record AzSqlMiEndpointCertListOptions(
-[property: CommandSwitch("--instance-name")] string InstanceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--instance-name")] string InstanceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

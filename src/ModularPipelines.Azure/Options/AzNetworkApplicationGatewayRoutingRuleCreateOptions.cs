@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "routing-rule", "create")]
+[CliCommand("network", "application-gateway", "routing-rule", "create")]
 public record AzNetworkApplicationGatewayRoutingRuleCreateOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--address-pool")]
+    [CliOption("--address-pool")]
     public string? AddressPool { get; set; }
 
-    [CommandSwitch("--listener")]
+    [CliOption("--listener")]
     public string? Listener { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--rule-type")]
+    [CliOption("--rule-type")]
     public string? RuleType { get; set; }
 
-    [CommandSwitch("--settings")]
+    [CliOption("--settings")]
     public string? Settings { get; set; }
 }

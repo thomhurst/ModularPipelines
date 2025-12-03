@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "placement-policy")]
+[CliCommand("vmware", "placement-policy")]
 public class AzVmwarePlacementPolicyVmHost
 {
     public AzVmwarePlacementPolicyVmHost(

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "mongodb", "collection", "create")]
+[CliCommand("cosmosdb", "mongodb", "collection", "create")]
 public record AzCosmosdbMongodbCollectionCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--analytical-storage-ttl")]
+    [CliOption("--analytical-storage-ttl")]
     public string? AnalyticalStorageTtl { get; set; }
 
-    [CommandSwitch("--idx")]
+    [CliOption("--idx")]
     public string? Idx { get; set; }
 
-    [CommandSwitch("--max-throughput")]
+    [CliOption("--max-throughput")]
     public string? MaxThroughput { get; set; }
 
-    [CommandSwitch("--shard")]
+    [CliOption("--shard")]
     public string? Shard { get; set; }
 
-    [CommandSwitch("--throughput")]
+    [CliOption("--throughput")]
     public string? Throughput { get; set; }
 }

@@ -4,111 +4,111 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "db", "update")]
+[CliCommand("sql", "db", "update")]
 public record AzSqlDbUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--assign-identity")]
+    [CliFlag("--assign-identity")]
     public bool? AssignIdentity { get; set; }
 
-    [CommandSwitch("--auto-pause-delay")]
+    [CliOption("--auto-pause-delay")]
     public string? AutoPauseDelay { get; set; }
 
-    [CommandSwitch("--backup-storage-redundancy")]
+    [CliOption("--backup-storage-redundancy")]
     public string? BackupStorageRedundancy { get; set; }
 
-    [CommandSwitch("--capacity")]
+    [CliOption("--capacity")]
     public string? Capacity { get; set; }
 
-    [CommandSwitch("--compute-model")]
+    [CliOption("--compute-model")]
     public string? ComputeModel { get; set; }
 
-    [CommandSwitch("--edition")]
+    [CliOption("--edition")]
     public string? Edition { get; set; }
 
-    [CommandSwitch("--elastic-pool")]
+    [CliOption("--elastic-pool")]
     public string? ElasticPool { get; set; }
 
-    [CommandSwitch("--encryption-protector")]
+    [CliOption("--encryption-protector")]
     public string? EncryptionProtector { get; set; }
 
-    [BooleanCommandSwitch("--encryption-protector-auto-rotation")]
+    [CliFlag("--encryption-protector-auto-rotation")]
     public bool? EncryptionProtectorAutoRotation { get; set; }
 
-    [CommandSwitch("--exhaustion-behavior")]
+    [CliOption("--exhaustion-behavior")]
     public string? ExhaustionBehavior { get; set; }
 
-    [CommandSwitch("--family")]
+    [CliOption("--family")]
     public string? Family { get; set; }
 
-    [CommandSwitch("--federated-client-id")]
+    [CliOption("--federated-client-id")]
     public string? FederatedClientId { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [BooleanCommandSwitch("--free-limit")]
+    [CliFlag("--free-limit")]
     public bool? FreeLimit { get; set; }
 
-    [CommandSwitch("--ha-replicas")]
+    [CliOption("--ha-replicas")]
     public string? HaReplicas { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--keys")]
+    [CliOption("--keys")]
     public string? Keys { get; set; }
 
-    [CommandSwitch("--keys-to-remove")]
+    [CliOption("--keys-to-remove")]
     public string? KeysToRemove { get; set; }
 
-    [CommandSwitch("--maint-config-id")]
+    [CliOption("--maint-config-id")]
     public string? MaintConfigId { get; set; }
 
-    [CommandSwitch("--max-size")]
+    [CliOption("--max-size")]
     public string? MaxSize { get; set; }
 
-    [CommandSwitch("--min-capacity")]
+    [CliOption("--min-capacity")]
     public string? MinCapacity { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--preferred-enclave-type")]
+    [CliOption("--preferred-enclave-type")]
     public string? PreferredEnclaveType { get; set; }
 
-    [CommandSwitch("--read-scale")]
+    [CliOption("--read-scale")]
     public string? ReadScale { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--server")]
+    [CliOption("--server")]
     public string? Server { get; set; }
 
-    [CommandSwitch("--service-objective")]
+    [CliOption("--service-objective")]
     public string? ServiceObjective { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--umi")]
+    [CliOption("--umi")]
     public string? Umi { get; set; }
 
-    [BooleanCommandSwitch("--zone-redundant")]
+    [CliFlag("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 }

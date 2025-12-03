@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcappliance", "logs", "scvmm")]
+[CliCommand("arcappliance", "logs", "scvmm")]
 public record AzArcapplianceLogsScvmmOptions : AzOptions
 {
-    [CommandSwitch("--credentials-dir")]
+    [CliOption("--credentials-dir")]
     public string? CredentialsDir { get; set; }
 
-    [CommandSwitch("--ip")]
+    [CliOption("--ip")]
     public string? Ip { get; set; }
 
-    [CommandSwitch("--kubeconfig")]
+    [CliOption("--kubeconfig")]
     public string? Kubeconfig { get; set; }
 
-    [CommandSwitch("--out-dir")]
+    [CliOption("--out-dir")]
     public string? OutDir { get; set; }
 }

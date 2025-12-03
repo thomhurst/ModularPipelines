@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns", "response-policies", "create")]
+[CliCommand("dns", "response-policies", "create")]
 public record GcloudDnsResponsePoliciesCreateOptions(
-[property: PositionalArgument] string ResponsePolicies,
-[property: CommandSwitch("--description")] string Description
+[property: CliArgument] string ResponsePolicies,
+[property: CliOption("--description")] string Description
 ) : GcloudOptions
 {
-    [CommandSwitch("--gkeclusters")]
+    [CliOption("--gkeclusters")]
     public string[]? Gkeclusters { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--networks")]
+    [CliOption("--networks")]
     public string[]? Networks { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "private-endpoint", "asg", "remove")]
+[CliCommand("network", "private-endpoint", "asg", "remove")]
 public record AzNetworkPrivateEndpointAsgRemoveOptions(
-[property: CommandSwitch("--asg-id")] string AsgId,
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--asg-id")] string AsgId,
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

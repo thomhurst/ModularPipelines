@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint-email", "get-domain-statistics-report")]
+[CliCommand("pinpoint-email", "get-domain-statistics-report")]
 public record AwsPinpointEmailGetDomainStatisticsReportOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--start-date")] long StartDate,
-[property: CommandSwitch("--end-date")] long EndDate
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--start-date")] long StartDate,
+[property: CliOption("--end-date")] long EndDate
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("notification-hub", "credential", "baidu", "update")]
+[CliCommand("notification-hub", "credential", "baidu", "update")]
 public record AzNotificationHubCredentialBaiduUpdateOptions(
-[property: CommandSwitch("--api-key")] string ApiKey,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--namespace-name")] string NamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--secret-key")] string SecretKey
+[property: CliOption("--api-key")] string ApiKey,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--namespace-name")] string NamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--secret-key")] string SecretKey
 ) : AzOptions
 {
-    [CommandSwitch("--baidu-api-key")]
+    [CliOption("--baidu-api-key")]
     public string? BaiduApiKey { get; set; }
 
-    [CommandSwitch("--baidu-secret-key")]
+    [CliOption("--baidu-secret-key")]
     public string? BaiduSecretKey { get; set; }
 }

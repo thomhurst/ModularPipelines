@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vnet", "subnet", "list")]
+[CliCommand("network", "vnet", "subnet", "list")]
 public record AzNetworkVnetSubnetListOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vnet-name")] string VnetName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vnet-name")] string VnetName
 ) : AzOptions
 {
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 }

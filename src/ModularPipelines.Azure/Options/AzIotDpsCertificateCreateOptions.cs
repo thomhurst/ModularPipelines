@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "dps", "certificate", "create")]
+[CliCommand("iot", "dps", "certificate", "create")]
 public record AzIotDpsCertificateCreateOptions(
-[property: CommandSwitch("--certificate-name")] string CertificateName,
-[property: CommandSwitch("--dps-name")] string DpsName,
-[property: CommandSwitch("--path")] string Path
+[property: CliOption("--certificate-name")] string CertificateName,
+[property: CliOption("--dps-name")] string DpsName,
+[property: CliOption("--path")] string Path
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--verified")]
+    [CliFlag("--verified")]
     public bool? Verified { get; set; }
 }

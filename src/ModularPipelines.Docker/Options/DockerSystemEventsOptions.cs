@@ -3,19 +3,19 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("system", "events")]
+[CliCommand("system", "events")]
 [ExcludeFromCodeCoverage]
 public record DockerSystemEventsOptions : DockerOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public virtual string? Filter { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [CommandSwitch("--since")]
+    [CliOption("--since")]
     public virtual string? Since { get; set; }
 
-    [CommandSwitch("--until")]
+    [CliOption("--until")]
     public virtual string? Until { get; set; }
 }

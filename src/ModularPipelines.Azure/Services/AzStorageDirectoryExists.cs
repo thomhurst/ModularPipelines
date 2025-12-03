@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "directory")]
+[CliCommand("storage", "directory")]
 public class AzStorageDirectoryExists
 {
     public AzStorageDirectoryExists(

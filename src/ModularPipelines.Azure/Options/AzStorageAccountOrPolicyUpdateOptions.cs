@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "account", "or-policy", "update")]
+[CliCommand("storage", "account", "or-policy", "update")]
 public record AzStorageAccountOrPolicyUpdateOptions(
-[property: CommandSwitch("--account-name")] int AccountName
+[property: CliOption("--account-name")] int AccountName
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--destination-account")]
+    [CliOption("--destination-account")]
     public int? DestinationAccount { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--policy")]
+    [CliOption("--policy")]
     public string? Policy { get; set; }
 
-    [CommandSwitch("--policy-id")]
+    [CliOption("--policy-id")]
     public string? PolicyId { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--source-account")]
+    [CliOption("--source-account")]
     public int? SourceAccount { get; set; }
 }

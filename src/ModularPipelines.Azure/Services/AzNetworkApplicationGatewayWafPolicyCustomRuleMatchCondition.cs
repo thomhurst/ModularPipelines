@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "waf-policy", "custom-rule")]
+[CliCommand("network", "application-gateway", "waf-policy", "custom-rule")]
 public class AzNetworkApplicationGatewayWafPolicyCustomRuleMatchCondition
 {
     public AzNetworkApplicationGatewayWafPolicyCustomRuleMatchCondition(

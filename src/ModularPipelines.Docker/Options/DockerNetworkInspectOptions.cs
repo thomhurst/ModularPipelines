@@ -15,12 +15,12 @@ public record DockerNetworkInspectOptions : DockerOptions
         Network = network;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Network { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [CommandSwitch("--verbose")]
+    [CliOption("--verbose")]
     public virtual string? Verbose { get; set; }
 }

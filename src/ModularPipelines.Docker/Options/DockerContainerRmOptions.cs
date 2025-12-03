@@ -15,15 +15,15 @@ public record DockerContainerRmOptions : DockerOptions
         Container = container;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Container { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [CommandSwitch("--link")]
+    [CliOption("--link")]
     public virtual string? Link { get; set; }
 
-    [CommandSwitch("--volumes")]
+    [CliOption("--volumes")]
     public virtual string? Volumes { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "role-assignment", "list")]
+[CliCommand("dt", "role-assignment", "list")]
 public record AzDtRoleAssignmentListOptions(
-[property: CommandSwitch("--dt-name")] string DtName
+[property: CliOption("--dt-name")] string DtName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--include-inherited")]
+    [CliFlag("--include-inherited")]
     public bool? IncludeInherited { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 }

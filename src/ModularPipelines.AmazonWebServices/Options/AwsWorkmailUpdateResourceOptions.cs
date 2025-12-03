@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workmail", "update-resource")]
+[CliCommand("workmail", "update-resource")]
 public record AwsWorkmailUpdateResourceOptions(
-[property: CommandSwitch("--organization-id")] string OrganizationId,
-[property: CommandSwitch("--resource-id")] string ResourceId
+[property: CliOption("--organization-id")] string OrganizationId,
+[property: CliOption("--resource-id")] string ResourceId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--booking-options")]
+    [CliOption("--booking-options")]
     public string? BookingOptions { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

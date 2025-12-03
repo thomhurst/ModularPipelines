@@ -3,10 +3,10 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("repo", "list")]
+[CliCommand("repo", "list")]
 [ExcludeFromCodeCoverage]
 public record HelmRepoListOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 }

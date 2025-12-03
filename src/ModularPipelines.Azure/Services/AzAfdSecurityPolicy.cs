@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd")]
+[CliCommand("afd")]
 public class AzAfdSecurityPolicy
 {
     public AzAfdSecurityPolicy(

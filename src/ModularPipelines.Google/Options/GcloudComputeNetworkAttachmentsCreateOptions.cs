@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "network-attachments", "create")]
+[CliCommand("compute", "network-attachments", "create")]
 public record GcloudComputeNetworkAttachmentsCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--subnets")] string[] Subnets
+[property: CliArgument] string Name,
+[property: CliOption("--subnets")] string[] Subnets
 ) : GcloudOptions
 {
-    [CommandSwitch("--connection-preference")]
+    [CliOption("--connection-preference")]
     public string? ConnectionPreference { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--producer-accept-list")]
+    [CliOption("--producer-accept-list")]
     public string[]? ProducerAcceptList { get; set; }
 
-    [CommandSwitch("--producer-reject-list")]
+    [CliOption("--producer-reject-list")]
     public string[]? ProducerRejectList { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--subnets-region")]
+    [CliOption("--subnets-region")]
     public string? SubnetsRegion { get; set; }
 }

@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("role", "assignment", "create")]
+[CliCommand("role", "assignment", "create")]
 public record AzRoleAssignmentCreateOptions(
-[property: CommandSwitch("--role")] string Role,
-[property: CommandSwitch("--scope")] string Scope
+[property: CliOption("--role")] string Role,
+[property: CliOption("--scope")] string Scope
 ) : AzOptions
 {
-    [CommandSwitch("--assignee")]
+    [CliOption("--assignee")]
     public string? Assignee { get; set; }
 
-    [CommandSwitch("--assignee-object-id")]
+    [CliOption("--assignee-object-id")]
     public string? AssigneeObjectId { get; set; }
 
-    [CommandSwitch("--assignee-principal-type")]
+    [CliOption("--assignee-principal-type")]
     public string? AssigneePrincipalType { get; set; }
 
-    [CommandSwitch("--condition")]
+    [CliOption("--condition")]
     public string? Condition { get; set; }
 
-    [CommandSwitch("--condition-version")]
+    [CliOption("--condition-version")]
     public string? ConditionVersion { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 }

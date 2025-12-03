@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm-sap", "get-application")]
+[CliCommand("ssm-sap", "get-application")]
 public record AwsSsmSapGetApplicationOptions : AwsOptions
 {
-    [CommandSwitch("--application-id")]
+    [CliOption("--application-id")]
     public string? ApplicationId { get; set; }
 
-    [CommandSwitch("--application-arn")]
+    [CliOption("--application-arn")]
     public string? ApplicationArn { get; set; }
 
-    [CommandSwitch("--app-registry-arn")]
+    [CliOption("--app-registry-arn")]
     public string? AppRegistryArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

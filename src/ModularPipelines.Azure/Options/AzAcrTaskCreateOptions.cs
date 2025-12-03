@@ -4,105 +4,105 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "task", "create")]
+[CliCommand("acr", "task", "create")]
 public record AzAcrTaskCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--name")] string Name,
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--agent-pool")]
+    [CliOption("--agent-pool")]
     public string? AgentPool { get; set; }
 
-    [CommandSwitch("--arg")]
+    [CliOption("--arg")]
     public string? Arg { get; set; }
 
-    [CommandSwitch("--assign-identity")]
+    [CliOption("--assign-identity")]
     public string? AssignIdentity { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [BooleanCommandSwitch("--base-image-trigger-enabled")]
+    [CliFlag("--base-image-trigger-enabled")]
     public bool? BaseImageTriggerEnabled { get; set; }
 
-    [CommandSwitch("--base-image-trigger-name")]
+    [CliOption("--base-image-trigger-name")]
     public string? BaseImageTriggerName { get; set; }
 
-    [CommandSwitch("--base-image-trigger-type")]
+    [CliOption("--base-image-trigger-type")]
     public string? BaseImageTriggerType { get; set; }
 
-    [CommandSwitch("--cmd")]
+    [CliOption("--cmd")]
     public string? Cmd { get; set; }
 
-    [BooleanCommandSwitch("--commit-trigger-enabled")]
+    [CliFlag("--commit-trigger-enabled")]
     public bool? CommitTriggerEnabled { get; set; }
 
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public string? Context { get; set; }
 
-    [CommandSwitch("--cpu")]
+    [CliOption("--cpu")]
     public string? Cpu { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 
-    [CommandSwitch("--git-access-token")]
+    [CliOption("--git-access-token")]
     public string? GitAccessToken { get; set; }
 
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [BooleanCommandSwitch("--is-system-task")]
+    [CliFlag("--is-system-task")]
     public bool? IsSystemTask { get; set; }
 
-    [CommandSwitch("--log-template")]
+    [CliOption("--log-template")]
     public string? LogTemplate { get; set; }
 
-    [BooleanCommandSwitch("--no-cache")]
+    [CliFlag("--no-cache")]
     public bool? NoCache { get; set; }
 
-    [BooleanCommandSwitch("--no-push")]
+    [CliFlag("--no-push")]
     public bool? NoPush { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public string? Platform { get; set; }
 
-    [BooleanCommandSwitch("--pull-request-trigger-enabled")]
+    [CliFlag("--pull-request-trigger-enabled")]
     public bool? PullRequestTriggerEnabled { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--schedule")]
+    [CliOption("--schedule")]
     public string? Schedule { get; set; }
 
-    [CommandSwitch("--secret-arg")]
+    [CliOption("--secret-arg")]
     public string? SecretArg { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--set-secret")]
+    [CliOption("--set-secret")]
     public string? SetSecret { get; set; }
 
-    [CommandSwitch("--source-trigger-name")]
+    [CliOption("--source-trigger-name")]
     public string? SourceTriggerName { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--target")]
+    [CliOption("--target")]
     public string? Target { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--update-trigger-endpoint")]
+    [CliOption("--update-trigger-endpoint")]
     public string? UpdateTriggerEndpoint { get; set; }
 
-    [CommandSwitch("--update-trigger-payload-type")]
+    [CliOption("--update-trigger-payload-type")]
     public string? UpdateTriggerPayloadType { get; set; }
 
-    [CommandSwitch("--values")]
+    [CliOption("--values")]
     public string? Values { get; set; }
 }

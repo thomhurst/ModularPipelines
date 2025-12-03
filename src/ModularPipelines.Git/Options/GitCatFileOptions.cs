@@ -3,52 +3,52 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("cat-file")]
+[CliCommand("cat-file")]
 [ExcludeFromCodeCoverage]
 public record GitCatFileOptions : GitOptions
 {
-    [BooleanCommandSwitch("--no-mailmap")]
+    [CliFlag("--no-mailmap")]
     public virtual bool? NoMailmap { get; set; }
 
-    [BooleanCommandSwitch("--mailmap")]
+    [CliFlag("--mailmap")]
     public virtual bool? Mailmap { get; set; }
 
-    [BooleanCommandSwitch("--no-use-mailmap")]
+    [CliFlag("--no-use-mailmap")]
     public virtual bool? NoUseMailmap { get; set; }
 
-    [BooleanCommandSwitch("--use-mailmap")]
+    [CliFlag("--use-mailmap")]
     public virtual bool? UseMailmap { get; set; }
 
-    [BooleanCommandSwitch("--textconv")]
+    [CliFlag("--textconv")]
     public virtual bool? Textconv { get; set; }
 
-    [BooleanCommandSwitch("--filters")]
+    [CliFlag("--filters")]
     public virtual bool? Filters { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--path")]
+    [CliOption("--path", Format = OptionFormat.EqualsSeparated)]
     public string? Path { get; set; }
 
-    [BooleanCommandSwitch("--batch")]
+    [CliFlag("--batch")]
     public virtual bool? Batch { get; set; }
 
-    [BooleanCommandSwitch("--batch-check")]
+    [CliFlag("--batch-check")]
     public virtual bool? BatchCheck { get; set; }
 
-    [BooleanCommandSwitch("--batch-command")]
+    [CliFlag("--batch-command")]
     public virtual bool? BatchCommand { get; set; }
 
-    [BooleanCommandSwitch("--batch-all-objects")]
+    [CliFlag("--batch-all-objects")]
     public virtual bool? BatchAllObjects { get; set; }
 
-    [BooleanCommandSwitch("--buffer")]
+    [CliFlag("--buffer")]
     public virtual bool? Buffer { get; set; }
 
-    [BooleanCommandSwitch("--unordered")]
+    [CliFlag("--unordered")]
     public virtual bool? Unordered { get; set; }
 
-    [BooleanCommandSwitch("--allow-unknown-type")]
+    [CliFlag("--allow-unknown-type")]
     public virtual bool? AllowUnknownType { get; set; }
 
-    [BooleanCommandSwitch("--follow-symlinks")]
+    [CliFlag("--follow-symlinks")]
     public virtual bool? FollowSymlinks { get; set; }
 }

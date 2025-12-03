@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedvmware", "cluster", "create")]
+[CliCommand("connectedvmware", "cluster", "create")]
 public record AzConnectedvmwareClusterCreateOptions(
-[property: CommandSwitch("--custom-location")] string CustomLocation,
-[property: CommandSwitch("--inventory-item")] string InventoryItem,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vcenter")] string Vcenter
+[property: CliOption("--custom-location")] string CustomLocation,
+[property: CliOption("--inventory-item")] string InventoryItem,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vcenter")] string Vcenter
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

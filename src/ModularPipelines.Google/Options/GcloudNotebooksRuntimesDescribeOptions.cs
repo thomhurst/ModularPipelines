@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("notebooks", "runtimes", "describe")]
+[CliCommand("notebooks", "runtimes", "describe")]
 public record GcloudNotebooksRuntimesDescribeOptions(
-[property: PositionalArgument] string Runtime,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Runtime,
+[property: CliArgument] string Location
 ) : GcloudOptions;

@@ -5,13 +5,13 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("service-directory", "services", "create")]
+[CliCommand("service-directory", "services", "create")]
 public record GcloudServiceDirectoryServicesCreateOptions(
-[property: PositionalArgument] string Service,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Namespace
+[property: CliArgument] string Service,
+[property: CliArgument] string Location,
+[property: CliArgument] string Namespace
 ) : GcloudOptions
 {
-    [CommandSwitch("--annotations")]
+    [CliOption("--annotations")]
     public IEnumerable<KeyValue>? Annotations { get; set; }
 }

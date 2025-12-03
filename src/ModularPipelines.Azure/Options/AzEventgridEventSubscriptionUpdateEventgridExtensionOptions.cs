@@ -6,60 +6,60 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("eventgrid", "event-subscription", "update", "(eventgrid", "extension)")]
 public record AzEventgridEventSubscriptionUpdateEventgridExtensionOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--advanced-filter")]
+    [CliOption("--advanced-filter")]
     public string? AdvancedFilter { get; set; }
 
-    [CommandSwitch("--deadletter-endpoint")]
+    [CliOption("--deadletter-endpoint")]
     public string? DeadletterEndpoint { get; set; }
 
-    [CommandSwitch("--deadletter-identity")]
+    [CliOption("--deadletter-identity")]
     public string? DeadletterIdentity { get; set; }
 
-    [CommandSwitch("--deadletter-identity-endpoint")]
+    [CliOption("--deadletter-identity-endpoint")]
     public string? DeadletterIdentityEndpoint { get; set; }
 
-    [CommandSwitch("--delivery-identity")]
+    [CliOption("--delivery-identity")]
     public string? DeliveryIdentity { get; set; }
 
-    [CommandSwitch("--delivery-identity-endpoint")]
+    [CliOption("--delivery-identity-endpoint")]
     public string? DeliveryIdentityEndpoint { get; set; }
 
-    [CommandSwitch("--delivery-identity-endpoint-type")]
+    [CliOption("--delivery-identity-endpoint-type")]
     public string? DeliveryIdentityEndpointType { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [CommandSwitch("--endpoint-type")]
+    [CliOption("--endpoint-type")]
     public string? EndpointType { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--included-event-types")]
+    [CliOption("--included-event-types")]
     public string? IncludedEventTypes { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string? Labels { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--source-resource-id")]
+    [CliOption("--source-resource-id")]
     public string? SourceResourceId { get; set; }
 
-    [CommandSwitch("--subject-begins-with")]
+    [CliOption("--subject-begins-with")]
     public string? SubjectBeginsWith { get; set; }
 
-    [CommandSwitch("--subject-ends-with")]
+    [CliOption("--subject-ends-with")]
     public string? SubjectEndsWith { get; set; }
 }

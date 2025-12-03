@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("grafana", "dashboard", "sync")]
+[CliCommand("grafana", "dashboard", "sync")]
 public record AzGrafanaDashboardSyncOptions(
-[property: CommandSwitch("--destination")] string Destination,
-[property: CommandSwitch("--source")] string Source
+[property: CliOption("--destination")] string Destination,
+[property: CliOption("--source")] string Source
 ) : AzOptions
 {
-    [CommandSwitch("--dashboards-to-exclude")]
+    [CliOption("--dashboards-to-exclude")]
     public string? DashboardsToExclude { get; set; }
 
-    [CommandSwitch("--dashboards-to-include")]
+    [CliOption("--dashboards-to-include")]
     public string? DashboardsToInclude { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CommandSwitch("--folders-to-exclude")]
+    [CliOption("--folders-to-exclude")]
     public string? FoldersToExclude { get; set; }
 
-    [CommandSwitch("--folders-to-include")]
+    [CliOption("--folders-to-include")]
     public string? FoldersToInclude { get; set; }
 }

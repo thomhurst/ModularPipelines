@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("infra-manager", "previews", "export")]
+[CliCommand("infra-manager", "previews", "export")]
 public record GcloudInfraManagerPreviewsExportOptions(
-[property: PositionalArgument] string Preview,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Preview,
+[property: CliArgument] string Location
 ) : GcloudOptions;

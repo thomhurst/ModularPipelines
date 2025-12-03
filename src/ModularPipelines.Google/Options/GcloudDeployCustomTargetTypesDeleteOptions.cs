@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "custom-target-types", "delete")]
+[CliCommand("deploy", "custom-target-types", "delete")]
 public record GcloudDeployCustomTargetTypesDeleteOptions(
-[property: PositionalArgument] string CustomTargetType,
-[property: PositionalArgument] string Region
+[property: CliArgument] string CustomTargetType,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

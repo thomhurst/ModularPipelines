@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firestore", "databases", "list")]
+[CliCommand("firestore", "databases", "list")]
 public record GcloudFirestoreDatabasesListOptions : GcloudOptions;

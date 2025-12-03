@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "restore", "restore-urefileshare")]
+[CliCommand("backup", "restore", "restore-urefileshare")]
 public record AzBackupRestoreRestoreAzurefileshareOptions(
-[property: CommandSwitch("--resolve-conflict")] string ResolveConflict,
-[property: CommandSwitch("--restore-mode")] string RestoreMode
+[property: CliOption("--resolve-conflict")] string ResolveConflict,
+[property: CliOption("--restore-mode")] string RestoreMode
 ) : AzOptions
 {
-    [CommandSwitch("--container-name")]
+    [CliOption("--container-name")]
     public string? ContainerName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--item-name")]
+    [CliOption("--item-name")]
     public string? ItemName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rp-name")]
+    [CliOption("--rp-name")]
     public string? RpName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--target-file-share")]
+    [CliOption("--target-file-share")]
     public string? TargetFileShare { get; set; }
 
-    [CommandSwitch("--target-folder")]
+    [CliOption("--target-folder")]
     public string? TargetFolder { get; set; }
 
-    [CommandSwitch("--target-resource-group-name")]
+    [CliOption("--target-resource-group-name")]
     public string? TargetResourceGroupName { get; set; }
 
-    [CommandSwitch("--target-storage-account")]
+    [CliOption("--target-storage-account")]
     public int? TargetStorageAccount { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 }

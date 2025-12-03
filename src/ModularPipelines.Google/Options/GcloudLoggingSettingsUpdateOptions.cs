@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logging", "settings", "update")]
+[CliCommand("logging", "settings", "update")]
 public record GcloudLoggingSettingsUpdateOptions(
-[property: CommandSwitch("--folder")] string Folder,
-[property: CommandSwitch("--organization")] string Organization
+[property: CliOption("--folder")] string Folder,
+[property: CliOption("--organization")] string Organization
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--disable-default-sink")]
+    [CliFlag("--disable-default-sink")]
     public bool? DisableDefaultSink { get; set; }
 
-    [CommandSwitch("--storage-location")]
+    [CliOption("--storage-location")]
     public string? StorageLocation { get; set; }
 
-    [BooleanCommandSwitch("--clear-kms-key")]
+    [CliFlag("--clear-kms-key")]
     public bool? ClearKmsKey { get; set; }
 
-    [CommandSwitch("--kms-key-name")]
+    [CliOption("--kms-key-name")]
     public string? KmsKeyName { get; set; }
 
-    [CommandSwitch("--kms-keyring")]
+    [CliOption("--kms-keyring")]
     public string? KmsKeyring { get; set; }
 
-    [CommandSwitch("--kms-location")]
+    [CliOption("--kms-location")]
     public string? KmsLocation { get; set; }
 
-    [CommandSwitch("--kms-project")]
+    [CliOption("--kms-project")]
     public string? KmsProject { get; set; }
 }

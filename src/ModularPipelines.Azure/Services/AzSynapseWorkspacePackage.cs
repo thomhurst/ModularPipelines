@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse")]
+[CliCommand("synapse")]
 public class AzSynapseWorkspacePackage
 {
     public AzSynapseWorkspacePackage(

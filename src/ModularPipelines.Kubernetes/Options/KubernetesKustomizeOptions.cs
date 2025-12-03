@@ -3,43 +3,43 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("kustomize")]
+[CliCommand("kustomize")]
 [ExcludeFromCodeCoverage]
-public record KubernetesKustomizeOptions([property: PositionalArgument] string Dir) : KubernetesOptions
+public record KubernetesKustomizeOptions([property: CliArgument] string Dir) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--as-current-user")]
+    [CliFlag("--as-current-user")]
     public virtual bool? AsCurrentUser { get; set; }
 
-    [BooleanCommandSwitch("--enable-alpha-plugins")]
+    [CliFlag("--enable-alpha-plugins")]
     public virtual bool? EnableAlphaPlugins { get; set; }
 
-    [BooleanCommandSwitch("--enable-helm")]
+    [CliFlag("--enable-helm")]
     public virtual bool? EnableHelm { get; set; }
 
-    [BooleanCommandSwitch("--enable-managedby-label")]
+    [CliFlag("--enable-managedby-label")]
     public virtual bool? EnableManagedbyLabel { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--env", SwitchValueSeparator = " ")]
+    [CliOption("--env")]
     public string[]? Env { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--helm-command", SwitchValueSeparator = " ")]
+    [CliOption("--helm-command")]
     public string? HelmCommand { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--load-restrictor", SwitchValueSeparator = " ")]
+    [CliOption("--load-restrictor")]
     public string? LoadRestrictor { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--mount", SwitchValueSeparator = " ")]
+    [CliOption("--mount")]
     public string[]? Mount { get; set; }
 
-    [BooleanCommandSwitch("--network")]
+    [CliFlag("--network")]
     public virtual bool? Network { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--network-name", SwitchValueSeparator = " ")]
+    [CliOption("--network-name")]
     public string? NetworkName { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--reorder", SwitchValueSeparator = " ")]
+    [CliOption("--reorder")]
     public string? Reorder { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("app", "runtimes", "list")]
+[CliCommand("app", "runtimes", "list")]
 public record GcloudAppRuntimesListOptions(
-[property: CommandSwitch("--environment")] string Environment
+[property: CliOption("--environment")] string Environment
 ) : GcloudOptions;

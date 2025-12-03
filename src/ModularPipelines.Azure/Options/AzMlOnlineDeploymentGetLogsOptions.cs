@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "online-deployment", "get-logs")]
+[CliCommand("ml", "online-deployment", "get-logs")]
 public record AzMlOnlineDeploymentGetLogsOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--container")]
+    [CliOption("--container")]
     public string? Container { get; set; }
 
-    [CommandSwitch("--lines")]
+    [CliOption("--lines")]
     public string? Lines { get; set; }
 
-    [BooleanCommandSwitch("--local")]
+    [CliFlag("--local")]
     public bool? Local { get; set; }
 }

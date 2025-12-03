@@ -3,64 +3,64 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("cherry-pick")]
+[CliCommand("cherry-pick")]
 [ExcludeFromCodeCoverage]
 public record GitCherryPickOptions : GitOptions
 {
-    [BooleanCommandSwitch("--edit")]
+    [CliFlag("--edit")]
     public virtual bool? Edit { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cleanup")]
+    [CliOption("--cleanup", Format = OptionFormat.EqualsSeparated)]
     public string? Cleanup { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--mainline")]
+    [CliOption("--mainline", Format = OptionFormat.EqualsSeparated)]
     public string? Mainline { get; set; }
 
-    [BooleanCommandSwitch("--no-commit")]
+    [CliFlag("--no-commit")]
     public virtual bool? NoCommit { get; set; }
 
-    [BooleanCommandSwitch("--signoff")]
+    [CliFlag("--signoff")]
     public virtual bool? Signoff { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--gpg-sign")]
+    [CliOption("--gpg-sign", Format = OptionFormat.EqualsSeparated)]
     public string? GpgSign { get; set; }
 
-    [BooleanCommandSwitch("--no-gpg-sign")]
+    [CliFlag("--no-gpg-sign")]
     public virtual bool? NoGpgSign { get; set; }
 
-    [BooleanCommandSwitch("--ff")]
+    [CliFlag("--ff")]
     public virtual bool? Ff { get; set; }
 
-    [BooleanCommandSwitch("--allow-empty")]
+    [CliFlag("--allow-empty")]
     public virtual bool? AllowEmpty { get; set; }
 
-    [BooleanCommandSwitch("--allow-empty-message")]
+    [CliFlag("--allow-empty-message")]
     public virtual bool? AllowEmptyMessage { get; set; }
 
-    [BooleanCommandSwitch("--keep-redundant-commits")]
+    [CliFlag("--keep-redundant-commits")]
     public virtual bool? KeepRedundantCommits { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--strategy")]
+    [CliOption("--strategy", Format = OptionFormat.EqualsSeparated)]
     public string? Strategy { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--strategy-option")]
+    [CliOption("--strategy-option", Format = OptionFormat.EqualsSeparated)]
     public string? StrategyOption { get; set; }
 
-    [BooleanCommandSwitch("--rerere-autoupdate")]
+    [CliFlag("--rerere-autoupdate")]
     public virtual bool? RerereAutoupdate { get; set; }
 
-    [BooleanCommandSwitch("--no-rerere-autoupdate")]
+    [CliFlag("--no-rerere-autoupdate")]
     public virtual bool? NoRerereAutoupdate { get; set; }
 
-    [BooleanCommandSwitch("--continue")]
+    [CliFlag("--continue")]
     public virtual bool? Continue { get; set; }
 
-    [BooleanCommandSwitch("--skip")]
+    [CliFlag("--skip")]
     public virtual bool? Skip { get; set; }
 
-    [BooleanCommandSwitch("--quit")]
+    [CliFlag("--quit")]
     public virtual bool? Quit { get; set; }
 
-    [BooleanCommandSwitch("--abort")]
+    [CliFlag("--abort")]
     public virtual bool? Abort { get; set; }
 }

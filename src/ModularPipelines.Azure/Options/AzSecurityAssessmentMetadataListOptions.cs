@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "assessment-metadata", "list")]
+[CliCommand("security", "assessment-metadata", "list")]
 public record AzSecurityAssessmentMetadataListOptions : AzOptions;

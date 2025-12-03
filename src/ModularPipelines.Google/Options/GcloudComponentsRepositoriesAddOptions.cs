@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("components", "repositories", "add")]
+[CliCommand("components", "repositories", "add")]
 public record GcloudComponentsRepositoriesAddOptions(
-[property: PositionalArgument] string Url
+[property: CliArgument] string Url
 ) : GcloudOptions;

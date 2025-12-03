@@ -3,76 +3,76 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("get")]
+[CliCommand("get")]
 [ExcludeFromCodeCoverage]
-public record KubernetesGetOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesGetOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--all-namespaces")]
+    [CliFlag("--all-namespaces")]
     public virtual bool? AllNamespaces { get; set; }
 
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--chunk-size", SwitchValueSeparator = " ")]
+    [CliOption("--chunk-size")]
     public int? ChunkSize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-selector", SwitchValueSeparator = " ")]
+    [CliOption("--field-selector")]
     public string? FieldSelector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
+    [CliOption("--filename")]
     public string[]? Filename { get; set; }
 
-    [BooleanCommandSwitch("--ignore-not-found")]
+    [CliFlag("--ignore-not-found")]
     public virtual bool? IgnoreNotFound { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CliOption("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--label-columns", SwitchValueSeparator = " ")]
+    [CliOption("--label-columns")]
     public string[]? LabelColumns { get; set; }
 
-    [BooleanCommandSwitch("--no-headers")]
+    [CliFlag("--no-headers")]
     public virtual bool? NoHeaders { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 
-    [BooleanCommandSwitch("--output-watch-events")]
+    [CliFlag("--output-watch-events")]
     public virtual bool? OutputWatchEvents { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--raw", SwitchValueSeparator = " ")]
+    [CliOption("--raw")]
     public string? Raw { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CliOption("--selector")]
     public string? Selector { get; set; }
 
-    [BooleanCommandSwitch("--server-print")]
+    [CliFlag("--server-print")]
     public virtual bool? ServerPrint { get; set; }
 
-    [BooleanCommandSwitch("--show-kind")]
+    [CliFlag("--show-kind")]
     public virtual bool? ShowKind { get; set; }
 
-    [BooleanCommandSwitch("--show-labels")]
+    [CliFlag("--show-labels")]
     public virtual bool? ShowLabels { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--sort-by", SwitchValueSeparator = " ")]
+    [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CliOption("--template")]
     public string? Template { get; set; }
 
-    [BooleanCommandSwitch("--use-openapi-print-columns")]
+    [CliFlag("--use-openapi-print-columns")]
     public virtual bool? UseOpenapiPrintColumns { get; set; }
 
-    [BooleanCommandSwitch("--watch")]
+    [CliFlag("--watch")]
     public virtual bool? Watch { get; set; }
 
-    [BooleanCommandSwitch("--watch-only")]
+    [CliFlag("--watch-only")]
     public virtual bool? WatchOnly { get; set; }
 }

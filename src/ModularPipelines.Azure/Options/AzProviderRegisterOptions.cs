@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("provider", "register")]
+[CliCommand("provider", "register")]
 public record AzProviderRegisterOptions(
-[property: CommandSwitch("--namespace")] string Namespace
+[property: CliOption("--namespace")] string Namespace
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--consent-to-permissions")]
+    [CliFlag("--consent-to-permissions")]
     public bool? ConsentToPermissions { get; set; }
 
-    [CommandSwitch("--management-group-id")]
+    [CliOption("--management-group-id")]
     public string? ManagementGroupId { get; set; }
 
-    [BooleanCommandSwitch("--wait")]
+    [CliFlag("--wait")]
     public bool? Wait { get; set; }
 }

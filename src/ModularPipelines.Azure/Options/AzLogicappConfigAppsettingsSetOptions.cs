@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logicapp", "config", "appsettings", "set")]
+[CliCommand("logicapp", "config", "appsettings", "set")]
 public record AzLogicappConfigAppsettingsSetOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--settings")]
+    [CliOption("--settings")]
     public string? Settings { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 
-    [CommandSwitch("--slot-settings")]
+    [CliOption("--slot-settings")]
     public string? SlotSettings { get; set; }
 }

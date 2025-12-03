@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("attestation", "policy", "set")]
+[CliCommand("attestation", "policy", "set")]
 public record AzAttestationPolicySetOptions(
-[property: CommandSwitch("--attestation-type")] string AttestationType
+[property: CliOption("--attestation-type")] string AttestationType
 ) : AzOptions
 {
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--new-attestation-policy")]
+    [CliOption("--new-attestation-policy")]
     public string? NewAttestationPolicy { get; set; }
 
-    [CommandSwitch("--new-attestation-policy-file")]
+    [CliOption("--new-attestation-policy-file")]
     public string? NewAttestationPolicyFile { get; set; }
 
-    [CommandSwitch("--policy-format")]
+    [CliOption("--policy-format")]
     public string? PolicyFormat { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

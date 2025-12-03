@@ -4,52 +4,52 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-site", "create")]
+[CliCommand("network", "vpn-site", "create")]
 public record AzNetworkVpnSiteCreateOptions(
-[property: CommandSwitch("--ip-address")] string IpAddress,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--ip-address")] string IpAddress,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--address-prefixes")]
+    [CliOption("--address-prefixes")]
     public string? AddressPrefixes { get; set; }
 
-    [CommandSwitch("--asn")]
+    [CliOption("--asn")]
     public string? Asn { get; set; }
 
-    [CommandSwitch("--bgp-peering-address")]
+    [CliOption("--bgp-peering-address")]
     public string? BgpPeeringAddress { get; set; }
 
-    [CommandSwitch("--device-model")]
+    [CliOption("--device-model")]
     public string? DeviceModel { get; set; }
 
-    [CommandSwitch("--device-vendor")]
+    [CliOption("--device-vendor")]
     public string? DeviceVendor { get; set; }
 
-    [CommandSwitch("--link-speed")]
+    [CliOption("--link-speed")]
     public string? LinkSpeed { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--peer-weight")]
+    [CliOption("--peer-weight")]
     public string? PeerWeight { get; set; }
 
-    [BooleanCommandSwitch("--security-site")]
+    [CliFlag("--security-site")]
     public bool? SecuritySite { get; set; }
 
-    [CommandSwitch("--site-key")]
+    [CliOption("--site-key")]
     public string? SiteKey { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--virtual-wan")]
+    [CliOption("--virtual-wan")]
     public string? VirtualWan { get; set; }
 
-    [BooleanCommandSwitch("--with-link")]
+    [CliFlag("--with-link")]
     public bool? WithLink { get; set; }
 }

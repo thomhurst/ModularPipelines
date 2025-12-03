@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mesh")]
+[CliCommand("mesh")]
 public class AzMeshServiceReplica
 {
     public AzMeshServiceReplica(

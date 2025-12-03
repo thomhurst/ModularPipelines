@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "workflow-templates", "instantiate")]
+[CliCommand("dataproc", "workflow-templates", "instantiate")]
 public record GcloudDataprocWorkflowTemplatesInstantiateOptions(
-[property: PositionalArgument] string Template,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Template,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 }

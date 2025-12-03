@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("source", "repos", "delete")]
+[CliCommand("source", "repos", "delete")]
 public record GcloudSourceReposDeleteOptions(
-[property: PositionalArgument] string RepositoryName
+[property: CliArgument] string RepositoryName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 }

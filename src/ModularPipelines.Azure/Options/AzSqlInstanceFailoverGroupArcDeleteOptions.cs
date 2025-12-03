@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "instance-failover-group-arc", "delete")]
+[CliCommand("sql", "instance-failover-group-arc", "delete")]
 public record AzSqlInstanceFailoverGroupArcDeleteOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--k8s-namespace")]
+    [CliOption("--k8s-namespace")]
     public string? K8sNamespace { get; set; }
 
-    [CommandSwitch("--mi")]
+    [CliOption("--mi")]
     public string? Mi { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--use-k8s")]
+    [CliFlag("--use-k8s")]
     public bool? UseK8s { get; set; }
 }

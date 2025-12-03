@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedmachine", "extension", "image", "list")]
+[CliCommand("connectedmachine", "extension", "image", "list")]
 public record AzConnectedmachineExtensionImageListOptions(
-[property: CommandSwitch("--extension-type")] string ExtensionType,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--publisher")] string Publisher
+[property: CliOption("--extension-type")] string ExtensionType,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--publisher")] string Publisher
 ) : AzOptions;

@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("swf", "start-workflow-execution")]
+[CliCommand("swf", "start-workflow-execution")]
 public record AwsSwfStartWorkflowExecutionOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--workflow-id")] string WorkflowId,
-[property: CommandSwitch("--workflow-type")] string WorkflowType
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--workflow-id")] string WorkflowId,
+[property: CliOption("--workflow-type")] string WorkflowType
 ) : AwsOptions
 {
-    [CommandSwitch("--task-list")]
+    [CliOption("--task-list")]
     public string? TaskList { get; set; }
 
-    [CommandSwitch("--task-priority")]
+    [CliOption("--task-priority")]
     public string? TaskPriority { get; set; }
 
-    [CommandSwitch("--input")]
+    [CliOption("--input")]
     public string? Input { get; set; }
 
-    [CommandSwitch("--execution-start-to-close-timeout")]
+    [CliOption("--execution-start-to-close-timeout")]
     public string? ExecutionStartToCloseTimeout { get; set; }
 
-    [CommandSwitch("--tag-list")]
+    [CliOption("--tag-list")]
     public string[]? TagList { get; set; }
 
-    [CommandSwitch("--task-start-to-close-timeout")]
+    [CliOption("--task-start-to-close-timeout")]
     public string? TaskStartToCloseTimeout { get; set; }
 
-    [CommandSwitch("--child-policy")]
+    [CliOption("--child-policy")]
     public string? ChildPolicy { get; set; }
 
-    [CommandSwitch("--lambda-role")]
+    [CliOption("--lambda-role")]
     public string? LambdaRole { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

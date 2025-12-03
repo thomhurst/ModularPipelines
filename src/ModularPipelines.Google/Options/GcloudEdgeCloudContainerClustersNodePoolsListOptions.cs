@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cloud", "container", "clusters", "node-pools", "list")]
+[CliCommand("edge-cloud", "container", "clusters", "node-pools", "list")]
 public record GcloudEdgeCloudContainerClustersNodePoolsListOptions : GcloudOptions
 {
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

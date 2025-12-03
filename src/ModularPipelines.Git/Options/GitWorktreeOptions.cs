@@ -3,52 +3,52 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("worktree", "add")]
+[CliCommand("worktree", "add")]
 [ExcludeFromCodeCoverage]
 public record GitWorktreeOptions : GitOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--detach")]
+    [CliFlag("--detach")]
     public virtual bool? Detach { get; set; }
 
-    [BooleanCommandSwitch("--no-checkout")]
+    [CliFlag("--no-checkout")]
     public virtual bool? NoCheckout { get; set; }
 
-    [BooleanCommandSwitch("--checkout")]
+    [CliFlag("--checkout")]
     public virtual bool? Checkout { get; set; }
 
-    [BooleanCommandSwitch("--no-guess-remote")]
+    [CliFlag("--no-guess-remote")]
     public virtual bool? NoGuessRemote { get; set; }
 
-    [BooleanCommandSwitch("--guess-remote")]
+    [CliFlag("--guess-remote")]
     public virtual bool? GuessRemote { get; set; }
 
-    [BooleanCommandSwitch("--no-track")]
+    [CliFlag("--no-track")]
     public virtual bool? NoTrack { get; set; }
 
-    [BooleanCommandSwitch("--track")]
+    [CliFlag("--track")]
     public virtual bool? Track { get; set; }
 
-    [BooleanCommandSwitch("--lock")]
+    [CliFlag("--lock")]
     public virtual bool? Lock { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--porcelain")]
+    [CliFlag("--porcelain")]
     public virtual bool? Porcelain { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--expire")]
+    [CliOption("--expire", Format = OptionFormat.EqualsSeparated)]
     public string? Expire { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--reason")]
+    [CliOption("--reason", Format = OptionFormat.EqualsSeparated)]
     public string? Reason { get; set; }
 }

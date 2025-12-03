@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "delete")]
+[CliCommand("compute", "instances", "delete")]
 public record GcloudComputeInstancesDeleteOptions(
-[property: PositionalArgument] string InstanceNames
+[property: CliArgument] string InstanceNames
 ) : GcloudOptions
 {
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--delete-disks")]
+    [CliOption("--delete-disks")]
     public string? DeleteDisks { get; set; }
 
-    [BooleanCommandSwitch("all")]
+    [CliFlag("all")]
     public bool? All { get; set; }
 
-    [BooleanCommandSwitch("boot")]
+    [CliFlag("boot")]
     public bool? Boot { get; set; }
 
-    [BooleanCommandSwitch("data")]
+    [CliFlag("data")]
     public bool? Data { get; set; }
 
-    [CommandSwitch("--keep-disks")]
+    [CliOption("--keep-disks")]
     public string? KeepDisks { get; set; }
 }

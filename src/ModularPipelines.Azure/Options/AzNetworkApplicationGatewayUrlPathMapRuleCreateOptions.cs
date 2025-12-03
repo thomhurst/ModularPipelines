@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "url-path-map", "rule", "create")]
+[CliCommand("network", "application-gateway", "url-path-map", "rule", "create")]
 public record AzNetworkApplicationGatewayUrlPathMapRuleCreateOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--path-map-name")] string PathMapName,
-[property: CommandSwitch("--paths")] string Paths,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--path-map-name")] string PathMapName,
+[property: CliOption("--paths")] string Paths,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--address-pool")]
+    [CliOption("--address-pool")]
     public string? AddressPool { get; set; }
 
-    [CommandSwitch("--http-settings")]
+    [CliOption("--http-settings")]
     public string? HttpSettings { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--redirect-config")]
+    [CliOption("--redirect-config")]
     public string? RedirectConfig { get; set; }
 
-    [CommandSwitch("--rewrite-rule-set")]
+    [CliOption("--rewrite-rule-set")]
     public string? RewriteRuleSet { get; set; }
 
-    [CommandSwitch("--waf-policy")]
+    [CliOption("--waf-policy")]
     public string? WafPolicy { get; set; }
 }

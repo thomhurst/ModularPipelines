@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "disks", "remove-labels")]
+[CliCommand("compute", "disks", "remove-labels")]
 public record GcloudComputeDisksRemoveLabelsOptions(
-[property: PositionalArgument] string DiskName,
-[property: BooleanCommandSwitch("--all")] bool All,
-[property: CommandSwitch("--labels")] string[] Labels
+[property: CliArgument] string DiskName,
+[property: CliFlag("--all")] bool All,
+[property: CliOption("--labels")] string[] Labels
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

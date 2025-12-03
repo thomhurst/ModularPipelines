@@ -3,19 +3,19 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "push")]
+[CliCommand("compose", "push")]
 [ExcludeFromCodeCoverage]
 public record DockerComposePushOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Service { get; set; }
 
-    [CommandSwitch("--ignore-push-failures")]
+    [CliOption("--ignore-push-failures")]
     public virtual string? IgnorePushFailures { get; set; }
 
-    [CommandSwitch("--include-deps")]
+    [CliOption("--include-deps")]
     public virtual string? IncludeDeps { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 }

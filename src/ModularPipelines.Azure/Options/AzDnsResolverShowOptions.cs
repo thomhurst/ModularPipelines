@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns-resolver", "show")]
+[CliCommand("dns-resolver", "show")]
 public record AzDnsResolverShowOptions : AzOptions
 {
-    [CommandSwitch("--dns-resolver-name")]
+    [CliOption("--dns-resolver-name")]
     public string? DnsResolverName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

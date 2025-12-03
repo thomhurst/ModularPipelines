@@ -5,225 +5,225 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "workflow-templates", "set-managed-cluster")]
+[CliCommand("dataproc", "workflow-templates", "set-managed-cluster")]
 public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions(
-[property: PositionalArgument] string Template,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Template,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--no-address")]
+    [CliFlag("--no-address")]
     public bool? NoAddress { get; set; }
 
-    [CommandSwitch("--autoscaling-policy")]
+    [CliOption("--autoscaling-policy")]
     public string? AutoscalingPolicy { get; set; }
 
-    [CommandSwitch("--bucket")]
+    [CliOption("--bucket")]
     public string? Bucket { get; set; }
 
-    [CommandSwitch("--cluster-name")]
+    [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [BooleanCommandSwitch("--confidential-compute")]
+    [CliFlag("--confidential-compute")]
     public bool? ConfidentialCompute { get; set; }
 
-    [CommandSwitch("--dataproc-metastore")]
+    [CliOption("--dataproc-metastore")]
     public string? DataprocMetastore { get; set; }
 
-    [BooleanCommandSwitch("--enable-component-gateway")]
+    [CliFlag("--enable-component-gateway")]
     public bool? EnableComponentGateway { get; set; }
 
-    [CommandSwitch("--initialization-action-timeout")]
+    [CliOption("--initialization-action-timeout")]
     public string? InitializationActionTimeout { get; set; }
 
-    [CommandSwitch("--initialization-actions")]
+    [CliOption("--initialization-actions")]
     public string[]? InitializationActions { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--master-accelerator")]
+    [CliOption("--master-accelerator")]
     public string[]? MasterAccelerator { get; set; }
 
-    [CommandSwitch("--master-boot-disk-size")]
+    [CliOption("--master-boot-disk-size")]
     public string? MasterBootDiskSize { get; set; }
 
-    [CommandSwitch("--master-boot-disk-type")]
+    [CliOption("--master-boot-disk-type")]
     public string? MasterBootDiskType { get; set; }
 
-    [CommandSwitch("--master-local-ssd-interface")]
+    [CliOption("--master-local-ssd-interface")]
     public string? MasterLocalSsdInterface { get; set; }
 
-    [CommandSwitch("--master-machine-type")]
+    [CliOption("--master-machine-type")]
     public string? MasterMachineType { get; set; }
 
-    [CommandSwitch("--master-min-cpu-platform")]
+    [CliOption("--master-min-cpu-platform")]
     public string? MasterMinCpuPlatform { get; set; }
 
-    [CommandSwitch("--min-secondary-worker-fraction")]
+    [CliOption("--min-secondary-worker-fraction")]
     public string? MinSecondaryWorkerFraction { get; set; }
 
-    [CommandSwitch("--node-group")]
+    [CliOption("--node-group")]
     public string? NodeGroup { get; set; }
 
-    [CommandSwitch("--num-master-local-ssds")]
+    [CliOption("--num-master-local-ssds")]
     public string? NumMasterLocalSsds { get; set; }
 
-    [CommandSwitch("--num-masters")]
+    [CliOption("--num-masters")]
     public string? NumMasters { get; set; }
 
-    [CommandSwitch("--num-secondary-worker-local-ssds")]
+    [CliOption("--num-secondary-worker-local-ssds")]
     public string? NumSecondaryWorkerLocalSsds { get; set; }
 
-    [CommandSwitch("--num-worker-local-ssds")]
+    [CliOption("--num-worker-local-ssds")]
     public string? NumWorkerLocalSsds { get; set; }
 
-    [CommandSwitch("--optional-components")]
+    [CliOption("--optional-components")]
     public string[]? OptionalComponents { get; set; }
 
-    [CommandSwitch("--private-ipv6-google-access-type")]
+    [CliOption("--private-ipv6-google-access-type")]
     public string? PrivateIpv6GoogleAccessType { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string[]? Properties { get; set; }
 
-    [CommandSwitch("--secondary-worker-accelerator")]
+    [CliOption("--secondary-worker-accelerator")]
     public string[]? SecondaryWorkerAccelerator { get; set; }
 
-    [CommandSwitch("--secondary-worker-boot-disk-size")]
+    [CliOption("--secondary-worker-boot-disk-size")]
     public string? SecondaryWorkerBootDiskSize { get; set; }
 
-    [CommandSwitch("--secondary-worker-boot-disk-type")]
+    [CliOption("--secondary-worker-boot-disk-type")]
     public string? SecondaryWorkerBootDiskType { get; set; }
 
-    [CommandSwitch("--secondary-worker-local-ssd-interface")]
+    [CliOption("--secondary-worker-local-ssd-interface")]
     public string? SecondaryWorkerLocalSsdInterface { get; set; }
 
-    [CommandSwitch("--secondary-worker-machine-types")]
+    [CliOption("--secondary-worker-machine-types")]
     public string[]? SecondaryWorkerMachineTypes { get; set; }
 
-    [BooleanCommandSwitch("--shielded-integrity-monitoring")]
+    [CliFlag("--shielded-integrity-monitoring")]
     public bool? ShieldedIntegrityMonitoring { get; set; }
 
-    [BooleanCommandSwitch("--shielded-secure-boot")]
+    [CliFlag("--shielded-secure-boot")]
     public bool? ShieldedSecureBoot { get; set; }
 
-    [BooleanCommandSwitch("--shielded-vtpm")]
+    [CliFlag("--shielded-vtpm")]
     public bool? ShieldedVtpm { get; set; }
 
-    [CommandSwitch("--temp-bucket")]
+    [CliOption("--temp-bucket")]
     public string? TempBucket { get; set; }
 
-    [CommandSwitch("--worker-accelerator")]
+    [CliOption("--worker-accelerator")]
     public string[]? WorkerAccelerator { get; set; }
 
-    [CommandSwitch("--worker-boot-disk-size")]
+    [CliOption("--worker-boot-disk-size")]
     public string? WorkerBootDiskSize { get; set; }
 
-    [CommandSwitch("--worker-boot-disk-type")]
+    [CliOption("--worker-boot-disk-type")]
     public string? WorkerBootDiskType { get; set; }
 
-    [CommandSwitch("--worker-local-ssd-interface")]
+    [CliOption("--worker-local-ssd-interface")]
     public string? WorkerLocalSsdInterface { get; set; }
 
-    [CommandSwitch("--worker-machine-type")]
+    [CliOption("--worker-machine-type")]
     public string? WorkerMachineType { get; set; }
 
-    [CommandSwitch("--worker-min-cpu-platform")]
+    [CliOption("--worker-min-cpu-platform")]
     public string? WorkerMinCpuPlatform { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--identity-config-file")]
+    [CliOption("--identity-config-file")]
     public string? IdentityConfigFile { get; set; }
 
-    [CommandSwitch("--secure-multi-tenancy-user-mapping")]
+    [CliOption("--secure-multi-tenancy-user-mapping")]
     public string? SecureMultiTenancyUserMapping { get; set; }
 
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--image-version")]
+    [CliOption("--image-version")]
     public string? ImageVersion { get; set; }
 
-    [CommandSwitch("--kerberos-config-file")]
+    [CliOption("--kerberos-config-file")]
     public string? KerberosConfigFile { get; set; }
 
-    [BooleanCommandSwitch("--enable-kerberos")]
+    [CliFlag("--enable-kerberos")]
     public bool? EnableKerberos { get; set; }
 
-    [CommandSwitch("--kerberos-root-principal-password-uri")]
+    [CliOption("--kerberos-root-principal-password-uri")]
     public string? KerberosRootPrincipalPasswordUri { get; set; }
 
-    [CommandSwitch("--kerberos-kms-key")]
+    [CliOption("--kerberos-kms-key")]
     public string? KerberosKmsKey { get; set; }
 
-    [CommandSwitch("--kerberos-kms-key-keyring")]
+    [CliOption("--kerberos-kms-key-keyring")]
     public string? KerberosKmsKeyKeyring { get; set; }
 
-    [CommandSwitch("--kerberos-kms-key-location")]
+    [CliOption("--kerberos-kms-key-location")]
     public string? KerberosKmsKeyLocation { get; set; }
 
-    [CommandSwitch("--kerberos-kms-key-project")]
+    [CliOption("--kerberos-kms-key-project")]
     public string? KerberosKmsKeyProject { get; set; }
 
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--kms-keyring")]
+    [CliOption("--kms-keyring")]
     public string? KmsKeyring { get; set; }
 
-    [CommandSwitch("--kms-location")]
+    [CliOption("--kms-location")]
     public string? KmsLocation { get; set; }
 
-    [CommandSwitch("--kms-project")]
+    [CliOption("--kms-project")]
     public string? KmsProject { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public IEnumerable<KeyValue>? Metadata { get; set; }
 
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string[]? Scopes { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--reservation")]
+    [CliOption("--reservation")]
     public string? Reservation { get; set; }
 
-    [CommandSwitch("--reservation-affinity")]
+    [CliOption("--reservation-affinity")]
     public string? ReservationAffinity { get; set; }
 
-    [CommandSwitch("--metric-sources")]
+    [CliOption("--metric-sources")]
     public string[]? MetricSources { get; set; }
 
-    [CommandSwitch("--metric-overrides")]
+    [CliOption("--metric-overrides")]
     public string[]? MetricOverrides { get; set; }
 
-    [CommandSwitch("--metric-overrides-file")]
+    [CliOption("--metric-overrides-file")]
     public string? MetricOverridesFile { get; set; }
 
-    [BooleanCommandSwitch("--single-node")]
+    [CliFlag("--single-node")]
     public bool? SingleNode { get; set; }
 
-    [CommandSwitch("--min-num-workers")]
+    [CliOption("--min-num-workers")]
     public string? MinNumWorkers { get; set; }
 
-    [CommandSwitch("--num-secondary-workers")]
+    [CliOption("--num-secondary-workers")]
     public string? NumSecondaryWorkers { get; set; }
 
-    [CommandSwitch("--num-workers")]
+    [CliOption("--num-workers")]
     public string? NumWorkers { get; set; }
 
-    [CommandSwitch("--secondary-worker-type")]
+    [CliOption("--secondary-worker-type")]
     public string? SecondaryWorkerType { get; set; }
 }

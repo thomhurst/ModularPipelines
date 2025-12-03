@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("snapshot", "grant-access")]
+[CliCommand("snapshot", "grant-access")]
 public record AzSnapshotGrantAccessOptions(
-[property: CommandSwitch("--duration-in-seconds")] string DurationInSeconds
+[property: CliOption("--duration-in-seconds")] string DurationInSeconds
 ) : AzOptions
 {
-    [CommandSwitch("--access-level")]
+    [CliOption("--access-level")]
     public string? AccessLevel { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

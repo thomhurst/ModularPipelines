@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dla", "account", "update")]
+[CliCommand("dla", "account", "update")]
 public record AzDlaAccountUpdateOptions : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [BooleanCommandSwitch("--allow-azure-ips")]
+    [CliFlag("--allow-azure-ips")]
     public bool? AllowAzureIps { get; set; }
 
-    [CommandSwitch("--firewall-state")]
+    [CliOption("--firewall-state")]
     public string? FirewallState { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--max-degree-of-parallelism")]
+    [CliOption("--max-degree-of-parallelism")]
     public string? MaxDegreeOfParallelism { get; set; }
 
-    [CommandSwitch("--max-job-count")]
+    [CliOption("--max-job-count")]
     public int? MaxJobCount { get; set; }
 
-    [CommandSwitch("--query-store-retention")]
+    [CliOption("--query-store-retention")]
     public string? QueryStoreRetention { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 }

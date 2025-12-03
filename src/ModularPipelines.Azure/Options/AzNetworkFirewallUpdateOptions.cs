@@ -4,75 +4,75 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "firewall", "update")]
+[CliCommand("network", "firewall", "update")]
 public record AzNetworkFirewallUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--allow-active-ftp")]
+    [CliFlag("--allow-active-ftp")]
     public bool? AllowActiveFtp { get; set; }
 
-    [CommandSwitch("--count")]
+    [CliOption("--count")]
     public int? Count { get; set; }
 
-    [CommandSwitch("--dns-servers")]
+    [CliOption("--dns-servers")]
     public string? DnsServers { get; set; }
 
-    [BooleanCommandSwitch("--enable-dns-proxy")]
+    [CliFlag("--enable-dns-proxy")]
     public bool? EnableDnsProxy { get; set; }
 
-    [BooleanCommandSwitch("--enable-fat-flow-logging")]
+    [CliFlag("--enable-fat-flow-logging")]
     public bool? EnableFatFlowLogging { get; set; }
 
-    [BooleanCommandSwitch("--enable-udp-log-optimization")]
+    [CliFlag("--enable-udp-log-optimization")]
     public bool? EnableUdpLogOptimization { get; set; }
 
-    [CommandSwitch("--firewall-policy")]
+    [CliOption("--firewall-policy")]
     public string? FirewallPolicy { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--private-ranges")]
+    [CliOption("--private-ranges")]
     public string? PrivateRanges { get; set; }
 
-    [CommandSwitch("--public-ips")]
+    [CliOption("--public-ips")]
     public string? PublicIps { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--route-server-id")]
+    [CliOption("--route-server-id")]
     public string? RouteServerId { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--threat-intel-mode")]
+    [CliOption("--threat-intel-mode")]
     public string? ThreatIntelMode { get; set; }
 
-    [CommandSwitch("--vhub")]
+    [CliOption("--vhub")]
     public string? Vhub { get; set; }
 
-    [CommandSwitch("--zones")]
+    [CliOption("--zones")]
     public string? Zones { get; set; }
 }

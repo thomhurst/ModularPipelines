@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "account", "backup-vault")]
+[CliCommand("netappfiles", "account", "backup-vault")]
 public class AzNetappfilesAccountBackupVaultBackup
 {
     public AzNetappfilesAccountBackupVaultBackup(

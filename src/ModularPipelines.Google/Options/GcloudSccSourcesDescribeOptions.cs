@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scc", "sources", "describe")]
+[CliCommand("scc", "sources", "describe")]
 public record GcloudSccSourcesDescribeOptions(
-[property: PositionalArgument] string Organization,
-[property: CommandSwitch("--source")] string Source,
-[property: CommandSwitch("--source-display-name")] string SourceDisplayName
+[property: CliArgument] string Organization,
+[property: CliOption("--source")] string Source,
+[property: CliOption("--source-display-name")] string SourceDisplayName
 ) : GcloudOptions;

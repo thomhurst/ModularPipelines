@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-context")]
+[CliCommand("sagemaker", "create-context")]
 public record AwsSagemakerCreateContextOptions(
-[property: CommandSwitch("--context-name")] string ContextName,
-[property: CommandSwitch("--source")] string Source,
-[property: CommandSwitch("--context-type")] string ContextType
+[property: CliOption("--context-name")] string ContextName,
+[property: CliOption("--source")] string Source,
+[property: CliOption("--context-type")] string ContextType
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public IEnumerable<KeyValue>? Properties { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

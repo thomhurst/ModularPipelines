@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("privateca", "pools", "get-iam-policy")]
+[CliCommand("privateca", "pools", "get-iam-policy")]
 public record GcloudPrivatecaPoolsGetIamPolicyOptions(
-[property: PositionalArgument] string Pool,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Pool,
+[property: CliArgument] string Location
 ) : GcloudOptions;

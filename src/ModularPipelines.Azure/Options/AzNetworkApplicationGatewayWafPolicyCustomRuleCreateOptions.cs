@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "waf-policy", "custom-rule", "create")]
+[CliCommand("network", "application-gateway", "waf-policy", "custom-rule", "create")]
 public record AzNetworkApplicationGatewayWafPolicyCustomRuleCreateOptions(
-[property: CommandSwitch("--action")] string Action,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--priority")] string Priority,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--rule-type")] string RuleType
+[property: CliOption("--action")] string Action,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--policy-name")] string PolicyName,
+[property: CliOption("--priority")] string Priority,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--rule-type")] string RuleType
 ) : AzOptions
 {
-    [CommandSwitch("--group-by-user-session")]
+    [CliOption("--group-by-user-session")]
     public string? GroupByUserSession { get; set; }
 
-    [CommandSwitch("--match-conditions")]
+    [CliOption("--match-conditions")]
     public string? MatchConditions { get; set; }
 
-    [CommandSwitch("--rate-limit-duration")]
+    [CliOption("--rate-limit-duration")]
     public string? RateLimitDuration { get; set; }
 
-    [CommandSwitch("--rate-limit-threshold")]
+    [CliOption("--rate-limit-threshold")]
     public string? RateLimitThreshold { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 }

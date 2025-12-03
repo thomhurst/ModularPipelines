@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "virtual-appliance", "site", "create")]
+[CliCommand("network", "virtual-appliance", "site", "create")]
 public record AzNetworkVirtualApplianceSiteCreateOptions(
-[property: CommandSwitch("--appliance-name")] string ApplianceName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--appliance-name")] string ApplianceName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--address-prefix")]
+    [CliOption("--address-prefix")]
     public string? AddressPrefix { get; set; }
 
-    [BooleanCommandSwitch("--allow")]
+    [CliFlag("--allow")]
     public bool? Allow { get; set; }
 
-    [BooleanCommandSwitch("--default")]
+    [CliFlag("--default")]
     public bool? Default { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--optimize")]
+    [CliFlag("--optimize")]
     public bool? Optimize { get; set; }
 }

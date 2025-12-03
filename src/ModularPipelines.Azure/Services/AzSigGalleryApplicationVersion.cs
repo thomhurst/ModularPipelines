@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "gallery-application")]
+[CliCommand("sig", "gallery-application")]
 public class AzSigGalleryApplicationVersion
 {
     public AzSigGalleryApplicationVersion(

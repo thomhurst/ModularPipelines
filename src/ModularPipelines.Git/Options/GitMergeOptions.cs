@@ -3,133 +3,133 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("merge")]
+[CliCommand("merge")]
 [ExcludeFromCodeCoverage]
 public record GitMergeOptions : GitOptions
 {
-    [BooleanCommandSwitch("--commit")]
+    [CliFlag("--commit")]
     public virtual bool? Commit { get; set; }
 
-    [BooleanCommandSwitch("--no-commit")]
+    [CliFlag("--no-commit")]
     public virtual bool? NoCommit { get; set; }
 
-    [BooleanCommandSwitch("--edit")]
+    [CliFlag("--edit")]
     public virtual bool? Edit { get; set; }
 
-    [BooleanCommandSwitch("--no-edit")]
+    [CliFlag("--no-edit")]
     public virtual bool? NoEdit { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cleanup")]
+    [CliOption("--cleanup", Format = OptionFormat.EqualsSeparated)]
     public string? Cleanup { get; set; }
 
-    [BooleanCommandSwitch("--ff")]
+    [CliFlag("--ff")]
     public virtual bool? Ff { get; set; }
 
-    [BooleanCommandSwitch("--no-ff")]
+    [CliFlag("--no-ff")]
     public virtual bool? NoFf { get; set; }
 
-    [BooleanCommandSwitch("--ff-only")]
+    [CliFlag("--ff-only")]
     public virtual bool? FfOnly { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--gpg-sign")]
+    [CliOption("--gpg-sign", Format = OptionFormat.EqualsSeparated)]
     public string? GpgSign { get; set; }
 
-    [BooleanCommandSwitch("--no-gpg-sign")]
+    [CliFlag("--no-gpg-sign")]
     public virtual bool? NoGpgSign { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--log")]
+    [CliOption("--log", Format = OptionFormat.EqualsSeparated)]
     public string? Log { get; set; }
 
-    [BooleanCommandSwitch("--no-log")]
+    [CliFlag("--no-log")]
     public virtual bool? NoLog { get; set; }
 
-    [BooleanCommandSwitch("--signoff")]
+    [CliFlag("--signoff")]
     public virtual bool? Signoff { get; set; }
 
-    [BooleanCommandSwitch("--no-signoff")]
+    [CliFlag("--no-signoff")]
     public virtual bool? NoSignoff { get; set; }
 
-    [BooleanCommandSwitch("--stat")]
+    [CliFlag("--stat")]
     public virtual bool? Stat { get; set; }
 
-    [BooleanCommandSwitch("--no-stat")]
+    [CliFlag("--no-stat")]
     public virtual bool? NoStat { get; set; }
 
-    [BooleanCommandSwitch("--squash")]
+    [CliFlag("--squash")]
     public virtual bool? Squash { get; set; }
 
-    [BooleanCommandSwitch("--no-squash")]
+    [CliFlag("--no-squash")]
     public virtual bool? NoSquash { get; set; }
 
-    [BooleanCommandSwitch("--no-verify")]
+    [CliFlag("--no-verify")]
     public virtual bool? NoVerify { get; set; }
 
-    [BooleanCommandSwitch("--verify")]
+    [CliFlag("--verify")]
     public virtual bool? Verify { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--strategy")]
+    [CliOption("--strategy", Format = OptionFormat.EqualsSeparated)]
     public string? Strategy { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--strategy-option")]
+    [CliOption("--strategy-option", Format = OptionFormat.EqualsSeparated)]
     public string? StrategyOption { get; set; }
 
-    [BooleanCommandSwitch("--verify-signatures")]
+    [CliFlag("--verify-signatures")]
     public virtual bool? VerifySignatures { get; set; }
 
-    [BooleanCommandSwitch("--no-verify-signatures")]
+    [CliFlag("--no-verify-signatures")]
     public virtual bool? NoVerifySignatures { get; set; }
 
-    [BooleanCommandSwitch("--summary")]
+    [CliFlag("--summary")]
     public virtual bool? Summary { get; set; }
 
-    [BooleanCommandSwitch("--no-summary")]
+    [CliFlag("--no-summary")]
     public virtual bool? NoSummary { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("--progress")]
+    [CliFlag("--progress")]
     public virtual bool? Progress { get; set; }
 
-    [BooleanCommandSwitch("--no-progress")]
+    [CliFlag("--no-progress")]
     public virtual bool? NoProgress { get; set; }
 
-    [BooleanCommandSwitch("--autostash")]
+    [CliFlag("--autostash")]
     public virtual bool? Autostash { get; set; }
 
-    [BooleanCommandSwitch("--no-autostash")]
+    [CliFlag("--no-autostash")]
     public virtual bool? NoAutostash { get; set; }
 
-    [BooleanCommandSwitch("--allow-unrelated-histories")]
+    [CliFlag("--allow-unrelated-histories")]
     public virtual bool? AllowUnrelatedHistories { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--into-name")]
+    [CliOption("--into-name", Format = OptionFormat.EqualsSeparated)]
     public string? IntoName { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--file")]
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
     public string? File { get; set; }
 
-    [BooleanCommandSwitch("--rerere-autoupdate")]
+    [CliFlag("--rerere-autoupdate")]
     public virtual bool? RerereAutoupdate { get; set; }
 
-    [BooleanCommandSwitch("--no-rerere-autoupdate")]
+    [CliFlag("--no-rerere-autoupdate")]
     public virtual bool? NoRerereAutoupdate { get; set; }
 
-    [BooleanCommandSwitch("--overwrite-ignore")]
+    [CliFlag("--overwrite-ignore")]
     public virtual bool? OverwriteIgnore { get; set; }
 
-    [BooleanCommandSwitch("--no-overwrite-ignore")]
+    [CliFlag("--no-overwrite-ignore")]
     public virtual bool? NoOverwriteIgnore { get; set; }
 
-    [BooleanCommandSwitch("--abort")]
+    [CliFlag("--abort")]
     public virtual bool? Abort { get; set; }
 
-    [BooleanCommandSwitch("--quit")]
+    [CliFlag("--quit")]
     public virtual bool? Quit { get; set; }
 
-    [BooleanCommandSwitch("--continue")]
+    [CliFlag("--continue")]
     public virtual bool? Continue { get; set; }
 }

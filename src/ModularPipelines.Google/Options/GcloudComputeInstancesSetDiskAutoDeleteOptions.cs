@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "set-disk-auto-delete")]
+[CliCommand("compute", "instances", "set-disk-auto-delete")]
 public record GcloudComputeInstancesSetDiskAutoDeleteOptions(
-[property: PositionalArgument] string InstanceName,
-[property: CommandSwitch("--device-name")] string DeviceName,
-[property: CommandSwitch("--disk")] string Disk
+[property: CliArgument] string InstanceName,
+[property: CliOption("--device-name")] string DeviceName,
+[property: CliOption("--disk")] string Disk
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--auto-delete")]
+    [CliFlag("--auto-delete")]
     public bool? AutoDelete { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

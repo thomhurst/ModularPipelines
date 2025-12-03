@@ -7,18 +7,18 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("sig", "image-definition", "show-community", "(image-gallery", "extension)")]
 public record AzSigImageDefinitionShowCommunityImageGalleryExtensionOptions : AzOptions
 {
-    [CommandSwitch("--gallery-image-definition")]
+    [CliOption("--gallery-image-definition")]
     public string? GalleryImageDefinition { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--public-gallery-name")]
+    [CliOption("--public-gallery-name")]
     public string? PublicGalleryName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

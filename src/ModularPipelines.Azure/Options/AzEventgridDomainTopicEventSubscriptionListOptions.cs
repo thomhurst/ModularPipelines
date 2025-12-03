@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "domain", "topic", "event-subscription", "list")]
+[CliCommand("eventgrid", "domain", "topic", "event-subscription", "list")]
 public record AzEventgridDomainTopicEventSubscriptionListOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--domain-topic-name")] string DomainTopicName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--domain-topic-name")] string DomainTopicName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--odata-query")]
+    [CliOption("--odata-query")]
     public string? OdataQuery { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-security", "gateway-security-policies")]
+[CliCommand("network-security", "gateway-security-policies")]
 public class GcloudNetworkSecurityGatewaySecurityPoliciesRules
 {
     public GcloudNetworkSecurityGatewaySecurityPoliciesRules(

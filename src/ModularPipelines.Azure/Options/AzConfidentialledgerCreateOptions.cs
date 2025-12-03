@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("confidentialledger", "create")]
+[CliCommand("confidentialledger", "create")]
 public record AzConfidentialledgerCreateOptions(
-[property: CommandSwitch("--ledger-name")] string LedgerName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--ledger-name")] string LedgerName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--aad-based-security-principals")]
+    [CliOption("--aad-based-security-principals")]
     public string? AadBasedSecurityPrincipals { get; set; }
 
-    [CommandSwitch("--cert-based-security-principals")]
+    [CliOption("--cert-based-security-principals")]
     public string? CertBasedSecurityPrincipals { get; set; }
 
-    [CommandSwitch("--ledger-type")]
+    [CliOption("--ledger-type")]
     public string? LedgerType { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

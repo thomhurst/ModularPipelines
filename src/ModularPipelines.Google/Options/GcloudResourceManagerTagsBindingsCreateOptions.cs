@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-manager", "tags", "bindings", "create")]
+[CliCommand("resource-manager", "tags", "bindings", "create")]
 public record GcloudResourceManagerTagsBindingsCreateOptions(
-[property: CommandSwitch("--parent")] string Parent,
-[property: CommandSwitch("--tag-value")] string TagValue
+[property: CliOption("--parent")] string Parent,
+[property: CliOption("--tag-value")] string TagValue
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

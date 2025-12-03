@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("staticwebapp", "hostname", "set")]
+[CliCommand("staticwebapp", "hostname", "set")]
 public record AzStaticwebappHostnameSetOptions(
-[property: CommandSwitch("--hostname")] string Hostname,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--hostname")] string Hostname,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--validation-method")]
+    [CliOption("--validation-method")]
     public string? ValidationMethod { get; set; }
 }

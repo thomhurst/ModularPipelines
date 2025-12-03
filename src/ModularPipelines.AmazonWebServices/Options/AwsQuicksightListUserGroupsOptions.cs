@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "list-user-groups")]
+[CliCommand("quicksight", "list-user-groups")]
 public record AwsQuicksightListUserGroupsOptions(
-[property: CommandSwitch("--user-name")] string UserName,
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--namespace")] string Namespace
+[property: CliOption("--user-name")] string UserName,
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--namespace")] string Namespace
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

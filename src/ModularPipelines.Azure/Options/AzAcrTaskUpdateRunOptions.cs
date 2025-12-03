@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "task", "update-run")]
+[CliCommand("acr", "task", "update-run")]
 public record AzAcrTaskUpdateRunOptions(
-[property: CommandSwitch("--registry")] string Registry,
-[property: CommandSwitch("--run-id")] string RunId
+[property: CliOption("--registry")] string Registry,
+[property: CliOption("--run-id")] string RunId
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-archive")]
+    [CliFlag("--no-archive")]
     public bool? NoArchive { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

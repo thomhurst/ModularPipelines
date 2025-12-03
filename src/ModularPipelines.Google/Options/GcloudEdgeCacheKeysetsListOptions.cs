@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cache", "keysets", "list")]
+[CliCommand("edge-cache", "keysets", "list")]
 public record GcloudEdgeCacheKeysetsListOptions : GcloudOptions;

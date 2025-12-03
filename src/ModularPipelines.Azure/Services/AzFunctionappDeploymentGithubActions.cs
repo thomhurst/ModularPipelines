@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "deployment")]
+[CliCommand("functionapp", "deployment")]
 public class AzFunctionappDeploymentGithubActions
 {
     public AzFunctionappDeploymentGithubActions(

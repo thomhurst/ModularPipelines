@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition")]
+[CliCommand("rekognition")]
 public class AwsRekognitionWait
 {
     public AwsRekognitionWait(

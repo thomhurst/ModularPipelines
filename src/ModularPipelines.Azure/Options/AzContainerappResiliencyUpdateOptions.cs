@@ -4,66 +4,66 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "resiliency", "update")]
+[CliCommand("containerapp", "resiliency", "update")]
 public record AzContainerappResiliencyUpdateOptions(
-[property: CommandSwitch("--container-app-name")] string ContainerAppName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--container-app-name")] string ContainerAppName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--cb-interval")]
+    [CliOption("--cb-interval")]
     public string? CbInterval { get; set; }
 
-    [CommandSwitch("--cb-max-ejection")]
+    [CliOption("--cb-max-ejection")]
     public string? CbMaxEjection { get; set; }
 
-    [CommandSwitch("--cb-sequential-errors")]
+    [CliOption("--cb-sequential-errors")]
     public string? CbSequentialErrors { get; set; }
 
-    [CommandSwitch("--http-codes")]
+    [CliOption("--http-codes")]
     public string? HttpCodes { get; set; }
 
-    [CommandSwitch("--http-delay")]
+    [CliOption("--http-delay")]
     public string? HttpDelay { get; set; }
 
-    [CommandSwitch("--http-errors")]
+    [CliOption("--http-errors")]
     public string? HttpErrors { get; set; }
 
-    [CommandSwitch("--http-interval")]
+    [CliOption("--http-interval")]
     public string? HttpInterval { get; set; }
 
-    [CommandSwitch("--http-retries")]
+    [CliOption("--http-retries")]
     public string? HttpRetries { get; set; }
 
-    [CommandSwitch("--http1-pending")]
+    [CliOption("--http1-pending")]
     public string? Http1Pending { get; set; }
 
-    [CommandSwitch("--http2-parallel")]
+    [CliOption("--http2-parallel")]
     public string? Http2Parallel { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tcp-connections")]
+    [CliOption("--tcp-connections")]
     public string? TcpConnections { get; set; }
 
-    [CommandSwitch("--tcp-retries")]
+    [CliOption("--tcp-retries")]
     public string? TcpRetries { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--timeout-connect")]
+    [CliOption("--timeout-connect")]
     public string? TimeoutConnect { get; set; }
 
-    [CommandSwitch("--yaml")]
+    [CliOption("--yaml")]
     public string? Yaml { get; set; }
 }

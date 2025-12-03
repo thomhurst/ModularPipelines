@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "vault", "backup-properties", "set")]
+[CliCommand("backup", "vault", "backup-properties", "set")]
 public record AzBackupVaultBackupPropertiesSetOptions : AzOptions
 {
-    [CommandSwitch("--backup-storage-redundancy")]
+    [CliOption("--backup-storage-redundancy")]
     public string? BackupStorageRedundancy { get; set; }
 
-    [CommandSwitch("--classic-alerts")]
+    [CliOption("--classic-alerts")]
     public string? ClassicAlerts { get; set; }
 
-    [BooleanCommandSwitch("--cross-region-restore-flag")]
+    [CliFlag("--cross-region-restore-flag")]
     public bool? CrossRegionRestoreFlag { get; set; }
 
-    [CommandSwitch("--hybrid-backup-security-features")]
+    [CliOption("--hybrid-backup-security-features")]
     public string? HybridBackupSecurityFeatures { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--job-failure-alerts")]
+    [CliOption("--job-failure-alerts")]
     public string? JobFailureAlerts { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--soft-delete-duration")]
+    [CliOption("--soft-delete-duration")]
     public string? SoftDeleteDuration { get; set; }
 
-    [CommandSwitch("--soft-delete-feature-state")]
+    [CliOption("--soft-delete-feature-state")]
     public string? SoftDeleteFeatureState { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tenant-id")]
+    [CliOption("--tenant-id")]
     public string? TenantId { get; set; }
 }

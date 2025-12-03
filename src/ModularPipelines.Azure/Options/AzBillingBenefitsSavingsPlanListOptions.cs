@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing-benefits", "savings-plan", "list")]
+[CliCommand("billing-benefits", "savings-plan", "list")]
 public record AzBillingBenefitsSavingsPlanListOptions : AzOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--orderby")]
+    [CliOption("--orderby")]
     public string? Orderby { get; set; }
 
-    [CommandSwitch("--selected-state")]
+    [CliOption("--selected-state")]
     public string? SelectedState { get; set; }
 
-    [CommandSwitch("--skiptoken")]
+    [CliOption("--skiptoken")]
     public string? Skiptoken { get; set; }
 
-    [CommandSwitch("--take")]
+    [CliOption("--take")]
     public string? Take { get; set; }
 }

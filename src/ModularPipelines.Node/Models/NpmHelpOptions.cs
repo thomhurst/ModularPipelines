@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("help")]
+[CliCommand("help")]
 public record NpmHelpOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Term
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Term
 ) : NpmOptions
 {
-    [CommandSwitch("--viewer")]
+    [CliOption("--viewer")]
     public virtual string? Viewer { get; set; }
 }

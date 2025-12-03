@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "model", "package")]
+[CliCommand("ml", "model", "package")]
 public record AzMlModelPackageOptions(
-[property: CommandSwitch("--file")] string File,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--version")] string Version
+[property: CliOption("--file")] string File,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--version")] string Version
 ) : AzOptions
 {
-    [CommandSwitch("--registry-name")]
+    [CliOption("--registry-name")]
     public string? RegistryName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

@@ -5,179 +5,179 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instance-templates", "create-with-container")]
+[CliCommand("compute", "instance-templates", "create-with-container")]
 public record GcloudComputeInstanceTemplatesCreateWithContainerOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--boot-disk-auto-delete")]
+    [CliFlag("--boot-disk-auto-delete")]
     public bool? BootDiskAutoDelete { get; set; }
 
-    [CommandSwitch("--boot-disk-device-name")]
+    [CliOption("--boot-disk-device-name")]
     public string? BootDiskDeviceName { get; set; }
 
-    [CommandSwitch("--boot-disk-provisioned-iops")]
+    [CliOption("--boot-disk-provisioned-iops")]
     public string? BootDiskProvisionedIops { get; set; }
 
-    [CommandSwitch("--boot-disk-provisioned-throughput")]
+    [CliOption("--boot-disk-provisioned-throughput")]
     public string? BootDiskProvisionedThroughput { get; set; }
 
-    [CommandSwitch("--boot-disk-size")]
+    [CliOption("--boot-disk-size")]
     public string? BootDiskSize { get; set; }
 
-    [CommandSwitch("--boot-disk-type")]
+    [CliOption("--boot-disk-type")]
     public string? BootDiskType { get; set; }
 
-    [BooleanCommandSwitch("--can-ip-forward")]
+    [CliFlag("--can-ip-forward")]
     public bool? CanIpForward { get; set; }
 
-    [BooleanCommandSwitch("--confidential-compute")]
+    [CliFlag("--confidential-compute")]
     public bool? ConfidentialCompute { get; set; }
 
-    [CommandSwitch("--container-arg")]
+    [CliOption("--container-arg")]
     public string? ContainerArg { get; set; }
 
-    [CommandSwitch("--container-command")]
+    [CliOption("--container-command")]
     public string? ContainerCommand { get; set; }
 
-    [CommandSwitch("--container-env")]
+    [CliOption("--container-env")]
     public IEnumerable<KeyValue>? ContainerEnv { get; set; }
 
-    [CommandSwitch("--container-env-file")]
+    [CliOption("--container-env-file")]
     public string? ContainerEnvFile { get; set; }
 
-    [CommandSwitch("--container-image")]
+    [CliOption("--container-image")]
     public string? ContainerImage { get; set; }
 
-    [CommandSwitch("--container-mount-disk")]
+    [CliOption("--container-mount-disk")]
     public string[]? ContainerMountDisk { get; set; }
 
-    [CommandSwitch("--container-mount-host-path")]
+    [CliOption("--container-mount-host-path")]
     public string[]? ContainerMountHostPath { get; set; }
 
-    [CommandSwitch("--container-mount-tmpfs")]
+    [CliOption("--container-mount-tmpfs")]
     public string[]? ContainerMountTmpfs { get; set; }
 
-    [BooleanCommandSwitch("--container-privileged")]
+    [CliFlag("--container-privileged")]
     public bool? ContainerPrivileged { get; set; }
 
-    [CommandSwitch("--container-restart-policy")]
+    [CliOption("--container-restart-policy")]
     public string? ContainerRestartPolicy { get; set; }
 
-    [BooleanCommandSwitch("--container-stdin")]
+    [CliFlag("--container-stdin")]
     public bool? ContainerStdin { get; set; }
 
-    [BooleanCommandSwitch("--container-tty")]
+    [CliFlag("--container-tty")]
     public bool? ContainerTty { get; set; }
 
-    [CommandSwitch("--create-disk")]
+    [CliOption("--create-disk")]
     public string[]? CreateDisk { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--disk")]
+    [CliOption("--disk")]
     public string[]? Disk { get; set; }
 
-    [CommandSwitch("--external-ipv6-address")]
+    [CliOption("--external-ipv6-address")]
     public string? ExternalIpv6Address { get; set; }
 
-    [CommandSwitch("--external-ipv6-prefix-length")]
+    [CliOption("--external-ipv6-prefix-length")]
     public string? ExternalIpv6PrefixLength { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--machine-type")]
+    [CliOption("--machine-type")]
     public string? MachineType { get; set; }
 
-    [CommandSwitch("--maintenance-policy")]
+    [CliOption("--maintenance-policy")]
     public string? MaintenancePolicy { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public IEnumerable<KeyValue>? Metadata { get; set; }
 
-    [CommandSwitch("--metadata-from-file")]
+    [CliOption("--metadata-from-file")]
     public string[]? MetadataFromFile { get; set; }
 
-    [CommandSwitch("--min-cpu-platform")]
+    [CliOption("--min-cpu-platform")]
     public string? MinCpuPlatform { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--network-interface")]
+    [CliOption("--network-interface")]
     public string[]? NetworkInterface { get; set; }
 
-    [CommandSwitch("--network-tier")]
+    [CliOption("--network-tier")]
     public string? NetworkTier { get; set; }
 
-    [BooleanCommandSwitch("--preemptible")]
+    [CliFlag("--preemptible")]
     public bool? Preemptible { get; set; }
 
-    [CommandSwitch("--private-ipv6-google-access-type")]
+    [CliOption("--private-ipv6-google-access-type")]
     public string? PrivateIpv6GoogleAccessType { get; set; }
 
-    [CommandSwitch("--private-network-ip")]
+    [CliOption("--private-network-ip")]
     public string? PrivateNetworkIp { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [BooleanCommandSwitch("--restart-on-failure")]
+    [CliFlag("--restart-on-failure")]
     public bool? RestartOnFailure { get; set; }
 
-    [BooleanCommandSwitch("--shielded-integrity-monitoring")]
+    [CliFlag("--shielded-integrity-monitoring")]
     public bool? ShieldedIntegrityMonitoring { get; set; }
 
-    [BooleanCommandSwitch("--shielded-secure-boot")]
+    [CliFlag("--shielded-secure-boot")]
     public bool? ShieldedSecureBoot { get; set; }
 
-    [BooleanCommandSwitch("--shielded-vtpm")]
+    [CliFlag("--shielded-vtpm")]
     public bool? ShieldedVtpm { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--address")]
+    [CliOption("--address")]
     public string? Address { get; set; }
 
-    [BooleanCommandSwitch("--no-address")]
+    [CliFlag("--no-address")]
     public bool? NoAddress { get; set; }
 
-    [CommandSwitch("--custom-cpu")]
+    [CliOption("--custom-cpu")]
     public string? CustomCpu { get; set; }
 
-    [CommandSwitch("--custom-memory")]
+    [CliOption("--custom-memory")]
     public string? CustomMemory { get; set; }
 
-    [BooleanCommandSwitch("--custom-extensions")]
+    [CliFlag("--custom-extensions")]
     public bool? CustomExtensions { get; set; }
 
-    [CommandSwitch("--custom-vm-type")]
+    [CliOption("--custom-vm-type")]
     public string? CustomVmType { get; set; }
 
-    [CommandSwitch("--image-project")]
+    [CliOption("--image-project")]
     public string? ImageProject { get; set; }
 
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--image-family")]
+    [CliOption("--image-family")]
     public string? ImageFamily { get; set; }
 
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string[]? Scopes { get; set; }
 
-    [BooleanCommandSwitch("--no-scopes")]
+    [CliFlag("--no-scopes")]
     public bool? NoScopes { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [BooleanCommandSwitch("--no-service-account")]
+    [CliFlag("--no-service-account")]
     public bool? NoServiceAccount { get; set; }
 }

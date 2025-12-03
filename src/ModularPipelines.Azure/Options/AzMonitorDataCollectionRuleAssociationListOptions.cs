@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "data-collection", "rule", "association", "list")]
+[CliCommand("monitor", "data-collection", "rule", "association", "list")]
 public record AzMonitorDataCollectionRuleAssociationListOptions : AzOptions
 {
-    [CommandSwitch("--endpoint-name")]
+    [CliOption("--endpoint-name")]
     public string? EndpointName { get; set; }
 
-    [CommandSwitch("--resource")]
+    [CliOption("--resource")]
     public string? Resource { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rule-name")]
+    [CliOption("--rule-name")]
     public string? RuleName { get; set; }
 }

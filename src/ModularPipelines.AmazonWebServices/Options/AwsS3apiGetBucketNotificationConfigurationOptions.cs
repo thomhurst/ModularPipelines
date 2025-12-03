@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api", "get-bucket-notification-configuration")]
+[CliCommand("s3api", "get-bucket-notification-configuration")]
 public record AwsS3apiGetBucketNotificationConfigurationOptions(
-[property: CommandSwitch("--bucket")] string Bucket
+[property: CliOption("--bucket")] string Bucket
 ) : AwsOptions
 {
-    [CommandSwitch("--expected-bucket-owner")]
+    [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

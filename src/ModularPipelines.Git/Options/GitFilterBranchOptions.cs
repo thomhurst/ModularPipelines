@@ -3,46 +3,46 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("filter-branch")]
+[CliCommand("filter-branch")]
 [ExcludeFromCodeCoverage]
 public record GitFilterBranchOptions : GitOptions
 {
-    [CommandEqualsSeparatorSwitch("--setup")]
+    [CliOption("--setup", Format = OptionFormat.EqualsSeparated)]
     public string? Setup { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--subdirectory-filter")]
+    [CliOption("--subdirectory-filter", Format = OptionFormat.EqualsSeparated)]
     public string? SubdirectoryFilter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--env-filter")]
+    [CliOption("--env-filter", Format = OptionFormat.EqualsSeparated)]
     public string? EnvFilter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--tree-filter")]
+    [CliOption("--tree-filter", Format = OptionFormat.EqualsSeparated)]
     public string? TreeFilter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--index-filter")]
+    [CliOption("--index-filter", Format = OptionFormat.EqualsSeparated)]
     public string? IndexFilter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--parent-filter")]
+    [CliOption("--parent-filter", Format = OptionFormat.EqualsSeparated)]
     public string? ParentFilter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--msg-filter")]
+    [CliOption("--msg-filter", Format = OptionFormat.EqualsSeparated)]
     public string? MsgFilter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--commit-filter")]
+    [CliOption("--commit-filter", Format = OptionFormat.EqualsSeparated)]
     public string? CommitFilter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--tag-name-filter")]
+    [CliOption("--tag-name-filter", Format = OptionFormat.EqualsSeparated)]
     public string? TagNameFilter { get; set; }
 
-    [BooleanCommandSwitch("--prune-empty")]
+    [CliFlag("--prune-empty")]
     public virtual bool? PruneEmpty { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--original")]
+    [CliOption("--original", Format = OptionFormat.EqualsSeparated)]
     public string? Original { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--state-branch")]
+    [CliOption("--state-branch", Format = OptionFormat.EqualsSeparated)]
     public string? StateBranch { get; set; }
 }

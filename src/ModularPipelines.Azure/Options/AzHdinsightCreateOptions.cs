@@ -4,190 +4,190 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hdinsight", "create")]
+[CliCommand("hdinsight", "create")]
 public record AzHdinsightCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [CommandSwitch("--assign-identity")]
+    [CliOption("--assign-identity")]
     public string? AssignIdentity { get; set; }
 
-    [CommandSwitch("--autoscale-count")]
+    [CliOption("--autoscale-count")]
     public int? AutoscaleCount { get; set; }
 
-    [CommandSwitch("--autoscale-max-count")]
+    [CliOption("--autoscale-max-count")]
     public int? AutoscaleMaxCount { get; set; }
 
-    [CommandSwitch("--autoscale-min-count")]
+    [CliOption("--autoscale-min-count")]
     public int? AutoscaleMinCount { get; set; }
 
-    [CommandSwitch("--autoscale-type")]
+    [CliOption("--autoscale-type")]
     public string? AutoscaleType { get; set; }
 
-    [CommandSwitch("--cluster-admin-account")]
+    [CliOption("--cluster-admin-account")]
     public int? ClusterAdminAccount { get; set; }
 
-    [CommandSwitch("--cluster-admin-password")]
+    [CliOption("--cluster-admin-password")]
     public string? ClusterAdminPassword { get; set; }
 
-    [CommandSwitch("--cluster-configurations")]
+    [CliOption("--cluster-configurations")]
     public string? ClusterConfigurations { get; set; }
 
-    [CommandSwitch("--cluster-tier")]
+    [CliOption("--cluster-tier")]
     public string? ClusterTier { get; set; }
 
-    [CommandSwitch("--cluster-users-group-dns")]
+    [CliOption("--cluster-users-group-dns")]
     public string? ClusterUsersGroupDns { get; set; }
 
-    [CommandSwitch("--component-version")]
+    [CliOption("--component-version")]
     public string? ComponentVersion { get; set; }
 
-    [BooleanCommandSwitch("--compute-isolation")]
+    [CliFlag("--compute-isolation")]
     public bool? ComputeIsolation { get; set; }
 
-    [CommandSwitch("--days")]
+    [CliOption("--days")]
     public int? Days { get; set; }
 
-    [CommandSwitch("--domain")]
+    [CliOption("--domain")]
     public string? Domain { get; set; }
 
-    [CommandSwitch("--edgenode-size")]
+    [CliOption("--edgenode-size")]
     public string? EdgenodeSize { get; set; }
 
-    [BooleanCommandSwitch("--enable-private-link")]
+    [CliFlag("--enable-private-link")]
     public bool? EnablePrivateLink { get; set; }
 
-    [CommandSwitch("--encryption-algorithm")]
+    [CliOption("--encryption-algorithm")]
     public string? EncryptionAlgorithm { get; set; }
 
-    [BooleanCommandSwitch("--encryption-at-host")]
+    [CliFlag("--encryption-at-host")]
     public bool? EncryptionAtHost { get; set; }
 
-    [BooleanCommandSwitch("--encryption-in-transit")]
+    [CliFlag("--encryption-in-transit")]
     public bool? EncryptionInTransit { get; set; }
 
-    [CommandSwitch("--encryption-key-name")]
+    [CliOption("--encryption-key-name")]
     public string? EncryptionKeyName { get; set; }
 
-    [CommandSwitch("--encryption-key-version")]
+    [CliOption("--encryption-key-version")]
     public string? EncryptionKeyVersion { get; set; }
 
-    [CommandSwitch("--encryption-vault-uri")]
+    [CliOption("--encryption-vault-uri")]
     public string? EncryptionVaultUri { get; set; }
 
-    [BooleanCommandSwitch("--esp")]
+    [CliFlag("--esp")]
     public bool? Esp { get; set; }
 
-    [CommandSwitch("--headnode-size")]
+    [CliOption("--headnode-size")]
     public string? HeadnodeSize { get; set; }
 
-    [CommandSwitch("--host-sku")]
+    [CliOption("--host-sku")]
     public string? HostSku { get; set; }
 
-    [CommandSwitch("--http-password")]
+    [CliOption("--http-password")]
     public string? HttpPassword { get; set; }
 
-    [CommandSwitch("--http-user")]
+    [CliOption("--http-user")]
     public string? HttpUser { get; set; }
 
-    [BooleanCommandSwitch("--idbroker")]
+    [CliFlag("--idbroker")]
     public bool? Idbroker { get; set; }
 
-    [CommandSwitch("--kafka-client-group-id")]
+    [CliOption("--kafka-client-group-id")]
     public string? KafkaClientGroupId { get; set; }
 
-    [CommandSwitch("--kafka-client-group-name")]
+    [CliOption("--kafka-client-group-name")]
     public string? KafkaClientGroupName { get; set; }
 
-    [CommandSwitch("--kafka-management-node-count")]
+    [CliOption("--kafka-management-node-count")]
     public int? KafkaManagementNodeCount { get; set; }
 
-    [CommandSwitch("--kafka-management-node-size")]
+    [CliOption("--kafka-management-node-size")]
     public string? KafkaManagementNodeSize { get; set; }
 
-    [CommandSwitch("--ldaps-urls")]
+    [CliOption("--ldaps-urls")]
     public string? LdapsUrls { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--minimal-tls-version")]
+    [CliOption("--minimal-tls-version")]
     public string? MinimalTlsVersion { get; set; }
 
-    [BooleanCommandSwitch("--no-validation-timeout")]
+    [CliFlag("--no-validation-timeout")]
     public bool? NoValidationTimeout { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--private-link-config")]
+    [CliOption("--private-link-config")]
     public string? PrivateLinkConfig { get; set; }
 
-    [CommandSwitch("--resource-provider-connection")]
+    [CliOption("--resource-provider-connection")]
     public string? ResourceProviderConnection { get; set; }
 
-    [CommandSwitch("--ssh-password")]
+    [CliOption("--ssh-password")]
     public string? SshPassword { get; set; }
 
-    [CommandSwitch("--ssh-public-key")]
+    [CliOption("--ssh-public-key")]
     public string? SshPublicKey { get; set; }
 
-    [CommandSwitch("--ssh-user")]
+    [CliOption("--ssh-user")]
     public string? SshUser { get; set; }
 
-    [CommandSwitch("--storage-account")]
+    [CliOption("--storage-account")]
     public int? StorageAccount { get; set; }
 
-    [CommandSwitch("--storage-account-key")]
+    [CliOption("--storage-account-key")]
     public int? StorageAccountKey { get; set; }
 
-    [CommandSwitch("--storage-account-managed-identity")]
+    [CliOption("--storage-account-managed-identity")]
     public int? StorageAccountManagedIdentity { get; set; }
 
-    [CommandSwitch("--storage-container")]
+    [CliOption("--storage-container")]
     public string? StorageContainer { get; set; }
 
-    [CommandSwitch("--storage-filesystem")]
+    [CliOption("--storage-filesystem")]
     public string? StorageFilesystem { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--time")]
+    [CliOption("--time")]
     public string? Time { get; set; }
 
-    [CommandSwitch("--timezone")]
+    [CliOption("--timezone")]
     public string? Timezone { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 
-    [CommandSwitch("--workernode-count")]
+    [CliOption("--workernode-count")]
     public int? WorkernodeCount { get; set; }
 
-    [CommandSwitch("--workernode-data-disk-size")]
+    [CliOption("--workernode-data-disk-size")]
     public string? WorkernodeDataDiskSize { get; set; }
 
-    [CommandSwitch("--workernode-data-disk-storage-account-type")]
+    [CliOption("--workernode-data-disk-storage-account-type")]
     public int? WorkernodeDataDiskStorageAccountType { get; set; }
 
-    [CommandSwitch("--workernode-data-disks-per-node")]
+    [CliOption("--workernode-data-disks-per-node")]
     public string? WorkernodeDataDisksPerNode { get; set; }
 
-    [CommandSwitch("--workernode-size")]
+    [CliOption("--workernode-size")]
     public string? WorkernodeSize { get; set; }
 
-    [CommandSwitch("--zones")]
+    [CliOption("--zones")]
     public string? Zones { get; set; }
 
-    [CommandSwitch("--zookeepernode-size")]
+    [CliOption("--zookeepernode-size")]
     public string? ZookeepernodeSize { get; set; }
 }

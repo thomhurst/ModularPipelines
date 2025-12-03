@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("info")]
+[CliCommand("info")]
 public record YarnInfoOptions : YarnOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [CommandSwitch("--extra")]
+    [CliOption("--extra")]
     public virtual string? Extra { get; set; }
 
-    [BooleanCommandSwitch("--cache")]
+    [CliFlag("--cache")]
     public virtual bool? Cache { get; set; }
 
-    [BooleanCommandSwitch("--dependents")]
+    [CliFlag("--dependents")]
     public virtual bool? Dependents { get; set; }
 
-    [BooleanCommandSwitch("--manifest")]
+    [CliFlag("--manifest")]
     public virtual bool? Manifest { get; set; }
 
-    [BooleanCommandSwitch("--name-only")]
+    [CliFlag("--name-only")]
     public virtual bool? NameOnly { get; set; }
 
-    [BooleanCommandSwitch("--virtuals")]
+    [CliFlag("--virtuals")]
     public virtual bool? Virtuals { get; set; }
 
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 }

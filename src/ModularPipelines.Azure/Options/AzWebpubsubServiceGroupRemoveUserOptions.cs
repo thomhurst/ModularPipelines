@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webpubsub", "service", "group", "remove-user")]
+[CliCommand("webpubsub", "service", "group", "remove-user")]
 public record AzWebpubsubServiceGroupRemoveUserOptions(
-[property: CommandSwitch("--hub-name")] string HubName,
-[property: CommandSwitch("--user-id")] string UserId
+[property: CliOption("--hub-name")] string HubName,
+[property: CliOption("--user-id")] string UserId
 ) : AzOptions
 {
-    [CommandSwitch("--group-name")]
+    [CliOption("--group-name")]
     public string? GroupName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

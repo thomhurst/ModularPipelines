@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("notebooks", "instances", "is-upgradeable")]
+[CliCommand("notebooks", "instances", "is-upgradeable")]
 public record GcloudNotebooksInstancesIsUpgradeableOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Instance,
+[property: CliArgument] string Location
 ) : GcloudOptions;

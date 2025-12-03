@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "binauthz", "attestors", "public-keys", "update")]
+[CliCommand("container", "binauthz", "attestors", "public-keys", "update")]
 public record GcloudContainerBinauthzAttestorsPublicKeysUpdateOptions(
-[property: PositionalArgument] string PublicKeyId,
-[property: CommandSwitch("--attestor")] string Attestor
+[property: CliArgument] string PublicKeyId,
+[property: CliOption("--attestor")] string Attestor
 ) : GcloudOptions
 {
-    [CommandSwitch("--comment")]
+    [CliOption("--comment")]
     public string? Comment { get; set; }
 
-    [CommandSwitch("--pgp-public-key-file")]
+    [CliOption("--pgp-public-key-file")]
     public string? PgpPublicKeyFile { get; set; }
 }

@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("run", "services", "replace")]
+[CliCommand("run", "services", "replace")]
 public record GcloudRunServicesReplaceOptions(
-[property: PositionalArgument] string File
+[property: CliArgument] string File
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public string? Platform { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--cluster-location")]
+    [CliOption("--cluster-location")]
     public string? ClusterLocation { get; set; }
 
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public string? Context { get; set; }
 
-    [CommandSwitch("--kubeconfig")]
+    [CliOption("--kubeconfig")]
     public string? Kubeconfig { get; set; }
 }

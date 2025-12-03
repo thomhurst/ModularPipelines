@@ -4,55 +4,55 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "networks", "subnets", "create")]
+[CliCommand("compute", "networks", "subnets", "create")]
 public record GcloudComputeNetworksSubnetsCreateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--network")] string Network,
-[property: CommandSwitch("--range")] string Range
+[property: CliArgument] string Name,
+[property: CliOption("--network")] string Network,
+[property: CliOption("--range")] string Range
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enable-flow-logs")]
+    [CliFlag("--enable-flow-logs")]
     public bool? EnableFlowLogs { get; set; }
 
-    [BooleanCommandSwitch("--enable-private-ip-google-access")]
+    [CliFlag("--enable-private-ip-google-access")]
     public bool? EnablePrivateIpGoogleAccess { get; set; }
 
-    [CommandSwitch("--ipv6-access-type")]
+    [CliOption("--ipv6-access-type")]
     public string? Ipv6AccessType { get; set; }
 
-    [CommandSwitch("--logging-aggregation-interval")]
+    [CliOption("--logging-aggregation-interval")]
     public string? LoggingAggregationInterval { get; set; }
 
-    [CommandSwitch("--logging-filter-expr")]
+    [CliOption("--logging-filter-expr")]
     public string? LoggingFilterExpr { get; set; }
 
-    [CommandSwitch("--logging-flow-sampling")]
+    [CliOption("--logging-flow-sampling")]
     public string? LoggingFlowSampling { get; set; }
 
-    [CommandSwitch("--logging-metadata")]
+    [CliOption("--logging-metadata")]
     public string? LoggingMetadata { get; set; }
 
-    [CommandSwitch("--logging-metadata-fields")]
+    [CliOption("--logging-metadata-fields")]
     public string[]? LoggingMetadataFields { get; set; }
 
-    [CommandSwitch("--private-ipv6-google-access-type")]
+    [CliOption("--private-ipv6-google-access-type")]
     public string? PrivateIpv6GoogleAccessType { get; set; }
 
-    [CommandSwitch("--purpose")]
+    [CliOption("--purpose")]
     public string? Purpose { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--secondary-range")]
+    [CliOption("--secondary-range")]
     public string[]? SecondaryRange { get; set; }
 
-    [CommandSwitch("--stack-type")]
+    [CliOption("--stack-type")]
     public string? StackType { get; set; }
 }

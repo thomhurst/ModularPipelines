@@ -4,52 +4,52 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-cloud", "identity-source", "update")]
+[CliCommand("vmware", "private-cloud", "identity-source", "update")]
 public record AzVmwarePrivateCloudIdentitySourceUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--private-cloud")] string PrivateCloud,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--private-cloud")] string PrivateCloud,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--alias")]
+    [CliOption("--alias")]
     public string? Alias { get; set; }
 
-    [CommandSwitch("--base-group-dn")]
+    [CliOption("--base-group-dn")]
     public string? BaseGroupDn { get; set; }
 
-    [CommandSwitch("--base-user-dn")]
+    [CliOption("--base-user-dn")]
     public string? BaseUserDn { get; set; }
 
-    [CommandSwitch("--domain")]
+    [CliOption("--domain")]
     public string? Domain { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--primary-server")]
+    [CliOption("--primary-server")]
     public string? PrimaryServer { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--secondary-server")]
+    [CliOption("--secondary-server")]
     public string? SecondaryServer { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--ssl")]
+    [CliOption("--ssl")]
     public string? Ssl { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 }

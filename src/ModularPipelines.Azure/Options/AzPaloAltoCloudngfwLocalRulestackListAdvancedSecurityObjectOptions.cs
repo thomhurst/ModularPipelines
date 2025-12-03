@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("palo-alto", "cloudngfw", "local-rulestack", "list-advanced-security-object")]
+[CliCommand("palo-alto", "cloudngfw", "local-rulestack", "list-advanced-security-object")]
 public record AzPaloAltoCloudngfwLocalRulestackListAdvancedSecurityObjectOptions(
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--local-rulestack-name")]
+    [CliOption("--local-rulestack-name")]
     public string? LocalRulestackName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--skip")]
+    [CliOption("--skip")]
     public string? Skip { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

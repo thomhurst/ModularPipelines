@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bms", "operations", "wait")]
+[CliCommand("bms", "operations", "wait")]
 public record GcloudBmsOperationsWaitOptions(
-[property: PositionalArgument] string Operation,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Operation,
+[property: CliArgument] string Region
 ) : GcloudOptions;

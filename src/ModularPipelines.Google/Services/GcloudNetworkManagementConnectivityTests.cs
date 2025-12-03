@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-management")]
+[CliCommand("network-management")]
 public class GcloudNetworkManagementConnectivityTests
 {
     public GcloudNetworkManagementConnectivityTests(

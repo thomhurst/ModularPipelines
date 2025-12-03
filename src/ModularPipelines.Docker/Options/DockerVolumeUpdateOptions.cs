@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("volume", "update")]
+[CliCommand("volume", "update")]
 [ExcludeFromCodeCoverage]
 public record DockerVolumeUpdateOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Volume { get; set; }
 
-    [CommandSwitch("--availability")]
+    [CliOption("--availability")]
     public virtual string? Availability { get; set; }
 }

@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "ssh")]
+[CliCommand("compute", "ssh")]
 public record GcloudComputeSshOptions(
-[property: PositionalArgument] string User,
-[property: PositionalArgument] string SshArgs
+[property: CliArgument] string User,
+[property: CliArgument] string SshArgs
 ) : GcloudOptions
 {
-    [CommandSwitch("--command")]
+    [CliOption("--command")]
     public string? Command { get; set; }
 
-    [CommandSwitch("--container")]
+    [CliOption("--container")]
     public string? Container { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--force-key-file-overwrite")]
+    [CliFlag("--force-key-file-overwrite")]
     public bool? ForceKeyFileOverwrite { get; set; }
 
-    [BooleanCommandSwitch("--plain")]
+    [CliFlag("--plain")]
     public bool? Plain { get; set; }
 
-    [CommandSwitch("--ssh-flag")]
+    [CliOption("--ssh-flag")]
     public string? SshFlag { get; set; }
 
-    [CommandSwitch("--ssh-key-file")]
+    [CliOption("--ssh-key-file")]
     public string? SshKeyFile { get; set; }
 
-    [CommandSwitch("--strict-host-key-checking")]
+    [CliOption("--strict-host-key-checking")]
     public string? StrictHostKeyChecking { get; set; }
 
-    [BooleanCommandSwitch("--troubleshoot")]
+    [CliFlag("--troubleshoot")]
     public bool? Troubleshoot { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [BooleanCommandSwitch("--internal-ip")]
+    [CliFlag("--internal-ip")]
     public bool? InternalIp { get; set; }
 
-    [BooleanCommandSwitch("--tunnel-through-iap")]
+    [CliFlag("--tunnel-through-iap")]
     public bool? TunnelThroughIap { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--dest-group")]
+    [CliOption("--dest-group")]
     public string? DestGroup { get; set; }
 
-    [CommandSwitch("--ssh-key-expiration")]
+    [CliOption("--ssh-key-expiration")]
     public string? SshKeyExpiration { get; set; }
 
-    [CommandSwitch("--ssh-key-expire-after")]
+    [CliOption("--ssh-key-expire-after")]
     public string? SshKeyExpireAfter { get; set; }
 }

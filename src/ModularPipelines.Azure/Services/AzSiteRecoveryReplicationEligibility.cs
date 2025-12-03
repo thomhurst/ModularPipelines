@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("site-recovery")]
+[CliCommand("site-recovery")]
 public class AzSiteRecoveryReplicationEligibility
 {
     public AzSiteRecoveryReplicationEligibility(

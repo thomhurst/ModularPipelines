@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "private-endpoint-connection", "approve")]
+[CliCommand("acr", "private-endpoint-connection", "approve")]
 public record AzAcrPrivateEndpointConnectionApproveOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--registry-name")] string RegistryName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--registry-name")] string RegistryName
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

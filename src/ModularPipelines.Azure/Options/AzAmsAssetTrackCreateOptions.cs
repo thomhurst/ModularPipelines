@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "asset-track", "create")]
+[CliCommand("ams", "asset-track", "create")]
 public record AzAmsAssetTrackCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--asset-name")] string AssetName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--track-name")] string TrackName,
-[property: CommandSwitch("--track-type")] string TrackType
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--asset-name")] string AssetName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--track-name")] string TrackName,
+[property: CliOption("--track-type")] string TrackType
 ) : AzOptions
 {
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--file-name")]
+    [CliOption("--file-name")]
     public string? FileName { get; set; }
 
-    [CommandSwitch("--language-code")]
+    [CliOption("--language-code")]
     public string? LanguageCode { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--player-visibility")]
+    [CliOption("--player-visibility")]
     public string? PlayerVisibility { get; set; }
 }

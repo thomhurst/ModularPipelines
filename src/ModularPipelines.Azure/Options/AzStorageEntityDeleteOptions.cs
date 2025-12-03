@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "entity", "delete")]
+[CliCommand("storage", "entity", "delete")]
 public record AzStorageEntityDeleteOptions(
-[property: CommandSwitch("--partition-key")] string PartitionKey,
-[property: CommandSwitch("--row-key")] string RowKey,
-[property: CommandSwitch("--table-name")] string TableName
+[property: CliOption("--partition-key")] string PartitionKey,
+[property: CliOption("--row-key")] string RowKey,
+[property: CliOption("--table-name")] string TableName
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--table-endpoint")]
+    [CliOption("--table-endpoint")]
     public string? TableEndpoint { get; set; }
 }

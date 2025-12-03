@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter", "admin", "pool", "create")]
+[CliCommand("devcenter", "admin", "pool", "create")]
 public record AzDevcenterAdminPoolCreateOptions(
-[property: CommandSwitch("--devbox-definition-name")] string DevboxDefinitionName,
-[property: CommandSwitch("--local-administrator")] string LocalAdministrator,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--project")] string Project,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--devbox-definition-name")] string DevboxDefinitionName,
+[property: CliOption("--local-administrator")] string LocalAdministrator,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--project")] string Project,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--managed-virtual-network-regions")]
+    [CliOption("--managed-virtual-network-regions")]
     public string? ManagedVirtualNetworkRegions { get; set; }
 
-    [CommandSwitch("--network-connection-name")]
+    [CliOption("--network-connection-name")]
     public string? NetworkConnectionName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--single-sign-on-status")]
+    [CliOption("--single-sign-on-status")]
     public string? SingleSignOnStatus { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--virtual-network-type")]
+    [CliOption("--virtual-network-type")]
     public string? VirtualNetworkType { get; set; }
 }

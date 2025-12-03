@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "config", "ssl", "create")]
+[CliCommand("functionapp", "config", "ssl", "create")]
 public record AzFunctionappConfigSslCreateOptions(
-[property: CommandSwitch("--hostname")] string Hostname,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--hostname")] string Hostname,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--certificate-name")]
+    [CliOption("--certificate-name")]
     public string? CertificateName { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 }

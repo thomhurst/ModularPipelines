@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "atp")]
+[CliCommand("security", "atp")]
 public class AzSecurityAtpCosmosdb
 {
     public AzSecurityAtpCosmosdb(

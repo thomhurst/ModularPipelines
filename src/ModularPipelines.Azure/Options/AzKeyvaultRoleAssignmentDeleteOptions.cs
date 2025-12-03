@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "role", "assignment", "delete")]
+[CliCommand("keyvault", "role", "assignment", "delete")]
 public record AzKeyvaultRoleAssignmentDeleteOptions : AzOptions
 {
-    [CommandSwitch("--assignee")]
+    [CliOption("--assignee")]
     public string? Assignee { get; set; }
 
-    [CommandSwitch("--assignee-object-id")]
+    [CliOption("--assignee-object-id")]
     public string? AssigneeObjectId { get; set; }
 
-    [CommandSwitch("--hsm-name")]
+    [CliOption("--hsm-name")]
     public string? HsmName { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 }

@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("role", "assignment", "delete")]
+[CliCommand("role", "assignment", "delete")]
 public record AzRoleAssignmentDeleteOptions : AzOptions
 {
-    [CommandSwitch("--assignee")]
+    [CliOption("--assignee")]
     public string? Assignee { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--include-inherited")]
+    [CliFlag("--include-inherited")]
     public bool? IncludeInherited { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--yes")]
+    [CliOption("--yes")]
     public bool? Yes { get; set; } = true;
 }

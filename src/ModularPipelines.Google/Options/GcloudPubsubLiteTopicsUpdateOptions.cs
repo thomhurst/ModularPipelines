@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "lite-topics", "update")]
+[CliCommand("pubsub", "lite-topics", "update")]
 public record GcloudPubsubLiteTopicsUpdateOptions(
-[property: PositionalArgument] string Topic,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--message-retention-period")] string MessageRetentionPeriod,
-[property: CommandSwitch("--partitions")] string Partitions,
-[property: CommandSwitch("--per-partition-bytes")] string PerPartitionBytes,
-[property: CommandSwitch("--per-partition-publish-mib")] string PerPartitionPublishMib,
-[property: CommandSwitch("--per-partition-subscribe-mib")] string PerPartitionSubscribeMib,
-[property: CommandSwitch("--throughput-reservation")] string ThroughputReservation
+[property: CliArgument] string Topic,
+[property: CliArgument] string Location,
+[property: CliOption("--message-retention-period")] string MessageRetentionPeriod,
+[property: CliOption("--partitions")] string Partitions,
+[property: CliOption("--per-partition-bytes")] string PerPartitionBytes,
+[property: CliOption("--per-partition-publish-mib")] string PerPartitionPublishMib,
+[property: CliOption("--per-partition-subscribe-mib")] string PerPartitionSubscribeMib,
+[property: CliOption("--throughput-reservation")] string ThroughputReservation
 ) : GcloudOptions;

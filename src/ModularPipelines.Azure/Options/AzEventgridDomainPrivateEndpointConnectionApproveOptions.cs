@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "domain", "private-endpoint-connection", "approve")]
+[CliCommand("eventgrid", "domain", "private-endpoint-connection", "approve")]
 public record AzEventgridDomainPrivateEndpointConnectionApproveOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 }

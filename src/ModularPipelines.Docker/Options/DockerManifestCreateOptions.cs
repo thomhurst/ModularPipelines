@@ -3,16 +3,16 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("manifest", "create")]
+[CliCommand("manifest", "create")]
 [ExcludeFromCodeCoverage]
 public record DockerManifestCreateOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Manifest { get; set; }
 
-    [CommandSwitch("--amend")]
+    [CliOption("--amend")]
     public virtual string? Amend { get; set; }
 
-    [CommandSwitch("--insecure")]
+    [CliOption("--insecure")]
     public virtual string? Insecure { get; set; }
 }

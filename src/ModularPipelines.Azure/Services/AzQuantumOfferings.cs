@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quantum")]
+[CliCommand("quantum")]
 public class AzQuantumOfferings
 {
     public AzQuantumOfferings(

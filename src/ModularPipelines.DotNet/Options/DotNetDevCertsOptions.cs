@@ -3,40 +3,40 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CommandPrecedingArguments("dev-certs", "https")]
+[CliCommand("dev-certs", "https")]
 [ExcludeFromCodeCoverage]
 public record DotNetDevCertsOptions : DotNetOptions
 {
-    [BooleanCommandSwitch("--check")]
+    [CliFlag("--check")]
     public virtual bool? Check { get; set; }
 
-    [BooleanCommandSwitch("--clean")]
+    [CliFlag("--clean")]
     public virtual bool? Clean { get; set; }
 
-    [CommandSwitch("--export-path")]
+    [CliOption("--export-path")]
     public virtual string? ExportPath { get; set; }
 
-    [BooleanCommandSwitch("--format")]
+    [CliFlag("--format")]
     public virtual bool? Format { get; set; }
 
-    [BooleanCommandSwitch("--import")]
+    [CliFlag("--import")]
     public virtual bool? Import { get; set; }
 
-    [BooleanCommandSwitch("--no-password")]
+    [CliFlag("--no-password")]
     public virtual bool? NoPassword { get; set; }
 
-    [BooleanCommandSwitch("--password")]
+    [CliFlag("--password")]
     public virtual bool? Password { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--trust")]
+    [CliFlag("--trust")]
     public virtual bool? Trust { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("--version")]
+    [CliFlag("--version")]
     public virtual bool? Version { get; set; }
 }

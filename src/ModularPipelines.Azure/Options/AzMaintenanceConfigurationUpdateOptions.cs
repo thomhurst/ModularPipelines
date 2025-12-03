@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("maintenance", "configuration", "update")]
+[CliCommand("maintenance", "configuration", "update")]
 public record AzMaintenanceConfigurationUpdateOptions : AzOptions
 {
-    [CommandSwitch("--duration")]
+    [CliOption("--duration")]
     public string? Duration { get; set; }
 
-    [CommandSwitch("--expiration-date-time")]
+    [CliOption("--expiration-date-time")]
     public string? ExpirationDateTime { get; set; }
 
-    [CommandSwitch("--extension-properties")]
+    [CliOption("--extension-properties")]
     public string? ExtensionProperties { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--install-patches-linux-parameters")]
+    [CliOption("--install-patches-linux-parameters")]
     public string? InstallPatchesLinuxParameters { get; set; }
 
-    [CommandSwitch("--install-patches-windows-parameters")]
+    [CliOption("--install-patches-windows-parameters")]
     public string? InstallPatchesWindowsParameters { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--maintenance-scope")]
+    [CliOption("--maintenance-scope")]
     public string? MaintenanceScope { get; set; }
 
-    [CommandSwitch("--maintenance-window-recur-every")]
+    [CliOption("--maintenance-window-recur-every")]
     public string? MaintenanceWindowRecurEvery { get; set; }
 
-    [CommandSwitch("--maintenance-window-start-date-time")]
+    [CliOption("--maintenance-window-start-date-time")]
     public string? MaintenanceWindowStartDateTime { get; set; }
 
-    [CommandSwitch("--maintenance-window-time-zone")]
+    [CliOption("--maintenance-window-time-zone")]
     public string? MaintenanceWindowTimeZone { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--reboot-setting")]
+    [CliOption("--reboot-setting")]
     public string? RebootSetting { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--visibility")]
+    [CliOption("--visibility")]
     public string? Visibility { get; set; }
 }

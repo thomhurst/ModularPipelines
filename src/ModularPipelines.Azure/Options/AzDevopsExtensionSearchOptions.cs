@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops", "extension", "search")]
+[CliCommand("devops", "extension", "search")]
 public record AzDevopsExtensionSearchOptions(
-[property: CommandSwitch("--search-query")] string SearchQuery
+[property: CliOption("--search-query")] string SearchQuery
 ) : AzOptions;

@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("internet-analyzer", "test", "show")]
+[CliCommand("internet-analyzer", "test", "show")]
 public record AzInternetAnalyzerTestShowOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

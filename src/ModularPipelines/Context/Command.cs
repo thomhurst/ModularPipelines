@@ -108,9 +108,7 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
             return cliCommandAttribute.GetAllParts().ToList();
         }
 
-        // Fall back to legacy attribute
-        return type.GetCustomAttribute<CommandPrecedingArgumentsAttribute>()
-            ?.PrecedingArguments.ToList() ?? new List<string>();
+        return new List<string>();
     }
 
     private static object GetOptionsObject(CommandLineToolOptions options)

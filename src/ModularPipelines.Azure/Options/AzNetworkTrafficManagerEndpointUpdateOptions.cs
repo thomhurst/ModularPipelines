@@ -4,66 +4,66 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "traffic-manager", "endpoint", "update")]
+[CliCommand("network", "traffic-manager", "endpoint", "update")]
 public record AzNetworkTrafficManagerEndpointUpdateOptions : AzOptions
 {
-    [CommandSwitch("--always-serve")]
+    [CliOption("--always-serve")]
     public string? AlwaysServe { get; set; }
 
-    [CommandSwitch("--custom-headers")]
+    [CliOption("--custom-headers")]
     public string? CustomHeaders { get; set; }
 
-    [CommandSwitch("--endpoint-location")]
+    [CliOption("--endpoint-location")]
     public string? EndpointLocation { get; set; }
 
-    [CommandSwitch("--endpoint-monitor-status")]
+    [CliOption("--endpoint-monitor-status")]
     public string? EndpointMonitorStatus { get; set; }
 
-    [CommandSwitch("--endpoint-status")]
+    [CliOption("--endpoint-status")]
     public string? EndpointStatus { get; set; }
 
-    [CommandSwitch("--geo-mapping")]
+    [CliOption("--geo-mapping")]
     public string? GeoMapping { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--min-child-endpoints")]
+    [CliOption("--min-child-endpoints")]
     public string? MinChildEndpoints { get; set; }
 
-    [CommandSwitch("--min-child-ipv4")]
+    [CliOption("--min-child-ipv4")]
     public string? MinChildIpv4 { get; set; }
 
-    [CommandSwitch("--min-child-ipv6")]
+    [CliOption("--min-child-ipv6")]
     public string? MinChildIpv6 { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subnets")]
+    [CliOption("--subnets")]
     public string? Subnets { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--target")]
+    [CliOption("--target")]
     public string? Target { get; set; }
 
-    [CommandSwitch("--target-resource-id")]
+    [CliOption("--target-resource-id")]
     public string? TargetResourceId { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--weight")]
+    [CliOption("--weight")]
     public string? Weight { get; set; }
 }

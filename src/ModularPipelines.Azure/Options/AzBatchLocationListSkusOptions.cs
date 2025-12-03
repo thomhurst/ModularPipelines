@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "location", "list-skus")]
+[CliCommand("batch", "location", "list-skus")]
 public record AzBatchLocationListSkusOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : AzOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--maxresults")]
+    [CliOption("--maxresults")]
     public string? Maxresults { get; set; }
 }

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "log-analytic", "metric", "list")]
+[CliCommand("afd", "log-analytic", "metric", "list")]
 public record AzAfdLogAnalyticMetricListOptions(
-[property: CommandSwitch("--custom-domains")] string CustomDomains,
-[property: CommandSwitch("--date-time-begin")] string DateTimeBegin,
-[property: CommandSwitch("--date-time-end")] string DateTimeEnd,
-[property: CommandSwitch("--granularity")] string Granularity,
-[property: CommandSwitch("--metrics")] string Metrics,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--protocols")] string Protocols,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--custom-domains")] string CustomDomains,
+[property: CliOption("--date-time-begin")] string DateTimeBegin,
+[property: CliOption("--date-time-end")] string DateTimeEnd,
+[property: CliOption("--granularity")] string Granularity,
+[property: CliOption("--metrics")] string Metrics,
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--protocols")] string Protocols,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--continents")]
+    [CliOption("--continents")]
     public string? Continents { get; set; }
 
-    [CommandSwitch("--country-or-regions")]
+    [CliOption("--country-or-regions")]
     public int? CountryOrRegions { get; set; }
 
-    [CommandSwitch("--group-by")]
+    [CliOption("--group-by")]
     public string? GroupBy { get; set; }
 }

@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "images", "deprecate")]
+[CliCommand("compute", "images", "deprecate")]
 public record GcloudComputeImagesDeprecateOptions(
-[property: PositionalArgument] string ImageName,
-[property: CommandSwitch("--state")] string State
+[property: CliArgument] string ImageName,
+[property: CliOption("--state")] string State
 ) : GcloudOptions
 {
-    [CommandSwitch("--replacement")]
+    [CliOption("--replacement")]
     public string? Replacement { get; set; }
 
-    [CommandSwitch("--delete-in")]
+    [CliOption("--delete-in")]
     public string? DeleteIn { get; set; }
 
-    [CommandSwitch("--delete-on")]
+    [CliOption("--delete-on")]
     public string? DeleteOn { get; set; }
 
-    [CommandSwitch("--deprecate-in")]
+    [CliOption("--deprecate-in")]
     public string? DeprecateIn { get; set; }
 
-    [CommandSwitch("--deprecate-on")]
+    [CliOption("--deprecate-on")]
     public string? DeprecateOn { get; set; }
 
-    [CommandSwitch("--obsolete-in")]
+    [CliOption("--obsolete-in")]
     public string? ObsoleteIn { get; set; }
 
-    [CommandSwitch("--obsolete-on")]
+    [CliOption("--obsolete-on")]
     public string? ObsoleteOn { get; set; }
 }

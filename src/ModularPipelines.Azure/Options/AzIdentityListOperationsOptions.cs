@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("identity", "list-operations")]
+[CliCommand("identity", "list-operations")]
 public record AzIdentityListOperationsOptions : AzOptions;

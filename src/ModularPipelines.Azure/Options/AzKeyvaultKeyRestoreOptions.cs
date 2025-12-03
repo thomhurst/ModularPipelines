@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "key", "restore")]
+[CliCommand("keyvault", "key", "restore")]
 public record AzKeyvaultKeyRestoreOptions : AzOptions
 {
-    [CommandSwitch("--backup-folder")]
+    [CliOption("--backup-folder")]
     public string? BackupFolder { get; set; }
 
-    [CommandSwitch("--blob-container-name")]
+    [CliOption("--blob-container-name")]
     public string? BlobContainerName { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 
-    [CommandSwitch("--hsm-name")]
+    [CliOption("--hsm-name")]
     public string? HsmName { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--storage-account-name")]
+    [CliOption("--storage-account-name")]
     public int? StorageAccountName { get; set; }
 
-    [CommandSwitch("--storage-container-SAS-token")]
+    [CliOption("--storage-container-SAS-token")]
     public string? StorageContainerSASToken { get; set; }
 
-    [CommandSwitch("--storage-resource-uri")]
+    [CliOption("--storage-resource-uri")]
     public string? StorageResourceUri { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 }

@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("support", "describe-cases")]
+[CliCommand("support", "describe-cases")]
 public record AwsSupportDescribeCasesOptions : AwsOptions
 {
-    [CommandSwitch("--case-id-list")]
+    [CliOption("--case-id-list")]
     public string[]? CaseIdList { get; set; }
 
-    [CommandSwitch("--display-id")]
+    [CliOption("--display-id")]
     public string? DisplayId { get; set; }
 
-    [CommandSwitch("--after-time")]
+    [CliOption("--after-time")]
     public string? AfterTime { get; set; }
 
-    [CommandSwitch("--before-time")]
+    [CliOption("--before-time")]
     public string? BeforeTime { get; set; }
 
-    [CommandSwitch("--language")]
+    [CliOption("--language")]
     public string? Language { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

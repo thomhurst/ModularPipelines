@@ -3,73 +3,73 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout", "compare")]
+[CliCommand("scout", "compare")]
 [ExcludeFromCodeCoverage]
 public record DockerScoutCompareOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? ImageOrDirectoryOrArchive { get; set; }
 
-    [CommandSwitch("--exit-code")]
+    [CliOption("--exit-code")]
     public virtual string? ExitCode { get; set; }
 
-    [CommandSwitch("--exit-on")]
+    [CliOption("--exit-on")]
     public virtual string? ExitOn { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [CommandSwitch("--hide-policies")]
+    [CliOption("--hide-policies")]
     public virtual string? HidePolicies { get; set; }
 
-    [CommandSwitch("--ignore-base")]
+    [CliOption("--ignore-base")]
     public virtual string? IgnoreBase { get; set; }
 
-    [CommandSwitch("--ignore-unchanged")]
+    [CliOption("--ignore-unchanged")]
     public virtual string? IgnoreUnchanged { get; set; }
 
-    [CommandSwitch("--multi-stage")]
+    [CliOption("--multi-stage")]
     public virtual string? MultiStage { get; set; }
 
-    [CommandSwitch("--only-fixed")]
+    [CliOption("--only-fixed")]
     public virtual string? OnlyFixed { get; set; }
 
-    [CommandSwitch("--only-package-type")]
+    [CliOption("--only-package-type")]
     public virtual string? OnlyPackageType { get; set; }
 
-    [CommandSwitch("--only-severity")]
+    [CliOption("--only-severity")]
     public virtual string? OnlySeverity { get; set; }
 
-    [CommandSwitch("--only-stage")]
+    [CliOption("--only-stage")]
     public virtual string? OnlyStage { get; set; }
 
-    [CommandSwitch("--only-unfixed")]
+    [CliOption("--only-unfixed")]
     public virtual string? OnlyUnfixed { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public virtual string? Org { get; set; }
 
-    [CommandSwitch("--output")]
+    [CliOption("--output")]
     public virtual string? Output { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public virtual string? Platform { get; set; }
 
-    [CommandSwitch("--ref")]
+    [CliOption("--ref")]
     public virtual string? Ref { get; set; }
 
-    [CommandSwitch("--to")]
+    [CliOption("--to")]
     public virtual string? To { get; set; }
 
-    [CommandSwitch("--to-env")]
+    [CliOption("--to-env")]
     public virtual string? ToEnv { get; set; }
 
-    [CommandSwitch("--to-latest")]
+    [CliOption("--to-latest")]
     public virtual string? ToLatest { get; set; }
 
-    [CommandSwitch("--to-ref")]
+    [CliOption("--to-ref")]
     public virtual string? ToRef { get; set; }
 
-    [CommandSwitch("--to-stream")]
+    [CliOption("--to-stream")]
     public virtual string? ToStream { get; set; }
 }

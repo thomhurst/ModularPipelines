@@ -5,221 +5,221 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "node-pools", "create")]
+[CliCommand("container", "node-pools", "create")]
 public record GcloudContainerNodePoolsCreateOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--accelerator")]
+    [CliOption("--accelerator")]
     public string[]? Accelerator { get; set; }
 
-    [CommandSwitch("--additional-node-network")]
+    [CliOption("--additional-node-network")]
     public string[]? AdditionalNodeNetwork { get; set; }
 
-    [CommandSwitch("--additional-pod-network")]
+    [CliOption("--additional-pod-network")]
     public string[]? AdditionalPodNetwork { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--boot-disk-kms-key")]
+    [CliOption("--boot-disk-kms-key")]
     public string? BootDiskKmsKey { get; set; }
 
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--disk-size")]
+    [CliOption("--disk-size")]
     public string? DiskSize { get; set; }
 
-    [CommandSwitch("--disk-type")]
+    [CliOption("--disk-type")]
     public string? DiskType { get; set; }
 
-    [BooleanCommandSwitch("--enable-autoprovisioning")]
+    [CliFlag("--enable-autoprovisioning")]
     public bool? EnableAutoprovisioning { get; set; }
 
-    [BooleanCommandSwitch("--enable-autorepair")]
+    [CliFlag("--enable-autorepair")]
     public bool? EnableAutorepair { get; set; }
 
-    [BooleanCommandSwitch("--enable-autoupgrade")]
+    [CliFlag("--enable-autoupgrade")]
     public bool? EnableAutoupgrade { get; set; }
 
-    [BooleanCommandSwitch("--enable-blue-green-upgrade")]
+    [CliFlag("--enable-blue-green-upgrade")]
     public bool? EnableBlueGreenUpgrade { get; set; }
 
-    [BooleanCommandSwitch("--enable-confidential-nodes")]
+    [CliFlag("--enable-confidential-nodes")]
     public bool? EnableConfidentialNodes { get; set; }
 
-    [BooleanCommandSwitch("--enable-gvnic")]
+    [CliFlag("--enable-gvnic")]
     public bool? EnableGvnic { get; set; }
 
-    [BooleanCommandSwitch("--enable-image-streaming")]
+    [CliFlag("--enable-image-streaming")]
     public bool? EnableImageStreaming { get; set; }
 
-    [BooleanCommandSwitch("--enable-private-nodes")]
+    [CliFlag("--enable-private-nodes")]
     public bool? EnablePrivateNodes { get; set; }
 
-    [BooleanCommandSwitch("--enable-surge-upgrade")]
+    [CliFlag("--enable-surge-upgrade")]
     public bool? EnableSurgeUpgrade { get; set; }
 
-    [CommandSwitch("--image-type")]
+    [CliOption("--image-type")]
     public string? ImageType { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--logging-variant")]
+    [CliOption("--logging-variant")]
     public string? LoggingVariant { get; set; }
 
-    [CommandSwitch("--machine-type")]
+    [CliOption("--machine-type")]
     public string? MachineType { get; set; }
 
-    [CommandSwitch("--max-pods-per-node")]
+    [CliOption("--max-pods-per-node")]
     public string? MaxPodsPerNode { get; set; }
 
-    [CommandSwitch("--max-surge-upgrade")]
+    [CliOption("--max-surge-upgrade")]
     public string? MaxSurgeUpgrade { get; set; }
 
-    [CommandSwitch("--max-unavailable-upgrade")]
+    [CliOption("--max-unavailable-upgrade")]
     public string? MaxUnavailableUpgrade { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public IEnumerable<KeyValue>? Metadata { get; set; }
 
-    [CommandSwitch("--metadata-from-file")]
+    [CliOption("--metadata-from-file")]
     public string[]? MetadataFromFile { get; set; }
 
-    [CommandSwitch("--min-cpu-platform")]
+    [CliOption("--min-cpu-platform")]
     public string? MinCpuPlatform { get; set; }
 
-    [CommandSwitch("--network-performance-configs")]
+    [CliOption("--network-performance-configs")]
     public string[]? NetworkPerformanceConfigs { get; set; }
 
-    [CommandSwitch("--node-group")]
+    [CliOption("--node-group")]
     public string? NodeGroup { get; set; }
 
-    [CommandSwitch("--node-labels")]
+    [CliOption("--node-labels")]
     public string[]? NodeLabels { get; set; }
 
-    [CommandSwitch("--node-locations")]
+    [CliOption("--node-locations")]
     public string[]? NodeLocations { get; set; }
 
-    [CommandSwitch("--node-pool-soak-duration")]
+    [CliOption("--node-pool-soak-duration")]
     public string? NodePoolSoakDuration { get; set; }
 
-    [CommandSwitch("--node-taints")]
+    [CliOption("--node-taints")]
     public string[]? NodeTaints { get; set; }
 
-    [CommandSwitch("--node-version")]
+    [CliOption("--node-version")]
     public string? NodeVersion { get; set; }
 
-    [CommandSwitch("--num-nodes")]
+    [CliOption("--num-nodes")]
     public string? NumNodes { get; set; }
 
-    [CommandSwitch("--placement-policy")]
+    [CliOption("--placement-policy")]
     public string? PlacementPolicy { get; set; }
 
-    [CommandSwitch("--placement-type")]
+    [CliOption("--placement-type")]
     public string? PlacementType { get; set; }
 
-    [BooleanCommandSwitch("--preemptible")]
+    [CliFlag("--preemptible")]
     public bool? Preemptible { get; set; }
 
-    [CommandSwitch("--resource-manager-tags")]
+    [CliOption("--resource-manager-tags")]
     public IEnumerable<KeyValue>? ResourceManagerTags { get; set; }
 
-    [CommandSwitch("--sandbox")]
+    [CliOption("--sandbox")]
     public string[]? Sandbox { get; set; }
 
-    [BooleanCommandSwitch("--shielded-integrity-monitoring")]
+    [CliFlag("--shielded-integrity-monitoring")]
     public bool? ShieldedIntegrityMonitoring { get; set; }
 
-    [BooleanCommandSwitch("--shielded-secure-boot")]
+    [CliFlag("--shielded-secure-boot")]
     public bool? ShieldedSecureBoot { get; set; }
 
-    [CommandSwitch("--sole-tenant-node-affinity-file")]
+    [CliOption("--sole-tenant-node-affinity-file")]
     public string? SoleTenantNodeAffinityFile { get; set; }
 
-    [BooleanCommandSwitch("--spot")]
+    [CliFlag("--spot")]
     public bool? Spot { get; set; }
 
-    [CommandSwitch("--standard-rollout-policy")]
+    [CliOption("--standard-rollout-policy")]
     public string[]? StandardRolloutPolicy { get; set; }
 
-    [CommandSwitch("--system-config-from-file")]
+    [CliOption("--system-config-from-file")]
     public string? SystemConfigFromFile { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--threads-per-core")]
+    [CliOption("--threads-per-core")]
     public string? ThreadsPerCore { get; set; }
 
-    [CommandSwitch("--tpu-topology")]
+    [CliOption("--tpu-topology")]
     public string? TpuTopology { get; set; }
 
-    [CommandSwitch("--windows-os-version")]
+    [CliOption("--windows-os-version")]
     public string? WindowsOsVersion { get; set; }
 
-    [CommandSwitch("--workload-metadata")]
+    [CliOption("--workload-metadata")]
     public string? WorkloadMetadata { get; set; }
 
-    [CommandSwitch("--create-pod-ipv4-range")]
+    [CliOption("--create-pod-ipv4-range")]
     public IEnumerable<KeyValue>? CreatePodIpv4Range { get; set; }
 
-    [CommandSwitch("--pod-ipv4-range")]
+    [CliOption("--pod-ipv4-range")]
     public string? PodIpv4Range { get; set; }
 
-    [BooleanCommandSwitch("--enable-autoscaling")]
+    [CliFlag("--enable-autoscaling")]
     public bool? EnableAutoscaling { get; set; }
 
-    [CommandSwitch("--location-policy")]
+    [CliOption("--location-policy")]
     public string? LocationPolicy { get; set; }
 
-    [CommandSwitch("--max-nodes")]
+    [CliOption("--max-nodes")]
     public string? MaxNodes { get; set; }
 
-    [CommandSwitch("--min-nodes")]
+    [CliOption("--min-nodes")]
     public string? MinNodes { get; set; }
 
-    [CommandSwitch("--total-max-nodes")]
+    [CliOption("--total-max-nodes")]
     public string? TotalMaxNodes { get; set; }
 
-    [CommandSwitch("--total-min-nodes")]
+    [CliOption("--total-min-nodes")]
     public string? TotalMinNodes { get; set; }
 
-    [BooleanCommandSwitch("--enable-best-effort-provision")]
+    [CliFlag("--enable-best-effort-provision")]
     public bool? EnableBestEffortProvision { get; set; }
 
-    [CommandSwitch("--min-provision-nodes")]
+    [CliOption("--min-provision-nodes")]
     public string? MinProvisionNodes { get; set; }
 
-    [CommandSwitch("--ephemeral-storage-local-ssd[")]
+    [CliOption("--ephemeral-storage-local-ssd[")]
     public string[]? EphemeralStorageLocalSsd { get; set; }
 
-    [CommandSwitch("--local-nvme-ssd-block[")]
+    [CliOption("--local-nvme-ssd-block[")]
     public string[]? LocalNvmeSsdBlock { get; set; }
 
-    [CommandSwitch("--local-ssd-count")]
+    [CliOption("--local-ssd-count")]
     public string? LocalSsdCount { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--reservation")]
+    [CliOption("--reservation")]
     public string? Reservation { get; set; }
 
-    [CommandSwitch("--reservation-affinity")]
+    [CliOption("--reservation-affinity")]
     public string? ReservationAffinity { get; set; }
 
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string[]? Scopes { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 }

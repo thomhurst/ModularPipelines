@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53resolver", "update-firewall-rule-group-association")]
+[CliCommand("route53resolver", "update-firewall-rule-group-association")]
 public record AwsRoute53resolverUpdateFirewallRuleGroupAssociationOptions(
-[property: CommandSwitch("--firewall-rule-group-association-id")] string FirewallRuleGroupAssociationId
+[property: CliOption("--firewall-rule-group-association-id")] string FirewallRuleGroupAssociationId
 ) : AwsOptions
 {
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public int? Priority { get; set; }
 
-    [CommandSwitch("--mutation-protection")]
+    [CliOption("--mutation-protection")]
     public string? MutationProtection { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

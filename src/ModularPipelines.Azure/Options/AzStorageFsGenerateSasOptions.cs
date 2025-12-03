@@ -4,65 +4,65 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "fs", "generate-sas")]
+[CliCommand("storage", "fs", "generate-sas")]
 public record AzStorageFsGenerateSasOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [BooleanCommandSwitch("--as-user")]
+    [CliFlag("--as-user")]
     public bool? AsUser { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--blob-endpoint")]
+    [CliOption("--blob-endpoint")]
     public string? BlobEndpoint { get; set; }
 
-    [CommandSwitch("--cache-control")]
+    [CliOption("--cache-control")]
     public string? CacheControl { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--content-disposition")]
+    [CliOption("--content-disposition")]
     public string? ContentDisposition { get; set; }
 
-    [CommandSwitch("--content-encoding")]
+    [CliOption("--content-encoding")]
     public string? ContentEncoding { get; set; }
 
-    [CommandSwitch("--content-language")]
+    [CliOption("--content-language")]
     public string? ContentLanguage { get; set; }
 
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CommandSwitch("--encryption-scope")]
+    [CliOption("--encryption-scope")]
     public string? EncryptionScope { get; set; }
 
-    [CommandSwitch("--expiry")]
+    [CliOption("--expiry")]
     public string? Expiry { get; set; }
 
-    [BooleanCommandSwitch("--full-uri")]
+    [CliFlag("--full-uri")]
     public bool? FullUri { get; set; }
 
-    [CommandSwitch("--https-only")]
+    [CliOption("--https-only")]
     public string? HttpsOnly { get; set; }
 
-    [CommandSwitch("--ip")]
+    [CliOption("--ip")]
     public string? Ip { get; set; }
 
-    [CommandSwitch("--permissions")]
+    [CliOption("--permissions")]
     public string? Permissions { get; set; }
 
-    [CommandSwitch("--policy-name")]
+    [CliOption("--policy-name")]
     public string? PolicyName { get; set; }
 
-    [CommandSwitch("--start")]
+    [CliOption("--start")]
     public string? Start { get; set; }
 }

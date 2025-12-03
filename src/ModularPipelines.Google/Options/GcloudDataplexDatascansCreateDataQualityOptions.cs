@@ -5,36 +5,36 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "datascans", "create", "data-quality")]
+[CliCommand("dataplex", "datascans", "create", "data-quality")]
 public record GcloudDataplexDatascansCreateDataQualityOptions(
-[property: PositionalArgument] string Datascan,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--data-quality-spec-file")] string DataQualitySpecFile,
-[property: CommandSwitch("--data-source-entity")] string DataSourceEntity,
-[property: CommandSwitch("--data-source-resource")] string DataSourceResource
+[property: CliArgument] string Datascan,
+[property: CliArgument] string Location,
+[property: CliOption("--data-quality-spec-file")] string DataQualitySpecFile,
+[property: CliOption("--data-source-entity")] string DataSourceEntity,
+[property: CliOption("--data-source-resource")] string DataSourceResource
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--incremental-field")]
+    [CliOption("--incremental-field")]
     public string? IncrementalField { get; set; }
 
-    [CommandSwitch("--on-demand")]
+    [CliOption("--on-demand")]
     public string? OnDemand { get; set; }
 
-    [CommandSwitch("--schedule")]
+    [CliOption("--schedule")]
     public string? Schedule { get; set; }
 }

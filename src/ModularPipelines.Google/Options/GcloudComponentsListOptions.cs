@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("components", "list")]
+[CliCommand("components", "list")]
 public record GcloudComponentsListOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--only-local-state")]
+    [CliFlag("--only-local-state")]
     public bool? OnlyLocalState { get; set; }
 
-    [BooleanCommandSwitch("--show-platform")]
+    [CliFlag("--show-platform")]
     public bool? ShowPlatform { get; set; }
 
-    [BooleanCommandSwitch("--show-versions")]
+    [CliFlag("--show-versions")]
     public bool? ShowVersions { get; set; }
 }

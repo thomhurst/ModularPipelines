@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "iot-solution", "update")]
+[CliCommand("security", "iot-solution", "update")]
 public record AzSecurityIotSolutionUpdateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--solution-name")] string SolutionName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--solution-name")] string SolutionName
 ) : AzOptions
 {
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--iot-hubs")]
+    [CliOption("--iot-hubs")]
     public string? IotHubs { get; set; }
 }

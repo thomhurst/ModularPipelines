@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("image", "builder", "validator", "add")]
+[CliCommand("image", "builder", "validator", "add")]
 public record AzImageBuilderValidatorAddOptions : AzOptions
 {
-    [BooleanCommandSwitch("--continue-distribute-on-failure")]
+    [CliFlag("--continue-distribute-on-failure")]
     public bool? ContinueDistributeOnFailure { get; set; }
 
-    [CommandSwitch("--defer")]
+    [CliOption("--defer")]
     public string? Defer { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--source-validation-only")]
+    [CliFlag("--source-validation-only")]
     public bool? SourceValidationOnly { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

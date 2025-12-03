@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "model", "update")]
+[CliCommand("dt", "model", "update")]
 public record AzDtModelUpdateOptions(
-[property: CommandSwitch("--dt-name")] string DtName,
-[property: CommandSwitch("--dtmi")] string Dtmi
+[property: CliOption("--dt-name")] string DtName,
+[property: CliOption("--dtmi")] string Dtmi
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--decommission")]
+    [CliFlag("--decommission")]
     public bool? Decommission { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

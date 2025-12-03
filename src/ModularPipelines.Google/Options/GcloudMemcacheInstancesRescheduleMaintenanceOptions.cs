@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memcache", "instances", "reschedule-maintenance")]
+[CliCommand("memcache", "instances", "reschedule-maintenance")]
 public record GcloudMemcacheInstancesRescheduleMaintenanceOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--reschedule-type")] string RescheduleType
+[property: CliArgument] string Instance,
+[property: CliArgument] string Region,
+[property: CliOption("--reschedule-type")] string RescheduleType
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--schedule-time")]
+    [CliOption("--schedule-time")]
     public string? ScheduleTime { get; set; }
 }

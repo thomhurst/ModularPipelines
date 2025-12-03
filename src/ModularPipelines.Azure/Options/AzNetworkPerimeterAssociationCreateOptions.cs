@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "perimeter", "association", "create")]
+[CliCommand("network", "perimeter", "association", "create")]
 public record AzNetworkPerimeterAssociationCreateOptions(
-[property: CommandSwitch("--association-name")] string AssociationName,
-[property: CommandSwitch("--perimeter-name")] string PerimeterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--association-name")] string AssociationName,
+[property: CliOption("--perimeter-name")] string PerimeterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--access-mode")]
+    [CliOption("--access-mode")]
     public string? AccessMode { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--private-link-resource")]
+    [CliOption("--private-link-resource")]
     public string? PrivateLinkResource { get; set; }
 
-    [CommandSwitch("--profile")]
+    [CliOption("--profile")]
     public string? Profile { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

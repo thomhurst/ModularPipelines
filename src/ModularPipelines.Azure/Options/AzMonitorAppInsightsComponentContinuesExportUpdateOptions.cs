@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "app-insights", "component", "continues-export", "update")]
+[CliCommand("monitor", "app-insights", "component", "continues-export", "update")]
 public record AzMonitorAppInsightsComponentContinuesExportUpdateOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [CommandSwitch("--app")]
+    [CliOption("--app")]
     public string? App { get; set; }
 
-    [CommandSwitch("--dest-account")]
+    [CliOption("--dest-account")]
     public int? DestAccount { get; set; }
 
-    [CommandSwitch("--dest-container")]
+    [CliOption("--dest-container")]
     public string? DestContainer { get; set; }
 
-    [CommandSwitch("--dest-sas")]
+    [CliOption("--dest-sas")]
     public string? DestSas { get; set; }
 
-    [CommandSwitch("--dest-sub-id")]
+    [CliOption("--dest-sub-id")]
     public string? DestSubId { get; set; }
 
-    [CommandSwitch("--dest-type")]
+    [CliOption("--dest-type")]
     public string? DestType { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--is-enabled")]
+    [CliFlag("--is-enabled")]
     public bool? IsEnabled { get; set; }
 
-    [CommandSwitch("--record-types")]
+    [CliOption("--record-types")]
     public string? RecordTypes { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

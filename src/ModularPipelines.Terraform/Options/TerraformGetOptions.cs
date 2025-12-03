@@ -3,14 +3,14 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("get")]
+[CliCommand("get")]
 [ExcludeFromCodeCoverage]
-public record TerraformGetOptions([property: PositionalArgument(Position = Position.AfterSwitches)]
+public record TerraformGetOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     string Path) : TerraformOptions
 {
-    [BooleanCommandSwitch("-update")]
+    [CliFlag("-update")]
     public virtual bool? Update { get; set; }
 
-    [BooleanCommandSwitch("-no-color")]
+    [CliFlag("-no-color")]
     public virtual bool? NoColor { get; set; }
 }

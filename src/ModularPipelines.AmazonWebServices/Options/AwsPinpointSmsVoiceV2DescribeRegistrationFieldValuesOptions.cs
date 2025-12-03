@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint-sms-voice-v2", "describe-registration-field-values")]
+[CliCommand("pinpoint-sms-voice-v2", "describe-registration-field-values")]
 public record AwsPinpointSmsVoiceV2DescribeRegistrationFieldValuesOptions(
-[property: CommandSwitch("--registration-id")] string RegistrationId
+[property: CliOption("--registration-id")] string RegistrationId
 ) : AwsOptions
 {
-    [CommandSwitch("--version-number")]
+    [CliOption("--version-number")]
     public long? VersionNumber { get; set; }
 
-    [CommandSwitch("--section-path")]
+    [CliOption("--section-path")]
     public string? SectionPath { get; set; }
 
-    [CommandSwitch("--field-paths")]
+    [CliOption("--field-paths")]
     public string[]? FieldPaths { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

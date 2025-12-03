@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "user", "create")]
+[CliCommand("ad", "user", "create")]
 public record AzAdUserCreateOptions(
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--password")] string Password,
-[property: CommandSwitch("--user-principal-name")] string UserPrincipalName
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--password")] string Password,
+[property: CliOption("--user-principal-name")] string UserPrincipalName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--force-change-password-next-sign-in")]
+    [CliFlag("--force-change-password-next-sign-in")]
     public bool? ForceChangePasswordNextSignIn { get; set; }
 
-    [CommandSwitch("--immutable-id")]
+    [CliOption("--immutable-id")]
     public string? ImmutableId { get; set; }
 
-    [CommandSwitch("--mail-nickname")]
+    [CliOption("--mail-nickname")]
     public string? MailNickname { get; set; }
 }

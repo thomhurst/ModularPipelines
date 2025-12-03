@@ -5,33 +5,33 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cache", "services", "update")]
+[CliCommand("edge-cache", "services", "update")]
 public record GcloudEdgeCacheServicesUpdateOptions(
-[property: PositionalArgument] string Service,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Service,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--edge-security-policy")]
+    [CliOption("--edge-security-policy")]
     public string? EdgeSecurityPolicy { get; set; }
 
-    [CommandSwitch("--edge-ssl-certificate")]
+    [CliOption("--edge-ssl-certificate")]
     public string[]? EdgeSslCertificate { get; set; }
 
-    [BooleanCommandSwitch("--enable-logging")]
+    [CliFlag("--enable-logging")]
     public bool? EnableLogging { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--logging-sample-rate")]
+    [CliOption("--logging-sample-rate")]
     public string? LoggingSampleRate { get; set; }
 
-    [BooleanCommandSwitch("--require-tls")]
+    [CliFlag("--require-tls")]
     public bool? RequireTls { get; set; }
 }

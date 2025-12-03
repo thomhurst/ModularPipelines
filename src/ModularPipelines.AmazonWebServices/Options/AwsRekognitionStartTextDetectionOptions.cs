@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "start-text-detection")]
+[CliCommand("rekognition", "start-text-detection")]
 public record AwsRekognitionStartTextDetectionOptions(
-[property: CommandSwitch("--video")] string Video
+[property: CliOption("--video")] string Video
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--notification-channel")]
+    [CliOption("--notification-channel")]
     public string? NotificationChannel { get; set; }
 
-    [CommandSwitch("--job-tag")]
+    [CliOption("--job-tag")]
     public string? JobTag { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string? Filters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

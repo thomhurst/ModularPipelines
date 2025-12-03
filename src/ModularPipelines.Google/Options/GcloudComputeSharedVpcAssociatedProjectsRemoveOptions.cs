@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "shared-vpc", "associated-projects", "remove")]
+[CliCommand("compute", "shared-vpc", "associated-projects", "remove")]
 public record GcloudComputeSharedVpcAssociatedProjectsRemoveOptions(
-[property: PositionalArgument] string ProjectId,
-[property: CommandSwitch("--host-project")] string HostProject
+[property: CliArgument] string ProjectId,
+[property: CliOption("--host-project")] string HostProject
 ) : GcloudOptions;

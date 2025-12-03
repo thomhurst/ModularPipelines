@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup-dr", "locations", "list")]
+[CliCommand("backup-dr", "locations", "list")]
 public record GcloudBackupDrLocationsListOptions : GcloudOptions;

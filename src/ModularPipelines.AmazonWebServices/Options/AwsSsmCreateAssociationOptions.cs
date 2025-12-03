@@ -5,65 +5,65 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "create-association")]
+[CliCommand("ssm", "create-association")]
 public record AwsSsmCreateAssociationOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--document-version")]
+    [CliOption("--document-version")]
     public string? DocumentVersion { get; set; }
 
-    [CommandSwitch("--instance-id")]
+    [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public IEnumerable<KeyValue>? Parameters { get; set; }
 
-    [CommandSwitch("--targets")]
+    [CliOption("--targets")]
     public string[]? Targets { get; set; }
 
-    [CommandSwitch("--schedule-expression")]
+    [CliOption("--schedule-expression")]
     public string? ScheduleExpression { get; set; }
 
-    [CommandSwitch("--output-location")]
+    [CliOption("--output-location")]
     public string? OutputLocation { get; set; }
 
-    [CommandSwitch("--association-name")]
+    [CliOption("--association-name")]
     public string? AssociationName { get; set; }
 
-    [CommandSwitch("--automation-target-parameter-name")]
+    [CliOption("--automation-target-parameter-name")]
     public string? AutomationTargetParameterName { get; set; }
 
-    [CommandSwitch("--max-errors")]
+    [CliOption("--max-errors")]
     public string? MaxErrors { get; set; }
 
-    [CommandSwitch("--max-concurrency")]
+    [CliOption("--max-concurrency")]
     public string? MaxConcurrency { get; set; }
 
-    [CommandSwitch("--compliance-severity")]
+    [CliOption("--compliance-severity")]
     public string? ComplianceSeverity { get; set; }
 
-    [CommandSwitch("--sync-compliance")]
+    [CliOption("--sync-compliance")]
     public string? SyncCompliance { get; set; }
 
-    [CommandSwitch("--calendar-names")]
+    [CliOption("--calendar-names")]
     public string[]? CalendarNames { get; set; }
 
-    [CommandSwitch("--target-locations")]
+    [CliOption("--target-locations")]
     public string[]? TargetLocations { get; set; }
 
-    [CommandSwitch("--schedule-offset")]
+    [CliOption("--schedule-offset")]
     public int? ScheduleOffset { get; set; }
 
-    [CommandSwitch("--target-maps")]
+    [CliOption("--target-maps")]
     public string[]? TargetMaps { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--alarm-configuration")]
+    [CliOption("--alarm-configuration")]
     public string? AlarmConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

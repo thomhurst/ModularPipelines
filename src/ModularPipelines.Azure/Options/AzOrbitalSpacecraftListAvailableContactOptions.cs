@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("orbital", "spacecraft", "list-available-contact")]
+[CliCommand("orbital", "spacecraft", "list-available-contact")]
 public record AzOrbitalSpacecraftListAvailableContactOptions(
-[property: CommandSwitch("--contact-profile")] string ContactProfile,
-[property: CommandSwitch("--end-time")] string EndTime,
-[property: CommandSwitch("--ground-station-name")] string GroundStationName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--spacecraft-name")] string SpacecraftName,
-[property: CommandSwitch("--start-time")] string StartTime
+[property: CliOption("--contact-profile")] string ContactProfile,
+[property: CliOption("--end-time")] string EndTime,
+[property: CliOption("--ground-station-name")] string GroundStationName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--spacecraft-name")] string SpacecraftName,
+[property: CliOption("--start-time")] string StartTime
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

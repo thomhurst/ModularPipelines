@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redis", "operations", "cancel")]
+[CliCommand("redis", "operations", "cancel")]
 public record GcloudRedisOperationsCancelOptions(
-[property: PositionalArgument] string Operation,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Operation,
+[property: CliArgument] string Region
 ) : GcloudOptions;

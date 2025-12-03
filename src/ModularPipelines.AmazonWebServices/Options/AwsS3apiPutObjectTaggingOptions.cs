@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api", "put-object-tagging")]
+[CliCommand("s3api", "put-object-tagging")]
 public record AwsS3apiPutObjectTaggingOptions(
-[property: CommandSwitch("--bucket")] string Bucket,
-[property: CommandSwitch("--key")] string Key,
-[property: CommandSwitch("--tagging")] string Tagging
+[property: CliOption("--bucket")] string Bucket,
+[property: CliOption("--key")] string Key,
+[property: CliOption("--tagging")] string Tagging
 ) : AwsOptions
 {
-    [CommandSwitch("--version-id")]
+    [CliOption("--version-id")]
     public string? VersionId { get; set; }
 
-    [CommandSwitch("--content-md5")]
+    [CliOption("--content-md5")]
     public string? ContentMd5 { get; set; }
 
-    [CommandSwitch("--checksum-algorithm")]
+    [CliOption("--checksum-algorithm")]
     public string? ChecksumAlgorithm { get; set; }
 
-    [CommandSwitch("--expected-bucket-owner")]
+    [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
 
-    [CommandSwitch("--request-payer")]
+    [CliOption("--request-payer")]
     public string? RequestPayer { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

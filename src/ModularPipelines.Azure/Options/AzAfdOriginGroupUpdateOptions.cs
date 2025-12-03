@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "origin-group", "update")]
+[CliCommand("afd", "origin-group", "update")]
 public record AzAfdOriginGroupUpdateOptions : AzOptions
 {
-    [CommandSwitch("--additional-latency-in-milliseconds")]
+    [CliOption("--additional-latency-in-milliseconds")]
     public string? AdditionalLatencyInMilliseconds { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--origin-group-name")]
+    [CliOption("--origin-group-name")]
     public string? OriginGroupName { get; set; }
 
-    [CommandSwitch("--probe-interval-in-seconds")]
+    [CliOption("--probe-interval-in-seconds")]
     public string? ProbeIntervalInSeconds { get; set; }
 
-    [CommandSwitch("--probe-path")]
+    [CliOption("--probe-path")]
     public string? ProbePath { get; set; }
 
-    [CommandSwitch("--probe-protocol")]
+    [CliOption("--probe-protocol")]
     public string? ProbeProtocol { get; set; }
 
-    [CommandSwitch("--probe-request-type")]
+    [CliOption("--probe-request-type")]
     public string? ProbeRequestType { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sample-size")]
+    [CliOption("--sample-size")]
     public string? SampleSize { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--successful-samples-required")]
+    [CliOption("--successful-samples-required")]
     public string? SuccessfulSamplesRequired { get; set; }
 }

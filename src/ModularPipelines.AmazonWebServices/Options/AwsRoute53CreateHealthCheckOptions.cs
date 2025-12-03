@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53", "create-health-check")]
+[CliCommand("route53", "create-health-check")]
 public record AwsRoute53CreateHealthCheckOptions(
-[property: CommandSwitch("--caller-reference")] string CallerReference,
-[property: CommandSwitch("--health-check-config")] string HealthCheckConfig
+[property: CliOption("--caller-reference")] string CallerReference,
+[property: CliOption("--health-check-config")] string HealthCheckConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

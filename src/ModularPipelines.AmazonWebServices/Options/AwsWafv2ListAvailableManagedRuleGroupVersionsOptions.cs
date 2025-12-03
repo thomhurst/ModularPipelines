@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wafv2", "list-available-managed-rule-group-versions")]
+[CliCommand("wafv2", "list-available-managed-rule-group-versions")]
 public record AwsWafv2ListAvailableManagedRuleGroupVersionsOptions(
-[property: CommandSwitch("--vendor-name")] string VendorName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--scope")] string Scope
+[property: CliOption("--vendor-name")] string VendorName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--scope")] string Scope
 ) : AwsOptions
 {
-    [CommandSwitch("--next-marker")]
+    [CliOption("--next-marker")]
     public string? NextMarker { get; set; }
 
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

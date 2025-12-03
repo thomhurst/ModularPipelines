@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ams", "account", "sp", "create")]
+[CliCommand("ams", "account", "sp", "create")]
 public record AzAmsAccountSpCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--new-sp-name")]
+    [CliOption("--new-sp-name")]
     public string? NewSpName { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [BooleanCommandSwitch("--xml")]
+    [CliFlag("--xml")]
     public bool? Xml { get; set; }
 
-    [CommandSwitch("--years")]
+    [CliOption("--years")]
     public string? Years { get; set; }
 }

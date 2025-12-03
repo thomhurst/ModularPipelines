@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("cp", "<file-spec-src>", "<file-spec-dest>")]
+[CliCommand("cp", "<file-spec-src>", "<file-spec-dest>")]
 [ExcludeFromCodeCoverage]
 public record KubernetesCpOptions : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--container", SwitchValueSeparator = " ")]
+    [CliOption("--container")]
     public string? Container { get; set; }
 
-    [BooleanCommandSwitch("--no-preserve")]
+    [CliFlag("--no-preserve")]
     public virtual bool? NoPreserve { get; set; }
 }

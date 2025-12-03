@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm-incidents", "start-incident")]
+[CliCommand("ssm-incidents", "start-incident")]
 public record AwsSsmIncidentsStartIncidentOptions(
-[property: CommandSwitch("--response-plan-arn")] string ResponsePlanArn
+[property: CliOption("--response-plan-arn")] string ResponsePlanArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--impact")]
+    [CliOption("--impact")]
     public int? Impact { get; set; }
 
-    [CommandSwitch("--related-items")]
+    [CliOption("--related-items")]
     public string[]? RelatedItems { get; set; }
 
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 
-    [CommandSwitch("--trigger-details")]
+    [CliOption("--trigger-details")]
     public string? TriggerDetails { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

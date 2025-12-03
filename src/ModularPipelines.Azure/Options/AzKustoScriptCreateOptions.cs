@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "script", "create")]
+[CliCommand("kusto", "script", "create")]
 public record AzKustoScriptCreateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--continue-on-errors")]
+    [CliFlag("--continue-on-errors")]
     public bool? ContinueOnErrors { get; set; }
 
-    [BooleanCommandSwitch("--force-update-tag")]
+    [CliFlag("--force-update-tag")]
     public bool? ForceUpdateTag { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--script-content")]
+    [CliOption("--script-content")]
     public string? ScriptContent { get; set; }
 
-    [CommandSwitch("--script-url")]
+    [CliOption("--script-url")]
     public string? ScriptUrl { get; set; }
 
-    [CommandSwitch("--script-url-sas-token")]
+    [CliOption("--script-url-sas-token")]
     public string? ScriptUrlSasToken { get; set; }
 }

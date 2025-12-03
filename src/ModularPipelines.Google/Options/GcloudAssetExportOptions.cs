@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("asset", "export")]
+[CliCommand("asset", "export")]
 public record GcloudAssetExportOptions : GcloudOptions
 {
     public GcloudAssetExportOptions(
@@ -32,42 +32,42 @@ public record GcloudAssetExportOptions : GcloudOptions
         BigqueryDataset = bigqueryDataset;
     }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 
-    [CommandSwitch("--output-path")]
+    [CliOption("--output-path")]
     public string OutputPath { get; set; }
 
-    [CommandSwitch("--output-path-prefix")]
+    [CliOption("--output-path-prefix")]
     public string OutputPathPrefix { get; set; }
 
-    [BooleanCommandSwitch("--output-bigquery-force")]
+    [CliFlag("--output-bigquery-force")]
     public bool OutputBigqueryForce { get; set; }
 
-    [CommandSwitch("--partition-key")]
+    [CliOption("--partition-key")]
     public string PartitionKey { get; set; }
 
-    [BooleanCommandSwitch("--per-asset-type")]
+    [CliFlag("--per-asset-type")]
     public bool PerAssetType { get; set; }
 
-    [CommandSwitch("--bigquery-table")]
+    [CliOption("--bigquery-table")]
     public string BigqueryTable { get; set; }
 
-    [CommandSwitch("--bigquery-dataset")]
+    [CliOption("--bigquery-dataset")]
     public string BigqueryDataset { get; set; }
 
-    [CommandSwitch("--asset-types")]
+    [CliOption("--asset-types")]
     public string[]? AssetTypes { get; set; }
 
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CommandSwitch("--relationship-types")]
+    [CliOption("--relationship-types")]
     public string[]? RelationshipTypes { get; set; }
 
-    [CommandSwitch("--snapshot-time")]
+    [CliOption("--snapshot-time")]
     public string? SnapshotTime { get; set; }
 }

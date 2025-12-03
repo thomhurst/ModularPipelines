@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "diagnostic-settings", "show")]
+[CliCommand("monitor", "diagnostic-settings", "show")]
 public record AzMonitorDiagnosticSettingsShowOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource")] string Resource
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource")] string Resource
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-namespace")]
+    [CliOption("--resource-namespace")]
     public string? ResourceNamespace { get; set; }
 
-    [CommandSwitch("--resource-parent")]
+    [CliOption("--resource-parent")]
     public string? ResourceParent { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 }

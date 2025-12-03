@@ -4,68 +4,68 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "images", "import")]
+[CliCommand("compute", "images", "import")]
 public record GcloudComputeImagesImportOptions(
-[property: PositionalArgument] string ImageName,
-[property: CommandSwitch("--source-file")] string SourceFile,
-[property: CommandSwitch("--source-image")] string SourceImage,
-[property: CommandSwitch("--aws-access-key-id")] string AwsAccessKeyId,
-[property: CommandSwitch("--aws-region")] string AwsRegion,
-[property: CommandSwitch("--aws-secret-access-key")] string AwsSecretAccessKey,
-[property: CommandSwitch("--aws-session-token")] string AwsSessionToken,
-[property: CommandSwitch("--aws-source-ami-file-path")] string AwsSourceAmiFilePath,
-[property: CommandSwitch("--aws-ami-export-location")] string AwsAmiExportLocation,
-[property: CommandSwitch("--aws-ami-id")] string AwsAmiId
+[property: CliArgument] string ImageName,
+[property: CliOption("--source-file")] string SourceFile,
+[property: CliOption("--source-image")] string SourceImage,
+[property: CliOption("--aws-access-key-id")] string AwsAccessKeyId,
+[property: CliOption("--aws-region")] string AwsRegion,
+[property: CliOption("--aws-secret-access-key")] string AwsSecretAccessKey,
+[property: CliOption("--aws-session-token")] string AwsSessionToken,
+[property: CliOption("--aws-source-ami-file-path")] string AwsSourceAmiFilePath,
+[property: CliOption("--aws-ami-export-location")] string AwsAmiExportLocation,
+[property: CliOption("--aws-ami-id")] string AwsAmiId
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--no-address")]
+    [CliFlag("--no-address")]
     public bool? NoAddress { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--cloudbuild-service-account")]
+    [CliOption("--cloudbuild-service-account")]
     public string? CloudbuildServiceAccount { get; set; }
 
-    [CommandSwitch("--compute-service-account")]
+    [CliOption("--compute-service-account")]
     public string? ComputeServiceAccount { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--family")]
+    [CliOption("--family")]
     public string? Family { get; set; }
 
-    [BooleanCommandSwitch("--guest-environment")]
+    [CliFlag("--guest-environment")]
     public bool? GuestEnvironment { get; set; }
 
-    [CommandSwitch("--guest-os-features")]
+    [CliOption("--guest-os-features")]
     public string[]? GuestOsFeatures { get; set; }
 
-    [CommandSwitch("--log-location")]
+    [CliOption("--log-location")]
     public string? LogLocation { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--storage-location")]
+    [CliOption("--storage-location")]
     public string? StorageLocation { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [BooleanCommandSwitch("--data-disk")]
+    [CliFlag("--data-disk")]
     public bool? DataDisk { get; set; }
 
-    [BooleanCommandSwitch("--byol")]
+    [CliFlag("--byol")]
     public bool? Byol { get; set; }
 
-    [CommandSwitch("--os")]
+    [CliOption("--os")]
     public string? Os { get; set; }
 }

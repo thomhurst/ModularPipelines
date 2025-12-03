@@ -15,12 +15,12 @@ public record DockerSwarmJoinTokenOptions : DockerOptions
         WorkerOrManager = workerOrManager;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? WorkerOrManager { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [CommandSwitch("--rotate")]
+    [CliOption("--rotate")]
     public virtual string? Rotate { get; set; }
 }

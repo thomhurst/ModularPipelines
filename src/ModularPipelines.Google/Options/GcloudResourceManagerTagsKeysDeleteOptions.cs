@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-manager", "tags", "keys", "delete")]
+[CliCommand("resource-manager", "tags", "keys", "delete")]
 public record GcloudResourceManagerTagsKeysDeleteOptions(
-[property: PositionalArgument] string ResourceName
+[property: CliArgument] string ResourceName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

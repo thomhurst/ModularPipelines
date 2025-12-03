@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "vm", "group", "create")]
+[CliCommand("sql", "vm", "group", "create")]
 public record AzSqlVmGroupCreateOptions(
-[property: CommandSwitch("--domain-fqdn")] string DomainFqdn,
-[property: CommandSwitch("--image-offer")] string ImageOffer,
-[property: CommandSwitch("--image-sku")] string ImageSku,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--operator-acc")] string OperatorAcc,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-acc")] string ServiceAcc,
-[property: CommandSwitch("--storage-account")] int StorageAccount
+[property: CliOption("--domain-fqdn")] string DomainFqdn,
+[property: CliOption("--image-offer")] string ImageOffer,
+[property: CliOption("--image-sku")] string ImageSku,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--operator-acc")] string OperatorAcc,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-acc")] string ServiceAcc,
+[property: CliOption("--storage-account")] int StorageAccount
 ) : AzOptions
 {
-    [CommandSwitch("--bootstrap-acc")]
+    [CliOption("--bootstrap-acc")]
     public string? BootstrapAcc { get; set; }
 
-    [CommandSwitch("--cluster-subnet-type")]
+    [CliOption("--cluster-subnet-type")]
     public string? ClusterSubnetType { get; set; }
 
-    [CommandSwitch("--fsw-path")]
+    [CliOption("--fsw-path")]
     public string? FswPath { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--ou-path")]
+    [CliOption("--ou-path")]
     public string? OuPath { get; set; }
 
-    [CommandSwitch("--sa-key")]
+    [CliOption("--sa-key")]
     public string? SaKey { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

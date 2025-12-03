@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workforce-pools", "providers", "update-saml")]
+[CliCommand("iam", "workforce-pools", "providers", "update-saml")]
 public record GcloudIamWorkforcePoolsProvidersUpdateSamlOptions(
-[property: PositionalArgument] string Provider,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string WorkforcePool
+[property: CliArgument] string Provider,
+[property: CliArgument] string Location,
+[property: CliArgument] string WorkforcePool
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--attribute-condition")]
+    [CliOption("--attribute-condition")]
     public string? AttributeCondition { get; set; }
 
-    [CommandSwitch("--attribute-mapping")]
+    [CliOption("--attribute-mapping")]
     public IEnumerable<KeyValue>? AttributeMapping { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--idp-metadata-path")]
+    [CliOption("--idp-metadata-path")]
     public string? IdpMetadataPath { get; set; }
 }

@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opensearchserverless", "create-access-policy")]
+[CliCommand("opensearchserverless", "create-access-policy")]
 public record AwsOpensearchserverlessCreateAccessPolicyOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--policy")] string Policy,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--name")] string Name,
+[property: CliOption("--policy")] string Policy,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

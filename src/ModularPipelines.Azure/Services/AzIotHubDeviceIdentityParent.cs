@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "device-identity")]
+[CliCommand("iot", "hub", "device-identity")]
 public class AzIotHubDeviceIdentityParent
 {
     public AzIotHubDeviceIdentityParent(

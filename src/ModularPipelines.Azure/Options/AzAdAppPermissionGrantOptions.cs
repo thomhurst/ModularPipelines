@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "app", "permission", "grant")]
+[CliCommand("ad", "app", "permission", "grant")]
 public record AzAdAppPermissionGrantOptions(
-[property: CommandSwitch("--api")] string Api,
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--scope")] string Scope
+[property: CliOption("--api")] string Api,
+[property: CliOption("--id")] string Id,
+[property: CliOption("--scope")] string Scope
 ) : AzOptions
 {
-    [CommandSwitch("--consent-type")]
+    [CliOption("--consent-type")]
     public string? ConsentType { get; set; }
 
-    [CommandSwitch("--principal-id")]
+    [CliOption("--principal-id")]
     public string? PrincipalId { get; set; }
 }

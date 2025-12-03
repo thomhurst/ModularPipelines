@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workloads", "sap-sizing-recommendation")]
+[CliCommand("workloads", "sap-sizing-recommendation")]
 public record AzWorkloadsSapSizingRecommendationOptions : AzOptions
 {
-    [CommandSwitch("--app-location")]
+    [CliOption("--app-location")]
     public string? AppLocation { get; set; }
 
-    [CommandSwitch("--database-type")]
+    [CliOption("--database-type")]
     public string? DatabaseType { get; set; }
 
-    [CommandSwitch("--db-memory")]
+    [CliOption("--db-memory")]
     public string? DbMemory { get; set; }
 
-    [CommandSwitch("--db-scale-method")]
+    [CliOption("--db-scale-method")]
     public string? DbScaleMethod { get; set; }
 
-    [CommandSwitch("--deployment-type")]
+    [CliOption("--deployment-type")]
     public string? DeploymentType { get; set; }
 
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public string? Environment { get; set; }
 
-    [CommandSwitch("--high-availability-type")]
+    [CliOption("--high-availability-type")]
     public string? HighAvailabilityType { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--sap-product")]
+    [CliOption("--sap-product")]
     public string? SapProduct { get; set; }
 
-    [CommandSwitch("--saps")]
+    [CliOption("--saps")]
     public string? Saps { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -3,43 +3,43 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("help")]
+[CliCommand("help")]
 [ExcludeFromCodeCoverage]
 public record GitHelpOptions : GitOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--no-external-commands")]
+    [CliFlag("--no-external-commands")]
     public virtual bool? NoExternalCommands { get; set; }
 
-    [BooleanCommandSwitch("--no-aliases")]
+    [CliFlag("--no-aliases")]
     public virtual bool? NoAliases { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [BooleanCommandSwitch("--c")]
+    [CliFlag("--c")]
     public virtual bool? C { get; set; }
 
-    [BooleanCommandSwitch("--config")]
+    [CliFlag("--config")]
     public virtual bool? Config { get; set; }
 
-    [BooleanCommandSwitch("--guides")]
+    [CliFlag("--guides")]
     public virtual bool? Guides { get; set; }
 
-    [BooleanCommandSwitch("--user-interfaces")]
+    [CliFlag("--user-interfaces")]
     public virtual bool? UserInterfaces { get; set; }
 
-    [BooleanCommandSwitch("--developer-interfaces")]
+    [CliFlag("--developer-interfaces")]
     public virtual bool? DeveloperInterfaces { get; set; }
 
-    [BooleanCommandSwitch("--info")]
+    [CliFlag("--info")]
     public virtual bool? Info { get; set; }
 
-    [BooleanCommandSwitch("--man")]
+    [CliFlag("--man")]
     public virtual bool? Man { get; set; }
 
-    [BooleanCommandSwitch("--web")]
+    [CliFlag("--web")]
     public virtual bool? Web { get; set; }
 }

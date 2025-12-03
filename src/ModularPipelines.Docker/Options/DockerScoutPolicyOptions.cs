@@ -3,31 +3,31 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout", "policy")]
+[CliCommand("scout", "policy")]
 [ExcludeFromCodeCoverage]
 public record DockerScoutPolicyOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? ImageOrRepo { get; set; }
 
-    [CommandSwitch("--env")]
+    [CliOption("--env")]
     public virtual string? Env { get; set; }
 
-    [CommandSwitch("--exit-code")]
+    [CliOption("--exit-code")]
     public virtual string? ExitCode { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public virtual string? Org { get; set; }
 
-    [CommandSwitch("--output")]
+    [CliOption("--output")]
     public virtual string? Output { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public virtual string? Platform { get; set; }
 
-    [CommandSwitch("--to-env")]
+    [CliOption("--to-env")]
     public virtual string? ToEnv { get; set; }
 
-    [CommandSwitch("--to-latest")]
+    [CliOption("--to-latest")]
     public virtual string? ToLatest { get; set; }
 }

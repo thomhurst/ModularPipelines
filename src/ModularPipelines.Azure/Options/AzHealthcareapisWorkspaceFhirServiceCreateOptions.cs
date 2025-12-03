@@ -4,58 +4,58 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcareapis", "workspace", "fhir-service", "create")]
+[CliCommand("healthcareapis", "workspace", "fhir-service", "create")]
 public record AzHealthcareapisWorkspaceFhirServiceCreateOptions(
-[property: CommandSwitch("--fhir-service-name")] string FhirServiceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--fhir-service-name")] string FhirServiceName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--access-policies")]
+    [CliOption("--access-policies")]
     public string? AccessPolicies { get; set; }
 
-    [CommandSwitch("--authentication-configuration")]
+    [CliOption("--authentication-configuration")]
     public string? AuthenticationConfiguration { get; set; }
 
-    [CommandSwitch("--cors-configuration")]
+    [CliOption("--cors-configuration")]
     public string? CorsConfiguration { get; set; }
 
-    [CommandSwitch("--default")]
+    [CliOption("--default")]
     public string? Default { get; set; }
 
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--export-configuration-storage-account-name")]
+    [CliOption("--export-configuration-storage-account-name")]
     public int? ExportConfigurationStorageAccountName { get; set; }
 
-    [CommandSwitch("--identity-type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
-    [CommandSwitch("--kind")]
+    [CliOption("--kind")]
     public string? Kind { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--login-servers")]
+    [CliOption("--login-servers")]
     public string? LoginServers { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--oci-artifacts")]
+    [CliOption("--oci-artifacts")]
     public string? OciArtifacts { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--resource-type-overrides")]
+    [CliOption("--resource-type-overrides")]
     public string? ResourceTypeOverrides { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--user-assigned-identities")]
+    [CliOption("--user-assigned-identities")]
     public string? UserAssignedIdentities { get; set; }
 }

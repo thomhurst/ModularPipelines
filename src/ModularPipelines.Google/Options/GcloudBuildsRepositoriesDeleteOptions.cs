@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("builds", "repositories", "delete")]
+[CliCommand("builds", "repositories", "delete")]
 public record GcloudBuildsRepositoriesDeleteOptions(
-[property: PositionalArgument] string Repository,
-[property: PositionalArgument] string Connection,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Repository,
+[property: CliArgument] string Connection,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

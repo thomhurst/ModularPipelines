@@ -4,76 +4,76 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "workspace", "create")]
+[CliCommand("synapse", "workspace", "create")]
 public record AzSynapseWorkspaceCreateOptions(
-[property: CommandSwitch("--file-system")] string FileSystem,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sql-admin-login-password")] string SqlAdminLoginPassword,
-[property: CommandSwitch("--sql-admin-login-user")] string SqlAdminLoginUser,
-[property: CommandSwitch("--storage-account")] int StorageAccount
+[property: CliOption("--file-system")] string FileSystem,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sql-admin-login-password")] string SqlAdminLoginPassword,
+[property: CliOption("--sql-admin-login-user")] string SqlAdminLoginUser,
+[property: CliOption("--storage-account")] int StorageAccount
 ) : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [BooleanCommandSwitch("--allowed-tenant-ids")]
+    [CliFlag("--allowed-tenant-ids")]
     public bool? AllowedTenantIds { get; set; }
 
-    [CommandSwitch("--cmk")]
+    [CliOption("--cmk")]
     public string? Cmk { get; set; }
 
-    [CommandSwitch("--collaboration-branch")]
+    [CliOption("--collaboration-branch")]
     public string? CollaborationBranch { get; set; }
 
-    [BooleanCommandSwitch("--enable-managed-virtual-network")]
+    [CliFlag("--enable-managed-virtual-network")]
     public bool? EnableManagedVirtualNetwork { get; set; }
 
-    [CommandSwitch("--host-name")]
+    [CliOption("--host-name")]
     public string? HostName { get; set; }
 
-    [CommandSwitch("--key-name")]
+    [CliOption("--key-name")]
     public string? KeyName { get; set; }
 
-    [CommandSwitch("--last-commit-id")]
+    [CliOption("--last-commit-id")]
     public string? LastCommitId { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--managed-rg-name")]
+    [CliOption("--managed-rg-name")]
     public string? ManagedRgName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--prevent-data-exfiltration")]
+    [CliFlag("--prevent-data-exfiltration")]
     public bool? PreventDataExfiltration { get; set; }
 
-    [CommandSwitch("--project-name")]
+    [CliOption("--project-name")]
     public string? ProjectName { get; set; }
 
-    [CommandSwitch("--repository-name")]
+    [CliOption("--repository-name")]
     public string? RepositoryName { get; set; }
 
-    [CommandSwitch("--repository-type")]
+    [CliOption("--repository-type")]
     public string? RepositoryType { get; set; }
 
-    [CommandSwitch("--root-folder")]
+    [CliOption("--root-folder")]
     public string? RootFolder { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--tenant-id")]
+    [CliOption("--tenant-id")]
     public string? TenantId { get; set; }
 
-    [CommandSwitch("--uami-id")]
+    [CliOption("--uami-id")]
     public string? UamiId { get; set; }
 
-    [CommandSwitch("--uami-id-in-encrypt")]
+    [CliOption("--uami-id-in-encrypt")]
     public string? UamiIdInEncrypt { get; set; }
 
-    [BooleanCommandSwitch("--use-sami-in-encrypt")]
+    [CliFlag("--use-sami-in-encrypt")]
     public bool? UseSamiInEncrypt { get; set; }
 }

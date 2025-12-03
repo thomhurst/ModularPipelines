@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instance-groups", "managed", "create-instance")]
+[CliCommand("compute", "instance-groups", "managed", "create-instance")]
 public record GcloudComputeInstanceGroupsManagedCreateInstanceOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--instance")] string Instance
+[property: CliArgument] string Name,
+[property: CliOption("--instance")] string Instance
 ) : GcloudOptions
 {
-    [CommandSwitch("--stateful-disk")]
+    [CliOption("--stateful-disk")]
     public string[]? StatefulDisk { get; set; }
 
-    [CommandSwitch("--stateful-external-ip")]
+    [CliOption("--stateful-external-ip")]
     public string[]? StatefulExternalIp { get; set; }
 
-    [CommandSwitch("--stateful-internal-ip")]
+    [CliOption("--stateful-internal-ip")]
     public string[]? StatefulInternalIp { get; set; }
 
-    [CommandSwitch("--stateful-metadata")]
+    [CliOption("--stateful-metadata")]
     public IEnumerable<KeyValue>? StatefulMetadata { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

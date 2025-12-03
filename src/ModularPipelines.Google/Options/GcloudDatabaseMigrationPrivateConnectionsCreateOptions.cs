@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("database-migration", "private-connections", "create")]
+[CliCommand("database-migration", "private-connections", "create")]
 public record GcloudDatabaseMigrationPrivateConnectionsCreateOptions(
-[property: PositionalArgument] string PrivateConnection,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--subnet")] string Subnet,
-[property: CommandSwitch("--vpc")] string Vpc
+[property: CliArgument] string PrivateConnection,
+[property: CliArgument] string Region,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--subnet")] string Subnet,
+[property: CliOption("--vpc")] string Vpc
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--no-async")]
+    [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

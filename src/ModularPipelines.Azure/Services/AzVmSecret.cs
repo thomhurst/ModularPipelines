@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm")]
+[CliCommand("vm")]
 public class AzVmSecret
 {
     public AzVmSecret(

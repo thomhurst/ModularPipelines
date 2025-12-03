@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bigtable", "instances", "set-iam-policy")]
+[CliCommand("bigtable", "instances", "set-iam-policy")]
 public record GcloudBigtableInstancesSetIamPolicyOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string PolicyFile
+[property: CliArgument] string Instance,
+[property: CliArgument] string PolicyFile
 ) : GcloudOptions;

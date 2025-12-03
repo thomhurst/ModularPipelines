@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkfabric", "routepolicy", "create")]
+[CliCommand("networkfabric", "routepolicy", "create")]
 public record AzNetworkfabricRoutepolicyCreateOptions(
-[property: CommandSwitch("--nf-id")] string NfId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-name")] string ResourceName,
-[property: CommandSwitch("--statements")] string Statements
+[property: CliOption("--nf-id")] string NfId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--resource-name")] string ResourceName,
+[property: CliOption("--statements")] string Statements
 ) : AzOptions
 {
-    [CommandSwitch("--address-family-type")]
+    [CliOption("--address-family-type")]
     public string? AddressFamilyType { get; set; }
 
-    [CommandSwitch("--annotation")]
+    [CliOption("--annotation")]
     public string? Annotation { get; set; }
 
-    [CommandSwitch("--default-action")]
+    [CliOption("--default-action")]
     public string? DefaultAction { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

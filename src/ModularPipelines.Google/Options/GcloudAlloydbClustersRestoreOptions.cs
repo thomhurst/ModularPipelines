@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("alloydb", "clusters", "restore")]
+[CliCommand("alloydb", "clusters", "restore")]
 public record GcloudAlloydbClustersRestoreOptions(
-[property: PositionalArgument] string Cluster,
-[property: CommandSwitch("--region")] string Region,
-[property: CommandSwitch("--backup")] string Backup,
-[property: CommandSwitch("--point-in-time")] string PointInTime,
-[property: CommandSwitch("--source-cluster")] string SourceCluster
+[property: CliArgument] string Cluster,
+[property: CliOption("--region")] string Region,
+[property: CliOption("--backup")] string Backup,
+[property: CliOption("--point-in-time")] string PointInTime,
+[property: CliOption("--source-cluster")] string SourceCluster
 ) : GcloudOptions
 {
-    [CommandSwitch("--allocated-ip-range-name")]
+    [CliOption("--allocated-ip-range-name")]
     public string? AllocatedIpRangeName { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--kms-keyring")]
+    [CliOption("--kms-keyring")]
     public string? KmsKeyring { get; set; }
 
-    [CommandSwitch("--kms-location")]
+    [CliOption("--kms-location")]
     public string? KmsLocation { get; set; }
 
-    [CommandSwitch("--kms-project")]
+    [CliOption("--kms-project")]
     public string? KmsProject { get; set; }
 }

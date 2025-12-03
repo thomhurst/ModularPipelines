@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "get-serial-port-output")]
+[CliCommand("compute", "instances", "get-serial-port-output")]
 public record GcloudComputeInstancesGetSerialPortOutputOptions(
-[property: PositionalArgument] string InstanceName
+[property: CliArgument] string InstanceName
 ) : GcloudOptions
 {
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public string? Port { get; set; }
 
-    [CommandSwitch("--start")]
+    [CliOption("--start")]
     public string? Start { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

@@ -3,145 +3,145 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Helm.Options;
 
-[CommandPrecedingArguments("template")]
+[CliCommand("template")]
 [ExcludeFromCodeCoverage]
 public record HelmTemplateOptions : HelmOptions
 {
-    [CommandEqualsSeparatorSwitch("--api-versions", SwitchValueSeparator = " ")]
+    [CliOption("--api-versions")]
     public string[]? ApiVersions { get; set; }
 
-    [BooleanCommandSwitch("--atomic")]
+    [CliFlag("--atomic")]
     public virtual bool? Atomic { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--ca-file", SwitchValueSeparator = " ")]
+    [CliOption("--ca-file")]
     public string? CaFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cert-file", SwitchValueSeparator = " ")]
+    [CliOption("--cert-file")]
     public string? CertFile { get; set; }
 
-    [BooleanCommandSwitch("--create-namespace")]
+    [CliFlag("--create-namespace")]
     public virtual bool? CreateNamespace { get; set; }
 
-    [BooleanCommandSwitch("--dependency-update")]
+    [CliFlag("--dependency-update")]
     public virtual bool? DependencyUpdate { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--description", SwitchValueSeparator = " ")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--devel")]
+    [CliFlag("--devel")]
     public virtual bool? Devel { get; set; }
 
-    [BooleanCommandSwitch("--disable-openapi-validation")]
+    [CliFlag("--disable-openapi-validation")]
     public virtual bool? DisableOpenapiValidation { get; set; }
 
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--enable-dns")]
+    [CliFlag("--enable-dns")]
     public virtual bool? EnableDns { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--generate-name")]
+    [CliFlag("--generate-name")]
     public virtual bool? GenerateName { get; set; }
 
-    [BooleanCommandSwitch("--include-crds")]
+    [CliFlag("--include-crds")]
     public virtual bool? IncludeCrds { get; set; }
 
-    [BooleanCommandSwitch("--insecure-skip-tls-verify")]
+    [CliFlag("--insecure-skip-tls-verify")]
     public virtual bool? InsecureSkipTlsVerify { get; set; }
 
-    [BooleanCommandSwitch("--is-upgrade")]
+    [CliFlag("--is-upgrade")]
     public virtual bool? IsUpgrade { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--key-file", SwitchValueSeparator = " ")]
+    [CliOption("--key-file")]
     public string? KeyFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--keyring", SwitchValueSeparator = " ")]
+    [CliOption("--keyring")]
     public string? Keyring { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kube-version", SwitchValueSeparator = " ")]
+    [CliOption("--kube-version")]
     public string? KubeVersion { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--name-template", SwitchValueSeparator = " ")]
+    [CliOption("--name-template")]
     public string? NameTemplate { get; set; }
 
-    [BooleanCommandSwitch("--no-hooks")]
+    [CliFlag("--no-hooks")]
     public virtual bool? NoHooks { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output-dir", SwitchValueSeparator = " ")]
+    [CliOption("--output-dir")]
     public string? OutputDir { get; set; }
 
-    [BooleanCommandSwitch("--pass-credentials")]
+    [CliFlag("--pass-credentials")]
     public virtual bool? PassCredentials { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--password", SwitchValueSeparator = " ")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--post-renderer", SwitchValueSeparator = " ")]
+    [CliOption("--post-renderer")]
     public string? PostRenderer { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--post-renderer-args", SwitchValueSeparator = " ")]
+    [CliOption("--post-renderer-args")]
     public string? PostRendererArgs { get; set; }
 
-    [BooleanCommandSwitch("--release-name")]
+    [CliFlag("--release-name")]
     public virtual bool? ReleaseName { get; set; }
 
-    [BooleanCommandSwitch("--render-subchart-notes")]
+    [CliFlag("--render-subchart-notes")]
     public virtual bool? RenderSubchartNotes { get; set; }
 
-    [BooleanCommandSwitch("--replace")]
+    [CliFlag("--replace")]
     public virtual bool? Replace { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--repo", SwitchValueSeparator = " ")]
+    [CliOption("--repo")]
     public string? Repo { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--set", SwitchValueSeparator = " ")]
+    [CliOption("--set")]
     public string[]? Set { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--set-file", SwitchValueSeparator = " ")]
+    [CliOption("--set-file")]
     public string[]? SetFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--set-json", SwitchValueSeparator = " ")]
+    [CliOption("--set-json")]
     public string[]? SetJson { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--set-literal", SwitchValueSeparator = " ")]
+    [CliOption("--set-literal")]
     public string[]? SetLiteral { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--set-string", SwitchValueSeparator = " ")]
+    [CliOption("--set-string")]
     public string[]? SetString { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--show-only", SwitchValueSeparator = " ")]
+    [CliOption("--show-only")]
     public string[]? ShowOnly { get; set; }
 
-    [BooleanCommandSwitch("--skip-crds")]
+    [CliFlag("--skip-crds")]
     public virtual bool? SkipCrds { get; set; }
 
-    [BooleanCommandSwitch("--skip-tests")]
+    [CliFlag("--skip-tests")]
     public virtual bool? SkipTests { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--username", SwitchValueSeparator = " ")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 
-    [BooleanCommandSwitch("--validate")]
+    [CliFlag("--validate")]
     public virtual bool? Validate { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--values", SwitchValueSeparator = " ")]
+    [CliOption("--values")]
     public string[]? Values { get; set; }
 
-    [BooleanCommandSwitch("--verify")]
+    [CliFlag("--verify")]
     public virtual bool? Verify { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--version", SwitchValueSeparator = " ")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 
-    [BooleanCommandSwitch("--wait")]
+    [CliFlag("--wait")]
     public virtual bool? Wait { get; set; }
 
-    [BooleanCommandSwitch("--wait-for-jobs")]
+    [CliFlag("--wait-for-jobs")]
     public virtual bool? WaitForJobs { get; set; }
 }

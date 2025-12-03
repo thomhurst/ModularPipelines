@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "kms-configs", "delete")]
+[CliCommand("netapp", "kms-configs", "delete")]
 public record GcloudNetappKmsConfigsDeleteOptions(
-[property: PositionalArgument] string KmsConfig,
-[property: PositionalArgument] string Location
+[property: CliArgument] string KmsConfig,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

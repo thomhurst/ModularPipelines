@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("costmanagement", "export", "delete")]
+[CliCommand("costmanagement", "export", "delete")]
 public record AzCostmanagementExportDeleteOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--scope")] string Scope
+[property: CliOption("--name")] string Name,
+[property: CliOption("--scope")] string Scope
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

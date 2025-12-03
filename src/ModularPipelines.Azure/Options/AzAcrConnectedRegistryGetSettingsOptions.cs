@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "connected-registry", "get-settings")]
+[CliCommand("acr", "connected-registry", "get-settings")]
 public record AzAcrConnectedRegistryGetSettingsOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--parent-protocol")] string ParentProtocol,
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--name")] string Name,
+[property: CliOption("--parent-protocol")] string ParentProtocol,
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--generate-password")]
+    [CliOption("--generate-password")]
     public string? GeneratePassword { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

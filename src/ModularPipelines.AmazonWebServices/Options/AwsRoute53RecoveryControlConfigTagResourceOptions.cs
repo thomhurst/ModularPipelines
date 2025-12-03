@@ -5,12 +5,12 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53-recovery-control-config", "tag-resource")]
+[CliCommand("route53-recovery-control-config", "tag-resource")]
 public record AwsRoute53RecoveryControlConfigTagResourceOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn,
-[property: CommandSwitch("--tags")] IEnumerable<KeyValue> Tags
+[property: CliOption("--resource-arn")] string ResourceArn,
+[property: CliOption("--tags")] IEnumerable<KeyValue> Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

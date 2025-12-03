@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint-email", "put-deliverability-dashboard-option")]
+[CliCommand("pinpoint-email", "put-deliverability-dashboard-option")]
 public record AwsPinpointEmailPutDeliverabilityDashboardOptionOptions : AwsOptions
 {
-    [CommandSwitch("--subscribed-domains")]
+    [CliOption("--subscribed-domains")]
     public string[]? SubscribedDomains { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

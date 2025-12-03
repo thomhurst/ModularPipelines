@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vnet", "check-ip-address")]
+[CliCommand("network", "vnet", "check-ip-address")]
 public record AzNetworkVnetCheckIpAddressOptions(
-[property: CommandSwitch("--ip-address")] string IpAddress,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--ip-address")] string IpAddress,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

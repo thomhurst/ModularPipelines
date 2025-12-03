@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stream-analytics", "output", "create")]
+[CliCommand("stream-analytics", "output", "create")]
 public record AzStreamAnalyticsOutputCreateOptions(
-[property: CommandSwitch("--job-name")] string JobName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--job-name")] string JobName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--datasource")]
+    [CliOption("--datasource")]
     public string? Datasource { get; set; }
 
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--if-none-match")]
+    [CliOption("--if-none-match")]
     public string? IfNoneMatch { get; set; }
 
-    [CommandSwitch("--serialization")]
+    [CliOption("--serialization")]
     public string? Serialization { get; set; }
 
-    [CommandSwitch("--size-window")]
+    [CliOption("--size-window")]
     public string? SizeWindow { get; set; }
 
-    [CommandSwitch("--time-window")]
+    [CliOption("--time-window")]
     public string? TimeWindow { get; set; }
 }

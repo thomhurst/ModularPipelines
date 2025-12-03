@@ -5,56 +5,56 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "update-ops-item")]
+[CliCommand("ssm", "update-ops-item")]
 public record AwsSsmUpdateOpsItemOptions(
-[property: CommandSwitch("--ops-item-id")] string OpsItemId
+[property: CliOption("--ops-item-id")] string OpsItemId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--operational-data")]
+    [CliOption("--operational-data")]
     public IEnumerable<KeyValue>? OperationalData { get; set; }
 
-    [CommandSwitch("--operational-data-to-delete")]
+    [CliOption("--operational-data-to-delete")]
     public string[]? OperationalDataToDelete { get; set; }
 
-    [CommandSwitch("--notifications")]
+    [CliOption("--notifications")]
     public string[]? Notifications { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public int? Priority { get; set; }
 
-    [CommandSwitch("--related-ops-items")]
+    [CliOption("--related-ops-items")]
     public string[]? RelatedOpsItems { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 
-    [CommandSwitch("--category")]
+    [CliOption("--category")]
     public string? Category { get; set; }
 
-    [CommandSwitch("--severity")]
+    [CliOption("--severity")]
     public string? Severity { get; set; }
 
-    [CommandSwitch("--actual-start-time")]
+    [CliOption("--actual-start-time")]
     public long? ActualStartTime { get; set; }
 
-    [CommandSwitch("--actual-end-time")]
+    [CliOption("--actual-end-time")]
     public long? ActualEndTime { get; set; }
 
-    [CommandSwitch("--planned-start-time")]
+    [CliOption("--planned-start-time")]
     public long? PlannedStartTime { get; set; }
 
-    [CommandSwitch("--planned-end-time")]
+    [CliOption("--planned-end-time")]
     public long? PlannedEndTime { get; set; }
 
-    [CommandSwitch("--ops-item-arn")]
+    [CliOption("--ops-item-arn")]
     public string? OpsItemArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

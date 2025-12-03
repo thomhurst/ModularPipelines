@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qconnect", "update-quick-response")]
+[CliCommand("qconnect", "update-quick-response")]
 public record AwsQconnectUpdateQuickResponseOptions(
-[property: CommandSwitch("--knowledge-base-id")] string KnowledgeBaseId,
-[property: CommandSwitch("--quick-response-id")] string QuickResponseId
+[property: CliOption("--knowledge-base-id")] string KnowledgeBaseId,
+[property: CliOption("--quick-response-id")] string QuickResponseId
 ) : AwsOptions
 {
-    [CommandSwitch("--channels")]
+    [CliOption("--channels")]
     public string[]? Channels { get; set; }
 
-    [CommandSwitch("--content")]
+    [CliOption("--content")]
     public string? Content { get; set; }
 
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--grouping-configuration")]
+    [CliOption("--grouping-configuration")]
     public string? GroupingConfiguration { get; set; }
 
-    [CommandSwitch("--language")]
+    [CliOption("--language")]
     public string? Language { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--shortcut-key")]
+    [CliOption("--shortcut-key")]
     public string? ShortcutKey { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

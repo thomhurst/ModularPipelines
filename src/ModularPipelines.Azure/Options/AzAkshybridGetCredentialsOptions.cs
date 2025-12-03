@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("akshybrid", "get-credentials")]
+[CliCommand("akshybrid", "get-credentials")]
 public record AzAkshybridGetCredentialsOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--admin")]
+    [CliFlag("--admin")]
     public bool? Admin { get; set; }
 
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public string? Context { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 
-    [BooleanCommandSwitch("--overwrite-existing")]
+    [CliFlag("--overwrite-existing")]
     public bool? OverwriteExisting { get; set; }
 }

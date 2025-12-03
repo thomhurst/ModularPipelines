@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssh", "arc")]
+[CliCommand("ssh", "arc")]
 public record AzSshArcOptions : AzOptions
 {
-    [CommandSwitch("--certificate-file")]
+    [CliOption("--certificate-file")]
     public string? CertificateFile { get; set; }
 
-    [CommandSwitch("--local-user")]
+    [CliOption("--local-user")]
     public string? LocalUser { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--private-key-file")]
+    [CliOption("--private-key-file")]
     public string? PrivateKeyFile { get; set; }
 
-    [CommandSwitch("--public-key-file")]
+    [CliOption("--public-key-file")]
     public string? PublicKeyFile { get; set; }
 
-    [BooleanCommandSwitch("--rdp")]
+    [CliFlag("--rdp")]
     public bool? Rdp { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--ssh-client-folder")]
+    [CliOption("--ssh-client-folder")]
     public string? SshClientFolder { get; set; }
 
-    [CommandSwitch("--ssh-proxy-folder")]
+    [CliOption("--ssh-proxy-folder")]
     public string? SshProxyFolder { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? SSHARGS { get; set; }
 }

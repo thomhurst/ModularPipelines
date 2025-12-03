@@ -5,35 +5,35 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("active-directory", "domains", "update")]
+[CliCommand("active-directory", "domains", "update")]
 public record GcloudActiveDirectoryDomainsUpdateOptions(
-[property: PositionalArgument] string Domain
+[property: CliArgument] string Domain
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--enable-audit-logs")]
+    [CliFlag("--enable-audit-logs")]
     public bool? EnableAuditLogs { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [CommandSwitch("--add-authorized-networks")]
+    [CliOption("--add-authorized-networks")]
     public string[]? AddAuthorizedNetworks { get; set; }
 
-    [CommandSwitch("--remove-authorized-networks")]
+    [CliOption("--remove-authorized-networks")]
     public string[]? RemoveAuthorizedNetworks { get; set; }
 
-    [CommandSwitch("--add-region")]
+    [CliOption("--add-region")]
     public string? AddRegion { get; set; }
 
-    [CommandSwitch("--remove-region")]
+    [CliOption("--remove-region")]
     public string? RemoveRegion { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 }

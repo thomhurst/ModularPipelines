@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("support", "services", "list")]
+[CliCommand("support", "services", "list")]
 public record AzSupportServicesListOptions : AzOptions;

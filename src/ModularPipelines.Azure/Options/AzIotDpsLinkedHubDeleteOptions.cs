@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "dps", "linked-hub", "delete")]
+[CliCommand("iot", "dps", "linked-hub", "delete")]
 public record AzIotDpsLinkedHubDeleteOptions(
-[property: CommandSwitch("--dps-name")] string DpsName,
-[property: CommandSwitch("--linked-hub")] string LinkedHub
+[property: CliOption("--dps-name")] string DpsName,
+[property: CliOption("--linked-hub")] string LinkedHub
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

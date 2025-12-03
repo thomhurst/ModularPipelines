@@ -4,99 +4,99 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vnet-gateway", "update")]
+[CliCommand("network", "vnet-gateway", "update")]
 public record AzNetworkVnetGatewayUpdateOptions : AzOptions
 {
-    [CommandSwitch("--aad-audience")]
+    [CliOption("--aad-audience")]
     public string? AadAudience { get; set; }
 
-    [CommandSwitch("--aad-issuer")]
+    [CliOption("--aad-issuer")]
     public string? AadIssuer { get; set; }
 
-    [CommandSwitch("--aad-tenant")]
+    [CliOption("--aad-tenant")]
     public string? AadTenant { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--address-prefix")]
+    [CliOption("--address-prefix")]
     public string? AddressPrefix { get; set; }
 
-    [CommandSwitch("--asn")]
+    [CliOption("--asn")]
     public string? Asn { get; set; }
 
-    [CommandSwitch("--bgp-peering-address")]
+    [CliOption("--bgp-peering-address")]
     public string? BgpPeeringAddress { get; set; }
 
-    [CommandSwitch("--client-protocol")]
+    [CliOption("--client-protocol")]
     public string? ClientProtocol { get; set; }
 
-    [CommandSwitch("--custom-routes")]
+    [CliOption("--custom-routes")]
     public string? CustomRoutes { get; set; }
 
-    [BooleanCommandSwitch("--enable-bgp")]
+    [CliFlag("--enable-bgp")]
     public bool? EnableBgp { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--gateway-default-site")]
+    [CliOption("--gateway-default-site")]
     public string? GatewayDefaultSite { get; set; }
 
-    [CommandSwitch("--gateway-type")]
+    [CliOption("--gateway-type")]
     public string? GatewayType { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--peer-weight")]
+    [CliOption("--peer-weight")]
     public string? PeerWeight { get; set; }
 
-    [CommandSwitch("--public-ip-address")]
+    [CliOption("--public-ip-address")]
     public string? PublicIpAddress { get; set; }
 
-    [CommandSwitch("--radius-secret")]
+    [CliOption("--radius-secret")]
     public string? RadiusSecret { get; set; }
 
-    [CommandSwitch("--radius-server")]
+    [CliOption("--radius-server")]
     public string? RadiusServer { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--root-cert-data")]
+    [CliOption("--root-cert-data")]
     public string? RootCertData { get; set; }
 
-    [CommandSwitch("--root-cert-name")]
+    [CliOption("--root-cert-name")]
     public string? RootCertName { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vnet")]
+    [CliOption("--vnet")]
     public string? Vnet { get; set; }
 
-    [CommandSwitch("--vpn-auth-type")]
+    [CliOption("--vpn-auth-type")]
     public string? VpnAuthType { get; set; }
 
-    [CommandSwitch("--vpn-type")]
+    [CliOption("--vpn-type")]
     public string? VpnType { get; set; }
 }

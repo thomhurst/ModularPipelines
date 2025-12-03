@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storagesync", "sync-group", "delete")]
+[CliCommand("storagesync", "sync-group", "delete")]
 public record AzStoragesyncSyncGroupDeleteOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--storage-sync-service")] string StorageSyncService
+[property: CliOption("--name")] string Name,
+[property: CliOption("--storage-sync-service")] string StorageSyncService
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

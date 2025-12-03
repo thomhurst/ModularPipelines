@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "lb", "outbound-rule", "create")]
+[CliCommand("network", "lb", "outbound-rule", "create")]
 public record AzNetworkLbOutboundRuleCreateOptions(
-[property: CommandSwitch("--address-pool")] string AddressPool,
-[property: CommandSwitch("--lb-name")] string LbName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--protocol")] string Protocol,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--address-pool")] string AddressPool,
+[property: CliOption("--lb-name")] string LbName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--protocol")] string Protocol,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--allocated-outbound-ports")]
+    [CliOption("--allocated-outbound-ports")]
     public string? AllocatedOutboundPorts { get; set; }
 
-    [BooleanCommandSwitch("--enable-tcp-reset")]
+    [CliFlag("--enable-tcp-reset")]
     public bool? EnableTcpReset { get; set; }
 
-    [CommandSwitch("--frontend-ip-configs")]
+    [CliOption("--frontend-ip-configs")]
     public string? FrontendIpConfigs { get; set; }
 
-    [CommandSwitch("--idle-timeout")]
+    [CliOption("--idle-timeout")]
     public string? IdleTimeout { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

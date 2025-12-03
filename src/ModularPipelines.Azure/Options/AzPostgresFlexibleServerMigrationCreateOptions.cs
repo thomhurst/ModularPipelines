@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("postgres", "flexible-server", "migration", "create")]
+[CliCommand("postgres", "flexible-server", "migration", "create")]
 public record AzPostgresFlexibleServerMigrationCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--properties")] string Properties,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--properties")] string Properties,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--migration-mode")]
+    [CliOption("--migration-mode")]
     public string? MigrationMode { get; set; }
 
-    [CommandSwitch("--migration-name")]
+    [CliOption("--migration-name")]
     public string? MigrationName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

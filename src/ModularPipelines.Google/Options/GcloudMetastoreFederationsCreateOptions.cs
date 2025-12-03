@@ -5,19 +5,19 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("metastore", "federations", "create")]
+[CliCommand("metastore", "federations", "create")]
 public record GcloudMetastoreFederationsCreateOptions(
-[property: PositionalArgument] string Federation,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--backends")] string Backends
+[property: CliArgument] string Federation,
+[property: CliArgument] string Location,
+[property: CliOption("--backends")] string Backends
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--hive-metastore-version")]
+    [CliOption("--hive-metastore-version")]
     public string? HiveMetastoreVersion { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

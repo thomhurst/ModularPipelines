@@ -4,61 +4,61 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedmachine", "run-command", "create")]
+[CliCommand("connectedmachine", "run-command", "create")]
 public record AzConnectedmachineRunCommandCreateOptions(
-[property: CommandSwitch("--machine-name")] string MachineName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--machine-name")] string MachineName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--command-id")]
+    [CliOption("--command-id")]
     public string? CommandId { get; set; }
 
-    [CommandSwitch("--error-blob-managed-identity")]
+    [CliOption("--error-blob-managed-identity")]
     public string? ErrorBlobManagedIdentity { get; set; }
 
-    [CommandSwitch("--error-blob-uri")]
+    [CliOption("--error-blob-uri")]
     public string? ErrorBlobUri { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--output-blob-managed-identity")]
+    [CliOption("--output-blob-managed-identity")]
     public string? OutputBlobManagedIdentity { get; set; }
 
-    [CommandSwitch("--output-blob-uri")]
+    [CliOption("--output-blob-uri")]
     public string? OutputBlobUri { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--protected-parameters")]
+    [CliOption("--protected-parameters")]
     public string? ProtectedParameters { get; set; }
 
-    [CommandSwitch("--run-as-user")]
+    [CliOption("--run-as-user")]
     public string? RunAsUser { get; set; }
 
-    [CommandSwitch("--script")]
+    [CliOption("--script")]
     public string? Script { get; set; }
 
-    [CommandSwitch("--script-uri")]
+    [CliOption("--script-uri")]
     public string? ScriptUri { get; set; }
 
-    [CommandSwitch("--script-uri-managed-id")]
+    [CliOption("--script-uri-managed-id")]
     public string? ScriptUriManagedId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

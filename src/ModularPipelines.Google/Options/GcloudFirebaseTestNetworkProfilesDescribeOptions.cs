@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firebase", "test", "network-profiles", "describe")]
+[CliCommand("firebase", "test", "network-profiles", "describe")]
 public record GcloudFirebaseTestNetworkProfilesDescribeOptions(
-[property: PositionalArgument] string ProfileId
+[property: CliArgument] string ProfileId
 ) : GcloudOptions;

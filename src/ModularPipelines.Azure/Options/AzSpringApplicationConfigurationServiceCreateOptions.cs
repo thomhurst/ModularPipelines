@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "application-configuration-service", "create")]
+[CliCommand("spring", "application-configuration-service", "create")]
 public record AzSpringApplicationConfigurationServiceCreateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--generation")]
+    [CliOption("--generation")]
     public string? Generation { get; set; }
 }

@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "set-policy")]
+[CliCommand("keyvault", "set-policy")]
 public record AzKeyvaultSetPolicyOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--application-id")]
+    [CliOption("--application-id")]
     public string? ApplicationId { get; set; }
 
-    [CommandSwitch("--certificate-permissions")]
+    [CliOption("--certificate-permissions")]
     public string? CertificatePermissions { get; set; }
 
-    [CommandSwitch("--key-permissions")]
+    [CliOption("--key-permissions")]
     public string? KeyPermissions { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--object-id")]
+    [CliOption("--object-id")]
     public string? ObjectId { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--secret-permissions")]
+    [CliOption("--secret-permissions")]
     public string? SecretPermissions { get; set; }
 
-    [CommandSwitch("--spn")]
+    [CliOption("--spn")]
     public string? Spn { get; set; }
 
-    [CommandSwitch("--storage-permissions")]
+    [CliOption("--storage-permissions")]
     public string? StoragePermissions { get; set; }
 
-    [CommandSwitch("--upn")]
+    [CliOption("--upn")]
     public string? Upn { get; set; }
 }

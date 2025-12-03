@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventhubs", "eventhub", "authorization-rule", "keys", "renew")]
+[CliCommand("eventhubs", "eventhub", "authorization-rule", "keys", "renew")]
 public record AzEventhubsEventhubAuthorizationRuleKeysRenewOptions(
-[property: CommandSwitch("--key")] string Key
+[property: CliOption("--key")] string Key
 ) : AzOptions
 {
-    [CommandSwitch("--authorization-rule-name")]
+    [CliOption("--authorization-rule-name")]
     public string? AuthorizationRuleName { get; set; }
 
-    [CommandSwitch("--eventhub-name")]
+    [CliOption("--eventhub-name")]
     public string? EventhubName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--key-value")]
+    [CliOption("--key-value")]
     public string? KeyValue { get; set; }
 
-    [CommandSwitch("--namespace-name")]
+    [CliOption("--namespace-name")]
     public string? NamespaceName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

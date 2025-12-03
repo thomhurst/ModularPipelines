@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "image-version", "delete")]
+[CliCommand("sig", "image-version", "delete")]
 public record AzSigImageVersionDeleteOptions : AzOptions
 {
-    [CommandSwitch("--gallery-image-definition")]
+    [CliOption("--gallery-image-definition")]
     public string? GalleryImageDefinition { get; set; }
 
-    [CommandSwitch("--gallery-image-version")]
+    [CliOption("--gallery-image-version")]
     public string? GalleryImageVersion { get; set; }
 
-    [CommandSwitch("--gallery-name")]
+    [CliOption("--gallery-name")]
     public string? GalleryName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

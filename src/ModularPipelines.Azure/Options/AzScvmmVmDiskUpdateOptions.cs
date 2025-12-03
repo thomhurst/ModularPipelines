@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scvmm", "vm", "disk", "update")]
+[CliCommand("scvmm", "vm", "disk", "update")]
 public record AzScvmmVmDiskUpdateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vm-name")] string VmName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vm-name")] string VmName
 ) : AzOptions
 {
-    [CommandSwitch("--bus")]
+    [CliOption("--bus")]
     public string? Bus { get; set; }
 
-    [CommandSwitch("--bus-type")]
+    [CliOption("--bus-type")]
     public string? BusType { get; set; }
 
-    [CommandSwitch("--disk-id")]
+    [CliOption("--disk-id")]
     public string? DiskId { get; set; }
 
-    [CommandSwitch("--disk-size")]
+    [CliOption("--disk-size")]
     public string? DiskSize { get; set; }
 
-    [CommandSwitch("--lun")]
+    [CliOption("--lun")]
     public string? Lun { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--qos-id")]
+    [CliOption("--qos-id")]
     public string? QosId { get; set; }
 
-    [CommandSwitch("--qos-name")]
+    [CliOption("--qos-name")]
     public string? QosName { get; set; }
 
-    [CommandSwitch("--vhd-type")]
+    [CliOption("--vhd-type")]
     public string? VhdType { get; set; }
 }

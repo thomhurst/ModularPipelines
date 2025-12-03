@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "datastore", "disk-pool-volume", "create")]
+[CliCommand("vmware", "datastore", "disk-pool-volume", "create")]
 public record AzVmwareDatastoreDiskPoolVolumeCreateOptions(
-[property: CommandSwitch("--cluster")] string Cluster,
-[property: CommandSwitch("--datastore-name")] string DatastoreName,
-[property: CommandSwitch("--lun-name")] string LunName,
-[property: CommandSwitch("--private-cloud")] string PrivateCloud,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--target-id")] string TargetId
+[property: CliOption("--cluster")] string Cluster,
+[property: CliOption("--datastore-name")] string DatastoreName,
+[property: CliOption("--lun-name")] string LunName,
+[property: CliOption("--private-cloud")] string PrivateCloud,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--target-id")] string TargetId
 ) : AzOptions
 {
-    [CommandSwitch("--mount-option")]
+    [CliOption("--mount-option")]
     public string? MountOption { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

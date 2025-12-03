@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "api", "release", "show")]
+[CliCommand("apim", "api", "release", "show")]
 public record AzApimApiReleaseShowOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--release-id")] string ReleaseId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--release-id")] string ReleaseId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-name")] string ServiceName
 ) : AzOptions;

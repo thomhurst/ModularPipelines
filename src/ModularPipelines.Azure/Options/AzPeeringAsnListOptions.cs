@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("peering", "asn", "list")]
+[CliCommand("peering", "asn", "list")]
 public record AzPeeringAsnListOptions : AzOptions;

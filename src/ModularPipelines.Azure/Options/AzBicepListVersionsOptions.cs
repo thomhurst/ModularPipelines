@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bicep", "list-versions")]
+[CliCommand("bicep", "list-versions")]
 public record AzBicepListVersionsOptions : AzOptions;

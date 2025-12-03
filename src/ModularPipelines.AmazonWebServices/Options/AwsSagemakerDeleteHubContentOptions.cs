@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "delete-hub-content")]
+[CliCommand("sagemaker", "delete-hub-content")]
 public record AwsSagemakerDeleteHubContentOptions(
-[property: CommandSwitch("--hub-name")] string HubName,
-[property: CommandSwitch("--hub-content-type")] string HubContentType,
-[property: CommandSwitch("--hub-content-name")] string HubContentName,
-[property: CommandSwitch("--hub-content-version")] string HubContentVersion
+[property: CliOption("--hub-name")] string HubName,
+[property: CliOption("--hub-content-type")] string HubContentType,
+[property: CliOption("--hub-content-name")] string HubContentName,
+[property: CliOption("--hub-content-version")] string HubContentVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

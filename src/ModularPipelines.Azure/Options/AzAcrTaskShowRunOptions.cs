@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "task", "show-run")]
+[CliCommand("acr", "task", "show-run")]
 public record AzAcrTaskShowRunOptions(
-[property: CommandSwitch("--registry")] string Registry,
-[property: CommandSwitch("--run-id")] string RunId
+[property: CliOption("--registry")] string Registry,
+[property: CliOption("--run-id")] string RunId
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

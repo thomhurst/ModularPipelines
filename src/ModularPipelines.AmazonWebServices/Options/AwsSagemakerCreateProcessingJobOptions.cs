@@ -5,35 +5,35 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "create-processing-job")]
+[CliCommand("sagemaker", "create-processing-job")]
 public record AwsSagemakerCreateProcessingJobOptions(
-[property: CommandSwitch("--processing-job-name")] string ProcessingJobName,
-[property: CommandSwitch("--processing-resources")] string ProcessingResources,
-[property: CommandSwitch("--app-specification")] string AppSpecification,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--processing-job-name")] string ProcessingJobName,
+[property: CliOption("--processing-resources")] string ProcessingResources,
+[property: CliOption("--app-specification")] string AppSpecification,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--processing-inputs")]
+    [CliOption("--processing-inputs")]
     public string[]? ProcessingInputs { get; set; }
 
-    [CommandSwitch("--processing-output-config")]
+    [CliOption("--processing-output-config")]
     public string? ProcessingOutputConfig { get; set; }
 
-    [CommandSwitch("--stopping-condition")]
+    [CliOption("--stopping-condition")]
     public string? StoppingCondition { get; set; }
 
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public IEnumerable<KeyValue>? Environment { get; set; }
 
-    [CommandSwitch("--network-config")]
+    [CliOption("--network-config")]
     public string? NetworkConfig { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--experiment-config")]
+    [CliOption("--experiment-config")]
     public string? ExperimentConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("set", "version")]
+[CliCommand("set", "version")]
 public record YarnSetVersionOptions(
-    [property: PositionalArgument(Position = Position.BeforeSwitches)] string Version
+    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Version
 ) : YarnOptions
 {
-    [BooleanCommandSwitch("--yarn-path")]
+    [CliFlag("--yarn-path")]
     public virtual bool? YarnPath { get; set; }
 
-    [BooleanCommandSwitch("--only-if-needed")]
+    [CliFlag("--only-if-needed")]
     public virtual bool? OnlyIfNeeded { get; set; }
 }

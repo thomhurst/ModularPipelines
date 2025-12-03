@@ -5,143 +5,143 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "clusters", "create-auto")]
+[CliCommand("container", "clusters", "create-auto")]
 public record GcloudContainerClustersCreateAutoOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--autoprovisioning-network-tags")]
+    [CliOption("--autoprovisioning-network-tags")]
     public string[]? AutoprovisioningNetworkTags { get; set; }
 
-    [CommandSwitch("--autoprovisioning-resource-manager-tags")]
+    [CliOption("--autoprovisioning-resource-manager-tags")]
     public IEnumerable<KeyValue>? AutoprovisioningResourceManagerTags { get; set; }
 
-    [CommandSwitch("--binauthz-evaluation-mode")]
+    [CliOption("--binauthz-evaluation-mode")]
     public string? BinauthzEvaluationMode { get; set; }
 
-    [CommandSwitch("--boot-disk-kms-key")]
+    [CliOption("--boot-disk-kms-key")]
     public string? BootDiskKmsKey { get; set; }
 
-    [CommandSwitch("--cluster-ipv4-cidr")]
+    [CliOption("--cluster-ipv4-cidr")]
     public string? ClusterIpv4Cidr { get; set; }
 
-    [CommandSwitch("--cluster-secondary-range-name")]
+    [CliOption("--cluster-secondary-range-name")]
     public string? ClusterSecondaryRangeName { get; set; }
 
-    [CommandSwitch("--cluster-version")]
+    [CliOption("--cluster-version")]
     public string? ClusterVersion { get; set; }
 
-    [CommandSwitch("--create-subnetwork")]
+    [CliOption("--create-subnetwork")]
     public IEnumerable<KeyValue>? CreateSubnetwork { get; set; }
 
-    [CommandSwitch("--database-encryption-key")]
+    [CliOption("--database-encryption-key")]
     public string? DatabaseEncryptionKey { get; set; }
 
-    [BooleanCommandSwitch("--enable-backup-restore")]
+    [CliFlag("--enable-backup-restore")]
     public bool? EnableBackupRestore { get; set; }
 
-    [BooleanCommandSwitch("--enable-fleet")]
+    [CliFlag("--enable-fleet")]
     public bool? EnableFleet { get; set; }
 
-    [BooleanCommandSwitch("--enable-google-cloud-access")]
+    [CliFlag("--enable-google-cloud-access")]
     public bool? EnableGoogleCloudAccess { get; set; }
 
-    [CommandSwitch("--enable-kubernetes-unstable-apis")]
+    [CliOption("--enable-kubernetes-unstable-apis")]
     public string[]? EnableKubernetesUnstableApis { get; set; }
 
-    [BooleanCommandSwitch("--enable-master-global-access")]
+    [CliFlag("--enable-master-global-access")]
     public bool? EnableMasterGlobalAccess { get; set; }
 
-    [CommandSwitch("--fleet-project")]
+    [CliOption("--fleet-project")]
     public string? FleetProject { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--logging")]
+    [CliOption("--logging")]
     public string[]? Logging { get; set; }
 
-    [CommandSwitch("--monitoring")]
+    [CliOption("--monitoring")]
     public string[]? Monitoring { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--private-endpoint-subnetwork")]
+    [CliOption("--private-endpoint-subnetwork")]
     public string? PrivateEndpointSubnetwork { get; set; }
 
-    [CommandSwitch("--release-channel")]
+    [CliOption("--release-channel")]
     public string? ReleaseChannel { get; set; }
 
-    [CommandSwitch("--security-group")]
+    [CliOption("--security-group")]
     public string? SecurityGroup { get; set; }
 
-    [CommandSwitch("--security-posture")]
+    [CliOption("--security-posture")]
     public string? SecurityPosture { get; set; }
 
-    [CommandSwitch("--services-ipv4-cidr")]
+    [CliOption("--services-ipv4-cidr")]
     public string? ServicesIpv4Cidr { get; set; }
 
-    [CommandSwitch("--services-secondary-range-name")]
+    [CliOption("--services-secondary-range-name")]
     public string? ServicesSecondaryRangeName { get; set; }
 
-    [CommandSwitch("--subnetwork")]
+    [CliOption("--subnetwork")]
     public string? Subnetwork { get; set; }
 
-    [CommandSwitch("--workload-policies")]
+    [CliOption("--workload-policies")]
     public string? WorkloadPolicies { get; set; }
 
-    [CommandSwitch("--workload-vulnerability-scanning")]
+    [CliOption("--workload-vulnerability-scanning")]
     public string? WorkloadVulnerabilityScanning { get; set; }
 
-    [CommandSwitch("--dataplane-v2-observability-mode")]
+    [CliOption("--dataplane-v2-observability-mode")]
     public string? DataplaneV2ObservabilityMode { get; set; }
 
-    [BooleanCommandSwitch("DISABLED")]
+    [CliFlag("DISABLED")]
     public bool? Disabled { get; set; }
 
-    [BooleanCommandSwitch("EXTERNAL_LB")]
+    [CliFlag("EXTERNAL_LB")]
     public bool? ExternalLb { get; set; }
 
-    [BooleanCommandSwitch("INTERNAL_VPC_LB")]
+    [CliFlag("INTERNAL_VPC_LB")]
     public bool? InternalVpcLb { get; set; }
 
-    [BooleanCommandSwitch("--disable-dataplane-v2-flow-observability")]
+    [CliFlag("--disable-dataplane-v2-flow-observability")]
     public bool? DisableDataplaneV2FlowObservability { get; set; }
 
-    [BooleanCommandSwitch("--enable-dataplane-v2-flow-observability")]
+    [CliFlag("--enable-dataplane-v2-flow-observability")]
     public bool? EnableDataplaneV2FlowObservability { get; set; }
 
-    [BooleanCommandSwitch("--enable-master-authorized-networks")]
+    [CliFlag("--enable-master-authorized-networks")]
     public bool? EnableMasterAuthorizedNetworks { get; set; }
 
-    [CommandSwitch("--master-authorized-networks")]
+    [CliOption("--master-authorized-networks")]
     public string[]? MasterAuthorizedNetworks { get; set; }
 
-    [BooleanCommandSwitch("--enable-private-endpoint")]
+    [CliFlag("--enable-private-endpoint")]
     public bool? EnablePrivateEndpoint { get; set; }
 
-    [BooleanCommandSwitch("--enable-private-nodes")]
+    [CliFlag("--enable-private-nodes")]
     public bool? EnablePrivateNodes { get; set; }
 
-    [CommandSwitch("--master-ipv4-cidr")]
+    [CliOption("--master-ipv4-cidr")]
     public string? MasterIpv4Cidr { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string[]? Scopes { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 }

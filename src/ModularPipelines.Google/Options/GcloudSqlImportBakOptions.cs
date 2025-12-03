@@ -4,43 +4,43 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "import", "bak")]
+[CliCommand("sql", "import", "bak")]
 public record GcloudSqlImportBakOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Uri,
-[property: CommandSwitch("--database")] string Database
+[property: CliArgument] string Instance,
+[property: CliArgument] string Uri,
+[property: CliOption("--database")] string Database
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--bak-type")]
+    [CliOption("--bak-type")]
     public string? BakType { get; set; }
 
-    [BooleanCommandSwitch("--no-recovery")]
+    [CliFlag("--no-recovery")]
     public bool? NoRecovery { get; set; }
 
-    [BooleanCommandSwitch("--recovery-only")]
+    [CliFlag("--recovery-only")]
     public bool? RecoveryOnly { get; set; }
 
-    [CommandSwitch("--stop-at")]
+    [CliOption("--stop-at")]
     public string? StopAt { get; set; }
 
-    [CommandSwitch("--stop-at-mark")]
+    [CliOption("--stop-at-mark")]
     public string? StopAtMark { get; set; }
 
-    [CommandSwitch("--[no-]striped")]
+    [CliOption("--[no-]striped")]
     public string[]? NoStriped { get; set; }
 
-    [CommandSwitch("--cert-path")]
+    [CliOption("--cert-path")]
     public string? CertPath { get; set; }
 
-    [CommandSwitch("--pvk-path")]
+    [CliOption("--pvk-path")]
     public string? PvkPath { get; set; }
 
-    [BooleanCommandSwitch("--prompt-for-pvk-password")]
+    [CliFlag("--prompt-for-pvk-password")]
     public bool? PromptForPvkPassword { get; set; }
 
-    [CommandSwitch("--pvk-password")]
+    [CliOption("--pvk-password")]
     public string? PvkPassword { get; set; }
 }

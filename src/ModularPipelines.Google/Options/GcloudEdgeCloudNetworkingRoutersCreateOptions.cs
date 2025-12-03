@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("edge-cloud", "networking", "routers", "create")]
+[CliCommand("edge-cloud", "networking", "routers", "create")]
 public record GcloudEdgeCloudNetworkingRoutersCreateOptions(
-[property: PositionalArgument] string Router,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Zone,
-[property: CommandSwitch("--asn")] string Asn,
-[property: CommandSwitch("--network")] string Network
+[property: CliArgument] string Router,
+[property: CliArgument] string Location,
+[property: CliArgument] string Zone,
+[property: CliOption("--asn")] string Asn,
+[property: CliOption("--network")] string Network
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

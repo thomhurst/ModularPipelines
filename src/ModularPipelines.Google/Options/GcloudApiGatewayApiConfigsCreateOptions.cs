@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("api-gateway", "api-configs", "create")]
+[CliCommand("api-gateway", "api-configs", "create")]
 public record GcloudApiGatewayApiConfigsCreateOptions(
-[property: PositionalArgument] string ApiConfig,
-[property: PositionalArgument] string Api,
-[property: CommandSwitch("--grpc-files")] string[] GrpcFiles,
-[property: CommandSwitch("--openapi-spec")] string[] OpenapiSpec
+[property: CliArgument] string ApiConfig,
+[property: CliArgument] string Api,
+[property: CliOption("--grpc-files")] string[] GrpcFiles,
+[property: CliOption("--openapi-spec")] string[] OpenapiSpec
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--backend-auth-service-account")]
+    [CliOption("--backend-auth-service-account")]
     public string? BackendAuthServiceAccount { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

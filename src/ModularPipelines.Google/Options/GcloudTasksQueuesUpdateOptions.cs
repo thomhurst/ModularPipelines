@@ -4,65 +4,65 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tasks", "queues", "update")]
+[CliCommand("tasks", "queues", "update")]
 public record GcloudTasksQueuesUpdateOptions(
-[property: PositionalArgument] string Queue
+[property: CliArgument] string Queue
 ) : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--clear-log-sampling-ratio")]
+    [CliFlag("--clear-log-sampling-ratio")]
     public bool? ClearLogSamplingRatio { get; set; }
 
-    [CommandSwitch("--log-sampling-ratio")]
+    [CliOption("--log-sampling-ratio")]
     public string? LogSamplingRatio { get; set; }
 
-    [BooleanCommandSwitch("--clear-max-attempts")]
+    [CliFlag("--clear-max-attempts")]
     public bool? ClearMaxAttempts { get; set; }
 
-    [CommandSwitch("--max-attempts")]
+    [CliOption("--max-attempts")]
     public string? MaxAttempts { get; set; }
 
-    [BooleanCommandSwitch("--clear-max-backoff")]
+    [CliFlag("--clear-max-backoff")]
     public bool? ClearMaxBackoff { get; set; }
 
-    [CommandSwitch("--max-backoff")]
+    [CliOption("--max-backoff")]
     public string? MaxBackoff { get; set; }
 
-    [BooleanCommandSwitch("--clear-max-concurrent-dispatches")]
+    [CliFlag("--clear-max-concurrent-dispatches")]
     public bool? ClearMaxConcurrentDispatches { get; set; }
 
-    [CommandSwitch("--max-concurrent-dispatches")]
+    [CliOption("--max-concurrent-dispatches")]
     public string? MaxConcurrentDispatches { get; set; }
 
-    [BooleanCommandSwitch("--clear-max-dispatches-per-second")]
+    [CliFlag("--clear-max-dispatches-per-second")]
     public bool? ClearMaxDispatchesPerSecond { get; set; }
 
-    [CommandSwitch("--max-dispatches-per-second")]
+    [CliOption("--max-dispatches-per-second")]
     public string? MaxDispatchesPerSecond { get; set; }
 
-    [BooleanCommandSwitch("--clear-max-doublings")]
+    [CliFlag("--clear-max-doublings")]
     public bool? ClearMaxDoublings { get; set; }
 
-    [CommandSwitch("--max-doublings")]
+    [CliOption("--max-doublings")]
     public string? MaxDoublings { get; set; }
 
-    [BooleanCommandSwitch("--clear-max-retry-duration")]
+    [CliFlag("--clear-max-retry-duration")]
     public bool? ClearMaxRetryDuration { get; set; }
 
-    [CommandSwitch("--max-retry-duration")]
+    [CliOption("--max-retry-duration")]
     public string? MaxRetryDuration { get; set; }
 
-    [BooleanCommandSwitch("--clear-min-backoff")]
+    [CliFlag("--clear-min-backoff")]
     public bool? ClearMinBackoff { get; set; }
 
-    [CommandSwitch("--min-backoff")]
+    [CliOption("--min-backoff")]
     public string? MinBackoff { get; set; }
 
-    [BooleanCommandSwitch("--clear-routing-override")]
+    [CliFlag("--clear-routing-override")]
     public bool? ClearRoutingOverride { get; set; }
 
-    [CommandSwitch("--routing-override")]
+    [CliOption("--routing-override")]
     public string[]? RoutingOverride { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firebase", "test", "android", "locales", "describe")]
+[CliCommand("firebase", "test", "android", "locales", "describe")]
 public record GcloudFirebaseTestAndroidLocalesDescribeOptions(
-[property: PositionalArgument] string Locale
+[property: CliArgument] string Locale
 ) : GcloudOptions;

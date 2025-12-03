@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firebase", "test")]
+[CliCommand("firebase", "test")]
 public class GcloudFirebaseTestNetworkProfiles
 {
     public GcloudFirebaseTestNetworkProfiles(

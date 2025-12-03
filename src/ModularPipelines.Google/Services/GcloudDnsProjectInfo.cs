@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns")]
+[CliCommand("dns")]
 public class GcloudDnsProjectInfo
 {
     public GcloudDnsProjectInfo(

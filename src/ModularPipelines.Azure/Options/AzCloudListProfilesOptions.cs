@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloud", "list-profiles")]
+[CliCommand("cloud", "list-profiles")]
 public record AzCloudListProfilesOptions : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--show-all")]
+    [CliFlag("--show-all")]
     public bool? ShowAll { get; set; }
 }

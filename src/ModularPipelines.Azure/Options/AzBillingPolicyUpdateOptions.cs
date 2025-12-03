@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "policy", "update")]
+[CliCommand("billing", "policy", "update")]
 public record AzBillingPolicyUpdateOptions(
-[property: CommandSwitch("--account-name")] int AccountName
+[property: CliOption("--account-name")] int AccountName
 ) : AzOptions
 {
-    [CommandSwitch("--customer-name")]
+    [CliOption("--customer-name")]
     public string? CustomerName { get; set; }
 
-    [CommandSwitch("--marketplace-purchases")]
+    [CliOption("--marketplace-purchases")]
     public string? MarketplacePurchases { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 
-    [CommandSwitch("--reservation-purchases")]
+    [CliOption("--reservation-purchases")]
     public string? ReservationPurchases { get; set; }
 
-    [CommandSwitch("--view-charges")]
+    [CliOption("--view-charges")]
     public string? ViewCharges { get; set; }
 }

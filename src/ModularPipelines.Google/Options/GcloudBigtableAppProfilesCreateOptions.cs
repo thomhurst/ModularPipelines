@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bigtable", "app-profiles", "create")]
+[CliCommand("bigtable", "app-profiles", "create")]
 public record GcloudBigtableAppProfilesCreateOptions(
-[property: PositionalArgument] string AppProfile,
-[property: PositionalArgument] string Instance,
-[property: BooleanCommandSwitch("--route-any")] bool RouteAny,
-[property: CommandSwitch("--restrict-to")] string[] RestrictTo,
-[property: CommandSwitch("--route-to")] string RouteTo,
-[property: BooleanCommandSwitch("--transactional-writes")] bool TransactionalWrites
+[property: CliArgument] string AppProfile,
+[property: CliArgument] string Instance,
+[property: CliFlag("--route-any")] bool RouteAny,
+[property: CliOption("--restrict-to")] string[] RestrictTo,
+[property: CliOption("--route-to")] string RouteTo,
+[property: CliFlag("--transactional-writes")] bool TransactionalWrites
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 }

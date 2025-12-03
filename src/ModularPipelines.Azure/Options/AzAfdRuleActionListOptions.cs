@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "rule", "action", "list")]
+[CliCommand("afd", "rule", "action", "list")]
 public record AzAfdRuleActionListOptions(
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--rule-name")] string RuleName,
-[property: CommandSwitch("--rule-set-name")] string RuleSetName
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--rule-name")] string RuleName,
+[property: CliOption("--rule-set-name")] string RuleSetName
 ) : AzOptions;

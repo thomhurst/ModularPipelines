@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "scopes")]
+[CliCommand("container", "fleet", "scopes")]
 public class GcloudContainerFleetScopesRbacrolebindings
 {
     public GcloudContainerFleetScopesRbacrolebindings(

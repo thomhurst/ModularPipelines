@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "volume", "quota-rule", "create")]
+[CliCommand("netappfiles", "volume", "quota-rule", "create")]
 public record AzNetappfilesVolumeQuotaRuleCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--pool-name")] string PoolName,
-[property: CommandSwitch("--quota-rule-name")] string QuotaRuleName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--volume-name")] string VolumeName
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--pool-name")] string PoolName,
+[property: CliOption("--quota-rule-name")] string QuotaRuleName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--volume-name")] string VolumeName
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--quota-size")]
+    [CliOption("--quota-size")]
     public string? QuotaSize { get; set; }
 
-    [CommandSwitch("--quota-target")]
+    [CliOption("--quota-target")]
     public string? QuotaTarget { get; set; }
 
-    [CommandSwitch("--quota-type")]
+    [CliOption("--quota-type")]
     public string? QuotaType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("serverlessrepo", "create-cloud-formation-change-set")]
+[CliCommand("serverlessrepo", "create-cloud-formation-change-set")]
 public record AwsServerlessrepoCreateCloudFormationChangeSetOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--stack-name")] string StackName
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--stack-name")] string StackName
 ) : AwsOptions
 {
-    [CommandSwitch("--capabilities")]
+    [CliOption("--capabilities")]
     public string[]? Capabilities { get; set; }
 
-    [CommandSwitch("--change-set-name")]
+    [CliOption("--change-set-name")]
     public string? ChangeSetName { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--notification-arns")]
+    [CliOption("--notification-arns")]
     public string[]? NotificationArns { get; set; }
 
-    [CommandSwitch("--parameter-overrides")]
+    [CliOption("--parameter-overrides")]
     public string[]? ParameterOverrides { get; set; }
 
-    [CommandSwitch("--resource-types")]
+    [CliOption("--resource-types")]
     public string[]? ResourceTypes { get; set; }
 
-    [CommandSwitch("--rollback-configuration")]
+    [CliOption("--rollback-configuration")]
     public string? RollbackConfiguration { get; set; }
 
-    [CommandSwitch("--semantic-version")]
+    [CliOption("--semantic-version")]
     public string? SemanticVersion { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--template-id")]
+    [CliOption("--template-id")]
     public string? TemplateId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

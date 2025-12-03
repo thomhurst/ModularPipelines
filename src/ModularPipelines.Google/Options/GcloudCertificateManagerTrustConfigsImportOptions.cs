@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("certificate-manager", "trust-configs", "import")]
+[CliCommand("certificate-manager", "trust-configs", "import")]
 public record GcloudCertificateManagerTrustConfigsImportOptions(
-[property: PositionalArgument] string TrustConfig,
-[property: PositionalArgument] string Location
+[property: CliArgument] string TrustConfig,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--update-mask")]
+    [CliOption("--update-mask")]
     public string? UpdateMask { get; set; }
 }

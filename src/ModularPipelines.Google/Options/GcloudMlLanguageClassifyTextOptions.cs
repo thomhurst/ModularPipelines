@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "language", "classify-text")]
+[CliCommand("ml", "language", "classify-text")]
 public record GcloudMlLanguageClassifyTextOptions(
-[property: CommandSwitch("--content")] string Content,
-[property: CommandSwitch("--content-file")] string ContentFile
+[property: CliOption("--content")] string Content,
+[property: CliOption("--content-file")] string ContentFile
 ) : GcloudOptions
 {
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CommandSwitch("--language")]
+    [CliOption("--language")]
     public string? Language { get; set; }
 }

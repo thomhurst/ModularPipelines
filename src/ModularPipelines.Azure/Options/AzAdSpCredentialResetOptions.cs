@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "sp", "credential", "reset")]
+[CliCommand("ad", "sp", "credential", "reset")]
 public record AzAdSpCredentialResetOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--append")]
+    [CliFlag("--append")]
     public bool? Append { get; set; }
 
-    [CommandSwitch("--cert")]
+    [CliOption("--cert")]
     public string? Cert { get; set; }
 
-    [BooleanCommandSwitch("--create-cert")]
+    [CliFlag("--create-cert")]
     public bool? CreateCert { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--end-date")]
+    [CliOption("--end-date")]
     public string? EndDate { get; set; }
 
-    [CommandSwitch("--keyvault")]
+    [CliOption("--keyvault")]
     public string? Keyvault { get; set; }
 
-    [CommandSwitch("--years")]
+    [CliOption("--years")]
     public string? Years { get; set; }
 }

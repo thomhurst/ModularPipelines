@@ -3,40 +3,40 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("archive")]
+[CliCommand("archive")]
 [ExcludeFromCodeCoverage]
 public record GitArchiveOptions : GitOptions
 {
-    [CommandEqualsSeparatorSwitch("--format")]
+    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [BooleanCommandSwitch("--list")]
+    [CliFlag("--list")]
     public virtual bool? List { get; set; }
 
-    [BooleanCommandSwitch("--verbose")]
+    [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--prefix")]
+    [CliOption("--prefix", Format = OptionFormat.EqualsSeparated)]
     public string? Prefix { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output")]
+    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--add-file")]
+    [CliOption("--add-file", Format = OptionFormat.EqualsSeparated)]
     public string? AddFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--add-virtual-file")]
+    [CliOption("--add-virtual-file", Format = OptionFormat.EqualsSeparated)]
     public string? AddVirtualFile { get; set; }
 
-    [BooleanCommandSwitch("--worktree-attributes")]
+    [CliFlag("--worktree-attributes")]
     public virtual bool? WorktreeAttributes { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--mtime")]
+    [CliOption("--mtime", Format = OptionFormat.EqualsSeparated)]
     public string? Mtime { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--remote")]
+    [CliOption("--remote", Format = OptionFormat.EqualsSeparated)]
     public string? Remote { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--exec")]
+    [CliOption("--exec", Format = OptionFormat.EqualsSeparated)]
     public string? Exec { get; set; }
 }

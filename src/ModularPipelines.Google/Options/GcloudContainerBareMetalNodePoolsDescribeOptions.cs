@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "bare-metal", "node-pools", "describe")]
+[CliCommand("container", "bare-metal", "node-pools", "describe")]
 public record GcloudContainerBareMetalNodePoolsDescribeOptions(
-[property: PositionalArgument] string NodePool,
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Location
+[property: CliArgument] string NodePool,
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Location
 ) : GcloudOptions;

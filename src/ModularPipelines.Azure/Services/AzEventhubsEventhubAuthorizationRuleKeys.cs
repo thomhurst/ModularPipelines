@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventhubs", "eventhub", "authorization-rule")]
+[CliCommand("eventhubs", "eventhub", "authorization-rule")]
 public class AzEventhubsEventhubAuthorizationRuleKeys
 {
     public AzEventhubsEventhubAuthorizationRuleKeys(

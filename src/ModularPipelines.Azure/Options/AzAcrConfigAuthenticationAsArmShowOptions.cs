@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "config", "authentication-as-arm", "show")]
+[CliCommand("acr", "config", "authentication-as-arm", "show")]
 public record AzAcrConfigAuthenticationAsArmShowOptions(
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

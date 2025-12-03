@@ -3,28 +3,28 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("top", "pod")]
+[CliCommand("top", "pod")]
 [ExcludeFromCodeCoverage]
-public record KubernetesTopPodOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesTopPodOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--all-namespaces")]
+    [CliFlag("--all-namespaces")]
     public virtual bool? AllNamespaces { get; set; }
 
-    [BooleanCommandSwitch("--containers")]
+    [CliFlag("--containers")]
     public virtual bool? Containers { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-selector", SwitchValueSeparator = " ")]
+    [CliOption("--field-selector")]
     public string? FieldSelector { get; set; }
 
-    [BooleanCommandSwitch("--no-headers")]
+    [CliFlag("--no-headers")]
     public virtual bool? NoHeaders { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CliOption("--selector")]
     public string? Selector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--sort-by", SwitchValueSeparator = " ")]
+    [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
-    [BooleanCommandSwitch("--use-protocol-buffers")]
+    [CliFlag("--use-protocol-buffers")]
     public virtual bool? UseProtocolBuffers { get; set; }
 }

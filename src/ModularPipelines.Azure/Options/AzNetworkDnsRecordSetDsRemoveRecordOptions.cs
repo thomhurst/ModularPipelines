@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "dns", "record-set", "ds", "remove-record")]
+[CliCommand("network", "dns", "record-set", "ds", "remove-record")]
 public record AzNetworkDnsRecordSetDsRemoveRecordOptions(
-[property: CommandSwitch("--algorithm")] string Algorithm,
-[property: CommandSwitch("--digest")] string Digest,
-[property: CommandSwitch("--digest-type")] string DigestType,
-[property: CommandSwitch("--key-tag")] string KeyTag,
-[property: CommandSwitch("--record-set-name")] string RecordSetName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--zone-name")] string ZoneName
+[property: CliOption("--algorithm")] string Algorithm,
+[property: CliOption("--digest")] string Digest,
+[property: CliOption("--digest-type")] string DigestType,
+[property: CliOption("--key-tag")] string KeyTag,
+[property: CliOption("--record-set-name")] string RecordSetName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--zone-name")] string ZoneName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--keep-empty-record-set")]
+    [CliFlag("--keep-empty-record-set")]
     public bool? KeepEmptyRecordSet { get; set; }
 }

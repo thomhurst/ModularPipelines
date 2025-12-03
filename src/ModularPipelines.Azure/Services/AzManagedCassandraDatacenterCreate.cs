@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managed-cassandra", "datacenter")]
+[CliCommand("managed-cassandra", "datacenter")]
 public class AzManagedCassandraDatacenterCreate
 {
     public AzManagedCassandraDatacenterCreate(

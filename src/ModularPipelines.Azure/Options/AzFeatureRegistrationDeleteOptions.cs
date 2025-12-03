@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("feature", "registration", "delete")]
+[CliCommand("feature", "registration", "delete")]
 public record AzFeatureRegistrationDeleteOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--namespace")] string Namespace
+[property: CliOption("--name")] string Name,
+[property: CliOption("--namespace")] string Namespace
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

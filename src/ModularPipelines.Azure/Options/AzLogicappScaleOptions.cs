@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logicapp", "scale")]
+[CliCommand("logicapp", "scale")]
 public record AzLogicappScaleOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--max-instances")]
+    [CliOption("--max-instances")]
     public string? MaxInstances { get; set; }
 
-    [CommandSwitch("--min-instances")]
+    [CliOption("--min-instances")]
     public string? MinInstances { get; set; }
 
-    [CommandSwitch("--slot")]
+    [CliOption("--slot")]
     public string? Slot { get; set; }
 }

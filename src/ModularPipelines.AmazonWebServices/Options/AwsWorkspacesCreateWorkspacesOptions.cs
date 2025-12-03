@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workspaces", "create-workspaces")]
+[CliCommand("workspaces", "create-workspaces")]
 public record AwsWorkspacesCreateWorkspacesOptions(
-[property: CommandSwitch("--workspaces")] string[] Workspaces
+[property: CliOption("--workspaces")] string[] Workspaces
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

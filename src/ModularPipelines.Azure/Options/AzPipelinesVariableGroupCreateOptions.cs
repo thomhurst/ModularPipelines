@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines", "variable-group", "create")]
+[CliCommand("pipelines", "variable-group", "create")]
 public record AzPipelinesVariableGroupCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--variables")] string Variables
+[property: CliOption("--name")] string Name,
+[property: CliOption("--variables")] string Variables
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--authorize")]
+    [CliFlag("--authorize")]
     public bool? Authorize { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 }

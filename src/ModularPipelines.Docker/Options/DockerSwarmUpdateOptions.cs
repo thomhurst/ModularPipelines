@@ -3,28 +3,28 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("swarm", "update")]
+[CliCommand("swarm", "update")]
 [ExcludeFromCodeCoverage]
 public record DockerSwarmUpdateOptions : DockerOptions
 {
-    [CommandSwitch("--autolock")]
+    [CliOption("--autolock")]
     public virtual string? Autolock { get; set; }
 
-    [CommandSwitch("--cert-expiry")]
+    [CliOption("--cert-expiry")]
     public virtual string? CertExpiry { get; set; }
 
-    [CommandSwitch("--dispatcher-heartbeat")]
+    [CliOption("--dispatcher-heartbeat")]
     public virtual string? DispatcherHeartbeat { get; set; }
 
-    [CommandSwitch("--external-ca")]
+    [CliOption("--external-ca")]
     public virtual string? ExternalCa { get; set; }
 
-    [CommandSwitch("--max-snapshots")]
+    [CliOption("--max-snapshots")]
     public virtual string? MaxSnapshots { get; set; }
 
-    [CommandSwitch("--snapshot-interval")]
+    [CliOption("--snapshot-interval")]
     public virtual int? SnapshotInterval { get; set; }
 
-    [CommandSwitch("--task-history-limit")]
+    [CliOption("--task-history-limit")]
     public virtual int? TaskHistoryLimit { get; set; }
 }

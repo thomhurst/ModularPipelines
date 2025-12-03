@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("offure", "hyperv")]
+[CliCommand("offure", "hyperv")]
 public class AzOffazureHypervHost
 {
     public AzOffazureHypervHost(

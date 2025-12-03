@@ -4,44 +4,44 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("boards", "work-item", "update")]
+[CliCommand("boards", "work-item", "update")]
 public record AzBoardsWorkItemUpdateOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [CommandSwitch("--area")]
+    [CliOption("--area")]
     public string? Area { get; set; }
 
-    [CommandSwitch("--assigned-to")]
+    [CliOption("--assigned-to")]
     public string? AssignedTo { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--discussion")]
+    [CliOption("--discussion")]
     public string? Discussion { get; set; }
 
-    [CommandSwitch("--fields")]
+    [CliOption("--fields")]
     public string? Fields { get; set; }
 
-    [CommandSwitch("--iteration")]
+    [CliOption("--iteration")]
     public string? Iteration { get; set; }
 
-    [BooleanCommandSwitch("--open")]
+    [CliFlag("--open")]
     public bool? Open { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--reason")]
+    [CliOption("--reason")]
     public string? Reason { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 }

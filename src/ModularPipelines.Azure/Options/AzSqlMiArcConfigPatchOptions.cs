@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "mi-arc", "config", "patch")]
+[CliCommand("sql", "mi-arc", "config", "patch")]
 public record AzSqlMiArcConfigPatchOptions(
-[property: CommandSwitch("--patch-file")] string PatchFile,
-[property: CommandSwitch("--path")] string Path
+[property: CliOption("--patch-file")] string PatchFile,
+[property: CliOption("--path")] string Path
 ) : AzOptions;

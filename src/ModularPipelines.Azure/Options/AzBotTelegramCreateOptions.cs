@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bot", "telegram", "create")]
+[CliCommand("bot", "telegram", "create")]
 public record AzBotTelegramCreateOptions(
-[property: CommandSwitch("--access-token")] string AccessToken,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--access-token")] string AccessToken,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--add-disabled")]
+    [CliFlag("--add-disabled")]
     public bool? AddDisabled { get; set; }
 
-    [BooleanCommandSwitch("--is-validated")]
+    [CliFlag("--is-validated")]
     public bool? IsValidated { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

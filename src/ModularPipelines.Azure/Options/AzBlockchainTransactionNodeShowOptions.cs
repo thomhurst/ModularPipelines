@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("blockchain", "transaction-node", "show")]
+[CliCommand("blockchain", "transaction-node", "show")]
 public record AzBlockchainTransactionNodeShowOptions(
-[property: CommandSwitch("--member-name")] string MemberName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--member-name")] string MemberName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

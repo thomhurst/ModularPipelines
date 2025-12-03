@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dls", "account", "update")]
+[CliCommand("dls", "account", "update")]
 public record AzDlsAccountUpdateOptions : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [BooleanCommandSwitch("--allow-azure-ips")]
+    [CliFlag("--allow-azure-ips")]
     public bool? AllowAzureIps { get; set; }
 
-    [CommandSwitch("--default-group")]
+    [CliOption("--default-group")]
     public string? DefaultGroup { get; set; }
 
-    [CommandSwitch("--firewall-state")]
+    [CliOption("--firewall-state")]
     public string? FirewallState { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--key-version")]
+    [CliOption("--key-version")]
     public string? KeyVersion { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [CommandSwitch("--trusted-id-provider-state")]
+    [CliOption("--trusted-id-provider-state")]
     public string? TrustedIdProviderState { get; set; }
 }

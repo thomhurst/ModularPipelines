@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcare", "consent-stores", "query-accessible-data")]
+[CliCommand("healthcare", "consent-stores", "query-accessible-data")]
 public record GcloudHealthcareConsentStoresQueryAccessibleDataOptions(
-[property: PositionalArgument] string ConsentStore,
-[property: PositionalArgument] string Dataset,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--gcs-uri")] string GcsUri
+[property: CliArgument] string ConsentStore,
+[property: CliArgument] string Dataset,
+[property: CliArgument] string Location,
+[property: CliOption("--gcs-uri")] string GcsUri
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--request-attributes")]
+    [CliOption("--request-attributes")]
     public IEnumerable<KeyValue>? RequestAttributes { get; set; }
 
-    [CommandSwitch("--resource-attributes")]
+    [CliOption("--resource-attributes")]
     public IEnumerable<KeyValue>? ResourceAttributes { get; set; }
 }

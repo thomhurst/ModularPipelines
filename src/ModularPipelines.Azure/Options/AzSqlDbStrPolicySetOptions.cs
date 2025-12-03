@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "db", "str-policy", "set")]
+[CliCommand("sql", "db", "str-policy", "set")]
 public record AzSqlDbStrPolicySetOptions(
-[property: CommandSwitch("--retention-days")] string RetentionDays
+[property: CliOption("--retention-days")] string RetentionDays
 ) : AzOptions
 {
-    [CommandSwitch("--diffbackup-hours")]
+    [CliOption("--diffbackup-hours")]
     public string? DiffbackupHours { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--server")]
+    [CliOption("--server")]
     public string? Server { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

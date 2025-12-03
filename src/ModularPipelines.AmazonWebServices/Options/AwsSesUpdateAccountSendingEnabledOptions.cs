@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ses", "update-account-sending-enabled")]
+[CliCommand("ses", "update-account-sending-enabled")]
 public record AwsSesUpdateAccountSendingEnabledOptions : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

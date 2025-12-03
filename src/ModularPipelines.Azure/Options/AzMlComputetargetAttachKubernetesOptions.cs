@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "computetarget", "attach", "kubernetes")]
+[CliCommand("ml", "computetarget", "attach", "kubernetes")]
 public record AzMlComputetargetAttachKubernetesOptions(
-[property: CommandSwitch("--compute-resource-id")] string ComputeResourceId,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--compute-resource-id")] string ComputeResourceId,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--workspace-name")]
+    [CliOption("--workspace-name")]
     public string? WorkspaceName { get; set; }
 }

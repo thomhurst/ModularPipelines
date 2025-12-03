@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workmail", "update-mailbox-quota")]
+[CliCommand("workmail", "update-mailbox-quota")]
 public record AwsWorkmailUpdateMailboxQuotaOptions(
-[property: CommandSwitch("--organization-id")] string OrganizationId,
-[property: CommandSwitch("--user-id")] string UserId,
-[property: CommandSwitch("--mailbox-quota")] int MailboxQuota
+[property: CliOption("--organization-id")] string OrganizationId,
+[property: CliOption("--user-id")] string UserId,
+[property: CliOption("--mailbox-quota")] int MailboxQuota
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

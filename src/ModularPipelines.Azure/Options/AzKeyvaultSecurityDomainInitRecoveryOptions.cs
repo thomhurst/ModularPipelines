@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "security-domain", "init-recovery")]
+[CliCommand("keyvault", "security-domain", "init-recovery")]
 public record AzKeyvaultSecurityDomainInitRecoveryOptions(
-[property: CommandSwitch("--sd-exchange-key")] string SdExchangeKey
+[property: CliOption("--sd-exchange-key")] string SdExchangeKey
 ) : AzOptions
 {
-    [CommandSwitch("--hsm-name")]
+    [CliOption("--hsm-name")]
     public string? HsmName { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 }

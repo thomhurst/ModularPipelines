@@ -4,51 +4,51 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dla", "job", "submit")]
+[CliCommand("dla", "job", "submit")]
 public record AzDlaJobSubmitOptions(
-[property: CommandSwitch("--job-name")] string JobName,
-[property: CommandSwitch("--script")] string Script
+[property: CliOption("--job-name")] string JobName,
+[property: CliOption("--script")] string Script
 ) : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [CommandSwitch("--compile-mode")]
+    [CliOption("--compile-mode")]
     public string? CompileMode { get; set; }
 
-    [BooleanCommandSwitch("--compile-only")]
+    [CliFlag("--compile-only")]
     public bool? CompileOnly { get; set; }
 
-    [CommandSwitch("--degree-of-parallelism")]
+    [CliOption("--degree-of-parallelism")]
     public string? DegreeOfParallelism { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--pipeline-id")]
+    [CliOption("--pipeline-id")]
     public string? PipelineId { get; set; }
 
-    [CommandSwitch("--pipeline-name")]
+    [CliOption("--pipeline-name")]
     public string? PipelineName { get; set; }
 
-    [CommandSwitch("--pipeline-uri")]
+    [CliOption("--pipeline-uri")]
     public string? PipelineUri { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--recurrence-id")]
+    [CliOption("--recurrence-id")]
     public string? RecurrenceId { get; set; }
 
-    [CommandSwitch("--recurrence-name")]
+    [CliOption("--recurrence-name")]
     public string? RecurrenceName { get; set; }
 
-    [CommandSwitch("--run-id")]
+    [CliOption("--run-id")]
     public string? RunId { get; set; }
 
-    [CommandSwitch("--runtime-version")]
+    [CliOption("--runtime-version")]
     public string? RuntimeVersion { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

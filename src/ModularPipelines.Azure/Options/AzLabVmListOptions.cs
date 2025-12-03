@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lab", "vm", "list")]
+[CliCommand("lab", "vm", "list")]
 public record AzLabVmListOptions(
-[property: CommandSwitch("--lab-name")] string LabName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--lab-name")] string LabName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--all")]
+    [CliOption("--all")]
     public string? All { get; set; }
 
-    [CommandSwitch("--claimable")]
+    [CliOption("--claimable")]
     public string? Claimable { get; set; }
 
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public string? Environment { get; set; }
 
-    [CommandSwitch("--expand")]
+    [CliOption("--expand")]
     public string? Expand { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string? Filters { get; set; }
 
-    [CommandSwitch("--object-id")]
+    [CliOption("--object-id")]
     public string? ObjectId { get; set; }
 
-    [CommandSwitch("--order-by")]
+    [CliOption("--order-by")]
     public string? OrderBy { get; set; }
 
-    [CommandSwitch("--top")]
+    [CliOption("--top")]
     public string? Top { get; set; }
 }

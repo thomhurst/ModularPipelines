@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("boards", "area", "team", "update")]
+[CliCommand("boards", "area", "team", "update")]
 public record AzBoardsAreaTeamUpdateOptions(
-[property: CommandSwitch("--path")] string Path,
-[property: CommandSwitch("--team")] string Team
+[property: CliOption("--path")] string Path,
+[property: CliOption("--team")] string Team
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [BooleanCommandSwitch("--include-sub-areas")]
+    [CliFlag("--include-sub-areas")]
     public bool? IncludeSubAreas { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [BooleanCommandSwitch("--set-as-default")]
+    [CliFlag("--set-as-default")]
     public bool? SetAsDefault { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workbench")]
+[CliCommand("workbench")]
 public class GcloudWorkbenchInstances
 {
     public GcloudWorkbenchInstances(

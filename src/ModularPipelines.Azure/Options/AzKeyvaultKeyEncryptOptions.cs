@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "key", "encrypt")]
+[CliCommand("keyvault", "key", "encrypt")]
 public record AzKeyvaultKeyEncryptOptions(
-[property: CommandSwitch("--algorithm")] string Algorithm,
-[property: CommandSwitch("--value")] string Value
+[property: CliOption("--algorithm")] string Algorithm,
+[property: CliOption("--value")] string Value
 ) : AzOptions
 {
-    [CommandSwitch("--aad")]
+    [CliOption("--aad")]
     public string? Aad { get; set; }
 
-    [CommandSwitch("--data-type")]
+    [CliOption("--data-type")]
     public string? DataType { get; set; }
 
-    [CommandSwitch("--hsm-name")]
+    [CliOption("--hsm-name")]
     public string? HsmName { get; set; }
 
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public string? Id { get; set; }
 
-    [CommandSwitch("--iv")]
+    [CliOption("--iv")]
     public string? Iv { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--vault-name")]
+    [CliOption("--vault-name")]
     public string? VaultName { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 }

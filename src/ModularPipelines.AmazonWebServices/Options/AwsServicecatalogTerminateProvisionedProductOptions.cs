@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicecatalog", "terminate-provisioned-product")]
+[CliCommand("servicecatalog", "terminate-provisioned-product")]
 public record AwsServicecatalogTerminateProvisionedProductOptions : AwsOptions
 {
-    [CommandSwitch("--provisioned-product-name")]
+    [CliOption("--provisioned-product-name")]
     public string? ProvisionedProductName { get; set; }
 
-    [CommandSwitch("--provisioned-product-id")]
+    [CliOption("--provisioned-product-id")]
     public string? ProvisionedProductId { get; set; }
 
-    [CommandSwitch("--terminate-token")]
+    [CliOption("--terminate-token")]
     public string? TerminateToken { get; set; }
 
-    [CommandSwitch("--accept-language")]
+    [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

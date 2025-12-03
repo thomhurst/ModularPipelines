@@ -3,58 +3,58 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("delete")]
+[CliCommand("delete")]
 [ExcludeFromCodeCoverage]
-public record KubernetesDeleteOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesDeleteOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--all-namespaces")]
+    [CliFlag("--all-namespaces")]
     public virtual bool? AllNamespaces { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--cascade", SwitchValueSeparator = " ")]
+    [CliOption("--cascade")]
     public string? Cascade { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CliOption("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-selector", SwitchValueSeparator = " ")]
+    [CliOption("--field-selector")]
     public string? FieldSelector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--filename", SwitchValueSeparator = " ")]
+    [CliOption("--filename")]
     public string[]? Filename { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--grace-period", SwitchValueSeparator = " ")]
+    [CliOption("--grace-period")]
     public int? GracePeriod { get; set; }
 
-    [BooleanCommandSwitch("--ignore-not-found")]
+    [CliFlag("--ignore-not-found")]
     public virtual bool? IgnoreNotFound { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--kustomize", SwitchValueSeparator = " ")]
+    [CliOption("--kustomize")]
     public string? Kustomize { get; set; }
 
-    [BooleanCommandSwitch("--now")]
+    [CliFlag("--now")]
     public virtual bool? Now { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--raw", SwitchValueSeparator = " ")]
+    [CliOption("--raw")]
     public string? Raw { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CliOption("--selector")]
     public string? Selector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--timeout", SwitchValueSeparator = " ")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [BooleanCommandSwitch("--wait")]
+    [CliFlag("--wait")]
     public virtual bool? Wait { get; set; }
 }

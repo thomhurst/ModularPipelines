@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dls", "fs", "join")]
+[CliCommand("dls", "fs", "join")]
 public record AzDlsFsJoinOptions(
-[property: CommandSwitch("--destination-path")] string DestinationPath,
-[property: CommandSwitch("--source-paths")] string SourcePaths
+[property: CliOption("--destination-path")] string DestinationPath,
+[property: CliOption("--source-paths")] string SourcePaths
 ) : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

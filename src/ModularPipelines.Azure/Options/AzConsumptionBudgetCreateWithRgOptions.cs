@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("consumption", "budget", "create-with-rg")]
+[CliCommand("consumption", "budget", "create-with-rg")]
 public record AzConsumptionBudgetCreateWithRgOptions : AzOptions
 {
-    [CommandSwitch("--amount")]
+    [CliOption("--amount")]
     public string? Amount { get; set; }
 
-    [CommandSwitch("--budget-name")]
+    [CliOption("--budget-name")]
     public string? BudgetName { get; set; }
 
-    [CommandSwitch("--category")]
+    [CliOption("--category")]
     public string? Category { get; set; }
 
-    [CommandSwitch("--e-tag")]
+    [CliOption("--e-tag")]
     public string? ETag { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string? Filters { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--notifications")]
+    [CliOption("--notifications")]
     public string? Notifications { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--time-grain")]
+    [CliOption("--time-grain")]
     public string? TimeGrain { get; set; }
 
-    [CommandSwitch("--time-period")]
+    [CliOption("--time-period")]
     public string? TimePeriod { get; set; }
 }

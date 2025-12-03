@@ -5,120 +5,120 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("s3api", "write-get-object-response")]
+[CliCommand("s3api", "write-get-object-response")]
 public record AwsS3apiWriteGetObjectResponseOptions(
-[property: CommandSwitch("--request-route")] string RequestRoute,
-[property: CommandSwitch("--request-token")] string RequestToken
+[property: CliOption("--request-route")] string RequestRoute,
+[property: CliOption("--request-token")] string RequestToken
 ) : AwsOptions
 {
-    [CommandSwitch("--body")]
+    [CliOption("--body")]
     public string? Body { get; set; }
 
-    [CommandSwitch("--status-code")]
+    [CliOption("--status-code")]
     public int? StatusCode { get; set; }
 
-    [CommandSwitch("--error-code")]
+    [CliOption("--error-code")]
     public string? ErrorCode { get; set; }
 
-    [CommandSwitch("--error-message")]
+    [CliOption("--error-message")]
     public string? ErrorMessage { get; set; }
 
-    [CommandSwitch("--accept-ranges")]
+    [CliOption("--accept-ranges")]
     public string? AcceptRanges { get; set; }
 
-    [CommandSwitch("--cache-control")]
+    [CliOption("--cache-control")]
     public string? CacheControl { get; set; }
 
-    [CommandSwitch("--content-disposition")]
+    [CliOption("--content-disposition")]
     public string? ContentDisposition { get; set; }
 
-    [CommandSwitch("--content-encoding")]
+    [CliOption("--content-encoding")]
     public string? ContentEncoding { get; set; }
 
-    [CommandSwitch("--content-language")]
+    [CliOption("--content-language")]
     public string? ContentLanguage { get; set; }
 
-    [CommandSwitch("--content-length")]
+    [CliOption("--content-length")]
     public long? ContentLength { get; set; }
 
-    [CommandSwitch("--content-range")]
+    [CliOption("--content-range")]
     public string? ContentRange { get; set; }
 
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CommandSwitch("--checksum-crc32")]
+    [CliOption("--checksum-crc32")]
     public string? ChecksumCrc32 { get; set; }
 
-    [CommandSwitch("--checksum-crc32-c")]
+    [CliOption("--checksum-crc32-c")]
     public string? ChecksumCrc32C { get; set; }
 
-    [CommandSwitch("--checksum-sha1")]
+    [CliOption("--checksum-sha1")]
     public string? ChecksumSha1 { get; set; }
 
-    [CommandSwitch("--checksum-sha256")]
+    [CliOption("--checksum-sha256")]
     public string? ChecksumSha256 { get; set; }
 
-    [CommandSwitch("--e-tag")]
+    [CliOption("--e-tag")]
     public string? ETag { get; set; }
 
-    [CommandSwitch("--expires")]
+    [CliOption("--expires")]
     public long? Expires { get; set; }
 
-    [CommandSwitch("--expiration")]
+    [CliOption("--expiration")]
     public string? Expiration { get; set; }
 
-    [CommandSwitch("--last-modified")]
+    [CliOption("--last-modified")]
     public long? LastModified { get; set; }
 
-    [CommandSwitch("--missing-meta")]
+    [CliOption("--missing-meta")]
     public int? MissingMeta { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public IEnumerable<KeyValue>? Metadata { get; set; }
 
-    [CommandSwitch("--object-lock-mode")]
+    [CliOption("--object-lock-mode")]
     public string? ObjectLockMode { get; set; }
 
-    [CommandSwitch("--object-lock-legal-hold-status")]
+    [CliOption("--object-lock-legal-hold-status")]
     public string? ObjectLockLegalHoldStatus { get; set; }
 
-    [CommandSwitch("--object-lock-retain-until-date")]
+    [CliOption("--object-lock-retain-until-date")]
     public long? ObjectLockRetainUntilDate { get; set; }
 
-    [CommandSwitch("--parts-count")]
+    [CliOption("--parts-count")]
     public int? PartsCount { get; set; }
 
-    [CommandSwitch("--replication-status")]
+    [CliOption("--replication-status")]
     public string? ReplicationStatus { get; set; }
 
-    [CommandSwitch("--request-charged")]
+    [CliOption("--request-charged")]
     public string? RequestCharged { get; set; }
 
-    [CommandSwitch("--restore")]
+    [CliOption("--restore")]
     public string? Restore { get; set; }
 
-    [CommandSwitch("--server-side-encryption")]
+    [CliOption("--server-side-encryption")]
     public string? ServerSideEncryption { get; set; }
 
-    [CommandSwitch("--sse-customer-algorithm")]
+    [CliOption("--sse-customer-algorithm")]
     public string? SseCustomerAlgorithm { get; set; }
 
-    [CommandSwitch("--ssekms-key-id")]
+    [CliOption("--ssekms-key-id")]
     public string? SsekmsKeyId { get; set; }
 
-    [CommandSwitch("--sse-customer-key-md5")]
+    [CliOption("--sse-customer-key-md5")]
     public string? SseCustomerKeyMd5 { get; set; }
 
-    [CommandSwitch("--storage-class")]
+    [CliOption("--storage-class")]
     public string? StorageClass { get; set; }
 
-    [CommandSwitch("--tag-count")]
+    [CliOption("--tag-count")]
     public int? TagCount { get; set; }
 
-    [CommandSwitch("--version-id")]
+    [CliOption("--version-id")]
     public string? VersionId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

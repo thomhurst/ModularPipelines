@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dls", "account", "trusted-provider", "delete")]
+[CliCommand("dls", "account", "trusted-provider", "delete")]
 public record AzDlsAccountTrustedProviderDeleteOptions(
-[property: CommandSwitch("--trusted-id-provider-name")] string TrustedIdProviderName
+[property: CliOption("--trusted-id-provider-name")] string TrustedIdProviderName
 ) : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

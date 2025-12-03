@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "autoscale", "show-predictive-metric")]
+[CliCommand("monitor", "autoscale", "show-predictive-metric")]
 public record AzMonitorAutoscaleShowPredictiveMetricOptions(
-[property: CommandSwitch("--aggregation")] string Aggregation,
-[property: CommandSwitch("--interval")] int Interval,
-[property: CommandSwitch("--metric-name")] string MetricName,
-[property: CommandSwitch("--metric-namespace")] string MetricNamespace,
-[property: CommandSwitch("--timespan")] string Timespan
+[property: CliOption("--aggregation")] string Aggregation,
+[property: CliOption("--interval")] int Interval,
+[property: CliOption("--metric-name")] string MetricName,
+[property: CliOption("--metric-namespace")] string MetricNamespace,
+[property: CliOption("--timespan")] string Timespan
 ) : AzOptions
 {
-    [CommandSwitch("--autoscale-setting-name")]
+    [CliOption("--autoscale-setting-name")]
     public string? AutoscaleSettingName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

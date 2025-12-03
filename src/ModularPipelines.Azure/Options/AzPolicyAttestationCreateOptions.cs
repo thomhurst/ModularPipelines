@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("policy", "attestation", "create")]
+[CliCommand("policy", "attestation", "create")]
 public record AzPolicyAttestationCreateOptions(
-[property: CommandSwitch("--attestation-name")] string AttestationName,
-[property: CommandSwitch("--policy-assignment")] string PolicyAssignment
+[property: CliOption("--attestation-name")] string AttestationName,
+[property: CliOption("--policy-assignment")] string PolicyAssignment
 ) : AzOptions
 {
-    [CommandSwitch("--assessment-date")]
+    [CliOption("--assessment-date")]
     public string? AssessmentDate { get; set; }
 
-    [CommandSwitch("--comments")]
+    [CliOption("--comments")]
     public string? Comments { get; set; }
 
-    [CommandSwitch("--compliance-state")]
+    [CliOption("--compliance-state")]
     public string? ComplianceState { get; set; }
 
-    [CommandSwitch("--definition-reference-id")]
+    [CliOption("--definition-reference-id")]
     public string? DefinitionReferenceId { get; set; }
 
-    [CommandSwitch("--evidence")]
+    [CliOption("--evidence")]
     public string? Evidence { get; set; }
 
-    [CommandSwitch("--expires-on")]
+    [CliOption("--expires-on")]
     public string? ExpiresOn { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--owner")]
+    [CliOption("--owner")]
     public string? Owner { get; set; }
 
-    [CommandSwitch("--parent")]
+    [CliOption("--parent")]
     public string? Parent { get; set; }
 
-    [CommandSwitch("--resource")]
+    [CliOption("--resource")]
     public string? Resource { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("alloydb", "clusters", "describe")]
+[CliCommand("alloydb", "clusters", "describe")]
 public record GcloudAlloydbClustersDescribeOptions(
-[property: PositionalArgument] string Cluster,
-[property: CommandSwitch("--region")] string Region
+[property: CliArgument] string Cluster,
+[property: CliOption("--region")] string Region
 ) : GcloudOptions;

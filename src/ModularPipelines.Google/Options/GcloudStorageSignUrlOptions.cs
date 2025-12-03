@@ -5,29 +5,29 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "sign-url")]
+[CliCommand("storage", "sign-url")]
 public record GcloudStorageSignUrlOptions(
-[property: PositionalArgument] string Url
+[property: CliArgument] string Url
 ) : GcloudOptions
 {
-    [CommandSwitch("--duration")]
+    [CliOption("--duration")]
     public string? Duration { get; set; }
 
-    [CommandSwitch("--headers")]
+    [CliOption("--headers")]
     public IEnumerable<KeyValue>? Headers { get; set; }
 
-    [CommandSwitch("--http-verb")]
+    [CliOption("--http-verb")]
     public string? HttpVerb { get; set; }
 
-    [CommandSwitch("--private-key-file")]
+    [CliOption("--private-key-file")]
     public string? PrivateKeyFile { get; set; }
 
-    [CommandSwitch("--private-key-password")]
+    [CliOption("--private-key-password")]
     public string? PrivateKeyPassword { get; set; }
 
-    [CommandSwitch("--query-params")]
+    [CliOption("--query-params")]
     public IEnumerable<KeyValue>? QueryParams { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

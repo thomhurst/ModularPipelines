@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("search", "shared-private-link-resource", "update")]
+[CliCommand("search", "shared-private-link-resource", "update")]
 public record AzSearchSharedPrivateLinkResourceUpdateOptions(
-[property: CommandSwitch("--group-id")] string GroupId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--request-message")] string RequestMessage,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--resource-id")] string ResourceId,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--group-id")] string GroupId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--request-message")] string RequestMessage,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--resource-id")] string ResourceId,
+[property: CliOption("--service-name")] string ServiceName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "simulate-maintenance-event")]
+[CliCommand("compute", "instances", "simulate-maintenance-event")]
 public record GcloudComputeInstancesSimulateMaintenanceEventOptions(
-[property: PositionalArgument] string InstanceNames
+[property: CliArgument] string InstanceNames
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--with-extended-notifications")]
+    [CliOption("--with-extended-notifications")]
     public string? WithExtendedNotifications { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

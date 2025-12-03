@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "du", "account", "private-endpoint-connection", "delete")]
+[CliCommand("iot", "du", "account", "private-endpoint-connection", "delete")]
 public record AzIotDuAccountPrivateEndpointConnectionDeleteOptions(
-[property: CommandSwitch("--account")] int Account,
-[property: CommandSwitch("--cn")] string Cn
+[property: CliOption("--account")] int Account,
+[property: CliOption("--cn")] string Cn
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "log-analytics", "solution", "create")]
+[CliCommand("monitor", "log-analytics", "solution", "create")]
 public record AzMonitorLogAnalyticsSolutionCreateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--solution-type")] string SolutionType,
-[property: CommandSwitch("--workspace")] string Workspace
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--solution-type")] string SolutionType,
+[property: CliOption("--workspace")] string Workspace
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

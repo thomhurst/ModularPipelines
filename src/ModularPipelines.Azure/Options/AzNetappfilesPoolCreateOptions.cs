@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "pool", "create")]
+[CliCommand("netappfiles", "pool", "create")]
 public record AzNetappfilesPoolCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-level")] string ServiceLevel,
-[property: CommandSwitch("--size")] string Size
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-level")] string ServiceLevel,
+[property: CliOption("--size")] string Size
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--cool-access")]
+    [CliFlag("--cool-access")]
     public bool? CoolAccess { get; set; }
 
-    [CommandSwitch("--encryption-type")]
+    [CliOption("--encryption-type")]
     public string? EncryptionType { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--qos-type")]
+    [CliOption("--qos-type")]
     public string? QosType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmss", "run-command", "create")]
+[CliCommand("vmss", "run-command", "create")]
 public record AzVmssRunCommandCreateOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vmss-name")] string VmssName
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vmss-name")] string VmssName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--async-execution")]
+    [CliFlag("--async-execution")]
     public bool? AsyncExecution { get; set; }
 
-    [CommandSwitch("--command-id")]
+    [CliOption("--command-id")]
     public string? CommandId { get; set; }
 
-    [CommandSwitch("--error-blob-uri")]
+    [CliOption("--error-blob-uri")]
     public string? ErrorBlobUri { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--output-blob-uri")]
+    [CliOption("--output-blob-uri")]
     public string? OutputBlobUri { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--protected-parameters")]
+    [CliOption("--protected-parameters")]
     public string? ProtectedParameters { get; set; }
 
-    [CommandSwitch("--run-as-password")]
+    [CliOption("--run-as-password")]
     public string? RunAsPassword { get; set; }
 
-    [CommandSwitch("--run-as-user")]
+    [CliOption("--run-as-user")]
     public string? RunAsUser { get; set; }
 
-    [CommandSwitch("--script")]
+    [CliOption("--script")]
     public string? Script { get; set; }
 
-    [CommandSwitch("--script-uri")]
+    [CliOption("--script-uri")]
     public string? ScriptUri { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--timeout-in-seconds")]
+    [CliOption("--timeout-in-seconds")]
     public string? TimeoutInSeconds { get; set; }
 }

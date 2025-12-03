@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("account", "management-group", "subscription", "add")]
+[CliCommand("account", "management-group", "subscription", "add")]
 public record AzAccountManagementGroupSubscriptionAddOptions : AzOptions
 {
     public AzAccountManagementGroupSubscriptionAddOptions(
@@ -16,6 +16,6 @@ public record AzAccountManagementGroupSubscriptionAddOptions : AzOptions
         Subscription = subscription;
     }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string Name { get; set; }
 }

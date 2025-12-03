@@ -4,56 +4,56 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "account", "blob-service-properties", "update")]
+[CliCommand("storage", "account", "blob-service-properties", "update")]
 public record AzStorageAccountBlobServicePropertiesUpdateOptions(
-[property: CommandSwitch("--account-name")] int AccountName
+[property: CliOption("--account-name")] int AccountName
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--change-feed-days")]
+    [CliOption("--change-feed-days")]
     public string? ChangeFeedDays { get; set; }
 
-    [CommandSwitch("--container-days")]
+    [CliOption("--container-days")]
     public string? ContainerDays { get; set; }
 
-    [BooleanCommandSwitch("--container-retention")]
+    [CliFlag("--container-retention")]
     public bool? ContainerRetention { get; set; }
 
-    [CommandSwitch("--default-service-version")]
+    [CliOption("--default-service-version")]
     public string? DefaultServiceVersion { get; set; }
 
-    [CommandSwitch("--delete-retention-days")]
+    [CliOption("--delete-retention-days")]
     public string? DeleteRetentionDays { get; set; }
 
-    [BooleanCommandSwitch("--enable-change-feed")]
+    [CliFlag("--enable-change-feed")]
     public bool? EnableChangeFeed { get; set; }
 
-    [BooleanCommandSwitch("--enable-delete-retention")]
+    [CliFlag("--enable-delete-retention")]
     public bool? EnableDeleteRetention { get; set; }
 
-    [BooleanCommandSwitch("--enable-last-access-tracking")]
+    [CliFlag("--enable-last-access-tracking")]
     public bool? EnableLastAccessTracking { get; set; }
 
-    [BooleanCommandSwitch("--enable-restore-policy")]
+    [CliFlag("--enable-restore-policy")]
     public bool? EnableRestorePolicy { get; set; }
 
-    [BooleanCommandSwitch("--enable-versioning")]
+    [CliFlag("--enable-versioning")]
     public bool? EnableVersioning { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--restore-days")]
+    [CliOption("--restore-days")]
     public string? RestoreDays { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 }

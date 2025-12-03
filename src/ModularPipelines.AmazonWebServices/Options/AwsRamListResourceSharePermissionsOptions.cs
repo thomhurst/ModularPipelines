@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ram", "list-resource-share-permissions")]
+[CliCommand("ram", "list-resource-share-permissions")]
 public record AwsRamListResourceSharePermissionsOptions(
-[property: CommandSwitch("--resource-share-arn")] string ResourceShareArn
+[property: CliOption("--resource-share-arn")] string ResourceShareArn
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

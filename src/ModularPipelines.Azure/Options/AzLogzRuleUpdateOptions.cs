@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logz", "rule", "update")]
+[CliCommand("logz", "rule", "update")]
 public record AzLogzRuleUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--filtering-tags")]
+    [CliOption("--filtering-tags")]
     public string? FilteringTags { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--monitor-name")]
+    [CliOption("--monitor-name")]
     public string? MonitorName { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rule-set-name")]
+    [CliOption("--rule-set-name")]
     public string? RuleSetName { get; set; }
 
-    [BooleanCommandSwitch("--send-aad-logs")]
+    [CliFlag("--send-aad-logs")]
     public bool? SendAadLogs { get; set; }
 
-    [BooleanCommandSwitch("--send-activity-logs")]
+    [CliFlag("--send-activity-logs")]
     public bool? SendActivityLogs { get; set; }
 
-    [BooleanCommandSwitch("--send-subscription-logs")]
+    [CliFlag("--send-subscription-logs")]
     public bool? SendSubscriptionLogs { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

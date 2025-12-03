@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkfabric", "interface", "list")]
+[CliCommand("networkfabric", "interface", "list")]
 public record AzNetworkfabricInterfaceListOptions(
-[property: CommandSwitch("--device")] string Device,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--device")] string Device,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

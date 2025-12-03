@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "computetarget")]
+[CliCommand("ml", "computetarget")]
 public class AzMlComputetargetAmlcompute
 {
     public AzMlComputetargetAmlcompute(

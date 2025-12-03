@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "generate-sas-token")]
+[CliCommand("iot", "hub", "generate-sas-token")]
 public record AzIotHubGenerateSasTokenOptions : AzOptions
 {
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--device-id")]
+    [CliOption("--device-id")]
     public string? DeviceId { get; set; }
 
-    [CommandSwitch("--du")]
+    [CliOption("--du")]
     public string? Du { get; set; }
 
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--key-type")]
+    [CliOption("--key-type")]
     public string? KeyType { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--module-id")]
+    [CliOption("--module-id")]
     public string? ModuleId { get; set; }
 
-    [CommandSwitch("--pn")]
+    [CliOption("--pn")]
     public string? Pn { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

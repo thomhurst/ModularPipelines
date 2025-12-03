@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automation", "account", "create")]
+[CliCommand("automation", "account", "create")]
 public record AzAutomationAccountCreateOptions(
-[property: CommandSwitch("--automation-account-name")] int AutomationAccountName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--automation-account-name")] int AutomationAccountName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot")]
+[CliCommand("iot")]
 public class AzIotEdge
 {
     public AzIotEdge(

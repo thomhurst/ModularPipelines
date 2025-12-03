@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "azure", "clients", "get-public-cert")]
+[CliCommand("container", "azure", "clients", "get-public-cert")]
 public record GcloudContainerAzureClientsGetPublicCertOptions(
-[property: PositionalArgument] string Client,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Client,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--output-file")]
+    [CliOption("--output-file")]
     public string? OutputFile { get; set; }
 }

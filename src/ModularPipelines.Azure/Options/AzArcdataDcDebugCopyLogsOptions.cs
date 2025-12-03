@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcdata", "dc", "debug", "copy-logs")]
+[CliCommand("arcdata", "dc", "debug", "copy-logs")]
 public record AzArcdataDcDebugCopyLogsOptions(
-[property: CommandSwitch("--k8s-namespace")] string K8sNamespace
+[property: CliOption("--k8s-namespace")] string K8sNamespace
 ) : AzOptions
 {
-    [CommandSwitch("--container")]
+    [CliOption("--container")]
     public string? Container { get; set; }
 
-    [BooleanCommandSwitch("--exclude-arcdata-logs")]
+    [CliFlag("--exclude-arcdata-logs")]
     public bool? ExcludeArcdataLogs { get; set; }
 
-    [BooleanCommandSwitch("--exclude-cluster-info")]
+    [CliFlag("--exclude-cluster-info")]
     public bool? ExcludeClusterInfo { get; set; }
 
-    [BooleanCommandSwitch("--exclude-controldb")]
+    [CliFlag("--exclude-controldb")]
     public bool? ExcludeControldb { get; set; }
 
-    [BooleanCommandSwitch("--exclude-dumps")]
+    [CliFlag("--exclude-dumps")]
     public bool? ExcludeDumps { get; set; }
 
-    [BooleanCommandSwitch("--exclude-system-logs")]
+    [CliFlag("--exclude-system-logs")]
     public bool? ExcludeSystemLogs { get; set; }
 
-    [CommandSwitch("--pod")]
+    [CliOption("--pod")]
     public string? Pod { get; set; }
 
-    [CommandSwitch("--resource-kind")]
+    [CliOption("--resource-kind")]
     public string? ResourceKind { get; set; }
 
-    [CommandSwitch("--resource-name")]
+    [CliOption("--resource-name")]
     public string? ResourceName { get; set; }
 
-    [BooleanCommandSwitch("--skip-compress")]
+    [CliFlag("--skip-compress")]
     public bool? SkipCompress { get; set; }
 
-    [CommandSwitch("--target-folder")]
+    [CliOption("--target-folder")]
     public string? TargetFolder { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [BooleanCommandSwitch("--use-k8s")]
+    [CliFlag("--use-k8s")]
     public bool? UseK8s { get; set; }
 }

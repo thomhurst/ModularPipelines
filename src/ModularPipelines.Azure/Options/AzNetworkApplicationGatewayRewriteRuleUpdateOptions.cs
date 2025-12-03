@@ -4,47 +4,47 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "rewrite-rule", "update")]
+[CliCommand("network", "application-gateway", "rewrite-rule", "update")]
 public record AzNetworkApplicationGatewayRewriteRuleUpdateOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--rule-set-name")] string RuleSetName
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--rule-set-name")] string RuleSetName
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--conditions")]
+    [CliOption("--conditions")]
     public string? Conditions { get; set; }
 
-    [BooleanCommandSwitch("--enable-reroute")]
+    [CliFlag("--enable-reroute")]
     public bool? EnableReroute { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--modified-path")]
+    [CliOption("--modified-path")]
     public string? ModifiedPath { get; set; }
 
-    [CommandSwitch("--modified-query-string")]
+    [CliOption("--modified-query-string")]
     public string? ModifiedQueryString { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--request-headers")]
+    [CliOption("--request-headers")]
     public string? RequestHeaders { get; set; }
 
-    [CommandSwitch("--response-headers")]
+    [CliOption("--response-headers")]
     public string? ResponseHeaders { get; set; }
 
-    [CommandSwitch("--sequence")]
+    [CliOption("--sequence")]
     public string? Sequence { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "url-maps", "list-cdn-cache-invalidations")]
+[CliCommand("compute", "url-maps", "list-cdn-cache-invalidations")]
 public record GcloudComputeUrlMapsListCdnCacheInvalidationsOptions(
-[property: PositionalArgument] string UrlMap
+[property: CliArgument] string UrlMap
 ) : GcloudOptions
 {
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public string? Limit { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

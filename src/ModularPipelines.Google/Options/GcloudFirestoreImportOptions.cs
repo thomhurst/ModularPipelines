@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firestore", "import")]
+[CliCommand("firestore", "import")]
 public record GcloudFirestoreImportOptions(
-[property: PositionalArgument] string InputUriPrefix
+[property: CliArgument] string InputUriPrefix
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--collection-ids")]
+    [CliOption("--collection-ids")]
     public string[]? CollectionIds { get; set; }
 
-    [CommandSwitch("--database")]
+    [CliOption("--database")]
     public string? Database { get; set; }
 
-    [CommandSwitch("--namespace-ids")]
+    [CliOption("--namespace-ids")]
     public string[]? NamespaceIds { get; set; }
 }

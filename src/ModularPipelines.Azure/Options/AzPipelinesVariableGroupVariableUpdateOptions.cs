@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines", "variable-group", "variable", "update")]
+[CliCommand("pipelines", "variable-group", "variable", "update")]
 public record AzPipelinesVariableGroupVariableUpdateOptions(
-[property: CommandSwitch("--group-id")] string GroupId,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--group-id")] string GroupId,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--new-name")]
+    [CliOption("--new-name")]
     public string? NewName { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [BooleanCommandSwitch("--prompt-value")]
+    [CliFlag("--prompt-value")]
     public bool? PromptValue { get; set; }
 
-    [BooleanCommandSwitch("--secret")]
+    [CliFlag("--secret")]
     public bool? Secret { get; set; }
 
-    [CommandSwitch("--value")]
+    [CliOption("--value")]
     public string? Value { get; set; }
 }

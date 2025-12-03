@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "datastore")]
+[CliCommand("vmware", "datastore")]
 public class AzVmwareDatastoreDiskPoolVolume
 {
     public AzVmwareDatastoreDiskPoolVolume(

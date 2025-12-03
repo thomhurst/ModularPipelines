@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "associate-faces")]
+[CliCommand("rekognition", "associate-faces")]
 public record AwsRekognitionAssociateFacesOptions(
-[property: CommandSwitch("--collection-id")] string CollectionId,
-[property: CommandSwitch("--user-id")] string UserId,
-[property: CommandSwitch("--face-ids")] string[] FaceIds
+[property: CliOption("--collection-id")] string CollectionId,
+[property: CliOption("--user-id")] string UserId,
+[property: CliOption("--face-ids")] string[] FaceIds
 ) : AwsOptions
 {
-    [CommandSwitch("--user-match-threshold")]
+    [CliOption("--user-match-threshold")]
     public float? UserMatchThreshold { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

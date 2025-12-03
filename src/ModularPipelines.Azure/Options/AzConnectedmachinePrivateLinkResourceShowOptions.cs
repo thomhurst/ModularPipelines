@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectedmachine", "private-link-resource", "show")]
+[CliCommand("connectedmachine", "private-link-resource", "show")]
 public record AzConnectedmachinePrivateLinkResourceShowOptions : AzOptions
 {
-    [CommandSwitch("--group-name")]
+    [CliOption("--group-name")]
     public string? GroupName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--scope-name")]
+    [CliOption("--scope-name")]
     public string? ScopeName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("security", "adaptive-application-controls", "show")]
+[CliCommand("security", "adaptive-application-controls", "show")]
 public record AzSecurityAdaptiveApplicationControlsShowOptions(
-[property: CommandSwitch("--group-name")] string GroupName
+[property: CliOption("--group-name")] string GroupName
 ) : AzOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

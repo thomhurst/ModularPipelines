@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-connectivity", "spokes", "describe")]
+[CliCommand("network-connectivity", "spokes", "describe")]
 public record GcloudNetworkConnectivitySpokesDescribeOptions(
-[property: PositionalArgument] string Spoke
+[property: CliArgument] string Spoke
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

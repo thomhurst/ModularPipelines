@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instance-groups", "managed", "rolling-action", "restart")]
+[CliCommand("compute", "instance-groups", "managed", "rolling-action", "restart")]
 public record GcloudComputeInstanceGroupsManagedRollingActionRestartOptions(
-[property: PositionalArgument] string Name
+[property: CliArgument] string Name
 ) : GcloudOptions
 {
-    [CommandSwitch("--max-unavailable")]
+    [CliOption("--max-unavailable")]
     public string? MaxUnavailable { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

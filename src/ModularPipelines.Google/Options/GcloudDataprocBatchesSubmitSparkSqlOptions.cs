@@ -5,68 +5,68 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "batches", "submit", "spark-sql")]
+[CliCommand("dataproc", "batches", "submit", "spark-sql")]
 public record GcloudDataprocBatchesSubmitSparkSqlOptions(
-[property: PositionalArgument] string SqlScript
+[property: CliArgument] string SqlScript
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--batch")]
+    [CliOption("--batch")]
     public string? Batch { get; set; }
 
-    [CommandSwitch("--container-image")]
+    [CliOption("--container-image")]
     public string? ContainerImage { get; set; }
 
-    [CommandSwitch("--deps-bucket")]
+    [CliOption("--deps-bucket")]
     public string? DepsBucket { get; set; }
 
-    [CommandSwitch("--history-server-cluster")]
+    [CliOption("--history-server-cluster")]
     public string? HistoryServerCluster { get; set; }
 
-    [CommandSwitch("--jars")]
+    [CliOption("--jars")]
     public string[]? Jars { get; set; }
 
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--metastore-service")]
+    [CliOption("--metastore-service")]
     public string? MetastoreService { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string[]? Properties { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--request-id")]
+    [CliOption("--request-id")]
     public string? RequestId { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [CommandSwitch("--staging-bucket")]
+    [CliOption("--staging-bucket")]
     public string? StagingBucket { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--ttl")]
+    [CliOption("--ttl")]
     public string? Ttl { get; set; }
 
-    [CommandSwitch("--vars")]
+    [CliOption("--vars")]
     public string[]? Vars { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string? Version { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 }

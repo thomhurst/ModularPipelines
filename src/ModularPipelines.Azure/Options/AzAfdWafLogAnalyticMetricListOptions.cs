@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("afd", "waf-log-analytic", "metric", "list")]
+[CliCommand("afd", "waf-log-analytic", "metric", "list")]
 public record AzAfdWafLogAnalyticMetricListOptions(
-[property: CommandSwitch("--date-time-begin")] string DateTimeBegin,
-[property: CommandSwitch("--date-time-end")] string DateTimeEnd,
-[property: CommandSwitch("--granularity")] string Granularity,
-[property: CommandSwitch("--metrics")] string Metrics,
-[property: CommandSwitch("--profile-name")] string ProfileName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--date-time-begin")] string DateTimeBegin,
+[property: CliOption("--date-time-end")] string DateTimeEnd,
+[property: CliOption("--granularity")] string Granularity,
+[property: CliOption("--metrics")] string Metrics,
+[property: CliOption("--profile-name")] string ProfileName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--actions")]
+    [CliOption("--actions")]
     public string? Actions { get; set; }
 
-    [CommandSwitch("--group-by")]
+    [CliOption("--group-by")]
     public string? GroupBy { get; set; }
 
-    [CommandSwitch("--rule-types")]
+    [CliOption("--rule-types")]
     public string? RuleTypes { get; set; }
 }

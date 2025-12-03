@@ -5,33 +5,33 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "datascans", "update", "data-quality")]
+[CliCommand("dataplex", "datascans", "update", "data-quality")]
 public record GcloudDataplexDatascansUpdateDataQualityOptions(
-[property: PositionalArgument] string Datascan,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Datascan,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--data-quality-spec-file")]
+    [CliOption("--data-quality-spec-file")]
     public string? DataQualitySpecFile { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--on-demand")]
+    [CliOption("--on-demand")]
     public string? OnDemand { get; set; }
 
-    [CommandSwitch("--schedule")]
+    [CliOption("--schedule")]
     public string? Schedule { get; set; }
 }

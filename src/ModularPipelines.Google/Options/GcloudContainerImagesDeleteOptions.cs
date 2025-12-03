@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "images", "delete")]
+[CliCommand("container", "images", "delete")]
 public record GcloudContainerImagesDeleteOptions(
-[property: PositionalArgument] string ImageName
+[property: CliArgument] string ImageName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--force-delete-tags")]
+    [CliFlag("--force-delete-tags")]
     public bool? ForceDeleteTags { get; set; }
 }

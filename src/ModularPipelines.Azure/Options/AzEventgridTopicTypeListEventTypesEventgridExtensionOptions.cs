@@ -6,5 +6,5 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("eventgrid", "topic-type", "list-event-types", "(eventgrid", "extension)")]
 public record AzEventgridTopicTypeListEventTypesEventgridExtensionOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions;

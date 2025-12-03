@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "policy", "file-size", "update")]
+[CliCommand("repos", "policy", "file-size", "update")]
 public record AzReposPolicyFileSizeUpdateOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--blocking")]
+    [CliFlag("--blocking")]
     public bool? Blocking { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [CommandSwitch("--maximum-git-blob-size")]
+    [CliOption("--maximum-git-blob-size")]
     public string? MaximumGitBlobSize { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [CommandSwitch("--repository-id")]
+    [CliOption("--repository-id")]
     public string? RepositoryId { get; set; }
 
-    [BooleanCommandSwitch("--use-uncompressed-size")]
+    [CliFlag("--use-uncompressed-size")]
     public bool? UseUncompressedSize { get; set; }
 }

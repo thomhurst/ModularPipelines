@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "sql", "role", "assignment", "create")]
+[CliCommand("cosmosdb", "sql", "role", "assignment", "create")]
 public record AzCosmosdbSqlRoleAssignmentCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--principal-id")] string PrincipalId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--scope")] string Scope
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--principal-id")] string PrincipalId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--scope")] string Scope
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--role-assignment-id")]
+    [CliOption("--role-assignment-id")]
     public string? RoleAssignmentId { get; set; }
 
-    [CommandSwitch("--role-definition-id")]
+    [CliOption("--role-definition-id")]
     public string? RoleDefinitionId { get; set; }
 
-    [CommandSwitch("--role-definition-name")]
+    [CliOption("--role-definition-name")]
     public string? RoleDefinitionName { get; set; }
 }

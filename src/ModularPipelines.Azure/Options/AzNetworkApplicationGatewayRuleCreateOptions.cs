@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "rule", "create")]
+[CliCommand("network", "application-gateway", "rule", "create")]
 public record AzNetworkApplicationGatewayRuleCreateOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--address-pool")]
+    [CliOption("--address-pool")]
     public string? AddressPool { get; set; }
 
-    [CommandSwitch("--http-listener")]
+    [CliOption("--http-listener")]
     public string? HttpListener { get; set; }
 
-    [CommandSwitch("--http-settings")]
+    [CliOption("--http-settings")]
     public string? HttpSettings { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public string? Priority { get; set; }
 
-    [CommandSwitch("--redirect-config")]
+    [CliOption("--redirect-config")]
     public string? RedirectConfig { get; set; }
 
-    [CommandSwitch("--rewrite-rule-set")]
+    [CliOption("--rewrite-rule-set")]
     public string? RewriteRuleSet { get; set; }
 
-    [CommandSwitch("--rule-type")]
+    [CliOption("--rule-type")]
     public string? RuleType { get; set; }
 
-    [CommandSwitch("--url-path-map")]
+    [CliOption("--url-path-map")]
     public string? UrlPathMap { get; set; }
 }

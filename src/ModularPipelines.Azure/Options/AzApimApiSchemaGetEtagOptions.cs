@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "api", "schema", "get-etag")]
+[CliCommand("apim", "api", "schema", "get-etag")]
 public record AzApimApiSchemaGetEtagOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--schema-id")] string SchemaId,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--schema-id")] string SchemaId,
+[property: CliOption("--service-name")] string ServiceName
 ) : AzOptions;

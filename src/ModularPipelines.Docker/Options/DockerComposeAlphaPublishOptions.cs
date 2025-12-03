@@ -3,16 +3,16 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "alpha", "publish")]
+[CliCommand("compose", "alpha", "publish")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeAlphaPublishOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Repository { get; set; }
 
-    [CommandSwitch("--oci-version")]
+    [CliOption("--oci-version")]
     public virtual string? OciVersion { get; set; }
 
-    [CommandSwitch("--resolve-image-digests")]
+    [CliOption("--resolve-image-digests")]
     public virtual string? ResolveImageDigests { get; set; }
 }

@@ -5,56 +5,56 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "build")]
+[CliCommand("acr", "build")]
 public record AzAcrBuildOptions(
-[property: CommandSwitch("--registry")] string Registry
+[property: CliOption("--registry")] string Registry
 ) : AzOptions
 {
-    [CommandSwitch("--agent-pool")]
+    [CliOption("--agent-pool")]
     public string? AgentPool { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--build-arg")]
+    [CliOption("--build-arg")]
     public IEnumerable<KeyValue>? BuildArg { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--log-template")]
+    [CliOption("--log-template")]
     public string? LogTemplate { get; set; }
 
-    [BooleanCommandSwitch("--no-format")]
+    [CliFlag("--no-format")]
     public bool? NoFormat { get; set; }
 
-    [BooleanCommandSwitch("--no-logs")]
+    [CliFlag("--no-logs")]
     public bool? NoLogs { get; set; }
 
-    [BooleanCommandSwitch("--no-push")]
+    [CliFlag("--no-push")]
     public bool? NoPush { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public string? Platform { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--secret-build-arg")]
+    [CliOption("--secret-build-arg")]
     public string? SecretBuildArg { get; set; }
 
-    [CommandSwitch("--target")]
+    [CliOption("--target")]
     public string? Target { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? SOURCELOCATION { get; set; }
 }

@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "midb", "log-replay", "start")]
+[CliCommand("sql", "midb", "log-replay", "start")]
 public record AzSqlMidbLogReplayStartOptions(
-[property: CommandSwitch("--ss")] string Ss,
-[property: CommandSwitch("--storage-uri")] string StorageUri
+[property: CliOption("--ss")] string Ss,
+[property: CliOption("--storage-uri")] string StorageUri
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--auto-complete")]
+    [CliFlag("--auto-complete")]
     public bool? AutoComplete { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--last-backup-name")]
+    [CliOption("--last-backup-name")]
     public string? LastBackupName { get; set; }
 
-    [CommandSwitch("--managed-instance")]
+    [CliOption("--managed-instance")]
     public string? ManagedInstance { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--si")]
+    [CliOption("--si")]
     public string? Si { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

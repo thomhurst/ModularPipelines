@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "clusters", "resize")]
+[CliCommand("container", "clusters", "resize")]
 public record GcloudContainerClustersResizeOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--num-nodes")] string NumNodes,
-[property: CommandSwitch("--size")] string Size
+[property: CliArgument] string Name,
+[property: CliOption("--num-nodes")] string NumNodes,
+[property: CliOption("--size")] string Size
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--node-pool")]
+    [CliOption("--node-pool")]
     public string? NodePool { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

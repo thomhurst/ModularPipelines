@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("context", "use")]
+[CliCommand("context", "use")]
 [ExcludeFromCodeCoverage]
 public record DockerContextUseOptions : DockerOptions
 {

@@ -5,59 +5,59 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "active-directories", "update")]
+[CliCommand("netapp", "active-directories", "update")]
 public record GcloudNetappActiveDirectoriesUpdateOptions(
-[property: PositionalArgument] string ActiveDirectory,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--dns")] string Dns,
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--net-bios-prefix")] string NetBiosPrefix,
-[property: CommandSwitch("--password")] string Password,
-[property: CommandSwitch("--username")] string Username
+[property: CliArgument] string ActiveDirectory,
+[property: CliArgument] string Location,
+[property: CliOption("--dns")] string Dns,
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--net-bios-prefix")] string NetBiosPrefix,
+[property: CliOption("--password")] string Password,
+[property: CliOption("--username")] string Username
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--backup-operators")]
+    [CliOption("--backup-operators")]
     public string[]? BackupOperators { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--enable-aes")]
+    [CliOption("--enable-aes")]
     public string? EnableAes { get; set; }
 
-    [CommandSwitch("--enable-ldap-signing")]
+    [CliOption("--enable-ldap-signing")]
     public string? EnableLdapSigning { get; set; }
 
-    [CommandSwitch("--encrypt-dc-connections")]
+    [CliOption("--encrypt-dc-connections")]
     public string? EncryptDcConnections { get; set; }
 
-    [CommandSwitch("--kdc-hostname")]
+    [CliOption("--kdc-hostname")]
     public string? KdcHostname { get; set; }
 
-    [CommandSwitch("--kdc-ip")]
+    [CliOption("--kdc-ip")]
     public string? KdcIp { get; set; }
 
-    [CommandSwitch("--nfs-users-with-ldap")]
+    [CliOption("--nfs-users-with-ldap")]
     public string? NfsUsersWithLdap { get; set; }
 
-    [CommandSwitch("--organizational-unit")]
+    [CliOption("--organizational-unit")]
     public string? OrganizationalUnit { get; set; }
 
-    [CommandSwitch("--security-operators")]
+    [CliOption("--security-operators")]
     public string[]? SecurityOperators { get; set; }
 
-    [CommandSwitch("--site")]
+    [CliOption("--site")]
     public string? Site { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 }

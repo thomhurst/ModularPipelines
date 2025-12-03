@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ssm", "get-service-setting")]
+[CliCommand("ssm", "get-service-setting")]
 public record AwsSsmGetServiceSettingOptions(
-[property: CommandSwitch("--setting-id")] string SettingId
+[property: CliOption("--setting-id")] string SettingId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

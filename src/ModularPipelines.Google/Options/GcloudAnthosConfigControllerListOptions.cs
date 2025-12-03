@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("anthos", "config", "controller", "list")]
+[CliCommand("anthos", "config", "controller", "list")]
 public record GcloudAnthosConfigControllerListOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--full-name")]
+    [CliFlag("--full-name")]
     public bool? FullName { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

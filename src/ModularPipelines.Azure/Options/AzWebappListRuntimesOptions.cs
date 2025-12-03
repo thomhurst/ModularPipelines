@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "list-runtimes")]
+[CliCommand("webapp", "list-runtimes")]
 public record AzWebappListRuntimesOptions : AzOptions
 {
-    [CommandSwitch("--os")]
+    [CliOption("--os")]
     public string? Os { get; set; }
 }

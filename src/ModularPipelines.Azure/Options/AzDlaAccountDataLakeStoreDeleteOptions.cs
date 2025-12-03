@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dla", "account", "data-lake-store", "delete")]
+[CliCommand("dla", "account", "data-lake-store", "delete")]
 public record AzDlaAccountDataLakeStoreDeleteOptions(
-[property: CommandSwitch("--data-lake-store-account-name")] int DataLakeStoreAccountName
+[property: CliOption("--data-lake-store-account-name")] int DataLakeStoreAccountName
 ) : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

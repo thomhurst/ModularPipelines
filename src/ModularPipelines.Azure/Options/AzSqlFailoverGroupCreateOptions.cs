@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "failover-group", "create")]
+[CliCommand("sql", "failover-group", "create")]
 public record AzSqlFailoverGroupCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--partner-server")] string PartnerServer,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--server")] string Server
+[property: CliOption("--name")] string Name,
+[property: CliOption("--partner-server")] string PartnerServer,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--server")] string Server
 ) : AzOptions
 {
-    [CommandSwitch("--add-db")]
+    [CliOption("--add-db")]
     public string? AddDb { get; set; }
 
-    [CommandSwitch("--failover-policy")]
+    [CliOption("--failover-policy")]
     public string? FailoverPolicy { get; set; }
 
-    [CommandSwitch("--grace-period")]
+    [CliOption("--grace-period")]
     public string? GracePeriod { get; set; }
 
-    [CommandSwitch("--partner-resource-group")]
+    [CliOption("--partner-resource-group")]
     public string? PartnerResourceGroup { get; set; }
 }

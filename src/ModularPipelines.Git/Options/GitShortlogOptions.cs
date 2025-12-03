@@ -3,196 +3,196 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("shortlog")]
+[CliCommand("shortlog")]
 [ExcludeFromCodeCoverage]
 public record GitShortlogOptions : GitOptions
 {
-    [BooleanCommandSwitch("--numbered")]
+    [CliFlag("--numbered")]
     public virtual bool? Numbered { get; set; }
 
-    [BooleanCommandSwitch("--summary")]
+    [CliFlag("--summary")]
     public virtual bool? Summary { get; set; }
 
-    [BooleanCommandSwitch("--email")]
+    [CliFlag("--email")]
     public virtual bool? Email { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--format")]
+    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--date")]
+    [CliOption("--date", Format = OptionFormat.EqualsSeparated)]
     public string? Date { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--group")]
+    [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
     public string? Group { get; set; }
 
-    [BooleanCommandSwitch("--c")]
+    [CliFlag("--c")]
     public virtual bool? C { get; set; }
 
-    [BooleanCommandSwitch("--committer")]
+    [CliFlag("--committer")]
     public virtual bool? Committer { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--max-count")]
+    [CliOption("--max-count", Format = OptionFormat.EqualsSeparated)]
     public string? MaxCount { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--skip")]
+    [CliOption("--skip", Format = OptionFormat.EqualsSeparated)]
     public string? Skip { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--since")]
+    [CliOption("--since", Format = OptionFormat.EqualsSeparated)]
     public string? Since { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--after")]
+    [CliOption("--after", Format = OptionFormat.EqualsSeparated)]
     public string? After { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--since-as-filter")]
+    [CliOption("--since-as-filter", Format = OptionFormat.EqualsSeparated)]
     public string? SinceAsFilter { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--until")]
+    [CliOption("--until", Format = OptionFormat.EqualsSeparated)]
     public string? Until { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--before")]
+    [CliOption("--before", Format = OptionFormat.EqualsSeparated)]
     public string? Before { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--author")]
+    [CliOption("--author", Format = OptionFormat.EqualsSeparated)]
     public string? Author { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--grep-reflog")]
+    [CliOption("--grep-reflog", Format = OptionFormat.EqualsSeparated)]
     public string? GrepReflog { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--grep")]
+    [CliOption("--grep", Format = OptionFormat.EqualsSeparated)]
     public string? Grep { get; set; }
 
-    [BooleanCommandSwitch("--all-match")]
+    [CliFlag("--all-match")]
     public virtual bool? AllMatch { get; set; }
 
-    [BooleanCommandSwitch("--invert-grep")]
+    [CliFlag("--invert-grep")]
     public virtual bool? InvertGrep { get; set; }
 
-    [BooleanCommandSwitch("--regexp-ignore-case")]
+    [CliFlag("--regexp-ignore-case")]
     public virtual bool? RegexpIgnoreCase { get; set; }
 
-    [BooleanCommandSwitch("--basic-regexp")]
+    [CliFlag("--basic-regexp")]
     public virtual bool? BasicRegexp { get; set; }
 
-    [BooleanCommandSwitch("--extended-regexp")]
+    [CliFlag("--extended-regexp")]
     public virtual bool? ExtendedRegexp { get; set; }
 
-    [BooleanCommandSwitch("--fixed-strings")]
+    [CliFlag("--fixed-strings")]
     public virtual bool? FixedStrings { get; set; }
 
-    [BooleanCommandSwitch("--perl-regexp")]
+    [CliFlag("--perl-regexp")]
     public virtual bool? PerlRegexp { get; set; }
 
-    [BooleanCommandSwitch("--remove-empty")]
+    [CliFlag("--remove-empty")]
     public virtual bool? RemoveEmpty { get; set; }
 
-    [BooleanCommandSwitch("--merges")]
+    [CliFlag("--merges")]
     public virtual bool? Merges { get; set; }
 
-    [BooleanCommandSwitch("--no-merges")]
+    [CliFlag("--no-merges")]
     public virtual bool? NoMerges { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--min-parents")]
+    [CliOption("--min-parents", Format = OptionFormat.EqualsSeparated)]
     public string? MinParents { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--max-parents")]
+    [CliOption("--max-parents", Format = OptionFormat.EqualsSeparated)]
     public string? MaxParents { get; set; }
 
-    [BooleanCommandSwitch("--no-min-parents")]
+    [CliFlag("--no-min-parents")]
     public virtual bool? NoMinParents { get; set; }
 
-    [BooleanCommandSwitch("--no-max-parents")]
+    [CliFlag("--no-max-parents")]
     public virtual bool? NoMaxParents { get; set; }
 
-    [BooleanCommandSwitch("--first-parent")]
+    [CliFlag("--first-parent")]
     public virtual bool? FirstParent { get; set; }
 
-    [BooleanCommandSwitch("--exclude-first-parent-only")]
+    [CliFlag("--exclude-first-parent-only")]
     public virtual bool? ExcludeFirstParentOnly { get; set; }
 
-    [BooleanCommandSwitch("--not")]
+    [CliFlag("--not")]
     public virtual bool? Not { get; set; }
 
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--branches")]
+    [CliOption("--branches", Format = OptionFormat.EqualsSeparated)]
     public string? Branches { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--tags")]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public string? Tags { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--remotes")]
+    [CliOption("--remotes", Format = OptionFormat.EqualsSeparated)]
     public string? Remotes { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--glob")]
+    [CliOption("--glob", Format = OptionFormat.EqualsSeparated)]
     public string? Glob { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--exclude")]
+    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
     public string? Exclude { get; set; }
 
-    [BooleanCommandSwitch("--exclude-hidden")]
+    [CliFlag("--exclude-hidden")]
     public virtual bool? ExcludeHidden { get; set; }
 
-    [BooleanCommandSwitch("--reflog")]
+    [CliFlag("--reflog")]
     public virtual bool? Reflog { get; set; }
 
-    [BooleanCommandSwitch("--alternate-refs")]
+    [CliFlag("--alternate-refs")]
     public virtual bool? AlternateRefs { get; set; }
 
-    [BooleanCommandSwitch("--single-worktree")]
+    [CliFlag("--single-worktree")]
     public virtual bool? SingleWorktree { get; set; }
 
-    [BooleanCommandSwitch("--ignore-missing")]
+    [CliFlag("--ignore-missing")]
     public virtual bool? IgnoreMissing { get; set; }
 
-    [BooleanCommandSwitch("--bisect")]
+    [CliFlag("--bisect")]
     public virtual bool? Bisect { get; set; }
 
-    [BooleanCommandSwitch("--stdin")]
+    [CliFlag("--stdin")]
     public virtual bool? Stdin { get; set; }
 
-    [BooleanCommandSwitch("--cherry-mark")]
+    [CliFlag("--cherry-mark")]
     public virtual bool? CherryMark { get; set; }
 
-    [BooleanCommandSwitch("--cherry-pick")]
+    [CliFlag("--cherry-pick")]
     public virtual bool? CherryPick { get; set; }
 
-    [BooleanCommandSwitch("--left-only")]
+    [CliFlag("--left-only")]
     public virtual bool? LeftOnly { get; set; }
 
-    [BooleanCommandSwitch("--right-only")]
+    [CliFlag("--right-only")]
     public virtual bool? RightOnly { get; set; }
 
-    [BooleanCommandSwitch("--cherry")]
+    [CliFlag("--cherry")]
     public virtual bool? Cherry { get; set; }
 
-    [BooleanCommandSwitch("--walk-reflogs")]
+    [CliFlag("--walk-reflogs")]
     public virtual bool? WalkReflogs { get; set; }
 
-    [BooleanCommandSwitch("--merge")]
+    [CliFlag("--merge")]
     public virtual bool? Merge { get; set; }
 
-    [BooleanCommandSwitch("--boundary")]
+    [CliFlag("--boundary")]
     public virtual bool? Boundary { get; set; }
 
-    [BooleanCommandSwitch("--simplify-by-decoration")]
+    [CliFlag("--simplify-by-decoration")]
     public virtual bool? SimplifyByDecoration { get; set; }
 
-    [BooleanCommandSwitch("--show-pulls")]
+    [CliFlag("--show-pulls")]
     public virtual bool? ShowPulls { get; set; }
 
-    [BooleanCommandSwitch("--full-history")]
+    [CliFlag("--full-history")]
     public virtual bool? FullHistory { get; set; }
 
-    [BooleanCommandSwitch("--dense")]
+    [CliFlag("--dense")]
     public virtual bool? Dense { get; set; }
 
-    [BooleanCommandSwitch("--sparse")]
+    [CliFlag("--sparse")]
     public virtual bool? Sparse { get; set; }
 
-    [BooleanCommandSwitch("--simplify-merges")]
+    [CliFlag("--simplify-merges")]
     public virtual bool? SimplifyMerges { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--ancestry-path")]
+    [CliOption("--ancestry-path", Format = OptionFormat.EqualsSeparated)]
     public string? AncestryPath { get; set; }
 }

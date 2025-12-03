@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "private-connections", "delete")]
+[CliCommand("vmware", "private-connections", "delete")]
 public record GcloudVmwarePrivateConnectionsDeleteOptions(
-[property: PositionalArgument] string PrivateConnection,
-[property: PositionalArgument] string Location
+[property: CliArgument] string PrivateConnection,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

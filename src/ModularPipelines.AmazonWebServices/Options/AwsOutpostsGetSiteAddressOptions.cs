@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("outposts", "get-site-address")]
+[CliCommand("outposts", "get-site-address")]
 public record AwsOutpostsGetSiteAddressOptions(
-[property: CommandSwitch("--site-id")] string SiteId,
-[property: CommandSwitch("--address-type")] string AddressType
+[property: CliOption("--site-id")] string SiteId,
+[property: CliOption("--address-type")] string AddressType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

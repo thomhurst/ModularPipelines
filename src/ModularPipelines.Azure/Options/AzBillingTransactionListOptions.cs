@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "transaction", "list")]
+[CliCommand("billing", "transaction", "list")]
 public record AzBillingTransactionListOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--invoice-name")] string InvoiceName
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--invoice-name")] string InvoiceName
 ) : AzOptions;

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("database-migration", "conversion-workspaces", "seed")]
+[CliCommand("database-migration", "conversion-workspaces", "seed")]
 public record GcloudDatabaseMigrationConversionWorkspacesSeedOptions(
-[property: PositionalArgument] string ConversionWorkspace,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--destination-connection-profile")] string DestinationConnectionProfile,
-[property: CommandSwitch("--source-connection-profile")] string SourceConnectionProfile
+[property: CliArgument] string ConversionWorkspace,
+[property: CliArgument] string Region,
+[property: CliOption("--destination-connection-profile")] string DestinationConnectionProfile,
+[property: CliOption("--source-connection-profile")] string SourceConnectionProfile
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--no-async")]
+    [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
 
-    [BooleanCommandSwitch("--auto-commit")]
+    [CliFlag("--auto-commit")]
     public bool? AutoCommit { get; set; }
 }

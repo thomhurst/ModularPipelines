@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "partner", "namespace", "channel", "list")]
+[CliCommand("eventgrid", "partner", "namespace", "channel", "list")]
 public record AzEventgridPartnerNamespaceChannelListOptions(
-[property: CommandSwitch("--partner-namespace-name")] string PartnerNamespaceName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--partner-namespace-name")] string PartnerNamespaceName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--odata-query")]
+    [CliOption("--odata-query")]
     public string? OdataQuery { get; set; }
 }

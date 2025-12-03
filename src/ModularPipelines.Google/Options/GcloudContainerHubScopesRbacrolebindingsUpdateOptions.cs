@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "hub", "scopes", "rbacrolebindings", "update")]
+[CliCommand("container", "hub", "scopes", "rbacrolebindings", "update")]
 public record GcloudContainerHubScopesRbacrolebindingsUpdateOptions(
-[property: PositionalArgument] string Name,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Scope
+[property: CliArgument] string Name,
+[property: CliArgument] string Location,
+[property: CliArgument] string Scope
 ) : GcloudOptions
 {
-    [CommandSwitch("--role")]
+    [CliOption("--role")]
     public string? Role { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 
-    [CommandSwitch("--group")]
+    [CliOption("--group")]
     public string? Group { get; set; }
 
-    [CommandSwitch("--user")]
+    [CliOption("--user")]
     public string? User { get; set; }
 }

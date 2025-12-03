@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("source", "add")]
+[CliCommand("source", "add")]
 public record SourceAddOptions : ChocoOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public virtual string? Name { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public virtual string? Source { get; set; }
 
-    [CommandSwitch("--user")]
+    [CliOption("--user")]
     public virtual string? User { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public virtual string? Password { get; set; }
 
-    [CommandSwitch("--cert")]
+    [CliOption("--cert")]
     public virtual string? Cert { get; set; }
 
-    [CommandSwitch("--certpassword")]
+    [CliOption("--certpassword")]
     public virtual string? Certpassword { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public virtual string? Priority { get; set; }
 
-    [BooleanCommandSwitch("--bypass-proxy")]
+    [CliFlag("--bypass-proxy")]
     public virtual bool? BypassProxy { get; set; }
 
-    [BooleanCommandSwitch("--allow-self-service")]
+    [CliFlag("--allow-self-service")]
     public virtual bool? AllowSelfService { get; set; }
 
-    [BooleanCommandSwitch("--admin-only")]
+    [CliFlag("--admin-only")]
     public virtual bool? AdminOnly { get; set; }
 }

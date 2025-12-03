@@ -3,19 +3,19 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("bugreport")]
+[CliCommand("bugreport")]
 [ExcludeFromCodeCoverage]
 public record GitBugreportOptions : GitOptions
 {
-    [CommandEqualsSeparatorSwitch("--output-directory")]
+    [CliOption("--output-directory", Format = OptionFormat.EqualsSeparated)]
     public string? OutputDirectory { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--suffix")]
+    [CliOption("--suffix", Format = OptionFormat.EqualsSeparated)]
     public string? Suffix { get; set; }
 
-    [BooleanCommandSwitch("--no-diagnose")]
+    [CliFlag("--no-diagnose")]
     public virtual bool? NoDiagnose { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--diagnose")]
+    [CliOption("--diagnose", Format = OptionFormat.EqualsSeparated)]
     public string? Diagnose { get; set; }
 }

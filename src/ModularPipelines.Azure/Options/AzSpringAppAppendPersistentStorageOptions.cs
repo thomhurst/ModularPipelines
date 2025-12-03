@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spring", "app", "append-persistent-storage")]
+[CliCommand("spring", "app", "append-persistent-storage")]
 public record AzSpringAppAppendPersistentStorageOptions(
-[property: CommandSwitch("--mount-path")] string MountPath,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--persistent-storage-type")] string PersistentStorageType,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service,
-[property: CommandSwitch("--storage-name")] string StorageName
+[property: CliOption("--mount-path")] string MountPath,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--persistent-storage-type")] string PersistentStorageType,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service,
+[property: CliOption("--storage-name")] string StorageName
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--enable-sub-path")]
+    [CliFlag("--enable-sub-path")]
     public bool? EnableSubPath { get; set; }
 
-    [CommandSwitch("--mount-options")]
+    [CliOption("--mount-options")]
     public string? MountOptions { get; set; }
 
-    [BooleanCommandSwitch("--read-only")]
+    [CliFlag("--read-only")]
     public bool? ReadOnly { get; set; }
 
-    [CommandSwitch("--share-name")]
+    [CliOption("--share-name")]
     public string? ShareName { get; set; }
 }

@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("extension", "add")]
+[CliCommand("extension", "add")]
 public record AzExtensionAddOptions : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--pip-extra-index-urls")]
+    [CliOption("--pip-extra-index-urls")]
     public string? PipExtraIndexUrls { get; set; }
 
-    [CommandSwitch("--pip-proxy")]
+    [CliOption("--pip-proxy")]
     public string? PipProxy { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--system")]
+    [CliOption("--system")]
     public string? System { get; set; }
 
-    [CommandSwitch("--upgrade")]
+    [CliOption("--upgrade")]
     public string? Upgrade { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 
-    [CommandSwitch("--yes")]
+    [CliOption("--yes")]
     public bool? Yes { get; set; } = true;
 }

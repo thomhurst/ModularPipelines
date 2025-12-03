@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rds", "modify-current-db-cluster-capacity")]
+[CliCommand("rds", "modify-current-db-cluster-capacity")]
 public record AwsRdsModifyCurrentDbClusterCapacityOptions(
-[property: CommandSwitch("--db-cluster-identifier")] string DbClusterIdentifier
+[property: CliOption("--db-cluster-identifier")] string DbClusterIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--capacity")]
+    [CliOption("--capacity")]
     public int? Capacity { get; set; }
 
-    [CommandSwitch("--seconds-before-timeout")]
+    [CliOption("--seconds-before-timeout")]
     public int? SecondsBeforeTimeout { get; set; }
 
-    [CommandSwitch("--timeout-action")]
+    [CliOption("--timeout-action")]
     public string? TimeoutAction { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

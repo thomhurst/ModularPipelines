@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-security", "tls-inspection-policies", "export")]
+[CliCommand("network-security", "tls-inspection-policies", "export")]
 public record GcloudNetworkSecurityTlsInspectionPoliciesExportOptions(
-[property: PositionalArgument] string TlsInspectionPolicy,
-[property: PositionalArgument] string Location
+[property: CliArgument] string TlsInspectionPolicy,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 }

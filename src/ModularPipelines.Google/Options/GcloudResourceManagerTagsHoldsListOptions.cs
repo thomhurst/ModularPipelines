@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-manager", "tags", "holds", "list")]
+[CliCommand("resource-manager", "tags", "holds", "list")]
 public record GcloudResourceManagerTagsHoldsListOptions(
-[property: PositionalArgument] string Parent
+[property: CliArgument] string Parent
 ) : GcloudOptions
 {
-    [CommandSwitch("--holder")]
+    [CliOption("--holder")]
     public string? Holder { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--origin")]
+    [CliOption("--origin")]
     public string? Origin { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("looker", "instances", "delete")]
+[CliCommand("looker", "instances", "delete")]
 public record GcloudLookerInstancesDeleteOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Instance,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 }

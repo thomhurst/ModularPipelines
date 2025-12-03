@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("postgres", "flexible-server", "db", "create")]
+[CliCommand("postgres", "flexible-server", "db", "create")]
 public record AzPostgresFlexibleServerDbCreateOptions(
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--server-name")] string ServerName
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--server-name")] string ServerName
 ) : AzOptions
 {
-    [CommandSwitch("--charset")]
+    [CliOption("--charset")]
     public string? Charset { get; set; }
 
-    [CommandSwitch("--collation")]
+    [CliOption("--collation")]
     public string? Collation { get; set; }
 
-    [CommandSwitch("--database-name")]
+    [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 }

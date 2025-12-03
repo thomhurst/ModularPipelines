@@ -5,30 +5,30 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("panorama", "create-application-instance")]
+[CliCommand("panorama", "create-application-instance")]
 public record AwsPanoramaCreateApplicationInstanceOptions(
-[property: CommandSwitch("--default-runtime-context-device")] string DefaultRuntimeContextDevice,
-[property: CommandSwitch("--manifest-payload")] string ManifestPayload
+[property: CliOption("--default-runtime-context-device")] string DefaultRuntimeContextDevice,
+[property: CliOption("--manifest-payload")] string ManifestPayload
 ) : AwsOptions
 {
-    [CommandSwitch("--application-instance-id-to-replace")]
+    [CliOption("--application-instance-id-to-replace")]
     public string? ApplicationInstanceIdToReplace { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--manifest-overrides-payload")]
+    [CliOption("--manifest-overrides-payload")]
     public string? ManifestOverridesPayload { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--runtime-role-arn")]
+    [CliOption("--runtime-role-arn")]
     public string? RuntimeRoleArn { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

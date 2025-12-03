@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "invoke-device-method")]
+[CliCommand("iot", "hub", "invoke-device-method")]
 public record AzIotHubInvokeDeviceMethodOptions(
-[property: CommandSwitch("--device-id")] string DeviceId,
-[property: CommandSwitch("--method-name")] string MethodName
+[property: CliOption("--device-id")] string DeviceId,
+[property: CliOption("--method-name")] string MethodName
 ) : AzOptions
 {
-    [CommandSwitch("--auth-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--login")]
+    [CliOption("--login")]
     public string? Login { get; set; }
 
-    [CommandSwitch("--method-payload")]
+    [CliOption("--method-payload")]
     public string? MethodPayload { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 }

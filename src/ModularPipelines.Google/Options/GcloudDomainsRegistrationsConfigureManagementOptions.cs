@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("domains", "registrations", "configure", "management")]
+[CliCommand("domains", "registrations", "configure", "management")]
 public record GcloudDomainsRegistrationsConfigureManagementOptions(
-[property: PositionalArgument] string Registration
+[property: CliArgument] string Registration
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--preferred-renewal-method")]
+    [CliOption("--preferred-renewal-method")]
     public string? PreferredRenewalMethod { get; set; }
 
-    [CommandSwitch("--transfer-lock-state")]
+    [CliOption("--transfer-lock-state")]
     public string? TransferLockState { get; set; }
 }

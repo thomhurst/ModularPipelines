@@ -3,31 +3,31 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("config", "use-context")]
+[CliCommand("config", "use-context")]
 [ExcludeFromCodeCoverage]
-public record KubernetesConfigUseContextOptions([property: PositionalArgument] string ContextName) : KubernetesOptions
+public record KubernetesConfigUseContextOptions([property: CliArgument] string ContextName) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [BooleanCommandSwitch("--flatten")]
+    [CliFlag("--flatten")]
     public virtual bool? Flatten { get; set; }
 
-    [BooleanCommandSwitch("--merge")]
+    [CliFlag("--merge")]
     public virtual bool? Merge { get; set; }
 
-    [BooleanCommandSwitch("--minify")]
+    [CliFlag("--minify")]
     public virtual bool? Minify { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 
-    [BooleanCommandSwitch("--raw")]
+    [CliFlag("--raw")]
     public virtual bool? Raw { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CliOption("--template")]
     public string? Template { get; set; }
 }

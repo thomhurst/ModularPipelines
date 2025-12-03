@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mysql")]
+[CliCommand("mysql")]
 public class AzMysqlDb
 {
     public AzMysqlDb(

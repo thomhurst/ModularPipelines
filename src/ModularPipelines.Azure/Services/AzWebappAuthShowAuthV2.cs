@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "auth", "show")]
+[CliCommand("webapp", "auth", "show")]
 public class AzWebappAuthShowAuthV2
 {
     public AzWebappAuthShowAuthV2(

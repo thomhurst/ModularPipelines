@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "central", "job", "create")]
+[CliCommand("iot", "central", "job", "create")]
 public record AzIotCentralJobCreateOptions(
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--content")] string Content,
-[property: CommandSwitch("--group-id")] string GroupId,
-[property: CommandSwitch("--job-id")] string JobId
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--content")] string Content,
+[property: CliOption("--group-id")] string GroupId,
+[property: CliOption("--job-id")] string JobId
 ) : AzOptions
 {
-    [CommandSwitch("--batch")]
+    [CliOption("--batch")]
     public string? Batch { get; set; }
 
-    [CommandSwitch("--batch-type")]
+    [CliOption("--batch-type")]
     public string? BatchType { get; set; }
 
-    [CommandSwitch("--cancellation-threshold")]
+    [CliOption("--cancellation-threshold")]
     public string? CancellationThreshold { get; set; }
 
-    [CommandSwitch("--cancellation-threshold-batch")]
+    [CliOption("--cancellation-threshold-batch")]
     public string? CancellationThresholdBatch { get; set; }
 
-    [CommandSwitch("--cancellation-threshold-type")]
+    [CliOption("--cancellation-threshold-type")]
     public string? CancellationThresholdType { get; set; }
 
-    [CommandSwitch("--central-api-uri")]
+    [CliOption("--central-api-uri")]
     public string? CentralApiUri { get; set; }
 
-    [CommandSwitch("--desc")]
+    [CliOption("--desc")]
     public string? Desc { get; set; }
 
-    [CommandSwitch("--job-name")]
+    [CliOption("--job-name")]
     public string? JobName { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 }

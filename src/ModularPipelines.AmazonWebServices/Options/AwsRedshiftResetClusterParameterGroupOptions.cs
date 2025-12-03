@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "reset-cluster-parameter-group")]
+[CliCommand("redshift", "reset-cluster-parameter-group")]
 public record AwsRedshiftResetClusterParameterGroupOptions(
-[property: CommandSwitch("--parameter-group-name")] string ParameterGroupName
+[property: CliOption("--parameter-group-name")] string ParameterGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

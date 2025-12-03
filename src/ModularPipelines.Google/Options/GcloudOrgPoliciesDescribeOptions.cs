@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("org-policies", "describe")]
+[CliCommand("org-policies", "describe")]
 public record GcloudOrgPoliciesDescribeOptions : GcloudOptions
 {
     public GcloudOrgPoliciesDescribeOptions(
@@ -20,15 +20,15 @@ public record GcloudOrgPoliciesDescribeOptions : GcloudOptions
         Project = project;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Constraint { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 
-    [BooleanCommandSwitch("--effective")]
+    [CliFlag("--effective")]
     public bool? Effective { get; set; }
 }

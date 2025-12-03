@@ -5,11 +5,11 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "jobs", "update")]
+[CliCommand("dataproc", "jobs", "update")]
 public record GcloudDataprocJobsUpdateOptions(
-[property: PositionalArgument] string Job,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--update-labels")] IEnumerable<KeyValue> UpdateLabels,
-[property: BooleanCommandSwitch("--clear-labels")] bool ClearLabels,
-[property: CommandSwitch("--remove-labels")] string[] RemoveLabels
+[property: CliArgument] string Job,
+[property: CliArgument] string Region,
+[property: CliOption("--update-labels")] IEnumerable<KeyValue> UpdateLabels,
+[property: CliFlag("--clear-labels")] bool ClearLabels,
+[property: CliOption("--remove-labels")] string[] RemoveLabels
 ) : GcloudOptions;

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter", "admin", "attached-network", "create")]
+[CliCommand("devcenter", "admin", "attached-network", "create")]
 public record AzDevcenterAdminAttachedNetworkCreateOptions(
-[property: BooleanCommandSwitch("--attached-network-connection-name")] bool AttachedNetworkConnectionName,
-[property: CommandSwitch("--dev-center")] string DevCenter,
-[property: CommandSwitch("--network-connection-id")] string NetworkConnectionId,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliFlag("--attached-network-connection-name")] bool AttachedNetworkConnectionName,
+[property: CliOption("--dev-center")] string DevCenter,
+[property: CliOption("--network-connection-id")] string NetworkConnectionId,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

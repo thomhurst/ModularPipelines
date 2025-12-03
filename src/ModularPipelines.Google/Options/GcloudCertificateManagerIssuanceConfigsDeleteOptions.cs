@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("certificate-manager", "issuance-configs", "delete")]
+[CliCommand("certificate-manager", "issuance-configs", "delete")]
 public record GcloudCertificateManagerIssuanceConfigsDeleteOptions(
-[property: PositionalArgument] string CertificateIssuanceConfig,
-[property: PositionalArgument] string Location
+[property: CliArgument] string CertificateIssuanceConfig,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

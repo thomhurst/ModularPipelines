@@ -3,49 +3,49 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("create", "docker-registry")]
+[CliCommand("create", "docker-registry")]
 [ExcludeFromCodeCoverage]
-public record KubernetesCreateSecretDockerRegistryOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesCreateSecretDockerRegistryOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--allow-missing-template-keys")]
+    [CliFlag("--allow-missing-template-keys")]
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
-    [BooleanCommandSwitch("--append-hash")]
+    [CliFlag("--append-hash")]
     public virtual bool? AppendHash { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--docker-email", SwitchValueSeparator = " ")]
+    [CliOption("--docker-email")]
     public string? DockerEmail { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--docker-password", SwitchValueSeparator = " ")]
+    [CliOption("--docker-password")]
     public string? DockerPassword { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--docker-server", SwitchValueSeparator = " ")]
+    [CliOption("--docker-server")]
     public string? DockerServer { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--docker-username", SwitchValueSeparator = " ")]
+    [CliOption("--docker-username")]
     public string? DockerUsername { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--dry-run", SwitchValueSeparator = " ")]
+    [CliOption("--dry-run")]
     public string? DryRun { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--field-manager", SwitchValueSeparator = " ")]
+    [CliOption("--field-manager")]
     public string? FieldManager { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--from-file", SwitchValueSeparator = " ")]
+    [CliOption("--from-file")]
     public string[]? FromFile { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 
-    [BooleanCommandSwitch("--save-config")]
+    [CliFlag("--save-config")]
     public virtual bool? SaveConfig { get; set; }
 
-    [BooleanCommandSwitch("--show-managed-fields")]
+    [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--template", SwitchValueSeparator = " ")]
+    [CliOption("--template")]
     public string? Template { get; set; }
 
-    [BooleanCommandSwitch("--validate")]
+    [CliFlag("--validate")]
     public virtual bool? Validate { get; set; }
 }

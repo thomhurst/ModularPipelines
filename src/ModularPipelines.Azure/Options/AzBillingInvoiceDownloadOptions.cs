@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "invoice", "download")]
+[CliCommand("billing", "invoice", "download")]
 public record AzBillingInvoiceDownloadOptions : AzOptions
 {
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--download-token")]
+    [CliOption("--download-token")]
     public string? DownloadToken { get; set; }
 
-    [CommandSwitch("--download-urls")]
+    [CliOption("--download-urls")]
     public string? DownloadUrls { get; set; }
 
-    [CommandSwitch("--invoice-name")]
+    [CliOption("--invoice-name")]
     public string? InvoiceName { get; set; }
 }

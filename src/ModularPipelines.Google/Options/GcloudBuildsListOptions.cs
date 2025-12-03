@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("builds", "list")]
+[CliCommand("builds", "list")]
 public record GcloudBuildsListOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--ongoing")]
+    [CliFlag("--ongoing")]
     public bool? Ongoing { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

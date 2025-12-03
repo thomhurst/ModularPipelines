@@ -5,45 +5,45 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instance-groups", "managed", "instance-configs", "update")]
+[CliCommand("compute", "instance-groups", "managed", "instance-configs", "update")]
 public record GcloudComputeInstanceGroupsManagedInstanceConfigsUpdateOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--instance")] string Instance
+[property: CliArgument] string Name,
+[property: CliOption("--instance")] string Instance
 ) : GcloudOptions
 {
-    [CommandSwitch("--instance-update-minimal-action")]
+    [CliOption("--instance-update-minimal-action")]
     public string? InstanceUpdateMinimalAction { get; set; }
 
-    [CommandSwitch("--remove-stateful-disks")]
+    [CliOption("--remove-stateful-disks")]
     public string[]? RemoveStatefulDisks { get; set; }
 
-    [CommandSwitch("--remove-stateful-external-ips")]
+    [CliOption("--remove-stateful-external-ips")]
     public string[]? RemoveStatefulExternalIps { get; set; }
 
-    [CommandSwitch("--remove-stateful-internal-ips")]
+    [CliOption("--remove-stateful-internal-ips")]
     public string[]? RemoveStatefulInternalIps { get; set; }
 
-    [CommandSwitch("--remove-stateful-metadata")]
+    [CliOption("--remove-stateful-metadata")]
     public string[]? RemoveStatefulMetadata { get; set; }
 
-    [CommandSwitch("--stateful-disk")]
+    [CliOption("--stateful-disk")]
     public string[]? StatefulDisk { get; set; }
 
-    [CommandSwitch("--stateful-external-ip")]
+    [CliOption("--stateful-external-ip")]
     public string[]? StatefulExternalIp { get; set; }
 
-    [CommandSwitch("--stateful-internal-ip")]
+    [CliOption("--stateful-internal-ip")]
     public string[]? StatefulInternalIp { get; set; }
 
-    [CommandSwitch("--stateful-metadata")]
+    [CliOption("--stateful-metadata")]
     public IEnumerable<KeyValue>? StatefulMetadata { get; set; }
 
-    [BooleanCommandSwitch("--update-instance")]
+    [CliFlag("--update-instance")]
     public bool? UpdateInstance { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

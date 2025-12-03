@@ -5,26 +5,26 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("projects", "create")]
+[CliCommand("projects", "create")]
 public record GcloudProjectsCreateOptions(
-[property: PositionalArgument] string ProjectId
+[property: CliArgument] string ProjectId
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--enable-cloud-apis")]
+    [CliFlag("--enable-cloud-apis")]
     public bool? EnableCloudApis { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string? Folder { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 
-    [BooleanCommandSwitch("--set-as-default")]
+    [CliFlag("--set-as-default")]
     public bool? SetAsDefault { get; set; }
 }

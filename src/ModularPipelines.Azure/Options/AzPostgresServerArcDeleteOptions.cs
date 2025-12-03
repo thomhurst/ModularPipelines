@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("postgres", "server-arc", "delete")]
+[CliCommand("postgres", "server-arc", "delete")]
 public record AzPostgresServerArcDeleteOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [CommandSwitch("--k8s-namespace")]
+    [CliOption("--k8s-namespace")]
     public string? K8sNamespace { get; set; }
 
-    [BooleanCommandSwitch("--use-k8s")]
+    [CliFlag("--use-k8s")]
     public bool? UseK8s { get; set; }
 }

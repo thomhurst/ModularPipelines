@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apic", "api", "version", "create")]
+[CliCommand("apic", "api", "version", "create")]
 public record AzApicApiVersionCreateOptions(
-[property: CommandSwitch("--api")] string Api,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--api")] string Api,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service
 ) : AzOptions
 {
-    [CommandSwitch("--lifecycle-stage")]
+    [CliOption("--lifecycle-stage")]
     public string? LifecycleStage { get; set; }
 
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public string? Workspace { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "model", "delete-all")]
+[CliCommand("dt", "model", "delete-all")]
 public record AzDtModelDeleteAllOptions(
-[property: CommandSwitch("--dt-name")] string DtName
+[property: CliOption("--dt-name")] string DtName
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

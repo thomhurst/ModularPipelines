@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "server-arc")]
+[CliCommand("sql", "server-arc")]
 public class AzSqlServerArcAvailabilityGroup
 {
     public AzSqlServerArcAvailabilityGroup(

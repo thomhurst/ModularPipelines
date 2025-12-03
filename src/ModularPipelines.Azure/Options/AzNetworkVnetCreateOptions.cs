@@ -4,60 +4,60 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vnet", "create")]
+[CliCommand("network", "vnet", "create")]
 public record AzNetworkVnetCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--address-prefixes")]
+    [CliOption("--address-prefixes")]
     public string? AddressPrefixes { get; set; }
 
-    [CommandSwitch("--bgp-community")]
+    [CliOption("--bgp-community")]
     public string? BgpCommunity { get; set; }
 
-    [BooleanCommandSwitch("--ddos-protection")]
+    [CliFlag("--ddos-protection")]
     public bool? DdosProtection { get; set; }
 
-    [CommandSwitch("--ddos-protection-plan")]
+    [CliOption("--ddos-protection-plan")]
     public string? DdosProtectionPlan { get; set; }
 
-    [CommandSwitch("--dns-servers")]
+    [CliOption("--dns-servers")]
     public string? DnsServers { get; set; }
 
-    [CommandSwitch("--edge-zone")]
+    [CliOption("--edge-zone")]
     public string? EdgeZone { get; set; }
 
-    [BooleanCommandSwitch("--enable-encryption")]
+    [CliFlag("--enable-encryption")]
     public bool? EnableEncryption { get; set; }
 
-    [CommandSwitch("--encryption-enforcement-policy")]
+    [CliOption("--encryption-enforcement-policy")]
     public string? EncryptionEnforcementPolicy { get; set; }
 
-    [CommandSwitch("--flowtimeout")]
+    [CliOption("--flowtimeout")]
     public string? Flowtimeout { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--network-security-group")]
+    [CliOption("--network-security-group")]
     public string? NetworkSecurityGroup { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--subnet-name")]
+    [CliOption("--subnet-name")]
     public string? SubnetName { get; set; }
 
-    [CommandSwitch("--subnet-prefixes")]
+    [CliOption("--subnet-prefixes")]
     public string? SubnetPrefixes { get; set; }
 
-    [CommandSwitch("--subnets")]
+    [CliOption("--subnets")]
     public string? Subnets { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [BooleanCommandSwitch("--vm-protection")]
+    [CliFlag("--vm-protection")]
     public bool? VmProtection { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource", "link", "delete")]
+[CliCommand("resource", "link", "delete")]
 public record AzResourceLinkDeleteOptions(
-[property: CommandSwitch("--link")] string Link
+[property: CliOption("--link")] string Link
 ) : AzOptions;

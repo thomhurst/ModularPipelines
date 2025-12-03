@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("partnercenter", "marketplace", "offer", "setup", "update")]
+[CliCommand("partnercenter", "marketplace", "offer", "setup", "update")]
 public record AzPartnercenterMarketplaceOfferSetupUpdateOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [BooleanCommandSwitch("--reseller")]
+    [CliFlag("--reseller")]
     public bool? Reseller { get; set; }
 
-    [BooleanCommandSwitch("--sell-through-microsoft")]
+    [CliFlag("--sell-through-microsoft")]
     public bool? SellThroughMicrosoft { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [BooleanCommandSwitch("--test-drive")]
+    [CliFlag("--test-drive")]
     public bool? TestDrive { get; set; }
 
-    [CommandSwitch("--trial-uri")]
+    [CliOption("--trial-uri")]
     public string? TrialUri { get; set; }
 }

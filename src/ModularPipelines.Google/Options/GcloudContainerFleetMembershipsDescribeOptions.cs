@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "memberships", "describe")]
+[CliCommand("container", "fleet", "memberships", "describe")]
 public record GcloudContainerFleetMembershipsDescribeOptions(
-[property: PositionalArgument] string Membership,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Membership,
+[property: CliArgument] string Location
 ) : GcloudOptions;

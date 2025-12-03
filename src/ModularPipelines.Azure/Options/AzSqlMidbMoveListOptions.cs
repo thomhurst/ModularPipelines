@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "midb", "move", "list")]
+[CliCommand("sql", "midb", "move", "list")]
 public record AzSqlMidbMoveListOptions : AzOptions
 {
-    [CommandSwitch("--dest-mi")]
+    [CliOption("--dest-mi")]
     public string? DestMi { get; set; }
 
-    [CommandSwitch("--dest-resource-group")]
+    [CliOption("--dest-resource-group")]
     public string? DestResourceGroup { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--latest")]
+    [CliFlag("--latest")]
     public bool? Latest { get; set; }
 
-    [CommandSwitch("--managed-instance")]
+    [CliOption("--managed-instance")]
     public string? ManagedInstance { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

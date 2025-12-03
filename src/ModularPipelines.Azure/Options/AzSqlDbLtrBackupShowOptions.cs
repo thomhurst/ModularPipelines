@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "db", "ltr-backup", "show")]
+[CliCommand("sql", "db", "ltr-backup", "show")]
 public record AzSqlDbLtrBackupShowOptions(
-[property: CommandSwitch("--database")] string Database,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--server")] string Server
+[property: CliOption("--database")] string Database,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--server")] string Server
 ) : AzOptions;

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "update-rds-db-instance")]
+[CliCommand("opsworks", "update-rds-db-instance")]
 public record AwsOpsworksUpdateRdsDbInstanceOptions(
-[property: CommandSwitch("--rds-db-instance-arn")] string RdsDbInstanceArn
+[property: CliOption("--rds-db-instance-arn")] string RdsDbInstanceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--db-user")]
+    [CliOption("--db-user")]
     public string? DbUser { get; set; }
 
-    [CommandSwitch("--db-password")]
+    [CliOption("--db-password")]
     public string? DbPassword { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

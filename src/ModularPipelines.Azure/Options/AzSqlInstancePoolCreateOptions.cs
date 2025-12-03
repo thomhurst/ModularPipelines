@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "instance-pool", "create")]
+[CliCommand("sql", "instance-pool", "create")]
 public record AzSqlInstancePoolCreateOptions(
-[property: CommandSwitch("--capacity")] string Capacity,
-[property: CommandSwitch("--edition")] string Edition,
-[property: CommandSwitch("--family")] string Family,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--subnet")] string Subnet
+[property: CliOption("--capacity")] string Capacity,
+[property: CliOption("--edition")] string Edition,
+[property: CliOption("--family")] string Family,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--subnet")] string Subnet
 ) : AzOptions
 {
-    [CommandSwitch("--license-type")]
+    [CliOption("--license-type")]
     public string? LicenseType { get; set; }
 
-    [CommandSwitch("--maint-config-id")]
+    [CliOption("--maint-config-id")]
     public string? MaintConfigId { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--vnet-name")]
+    [CliOption("--vnet-name")]
     public string? VnetName { get; set; }
 }

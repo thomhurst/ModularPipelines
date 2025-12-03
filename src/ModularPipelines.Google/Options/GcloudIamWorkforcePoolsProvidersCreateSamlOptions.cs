@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workforce-pools", "providers", "create-saml")]
+[CliCommand("iam", "workforce-pools", "providers", "create-saml")]
 public record GcloudIamWorkforcePoolsProvidersCreateSamlOptions(
-[property: PositionalArgument] string Provider,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string WorkforcePool,
-[property: CommandSwitch("--attribute-mapping")] IEnumerable<KeyValue> AttributeMapping,
-[property: CommandSwitch("--idp-metadata-path")] string IdpMetadataPath
+[property: CliArgument] string Provider,
+[property: CliArgument] string Location,
+[property: CliArgument] string WorkforcePool,
+[property: CliOption("--attribute-mapping")] IEnumerable<KeyValue> AttributeMapping,
+[property: CliOption("--idp-metadata-path")] string IdpMetadataPath
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--attribute-condition")]
+    [CliOption("--attribute-condition")]
     public string? AttributeCondition { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 }

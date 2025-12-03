@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "blob", "sync")]
+[CliCommand("storage", "blob", "sync")]
 public record AzStorageBlobSyncOptions(
-[property: CommandSwitch("--container")] string Container,
-[property: CommandSwitch("--source")] string Source
+[property: CliOption("--container")] string Container,
+[property: CliOption("--source")] string Source
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [BooleanCommandSwitch("--delete-destination")]
+    [CliFlag("--delete-destination")]
     public bool? DeleteDestination { get; set; }
 
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 
-    [CommandSwitch("--exclude-path")]
+    [CliOption("--exclude-path")]
     public string? ExcludePath { get; set; }
 
-    [CommandSwitch("--exclude-pattern")]
+    [CliOption("--exclude-pattern")]
     public string? ExcludePattern { get; set; }
 
-    [CommandSwitch("--include-pattern")]
+    [CliOption("--include-pattern")]
     public string? IncludePattern { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? EXTRAOPTIONS { get; set; }
 }

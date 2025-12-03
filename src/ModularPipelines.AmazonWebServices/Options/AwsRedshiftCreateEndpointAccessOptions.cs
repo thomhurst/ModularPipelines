@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redshift", "create-endpoint-access")]
+[CliCommand("redshift", "create-endpoint-access")]
 public record AwsRedshiftCreateEndpointAccessOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--subnet-group-name")] string SubnetGroupName
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--subnet-group-name")] string SubnetGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--cluster-identifier")]
+    [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; set; }
 
-    [CommandSwitch("--resource-owner")]
+    [CliOption("--resource-owner")]
     public string? ResourceOwner { get; set; }
 
-    [CommandSwitch("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids")]
     public string[]? VpcSecurityGroupIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

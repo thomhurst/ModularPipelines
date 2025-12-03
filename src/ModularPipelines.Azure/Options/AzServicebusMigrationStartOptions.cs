@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicebus", "migration", "start")]
+[CliCommand("servicebus", "migration", "start")]
 public record AzServicebusMigrationStartOptions : AzOptions
 {
-    [CommandSwitch("--config-name")]
+    [CliOption("--config-name")]
     public string? ConfigName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--post-migration-name")]
+    [CliOption("--post-migration-name")]
     public string? PostMigrationName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--target-namespace")]
+    [CliOption("--target-namespace")]
     public string? TargetNamespace { get; set; }
 }

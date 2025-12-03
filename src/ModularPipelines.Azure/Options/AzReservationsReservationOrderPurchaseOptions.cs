@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("reservations", "reservation-order", "purchase")]
+[CliCommand("reservations", "reservation-order", "purchase")]
 public record AzReservationsReservationOrderPurchaseOptions(
-[property: CommandSwitch("--reservation-order-id")] string ReservationOrderId
+[property: CliOption("--reservation-order-id")] string ReservationOrderId
 ) : AzOptions
 {
-    [CommandSwitch("--applied-scope")]
+    [CliOption("--applied-scope")]
     public string? AppliedScope { get; set; }
 
-    [CommandSwitch("--applied-scope-property")]
+    [CliOption("--applied-scope-property")]
     public string? AppliedScopeProperty { get; set; }
 
-    [CommandSwitch("--applied-scope-type")]
+    [CliOption("--applied-scope-type")]
     public string? AppliedScopeType { get; set; }
 
-    [CommandSwitch("--billing-plan")]
+    [CliOption("--billing-plan")]
     public string? BillingPlan { get; set; }
 
-    [CommandSwitch("--billing-scope")]
+    [CliOption("--billing-scope")]
     public string? BillingScope { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--instance-flexibility")]
+    [CliOption("--instance-flexibility")]
     public string? InstanceFlexibility { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--quantity")]
+    [CliOption("--quantity")]
     public string? Quantity { get; set; }
 
-    [BooleanCommandSwitch("--renew")]
+    [CliFlag("--renew")]
     public bool? Renew { get; set; }
 
-    [CommandSwitch("--reserved-resource-type")]
+    [CliOption("--reserved-resource-type")]
     public string? ReservedResourceType { get; set; }
 
-    [CommandSwitch("--review-date-time")]
+    [CliOption("--review-date-time")]
     public string? ReviewDateTime { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--term")]
+    [CliOption("--term")]
     public string? Term { get; set; }
 }

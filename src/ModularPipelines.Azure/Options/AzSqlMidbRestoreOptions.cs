@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "midb", "restore")]
+[CliCommand("sql", "midb", "restore")]
 public record AzSqlMidbRestoreOptions(
-[property: CommandSwitch("--dest-name")] string DestName,
-[property: CommandSwitch("--time")] string Time
+[property: CliOption("--dest-name")] string DestName,
+[property: CliOption("--time")] string Time
 ) : AzOptions
 {
-    [CommandSwitch("--deleted-time")]
+    [CliOption("--deleted-time")]
     public string? DeletedTime { get; set; }
 
-    [CommandSwitch("--dest-mi")]
+    [CliOption("--dest-mi")]
     public string? DestMi { get; set; }
 
-    [CommandSwitch("--dest-resource-group")]
+    [CliOption("--dest-resource-group")]
     public string? DestResourceGroup { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--managed-instance")]
+    [CliOption("--managed-instance")]
     public string? ManagedInstance { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--source-sub")]
+    [CliOption("--source-sub")]
     public string? SourceSub { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

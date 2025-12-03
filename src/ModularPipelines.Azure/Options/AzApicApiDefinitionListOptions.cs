@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apic", "api", "definition", "list")]
+[CliCommand("apic", "api", "definition", "list")]
 public record AzApicApiDefinitionListOptions(
-[property: CommandSwitch("--api")] string Api,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service")] string Service,
-[property: CommandSwitch("--version")] string Version
+[property: CliOption("--api")] string Api,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service")] string Service,
+[property: CliOption("--version")] string Version
 ) : AzOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public string? Workspace { get; set; }
 }

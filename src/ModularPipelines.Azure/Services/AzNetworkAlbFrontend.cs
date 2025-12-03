@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "alb")]
+[CliCommand("network", "alb")]
 public class AzNetworkAlbFrontend
 {
     public AzNetworkAlbFrontend(

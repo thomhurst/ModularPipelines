@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("services", "vpc-peerings", "update")]
+[CliCommand("services", "vpc-peerings", "update")]
 public record GcloudServicesVpcPeeringsUpdateOptions(
-[property: CommandSwitch("--network")] string Network
+[property: CliOption("--network")] string Network
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 
-    [CommandSwitch("--ranges")]
+    [CliOption("--ranges")]
     public string? Ranges { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 }

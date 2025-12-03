@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "print-settings", "npm")]
+[CliCommand("artifacts", "print-settings", "npm")]
 public record GcloudArtifactsPrintSettingsNpmOptions : GcloudOptions
 {
-    [CommandSwitch("--json-key")]
+    [CliOption("--json-key")]
     public string? JsonKey { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public string? Scope { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--repository")]
+    [CliOption("--repository")]
     public string? Repository { get; set; }
 }

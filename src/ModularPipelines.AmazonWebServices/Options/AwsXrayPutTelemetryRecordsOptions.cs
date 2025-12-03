@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("xray", "put-telemetry-records")]
+[CliCommand("xray", "put-telemetry-records")]
 public record AwsXrayPutTelemetryRecordsOptions(
-[property: CommandSwitch("--telemetry-records")] string[] TelemetryRecords
+[property: CliOption("--telemetry-records")] string[] TelemetryRecords
 ) : AwsOptions
 {
-    [CommandSwitch("--ec2-instance-id")]
+    [CliOption("--ec2-instance-id")]
     public string? Ec2InstanceId { get; set; }
 
-    [CommandSwitch("--hostname")]
+    [CliOption("--hostname")]
     public string? Hostname { get; set; }
 
-    [CommandSwitch("--resource-arn")]
+    [CliOption("--resource-arn")]
     public string? ResourceArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

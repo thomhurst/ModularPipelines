@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("policy", "set-definition", "list")]
+[CliCommand("policy", "set-definition", "list")]
 public record AzPolicySetDefinitionListOptions : AzOptions
 {
-    [CommandSwitch("--management-group")]
+    [CliOption("--management-group")]
     public string? ManagementGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

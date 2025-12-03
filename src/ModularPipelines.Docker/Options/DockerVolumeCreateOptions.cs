@@ -3,52 +3,52 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("volume", "create")]
+[CliCommand("volume", "create")]
 [ExcludeFromCodeCoverage]
 public record DockerVolumeCreateOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Volume { get; set; }
 
-    [CommandSwitch("--availability")]
+    [CliOption("--availability")]
     public virtual string? Availability { get; set; }
 
-    [CommandSwitch("--driver")]
+    [CliOption("--driver")]
     public virtual string? Driver { get; set; }
 
-    [CommandSwitch("--group")]
+    [CliOption("--group")]
     public virtual string? Group { get; set; }
 
-    [CommandSwitch("--label")]
+    [CliOption("--label")]
     public virtual string? Label { get; set; }
 
-    [CommandSwitch("--limit-bytes")]
+    [CliOption("--limit-bytes")]
     public virtual string? LimitBytes { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public virtual string? Name { get; set; }
 
-    [CommandSwitch("--opt")]
+    [CliOption("--opt")]
     public virtual string? Opt { get; set; }
 
-    [CommandSwitch("--required-bytes")]
+    [CliOption("--required-bytes")]
     public virtual string? RequiredBytes { get; set; }
 
-    [CommandSwitch("--scope")]
+    [CliOption("--scope")]
     public virtual string? Scope { get; set; }
 
-    [CommandSwitch("--secret")]
+    [CliOption("--secret")]
     public virtual string? Secret { get; set; }
 
-    [CommandSwitch("--sharing")]
+    [CliOption("--sharing")]
     public virtual string? Sharing { get; set; }
 
-    [CommandSwitch("--topology-preferred")]
+    [CliOption("--topology-preferred")]
     public virtual string? TopologyPreferred { get; set; }
 
-    [CommandSwitch("--topology-required")]
+    [CliOption("--topology-required")]
     public virtual string? TopologyRequired { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public virtual string? Type { get; set; }
 }

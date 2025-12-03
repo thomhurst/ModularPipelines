@@ -3,79 +3,79 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("submodule")]
+[CliCommand("submodule")]
 [ExcludeFromCodeCoverage]
 public record GitSubmoduleOptions : GitOptions
 {
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--progress")]
+    [CliFlag("--progress")]
     public virtual bool? Progress { get; set; }
 
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--branch")]
+    [CliOption("--branch", Format = OptionFormat.EqualsSeparated)]
     public string? Branch { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [BooleanCommandSwitch("--cached")]
+    [CliFlag("--cached")]
     public virtual bool? Cached { get; set; }
 
-    [BooleanCommandSwitch("--files")]
+    [CliFlag("--files")]
     public virtual bool? Files { get; set; }
 
-    [BooleanCommandSwitch("--summary-limit")]
+    [CliFlag("--summary-limit")]
     public virtual bool? SummaryLimit { get; set; }
 
-    [BooleanCommandSwitch("--remote")]
+    [CliFlag("--remote")]
     public virtual bool? Remote { get; set; }
 
-    [BooleanCommandSwitch("--no-fetch")]
+    [CliFlag("--no-fetch")]
     public virtual bool? NoFetch { get; set; }
 
-    [BooleanCommandSwitch("--checkout")]
+    [CliFlag("--checkout")]
     public virtual bool? Checkout { get; set; }
 
-    [BooleanCommandSwitch("--merge")]
+    [CliFlag("--merge")]
     public virtual bool? Merge { get; set; }
 
-    [BooleanCommandSwitch("--rebase")]
+    [CliFlag("--rebase")]
     public virtual bool? Rebase { get; set; }
 
-    [BooleanCommandSwitch("--init")]
+    [CliFlag("--init")]
     public virtual bool? Init { get; set; }
 
-    [BooleanCommandSwitch("--name")]
+    [CliFlag("--name")]
     public virtual bool? Name { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--reference")]
+    [CliOption("--reference", Format = OptionFormat.EqualsSeparated)]
     public string? Reference { get; set; }
 
-    [BooleanCommandSwitch("--dissociate")]
+    [CliFlag("--dissociate")]
     public virtual bool? Dissociate { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [BooleanCommandSwitch("--depth")]
+    [CliFlag("--depth")]
     public virtual bool? Depth { get; set; }
 
-    [BooleanCommandSwitch("--no-recommend-shallow")]
+    [CliFlag("--no-recommend-shallow")]
     public virtual bool? NoRecommendShallow { get; set; }
 
-    [BooleanCommandSwitch("--recommend-shallow")]
+    [CliFlag("--recommend-shallow")]
     public virtual bool? RecommendShallow { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--jobs")]
+    [CliOption("--jobs", Format = OptionFormat.EqualsSeparated)]
     public string? Jobs { get; set; }
 
-    [BooleanCommandSwitch("--no-single-branch")]
+    [CliFlag("--no-single-branch")]
     public virtual bool? NoSingleBranch { get; set; }
 
-    [BooleanCommandSwitch("--single-branch")]
+    [CliFlag("--single-branch")]
     public virtual bool? SingleBranch { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qumulo", "storage")]
+[CliCommand("qumulo", "storage")]
 public class AzQumuloStorageFileSystem
 {
     public AzQumuloStorageFileSystem(

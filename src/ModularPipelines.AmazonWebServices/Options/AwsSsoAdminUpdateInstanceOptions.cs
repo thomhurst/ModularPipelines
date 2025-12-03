@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sso-admin", "update-instance")]
+[CliCommand("sso-admin", "update-instance")]
 public record AwsSsoAdminUpdateInstanceOptions(
-[property: CommandSwitch("--instance-arn")] string InstanceArn,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--instance-arn")] string InstanceArn,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

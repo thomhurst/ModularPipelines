@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("redisenterprise", "database", "create")]
+[CliCommand("redisenterprise", "database", "create")]
 public record AzRedisenterpriseDatabaseCreateOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--client-protocol")]
+    [CliOption("--client-protocol")]
     public string? ClientProtocol { get; set; }
 
-    [CommandSwitch("--clustering-policy")]
+    [CliOption("--clustering-policy")]
     public string? ClusteringPolicy { get; set; }
 
-    [CommandSwitch("--eviction-policy")]
+    [CliOption("--eviction-policy")]
     public string? EvictionPolicy { get; set; }
 
-    [CommandSwitch("--group-nickname")]
+    [CliOption("--group-nickname")]
     public string? GroupNickname { get; set; }
 
-    [CommandSwitch("--linked-database")]
+    [CliOption("--linked-database")]
     public string? LinkedDatabase { get; set; }
 
-    [CommandSwitch("--mods")]
+    [CliOption("--mods")]
     public string? Mods { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--persistence")]
+    [CliOption("--persistence")]
     public string? Persistence { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 }

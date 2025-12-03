@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Chocolatey.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sync")]
+[CliCommand("sync")]
 public record SyncOptions : ChocoOptions
 {
-    [CommandSwitch("--id")]
+    [CliOption("--id")]
     public virtual string? Id { get; set; }
 
-    [CommandSwitch("--package-id")]
+    [CliOption("--package-id")]
     public virtual string? PackageId { get; set; }
 
-    [CommandSwitch("--output-directory")]
+    [CliOption("--output-directory")]
     public virtual string? OutputDirectory { get; set; }
 
-    [BooleanCommandSwitch("--force-self-service")]
+    [CliFlag("--force-self-service")]
     public virtual bool? ForceSelfService { get; set; }
 }

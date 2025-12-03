@@ -6,56 +6,56 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("aks", "enable-addons", "(aks-preview", "extension)")]
 public record AzAksEnableAddonsAksPreviewExtensionOptions(
-[property: CommandSwitch("--addons")] string Addons,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--addons")] string Addons,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--aks-custom-headers")]
+    [CliOption("--aks-custom-headers")]
     public string? AksCustomHeaders { get; set; }
 
-    [CommandSwitch("--appgw-id")]
+    [CliOption("--appgw-id")]
     public string? AppgwId { get; set; }
 
-    [CommandSwitch("--appgw-name")]
+    [CliOption("--appgw-name")]
     public string? AppgwName { get; set; }
 
-    [CommandSwitch("--appgw-subnet-cidr")]
+    [CliOption("--appgw-subnet-cidr")]
     public string? AppgwSubnetCidr { get; set; }
 
-    [CommandSwitch("--appgw-subnet-id")]
+    [CliOption("--appgw-subnet-id")]
     public string? AppgwSubnetId { get; set; }
 
-    [CommandSwitch("--appgw-watch-namespace")]
+    [CliOption("--appgw-watch-namespace")]
     public string? AppgwWatchNamespace { get; set; }
 
-    [CommandSwitch("--data-collection-settings")]
+    [CliOption("--data-collection-settings")]
     public string? DataCollectionSettings { get; set; }
 
-    [CommandSwitch("--dns-zone-resource-ids")]
+    [CliOption("--dns-zone-resource-ids")]
     public string? DnsZoneResourceIds { get; set; }
 
-    [BooleanCommandSwitch("--enable-msi-auth-for-monitoring")]
+    [CliFlag("--enable-msi-auth-for-monitoring")]
     public bool? EnableMsiAuthForMonitoring { get; set; }
 
-    [BooleanCommandSwitch("--enable-secret-rotation")]
+    [CliFlag("--enable-secret-rotation")]
     public bool? EnableSecretRotation { get; set; }
 
-    [BooleanCommandSwitch("--enable-sgxquotehelper")]
+    [CliFlag("--enable-sgxquotehelper")]
     public bool? EnableSgxquotehelper { get; set; }
 
-    [BooleanCommandSwitch("--enable-syslog")]
+    [CliFlag("--enable-syslog")]
     public bool? EnableSyslog { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--rotation-poll-interval")]
+    [CliOption("--rotation-poll-interval")]
     public string? RotationPollInterval { get; set; }
 
-    [CommandSwitch("--subnet-name")]
+    [CliOption("--subnet-name")]
     public string? SubnetName { get; set; }
 
-    [CommandSwitch("--workspace-resource-id")]
+    [CliOption("--workspace-resource-id")]
     public string? WorkspaceResourceId { get; set; }
 }

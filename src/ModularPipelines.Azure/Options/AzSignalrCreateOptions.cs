@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("signalr", "create")]
+[CliCommand("signalr", "create")]
 public record AzSignalrCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku")] string Sku
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sku")] string Sku
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allowed-origins")]
+    [CliFlag("--allowed-origins")]
     public bool? AllowedOrigins { get; set; }
 
-    [CommandSwitch("--default-action")]
+    [CliOption("--default-action")]
     public string? DefaultAction { get; set; }
 
-    [BooleanCommandSwitch("--enable-message-logs")]
+    [CliFlag("--enable-message-logs")]
     public bool? EnableMessageLogs { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--service-mode")]
+    [CliOption("--service-mode")]
     public string? ServiceMode { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--unit-count")]
+    [CliOption("--unit-count")]
     public int? UnitCount { get; set; }
 }

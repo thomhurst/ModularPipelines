@@ -3,34 +3,34 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "logs")]
+[CliCommand("compose", "logs")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeLogsOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Service { get; set; }
 
-    [BooleanCommandSwitch("--follow")]
+    [CliFlag("--follow")]
     public virtual bool? Follow { get; set; }
 
-    [CommandSwitch("--index")]
+    [CliOption("--index")]
     public virtual string? Index { get; set; }
 
-    [BooleanCommandSwitch("--no-color")]
+    [CliFlag("--no-color")]
     public virtual bool? NoColor { get; set; }
 
-    [CommandSwitch("--no-log-prefix")]
+    [CliOption("--no-log-prefix")]
     public virtual string? NoLogPrefix { get; set; }
 
-    [CommandSwitch("--since")]
+    [CliOption("--since")]
     public virtual string? Since { get; set; }
 
-    [CommandSwitch("--tail")]
+    [CliOption("--tail")]
     public virtual string? Tail { get; set; }
 
-    [BooleanCommandSwitch("--timestamps")]
+    [CliFlag("--timestamps")]
     public virtual bool? Timestamps { get; set; }
 
-    [CommandSwitch("--until")]
+    [CliOption("--until")]
     public virtual string? Until { get; set; }
 }

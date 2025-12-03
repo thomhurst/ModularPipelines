@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functions", "remove-invoker-policy-binding")]
+[CliCommand("functions", "remove-invoker-policy-binding")]
 public record GcloudFunctionsRemoveInvokerPolicyBindingOptions(
-[property: PositionalArgument] string Name,
-[property: PositionalArgument] string Region,
-[property: CommandSwitch("--member")] string Member
+[property: CliArgument] string Name,
+[property: CliArgument] string Region,
+[property: CliOption("--member")] string Member
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--gen2")]
+    [CliFlag("--gen2")]
     public bool? Gen2 { get; set; }
 }

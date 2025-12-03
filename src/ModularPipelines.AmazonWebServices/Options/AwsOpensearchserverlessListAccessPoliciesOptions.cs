@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opensearchserverless", "list-access-policies")]
+[CliCommand("opensearchserverless", "list-access-policies")]
 public record AwsOpensearchserverlessListAccessPoliciesOptions(
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--resource")]
+    [CliOption("--resource")]
     public string[]? Resource { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

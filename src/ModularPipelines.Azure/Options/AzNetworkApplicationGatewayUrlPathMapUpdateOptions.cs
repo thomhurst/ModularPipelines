@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "url-path-map", "update")]
+[CliCommand("network", "application-gateway", "url-path-map", "update")]
 public record AzNetworkApplicationGatewayUrlPathMapUpdateOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--default-address-pool")]
+    [CliOption("--default-address-pool")]
     public string? DefaultAddressPool { get; set; }
 
-    [CommandSwitch("--default-http-settings")]
+    [CliOption("--default-http-settings")]
     public string? DefaultHttpSettings { get; set; }
 
-    [CommandSwitch("--default-redirect-config")]
+    [CliOption("--default-redirect-config")]
     public string? DefaultRedirectConfig { get; set; }
 
-    [CommandSwitch("--default-rewrite-rule-set")]
+    [CliOption("--default-rewrite-rule-set")]
     public string? DefaultRewriteRuleSet { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--rules")]
+    [CliOption("--rules")]
     public string? Rules { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 }

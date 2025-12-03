@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "projects", "list")]
+[CliCommand("billing", "projects", "list")]
 public record GcloudBillingProjectsListOptions(
-[property: CommandSwitch("--billing-account")] string BillingAccount
+[property: CliOption("--billing-account")] string BillingAccount
 ) : GcloudOptions;

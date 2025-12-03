@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("synapse", "kusto", "data-connection")]
+[CliCommand("synapse", "kusto", "data-connection")]
 public class AzSynapseKustoDataConnectionEventHub
 {
     public AzSynapseKustoDataConnectionEventHub(

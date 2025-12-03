@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "device", "image", "list-installed")]
+[CliCommand("sphere", "device", "image", "list-installed")]
 public record AzSphereDeviceImageListInstalledOptions : AzOptions
 {
-    [CommandSwitch("--device")]
+    [CliOption("--device")]
     public string? Device { get; set; }
 
-    [BooleanCommandSwitch("--full")]
+    [CliFlag("--full")]
     public bool? Full { get; set; }
 }

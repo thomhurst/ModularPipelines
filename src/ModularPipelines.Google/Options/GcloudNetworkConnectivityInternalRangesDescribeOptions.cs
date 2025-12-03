@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-connectivity", "internal-ranges", "describe")]
+[CliCommand("network-connectivity", "internal-ranges", "describe")]
 public record GcloudNetworkConnectivityInternalRangesDescribeOptions(
-[property: PositionalArgument] string InternalRange,
-[property: PositionalArgument] string Region
+[property: CliArgument] string InternalRange,
+[property: CliArgument] string Region
 ) : GcloudOptions;

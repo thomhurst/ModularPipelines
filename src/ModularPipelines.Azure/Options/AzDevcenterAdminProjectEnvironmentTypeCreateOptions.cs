@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter", "admin", "project-environment-type", "create")]
+[CliCommand("devcenter", "admin", "project-environment-type", "create")]
 public record AzDevcenterAdminProjectEnvironmentTypeCreateOptions(
-[property: CommandSwitch("--deployment-target-id")] string DeploymentTargetId,
-[property: CommandSwitch("--environment-type-name")] string EnvironmentTypeName,
-[property: CommandSwitch("--project")] string Project,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--deployment-target-id")] string DeploymentTargetId,
+[property: CliOption("--environment-type-name")] string EnvironmentTypeName,
+[property: CliOption("--project")] string Project,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--status")] string Status
 ) : AzOptions
 {
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--identity-type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--roles")]
+    [CliOption("--roles")]
     public string? Roles { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--user-assigned-identities")]
+    [CliOption("--user-assigned-identities")]
     public string? UserAssignedIdentities { get; set; }
 
-    [CommandSwitch("--user-role-assignments")]
+    [CliOption("--user-role-assignments")]
     public string? UserRoleAssignments { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup-dr")]
+[CliCommand("backup-dr")]
 public class GcloudBackupDrLocations
 {
     public GcloudBackupDrLocations(

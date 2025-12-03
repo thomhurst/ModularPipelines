@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "lite-operations", "list")]
+[CliCommand("pubsub", "lite-operations", "list")]
 public record GcloudPubsubLiteOperationsListOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--done")]
+    [CliOption("--done")]
     public string? Done { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public string? Subscription { get; set; }
 }

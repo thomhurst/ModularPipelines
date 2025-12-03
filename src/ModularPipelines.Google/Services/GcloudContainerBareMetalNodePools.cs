@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "bare-metal")]
+[CliCommand("container", "bare-metal")]
 public class GcloudContainerBareMetalNodePools
 {
     public GcloudContainerBareMetalNodePools(

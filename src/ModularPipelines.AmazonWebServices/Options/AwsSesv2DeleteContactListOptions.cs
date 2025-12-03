@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sesv2", "delete-contact-list")]
+[CliCommand("sesv2", "delete-contact-list")]
 public record AwsSesv2DeleteContactListOptions(
-[property: CommandSwitch("--contact-list-name")] string ContactListName
+[property: CliOption("--contact-list-name")] string ContactListName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

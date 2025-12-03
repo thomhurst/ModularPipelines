@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("quicksight", "start-asset-bundle-import-job")]
+[CliCommand("quicksight", "start-asset-bundle-import-job")]
 public record AwsQuicksightStartAssetBundleImportJobOptions(
-[property: CommandSwitch("--aws-account-id")] string AwsAccountId,
-[property: CommandSwitch("--asset-bundle-import-job-id")] string AssetBundleImportJobId
+[property: CliOption("--aws-account-id")] string AwsAccountId,
+[property: CliOption("--asset-bundle-import-job-id")] string AssetBundleImportJobId
 ) : AwsOptions
 {
-    [CommandSwitch("--asset-bundle-import-source")]
+    [CliOption("--asset-bundle-import-source")]
     public string? AssetBundleImportSource { get; set; }
 
-    [CommandSwitch("--override-parameters")]
+    [CliOption("--override-parameters")]
     public string? OverrideParameters { get; set; }
 
-    [CommandSwitch("--failure-action")]
+    [CliOption("--failure-action")]
     public string? FailureAction { get; set; }
 
-    [CommandSwitch("--override-permissions")]
+    [CliOption("--override-permissions")]
     public string? OverridePermissions { get; set; }
 
-    [CommandSwitch("--override-tags")]
+    [CliOption("--override-tags")]
     public string? OverrideTags { get; set; }
 
-    [CommandSwitch("--override-validation-strategy")]
+    [CliOption("--override-validation-strategy")]
     public string? OverrideValidationStrategy { get; set; }
 
-    [CommandSwitch("--asset-bundle-import-source-bytes")]
+    [CliOption("--asset-bundle-import-source-bytes")]
     public string? AssetBundleImportSourceBytes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

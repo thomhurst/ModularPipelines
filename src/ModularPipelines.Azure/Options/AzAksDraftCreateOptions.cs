@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "draft", "create")]
+[CliCommand("aks", "draft", "create")]
 public record AzAksDraftCreateOptions : AzOptions
 {
-    [CommandSwitch("--app")]
+    [CliOption("--app")]
     public string? App { get; set; }
 
-    [CommandSwitch("--create-config")]
+    [CliOption("--create-config")]
     public string? CreateConfig { get; set; }
 
-    [CommandSwitch("--deployment-only")]
+    [CliOption("--deployment-only")]
     public string? DeploymentOnly { get; set; }
 
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 
-    [CommandSwitch("--dockerfile-only")]
+    [CliOption("--dockerfile-only")]
     public string? DockerfileOnly { get; set; }
 
-    [CommandSwitch("--language")]
+    [CliOption("--language")]
     public string? Language { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 }

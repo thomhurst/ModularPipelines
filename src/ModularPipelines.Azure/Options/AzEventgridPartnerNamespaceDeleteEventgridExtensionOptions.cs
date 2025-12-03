@@ -7,15 +7,15 @@ namespace ModularPipelines.Azure.Options;
 [CommandPrecedingArguments("eventgrid", "partner", "namespace", "delete", "(eventgrid", "extension)")]
 public record AzEventgridPartnerNamespaceDeleteEventgridExtensionOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

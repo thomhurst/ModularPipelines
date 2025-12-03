@@ -4,72 +4,72 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("servicebus", "queue", "update")]
+[CliCommand("servicebus", "queue", "update")]
 public record AzServicebusQueueUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--auto-delete-on-idle")]
+    [CliOption("--auto-delete-on-idle")]
     public string? AutoDeleteOnIdle { get; set; }
 
-    [CommandSwitch("--default-message-time-to-live")]
+    [CliOption("--default-message-time-to-live")]
     public string? DefaultMessageTimeToLive { get; set; }
 
-    [CommandSwitch("--duplicate-detection-history-time-window")]
+    [CliOption("--duplicate-detection-history-time-window")]
     public string? DuplicateDetectionHistoryTimeWindow { get; set; }
 
-    [BooleanCommandSwitch("--enable-batched-operations")]
+    [CliFlag("--enable-batched-operations")]
     public bool? EnableBatchedOperations { get; set; }
 
-    [BooleanCommandSwitch("--enable-dead-lettering-on-message-expiration")]
+    [CliFlag("--enable-dead-lettering-on-message-expiration")]
     public bool? EnableDeadLetteringOnMessageExpiration { get; set; }
 
-    [BooleanCommandSwitch("--enable-express")]
+    [CliFlag("--enable-express")]
     public bool? EnableExpress { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--forward-dead-lettered-messages-to")]
+    [CliOption("--forward-dead-lettered-messages-to")]
     public string? ForwardDeadLetteredMessagesTo { get; set; }
 
-    [CommandSwitch("--forward-to")]
+    [CliOption("--forward-to")]
     public string? ForwardTo { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--lock-duration")]
+    [CliOption("--lock-duration")]
     public string? LockDuration { get; set; }
 
-    [CommandSwitch("--max-delivery-count")]
+    [CliOption("--max-delivery-count")]
     public int? MaxDeliveryCount { get; set; }
 
-    [CommandSwitch("--max-message-size")]
+    [CliOption("--max-message-size")]
     public string? MaxMessageSize { get; set; }
 
-    [CommandSwitch("--max-size")]
+    [CliOption("--max-size")]
     public string? MaxSize { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--namespace-name")]
+    [CliOption("--namespace-name")]
     public string? NamespaceName { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

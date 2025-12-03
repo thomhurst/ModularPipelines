@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sf", "managed-cluster")]
+[CliCommand("sf", "managed-cluster")]
 public class AzSfManagedClusterClientCertificate
 {
     public AzSfManagedClusterClientCertificate(

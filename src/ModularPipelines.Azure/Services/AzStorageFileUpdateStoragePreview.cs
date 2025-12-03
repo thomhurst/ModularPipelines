@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "file", "update")]
+[CliCommand("storage", "file", "update")]
 public class AzStorageFileUpdateStoragePreview
 {
     public AzStorageFileUpdateStoragePreview(

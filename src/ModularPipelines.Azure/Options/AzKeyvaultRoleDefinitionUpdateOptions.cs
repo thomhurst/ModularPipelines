@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "role", "definition", "update")]
+[CliCommand("keyvault", "role", "definition", "update")]
 public record AzKeyvaultRoleDefinitionUpdateOptions(
-[property: CommandSwitch("--hsm-name")] string HsmName,
-[property: CommandSwitch("--role-definition")] string RoleDefinition
+[property: CliOption("--hsm-name")] string HsmName,
+[property: CliOption("--role-definition")] string RoleDefinition
 ) : AzOptions;

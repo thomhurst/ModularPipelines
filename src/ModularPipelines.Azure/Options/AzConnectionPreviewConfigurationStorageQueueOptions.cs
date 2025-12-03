@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connection", "preview-configuration", "storage-queue")]
+[CliCommand("connection", "preview-configuration", "storage-queue")]
 public record AzConnectionPreviewConfigurationStorageQueueOptions : AzOptions
 {
-    [CommandSwitch("--client-type")]
+    [CliOption("--client-type")]
     public string? ClientType { get; set; }
 
-    [CommandSwitch("--secret")]
+    [CliOption("--secret")]
     public string? Secret { get; set; }
 
-    [CommandSwitch("--service-principal")]
+    [CliOption("--service-principal")]
     public string? ServicePrincipal { get; set; }
 
-    [CommandSwitch("--user-account")]
+    [CliOption("--user-account")]
     public int? UserAccount { get; set; }
 }

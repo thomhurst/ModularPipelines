@@ -5,29 +5,29 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deployment-manager", "deployments", "create")]
+[CliCommand("deployment-manager", "deployments", "create")]
 public record GcloudDeploymentManagerDeploymentsCreateOptions(
-[property: PositionalArgument] string DeploymentName,
-[property: CommandSwitch("--composite-type")] string CompositeType,
-[property: CommandSwitch("--config")] string Config,
-[property: CommandSwitch("--template")] string Template
+[property: CliArgument] string DeploymentName,
+[property: CliOption("--composite-type")] string CompositeType,
+[property: CliOption("--config")] string Config,
+[property: CliOption("--template")] string Template
 ) : GcloudOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [BooleanCommandSwitch("--preview")]
+    [CliFlag("--preview")]
     public bool? Preview { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string[]? Properties { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [BooleanCommandSwitch("--automatic-rollback-on-error")]
+    [CliFlag("--automatic-rollback-on-error")]
     public bool? AutomaticRollbackOnError { get; set; }
 }

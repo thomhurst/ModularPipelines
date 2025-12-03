@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "project", "task", "show")]
+[CliCommand("dms", "project", "task", "show")]
 public record AzDmsProjectTaskShowOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--project-name")] string ProjectName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--service-name")] string ServiceName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--project-name")] string ProjectName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--service-name")] string ServiceName
 ) : AzOptions
 {
-    [CommandSwitch("--expand")]
+    [CliOption("--expand")]
     public string? Expand { get; set; }
 }

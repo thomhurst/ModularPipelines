@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pinpoint-email", "put-email-identity-mail-from-attributes")]
+[CliCommand("pinpoint-email", "put-email-identity-mail-from-attributes")]
 public record AwsPinpointEmailPutEmailIdentityMailFromAttributesOptions(
-[property: CommandSwitch("--email-identity")] string EmailIdentity
+[property: CliOption("--email-identity")] string EmailIdentity
 ) : AwsOptions
 {
-    [CommandSwitch("--mail-from-domain")]
+    [CliOption("--mail-from-domain")]
     public string? MailFromDomain { get; set; }
 
-    [CommandSwitch("--behavior-on-mx-failure")]
+    [CliOption("--behavior-on-mx-failure")]
     public string? BehaviorOnMxFailure { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

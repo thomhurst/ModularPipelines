@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datafactory", "pipeline-run", "query-by-factory")]
+[CliCommand("datafactory", "pipeline-run", "query-by-factory")]
 public record AzDatafactoryPipelineRunQueryByFactoryOptions(
-[property: CommandSwitch("--last-updated-after")] string LastUpdatedAfter,
-[property: CommandSwitch("--last-updated-before")] string LastUpdatedBefore
+[property: CliOption("--last-updated-after")] string LastUpdatedAfter,
+[property: CliOption("--last-updated-before")] string LastUpdatedBefore
 ) : AzOptions
 {
-    [CommandSwitch("--continuation-token")]
+    [CliOption("--continuation-token")]
     public string? ContinuationToken { get; set; }
 
-    [CommandSwitch("--factory-name")]
+    [CliOption("--factory-name")]
     public string? FactoryName { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string? Filters { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--order-by")]
+    [CliOption("--order-by")]
     public string? OrderBy { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

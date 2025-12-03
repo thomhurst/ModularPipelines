@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("topic", "datetimes")]
+[CliCommand("topic", "datetimes")]
 public record GcloudTopicDatetimesOptions : GcloudOptions;

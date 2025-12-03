@@ -6,40 +6,40 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CommandPrecedingArguments("cosmosdb", "sql", "container", "create", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbSqlContainerCreateCosmosdbPreviewExtensionOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--partition-key-path")] string PartitionKeyPath,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--partition-key-path")] string PartitionKeyPath,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--analytical-storage-ttl")]
+    [CliOption("--analytical-storage-ttl")]
     public string? AnalyticalStorageTtl { get; set; }
 
-    [CommandSwitch("--cep")]
+    [CliOption("--cep")]
     public string? Cep { get; set; }
 
-    [CommandSwitch("--conflict-resolution-policy")]
+    [CliOption("--conflict-resolution-policy")]
     public string? ConflictResolutionPolicy { get; set; }
 
-    [BooleanCommandSwitch("--idx")]
+    [CliFlag("--idx")]
     public bool? Idx { get; set; }
 
-    [CommandSwitch("--materialized-view-definition")]
+    [CliOption("--materialized-view-definition")]
     public string? MaterializedViewDefinition { get; set; }
 
-    [CommandSwitch("--max-throughput")]
+    [CliOption("--max-throughput")]
     public string? MaxThroughput { get; set; }
 
-    [CommandSwitch("--partition-key-version")]
+    [CliOption("--partition-key-version")]
     public string? PartitionKeyVersion { get; set; }
 
-    [CommandSwitch("--throughput")]
+    [CliOption("--throughput")]
     public string? Throughput { get; set; }
 
-    [CommandSwitch("--ttl")]
+    [CliOption("--ttl")]
     public string? Ttl { get; set; }
 
-    [CommandSwitch("--unique-key-policy")]
+    [CliOption("--unique-key-policy")]
     public string? UniqueKeyPolicy { get; set; }
 }

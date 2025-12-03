@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "permission", "list")]
+[CliCommand("billing", "permission", "list")]
 public record AzBillingPermissionListOptions(
-[property: CommandSwitch("--account-name")] int AccountName
+[property: CliOption("--account-name")] int AccountName
 ) : AzOptions
 {
-    [CommandSwitch("--customer-name")]
+    [CliOption("--customer-name")]
     public string? CustomerName { get; set; }
 
-    [CommandSwitch("--invoice-section-name")]
+    [CliOption("--invoice-section-name")]
     public string? InvoiceSectionName { get; set; }
 
-    [CommandSwitch("--profile-name")]
+    [CliOption("--profile-name")]
     public string? ProfileName { get; set; }
 }

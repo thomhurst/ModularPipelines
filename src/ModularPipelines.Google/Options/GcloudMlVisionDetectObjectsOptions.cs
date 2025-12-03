@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "vision", "detect-objects")]
+[CliCommand("ml", "vision", "detect-objects")]
 public record GcloudMlVisionDetectObjectsOptions(
-[property: PositionalArgument] string ImagePath
+[property: CliArgument] string ImagePath
 ) : GcloudOptions;

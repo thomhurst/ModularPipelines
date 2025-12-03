@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deployment", "mg", "delete")]
+[CliCommand("deployment", "mg", "delete")]
 public record AzDeploymentMgDeleteOptions(
-[property: CommandSwitch("--management-group-id")] string ManagementGroupId,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--management-group-id")] string ManagementGroupId,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

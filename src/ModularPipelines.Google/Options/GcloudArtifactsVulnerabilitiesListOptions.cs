@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "vulnerabilities", "list")]
+[CliCommand("artifacts", "vulnerabilities", "list")]
 public record GcloudArtifactsVulnerabilitiesListOptions(
-[property: PositionalArgument] string Uri
+[property: CliArgument] string Uri
 ) : GcloudOptions
 {
-    [CommandSwitch("--occurrence-filter")]
+    [CliOption("--occurrence-filter")]
     public string? OccurrenceFilter { get; set; }
 }

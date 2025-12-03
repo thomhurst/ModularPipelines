@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "hub", "scopes", "namespaces", "create")]
+[CliCommand("container", "hub", "scopes", "namespaces", "create")]
 public record GcloudContainerHubScopesNamespacesCreateOptions(
-[property: PositionalArgument] string Namespace,
-[property: PositionalArgument] string Scope
+[property: CliArgument] string Namespace,
+[property: CliArgument] string Scope
 ) : GcloudOptions
 {
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--namespace-labels")]
+    [CliOption("--namespace-labels")]
     public IEnumerable<KeyValue>? NamespaceLabels { get; set; }
 }

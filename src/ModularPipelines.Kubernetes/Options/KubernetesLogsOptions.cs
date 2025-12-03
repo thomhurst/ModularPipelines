@@ -3,52 +3,52 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("logs")]
+[CliCommand("logs")]
 [ExcludeFromCodeCoverage]
-public record KubernetesLogsOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesLogsOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--all-containers")]
+    [CliFlag("--all-containers")]
     public virtual bool? AllContainers { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--container", SwitchValueSeparator = " ")]
+    [CliOption("--container")]
     public string? Container { get; set; }
 
-    [BooleanCommandSwitch("--follow")]
+    [CliFlag("--follow")]
     public virtual bool? Follow { get; set; }
 
-    [BooleanCommandSwitch("--ignore-errors")]
+    [CliFlag("--ignore-errors")]
     public virtual bool? IgnoreErrors { get; set; }
 
-    [BooleanCommandSwitch("--insecure-skip-tls-verify-backend")]
+    [CliFlag("--insecure-skip-tls-verify-backend")]
     public virtual bool? InsecureSkipTlsVerifyBackend { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--limit-bytes", SwitchValueSeparator = " ")]
+    [CliOption("--limit-bytes")]
     public int? LimitBytes { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--max-log-requests", SwitchValueSeparator = " ")]
+    [CliOption("--max-log-requests")]
     public int? MaxLogRequests { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--pod-running-timeout", SwitchValueSeparator = " ")]
+    [CliOption("--pod-running-timeout")]
     public string? PodRunningTimeout { get; set; }
 
-    [BooleanCommandSwitch("--prefix")]
+    [CliFlag("--prefix")]
     public virtual bool? Prefix { get; set; }
 
-    [BooleanCommandSwitch("--previous")]
+    [CliFlag("--previous")]
     public virtual bool? Previous { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--selector", SwitchValueSeparator = " ")]
+    [CliOption("--selector")]
     public string? Selector { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--since", SwitchValueSeparator = " ")]
+    [CliOption("--since")]
     public string? Since { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--since-time", SwitchValueSeparator = " ")]
+    [CliOption("--since-time")]
     public string? SinceTime { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--tail", SwitchValueSeparator = " ")]
+    [CliOption("--tail")]
     public int? Tail { get; set; }
 
-    [BooleanCommandSwitch("--timestamps")]
+    [CliFlag("--timestamps")]
     public virtual bool? Timestamps { get; set; }
 }

@@ -5,16 +5,16 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53-recovery-readiness", "create-resource-set")]
+[CliCommand("route53-recovery-readiness", "create-resource-set")]
 public record AwsRoute53RecoveryReadinessCreateResourceSetOptions(
-[property: CommandSwitch("--resource-set-name")] string ResourceSetName,
-[property: CommandSwitch("--resource-set-type")] string ResourceSetType,
-[property: CommandSwitch("--resources")] string[] Resources
+[property: CliOption("--resource-set-name")] string ResourceSetName,
+[property: CliOption("--resource-set-type")] string ResourceSetType,
+[property: CliOption("--resources")] string[] Resources
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

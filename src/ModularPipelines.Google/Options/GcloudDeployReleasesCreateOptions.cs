@@ -5,67 +5,67 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "releases", "create")]
+[CliCommand("deploy", "releases", "create")]
 public record GcloudDeployReleasesCreateOptions(
-[property: PositionalArgument] string Release,
-[property: PositionalArgument] string DeliveryPipeline,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Release,
+[property: CliArgument] string DeliveryPipeline,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [CommandSwitch("--annotations")]
+    [CliOption("--annotations")]
     public IEnumerable<KeyValue>? Annotations { get; set; }
 
-    [CommandSwitch("--deploy-parameters")]
+    [CliOption("--deploy-parameters")]
     public IEnumerable<KeyValue>? DeployParameters { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--gcs-source-staging-dir")]
+    [CliOption("--gcs-source-staging-dir")]
     public string? GcsSourceStagingDir { get; set; }
 
-    [CommandSwitch("--ignore-file")]
+    [CliOption("--ignore-file")]
     public string? IgnoreFile { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--skaffold-version")]
+    [CliOption("--skaffold-version")]
     public string? SkaffoldVersion { get; set; }
 
-    [CommandSwitch("--to-target")]
+    [CliOption("--to-target")]
     public string? ToTarget { get; set; }
 
-    [CommandSwitch("--build-artifacts")]
+    [CliOption("--build-artifacts")]
     public string? BuildArtifacts { get; set; }
 
-    [CommandSwitch("--images")]
+    [CliOption("--images")]
     public string[]? Images { get; set; }
 
-    [BooleanCommandSwitch("--disable-initial-rollout")]
+    [CliFlag("--disable-initial-rollout")]
     public bool? DisableInitialRollout { get; set; }
 
-    [BooleanCommandSwitch("--enable-initial-rollout")]
+    [CliFlag("--enable-initial-rollout")]
     public bool? EnableInitialRollout { get; set; }
 
-    [CommandSwitch("--initial-rollout-annotations")]
+    [CliOption("--initial-rollout-annotations")]
     public IEnumerable<KeyValue>? InitialRolloutAnnotations { get; set; }
 
-    [CommandSwitch("--initial-rollout-labels")]
+    [CliOption("--initial-rollout-labels")]
     public IEnumerable<KeyValue>? InitialRolloutLabels { get; set; }
 
-    [CommandSwitch("--initial-rollout-phase-id")]
+    [CliOption("--initial-rollout-phase-id")]
     public string? InitialRolloutPhaseId { get; set; }
 
-    [CommandSwitch("--from-k8s-manifest")]
+    [CliOption("--from-k8s-manifest")]
     public string? FromK8sManifest { get; set; }
 
-    [CommandSwitch("--from-run-manifest")]
+    [CliOption("--from-run-manifest")]
     public string? FromRunManifest { get; set; }
 
-    [CommandSwitch("--skaffold-file")]
+    [CliOption("--skaffold-file")]
     public string? SkaffoldFile { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mysql", "flexible-server", "connect")]
+[CliCommand("mysql", "flexible-server", "connect")]
 public record AzMysqlFlexibleServerConnectOptions(
-[property: CommandSwitch("--admin-user")] string AdminUser,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--admin-user")] string AdminUser,
+[property: CliOption("--name")] string Name
 ) : AzOptions
 {
-    [CommandSwitch("--admin-password")]
+    [CliOption("--admin-password")]
     public string? AdminPassword { get; set; }
 
-    [CommandSwitch("--database-name")]
+    [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CommandSwitch("--interactive")]
+    [CliOption("--interactive")]
     public string? Interactive { get; set; }
 }

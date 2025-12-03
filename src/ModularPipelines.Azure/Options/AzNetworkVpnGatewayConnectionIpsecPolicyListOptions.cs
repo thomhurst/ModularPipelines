@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vpn-gateway", "connection", "ipsec-policy", "list")]
+[CliCommand("network", "vpn-gateway", "connection", "ipsec-policy", "list")]
 public record AzNetworkVpnGatewayConnectionIpsecPolicyListOptions(
-[property: CommandSwitch("--connection-name")] string ConnectionName,
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--connection-name")] string ConnectionName,
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

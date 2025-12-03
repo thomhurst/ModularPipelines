@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workbench", "instances", "rollback")]
+[CliCommand("workbench", "instances", "rollback")]
 public record GcloudWorkbenchInstancesRollbackOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--target-snapshot")] string TargetSnapshot
+[property: CliArgument] string Instance,
+[property: CliArgument] string Location,
+[property: CliOption("--target-snapshot")] string TargetSnapshot
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

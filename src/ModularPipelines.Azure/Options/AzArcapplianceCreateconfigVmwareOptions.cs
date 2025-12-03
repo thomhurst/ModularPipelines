@@ -4,82 +4,82 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcappliance", "createconfig", "vmware")]
+[CliCommand("arcappliance", "createconfig", "vmware")]
 public record AzArcapplianceCreateconfigVmwareOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--address")]
+    [CliOption("--address")]
     public string? Address { get; set; }
 
-    [CommandSwitch("--certificateFilePath")]
+    [CliOption("--certificateFilePath")]
     public string? CertificateFilePath { get; set; }
 
-    [CommandSwitch("--controlPlaneEndpoint")]
+    [CliOption("--controlPlaneEndpoint")]
     public string? ControlPlaneEndpoint { get; set; }
 
-    [CommandSwitch("--datacenter")]
+    [CliOption("--datacenter")]
     public string? Datacenter { get; set; }
 
-    [CommandSwitch("--datastore")]
+    [CliOption("--datastore")]
     public string? Datastore { get; set; }
 
-    [CommandSwitch("--disksizegib")]
+    [CliOption("--disksizegib")]
     public string? Disksizegib { get; set; }
 
-    [CommandSwitch("--dnsservers")]
+    [CliOption("--dnsservers")]
     public string? Dnsservers { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string? Folder { get; set; }
 
-    [CommandSwitch("--gateway")]
+    [CliOption("--gateway")]
     public string? Gateway { get; set; }
 
-    [CommandSwitch("--http")]
+    [CliOption("--http")]
     public string? Http { get; set; }
 
-    [CommandSwitch("--https")]
+    [CliOption("--https")]
     public string? Https { get; set; }
 
-    [CommandSwitch("--ipaddressprefix")]
+    [CliOption("--ipaddressprefix")]
     public string? Ipaddressprefix { get; set; }
 
-    [CommandSwitch("--k8snodeippoolend")]
+    [CliOption("--k8snodeippoolend")]
     public string? K8snodeippoolend { get; set; }
 
-    [CommandSwitch("--k8snodeippoolstart")]
+    [CliOption("--k8snodeippoolstart")]
     public string? K8snodeippoolstart { get; set; }
 
-    [CommandSwitch("--memorymib")]
+    [CliOption("--memorymib")]
     public string? Memorymib { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--noproxy")]
+    [CliOption("--noproxy")]
     public string? Noproxy { get; set; }
 
-    [CommandSwitch("--numcpus")]
+    [CliOption("--numcpus")]
     public string? Numcpus { get; set; }
 
-    [CommandSwitch("--out-dir")]
+    [CliOption("--out-dir")]
     public string? OutDir { get; set; }
 
-    [BooleanCommandSwitch("--overwrite-existing")]
+    [CliFlag("--overwrite-existing")]
     public bool? OverwriteExisting { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--resourcepool")]
+    [CliOption("--resourcepool")]
     public string? Resourcepool { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 
-    [CommandSwitch("--working-dir")]
+    [CliOption("--working-dir")]
     public string? WorkingDir { get; set; }
 }

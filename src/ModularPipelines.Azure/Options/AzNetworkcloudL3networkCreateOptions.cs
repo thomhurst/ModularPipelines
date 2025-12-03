@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "l3network", "create")]
+[CliCommand("networkcloud", "l3network", "create")]
 public record AzNetworkcloudL3networkCreateOptions(
-[property: CommandSwitch("--extended-location")] string ExtendedLocation,
-[property: CommandSwitch("--l3-isolation-domain-id")] string L3IsolationDomainId,
-[property: CommandSwitch("--l3-network-name")] string L3NetworkName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vlan")] string Vlan
+[property: CliOption("--extended-location")] string ExtendedLocation,
+[property: CliOption("--l3-isolation-domain-id")] string L3IsolationDomainId,
+[property: CliOption("--l3-network-name")] string L3NetworkName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vlan")] string Vlan
 ) : AzOptions
 {
-    [CommandSwitch("--interface-name")]
+    [CliOption("--interface-name")]
     public string? InterfaceName { get; set; }
 
-    [CommandSwitch("--ip-allocation-type")]
+    [CliOption("--ip-allocation-type")]
     public string? IpAllocationType { get; set; }
 
-    [CommandSwitch("--ipv4-connected-prefix")]
+    [CliOption("--ipv4-connected-prefix")]
     public string? Ipv4ConnectedPrefix { get; set; }
 
-    [CommandSwitch("--ipv6-connected-prefix")]
+    [CliOption("--ipv6-connected-prefix")]
     public string? Ipv6ConnectedPrefix { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

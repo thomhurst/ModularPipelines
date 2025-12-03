@@ -18,12 +18,12 @@ public record DockerPluginCreateOptions : DockerOptions
         PluginDataDir = pluginDataDir;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Plugin { get; set; }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? PluginDataDir { get; set; }
 
-    [BooleanCommandSwitch("--compress")]
+    [CliFlag("--compress")]
     public virtual bool? Compress { get; set; }
 }

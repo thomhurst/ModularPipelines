@@ -4,225 +4,225 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("hdinsight-on-aks", "cluster", "update")]
+[CliCommand("hdinsight-on-aks", "cluster", "update")]
 public record AzHdinsightOnAksClusterUpdateOptions : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--application-log-std-error-enabled")]
+    [CliFlag("--application-log-std-error-enabled")]
     public bool? ApplicationLogStdErrorEnabled { get; set; }
 
-    [BooleanCommandSwitch("--application-log-std-out-enabled")]
+    [CliFlag("--application-log-std-out-enabled")]
     public bool? ApplicationLogStdOutEnabled { get; set; }
 
-    [CommandSwitch("--assigned-identity-client-id")]
+    [CliOption("--assigned-identity-client-id")]
     public string? AssignedIdentityClientId { get; set; }
 
-    [CommandSwitch("--assigned-identity-id")]
+    [CliOption("--assigned-identity-id")]
     public string? AssignedIdentityId { get; set; }
 
-    [CommandSwitch("--assigned-identity-object-id")]
+    [CliOption("--assigned-identity-object-id")]
     public string? AssignedIdentityObjectId { get; set; }
 
-    [CommandSwitch("--authorization-group-id")]
+    [CliOption("--authorization-group-id")]
     public string? AuthorizationGroupId { get; set; }
 
-    [CommandSwitch("--authorization-user-id")]
+    [CliOption("--authorization-user-id")]
     public string? AuthorizationUserId { get; set; }
 
-    [CommandSwitch("--autoscale-profile-graceful-decommission-timeout")]
+    [CliOption("--autoscale-profile-graceful-decommission-timeout")]
     public string? AutoscaleProfileGracefulDecommissionTimeout { get; set; }
 
-    [CommandSwitch("--autoscale-profile-type")]
+    [CliOption("--autoscale-profile-type")]
     public string? AutoscaleProfileType { get; set; }
 
-    [CommandSwitch("--cluster-name")]
+    [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CommandSwitch("--cluster-pool-name")]
+    [CliOption("--cluster-pool-name")]
     public string? ClusterPoolName { get; set; }
 
-    [CommandSwitch("--cluster-version")]
+    [CliOption("--cluster-version")]
     public string? ClusterVersion { get; set; }
 
-    [CommandSwitch("--cooldown-period")]
+    [CliOption("--cooldown-period")]
     public string? CooldownPeriod { get; set; }
 
-    [CommandSwitch("--coord-debug-port")]
+    [CliOption("--coord-debug-port")]
     public string? CoordDebugPort { get; set; }
 
-    [BooleanCommandSwitch("--coord-debug-suspend")]
+    [CliFlag("--coord-debug-suspend")]
     public bool? CoordDebugSuspend { get; set; }
 
-    [BooleanCommandSwitch("--coordinator-debug-enabled")]
+    [CliFlag("--coordinator-debug-enabled")]
     public bool? CoordinatorDebugEnabled { get; set; }
 
-    [BooleanCommandSwitch("--coordinator-high-availability-enabled")]
+    [CliFlag("--coordinator-high-availability-enabled")]
     public bool? CoordinatorHighAvailabilityEnabled { get; set; }
 
-    [BooleanCommandSwitch("--enable-autoscale")]
+    [CliFlag("--enable-autoscale")]
     public bool? EnableAutoscale { get; set; }
 
-    [BooleanCommandSwitch("--enable-la-metrics")]
+    [CliFlag("--enable-la-metrics")]
     public bool? EnableLaMetrics { get; set; }
 
-    [BooleanCommandSwitch("--enable-log-analytics")]
+    [CliFlag("--enable-log-analytics")]
     public bool? EnableLogAnalytics { get; set; }
 
-    [BooleanCommandSwitch("--enable-prometheu")]
+    [CliFlag("--enable-prometheu")]
     public bool? EnablePrometheu { get; set; }
 
-    [BooleanCommandSwitch("--enable-worker-debug")]
+    [CliFlag("--enable-worker-debug")]
     public bool? EnableWorkerDebug { get; set; }
 
-    [CommandSwitch("--flink-hive-catalog-db-connection-password-secret")]
+    [CliOption("--flink-hive-catalog-db-connection-password-secret")]
     public string? FlinkHiveCatalogDbConnectionPasswordSecret { get; set; }
 
-    [CommandSwitch("--flink-hive-catalog-db-connection-url")]
+    [CliOption("--flink-hive-catalog-db-connection-url")]
     public string? FlinkHiveCatalogDbConnectionUrl { get; set; }
 
-    [CommandSwitch("--flink-hive-catalog-db-connection-user-name")]
+    [CliOption("--flink-hive-catalog-db-connection-user-name")]
     public string? FlinkHiveCatalogDbConnectionUserName { get; set; }
 
-    [CommandSwitch("--flink-storage-key")]
+    [CliOption("--flink-storage-key")]
     public string? FlinkStorageKey { get; set; }
 
-    [CommandSwitch("--flink-storage-uri")]
+    [CliOption("--flink-storage-uri")]
     public string? FlinkStorageUri { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--history-server-cpu")]
+    [CliOption("--history-server-cpu")]
     public string? HistoryServerCpu { get; set; }
 
-    [CommandSwitch("--history-server-memory")]
+    [CliOption("--history-server-memory")]
     public string? HistoryServerMemory { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--job-manager-cpu")]
+    [CliOption("--job-manager-cpu")]
     public string? JobManagerCpu { get; set; }
 
-    [CommandSwitch("--job-manager-memory")]
+    [CliOption("--job-manager-memory")]
     public string? JobManagerMemory { get; set; }
 
-    [CommandSwitch("--kafka-profile")]
+    [CliOption("--kafka-profile")]
     public string? KafkaProfile { get; set; }
 
-    [CommandSwitch("--key-vault-id")]
+    [CliOption("--key-vault-id")]
     public string? KeyVaultId { get; set; }
 
-    [CommandSwitch("--llap-profile")]
+    [CliOption("--llap-profile")]
     public string? LlapProfile { get; set; }
 
-    [CommandSwitch("--loadbased-config-max-nodes")]
+    [CliOption("--loadbased-config-max-nodes")]
     public string? LoadbasedConfigMaxNodes { get; set; }
 
-    [CommandSwitch("--loadbased-config-min-nodes")]
+    [CliOption("--loadbased-config-min-nodes")]
     public string? LoadbasedConfigMinNodes { get; set; }
 
-    [CommandSwitch("--loadbased-config-poll-interval")]
+    [CliOption("--loadbased-config-poll-interval")]
     public string? LoadbasedConfigPollInterval { get; set; }
 
-    [CommandSwitch("--loadbased-config-scaling-rules")]
+    [CliOption("--loadbased-config-scaling-rules")]
     public string? LoadbasedConfigScalingRules { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--nodes")]
+    [CliOption("--nodes")]
     public string? Nodes { get; set; }
 
-    [CommandSwitch("--num-replicas")]
+    [CliOption("--num-replicas")]
     public string? NumReplicas { get; set; }
 
-    [CommandSwitch("--oss-version")]
+    [CliOption("--oss-version")]
     public string? OssVersion { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--schedule-based-config-default-count")]
+    [CliOption("--schedule-based-config-default-count")]
     public int? ScheduleBasedConfigDefaultCount { get; set; }
 
-    [CommandSwitch("--schedule-based-config-schedule")]
+    [CliOption("--schedule-based-config-schedule")]
     public string? ScheduleBasedConfigSchedule { get; set; }
 
-    [CommandSwitch("--schedule-based-config-time-zone")]
+    [CliOption("--schedule-based-config-time-zone")]
     public string? ScheduleBasedConfigTimeZone { get; set; }
 
-    [CommandSwitch("--script-action-profiles")]
+    [CliOption("--script-action-profiles")]
     public string? ScriptActionProfiles { get; set; }
 
-    [CommandSwitch("--secret-reference")]
+    [CliOption("--secret-reference")]
     public string? SecretReference { get; set; }
 
-    [CommandSwitch("--service-configs")]
+    [CliOption("--service-configs")]
     public string? ServiceConfigs { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--spark-hive-catalog-db-name")]
+    [CliOption("--spark-hive-catalog-db-name")]
     public string? SparkHiveCatalogDbName { get; set; }
 
-    [CommandSwitch("--spark-hive-catalog-db-password-secret")]
+    [CliOption("--spark-hive-catalog-db-password-secret")]
     public string? SparkHiveCatalogDbPasswordSecret { get; set; }
 
-    [CommandSwitch("--spark-hive-catalog-db-server-name")]
+    [CliOption("--spark-hive-catalog-db-server-name")]
     public string? SparkHiveCatalogDbServerName { get; set; }
 
-    [CommandSwitch("--spark-hive-catalog-db-user-name")]
+    [CliOption("--spark-hive-catalog-db-user-name")]
     public string? SparkHiveCatalogDbUserName { get; set; }
 
-    [CommandSwitch("--spark-hive-catalog-key-vault-id")]
+    [CliOption("--spark-hive-catalog-key-vault-id")]
     public string? SparkHiveCatalogKeyVaultId { get; set; }
 
-    [CommandSwitch("--spark-hive-catalog-thrift-url")]
+    [CliOption("--spark-hive-catalog-thrift-url")]
     public string? SparkHiveCatalogThriftUrl { get; set; }
 
-    [CommandSwitch("--spark-storage-url")]
+    [CliOption("--spark-storage-url")]
     public string? SparkStorageUrl { get; set; }
 
-    [CommandSwitch("--ssh-profile-count")]
+    [CliOption("--ssh-profile-count")]
     public int? SshProfileCount { get; set; }
 
-    [CommandSwitch("--stub-profile")]
+    [CliOption("--stub-profile")]
     public string? StubProfile { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--task-manager-cpu")]
+    [CliOption("--task-manager-cpu")]
     public string? TaskManagerCpu { get; set; }
 
-    [CommandSwitch("--task-manager-memory")]
+    [CliOption("--task-manager-memory")]
     public string? TaskManagerMemory { get; set; }
 
-    [CommandSwitch("--trino-hive-catalog")]
+    [CliOption("--trino-hive-catalog")]
     public string? TrinoHiveCatalog { get; set; }
 
-    [CommandSwitch("--trino-plugins-spec")]
+    [CliOption("--trino-plugins-spec")]
     public string? TrinoPluginsSpec { get; set; }
 
-    [CommandSwitch("--trino-profile-user-plugins-telemetry-spec")]
+    [CliOption("--trino-profile-user-plugins-telemetry-spec")]
     public string? TrinoProfileUserPluginsTelemetrySpec { get; set; }
 
-    [CommandSwitch("--user-plugins-spec")]
+    [CliOption("--user-plugins-spec")]
     public string? UserPluginsSpec { get; set; }
 
-    [CommandSwitch("--worker-debug-port")]
+    [CliOption("--worker-debug-port")]
     public string? WorkerDebugPort { get; set; }
 
-    [BooleanCommandSwitch("--worker-debug-suspend")]
+    [CliFlag("--worker-debug-suspend")]
     public bool? WorkerDebugSuspend { get; set; }
 }

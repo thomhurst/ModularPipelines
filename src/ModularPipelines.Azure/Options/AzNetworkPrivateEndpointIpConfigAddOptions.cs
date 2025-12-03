@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "private-endpoint", "ip-config", "add")]
+[CliCommand("network", "private-endpoint", "ip-config", "add")]
 public record AzNetworkPrivateEndpointIpConfigAddOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--group-id")]
+    [CliOption("--group-id")]
     public string? GroupId { get; set; }
 
-    [CommandSwitch("--member-name")]
+    [CliOption("--member-name")]
     public string? MemberName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--private-ip-address")]
+    [CliOption("--private-ip-address")]
     public string? PrivateIpAddress { get; set; }
 }

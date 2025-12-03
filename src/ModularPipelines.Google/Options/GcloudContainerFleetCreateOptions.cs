@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "create")]
+[CliCommand("container", "fleet", "create")]
 public record GcloudContainerFleetCreateOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--binauthz-evaluation-mode")]
+    [CliOption("--binauthz-evaluation-mode")]
     public string? BinauthzEvaluationMode { get; set; }
 
-    [CommandSwitch("--binauthz-policy-bindings")]
+    [CliOption("--binauthz-policy-bindings")]
     public string[]? BinauthzPolicyBindings { get; set; }
 
-    [CommandSwitch("--security-posture")]
+    [CliOption("--security-posture")]
     public string? SecurityPosture { get; set; }
 
-    [CommandSwitch("--workload-vulnerability-scanning")]
+    [CliOption("--workload-vulnerability-scanning")]
     public string? WorkloadVulnerabilityScanning { get; set; }
 }

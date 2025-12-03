@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workbench", "instances", "check-instance-upgradability")]
+[CliCommand("workbench", "instances", "check-instance-upgradability")]
 public record GcloudWorkbenchInstancesCheckInstanceUpgradabilityOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Instance,
+[property: CliArgument] string Location
 ) : GcloudOptions;

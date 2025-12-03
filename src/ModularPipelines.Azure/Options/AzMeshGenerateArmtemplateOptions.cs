@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mesh", "generate", "armtemplate")]
+[CliCommand("mesh", "generate", "armtemplate")]
 public record AzMeshGenerateArmtemplateOptions(
-[property: CommandSwitch("--input-yaml-files")] string InputYamlFiles
+[property: CliOption("--input-yaml-files")] string InputYamlFiles
 ) : AzOptions
 {
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 }

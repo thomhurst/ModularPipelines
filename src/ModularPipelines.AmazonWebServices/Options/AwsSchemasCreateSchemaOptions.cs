@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("schemas", "create-schema")]
+[CliCommand("schemas", "create-schema")]
 public record AwsSchemasCreateSchemaOptions(
-[property: CommandSwitch("--content")] string Content,
-[property: CommandSwitch("--registry-name")] string RegistryName,
-[property: CommandSwitch("--schema-name")] string SchemaName,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--content")] string Content,
+[property: CliOption("--registry-name")] string RegistryName,
+[property: CliOption("--schema-name")] string SchemaName,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

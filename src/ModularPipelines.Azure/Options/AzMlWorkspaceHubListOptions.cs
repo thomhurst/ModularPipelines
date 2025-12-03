@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "workspace-hub", "list")]
+[CliCommand("ml", "workspace-hub", "list")]
 public record AzMlWorkspaceHubListOptions : AzOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public string? MaxResults { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

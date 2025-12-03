@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("wisdom", "get-session")]
+[CliCommand("wisdom", "get-session")]
 public record AwsWisdomGetSessionOptions(
-[property: CommandSwitch("--assistant-id")] string AssistantId,
-[property: CommandSwitch("--session-id")] string SessionId
+[property: CliOption("--assistant-id")] string AssistantId,
+[property: CliOption("--session-id")] string SessionId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

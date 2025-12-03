@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("nginx")]
+[CliCommand("nginx")]
 public class AzNginxDeployment
 {
     public AzNginxDeployment(

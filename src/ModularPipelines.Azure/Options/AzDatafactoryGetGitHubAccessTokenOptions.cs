@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datafactory", "get-git-hub-access-token")]
+[CliCommand("datafactory", "get-git-hub-access-token")]
 public record AzDatafactoryGetGitHubAccessTokenOptions(
-[property: CommandSwitch("--git-hub-access-code")] string GitHubAccessCode,
-[property: CommandSwitch("--git-hub-access-token-base-url")] string GitHubAccessTokenBaseUrl
+[property: CliOption("--git-hub-access-code")] string GitHubAccessCode,
+[property: CliOption("--git-hub-access-token-base-url")] string GitHubAccessTokenBaseUrl
 ) : AzOptions
 {
-    [CommandSwitch("--factory-name")]
+    [CliOption("--factory-name")]
     public string? FactoryName { get; set; }
 
-    [CommandSwitch("--git-hub-client-id")]
+    [CliOption("--git-hub-client-id")]
     public string? GitHubClientId { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

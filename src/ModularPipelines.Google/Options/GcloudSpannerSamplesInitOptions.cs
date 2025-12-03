@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("spanner", "samples", "init")]
+[CliCommand("spanner", "samples", "init")]
 public record GcloudSpannerSamplesInitOptions(
-[property: PositionalArgument] string Appname,
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliArgument] string Appname,
+[property: CliOption("--instance-id")] string InstanceId
 ) : GcloudOptions
 {
-    [CommandSwitch("--database-id")]
+    [CliOption("--database-id")]
     public string? DatabaseId { get; set; }
 }

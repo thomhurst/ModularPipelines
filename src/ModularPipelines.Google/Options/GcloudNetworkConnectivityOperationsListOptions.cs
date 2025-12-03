@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-connectivity", "operations", "list")]
+[CliCommand("network-connectivity", "operations", "list")]
 public record GcloudNetworkConnectivityOperationsListOptions(
-[property: CommandSwitch("--region")] string Region
+[property: CliOption("--region")] string Region
 ) : GcloudOptions;

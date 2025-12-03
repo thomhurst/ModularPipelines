@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai-examples", "check-connection")]
+[CliCommand("ai-examples", "check-connection")]
 public record AzAiExamplesCheckConnectionOptions : AzOptions;

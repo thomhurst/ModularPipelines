@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("alloydb", "backups", "delete")]
+[CliCommand("alloydb", "backups", "delete")]
 public record GcloudAlloydbBackupsDeleteOptions(
-[property: PositionalArgument] string Backup,
-[property: CommandSwitch("--region")] string Region
+[property: CliArgument] string Backup,
+[property: CliOption("--region")] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

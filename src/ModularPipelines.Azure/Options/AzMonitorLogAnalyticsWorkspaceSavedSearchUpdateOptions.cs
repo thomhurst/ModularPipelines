@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "log-analytics", "workspace", "saved-search", "update")]
+[CliCommand("monitor", "log-analytics", "workspace", "saved-search", "update")]
 public record AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--workspace-name")] string WorkspaceName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions
 {
-    [CommandSwitch("--category")]
+    [CliOption("--category")]
     public string? Category { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--fa")]
+    [CliOption("--fa")]
     public string? Fa { get; set; }
 
-    [CommandSwitch("--fp")]
+    [CliOption("--fp")]
     public string? Fp { get; set; }
 
-    [CommandSwitch("--saved-query")]
+    [CliOption("--saved-query")]
     public string? SavedQuery { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

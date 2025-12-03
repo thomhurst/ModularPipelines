@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bms", "instances", "stop")]
+[CliCommand("bms", "instances", "stop")]
 public record GcloudBmsInstancesStopOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Region
+[property: CliArgument] string Instance,
+[property: CliArgument] string Region
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

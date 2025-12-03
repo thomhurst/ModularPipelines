@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arcappliance", "get-credentials")]
+[CliCommand("arcappliance", "get-credentials")]
 public record AzArcapplianceGetCredentialsOptions : AzOptions
 {
-    [CommandSwitch("--config-file")]
+    [CliOption("--config-file")]
     public string? ConfigFile { get; set; }
 
-    [CommandSwitch("--credentials-dir")]
+    [CliOption("--credentials-dir")]
     public string? CredentialsDir { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [BooleanCommandSwitch("--overwrite-existing")]
+    [CliFlag("--overwrite-existing")]
     public bool? OverwriteExisting { get; set; }
 
-    [BooleanCommandSwitch("--partner")]
+    [CliFlag("--partner")]
     public bool? Partner { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

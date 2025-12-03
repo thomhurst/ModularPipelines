@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("privateca", "templates", "delete")]
+[CliCommand("privateca", "templates", "delete")]
 public record GcloudPrivatecaTemplatesDeleteOptions(
-[property: PositionalArgument] string CertificateTemplate,
-[property: PositionalArgument] string Location
+[property: CliArgument] string CertificateTemplate,
+[property: CliArgument] string Location
 ) : GcloudOptions;

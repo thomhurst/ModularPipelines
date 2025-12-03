@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("containerapp", "github-action", "add")]
+[CliCommand("containerapp", "github-action", "add")]
 public record AzContainerappGithubActionAddOptions(
-[property: CommandSwitch("--repo-url")] string RepoUrl
+[property: CliOption("--repo-url")] string RepoUrl
 ) : AzOptions
 {
-    [CommandSwitch("--branch")]
+    [CliOption("--branch")]
     public string? Branch { get; set; }
 
-    [CommandSwitch("--context-path")]
+    [CliOption("--context-path")]
     public string? ContextPath { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [BooleanCommandSwitch("--login-with-github")]
+    [CliFlag("--login-with-github")]
     public bool? LoginWithGithub { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--registry-password")]
+    [CliOption("--registry-password")]
     public string? RegistryPassword { get; set; }
 
-    [CommandSwitch("--registry-url")]
+    [CliOption("--registry-url")]
     public string? RegistryUrl { get; set; }
 
-    [CommandSwitch("--registry-username")]
+    [CliOption("--registry-username")]
     public string? RegistryUsername { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--service-principal-client-id")]
+    [CliOption("--service-principal-client-id")]
     public string? ServicePrincipalClientId { get; set; }
 
-    [CommandSwitch("--service-principal-client-secret")]
+    [CliOption("--service-principal-client-secret")]
     public string? ServicePrincipalClientSecret { get; set; }
 
-    [CommandSwitch("--service-principal-tenant-id")]
+    [CliOption("--service-principal-tenant-id")]
     public string? ServicePrincipalTenantId { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--token")]
+    [CliOption("--token")]
     public string? Token { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instance-groups", "unmanaged", "add-instances")]
+[CliCommand("compute", "instance-groups", "unmanaged", "add-instances")]
 public record GcloudComputeInstanceGroupsUnmanagedAddInstancesOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--instances")] string[] Instances
+[property: CliArgument] string Name,
+[property: CliOption("--instances")] string[] Instances
 ) : GcloudOptions
 {
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

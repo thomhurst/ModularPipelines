@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "share", "policy", "create")]
+[CliCommand("storage", "share", "policy", "create")]
 public record AzStorageSharePolicyCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--share-name")] string ShareName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--share-name")] string ShareName
 ) : AzOptions
 {
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--expiry")]
+    [CliOption("--expiry")]
     public string? Expiry { get; set; }
 
-    [CommandSwitch("--file-endpoint")]
+    [CliOption("--file-endpoint")]
     public string? FileEndpoint { get; set; }
 
-    [CommandSwitch("--permissions")]
+    [CliOption("--permissions")]
     public string? Permissions { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--start")]
+    [CliOption("--start")]
     public string? Start { get; set; }
 }

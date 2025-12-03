@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "feature-set", "list")]
+[CliCommand("ml", "feature-set", "list")]
 public record AzMlFeatureSetListOptions : AzOptions
 {
-    [BooleanCommandSwitch("--archived-only")]
+    [CliFlag("--archived-only")]
     public bool? ArchivedOnly { get; set; }
 
-    [CommandSwitch("--feature-store-name")]
+    [CliOption("--feature-store-name")]
     public string? FeatureStoreName { get; set; }
 
-    [BooleanCommandSwitch("--include-archived")]
+    [CliFlag("--include-archived")]
     public bool? IncludeArchived { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public string? MaxResults { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "image")]
+[CliCommand("vm", "image")]
 public class AzVmImageTerms
 {
     public AzVmImageTerms(

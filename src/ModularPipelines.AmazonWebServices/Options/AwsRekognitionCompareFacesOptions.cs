@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("rekognition", "compare-faces")]
+[CliCommand("rekognition", "compare-faces")]
 public record AwsRekognitionCompareFacesOptions : AwsOptions
 {
-    [CommandSwitch("--source-image")]
+    [CliOption("--source-image")]
     public string? SourceImage { get; set; }
 
-    [CommandSwitch("--target-image")]
+    [CliOption("--target-image")]
     public string? TargetImage { get; set; }
 
-    [CommandSwitch("--similarity-threshold")]
+    [CliOption("--similarity-threshold")]
     public float? SimilarityThreshold { get; set; }
 
-    [CommandSwitch("--quality-filter")]
+    [CliOption("--quality-filter")]
     public string? QualityFilter { get; set; }
 
-    [CommandSwitch("--source-image-bytes")]
+    [CliOption("--source-image-bytes")]
     public string? SourceImageBytes { get; set; }
 
-    [CommandSwitch("--target-image-bytes")]
+    [CliOption("--target-image-bytes")]
     public string? TargetImageBytes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

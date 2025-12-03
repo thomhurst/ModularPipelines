@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "gremlin", "graph", "create")]
+[CliCommand("cosmosdb", "gremlin", "graph", "create")]
 public record AzCosmosdbGremlinGraphCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--partition-key-path")] string PartitionKeyPath,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--partition-key-path")] string PartitionKeyPath,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--analytical-storage-ttl")]
+    [CliOption("--analytical-storage-ttl")]
     public string? AnalyticalStorageTtl { get; set; }
 
-    [CommandSwitch("--conflict-resolution-policy")]
+    [CliOption("--conflict-resolution-policy")]
     public string? ConflictResolutionPolicy { get; set; }
 
-    [BooleanCommandSwitch("--idx")]
+    [CliFlag("--idx")]
     public bool? Idx { get; set; }
 
-    [CommandSwitch("--max-throughput")]
+    [CliOption("--max-throughput")]
     public string? MaxThroughput { get; set; }
 
-    [CommandSwitch("--throughput")]
+    [CliOption("--throughput")]
     public string? Throughput { get; set; }
 
-    [CommandSwitch("--ttl")]
+    [CliOption("--ttl")]
     public string? Ttl { get; set; }
 }

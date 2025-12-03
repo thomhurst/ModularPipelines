@@ -5,7 +5,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "tpus", "tpu-vm", "create")]
+[CliCommand("compute", "tpus", "tpu-vm", "create")]
 public record GcloudComputeTpusTpuVmCreateOptions : GcloudOptions
 {
     public GcloudComputeTpusTpuVmCreateOptions(
@@ -19,69 +19,69 @@ public record GcloudComputeTpusTpuVmCreateOptions : GcloudOptions
         Version = version;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Tpu { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Zone { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string Version { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--data-disk")]
+    [CliOption("--data-disk")]
     public string[]? DataDisk { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--internal-ips")]
+    [CliFlag("--internal-ips")]
     public bool? InternalIps { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public IEnumerable<KeyValue>? Metadata { get; set; }
 
-    [CommandSwitch("--metadata-from-file")]
+    [CliOption("--metadata-from-file")]
     public IEnumerable<KeyValue>? MetadataFromFile { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [BooleanCommandSwitch("--preemptible")]
+    [CliFlag("--preemptible")]
     public bool? Preemptible { get; set; }
 
-    [CommandSwitch("--range")]
+    [CliOption("--range")]
     public string? Range { get; set; }
 
-    [BooleanCommandSwitch("--reserved")]
+    [CliFlag("--reserved")]
     public bool? Reserved { get; set; }
 
-    [CommandSwitch("--scopes")]
+    [CliOption("--scopes")]
     public string[]? Scopes { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [BooleanCommandSwitch("--shielded-secure-boot")]
+    [CliFlag("--shielded-secure-boot")]
     public bool? ShieldedSecureBoot { get; set; }
 
-    [CommandSwitch("--subnetwork")]
+    [CliOption("--subnetwork")]
     public string? Subnetwork { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--accelerator-type")]
+    [CliOption("--accelerator-type")]
     public string? AcceleratorType { get; set; }
 
-    [CommandSwitch("--topology")]
+    [CliOption("--topology")]
     public string? Topology { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 }

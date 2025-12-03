@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkfabric", "l3domain", "update")]
+[CliCommand("networkfabric", "l3domain", "update")]
 public record AzNetworkfabricL3domainUpdateOptions : AzOptions
 {
-    [CommandSwitch("--aggregate-route-configuration")]
+    [CliOption("--aggregate-route-configuration")]
     public string? AggregateRouteConfiguration { get; set; }
 
-    [CommandSwitch("--annotation")]
+    [CliOption("--annotation")]
     public string? Annotation { get; set; }
 
-    [CommandSwitch("--connected-subnet-route-policy")]
+    [CliOption("--connected-subnet-route-policy")]
     public string? ConnectedSubnetRoutePolicy { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--redistribute-connected-subnets")]
+    [CliFlag("--redistribute-connected-subnets")]
     public bool? RedistributeConnectedSubnets { get; set; }
 
-    [BooleanCommandSwitch("--redistribute-static-routes")]
+    [CliFlag("--redistribute-static-routes")]
     public bool? RedistributeStaticRoutes { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-name")]
+    [CliOption("--resource-name")]
     public string? ResourceName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

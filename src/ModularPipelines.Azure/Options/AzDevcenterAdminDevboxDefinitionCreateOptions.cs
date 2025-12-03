@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devcenter", "admin", "devbox-definition", "create")]
+[CliCommand("devcenter", "admin", "devbox-definition", "create")]
 public record AzDevcenterAdminDevboxDefinitionCreateOptions(
-[property: CommandSwitch("--dev-center")] string DevCenter,
-[property: CommandSwitch("--devbox-definition-name")] string DevboxDefinitionName,
-[property: CommandSwitch("--image-reference")] string ImageReference,
-[property: CommandSwitch("--os-storage-type")] string OsStorageType,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--sku")] string Sku
+[property: CliOption("--dev-center")] string DevCenter,
+[property: CliOption("--devbox-definition-name")] string DevboxDefinitionName,
+[property: CliOption("--image-reference")] string ImageReference,
+[property: CliOption("--os-storage-type")] string OsStorageType,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--sku")] string Sku
 ) : AzOptions
 {
-    [CommandSwitch("--hibernate-support")]
+    [CliOption("--hibernate-support")]
     public string? HibernateSupport { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

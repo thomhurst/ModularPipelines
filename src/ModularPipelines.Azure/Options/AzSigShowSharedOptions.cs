@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "show-shared")]
+[CliCommand("sig", "show-shared")]
 public record AzSigShowSharedOptions : AzOptions
 {
-    [CommandSwitch("--gallery-unique-name")]
+    [CliOption("--gallery-unique-name")]
     public string? GalleryUniqueName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("peering", "registered-asn", "list")]
+[CliCommand("peering", "registered-asn", "list")]
 public record AzPeeringRegisteredAsnListOptions(
-[property: CommandSwitch("--peering-name")] string PeeringName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--peering-name")] string PeeringName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

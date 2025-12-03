@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("api-gateway", "gateways", "add-iam-policy-binding")]
+[CliCommand("api-gateway", "gateways", "add-iam-policy-binding")]
 public record GcloudApiGatewayGatewaysAddIamPolicyBindingOptions(
-[property: PositionalArgument] string Gateway,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--member")] string Member,
-[property: CommandSwitch("--role")] string Role
+[property: CliArgument] string Gateway,
+[property: CliArgument] string Location,
+[property: CliOption("--member")] string Member,
+[property: CliOption("--role")] string Role
 ) : GcloudOptions;

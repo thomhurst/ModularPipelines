@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "project-info", "set-usage-bucket")]
+[CliCommand("compute", "project-info", "set-usage-bucket")]
 public record GcloudComputeProjectInfoSetUsageBucketOptions(
-[property: CommandSwitch("--bucket")] string Bucket,
-[property: BooleanCommandSwitch("--no-bucket")] bool NoBucket
+[property: CliOption("--bucket")] string Bucket,
+[property: CliFlag("--no-bucket")] bool NoBucket
 ) : GcloudOptions
 {
-    [CommandSwitch("--prefix")]
+    [CliOption("--prefix")]
     public string? Prefix { get; set; }
 }

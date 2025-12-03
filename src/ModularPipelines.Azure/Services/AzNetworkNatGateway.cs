@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "nat")]
+[CliCommand("network", "nat")]
 public class AzNetworkNatGateway
 {
     public AzNetworkNatGateway(

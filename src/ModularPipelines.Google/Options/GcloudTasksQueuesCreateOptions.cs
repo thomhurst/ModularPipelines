@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("tasks", "queues", "create")]
+[CliCommand("tasks", "queues", "create")]
 public record GcloudTasksQueuesCreateOptions(
-[property: PositionalArgument] string Queue
+[property: CliArgument] string Queue
 ) : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--log-sampling-ratio")]
+    [CliOption("--log-sampling-ratio")]
     public string? LogSamplingRatio { get; set; }
 
-    [CommandSwitch("--max-attempts")]
+    [CliOption("--max-attempts")]
     public string? MaxAttempts { get; set; }
 
-    [CommandSwitch("--max-backoff")]
+    [CliOption("--max-backoff")]
     public string? MaxBackoff { get; set; }
 
-    [CommandSwitch("--max-concurrent-dispatches")]
+    [CliOption("--max-concurrent-dispatches")]
     public string? MaxConcurrentDispatches { get; set; }
 
-    [CommandSwitch("--max-dispatches-per-second")]
+    [CliOption("--max-dispatches-per-second")]
     public string? MaxDispatchesPerSecond { get; set; }
 
-    [CommandSwitch("--max-doublings")]
+    [CliOption("--max-doublings")]
     public string? MaxDoublings { get; set; }
 
-    [CommandSwitch("--max-retry-duration")]
+    [CliOption("--max-retry-duration")]
     public string? MaxRetryDuration { get; set; }
 
-    [CommandSwitch("--min-backoff")]
+    [CliOption("--min-backoff")]
     public string? MinBackoff { get; set; }
 
-    [CommandSwitch("--routing-override")]
+    [CliOption("--routing-override")]
     public string[]? RoutingOverride { get; set; }
 }

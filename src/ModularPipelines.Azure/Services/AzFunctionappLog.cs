@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp")]
+[CliCommand("functionapp")]
 public class AzFunctionappLog
 {
     public AzFunctionappLog(

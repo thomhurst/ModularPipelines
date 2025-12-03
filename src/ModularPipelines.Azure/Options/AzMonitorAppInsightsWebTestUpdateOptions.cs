@@ -4,93 +4,93 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "app-insights", "web-test", "update")]
+[CliCommand("monitor", "app-insights", "web-test", "update")]
 public record AzMonitorAppInsightsWebTestUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--content-validation")]
+    [CliOption("--content-validation")]
     public string? ContentValidation { get; set; }
 
-    [CommandSwitch("--defined-web-test-name")]
+    [CliOption("--defined-web-test-name")]
     public string? DefinedWebTestName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
-    [CommandSwitch("--expected-status-code")]
+    [CliOption("--expected-status-code")]
     public string? ExpectedStatusCode { get; set; }
 
-    [BooleanCommandSwitch("--follow-redirects")]
+    [CliFlag("--follow-redirects")]
     public bool? FollowRedirects { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--frequency")]
+    [CliOption("--frequency")]
     public string? Frequency { get; set; }
 
-    [CommandSwitch("--headers")]
+    [CliOption("--headers")]
     public string? Headers { get; set; }
 
-    [CommandSwitch("--http-verb")]
+    [CliOption("--http-verb")]
     public string? HttpVerb { get; set; }
 
-    [BooleanCommandSwitch("--ignore-status-code")]
+    [CliFlag("--ignore-status-code")]
     public bool? IgnoreStatusCode { get; set; }
 
-    [CommandSwitch("--kind")]
+    [CliOption("--kind")]
     public string? Kind { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--locations")]
+    [CliOption("--locations")]
     public string? Locations { get; set; }
 
-    [BooleanCommandSwitch("--parse-requests")]
+    [CliFlag("--parse-requests")]
     public bool? ParseRequests { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--request-body")]
+    [CliOption("--request-body")]
     public string? RequestBody { get; set; }
 
-    [CommandSwitch("--request-url")]
+    [CliOption("--request-url")]
     public string? RequestUrl { get; set; }
 
-    [BooleanCommandSwitch("--retry-enabled")]
+    [CliFlag("--retry-enabled")]
     public bool? RetryEnabled { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [BooleanCommandSwitch("--ssl-check")]
+    [CliFlag("--ssl-check")]
     public bool? SslCheck { get; set; }
 
-    [CommandSwitch("--ssl-lifetime-check")]
+    [CliOption("--ssl-lifetime-check")]
     public string? SslLifetimeCheck { get; set; }
 
-    [CommandSwitch("--synthetic-monitor-id")]
+    [CliOption("--synthetic-monitor-id")]
     public string? SyntheticMonitorId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public string? Timeout { get; set; }
 
-    [CommandSwitch("--web-test")]
+    [CliOption("--web-test")]
     public string? WebTest { get; set; }
 
-    [CommandSwitch("--web-test-kind")]
+    [CliOption("--web-test-kind")]
     public string? WebTestKind { get; set; }
 }

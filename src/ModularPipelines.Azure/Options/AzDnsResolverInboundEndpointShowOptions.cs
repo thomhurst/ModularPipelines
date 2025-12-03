@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns-resolver", "inbound-endpoint", "show")]
+[CliCommand("dns-resolver", "inbound-endpoint", "show")]
 public record AzDnsResolverInboundEndpointShowOptions : AzOptions
 {
-    [CommandSwitch("--dns-resolver-name")]
+    [CliOption("--dns-resolver-name")]
     public string? DnsResolverName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--inbound-endpoint-name")]
+    [CliOption("--inbound-endpoint-name")]
     public string? InboundEndpointName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

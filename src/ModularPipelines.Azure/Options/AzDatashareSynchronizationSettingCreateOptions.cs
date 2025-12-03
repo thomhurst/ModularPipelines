@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datashare", "synchronization-setting", "create")]
+[CliCommand("datashare", "synchronization-setting", "create")]
 public record AzDatashareSynchronizationSettingCreateOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--share-name")] string ShareName
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--share-name")] string ShareName
 ) : AzOptions
 {
-    [CommandSwitch("--scheduled-synchronization-setting")]
+    [CliOption("--scheduled-synchronization-setting")]
     public string? ScheduledSynchronizationSetting { get; set; }
 }

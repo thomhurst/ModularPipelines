@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("endpoints", "services", "add-iam-policy-binding")]
+[CliCommand("endpoints", "services", "add-iam-policy-binding")]
 public record GcloudEndpointsServicesAddIamPolicyBindingOptions(
-[property: PositionalArgument] string Service,
-[property: CommandSwitch("--member")] string Member,
-[property: CommandSwitch("--role")] string Role
+[property: CliArgument] string Service,
+[property: CliOption("--member")] string Member,
+[property: CliOption("--role")] string Role
 ) : GcloudOptions;

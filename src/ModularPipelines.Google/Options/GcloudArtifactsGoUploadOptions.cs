@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("artifacts", "go", "upload")]
+[CliCommand("artifacts", "go", "upload")]
 public record GcloudArtifactsGoUploadOptions : GcloudOptions
 {
     public GcloudArtifactsGoUploadOptions(
@@ -16,21 +16,21 @@ public record GcloudArtifactsGoUploadOptions : GcloudOptions
         Version = version;
     }
 
-    [CommandSwitch("--module-path")]
+    [CliOption("--module-path")]
     public string ModulePath { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string Version { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--repository")]
+    [CliOption("--repository")]
     public string? Repository { get; set; }
 }

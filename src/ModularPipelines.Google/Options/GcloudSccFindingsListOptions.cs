@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scc", "findings", "list")]
+[CliCommand("scc", "findings", "list")]
 public record GcloudSccFindingsListOptions(
-[property: PositionalArgument] string Parent
+[property: CliArgument] string Parent
 ) : GcloudOptions
 {
-    [CommandSwitch("--compare-duration")]
+    [CliOption("--compare-duration")]
     public string? CompareDuration { get; set; }
 
-    [CommandSwitch("--field-mask")]
+    [CliOption("--field-mask")]
     public string? FieldMask { get; set; }
 
-    [CommandSwitch("--order-by")]
+    [CliOption("--order-by")]
     public string? OrderBy { get; set; }
 
-    [CommandSwitch("--page-token")]
+    [CliOption("--page-token")]
     public string? PageToken { get; set; }
 
-    [CommandSwitch("--read-time")]
+    [CliOption("--read-time")]
     public string? ReadTime { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 }

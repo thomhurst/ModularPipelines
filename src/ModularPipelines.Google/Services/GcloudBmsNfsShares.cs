@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bms")]
+[CliCommand("bms")]
 public class GcloudBmsNfsShares
 {
     public GcloudBmsNfsShares(

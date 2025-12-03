@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("run", "jobs", "set-iam-policy")]
+[CliCommand("run", "jobs", "set-iam-policy")]
 public record GcloudRunJobsSetIamPolicyOptions(
-[property: PositionalArgument] string Job,
-[property: PositionalArgument] string PolicyFile
+[property: CliArgument] string Job,
+[property: CliArgument] string PolicyFile
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

@@ -4,51 +4,51 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "blob", "service-properties", "update")]
+[CliCommand("storage", "blob", "service-properties", "update")]
 public record AzStorageBlobServicePropertiesUpdateOptions : AzOptions
 {
-    [CommandSwitch("--404-document")]
+    [CliOption("--404-document")]
     public string? Path404Document { get; set; }
 
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--blob-endpoint")]
+    [CliOption("--blob-endpoint")]
     public string? BlobEndpoint { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [BooleanCommandSwitch("--delete-retention")]
+    [CliFlag("--delete-retention")]
     public bool? DeleteRetention { get; set; }
 
-    [CommandSwitch("--delete-retention-period")]
+    [CliOption("--delete-retention-period")]
     public string? DeleteRetentionPeriod { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--index-document")]
+    [CliOption("--index-document")]
     public string? IndexDocument { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--sas-token")]
+    [CliOption("--sas-token")]
     public string? SasToken { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [BooleanCommandSwitch("--static-website")]
+    [CliFlag("--static-website")]
     public bool? StaticWebsite { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns", "record-sets", "describe")]
+[CliCommand("dns", "record-sets", "describe")]
 public record GcloudDnsRecordSetsDescribeOptions(
-[property: PositionalArgument] string DnsName,
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--zone")] string Zone
+[property: CliArgument] string DnsName,
+[property: CliOption("--type")] string Type,
+[property: CliOption("--zone")] string Zone
 ) : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

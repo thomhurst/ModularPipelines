@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthcareapis", "operation-result", "show")]
+[CliCommand("healthcareapis", "operation-result", "show")]
 public record AzHealthcareapisOperationResultShowOptions : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--location-name")]
+    [CliOption("--location-name")]
     public string? LocationName { get; set; }
 
-    [CommandSwitch("--operation-result-id")]
+    [CliOption("--operation-result-id")]
     public string? OperationResultId { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

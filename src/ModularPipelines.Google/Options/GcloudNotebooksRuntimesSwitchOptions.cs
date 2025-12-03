@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("notebooks", "runtimes", "switch")]
+[CliCommand("notebooks", "runtimes", "switch")]
 public record GcloudNotebooksRuntimesSwitchOptions(
-[property: PositionalArgument] string Runtime,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Runtime,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--machine-type")]
+    [CliOption("--machine-type")]
     public string? MachineType { get; set; }
 
-    [CommandSwitch("--accelerator-core-count")]
+    [CliOption("--accelerator-core-count")]
     public string? AcceleratorCoreCount { get; set; }
 
-    [CommandSwitch("--accelerator-type")]
+    [CliOption("--accelerator-type")]
     public string? AcceleratorType { get; set; }
 }

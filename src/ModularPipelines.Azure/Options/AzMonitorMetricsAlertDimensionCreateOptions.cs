@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "metrics", "alert", "dimension", "create")]
+[CliCommand("monitor", "metrics", "alert", "dimension", "create")]
 public record AzMonitorMetricsAlertDimensionCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--value")] string Value
+[property: CliOption("--name")] string Name,
+[property: CliOption("--value")] string Value
 ) : AzOptions
 {
-    [CommandSwitch("--op")]
+    [CliOption("--op")]
     public string? Op { get; set; }
 }

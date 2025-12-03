@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("route53", "create-hosted-zone")]
+[CliCommand("route53", "create-hosted-zone")]
 public record AwsRoute53CreateHostedZoneOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--caller-reference")] string CallerReference
+[property: CliOption("--name")] string Name,
+[property: CliOption("--caller-reference")] string CallerReference
 ) : AwsOptions
 {
-    [CommandSwitch("--vpc")]
+    [CliOption("--vpc")]
     public string? Vpc { get; set; }
 
-    [CommandSwitch("--hosted-zone-config")]
+    [CliOption("--hosted-zone-config")]
     public string? HostedZoneConfig { get; set; }
 
-    [CommandSwitch("--delegation-set-id")]
+    [CliOption("--delegation-set-id")]
     public string? DelegationSetId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

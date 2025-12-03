@@ -5,62 +5,62 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "custom-jobs", "create")]
+[CliCommand("ai", "custom-jobs", "create")]
 public record GcloudAiCustomJobsCreateOptions(
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--config")] string Config,
-[property: CommandSwitch("--worker-pool-spec")] string[] WorkerPoolSpec,
-[property: BooleanCommandSwitch("machine-type")] bool MachineType,
-[property: BooleanCommandSwitch("replica-count")] bool ReplicaCount,
-[property: BooleanCommandSwitch("accelerator-type")] bool AcceleratorType,
-[property: BooleanCommandSwitch("accelerator-count")] bool AcceleratorCount,
-[property: BooleanCommandSwitch("container-image-uri")] bool ContainerImageUri,
-[property: BooleanCommandSwitch("executor-image-uri")] bool ExecutorImageUri,
-[property: BooleanCommandSwitch("output-image-uri")] bool OutputImageUri,
-[property: BooleanCommandSwitch("python-module")] bool PythonModule,
-[property: BooleanCommandSwitch("local-package-path")] bool LocalPackagePath,
-[property: BooleanCommandSwitch("script")] bool Script,
-[property: BooleanCommandSwitch("requirements")] bool Requirements,
-[property: BooleanCommandSwitch("extra-packages")] bool ExtraPackages,
-[property: BooleanCommandSwitch("extra-dirs")] bool ExtraDirs
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--config")] string Config,
+[property: CliOption("--worker-pool-spec")] string[] WorkerPoolSpec,
+[property: CliFlag("machine-type")] bool MachineType,
+[property: CliFlag("replica-count")] bool ReplicaCount,
+[property: CliFlag("accelerator-type")] bool AcceleratorType,
+[property: CliFlag("accelerator-count")] bool AcceleratorCount,
+[property: CliFlag("container-image-uri")] bool ContainerImageUri,
+[property: CliFlag("executor-image-uri")] bool ExecutorImageUri,
+[property: CliFlag("output-image-uri")] bool OutputImageUri,
+[property: CliFlag("python-module")] bool PythonModule,
+[property: CliFlag("local-package-path")] bool LocalPackagePath,
+[property: CliFlag("script")] bool Script,
+[property: CliFlag("requirements")] bool Requirements,
+[property: CliFlag("extra-packages")] bool ExtraPackages,
+[property: CliFlag("extra-dirs")] bool ExtraDirs
 ) : GcloudOptions
 {
-    [CommandSwitch("--args")]
+    [CliOption("--args")]
     public string[]? Args { get; set; }
 
-    [CommandSwitch("--command")]
+    [CliOption("--command")]
     public string[]? Command { get; set; }
 
-    [BooleanCommandSwitch("--enable-dashboard-access")]
+    [CliFlag("--enable-dashboard-access")]
     public bool? EnableDashboardAccess { get; set; }
 
-    [BooleanCommandSwitch("--enable-web-access")]
+    [CliFlag("--enable-web-access")]
     public bool? EnableWebAccess { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--python-package-uris")]
+    [CliOption("--python-package-uris")]
     public string[]? PythonPackageUris { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--service-account")]
+    [CliOption("--service-account")]
     public string? ServiceAccount { get; set; }
 
-    [CommandSwitch("--kms-key")]
+    [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
-    [CommandSwitch("--kms-keyring")]
+    [CliOption("--kms-keyring")]
     public string? KmsKeyring { get; set; }
 
-    [CommandSwitch("--kms-location")]
+    [CliOption("--kms-location")]
     public string? KmsLocation { get; set; }
 
-    [CommandSwitch("--kms-project")]
+    [CliOption("--kms-project")]
     public string? KmsProject { get; set; }
 }

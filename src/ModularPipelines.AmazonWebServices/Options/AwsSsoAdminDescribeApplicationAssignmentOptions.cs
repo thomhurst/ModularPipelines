@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sso-admin", "describe-application-assignment")]
+[CliCommand("sso-admin", "describe-application-assignment")]
 public record AwsSsoAdminDescribeApplicationAssignmentOptions(
-[property: CommandSwitch("--application-arn")] string ApplicationArn,
-[property: CommandSwitch("--principal-id")] string PrincipalId,
-[property: CommandSwitch("--principal-type")] string PrincipalType
+[property: CliOption("--application-arn")] string ApplicationArn,
+[property: CliOption("--principal-id")] string PrincipalId,
+[property: CliOption("--principal-type")] string PrincipalType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

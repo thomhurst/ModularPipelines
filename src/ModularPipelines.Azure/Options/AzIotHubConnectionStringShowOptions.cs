@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "connection-string", "show")]
+[CliCommand("iot", "hub", "connection-string", "show")]
 public record AzIotHubConnectionStringShowOptions : AzOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public bool? All { get; set; }
 
-    [BooleanCommandSwitch("--default-eventhub")]
+    [CliFlag("--default-eventhub")]
     public bool? DefaultEventhub { get; set; }
 
-    [CommandSwitch("--hub-name")]
+    [CliOption("--hub-name")]
     public string? HubName { get; set; }
 
-    [CommandSwitch("--key-type")]
+    [CliOption("--key-type")]
     public string? KeyType { get; set; }
 
-    [CommandSwitch("--pn")]
+    [CliOption("--pn")]
     public string? Pn { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

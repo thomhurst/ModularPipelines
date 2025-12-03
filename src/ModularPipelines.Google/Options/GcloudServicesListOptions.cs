@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("services", "list")]
+[CliCommand("services", "list")]
 public record GcloudServicesListOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--available")]
+    [CliFlag("--available")]
     public bool? Available { get; set; }
 
-    [BooleanCommandSwitch("--enabled")]
+    [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns", "managed-zones", "get-iam-policy")]
+[CliCommand("dns", "managed-zones", "get-iam-policy")]
 public record GcloudDnsManagedZonesGetIamPolicyOptions(
-[property: PositionalArgument] string Zone
+[property: CliArgument] string Zone
 ) : GcloudOptions;

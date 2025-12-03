@@ -3,52 +3,52 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("swarm", "init")]
+[CliCommand("swarm", "init")]
 [ExcludeFromCodeCoverage]
 public record DockerSwarmInitOptions : DockerOptions
 {
-    [CommandSwitch("--advertise-addr")]
+    [CliOption("--advertise-addr")]
     public virtual string? AdvertiseAddr { get; set; }
 
-    [CommandSwitch("--autolock")]
+    [CliOption("--autolock")]
     public virtual string? Autolock { get; set; }
 
-    [CommandSwitch("--availability")]
+    [CliOption("--availability")]
     public virtual string? Availability { get; set; }
 
-    [CommandSwitch("--cert-expiry")]
+    [CliOption("--cert-expiry")]
     public virtual string? CertExpiry { get; set; }
 
-    [CommandSwitch("--data-path-addr")]
+    [CliOption("--data-path-addr")]
     public virtual string? DataPathAddr { get; set; }
 
-    [CommandSwitch("--data-path-port")]
+    [CliOption("--data-path-port")]
     public virtual string? DataPathPort { get; set; }
 
-    [CommandSwitch("--default-addr-pool")]
+    [CliOption("--default-addr-pool")]
     public virtual string? DefaultAddrPool { get; set; }
 
-    [CommandSwitch("--default-addr-pool-mask-length")]
+    [CliOption("--default-addr-pool-mask-length")]
     public virtual int? DefaultAddrPoolMaskLength { get; set; }
 
-    [CommandSwitch("--dispatcher-heartbeat")]
+    [CliOption("--dispatcher-heartbeat")]
     public virtual string? DispatcherHeartbeat { get; set; }
 
-    [CommandSwitch("--external-ca")]
+    [CliOption("--external-ca")]
     public virtual string? ExternalCa { get; set; }
 
-    [CommandSwitch("--force-new-cluster")]
+    [CliOption("--force-new-cluster")]
     public virtual string? ForceNewCluster { get; set; }
 
-    [CommandSwitch("--listen-addr")]
+    [CliOption("--listen-addr")]
     public virtual string? ListenAddr { get; set; }
 
-    [CommandSwitch("--max-snapshots")]
+    [CliOption("--max-snapshots")]
     public virtual string? MaxSnapshots { get; set; }
 
-    [CommandSwitch("--snapshot-interval")]
+    [CliOption("--snapshot-interval")]
     public virtual int? SnapshotInterval { get; set; }
 
-    [CommandSwitch("--task-history-limit")]
+    [CliOption("--task-history-limit")]
     public virtual int? TaskHistoryLimit { get; set; }
 }

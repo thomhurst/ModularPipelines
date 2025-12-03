@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("port-forward")]
+[CliCommand("port-forward")]
 [ExcludeFromCodeCoverage]
-public record KubernetesPortForwardOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesPortForwardOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [CommandEqualsSeparatorSwitch("--address", SwitchValueSeparator = " ")]
+    [CliOption("--address")]
     public string? Address { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--pod-running-timeout", SwitchValueSeparator = " ")]
+    [CliOption("--pod-running-timeout")]
     public string? PodRunningTimeout { get; set; }
 }

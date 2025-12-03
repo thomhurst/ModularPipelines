@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("notebooks", "instances", "start")]
+[CliCommand("notebooks", "instances", "start")]
 public record GcloudNotebooksInstancesStartOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Instance,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

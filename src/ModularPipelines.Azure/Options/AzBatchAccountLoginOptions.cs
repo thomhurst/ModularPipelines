@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "account", "login")]
+[CliCommand("batch", "account", "login")]
 public record AzBatchAccountLoginOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--shared-key-auth")]
+    [CliFlag("--shared-key-auth")]
     public bool? SharedKeyAuth { get; set; }
 
-    [BooleanCommandSwitch("--show")]
+    [CliFlag("--show")]
     public bool? Show { get; set; }
 }

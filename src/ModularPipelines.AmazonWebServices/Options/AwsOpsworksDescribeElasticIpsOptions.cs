@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "describe-elastic-ips")]
+[CliCommand("opsworks", "describe-elastic-ips")]
 public record AwsOpsworksDescribeElasticIpsOptions : AwsOptions
 {
-    [CommandSwitch("--instance-id")]
+    [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CommandSwitch("--stack-id")]
+    [CliOption("--stack-id")]
     public string? StackId { get; set; }
 
-    [CommandSwitch("--ips")]
+    [CliOption("--ips")]
     public string[]? Ips { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

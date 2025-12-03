@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("personalize", "create-event-tracker")]
+[CliCommand("personalize", "create-event-tracker")]
 public record AwsPersonalizeCreateEventTrackerOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--dataset-group-arn")] string DatasetGroupArn
+[property: CliOption("--name")] string Name,
+[property: CliOption("--dataset-group-arn")] string DatasetGroupArn
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

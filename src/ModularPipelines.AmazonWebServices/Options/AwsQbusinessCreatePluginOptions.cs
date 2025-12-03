@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qbusiness", "create-plugin")]
+[CliCommand("qbusiness", "create-plugin")]
 public record AwsQbusinessCreatePluginOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId,
-[property: CommandSwitch("--auth-configuration")] string AuthConfiguration,
-[property: CommandSwitch("--display-name")] string DisplayName,
-[property: CommandSwitch("--server-url")] string ServerUrl,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--application-id")] string ApplicationId,
+[property: CliOption("--auth-configuration")] string AuthConfiguration,
+[property: CliOption("--display-name")] string DisplayName,
+[property: CliOption("--server-url")] string ServerUrl,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

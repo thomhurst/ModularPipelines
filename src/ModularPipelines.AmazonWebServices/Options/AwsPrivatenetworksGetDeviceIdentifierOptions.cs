@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("privatenetworks", "get-device-identifier")]
+[CliCommand("privatenetworks", "get-device-identifier")]
 public record AwsPrivatenetworksGetDeviceIdentifierOptions(
-[property: CommandSwitch("--device-identifier-arn")] string DeviceIdentifierArn
+[property: CliOption("--device-identifier-arn")] string DeviceIdentifierArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

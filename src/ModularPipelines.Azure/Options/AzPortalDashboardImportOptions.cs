@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("portal", "dashboard", "import")]
+[CliCommand("portal", "dashboard", "import")]
 public record AzPortalDashboardImportOptions(
-[property: CommandSwitch("--input-path")] string InputPath,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--input-path")] string InputPath,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 }

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("run", "domain-mappings", "describe")]
+[CliCommand("run", "domain-mappings", "describe")]
 public record GcloudRunDomainMappingsDescribeOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--namespace")] string Namespace
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--namespace")] string Namespace
 ) : GcloudOptions
 {
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public string? Platform { get; set; }
 
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--cluster-location")]
+    [CliOption("--cluster-location")]
     public string? ClusterLocation { get; set; }
 
-    [CommandSwitch("--context")]
+    [CliOption("--context")]
     public string? Context { get; set; }
 
-    [CommandSwitch("--kubeconfig")]
+    [CliOption("--kubeconfig")]
     public string? Kubeconfig { get; set; }
 }

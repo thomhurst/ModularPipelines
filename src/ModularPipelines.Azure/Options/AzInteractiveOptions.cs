@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("interactive")]
+[CliCommand("interactive")]
 public record AzInteractiveOptions : AzOptions
 {
-    [CommandSwitch("--style")]
+    [CliOption("--style")]
     public string? Style { get; set; }
 
-    [CommandSwitch("--update")]
+    [CliOption("--update")]
     public string? Update { get; set; }
 }

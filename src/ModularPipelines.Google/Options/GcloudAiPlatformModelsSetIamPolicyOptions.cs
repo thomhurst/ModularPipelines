@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai-platform", "models", "set-iam-policy")]
+[CliCommand("ai-platform", "models", "set-iam-policy")]
 public record GcloudAiPlatformModelsSetIamPolicyOptions(
-[property: PositionalArgument] string Model,
-[property: PositionalArgument] string PolicyFile
+[property: CliArgument] string Model,
+[property: CliArgument] string PolicyFile
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

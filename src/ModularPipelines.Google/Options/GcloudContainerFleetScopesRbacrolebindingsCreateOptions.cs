@@ -5,16 +5,16 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "scopes", "rbacrolebindings", "create")]
+[CliCommand("container", "fleet", "scopes", "rbacrolebindings", "create")]
 public record GcloudContainerFleetScopesRbacrolebindingsCreateOptions(
-[property: PositionalArgument] string Name,
-[property: PositionalArgument] string Location,
-[property: PositionalArgument] string Scope,
-[property: CommandSwitch("--role")] string Role,
-[property: CommandSwitch("--group")] string Group,
-[property: CommandSwitch("--user")] string User
+[property: CliArgument] string Name,
+[property: CliArgument] string Location,
+[property: CliArgument] string Scope,
+[property: CliOption("--role")] string Role,
+[property: CliOption("--group")] string Group,
+[property: CliOption("--user")] string User
 ) : GcloudOptions
 {
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

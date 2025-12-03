@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logging", "logs", "list")]
+[CliCommand("logging", "logs", "list")]
 public record GcloudLoggingLogsListOptions : GcloudOptions
 {
-    [CommandSwitch("--bucket")]
+    [CliOption("--bucket")]
     public string? Bucket { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--view")]
+    [CliOption("--view")]
     public string? View { get; set; }
 }

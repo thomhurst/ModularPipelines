@@ -3,16 +3,16 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "restart")]
+[CliCommand("compose", "restart")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeRestartOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Service { get; set; }
 
-    [BooleanCommandSwitch("--no-deps")]
+    [CliFlag("--no-deps")]
     public virtual bool? NoDeps { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public virtual string? Timeout { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firestore", "fields")]
+[CliCommand("firestore", "fields")]
 public class GcloudFirestoreFieldsTtls
 {
     public GcloudFirestoreFieldsTtls(

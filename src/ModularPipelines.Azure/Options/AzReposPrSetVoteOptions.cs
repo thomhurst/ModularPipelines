@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "pr", "set-vote")]
+[CliCommand("repos", "pr", "set-vote")]
 public record AzReposPrSetVoteOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--vote")] string Vote
+[property: CliOption("--id")] string Id,
+[property: CliOption("--vote")] string Vote
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 }

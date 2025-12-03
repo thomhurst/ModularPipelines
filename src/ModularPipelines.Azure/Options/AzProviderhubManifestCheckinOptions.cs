@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("providerhub", "manifest", "checkin")]
+[CliCommand("providerhub", "manifest", "checkin")]
 public record AzProviderhubManifestCheckinOptions(
-[property: CommandSwitch("--arm-manifest-location")] string ArmManifestLocation,
-[property: CommandSwitch("--environment")] string Environment
+[property: CliOption("--arm-manifest-location")] string ArmManifestLocation,
+[property: CliOption("--environment")] string Environment
 ) : AzOptions
 {
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--provider-namespace")]
+    [CliOption("--provider-namespace")]
     public string? ProviderNamespace { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

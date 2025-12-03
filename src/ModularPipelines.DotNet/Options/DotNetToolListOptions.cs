@@ -20,15 +20,15 @@ public record DotNetToolListOptions : DotNetOptions
         PackageId = packageId;
     }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public virtual bool? Global { get; set; }
 
-    [BooleanCommandSwitch("--tool-path")]
+    [CliFlag("--tool-path")]
     public virtual bool? ToolPath { get; set; }
 
-    [BooleanCommandSwitch("--local")]
+    [CliFlag("--local")]
     public virtual bool? Local { get; set; }
 
-    [PositionalArgument(PlaceholderName = "[<PACKAGE_ID>]")]
+    [CliArgument(Name = "[<PACKAGE_ID>]")]
     public string? PackageId { get; set; }
 }

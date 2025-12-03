@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "nat", "gateway", "create")]
+[CliCommand("network", "nat", "gateway", "create")]
 public record AzNetworkNatGatewayCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--idle-timeout")]
+    [CliOption("--idle-timeout")]
     public string? IdleTimeout { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--public-ip-addresses")]
+    [CliOption("--public-ip-addresses")]
     public string? PublicIpAddresses { get; set; }
 
-    [CommandSwitch("--public-ip-prefixes")]
+    [CliOption("--public-ip-prefixes")]
     public string? PublicIpPrefixes { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "share")]
+[CliCommand("storage", "share")]
 public class AzStorageShareListHandle
 {
     public AzStorageShareListHandle(

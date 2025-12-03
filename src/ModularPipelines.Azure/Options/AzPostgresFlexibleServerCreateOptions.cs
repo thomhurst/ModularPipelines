@@ -4,99 +4,99 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("postgres", "flexible-server", "create")]
+[CliCommand("postgres", "flexible-server", "create")]
 public record AzPostgresFlexibleServerCreateOptions : AzOptions
 {
-    [CommandSwitch("--active-directory-auth")]
+    [CliOption("--active-directory-auth")]
     public string? ActiveDirectoryAuth { get; set; }
 
-    [CommandSwitch("--address-prefixes")]
+    [CliOption("--address-prefixes")]
     public string? AddressPrefixes { get; set; }
 
-    [CommandSwitch("--admin-password")]
+    [CliOption("--admin-password")]
     public string? AdminPassword { get; set; }
 
-    [CommandSwitch("--admin-user")]
+    [CliOption("--admin-user")]
     public string? AdminUser { get; set; }
 
-    [CommandSwitch("--backup-identity")]
+    [CliOption("--backup-identity")]
     public string? BackupIdentity { get; set; }
 
-    [CommandSwitch("--backup-key")]
+    [CliOption("--backup-key")]
     public string? BackupKey { get; set; }
 
-    [CommandSwitch("--backup-retention")]
+    [CliOption("--backup-retention")]
     public string? BackupRetention { get; set; }
 
-    [CommandSwitch("--database-name")]
+    [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CommandSwitch("--geo-redundant-backup")]
+    [CliOption("--geo-redundant-backup")]
     public string? GeoRedundantBackup { get; set; }
 
-    [CommandSwitch("--high-availability")]
+    [CliOption("--high-availability")]
     public string? HighAvailability { get; set; }
 
-    [CommandSwitch("--identity")]
+    [CliOption("--identity")]
     public string? Identity { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--password-auth")]
+    [CliOption("--password-auth")]
     public string? PasswordAuth { get; set; }
 
-    [CommandSwitch("--performance-tier")]
+    [CliOption("--performance-tier")]
     public string? PerformanceTier { get; set; }
 
-    [CommandSwitch("--private-dns-zone")]
+    [CliOption("--private-dns-zone")]
     public string? PrivateDnsZone { get; set; }
 
-    [CommandSwitch("--public-access")]
+    [CliOption("--public-access")]
     public string? PublicAccess { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--sku-name")]
+    [CliOption("--sku-name")]
     public string? SkuName { get; set; }
 
-    [CommandSwitch("--standby-zone")]
+    [CliOption("--standby-zone")]
     public string? StandbyZone { get; set; }
 
-    [CommandSwitch("--storage-auto-grow")]
+    [CliOption("--storage-auto-grow")]
     public string? StorageAutoGrow { get; set; }
 
-    [CommandSwitch("--storage-size")]
+    [CliOption("--storage-size")]
     public string? StorageSize { get; set; }
 
-    [CommandSwitch("--subnet")]
+    [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
-    [CommandSwitch("--subnet-prefixes")]
+    [CliOption("--subnet-prefixes")]
     public string? SubnetPrefixes { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 
-    [CommandSwitch("--vnet")]
+    [CliOption("--vnet")]
     public string? Vnet { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

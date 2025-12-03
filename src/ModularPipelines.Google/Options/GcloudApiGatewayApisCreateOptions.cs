@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("api-gateway", "apis", "create")]
+[CliCommand("api-gateway", "apis", "create")]
 public record GcloudApiGatewayApisCreateOptions(
-[property: PositionalArgument] string Api
+[property: CliArgument] string Api
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--managed-service")]
+    [CliOption("--managed-service")]
     public string? ManagedService { get; set; }
 }

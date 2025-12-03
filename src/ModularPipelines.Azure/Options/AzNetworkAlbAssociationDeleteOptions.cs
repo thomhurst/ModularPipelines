@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "alb", "association", "delete")]
+[CliCommand("network", "alb", "association", "delete")]
 public record AzNetworkAlbAssociationDeleteOptions : AzOptions
 {
-    [CommandSwitch("--alb-name")]
+    [CliOption("--alb-name")]
     public string? AlbName { get; set; }
 
-    [CommandSwitch("--association-name")]
+    [CliOption("--association-name")]
     public string? AssociationName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

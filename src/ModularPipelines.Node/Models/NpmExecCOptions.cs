@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("exec", "-c")]
+[CliCommand("exec", "-c")]
 public record NpmExecCOptions : NpmOptions
 {
-    [CommandSwitch("--package")]
+    [CliOption("--package")]
     public virtual string[]? Package { get; set; }
 
-    [CommandSwitch("--call")]
+    [CliOption("--call")]
     public virtual string? Call { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public virtual string[]? Workspace { get; set; }
 
-    [BooleanCommandSwitch("--workspaces")]
+    [CliFlag("--workspaces")]
     public virtual bool? Workspaces { get; set; }
 
-    [BooleanCommandSwitch("--include-workspace-root")]
+    [CliFlag("--include-workspace-root")]
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string? Cmd { get; set; }
 }

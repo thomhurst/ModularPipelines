@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("keyvault", "security-domain", "restore-blob")]
+[CliCommand("keyvault", "security-domain", "restore-blob")]
 public record AzKeyvaultSecurityDomainRestoreBlobOptions(
-[property: CommandSwitch("--sd-exchange-key")] string SdExchangeKey,
-[property: CommandSwitch("--sd-file")] string SdFile,
-[property: CommandSwitch("--sd-file-restore-blob")] string SdFileRestoreBlob,
-[property: CommandSwitch("--sd-wrapping-keys")] string SdWrappingKeys
+[property: CliOption("--sd-exchange-key")] string SdExchangeKey,
+[property: CliOption("--sd-file")] string SdFile,
+[property: CliOption("--sd-file-restore-blob")] string SdFileRestoreBlob,
+[property: CliOption("--sd-wrapping-keys")] string SdWrappingKeys
 ) : AzOptions
 {
-    [CommandSwitch("--passwords")]
+    [CliOption("--passwords")]
     public string? Passwords { get; set; }
 }

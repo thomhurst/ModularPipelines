@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("immersive-stream", "xr", "contents", "update")]
+[CliCommand("immersive-stream", "xr", "contents", "update")]
 public record GcloudImmersiveStreamXrContentsUpdateOptions(
-[property: PositionalArgument] string Content,
-[property: PositionalArgument] string Location,
-[property: CommandSwitch("--bucket")] string Bucket
+[property: CliArgument] string Content,
+[property: CliArgument] string Location,
+[property: CliOption("--bucket")] string Bucket
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

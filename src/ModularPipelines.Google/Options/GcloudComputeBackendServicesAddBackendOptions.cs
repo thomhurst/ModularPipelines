@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "backend-services", "add-backend")]
+[CliCommand("compute", "backend-services", "add-backend")]
 public record GcloudComputeBackendServicesAddBackendOptions(
-[property: PositionalArgument] string BackendServiceName,
-[property: CommandSwitch("--instance-group")] string InstanceGroup,
-[property: CommandSwitch("--instance-group-region")] string InstanceGroupRegion,
-[property: CommandSwitch("--instance-group-zone")] string InstanceGroupZone,
-[property: CommandSwitch("--network-endpoint-group")] string NetworkEndpointGroup,
-[property: BooleanCommandSwitch("--global-network-endpoint-group")] bool GlobalNetworkEndpointGroup,
-[property: CommandSwitch("--network-endpoint-group-region")] string NetworkEndpointGroupRegion,
-[property: CommandSwitch("--network-endpoint-group-zone")] string NetworkEndpointGroupZone
+[property: CliArgument] string BackendServiceName,
+[property: CliOption("--instance-group")] string InstanceGroup,
+[property: CliOption("--instance-group-region")] string InstanceGroupRegion,
+[property: CliOption("--instance-group-zone")] string InstanceGroupZone,
+[property: CliOption("--network-endpoint-group")] string NetworkEndpointGroup,
+[property: CliFlag("--global-network-endpoint-group")] bool GlobalNetworkEndpointGroup,
+[property: CliOption("--network-endpoint-group-region")] string NetworkEndpointGroupRegion,
+[property: CliOption("--network-endpoint-group-zone")] string NetworkEndpointGroupZone
 ) : GcloudOptions
 {
-    [CommandSwitch("--balancing-mode")]
+    [CliOption("--balancing-mode")]
     public string? BalancingMode { get; set; }
 
-    [CommandSwitch("--capacity-scaler")]
+    [CliOption("--capacity-scaler")]
     public string? CapacityScaler { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--failover")]
+    [CliFlag("--failover")]
     public bool? Failover { get; set; }
 
-    [CommandSwitch("--max-utilization")]
+    [CliOption("--max-utilization")]
     public string? MaxUtilization { get; set; }
 
-    [BooleanCommandSwitch("--global")]
+    [CliFlag("--global")]
     public bool? Global { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--max-connections")]
+    [CliOption("--max-connections")]
     public string? MaxConnections { get; set; }
 
-    [CommandSwitch("--max-connections-per-endpoint")]
+    [CliOption("--max-connections-per-endpoint")]
     public string? MaxConnectionsPerEndpoint { get; set; }
 
-    [CommandSwitch("--max-connections-per-instance")]
+    [CliOption("--max-connections-per-instance")]
     public string? MaxConnectionsPerInstance { get; set; }
 
-    [CommandSwitch("--max-rate")]
+    [CliOption("--max-rate")]
     public string? MaxRate { get; set; }
 
-    [CommandSwitch("--max-rate-per-endpoint")]
+    [CliOption("--max-rate-per-endpoint")]
     public string? MaxRatePerEndpoint { get; set; }
 
-    [CommandSwitch("--max-rate-per-instance")]
+    [CliOption("--max-rate-per-instance")]
     public string? MaxRatePerInstance { get; set; }
 }

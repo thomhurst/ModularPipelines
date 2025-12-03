@@ -4,50 +4,50 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "waf-config", "set")]
+[CliCommand("network", "application-gateway", "waf-config", "set")]
 public record AzNetworkApplicationGatewayWafConfigSetOptions(
-[property: BooleanCommandSwitch("--enabled")] bool Enabled
+[property: CliFlag("--enabled")] bool Enabled
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--disabled-rule-groups")]
+    [CliFlag("--disabled-rule-groups")]
     public bool? DisabledRuleGroups { get; set; }
 
-    [BooleanCommandSwitch("--disabled-rules")]
+    [CliFlag("--disabled-rules")]
     public bool? DisabledRules { get; set; }
 
-    [CommandSwitch("--exclusion")]
+    [CliOption("--exclusion")]
     public string? Exclusion { get; set; }
 
-    [CommandSwitch("--file-upload-limit")]
+    [CliOption("--file-upload-limit")]
     public string? FileUploadLimit { get; set; }
 
-    [CommandSwitch("--firewall-mode")]
+    [CliOption("--firewall-mode")]
     public string? FirewallMode { get; set; }
 
-    [CommandSwitch("--gateway-name")]
+    [CliOption("--gateway-name")]
     public string? GatewayName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--max-request-body-size")]
+    [CliOption("--max-request-body-size")]
     public string? MaxRequestBodySize { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--request-body-check")]
+    [CliFlag("--request-body-check")]
     public bool? RequestBodyCheck { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--rule-set-type")]
+    [CliOption("--rule-set-type")]
     public string? RuleSetType { get; set; }
 
-    [CommandSwitch("--rule-set-version")]
+    [CliOption("--rule-set-version")]
     public string? RuleSetVersion { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

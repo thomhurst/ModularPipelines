@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bicep", "publish")]
+[CliCommand("bicep", "publish")]
 public record AzBicepPublishOptions(
-[property: CommandSwitch("--file")] string File,
-[property: CommandSwitch("--target")] string Target
+[property: CliOption("--file")] string File,
+[property: CliOption("--target")] string Target
 ) : AzOptions
 {
-    [CommandSwitch("--documentationUri")]
+    [CliOption("--documentationUri")]
     public string? DocumentationUri { get; set; }
 
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 }

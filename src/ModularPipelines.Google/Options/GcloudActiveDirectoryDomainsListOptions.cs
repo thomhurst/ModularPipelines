@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("active-directory", "domains", "list")]
+[CliCommand("active-directory", "domains", "list")]
 public record GcloudActiveDirectoryDomainsListOptions : GcloudOptions;

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pi", "get-dimension-key-details")]
+[CliCommand("pi", "get-dimension-key-details")]
 public record AwsPiGetDimensionKeyDetailsOptions(
-[property: CommandSwitch("--service-type")] string ServiceType,
-[property: CommandSwitch("--identifier")] string Identifier,
-[property: CommandSwitch("--group")] string Group,
-[property: CommandSwitch("--group-identifier")] string GroupIdentifier
+[property: CliOption("--service-type")] string ServiceType,
+[property: CliOption("--identifier")] string Identifier,
+[property: CliOption("--group")] string Group,
+[property: CliOption("--group-identifier")] string GroupIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--requested-dimensions")]
+    [CliOption("--requested-dimensions")]
     public string[]? RequestedDimensions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Yarn.Models;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("npm", "audit")]
+[CliCommand("npm", "audit")]
 public record YarnNpmAuditOptions : YarnOptions
 {
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [BooleanCommandSwitch("--recursive")]
+    [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
-    [CommandSwitch("--environment")]
+    [CliOption("--environment")]
     public virtual string? Environment { get; set; }
 
-    [BooleanCommandSwitch("--json")]
+    [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [BooleanCommandSwitch("--no-deprecations")]
+    [CliFlag("--no-deprecations")]
     public virtual bool? NoDeprecations { get; set; }
 
-    [CommandSwitch("--severity")]
+    [CliOption("--severity")]
     public virtual string? Severity { get; set; }
 
-    [CommandSwitch("--exclude")]
+    [CliOption("--exclude")]
     public virtual string? Exclude { get; set; }
 
-    [CommandSwitch("--ignore")]
+    [CliOption("--ignore")]
     public virtual string? Ignore { get; set; }
 }

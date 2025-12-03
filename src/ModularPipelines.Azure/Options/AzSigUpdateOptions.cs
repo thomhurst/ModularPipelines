@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "update")]
+[CliCommand("sig", "update")]
 public record AzSigUpdateOptions(
-[property: CommandSwitch("--gallery-name")] string GalleryName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gallery-name")] string GalleryName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [CommandSwitch("--eula")]
+    [CliOption("--eula")]
     public string? Eula { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [CommandSwitch("--permissions")]
+    [CliOption("--permissions")]
     public string? Permissions { get; set; }
 
-    [CommandSwitch("--public-name-prefix")]
+    [CliOption("--public-name-prefix")]
     public string? PublicNamePrefix { get; set; }
 
-    [CommandSwitch("--publisher-email")]
+    [CliOption("--publisher-email")]
     public string? PublisherEmail { get; set; }
 
-    [CommandSwitch("--publisher-uri")]
+    [CliOption("--publisher-uri")]
     public string? PublisherUri { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--select")]
+    [CliOption("--select")]
     public string? Select { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [BooleanCommandSwitch("--soft-delete")]
+    [CliFlag("--soft-delete")]
     public bool? SoftDelete { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "hub", "policy", "create")]
+[CliCommand("iot", "hub", "policy", "create")]
 public record AzIotHubPolicyCreateOptions(
-[property: CommandSwitch("--hub-name")] string HubName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--permissions")] string Permissions
+[property: CliOption("--hub-name")] string HubName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--permissions")] string Permissions
 ) : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

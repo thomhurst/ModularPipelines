@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "roles", "update")]
+[CliCommand("iam", "roles", "update")]
 public record GcloudIamRolesUpdateOptions : GcloudOptions
 {
     public GcloudIamRolesUpdateOptions(
@@ -18,30 +18,30 @@ public record GcloudIamRolesUpdateOptions : GcloudOptions
         Project = project;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string RoleId { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 
-    [CommandSwitch("--add-permissions")]
+    [CliOption("--add-permissions")]
     public string? AddPermissions { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--permissions")]
+    [CliOption("--permissions")]
     public string? Permissions { get; set; }
 
-    [CommandSwitch("--remove-permissions")]
+    [CliOption("--remove-permissions")]
     public string? RemovePermissions { get; set; }
 
-    [CommandSwitch("--stage")]
+    [CliOption("--stage")]
     public string? Stage { get; set; }
 
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 }

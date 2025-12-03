@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sagemaker", "describe-device-fleet")]
+[CliCommand("sagemaker", "describe-device-fleet")]
 public record AwsSagemakerDescribeDeviceFleetOptions(
-[property: CommandSwitch("--device-fleet-name")] string DeviceFleetName
+[property: CliOption("--device-fleet-name")] string DeviceFleetName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

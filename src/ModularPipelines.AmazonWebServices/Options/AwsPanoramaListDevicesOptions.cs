@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("panorama", "list-devices")]
+[CliCommand("panorama", "list-devices")]
 public record AwsPanoramaListDevicesOptions : AwsOptions
 {
-    [CommandSwitch("--device-aggregated-status-filter")]
+    [CliOption("--device-aggregated-status-filter")]
     public string? DeviceAggregatedStatusFilter { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--name-filter")]
+    [CliOption("--name-filter")]
     public string? NameFilter { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--sort-by")]
+    [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
-    [CommandSwitch("--sort-order")]
+    [CliOption("--sort-order")]
     public string? SortOrder { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

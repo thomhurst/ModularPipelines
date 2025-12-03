@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("components")]
+[CliCommand("components")]
 public class GcloudComponentsRepositories
 {
     public GcloudComponentsRepositories(

@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logging", "read")]
+[CliCommand("logging", "read")]
 public record GcloudLoggingReadOptions(
-[property: PositionalArgument] string LogFilter
+[property: CliArgument] string LogFilter
 ) : GcloudOptions
 {
-    [CommandSwitch("--freshness")]
+    [CliOption("--freshness")]
     public string? Freshness { get; set; }
 
-    [CommandSwitch("--order")]
+    [CliOption("--order")]
     public string? Order { get; set; }
 
-    [CommandSwitch("--billing-account")]
+    [CliOption("--billing-account")]
     public string? BillingAccount { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string? Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string? Organization { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public new string? Project { get; set; }
 
-    [CommandSwitch("--resource-names")]
+    [CliOption("--resource-names")]
     public string[]? ResourceNames { get; set; }
 
-    [CommandSwitch("--bucket")]
+    [CliOption("--bucket")]
     public string? Bucket { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--view")]
+    [CliOption("--view")]
     public string? View { get; set; }
 }

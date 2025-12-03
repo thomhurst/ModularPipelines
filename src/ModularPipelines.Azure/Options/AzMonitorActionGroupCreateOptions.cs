@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "action-group", "create")]
+[CliCommand("monitor", "action-group", "create")]
 public record AzMonitorActionGroupCreateOptions(
-[property: CommandSwitch("--action-group-name")] string ActionGroupName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--action-group-name")] string ActionGroupName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--action")]
+    [CliOption("--action")]
     public string? Action { get; set; }
 
-    [CommandSwitch("--group-short-name")]
+    [CliOption("--group-short-name")]
     public string? GroupShortName { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

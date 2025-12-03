@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vnet-gateway")]
+[CliCommand("network", "vnet-gateway")]
 public class AzNetworkVnetGatewayRevokedCert
 {
     public AzNetworkVnetGatewayRevokedCert(

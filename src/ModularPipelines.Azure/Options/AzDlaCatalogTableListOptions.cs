@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dla", "catalog", "table", "list")]
+[CliCommand("dla", "catalog", "table", "list")]
 public record AzDlaCatalogTableListOptions(
-[property: CommandSwitch("--database-name")] string DatabaseName
+[property: CliOption("--database-name")] string DatabaseName
 ) : AzOptions
 {
-    [CommandSwitch("--account")]
+    [CliOption("--account")]
     public int? Account { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--schema-name")]
+    [CliOption("--schema-name")]
     public string? SchemaName { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("infra-manager", "previews", "delete")]
+[CliCommand("infra-manager", "previews", "delete")]
 public record GcloudInfraManagerPreviewsDeleteOptions(
-[property: PositionalArgument] string Preview,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Preview,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

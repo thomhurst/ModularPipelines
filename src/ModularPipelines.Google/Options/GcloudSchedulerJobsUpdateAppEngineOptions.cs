@@ -5,90 +5,90 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scheduler", "jobs", "update", "app-engine")]
+[CliCommand("scheduler", "jobs", "update", "app-engine")]
 public record GcloudSchedulerJobsUpdateAppEngineOptions(
-[property: PositionalArgument] string Job,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Job,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--attempt-deadline")]
+    [CliOption("--attempt-deadline")]
     public string? AttemptDeadline { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--http-method")]
+    [CliOption("--http-method")]
     public string? HttpMethod { get; set; }
 
-    [CommandSwitch("--schedule")]
+    [CliOption("--schedule")]
     public string? Schedule { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string? Version { get; set; }
 
-    [BooleanCommandSwitch("--clear-headers")]
+    [CliFlag("--clear-headers")]
     public bool? ClearHeaders { get; set; }
 
-    [CommandSwitch("--remove-headers")]
+    [CliOption("--remove-headers")]
     public string[]? RemoveHeaders { get; set; }
 
-    [CommandSwitch("--update-headers")]
+    [CliOption("--update-headers")]
     public IEnumerable<KeyValue>? UpdateHeaders { get; set; }
 
-    [BooleanCommandSwitch("--clear-max-backoff")]
+    [CliFlag("--clear-max-backoff")]
     public bool? ClearMaxBackoff { get; set; }
 
-    [CommandSwitch("--max-backoff")]
+    [CliOption("--max-backoff")]
     public string? MaxBackoff { get; set; }
 
-    [BooleanCommandSwitch("--clear-max-doublings")]
+    [CliFlag("--clear-max-doublings")]
     public bool? ClearMaxDoublings { get; set; }
 
-    [CommandSwitch("--max-doublings")]
+    [CliOption("--max-doublings")]
     public string? MaxDoublings { get; set; }
 
-    [BooleanCommandSwitch("--clear-max-retry-attempts")]
+    [CliFlag("--clear-max-retry-attempts")]
     public bool? ClearMaxRetryAttempts { get; set; }
 
-    [CommandSwitch("--max-retry-attempts")]
+    [CliOption("--max-retry-attempts")]
     public string? MaxRetryAttempts { get; set; }
 
-    [BooleanCommandSwitch("--clear-max-retry-duration")]
+    [CliFlag("--clear-max-retry-duration")]
     public bool? ClearMaxRetryDuration { get; set; }
 
-    [CommandSwitch("--max-retry-duration")]
+    [CliOption("--max-retry-duration")]
     public string? MaxRetryDuration { get; set; }
 
-    [BooleanCommandSwitch("--clear-message-body")]
+    [CliFlag("--clear-message-body")]
     public bool? ClearMessageBody { get; set; }
 
-    [CommandSwitch("--message-body")]
+    [CliOption("--message-body")]
     public string? MessageBody { get; set; }
 
-    [CommandSwitch("--message-body-from-file")]
+    [CliOption("--message-body-from-file")]
     public string? MessageBodyFromFile { get; set; }
 
-    [BooleanCommandSwitch("--clear-min-backoff")]
+    [CliFlag("--clear-min-backoff")]
     public bool? ClearMinBackoff { get; set; }
 
-    [CommandSwitch("--min-backoff")]
+    [CliOption("--min-backoff")]
     public string? MinBackoff { get; set; }
 
-    [BooleanCommandSwitch("--clear-relative-url")]
+    [CliFlag("--clear-relative-url")]
     public bool? ClearRelativeUrl { get; set; }
 
-    [CommandSwitch("--relative-url")]
+    [CliOption("--relative-url")]
     public string? RelativeUrl { get; set; }
 
-    [BooleanCommandSwitch("--clear-service")]
+    [CliFlag("--clear-service")]
     public bool? ClearService { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 
-    [BooleanCommandSwitch("--clear-time-zone")]
+    [CliFlag("--clear-time-zone")]
     public bool? ClearTimeZone { get; set; }
 
-    [CommandSwitch("--time-zone")]
+    [CliOption("--time-zone")]
     public string? TimeZone { get; set; }
 }

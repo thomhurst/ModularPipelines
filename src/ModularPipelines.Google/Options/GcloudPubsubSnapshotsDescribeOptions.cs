@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pubsub", "snapshots", "describe")]
+[CliCommand("pubsub", "snapshots", "describe")]
 public record GcloudPubsubSnapshotsDescribeOptions(
-[property: PositionalArgument] string Snapshot
+[property: CliArgument] string Snapshot
 ) : GcloudOptions;

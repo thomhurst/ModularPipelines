@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "watcher", "packet-capture", "show")]
+[CliCommand("network", "watcher", "packet-capture", "show")]
 public record AzNetworkWatcherPacketCaptureShowOptions(
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--location")] string Location,
+[property: CliOption("--name")] string Name
 ) : AzOptions;

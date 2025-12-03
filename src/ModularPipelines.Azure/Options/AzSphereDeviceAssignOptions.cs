@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "device", "assign")]
+[CliCommand("sphere", "device", "assign")]
 public record AzSphereDeviceAssignOptions(
-[property: CommandSwitch("--catalog")] string Catalog,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--targeted-device-group")] string TargetedDeviceGroup
+[property: CliOption("--catalog")] string Catalog,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--targeted-device-group")] string TargetedDeviceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--device")]
+    [CliOption("--device")]
     public string? Device { get; set; }
 
-    [CommandSwitch("--device-group")]
+    [CliOption("--device-group")]
     public string? DeviceGroup { get; set; }
 
-    [CommandSwitch("--product")]
+    [CliOption("--product")]
     public string? Product { get; set; }
 }

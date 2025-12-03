@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "up")]
+[CliCommand("webapp", "up")]
 public record AzWebappUpOptions : AzOptions
 {
-    [CommandSwitch("--app-service-environment")]
+    [CliOption("--app-service-environment")]
     public string? AppServiceEnvironment { get; set; }
 
-    [BooleanCommandSwitch("--dryrun")]
+    [CliFlag("--dryrun")]
     public bool? Dryrun { get; set; }
 
-    [BooleanCommandSwitch("--html")]
+    [CliFlag("--html")]
     public bool? Html { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--launch-browser")]
+    [CliFlag("--launch-browser")]
     public bool? LaunchBrowser { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--logs")]
+    [CliFlag("--logs")]
     public bool? Logs { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--os-type")]
+    [CliOption("--os-type")]
     public string? OsType { get; set; }
 
-    [CommandSwitch("--plan")]
+    [CliOption("--plan")]
     public string? Plan { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--runtime")]
+    [CliOption("--runtime")]
     public string? Runtime { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

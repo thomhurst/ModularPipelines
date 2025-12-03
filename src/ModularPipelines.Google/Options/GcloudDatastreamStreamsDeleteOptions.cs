@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datastream", "streams", "delete")]
+[CliCommand("datastream", "streams", "delete")]
 public record GcloudDatastreamStreamsDeleteOptions(
-[property: PositionalArgument] string Stream,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Stream,
+[property: CliArgument] string Location
 ) : GcloudOptions;

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "tail-serial-port-output")]
+[CliCommand("compute", "instances", "tail-serial-port-output")]
 public record GcloudComputeInstancesTailSerialPortOutputOptions(
-[property: PositionalArgument] string InstanceName
+[property: CliArgument] string InstanceName
 ) : GcloudOptions
 {
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public string? Port { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 }

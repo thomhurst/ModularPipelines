@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "front-door", "backend-pool")]
+[CliCommand("network", "front-door", "backend-pool")]
 public class AzNetworkFrontDoorBackendPoolBackend
 {
     public AzNetworkFrontDoorBackendPoolBackend(

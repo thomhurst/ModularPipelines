@@ -15,15 +15,15 @@ public record DockerContainerAttachOptions : DockerOptions
         Container = container;
     }
 
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? Container { get; set; }
 
-    [CommandSwitch("--detach-keys")]
+    [CliOption("--detach-keys")]
     public virtual string? DetachKeys { get; set; }
 
-    [CommandSwitch("--no-stdin")]
+    [CliOption("--no-stdin")]
     public virtual string? NoStdin { get; set; }
 
-    [BooleanCommandSwitch("--sig-proxy")]
+    [CliFlag("--sig-proxy")]
     public virtual bool? SigProxy { get; set; }
 }

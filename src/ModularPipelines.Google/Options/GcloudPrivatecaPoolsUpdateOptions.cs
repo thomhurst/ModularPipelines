@@ -5,30 +5,30 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("privateca", "pools", "update")]
+[CliCommand("privateca", "pools", "update")]
 public record GcloudPrivatecaPoolsUpdateOptions(
-[property: PositionalArgument] string CaPool,
-[property: PositionalArgument] string Location
+[property: CliArgument] string CaPool,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [CommandSwitch("--issuance-policy")]
+    [CliOption("--issuance-policy")]
     public string? IssuancePolicy { get; set; }
 
-    [BooleanCommandSwitch("--publish-ca-cert")]
+    [CliFlag("--publish-ca-cert")]
     public bool? PublishCaCert { get; set; }
 
-    [BooleanCommandSwitch("--publish-crl")]
+    [CliFlag("--publish-crl")]
     public bool? PublishCrl { get; set; }
 
-    [CommandSwitch("--publishing-encoding-format")]
+    [CliOption("--publishing-encoding-format")]
     public string? PublishingEncodingFormat { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 }

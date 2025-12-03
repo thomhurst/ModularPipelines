@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vm", "list")]
+[CliCommand("vm", "list")]
 public record AzVmListOptions : AzOptions
 {
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [BooleanCommandSwitch("--show-details")]
+    [CliFlag("--show-details")]
     public bool? ShowDetails { get; set; }
 
-    [CommandSwitch("--vmss")]
+    [CliOption("--vmss")]
     public string? Vmss { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines", "runs", "tag", "delete")]
+[CliCommand("pipelines", "runs", "tag", "delete")]
 public record AzPipelinesRunsTagDeleteOptions(
-[property: CommandSwitch("--run-id")] string RunId,
-[property: CommandSwitch("--tag")] string Tag
+[property: CliOption("--run-id")] string RunId,
+[property: CliOption("--tag")] string Tag
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 }

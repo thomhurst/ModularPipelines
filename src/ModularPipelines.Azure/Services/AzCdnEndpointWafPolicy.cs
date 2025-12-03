@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cdn", "endpoint", "waf")]
+[CliCommand("cdn", "endpoint", "waf")]
 public class AzCdnEndpointWafPolicy
 {
     public AzCdnEndpointWafPolicy(

@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apic", "api", "definition", "import-specification")]
+[CliCommand("apic", "api", "definition", "import-specification")]
 public record AzApicApiDefinitionImportSpecificationOptions : AzOptions
 {
-    [CommandSwitch("--api")]
+    [CliOption("--api")]
     public string? Api { get; set; }
 
-    [CommandSwitch("--definition")]
+    [CliOption("--definition")]
     public string? Definition { get; set; }
 
-    [CommandSwitch("--file-name")]
+    [CliOption("--file-name")]
     public string? FileName { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public string? Format { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 
-    [CommandSwitch("--specification")]
+    [CliOption("--specification")]
     public string? Specification { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [CommandSwitch("--value")]
+    [CliOption("--value")]
     public string? Value { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public string? Workspace { get; set; }
 }

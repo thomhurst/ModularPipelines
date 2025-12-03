@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "autoscale", "create")]
+[CliCommand("monitor", "autoscale", "create")]
 public record AzMonitorAutoscaleCreateOptions(
-[property: CommandSwitch("--count")] int Count,
-[property: CommandSwitch("--resource")] string Resource
+[property: CliOption("--count")] int Count,
+[property: CliOption("--resource")] string Resource
 ) : AzOptions
 {
-    [CommandSwitch("--action")]
+    [CliOption("--action")]
     public string? Action { get; set; }
 
-    [BooleanCommandSwitch("--disabled")]
+    [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
-    [BooleanCommandSwitch("--email-administrator")]
+    [CliFlag("--email-administrator")]
     public bool? EmailAdministrator { get; set; }
 
-    [BooleanCommandSwitch("--email-coadministrators")]
+    [CliFlag("--email-coadministrators")]
     public bool? EmailCoadministrators { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--max-count")]
+    [CliOption("--max-count")]
     public int? MaxCount { get; set; }
 
-    [CommandSwitch("--min-count")]
+    [CliOption("--min-count")]
     public int? MinCount { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--resource-namespace")]
+    [CliOption("--resource-namespace")]
     public string? ResourceNamespace { get; set; }
 
-    [CommandSwitch("--resource-parent")]
+    [CliOption("--resource-parent")]
     public string? ResourceParent { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--scale-look-ahead-time")]
+    [CliOption("--scale-look-ahead-time")]
     public string? ScaleLookAheadTime { get; set; }
 
-    [CommandSwitch("--scale-mode")]
+    [CliOption("--scale-mode")]
     public string? ScaleMode { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

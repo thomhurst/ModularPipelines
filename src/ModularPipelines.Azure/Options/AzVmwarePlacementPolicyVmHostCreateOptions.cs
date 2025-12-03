@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "placement-policy", "vm-host", "create")]
+[CliCommand("vmware", "placement-policy", "vm-host", "create")]
 public record AzVmwarePlacementPolicyVmHostCreateOptions(
-[property: CommandSwitch("--affinity-type")] string AffinityType,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--host-members")] string HostMembers,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--private-cloud")] string PrivateCloud,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--vm-members")] string VmMembers
+[property: CliOption("--affinity-type")] string AffinityType,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--host-members")] string HostMembers,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--private-cloud")] string PrivateCloud,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--vm-members")] string VmMembers
 ) : AzOptions
 {
-    [CommandSwitch("--affinity-strength")]
+    [CliOption("--affinity-strength")]
     public string? AffinityStrength { get; set; }
 
-    [CommandSwitch("--azure-hybrid-benefit")]
+    [CliOption("--azure-hybrid-benefit")]
     public string? AzureHybridBenefit { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 }

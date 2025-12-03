@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "os-config")]
+[CliCommand("compute", "os-config")]
 public class GcloudComputeOsConfigOsPolicyAssignments
 {
     public GcloudComputeOsConfigOsPolicyAssignments(

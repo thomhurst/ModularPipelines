@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("active-directory", "domains", "backups", "create")]
+[CliCommand("active-directory", "domains", "backups", "create")]
 public record GcloudActiveDirectoryDomainsBackupsCreateOptions(
-[property: PositionalArgument] string Backup,
-[property: PositionalArgument] string Domain
+[property: CliArgument] string Backup,
+[property: CliArgument] string Domain
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 }

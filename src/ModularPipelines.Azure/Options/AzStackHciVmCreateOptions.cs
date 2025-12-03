@@ -4,73 +4,73 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stack-hci-vm", "create")]
+[CliCommand("stack-hci-vm", "create")]
 public record AzStackHciVmCreateOptions(
-[property: CommandSwitch("--custom-location")] string CustomLocation,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--custom-location")] string CustomLocation,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--admin-password")]
+    [CliOption("--admin-password")]
     public string? AdminPassword { get; set; }
 
-    [CommandSwitch("--admin-username")]
+    [CliOption("--admin-username")]
     public string? AdminUsername { get; set; }
 
-    [BooleanCommandSwitch("--attach-data-disks")]
+    [CliFlag("--attach-data-disks")]
     public bool? AttachDataDisks { get; set; }
 
-    [CommandSwitch("--authentication-type")]
+    [CliOption("--authentication-type")]
     public string? AuthenticationType { get; set; }
 
-    [CommandSwitch("--computer-name")]
+    [CliOption("--computer-name")]
     public string? ComputerName { get; set; }
 
-    [BooleanCommandSwitch("--enable-agent")]
+    [CliFlag("--enable-agent")]
     public bool? EnableAgent { get; set; }
 
-    [BooleanCommandSwitch("--enable-secure-boot")]
+    [CliFlag("--enable-secure-boot")]
     public bool? EnableSecureBoot { get; set; }
 
-    [BooleanCommandSwitch("--enable-vm-config-agent")]
+    [CliFlag("--enable-vm-config-agent")]
     public bool? EnableVmConfigAgent { get; set; }
 
-    [BooleanCommandSwitch("--enable-vtpm")]
+    [CliFlag("--enable-vtpm")]
     public bool? EnableVtpm { get; set; }
 
-    [CommandSwitch("--image")]
+    [CliOption("--image")]
     public string? Image { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--nics")]
+    [CliOption("--nics")]
     public string? Nics { get; set; }
 
-    [CommandSwitch("--os-disk-name")]
+    [CliOption("--os-disk-name")]
     public string? OsDiskName { get; set; }
 
-    [CommandSwitch("--os-type")]
+    [CliOption("--os-type")]
     public string? OsType { get; set; }
 
-    [CommandSwitch("--polling-interval")]
+    [CliOption("--polling-interval")]
     public string? PollingInterval { get; set; }
 
-    [CommandSwitch("--security-type")]
+    [CliOption("--security-type")]
     public string? SecurityType { get; set; }
 
-    [CommandSwitch("--size")]
+    [CliOption("--size")]
     public string? Size { get; set; }
 
-    [CommandSwitch("--ssh-dest-key-path")]
+    [CliOption("--ssh-dest-key-path")]
     public string? SshDestKeyPath { get; set; }
 
-    [CommandSwitch("--ssh-key-values")]
+    [CliOption("--ssh-key-values")]
     public string? SshKeyValues { get; set; }
 
-    [CommandSwitch("--storage-path-id")]
+    [CliOption("--storage-path-id")]
     public string? StoragePathId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

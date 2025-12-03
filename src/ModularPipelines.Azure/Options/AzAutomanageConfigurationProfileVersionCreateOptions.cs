@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("automanage", "configuration-profile", "version", "create")]
+[CliCommand("automanage", "configuration-profile", "version", "create")]
 public record AzAutomanageConfigurationProfileVersionCreateOptions(
-[property: CommandSwitch("--configuration-profile-name")] string ConfigurationProfileName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--configuration-profile-name")] string ConfigurationProfileName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scvmm", "vm")]
+[CliCommand("scvmm", "vm")]
 public class AzScvmmVmGuestAgent
 {
     public AzScvmmVmGuestAgent(

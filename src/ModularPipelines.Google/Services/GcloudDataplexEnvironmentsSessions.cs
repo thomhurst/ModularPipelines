@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataplex", "environments")]
+[CliCommand("dataplex", "environments")]
 public class GcloudDataplexEnvironmentsSessions
 {
     public GcloudDataplexEnvironmentsSessions(

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "network-peerings", "delete")]
+[CliCommand("vmware", "network-peerings", "delete")]
 public record GcloudVmwareNetworkPeeringsDeleteOptions(
-[property: PositionalArgument] string NetworkPeering
+[property: CliArgument] string NetworkPeering
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

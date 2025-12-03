@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim")]
+[CliCommand("apim")]
 public class AzApimGraphql
 {
     public AzApimGraphql(

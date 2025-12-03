@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webpubsub", "hub", "create")]
+[CliCommand("webpubsub", "hub", "create")]
 public record AzWebpubsubHubCreateOptions(
-[property: CommandSwitch("--hub-name")] string HubName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--hub-name")] string HubName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--allow-anonymous")]
+    [CliFlag("--allow-anonymous")]
     public bool? AllowAnonymous { get; set; }
 
-    [CommandSwitch("--event-handler")]
+    [CliOption("--event-handler")]
     public string? EventHandler { get; set; }
 }

@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "node", "remote-desktop", "download")]
+[CliCommand("batch", "node", "remote-desktop", "download")]
 public record AzBatchNodeRemoteDesktopDownloadOptions(
-[property: CommandSwitch("--destination")] string Destination,
-[property: CommandSwitch("--node-id")] string NodeId,
-[property: CommandSwitch("--pool-id")] string PoolId
+[property: CliOption("--destination")] string Destination,
+[property: CliOption("--node-id")] string NodeId,
+[property: CliOption("--pool-id")] string PoolId
 ) : AzOptions
 {
-    [CommandSwitch("--account-endpoint")]
+    [CliOption("--account-endpoint")]
     public int? AccountEndpoint { get; set; }
 
-    [CommandSwitch("--account-key")]
+    [CliOption("--account-key")]
     public int? AccountKey { get; set; }
 
-    [CommandSwitch("--account-name")]
+    [CliOption("--account-name")]
     public int? AccountName { get; set; }
 }

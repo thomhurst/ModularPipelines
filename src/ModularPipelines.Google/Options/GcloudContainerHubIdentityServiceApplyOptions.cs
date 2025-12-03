@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "hub", "identity-service", "apply")]
+[CliCommand("container", "hub", "identity-service", "apply")]
 public record GcloudContainerHubIdentityServiceApplyOptions(
-[property: CommandSwitch("--fleet-default-member-config")] string FleetDefaultMemberConfig,
-[property: CommandSwitch("--config")] string Config,
-[property: CommandSwitch("--origin")] string Origin,
-[property: CommandSwitch("--membership")] string Membership,
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--fleet-default-member-config")] string FleetDefaultMemberConfig,
+[property: CliOption("--config")] string Config,
+[property: CliOption("--origin")] string Origin,
+[property: CliOption("--membership")] string Membership,
+[property: CliOption("--location")] string Location
 ) : GcloudOptions;

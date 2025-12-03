@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("compose", "events")]
+[CliCommand("compose", "events")]
 [ExcludeFromCodeCoverage]
 public record DockerComposeEventsOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Service { get; set; }
 
-    [CommandSwitch("--json")]
+    [CliOption("--json")]
     public virtual string? Json { get; set; }
 }

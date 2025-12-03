@@ -3,43 +3,43 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("buildx", "create")]
+[CliCommand("buildx", "create")]
 [ExcludeFromCodeCoverage]
 public record DockerBuildxCreateOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public string? ContextOrEndpoint { get; set; }
 
-    [CommandSwitch("--append")]
+    [CliOption("--append")]
     public virtual string? Append { get; set; }
 
-    [CommandSwitch("--bootstrap")]
+    [CliOption("--bootstrap")]
     public virtual string? Bootstrap { get; set; }
 
-    [CommandSwitch("--builder")]
+    [CliOption("--builder")]
     public virtual string? Builder { get; set; }
 
-    [CommandSwitch("--buildkitd-flags")]
+    [CliOption("--buildkitd-flags")]
     public virtual string? BuildkitdFlags { get; set; }
 
-    [CommandSwitch("--driver")]
+    [CliOption("--driver")]
     public virtual string? Driver { get; set; }
 
-    [CommandSwitch("--driver-opt")]
+    [CliOption("--driver-opt")]
     public virtual string? DriverOpt { get; set; }
 
-    [CommandSwitch("--leave")]
+    [CliOption("--leave")]
     public virtual string? Leave { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public virtual string? Name { get; set; }
 
-    [CommandSwitch("--node")]
+    [CliOption("--node")]
     public virtual string? Node { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public virtual string? Platform { get; set; }
 
-    [CommandSwitch("--use")]
+    [CliOption("--use")]
     public virtual string? Use { get; set; }
 }

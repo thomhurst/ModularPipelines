@@ -4,63 +4,63 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "pr", "create")]
+[CliCommand("repos", "pr", "create")]
 public record AzReposPrCreateOptions : AzOptions
 {
-    [BooleanCommandSwitch("--auto-complete")]
+    [CliFlag("--auto-complete")]
     public bool? AutoComplete { get; set; }
 
-    [BooleanCommandSwitch("--bypass-policy")]
+    [CliFlag("--bypass-policy")]
     public bool? BypassPolicy { get; set; }
 
-    [CommandSwitch("--bypass-policy-reason")]
+    [CliOption("--bypass-policy-reason")]
     public string? BypassPolicyReason { get; set; }
 
-    [BooleanCommandSwitch("--delete-source-branch")]
+    [CliFlag("--delete-source-branch")]
     public bool? DeleteSourceBranch { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [BooleanCommandSwitch("--draft")]
+    [CliFlag("--draft")]
     public bool? Draft { get; set; }
 
-    [CommandSwitch("--merge-commit-message")]
+    [CliOption("--merge-commit-message")]
     public string? MergeCommitMessage { get; set; }
 
-    [BooleanCommandSwitch("--open")]
+    [CliFlag("--open")]
     public bool? Open { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [CommandSwitch("--repository")]
+    [CliOption("--repository")]
     public string? Repository { get; set; }
 
-    [CommandSwitch("--reviewers")]
+    [CliOption("--reviewers")]
     public string? Reviewers { get; set; }
 
-    [CommandSwitch("--source-branch")]
+    [CliOption("--source-branch")]
     public string? SourceBranch { get; set; }
 
-    [BooleanCommandSwitch("--squash")]
+    [CliFlag("--squash")]
     public bool? Squash { get; set; }
 
-    [CommandSwitch("--target-branch")]
+    [CliOption("--target-branch")]
     public string? TargetBranch { get; set; }
 
-    [CommandSwitch("--title")]
+    [CliOption("--title")]
     public string? Title { get; set; }
 
-    [BooleanCommandSwitch("--transition-work-items")]
+    [CliFlag("--transition-work-items")]
     public bool? TransitionWorkItems { get; set; }
 
-    [CommandSwitch("--work-items")]
+    [CliOption("--work-items")]
     public string? WorkItems { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("support", "tickets", "communications", "create")]
+[CliCommand("support", "tickets", "communications", "create")]
 public record AzSupportTicketsCommunicationsCreateOptions(
-[property: CommandSwitch("--communication-body")] string CommunicationBody,
-[property: CommandSwitch("--communication-name")] string CommunicationName,
-[property: CommandSwitch("--communication-subject")] string CommunicationSubject,
-[property: CommandSwitch("--ticket-name")] string TicketName
+[property: CliOption("--communication-body")] string CommunicationBody,
+[property: CliOption("--communication-name")] string CommunicationName,
+[property: CliOption("--communication-subject")] string CommunicationSubject,
+[property: CliOption("--ticket-name")] string TicketName
 ) : AzOptions
 {
-    [CommandSwitch("--communication-sender")]
+    [CliOption("--communication-sender")]
     public string? CommunicationSender { get; set; }
 }

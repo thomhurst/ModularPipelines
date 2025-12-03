@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("qumulo", "storage", "file-system", "create")]
+[CliCommand("qumulo", "storage", "file-system", "create")]
 public record AzQumuloStorageFileSystemCreateOptions(
-[property: CommandSwitch("--admin-password")] string AdminPassword,
-[property: CommandSwitch("--delegated-subnet-id")] string DelegatedSubnetId,
-[property: CommandSwitch("--file-system-name")] string FileSystemName,
-[property: CommandSwitch("--initial-capacity")] string InitialCapacity,
-[property: CommandSwitch("--marketplace-details")] string MarketplaceDetails,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--storage-sku")] string StorageSku,
-[property: CommandSwitch("--user-details")] string UserDetails
+[property: CliOption("--admin-password")] string AdminPassword,
+[property: CliOption("--delegated-subnet-id")] string DelegatedSubnetId,
+[property: CliOption("--file-system-name")] string FileSystemName,
+[property: CliOption("--initial-capacity")] string InitialCapacity,
+[property: CliOption("--marketplace-details")] string MarketplaceDetails,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--storage-sku")] string StorageSku,
+[property: CliOption("--user-details")] string UserDetails
 ) : AzOptions
 {
-    [CommandSwitch("--availability-zone")]
+    [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
-    [CommandSwitch("--cluster-login-url")]
+    [CliOption("--cluster-login-url")]
     public string? ClusterLoginUrl { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--private-ips")]
+    [CliOption("--private-ips")]
     public string? PrivateIps { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("workstations", "start-tcp-tunnel")]
+[CliCommand("workstations", "start-tcp-tunnel")]
 public record GcloudWorkstationsStartTcpTunnelOptions(
-[property: PositionalArgument] string Workstation,
-[property: PositionalArgument] string Cluster,
-[property: PositionalArgument] string Config,
-[property: PositionalArgument] string Region,
-[property: PositionalArgument] string WorkstationPort
+[property: CliArgument] string Workstation,
+[property: CliArgument] string Cluster,
+[property: CliArgument] string Config,
+[property: CliArgument] string Region,
+[property: CliArgument] string WorkstationPort
 ) : GcloudOptions
 {
-    [CommandSwitch("--local-host-port")]
+    [CliOption("--local-host-port")]
     public string? LocalHostPort { get; set; }
 }

@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("recaptcha", "keys", "list")]
+[CliCommand("recaptcha", "keys", "list")]
 public record GcloudRecaptchaKeysListOptions : GcloudOptions;

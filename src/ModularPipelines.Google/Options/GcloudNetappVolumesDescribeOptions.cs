@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netapp", "volumes", "describe")]
+[CliCommand("netapp", "volumes", "describe")]
 public record GcloudNetappVolumesDescribeOptions(
-[property: PositionalArgument] string Volume,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Volume,
+[property: CliArgument] string Location
 ) : GcloudOptions;

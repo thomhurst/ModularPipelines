@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("scc", "custom-modules", "sha", "simulate")]
+[CliCommand("scc", "custom-modules", "sha", "simulate")]
 public record GcloudSccCustomModulesShaSimulateOptions : GcloudOptions
 {
     public GcloudSccCustomModulesShaSimulateOptions(
@@ -22,15 +22,15 @@ public record GcloudSccCustomModulesShaSimulateOptions : GcloudOptions
         Project = project;
     }
 
-    [CommandSwitch("--custom-config-from-file")]
+    [CliOption("--custom-config-from-file")]
     public string CustomConfigFromFile { get; set; }
 
-    [CommandSwitch("--resource-from-file")]
+    [CliOption("--resource-from-file")]
     public string ResourceFromFile { get; set; }
 
-    [CommandSwitch("--folder")]
+    [CliOption("--folder")]
     public string Folder { get; set; }
 
-    [CommandSwitch("--organization")]
+    [CliOption("--organization")]
     public string Organization { get; set; }
 }

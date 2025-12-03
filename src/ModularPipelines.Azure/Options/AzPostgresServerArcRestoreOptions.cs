@@ -4,40 +4,40 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("postgres", "server-arc", "restore")]
+[CliCommand("postgres", "server-arc", "restore")]
 public record AzPostgresServerArcRestoreOptions(
-[property: CommandSwitch("--k8s-namespace")] string K8sNamespace,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--source-server")] string SourceServer
+[property: CliOption("--k8s-namespace")] string K8sNamespace,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--source-server")] string SourceServer
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--dry-run")]
+    [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--storage-class-backups")]
+    [CliOption("--storage-class-backups")]
     public string? StorageClassBackups { get; set; }
 
-    [CommandSwitch("--storage-class-data")]
+    [CliOption("--storage-class-data")]
     public string? StorageClassData { get; set; }
 
-    [CommandSwitch("--storage-class-logs")]
+    [CliOption("--storage-class-logs")]
     public string? StorageClassLogs { get; set; }
 
-    [CommandSwitch("--time")]
+    [CliOption("--time")]
     public string? Time { get; set; }
 
-    [BooleanCommandSwitch("--use-k8s")]
+    [CliFlag("--use-k8s")]
     public bool? UseK8s { get; set; }
 
-    [CommandSwitch("--volume-size-backups")]
+    [CliOption("--volume-size-backups")]
     public string? VolumeSizeBackups { get; set; }
 
-    [CommandSwitch("--volume-size-data")]
+    [CliOption("--volume-size-data")]
     public string? VolumeSizeData { get; set; }
 
-    [CommandSwitch("--volume-size-logs")]
+    [CliOption("--volume-size-logs")]
     public string? VolumeSizeLogs { get; set; }
 }

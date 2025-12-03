@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dns", "managed-zones", "delete")]
+[CliCommand("dns", "managed-zones", "delete")]
 public record GcloudDnsManagedZonesDeleteOptions(
-[property: PositionalArgument] string ZoneName
+[property: CliArgument] string ZoneName
 ) : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai", "model-monitoring-jobs", "pause")]
+[CliCommand("ai", "model-monitoring-jobs", "pause")]
 public record GcloudAiModelMonitoringJobsPauseOptions(
-[property: PositionalArgument] string MonitoringJob,
-[property: PositionalArgument] string Region
+[property: CliArgument] string MonitoringJob,
+[property: CliArgument] string Region
 ) : GcloudOptions;

@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "sql", "trigger", "list")]
+[CliCommand("cosmosdb", "sql", "trigger", "list")]
 public record AzCosmosdbSqlTriggerListOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--container-name")] string ContainerName,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--container-name")] string ContainerName,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

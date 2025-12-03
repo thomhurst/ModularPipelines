@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "vision", "detect-safe-search")]
+[CliCommand("ml", "vision", "detect-safe-search")]
 public record GcloudMlVisionDetectSafeSearchOptions(
-[property: PositionalArgument] string ImagePath
+[property: CliArgument] string ImagePath
 ) : GcloudOptions;

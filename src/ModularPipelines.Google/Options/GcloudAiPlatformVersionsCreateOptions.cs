@@ -5,7 +5,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ai-platform", "versions", "create")]
+[CliCommand("ai-platform", "versions", "create")]
 public record GcloudAiPlatformVersionsCreateOptions : GcloudOptions
 {
     public GcloudAiPlatformVersionsCreateOptions(
@@ -17,54 +17,54 @@ public record GcloudAiPlatformVersionsCreateOptions : GcloudOptions
         Model = model;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudAiPlatformVersionsCreateOptionsVersion { get; set; }
 
-    [CommandSwitch("--model")]
+    [CliOption("--model")]
     public string Model { get; set; }
 
-    [CommandSwitch("--accelerator")]
+    [CliOption("--accelerator")]
     public string[]? Accelerator { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--config")]
+    [CliOption("--config")]
     public string? Config { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--framework")]
+    [CliOption("--framework")]
     public string? Framework { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--machine-type")]
+    [CliOption("--machine-type")]
     public string? MachineType { get; set; }
 
-    [CommandSwitch("--origin")]
+    [CliOption("--origin")]
     public string? Origin { get; set; }
 
-    [CommandSwitch("--python-version")]
+    [CliOption("--python-version")]
     public string? PythonVersion { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--runtime-version")]
+    [CliOption("--runtime-version")]
     public string? RuntimeVersion { get; set; }
 
-    [CommandSwitch("--staging-bucket")]
+    [CliOption("--staging-bucket")]
     public string? StagingBucket { get; set; }
 
-    [CommandSwitch("--max-nodes")]
+    [CliOption("--max-nodes")]
     public string? MaxNodes { get; set; }
 
-    [CommandSwitch("--metric-targets")]
+    [CliOption("--metric-targets")]
     public string[]? MetricTargets { get; set; }
 
-    [CommandSwitch("--min-nodes")]
+    [CliOption("--min-nodes")]
     public string? MinNodes { get; set; }
 }

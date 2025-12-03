@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "express-route", "peering", "connection", "ipv6-config", "set")]
+[CliCommand("network", "express-route", "peering", "connection", "ipv6-config", "set")]
 public record AzNetworkExpressRoutePeeringConnectionIpv6ConfigSetOptions(
-[property: CommandSwitch("--circuit-name")] string CircuitName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--peering-name")] string PeeringName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--circuit-name")] string CircuitName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--peering-name")] string PeeringName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--address-prefix")]
+    [CliOption("--address-prefix")]
     public string? AddressPrefix { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 }

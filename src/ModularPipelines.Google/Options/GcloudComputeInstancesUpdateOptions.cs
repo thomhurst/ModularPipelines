@@ -5,62 +5,62 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "instances", "update")]
+[CliCommand("compute", "instances", "update")]
 public record GcloudComputeInstancesUpdateOptions(
-[property: PositionalArgument] string InstanceName
+[property: CliArgument] string InstanceName
 ) : GcloudOptions
 {
-    [CommandSwitch("--[no-]deletion-protection")]
+    [CliOption("--[no-]deletion-protection")]
     public string[]? NoDeletionProtection { get; set; }
 
-    [CommandSwitch("--[no-]enable-display-device")]
+    [CliOption("--[no-]enable-display-device")]
     public string[]? NoEnableDisplayDevice { get; set; }
 
-    [CommandSwitch("--min-cpu-platform")]
+    [CliOption("--min-cpu-platform")]
     public string? MinCpuPlatform { get; set; }
 
-    [CommandSwitch("--[no-]shielded-integrity-monitoring")]
+    [CliOption("--[no-]shielded-integrity-monitoring")]
     public string[]? NoShieldedIntegrityMonitoring { get; set; }
 
-    [BooleanCommandSwitch("--shielded-learn-integrity-policy")]
+    [CliFlag("--shielded-learn-integrity-policy")]
     public bool? ShieldedLearnIntegrityPolicy { get; set; }
 
-    [CommandSwitch("--[no-]shielded-secure-boot")]
+    [CliOption("--[no-]shielded-secure-boot")]
     public string[]? NoShieldedSecureBoot { get; set; }
 
-    [CommandSwitch("--[no-]shielded-vtpm")]
+    [CliOption("--[no-]shielded-vtpm")]
     public string[]? NoShieldedVtpm { get; set; }
 
-    [CommandSwitch("--update-labels")]
+    [CliOption("--update-labels")]
     public IEnumerable<KeyValue>? UpdateLabels { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [BooleanCommandSwitch("--clear-labels")]
+    [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
-    [CommandSwitch("--remove-labels")]
+    [CliOption("--remove-labels")]
     public string[]? RemoveLabels { get; set; }
 
-    [BooleanCommandSwitch("--clear-node-affinities")]
+    [CliFlag("--clear-node-affinities")]
     public bool? ClearNodeAffinities { get; set; }
 
-    [CommandSwitch("--node")]
+    [CliOption("--node")]
     public string? Node { get; set; }
 
-    [CommandSwitch("--node-affinity-file")]
+    [CliOption("--node-affinity-file")]
     public string? NodeAffinityFile { get; set; }
 
-    [BooleanCommandSwitch("key")]
+    [CliFlag("key")]
     public bool? Key { get; set; }
 
-    [BooleanCommandSwitch("operator")]
+    [CliFlag("operator")]
     public bool? Operator { get; set; }
 
-    [BooleanCommandSwitch("values")]
+    [CliFlag("values")]
     public bool? Values { get; set; }
 
-    [CommandSwitch("--node-group")]
+    [CliOption("--node-group")]
     public string? NodeGroup { get; set; }
 }

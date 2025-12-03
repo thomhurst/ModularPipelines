@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "insights", "inventory-reports", "delete")]
+[CliCommand("storage", "insights", "inventory-reports", "delete")]
 public record GcloudStorageInsightsInventoryReportsDeleteOptions(
-[property: PositionalArgument] string ReportConfig,
-[property: PositionalArgument] string Location
+[property: CliArgument] string ReportConfig,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public bool? Force { get; set; }
 }

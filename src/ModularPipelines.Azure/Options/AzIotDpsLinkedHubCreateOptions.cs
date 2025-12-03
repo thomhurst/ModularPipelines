@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "dps", "linked-hub", "create")]
+[CliCommand("iot", "dps", "linked-hub", "create")]
 public record AzIotDpsLinkedHubCreateOptions(
-[property: CommandSwitch("--dps-name")] string DpsName
+[property: CliOption("--dps-name")] string DpsName
 ) : AzOptions
 {
-    [CommandSwitch("--allocation-weight")]
+    [CliOption("--allocation-weight")]
     public string? AllocationWeight { get; set; }
 
-    [BooleanCommandSwitch("--apply-allocation-policy")]
+    [CliFlag("--apply-allocation-policy")]
     public bool? ApplyAllocationPolicy { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--hn")]
+    [CliOption("--hn")]
     public string? Hn { get; set; }
 
-    [CommandSwitch("--hrg")]
+    [CliOption("--hrg")]
     public string? Hrg { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dt", "twin", "component", "update")]
+[CliCommand("dt", "twin", "component", "update")]
 public record AzDtTwinComponentUpdateOptions(
-[property: CommandSwitch("--component")] string Component,
-[property: CommandSwitch("--dt-name")] string DtName,
-[property: CommandSwitch("--json-patch")] string JsonPatch,
-[property: CommandSwitch("--twin-id")] string TwinId
+[property: CliOption("--component")] string Component,
+[property: CliOption("--dt-name")] string DtName,
+[property: CliOption("--json-patch")] string JsonPatch,
+[property: CliOption("--twin-id")] string TwinId
 ) : AzOptions
 {
-    [CommandSwitch("--etag")]
+    [CliOption("--etag")]
     public string? Etag { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("builds", "triggers", "create", "cloud-source-repositories")]
+[CliCommand("builds", "triggers", "create", "cloud-source-repositories")]
 public record GcloudBuildsTriggersCreateCloudSourceRepositoriesOptions(
-[property: CommandSwitch("--trigger-config")] string TriggerConfig,
-[property: CommandSwitch("--repo")] string Repo,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--ignored-files")] string[] IgnoredFiles,
-[property: CommandSwitch("--included-files")] string[] IncludedFiles,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--region")] string Region,
-[property: CommandSwitch("--[no-]require-approval")] string[] NoRequireApproval,
-[property: CommandSwitch("--service-account")] string ServiceAccount,
-[property: CommandSwitch("--substitutions")] IEnumerable<KeyValue> Substitutions,
-[property: CommandSwitch("--branch-pattern")] string BranchPattern,
-[property: CommandSwitch("--tag-pattern")] string TagPattern,
-[property: CommandSwitch("--build-config")] string BuildConfig,
-[property: CommandSwitch("--inline-config")] string InlineConfig,
-[property: CommandSwitch("--dockerfile")] string Dockerfile,
-[property: CommandSwitch("--dockerfile-dir")] string DockerfileDir,
-[property: CommandSwitch("--dockerfile-image")] string DockerfileImage
+[property: CliOption("--trigger-config")] string TriggerConfig,
+[property: CliOption("--repo")] string Repo,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--ignored-files")] string[] IgnoredFiles,
+[property: CliOption("--included-files")] string[] IncludedFiles,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--region")] string Region,
+[property: CliOption("--[no-]require-approval")] string[] NoRequireApproval,
+[property: CliOption("--service-account")] string ServiceAccount,
+[property: CliOption("--substitutions")] IEnumerable<KeyValue> Substitutions,
+[property: CliOption("--branch-pattern")] string BranchPattern,
+[property: CliOption("--tag-pattern")] string TagPattern,
+[property: CliOption("--build-config")] string BuildConfig,
+[property: CliOption("--inline-config")] string InlineConfig,
+[property: CliOption("--dockerfile")] string Dockerfile,
+[property: CliOption("--dockerfile-dir")] string DockerfileDir,
+[property: CliOption("--dockerfile-image")] string DockerfileImage
 ) : GcloudOptions;

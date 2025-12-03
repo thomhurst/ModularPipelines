@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "ops", "asset")]
+[CliCommand("iot", "ops", "asset")]
 public class AzIotOpsAssetDataPoint
 {
     public AzIotOpsAssetDataPoint(

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("pipelines", "runs", "tag", "add")]
+[CliCommand("pipelines", "runs", "tag", "add")]
 public record AzPipelinesRunsTagAddOptions(
-[property: CommandSwitch("--run-id")] string RunId,
-[property: CommandSwitch("--tags")] string Tags
+[property: CliOption("--run-id")] string RunId,
+[property: CliOption("--tags")] string Tags
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 }

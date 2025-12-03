@@ -3,43 +3,43 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CommandPrecedingArguments("reset")]
+[CliCommand("reset")]
 [ExcludeFromCodeCoverage]
 public record GitResetOptions : GitOptions
 {
-    [BooleanCommandSwitch("--soft")]
+    [CliFlag("--soft")]
     public virtual bool? Soft { get; set; }
 
-    [BooleanCommandSwitch("--mixed")]
+    [CliFlag("--mixed")]
     public virtual bool? Mixed { get; set; }
 
-    [BooleanCommandSwitch("--hard")]
+    [CliFlag("--hard")]
     public virtual bool? Hard { get; set; }
 
-    [BooleanCommandSwitch("--merge")]
+    [CliFlag("--merge")]
     public virtual bool? Merge { get; set; }
 
-    [BooleanCommandSwitch("--keep")]
+    [CliFlag("--keep")]
     public virtual bool? Keep { get; set; }
 
-    [BooleanCommandSwitch("--no-recurse-submodules")]
+    [CliFlag("--no-recurse-submodules")]
     public virtual bool? NoRecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("--recurse-submodules")]
+    [CliFlag("--recurse-submodules")]
     public virtual bool? RecurseSubmodules { get; set; }
 
-    [BooleanCommandSwitch("--quiet")]
+    [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
 
-    [BooleanCommandSwitch("--refresh")]
+    [CliFlag("--refresh")]
     public virtual bool? Refresh { get; set; }
 
-    [BooleanCommandSwitch("--no-refresh")]
+    [CliFlag("--no-refresh")]
     public virtual bool? NoRefresh { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--pathspec-from-file")]
+    [CliOption("--pathspec-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? PathspecFromFile { get; set; }
 
-    [BooleanCommandSwitch("--pathspec-file-nul")]
+    [CliFlag("--pathspec-file-nul")]
     public virtual bool? PathspecFileNul { get; set; }
 }

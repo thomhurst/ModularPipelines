@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("support", "tickets", "show")]
+[CliCommand("support", "tickets", "show")]
 public record AzSupportTicketsShowOptions(
-[property: CommandSwitch("--ticket-name")] string TicketName
+[property: CliOption("--ticket-name")] string TicketName
 ) : AzOptions;

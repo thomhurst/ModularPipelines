@@ -3,22 +3,22 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Terraform.Options;
 
-[CommandPrecedingArguments("fmt")]
+[CliCommand("fmt")]
 [ExcludeFromCodeCoverage]
 public record TerraformFmtOptions : TerraformOptions
 {
-    [BooleanCommandSwitch("-list")]
+    [CliFlag("-list")]
     public virtual bool? List { get; set; }
 
-    [BooleanCommandSwitch("-write")]
+    [CliFlag("-write")]
     public virtual bool? Write { get; set; }
 
-    [BooleanCommandSwitch("-check")]
+    [CliFlag("-check")]
     public virtual bool? Check { get; set; }
 
-    [BooleanCommandSwitch("-diff")]
+    [CliFlag("-diff")]
     public virtual bool? Diff { get; set; }
 
-    [BooleanCommandSwitch("-recursive")]
+    [CliFlag("-recursive")]
     public virtual bool? Recursive { get; set; }
 }

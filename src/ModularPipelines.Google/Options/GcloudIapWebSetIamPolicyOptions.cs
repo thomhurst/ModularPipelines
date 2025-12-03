@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iap", "web", "set-iam-policy")]
+[CliCommand("iap", "web", "set-iam-policy")]
 public record GcloudIapWebSetIamPolicyOptions(
-[property: PositionalArgument] string PolicyFile
+[property: CliArgument] string PolicyFile
 ) : GcloudOptions
 {
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--service")]
+    [CliOption("--service")]
     public string? Service { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string? Version { get; set; }
 }

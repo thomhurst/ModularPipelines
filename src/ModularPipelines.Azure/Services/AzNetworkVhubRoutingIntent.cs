@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "vhub")]
+[CliCommand("network", "vhub")]
 public class AzNetworkVhubRoutingIntent
 {
     public AzNetworkVhubRoutingIntent(

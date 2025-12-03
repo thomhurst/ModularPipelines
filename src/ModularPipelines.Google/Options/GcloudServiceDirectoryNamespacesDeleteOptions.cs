@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("service-directory", "namespaces", "delete")]
+[CliCommand("service-directory", "namespaces", "delete")]
 public record GcloudServiceDirectoryNamespacesDeleteOptions(
-[property: PositionalArgument] string Namespace,
-[property: PositionalArgument] string Location
+[property: CliArgument] string Namespace,
+[property: CliArgument] string Location
 ) : GcloudOptions;

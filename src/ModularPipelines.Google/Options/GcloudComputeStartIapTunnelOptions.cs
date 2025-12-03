@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "start-iap-tunnel")]
+[CliCommand("compute", "start-iap-tunnel")]
 public record GcloudComputeStartIapTunnelOptions(
-[property: PositionalArgument] string InstanceName,
-[property: PositionalArgument] string InstancePort
+[property: CliArgument] string InstanceName,
+[property: CliArgument] string InstancePort
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--iap-tunnel-disable-connection-check")]
+    [CliFlag("--iap-tunnel-disable-connection-check")]
     public bool? IapTunnelDisableConnectionCheck { get; set; }
 
-    [CommandSwitch("--local-host-port")]
+    [CliOption("--local-host-port")]
     public string? LocalHostPort { get; set; }
 
-    [CommandSwitch("--zone")]
+    [CliOption("--zone")]
     public string? Zone { get; set; }
 
-    [CommandSwitch("--network")]
+    [CliOption("--network")]
     public string? Network { get; set; }
 
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 
-    [CommandSwitch("--dest-group")]
+    [CliOption("--dest-group")]
     public string? DestGroup { get; set; }
 }

@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("scout", "cache", "prune")]
+[CliCommand("scout", "cache", "prune")]
 [ExcludeFromCodeCoverage]
 public record DockerScoutCachePruneOptions : DockerOptions
 {
-    [BooleanCommandSwitch("--force")]
+    [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
-    [CommandSwitch("--sboms")]
+    [CliOption("--sboms")]
     public virtual string? Sboms { get; set; }
 }

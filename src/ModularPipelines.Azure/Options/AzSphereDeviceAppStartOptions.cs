@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sphere", "device", "app", "start")]
+[CliCommand("sphere", "device", "app", "start")]
 public record AzSphereDeviceAppStartOptions : AzOptions
 {
-    [CommandSwitch("--component-id")]
+    [CliOption("--component-id")]
     public string? ComponentId { get; set; }
 
-    [BooleanCommandSwitch("--debug-mode")]
+    [CliFlag("--debug-mode")]
     public bool? DebugMode { get; set; }
 
-    [CommandSwitch("--device")]
+    [CliOption("--device")]
     public string? Device { get; set; }
 }

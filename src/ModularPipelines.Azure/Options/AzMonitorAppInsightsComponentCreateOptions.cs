@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "app-insights", "component", "create")]
+[CliCommand("monitor", "app-insights", "component", "create")]
 public record AzMonitorAppInsightsComponentCreateOptions(
-[property: CommandSwitch("--app")] string App,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--app")] string App,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--application-type")]
+    [CliOption("--application-type")]
     public string? ApplicationType { get; set; }
 
-    [CommandSwitch("--ingestion-access")]
+    [CliOption("--ingestion-access")]
     public string? IngestionAccess { get; set; }
 
-    [CommandSwitch("--kind")]
+    [CliOption("--kind")]
     public string? Kind { get; set; }
 
-    [CommandSwitch("--query-access")]
+    [CliOption("--query-access")]
     public string? QueryAccess { get; set; }
 
-    [CommandSwitch("--retention-time")]
+    [CliOption("--retention-time")]
     public string? RetentionTime { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--workspace")]
+    [CliOption("--workspace")]
     public string? Workspace { get; set; }
 }

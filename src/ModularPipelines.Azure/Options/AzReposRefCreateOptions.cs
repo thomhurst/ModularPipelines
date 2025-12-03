@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("repos", "ref", "create")]
+[CliCommand("repos", "ref", "create")]
 public record AzReposRefCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--object-id")] string ObjectId
+[property: CliOption("--name")] string Name,
+[property: CliOption("--object-id")] string ObjectId
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--detect")]
+    [CliFlag("--detect")]
     public bool? Detect { get; set; }
 
-    [CommandSwitch("--org")]
+    [CliOption("--org")]
     public string? Org { get; set; }
 
-    [CommandSwitch("--project")]
+    [CliOption("--project")]
     public string? Project { get; set; }
 
-    [CommandSwitch("--repository")]
+    [CliOption("--repository")]
     public string? Repository { get; set; }
 }

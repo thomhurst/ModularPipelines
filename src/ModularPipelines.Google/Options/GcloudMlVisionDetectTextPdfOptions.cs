@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ml", "vision", "detect-text-pdf")]
+[CliCommand("ml", "vision", "detect-text-pdf")]
 public record GcloudMlVisionDetectTextPdfOptions(
-[property: PositionalArgument] string InputFile,
-[property: PositionalArgument] string OutputPath
+[property: CliArgument] string InputFile,
+[property: CliArgument] string OutputPath
 ) : GcloudOptions
 {
-    [CommandSwitch("--batch-size")]
+    [CliOption("--batch-size")]
     public string? BatchSize { get; set; }
 }

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("partnercenter", "marketplace", "offer", "listing", "contact", "delete")]
+[CliCommand("partnercenter", "marketplace", "offer", "listing", "contact", "delete")]
 public record AzPartnercenterMarketplaceOfferListingContactDeleteOptions(
-[property: CommandSwitch("--offer-id")] string OfferId,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--offer-id")] string OfferId,
+[property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    [CommandSwitch("--email")]
+    [CliOption("--email")]
     public string? Email { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--phone")]
+    [CliOption("--phone")]
     public string? Phone { get; set; }
 
-    [CommandSwitch("--uri")]
+    [CliOption("--uri")]
     public string? Uri { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

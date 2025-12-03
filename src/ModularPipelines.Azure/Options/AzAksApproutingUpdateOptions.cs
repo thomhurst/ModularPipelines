@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "approuting", "update")]
+[CliCommand("aks", "approuting", "update")]
 public record AzAksApproutingUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--attach-kv")]
+    [CliFlag("--attach-kv")]
     public bool? AttachKv { get; set; }
 
-    [BooleanCommandSwitch("--enable-kv")]
+    [CliFlag("--enable-kv")]
     public bool? EnableKv { get; set; }
 }

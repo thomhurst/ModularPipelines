@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("postgres", "flexible-server")]
+[CliCommand("postgres", "flexible-server")]
 public class AzPostgresFlexibleServerIdentity
 {
     public AzPostgresFlexibleServerIdentity(

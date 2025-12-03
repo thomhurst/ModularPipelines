@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datashare", "email-registration", "activate-email")]
+[CliCommand("datashare", "email-registration", "activate-email")]
 public record AzDatashareEmailRegistrationActivateEmailOptions(
-[property: CommandSwitch("--location")] string Location
+[property: CliOption("--location")] string Location
 ) : AzOptions
 {
-    [CommandSwitch("--activation-code")]
+    [CliOption("--activation-code")]
     public string? ActivationCode { get; set; }
 }

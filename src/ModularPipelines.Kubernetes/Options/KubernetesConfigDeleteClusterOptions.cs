@@ -3,13 +3,13 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Kubernetes.Options;
 
-[CommandPrecedingArguments("config", "delete-cluster")]
+[CliCommand("config", "delete-cluster")]
 [ExcludeFromCodeCoverage]
-public record KubernetesConfigDeleteClusterOptions([property: PositionalArgument] string Name) : KubernetesOptions
+public record KubernetesConfigDeleteClusterOptions([property: CliArgument] string Name) : KubernetesOptions
 {
-    [BooleanCommandSwitch("--no-headers")]
+    [CliFlag("--no-headers")]
     public virtual bool? NoHeaders { get; set; }
 
-    [CommandEqualsSeparatorSwitch("--output", SwitchValueSeparator = " ")]
+    [CliOption("--output")]
     public string? Output { get; set; }
 }

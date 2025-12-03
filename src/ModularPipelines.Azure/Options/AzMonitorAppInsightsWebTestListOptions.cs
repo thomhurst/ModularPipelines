@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("monitor", "app-insights", "web-test", "list")]
+[CliCommand("monitor", "app-insights", "web-test", "list")]
 public record AzMonitorAppInsightsWebTestListOptions : AzOptions
 {
-    [CommandSwitch("--component-name")]
+    [CliOption("--component-name")]
     public string? ComponentName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 }

@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "os-config", "os-policy-assignment-reports", "describe")]
+[CliCommand("compute", "os-config", "os-policy-assignment-reports", "describe")]
 public record GcloudComputeOsConfigOsPolicyAssignmentReportsDescribeOptions(
-[property: PositionalArgument] string InstanceOsPolicyAssignment,
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Location
+[property: CliArgument] string InstanceOsPolicyAssignment,
+[property: CliArgument] string Instance,
+[property: CliArgument] string Location
 ) : GcloudOptions;

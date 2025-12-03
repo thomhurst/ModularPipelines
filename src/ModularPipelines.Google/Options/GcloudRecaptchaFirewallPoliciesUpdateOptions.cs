@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("recaptcha", "firewall-policies", "update")]
+[CliCommand("recaptcha", "firewall-policies", "update")]
 public record GcloudRecaptchaFirewallPoliciesUpdateOptions(
-[property: PositionalArgument] string FirewallPolicy
+[property: CliArgument] string FirewallPolicy
 ) : GcloudOptions
 {
-    [CommandSwitch("--actions")]
+    [CliOption("--actions")]
     public string? Actions { get; set; }
 
-    [CommandSwitch("--condition")]
+    [CliOption("--condition")]
     public string? Condition { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 }

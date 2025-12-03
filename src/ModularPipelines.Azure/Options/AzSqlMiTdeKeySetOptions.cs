@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "mi", "tde-key", "set")]
+[CliCommand("sql", "mi", "tde-key", "set")]
 public record AzSqlMiTdeKeySetOptions(
-[property: CommandSwitch("--server-key-type")] string ServerKeyType
+[property: CliOption("--server-key-type")] string ServerKeyType
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--auto-rotation-enabled")]
+    [CliFlag("--auto-rotation-enabled")]
     public bool? AutoRotationEnabled { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--kid")]
+    [CliOption("--kid")]
     public string? Kid { get; set; }
 
-    [CommandSwitch("--managed-instance")]
+    [CliOption("--managed-instance")]
     public string? ManagedInstance { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

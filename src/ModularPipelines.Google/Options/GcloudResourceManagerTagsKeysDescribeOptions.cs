@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("resource-manager", "tags", "keys", "describe")]
+[CliCommand("resource-manager", "tags", "keys", "describe")]
 public record GcloudResourceManagerTagsKeysDescribeOptions(
-[property: PositionalArgument] string ResourceName
+[property: CliArgument] string ResourceName
 ) : GcloudOptions;

@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "azure", "operations", "cancel")]
+[CliCommand("container", "azure", "operations", "cancel")]
 public record GcloudContainerAzureOperationsCancelOptions(
-[property: PositionalArgument] string OperationId,
-[property: PositionalArgument] string Location
+[property: CliArgument] string OperationId,
+[property: CliArgument] string Location
 ) : GcloudOptions;

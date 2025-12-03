@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "security-policies", "remove-user-defined-field")]
+[CliCommand("compute", "security-policies", "remove-user-defined-field")]
 public record GcloudComputeSecurityPoliciesRemoveUserDefinedFieldOptions(
-[property: PositionalArgument] string Name,
-[property: CommandSwitch("--user-defined-field-name")] string UserDefinedFieldName
+[property: CliArgument] string Name,
+[property: CliOption("--user-defined-field-name")] string UserDefinedFieldName
 ) : GcloudOptions
 {
-    [CommandSwitch("--region")]
+    [CliOption("--region")]
     public string? Region { get; set; }
 }

@@ -3,22 +3,22 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Options;
 
-[CommandPrecedingArguments("container", "stats")]
+[CliCommand("container", "stats")]
 [ExcludeFromCodeCoverage]
 public record DockerContainerStatsOptions : DockerOptions
 {
-    [PositionalArgument(Position = Position.AfterSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public IEnumerable<string>? Container { get; set; }
 
-    [BooleanCommandSwitch("--all")]
+    [CliFlag("--all")]
     public virtual bool? All { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public virtual string? Format { get; set; }
 
-    [CommandSwitch("--no-stream")]
+    [CliOption("--no-stream")]
     public virtual string? NoStream { get; set; }
 
-    [BooleanCommandSwitch("--no-trunc")]
+    [CliFlag("--no-trunc")]
     public virtual bool? NoTrunc { get; set; }
 }

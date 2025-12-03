@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dls")]
+[CliCommand("dls")]
 public class AzDlsAccount
 {
     public AzDlsAccount(

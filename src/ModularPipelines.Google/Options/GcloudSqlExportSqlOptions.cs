@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sql", "export", "sql")]
+[CliCommand("sql", "export", "sql")]
 public record GcloudSqlExportSqlOptions(
-[property: PositionalArgument] string Instance,
-[property: PositionalArgument] string Uri
+[property: CliArgument] string Instance,
+[property: CliArgument] string Uri
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--database")]
+    [CliOption("--database")]
     public string[]? Database { get; set; }
 
-    [BooleanCommandSwitch("--offload")]
+    [CliFlag("--offload")]
     public bool? Offload { get; set; }
 
-    [CommandSwitch("--table")]
+    [CliOption("--table")]
     public string[]? Table { get; set; }
 }

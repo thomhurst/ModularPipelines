@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auth", "print-identity-token")]
+[CliCommand("auth", "print-identity-token")]
 public record GcloudAuthPrintIdentityTokenOptions : GcloudOptions
 {
     public GcloudAuthPrintIdentityTokenOptions(
@@ -14,18 +14,18 @@ public record GcloudAuthPrintIdentityTokenOptions : GcloudOptions
         GcloudAuthPrintIdentityTokenOptionsAccount = account;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string GcloudAuthPrintIdentityTokenOptionsAccount { get; set; }
 
-    [CommandSwitch("--audiences")]
+    [CliOption("--audiences")]
     public string? Audiences { get; set; }
 
-    [BooleanCommandSwitch("--include-email")]
+    [CliFlag("--include-email")]
     public bool? IncludeEmail { get; set; }
 
-    [BooleanCommandSwitch("--include-license")]
+    [CliFlag("--include-license")]
     public bool? IncludeLicense { get; set; }
 
-    [CommandSwitch("--token-format")]
+    [CliOption("--token-format")]
     public string? TokenFormat { get; set; }
 }

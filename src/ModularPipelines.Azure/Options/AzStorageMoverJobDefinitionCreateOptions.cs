@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage-mover", "job-definition", "create")]
+[CliCommand("storage-mover", "job-definition", "create")]
 public record AzStorageMoverJobDefinitionCreateOptions(
-[property: CommandSwitch("--copy-mode")] string CopyMode,
-[property: CommandSwitch("--job-definition-name")] string JobDefinitionName,
-[property: CommandSwitch("--project-name")] string ProjectName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup,
-[property: CommandSwitch("--source-name")] string SourceName,
-[property: CommandSwitch("--storage-mover-name")] string StorageMoverName,
-[property: CommandSwitch("--target-name")] string TargetName
+[property: CliOption("--copy-mode")] string CopyMode,
+[property: CliOption("--job-definition-name")] string JobDefinitionName,
+[property: CliOption("--project-name")] string ProjectName,
+[property: CliOption("--resource-group")] string ResourceGroup,
+[property: CliOption("--source-name")] string SourceName,
+[property: CliOption("--storage-mover-name")] string StorageMoverName,
+[property: CliOption("--target-name")] string TargetName
 ) : AzOptions
 {
-    [CommandSwitch("--agent-name")]
+    [CliOption("--agent-name")]
     public string? AgentName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--source-subpath")]
+    [CliOption("--source-subpath")]
     public string? SourceSubpath { get; set; }
 
-    [CommandSwitch("--target-subpath")]
+    [CliOption("--target-subpath")]
     public string? TargetSubpath { get; set; }
 }

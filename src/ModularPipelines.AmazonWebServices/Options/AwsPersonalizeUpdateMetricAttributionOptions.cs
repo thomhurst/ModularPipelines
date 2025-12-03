@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("personalize", "update-metric-attribution")]
+[CliCommand("personalize", "update-metric-attribution")]
 public record AwsPersonalizeUpdateMetricAttributionOptions : AwsOptions
 {
-    [CommandSwitch("--add-metrics")]
+    [CliOption("--add-metrics")]
     public string[]? AddMetrics { get; set; }
 
-    [CommandSwitch("--remove-metrics")]
+    [CliOption("--remove-metrics")]
     public string[]? RemoveMetrics { get; set; }
 
-    [CommandSwitch("--metrics-output-config")]
+    [CliOption("--metrics-output-config")]
     public string? MetricsOutputConfig { get; set; }
 
-    [CommandSwitch("--metric-attribution-arn")]
+    [CliOption("--metric-attribution-arn")]
     public string? MetricAttributionArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

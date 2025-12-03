@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deployment-manager", "deployments", "cancel-preview")]
+[CliCommand("deployment-manager", "deployments", "cancel-preview")]
 public record GcloudDeploymentManagerDeploymentsCancelPreviewOptions(
-[property: PositionalArgument] string DeploymentName
+[property: CliArgument] string DeploymentName
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--fingerprint")]
+    [CliOption("--fingerprint")]
     public string? Fingerprint { get; set; }
 }

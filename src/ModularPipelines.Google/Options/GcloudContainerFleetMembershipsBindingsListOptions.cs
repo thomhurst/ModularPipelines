@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "memberships", "bindings", "list")]
+[CliCommand("container", "fleet", "memberships", "bindings", "list")]
 public record GcloudContainerFleetMembershipsBindingsListOptions(
-[property: CommandSwitch("--membership")] string Membership
+[property: CliOption("--membership")] string Membership
 ) : GcloudOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

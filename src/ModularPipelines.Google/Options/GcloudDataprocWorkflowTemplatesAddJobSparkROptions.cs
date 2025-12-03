@@ -5,33 +5,33 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataproc", "workflow-templates", "add-job", "spark-r")]
+[CliCommand("dataproc", "workflow-templates", "add-job", "spark-r")]
 public record GcloudDataprocWorkflowTemplatesAddJobSparkROptions(
-[property: PositionalArgument] string RFile,
-[property: PositionalArgument] string JobArgs,
-[property: CommandSwitch("--step-id")] string StepId,
-[property: CommandSwitch("--workflow-template")] string WorkflowTemplate,
-[property: CommandSwitch("--region")] string Region
+[property: CliArgument] string RFile,
+[property: CliArgument] string JobArgs,
+[property: CliOption("--step-id")] string StepId,
+[property: CliOption("--workflow-template")] string WorkflowTemplate,
+[property: CliOption("--region")] string Region
 ) : GcloudOptions
 {
-    [CommandSwitch("--archives")]
+    [CliOption("--archives")]
     public string[]? Archives { get; set; }
 
-    [CommandSwitch("--driver-log-levels")]
+    [CliOption("--driver-log-levels")]
     public string[]? DriverLogLevels { get; set; }
 
-    [CommandSwitch("--files")]
+    [CliOption("--files")]
     public string[]? Files { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public IEnumerable<KeyValue>? Labels { get; set; }
 
-    [CommandSwitch("--properties")]
+    [CliOption("--properties")]
     public string[]? Properties { get; set; }
 
-    [CommandSwitch("--properties-file")]
+    [CliOption("--properties-file")]
     public string? PropertiesFile { get; set; }
 
-    [CommandSwitch("--start-after")]
+    [CliOption("--start-after")]
     public string[]? StartAfter { get; set; }
 }

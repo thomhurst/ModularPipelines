@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("billing", "subscription", "validate-move")]
+[CliCommand("billing", "subscription", "validate-move")]
 public record AzBillingSubscriptionValidateMoveOptions(
-[property: CommandSwitch("--account-name")] int AccountName,
-[property: CommandSwitch("--destination-invoice-section-id")] string DestinationInvoiceSectionId
+[property: CliOption("--account-name")] int AccountName,
+[property: CliOption("--destination-invoice-section-id")] string DestinationInvoiceSectionId
 ) : AzOptions;

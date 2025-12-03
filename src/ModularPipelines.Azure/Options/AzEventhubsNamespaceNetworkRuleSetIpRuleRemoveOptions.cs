@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventhubs", "namespace", "network-rule-set", "ip-rule", "remove")]
+[CliCommand("eventhubs", "namespace", "network-rule-set", "ip-rule", "remove")]
 public record AzEventhubsNamespaceNetworkRuleSetIpRuleRemoveOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--ip-rule")]
+    [CliOption("--ip-rule")]
     public string? IpRule { get; set; }
 }

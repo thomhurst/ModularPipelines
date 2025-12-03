@@ -4,69 +4,69 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("snapshot", "create")]
+[CliCommand("snapshot", "create")]
 public record AzSnapshotCreateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [BooleanCommandSwitch("--accelerated-network")]
+    [CliFlag("--accelerated-network")]
     public bool? AcceleratedNetwork { get; set; }
 
-    [CommandSwitch("--architecture")]
+    [CliOption("--architecture")]
     public string? Architecture { get; set; }
 
-    [BooleanCommandSwitch("--copy-start")]
+    [CliFlag("--copy-start")]
     public bool? CopyStart { get; set; }
 
-    [CommandSwitch("--disk-access")]
+    [CliOption("--disk-access")]
     public string? DiskAccess { get; set; }
 
-    [CommandSwitch("--disk-encryption-set")]
+    [CliOption("--disk-encryption-set")]
     public string? DiskEncryptionSet { get; set; }
 
-    [CommandSwitch("--edge-zone")]
+    [CliOption("--edge-zone")]
     public string? EdgeZone { get; set; }
 
-    [CommandSwitch("--elastic-san-id")]
+    [CliOption("--elastic-san-id")]
     public string? ElasticSanId { get; set; }
 
-    [CommandSwitch("--encryption-type")]
+    [CliOption("--encryption-type")]
     public string? EncryptionType { get; set; }
 
-    [BooleanCommandSwitch("--for-upload")]
+    [CliFlag("--for-upload")]
     public bool? ForUpload { get; set; }
 
-    [CommandSwitch("--hyper-v-generation")]
+    [CliOption("--hyper-v-generation")]
     public string? HyperVGeneration { get; set; }
 
-    [BooleanCommandSwitch("--incremental")]
+    [CliFlag("--incremental")]
     public bool? Incremental { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--network-access-policy")]
+    [CliOption("--network-access-policy")]
     public string? NetworkAccessPolicy { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--public-network-access")]
+    [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--size-gb")]
+    [CliOption("--size-gb")]
     public string? SizeGb { get; set; }
 
-    [CommandSwitch("--sku")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--source-storage-account-id")]
+    [CliOption("--source-storage-account-id")]
     public int? SourceStorageAccountId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 }

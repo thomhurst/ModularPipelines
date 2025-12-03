@@ -4,83 +4,83 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "kv", "export")]
+[CliCommand("appconfig", "kv", "export")]
 public record AzAppconfigKvExportOptions(
-[property: CommandSwitch("--destination")] string Destination
+[property: CliOption("--destination")] string Destination
 ) : AzOptions
 {
-    [CommandSwitch("--appservice-account")]
+    [CliOption("--appservice-account")]
     public int? AppserviceAccount { get; set; }
 
-    [CommandSwitch("--auth-mode")]
+    [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
 
-    [CommandSwitch("--connection-string")]
+    [CliOption("--connection-string")]
     public string? ConnectionString { get; set; }
 
-    [CommandSwitch("--dest-auth-mode")]
+    [CliOption("--dest-auth-mode")]
     public string? DestAuthMode { get; set; }
 
-    [CommandSwitch("--dest-connection-string")]
+    [CliOption("--dest-connection-string")]
     public string? DestConnectionString { get; set; }
 
-    [CommandSwitch("--dest-endpoint")]
+    [CliOption("--dest-endpoint")]
     public string? DestEndpoint { get; set; }
 
-    [CommandSwitch("--dest-label")]
+    [CliOption("--dest-label")]
     public string? DestLabel { get; set; }
 
-    [CommandSwitch("--dest-name")]
+    [CliOption("--dest-name")]
     public string? DestName { get; set; }
 
-    [CommandSwitch("--endpoint")]
+    [CliOption("--endpoint")]
     public string? Endpoint { get; set; }
 
-    [BooleanCommandSwitch("--export-as-reference")]
+    [CliFlag("--export-as-reference")]
     public bool? ExportAsReference { get; set; }
 
-    [CommandSwitch("--format")]
+    [CliOption("--format")]
     public string? Format { get; set; }
 
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--label")]
+    [CliOption("--label")]
     public string? Label { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--naming-convention")]
+    [CliOption("--naming-convention")]
     public string? NamingConvention { get; set; }
 
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--prefix")]
+    [CliOption("--prefix")]
     public string? Prefix { get; set; }
 
-    [BooleanCommandSwitch("--preserve-labels")]
+    [CliFlag("--preserve-labels")]
     public bool? PreserveLabels { get; set; }
 
-    [CommandSwitch("--profile")]
+    [CliOption("--profile")]
     public string? Profile { get; set; }
 
-    [BooleanCommandSwitch("--resolve-keyvault")]
+    [CliFlag("--resolve-keyvault")]
     public bool? ResolveKeyvault { get; set; }
 
-    [CommandSwitch("--separator")]
+    [CliOption("--separator")]
     public string? Separator { get; set; }
 
-    [BooleanCommandSwitch("--skip-features")]
+    [CliFlag("--skip-features")]
     public bool? SkipFeatures { get; set; }
 
-    [BooleanCommandSwitch("--skip-keyvault")]
+    [CliFlag("--skip-keyvault")]
     public bool? SkipKeyvault { get; set; }
 
-    [CommandSwitch("--snapshot")]
+    [CliOption("--snapshot")]
     public string? Snapshot { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

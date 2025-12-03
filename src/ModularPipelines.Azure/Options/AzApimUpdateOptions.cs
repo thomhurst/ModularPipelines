@@ -4,54 +4,54 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apim", "update")]
+[CliCommand("apim", "update")]
 public record AzApimUpdateOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--name")] string Name,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions
 {
-    [CommandSwitch("--add")]
+    [CliOption("--add")]
     public string? Add { get; set; }
 
-    [BooleanCommandSwitch("--disable-gateway")]
+    [CliFlag("--disable-gateway")]
     public bool? DisableGateway { get; set; }
 
-    [BooleanCommandSwitch("--enable-client-certificate")]
+    [CliFlag("--enable-client-certificate")]
     public bool? EnableClientCertificate { get; set; }
 
-    [BooleanCommandSwitch("--enable-managed-identity")]
+    [CliFlag("--enable-managed-identity")]
     public bool? EnableManagedIdentity { get; set; }
 
-    [BooleanCommandSwitch("--force-string")]
+    [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [BooleanCommandSwitch("--public-network-access")]
+    [CliFlag("--public-network-access")]
     public bool? PublicNetworkAccess { get; set; }
 
-    [CommandSwitch("--publisher-email")]
+    [CliOption("--publisher-email")]
     public string? PublisherEmail { get; set; }
 
-    [CommandSwitch("--publisher-name")]
+    [CliOption("--publisher-name")]
     public string? PublisherName { get; set; }
 
-    [CommandSwitch("--remove")]
+    [CliOption("--remove")]
     public string? Remove { get; set; }
 
-    [CommandSwitch("--set")]
+    [CliOption("--set")]
     public string? Set { get; set; }
 
-    [CommandSwitch("--sku-capacity")]
+    [CliOption("--sku-capacity")]
     public string? SkuCapacity { get; set; }
 
-    [CommandSwitch("--sku-name")]
+    [CliOption("--sku-name")]
     public string? SkuName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--virtual-network")]
+    [CliOption("--virtual-network")]
     public string? VirtualNetwork { get; set; }
 }

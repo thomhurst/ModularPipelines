@@ -5,7 +5,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "bare-metal", "admin-clusters", "create")]
+[CliCommand("container", "bare-metal", "admin-clusters", "create")]
 public record GcloudContainerBareMetalAdminClustersCreateOptions : GcloudOptions
 {
     public GcloudContainerBareMetalAdminClustersCreateOptions(
@@ -47,90 +47,90 @@ public record GcloudContainerBareMetalAdminClustersCreateOptions : GcloudOptions
         LvpShareStorageClass = lvpShareStorageClass;
     }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string AdminCluster { get; set; }
 
-    [PositionalArgument(Position = Position.BeforeSwitches)]
+    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public string Location { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public new string Version { get; set; }
 
-    [CommandSwitch("--control-plane-load-balancer-port")]
+    [CliOption("--control-plane-load-balancer-port")]
     public string ControlPlaneLoadBalancerPort { get; set; }
 
-    [CommandSwitch("--control-plane-vip")]
+    [CliOption("--control-plane-vip")]
     public string ControlPlaneVip { get; set; }
 
-    [BooleanCommandSwitch("--enable-manual-lb")]
+    [CliFlag("--enable-manual-lb")]
     public bool EnableManualLb { get; set; }
 
-    [CommandSwitch("--api-server-args")]
+    [CliOption("--api-server-args")]
     public IEnumerable<KeyValue> ApiServerArgs { get; set; }
 
-    [CommandSwitch("--control-plane-node-configs")]
+    [CliOption("--control-plane-node-configs")]
     public string[] ControlPlaneNodeConfigs { get; set; }
 
-    [CommandSwitch("--control-plane-node-labels")]
+    [CliOption("--control-plane-node-labels")]
     public IEnumerable<KeyValue> ControlPlaneNodeLabels { get; set; }
 
-    [CommandSwitch("--control-plane-node-taints")]
+    [CliOption("--control-plane-node-taints")]
     public IEnumerable<KeyValue> ControlPlaneNodeTaints { get; set; }
 
-    [CommandSwitch("--island-mode-pod-address-cidr-blocks")]
+    [CliOption("--island-mode-pod-address-cidr-blocks")]
     public string[] IslandModePodAddressCidrBlocks { get; set; }
 
-    [CommandSwitch("--island-mode-service-address-cidr-blocks")]
+    [CliOption("--island-mode-service-address-cidr-blocks")]
     public string[] IslandModeServiceAddressCidrBlocks { get; set; }
 
-    [CommandSwitch("--lvp-node-mounts-config-path")]
+    [CliOption("--lvp-node-mounts-config-path")]
     public string LvpNodeMountsConfigPath { get; set; }
 
-    [CommandSwitch("--lvp-node-mounts-config-storage-class")]
+    [CliOption("--lvp-node-mounts-config-storage-class")]
     public string LvpNodeMountsConfigStorageClass { get; set; }
 
-    [CommandSwitch("--shared-path-pv-count")]
+    [CliOption("--shared-path-pv-count")]
     public string SharedPathPvCount { get; set; }
 
-    [CommandSwitch("--lvp-share-path")]
+    [CliOption("--lvp-share-path")]
     public string LvpSharePath { get; set; }
 
-    [CommandSwitch("--lvp-share-storage-class")]
+    [CliOption("--lvp-share-storage-class")]
     public string LvpShareStorageClass { get; set; }
 
-    [CommandSwitch("--admin-users")]
+    [CliOption("--admin-users")]
     public string? AdminUsers { get; set; }
 
-    [CommandSwitch("--annotations")]
+    [CliOption("--annotations")]
     public IEnumerable<KeyValue>? Annotations { get; set; }
 
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CommandSwitch("--binauthz-evaluation-mode")]
+    [CliOption("--binauthz-evaluation-mode")]
     public string? BinauthzEvaluationMode { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [BooleanCommandSwitch("--enable-application-logs")]
+    [CliFlag("--enable-application-logs")]
     public bool? EnableApplicationLogs { get; set; }
 
-    [CommandSwitch("--login-user")]
+    [CliOption("--login-user")]
     public string? LoginUser { get; set; }
 
-    [CommandSwitch("--maintenance-address-cidr-blocks")]
+    [CliOption("--maintenance-address-cidr-blocks")]
     public string[]? MaintenanceAddressCidrBlocks { get; set; }
 
-    [CommandSwitch("--max-pods-per-node")]
+    [CliOption("--max-pods-per-node")]
     public string? MaxPodsPerNode { get; set; }
 
-    [BooleanCommandSwitch("--validate-only")]
+    [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
-    [CommandSwitch("--uri")]
+    [CliOption("--uri")]
     public string? Uri { get; set; }
 
-    [CommandSwitch("--no-proxy")]
+    [CliOption("--no-proxy")]
     public string[]? NoProxy { get; set; }
 }

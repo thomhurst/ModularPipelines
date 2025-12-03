@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acr", "artifact-streaming", "update")]
+[CliCommand("acr", "artifact-streaming", "update")]
 public record AzAcrArtifactStreamingUpdateOptions(
-[property: BooleanCommandSwitch("--enable-streaming")] bool EnableStreaming,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--repository")] string Repository
+[property: CliFlag("--enable-streaming")] bool EnableStreaming,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--repository")] string Repository
 ) : AzOptions
 {
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--suffix")]
+    [CliOption("--suffix")]
     public string? Suffix { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 }

@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "database", "list-principal")]
+[CliCommand("kusto", "database", "list-principal")]
 public record AzKustoDatabaseListPrincipalOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

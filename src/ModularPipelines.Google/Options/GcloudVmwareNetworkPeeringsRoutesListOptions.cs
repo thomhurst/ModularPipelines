@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("vmware", "network-peerings", "routes", "list")]
+[CliCommand("vmware", "network-peerings", "routes", "list")]
 public record GcloudVmwareNetworkPeeringsRoutesListOptions(
-[property: CommandSwitch("--network-peering")] string NetworkPeering
+[property: CliOption("--network-peering")] string NetworkPeering
 ) : GcloudOptions;

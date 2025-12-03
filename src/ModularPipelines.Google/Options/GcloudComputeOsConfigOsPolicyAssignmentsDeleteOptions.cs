@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("compute", "os-config", "os-policy-assignments", "delete")]
+[CliCommand("compute", "os-config", "os-policy-assignments", "delete")]
 public record GcloudComputeOsConfigOsPolicyAssignmentsDeleteOptions(
-[property: PositionalArgument] string OsPolicyAssignment,
-[property: PositionalArgument] string Location
+[property: CliArgument] string OsPolicyAssignment,
+[property: CliArgument] string Location
 ) : GcloudOptions
 {
-    [BooleanCommandSwitch("--async")]
+    [CliFlag("--async")]
     public bool? Async { get; set; }
 }

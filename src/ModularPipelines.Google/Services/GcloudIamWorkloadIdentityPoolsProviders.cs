@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "workload-identity-pools")]
+[CliCommand("iam", "workload-identity-pools")]
 public class GcloudIamWorkloadIdentityPoolsProviders
 {
     public GcloudIamWorkloadIdentityPoolsProviders(

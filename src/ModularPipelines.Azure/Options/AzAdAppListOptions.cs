@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ad", "app", "list")]
+[CliCommand("ad", "app", "list")]
 public record AzAdAppListOptions : AzOptions
 {
-    [CommandSwitch("--all")]
+    [CliOption("--all")]
     public string? All { get; set; }
 
-    [CommandSwitch("--app-id")]
+    [CliOption("--app-id")]
     public string? AppId { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--identifier-uri")]
+    [CliOption("--identifier-uri")]
     public string? IdentifierUri { get; set; }
 
-    [CommandSwitch("--show-mine")]
+    [CliOption("--show-mine")]
     public string? ShowMine { get; set; }
 }

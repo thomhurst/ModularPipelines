@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("container", "fleet", "policycontroller", "disable")]
+[CliCommand("container", "fleet", "policycontroller", "disable")]
 public record GcloudContainerFleetPolicycontrollerDisableOptions : GcloudOptions
 {
-    [BooleanCommandSwitch("--fleet-default-member-config")]
+    [CliFlag("--fleet-default-member-config")]
     public bool? FleetDefaultMemberConfig { get; set; }
 
-    [BooleanCommandSwitch("--all-memberships")]
+    [CliFlag("--all-memberships")]
     public bool? AllMemberships { get; set; }
 
-    [CommandSwitch("--memberships")]
+    [CliOption("--memberships")]
     public string[]? Memberships { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 }

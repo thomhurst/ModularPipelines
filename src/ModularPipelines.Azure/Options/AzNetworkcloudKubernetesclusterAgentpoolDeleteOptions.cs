@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkcloud", "kubernetescluster", "agentpool", "delete")]
+[CliCommand("networkcloud", "kubernetescluster", "agentpool", "delete")]
 public record AzNetworkcloudKubernetesclusterAgentpoolDeleteOptions : AzOptions
 {
-    [CommandSwitch("--agent-pool-name")]
+    [CliOption("--agent-pool-name")]
     public string? AgentPoolName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--kubernetes-cluster-name")]
+    [CliOption("--kubernetes-cluster-name")]
     public string? KubernetesClusterName { get; set; }
 
-    [BooleanCommandSwitch("--no-wait")]
+    [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 
-    [BooleanCommandSwitch("--yes")]
+    [CliFlag("--yes")]
     public bool? Yes { get; set; }
 }

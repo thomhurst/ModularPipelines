@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "application-gateway", "frontend-ip", "list")]
+[CliCommand("network", "application-gateway", "frontend-ip", "list")]
 public record AzNetworkApplicationGatewayFrontendIpListOptions(
-[property: CommandSwitch("--gateway-name")] string GatewayName,
-[property: CommandSwitch("--resource-group")] string ResourceGroup
+[property: CliOption("--gateway-name")] string GatewayName,
+[property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

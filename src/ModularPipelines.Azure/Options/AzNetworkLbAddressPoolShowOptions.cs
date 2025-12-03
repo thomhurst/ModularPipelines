@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network", "lb", "address-pool", "show")]
+[CliCommand("network", "lb", "address-pool", "show")]
 public record AzNetworkLbAddressPoolShowOptions : AzOptions
 {
-    [CommandSwitch("--address-pool-name")]
+    [CliOption("--address-pool-name")]
     public string? AddressPoolName { get; set; }
 
-    [CommandSwitch("--ids")]
+    [CliOption("--ids")]
     public string? Ids { get; set; }
 
-    [CommandSwitch("--lb-name")]
+    [CliOption("--lb-name")]
     public string? LbName { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--subscription")]
+    [CliOption("--subscription")]
     public new string? Subscription { get; set; }
 }

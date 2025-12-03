@@ -7,7 +7,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Services;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("stack-hci-vm")]
+[CliCommand("stack-hci-vm")]
 public class AzStackHciVmImage
 {
     public AzStackHciVmImage(

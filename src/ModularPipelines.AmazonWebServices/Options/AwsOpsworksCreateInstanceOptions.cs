@@ -4,52 +4,52 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opsworks", "create-instance")]
+[CliCommand("opsworks", "create-instance")]
 public record AwsOpsworksCreateInstanceOptions(
-[property: CommandSwitch("--stack-id")] string StackId,
-[property: CommandSwitch("--layer-ids")] string[] LayerIds,
-[property: CommandSwitch("--instance-type")] string InstanceType
+[property: CliOption("--stack-id")] string StackId,
+[property: CliOption("--layer-ids")] string[] LayerIds,
+[property: CliOption("--instance-type")] string InstanceType
 ) : AwsOptions
 {
-    [CommandSwitch("--auto-scaling-type")]
+    [CliOption("--auto-scaling-type")]
     public string? AutoScalingType { get; set; }
 
-    [CommandSwitch("--hostname")]
+    [CliOption("--hostname")]
     public string? Hostname { get; set; }
 
-    [CommandSwitch("--os")]
+    [CliOption("--os")]
     public string? Os { get; set; }
 
-    [CommandSwitch("--ami-id")]
+    [CliOption("--ami-id")]
     public string? AmiId { get; set; }
 
-    [CommandSwitch("--ssh-key-name")]
+    [CliOption("--ssh-key-name")]
     public string? SshKeyName { get; set; }
 
-    [CommandSwitch("--availability-zone")]
+    [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
-    [CommandSwitch("--virtualization-type")]
+    [CliOption("--virtualization-type")]
     public string? VirtualizationType { get; set; }
 
-    [CommandSwitch("--subnet-id")]
+    [CliOption("--subnet-id")]
     public string? SubnetId { get; set; }
 
-    [CommandSwitch("--architecture")]
+    [CliOption("--architecture")]
     public string? Architecture { get; set; }
 
-    [CommandSwitch("--root-device-type")]
+    [CliOption("--root-device-type")]
     public string? RootDeviceType { get; set; }
 
-    [CommandSwitch("--block-device-mappings")]
+    [CliOption("--block-device-mappings")]
     public string[]? BlockDeviceMappings { get; set; }
 
-    [CommandSwitch("--agent-version")]
+    [CliOption("--agent-version")]
     public string? AgentVersion { get; set; }
 
-    [CommandSwitch("--tenancy")]
+    [CliOption("--tenancy")]
     public string? Tenancy { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

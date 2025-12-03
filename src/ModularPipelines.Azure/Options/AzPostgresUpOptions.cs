@@ -4,48 +4,48 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("postgres", "up")]
+[CliCommand("postgres", "up")]
 public record AzPostgresUpOptions : AzOptions
 {
-    [CommandSwitch("--admin-password")]
+    [CliOption("--admin-password")]
     public string? AdminPassword { get; set; }
 
-    [CommandSwitch("--admin-user")]
+    [CliOption("--admin-user")]
     public string? AdminUser { get; set; }
 
-    [CommandSwitch("--backup-retention")]
+    [CliOption("--backup-retention")]
     public string? BackupRetention { get; set; }
 
-    [CommandSwitch("--database-name")]
+    [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
-    [CommandSwitch("--generate-password")]
+    [CliOption("--generate-password")]
     public string? GeneratePassword { get; set; }
 
-    [CommandSwitch("--geo-redundant-backup")]
+    [CliOption("--geo-redundant-backup")]
     public string? GeoRedundantBackup { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--resource-group")]
+    [CliOption("--resource-group")]
     public string? ResourceGroup { get; set; }
 
-    [CommandSwitch("--server-name")]
+    [CliOption("--server-name")]
     public string? ServerName { get; set; }
 
-    [CommandSwitch("--sku-name")]
+    [CliOption("--sku-name")]
     public string? SkuName { get; set; }
 
-    [CommandSwitch("--ssl-enforcement")]
+    [CliOption("--ssl-enforcement")]
     public string? SslEnforcement { get; set; }
 
-    [CommandSwitch("--storage-size")]
+    [CliOption("--storage-size")]
     public string? StorageSize { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string? Tags { get; set; }
 
-    [CommandSwitch("--version")]
+    [CliOption("--version")]
     public string? Version { get; set; }
 }
