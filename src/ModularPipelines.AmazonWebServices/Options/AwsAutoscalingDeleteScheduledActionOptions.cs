@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("autoscaling", "delete-scheduled-action")]
+[CliCommand("autoscaling", "delete-scheduled-action")]
 public record AwsAutoscalingDeleteScheduledActionOptions(
-[property: CommandSwitch("--auto-scaling-group-name")] string AutoScalingGroupName,
-[property: CommandSwitch("--scheduled-action-name")] string ScheduledActionName
+[property: CliOption("--auto-scaling-group-name")] string AutoScalingGroupName,
+[property: CliOption("--scheduled-action-name")] string ScheduledActionName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

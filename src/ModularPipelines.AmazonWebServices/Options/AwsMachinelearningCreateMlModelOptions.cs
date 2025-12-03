@@ -5,25 +5,25 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("machinelearning", "create-ml-model")]
+[CliCommand("machinelearning", "create-ml-model")]
 public record AwsMachinelearningCreateMlModelOptions(
-[property: CommandSwitch("--ml-model-id")] string MlModelId,
-[property: CommandSwitch("--ml-model-type")] string MlModelType,
-[property: CommandSwitch("--training-data-source-id")] string TrainingDataSourceId
+[property: CliOption("--ml-model-id")] string MlModelId,
+[property: CliOption("--ml-model-type")] string MlModelType,
+[property: CliOption("--training-data-source-id")] string TrainingDataSourceId
 ) : AwsOptions
 {
-    [CommandSwitch("--ml-model-name")]
+    [CliOption("--ml-model-name")]
     public string? MlModelName { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public IEnumerable<KeyValue>? Parameters { get; set; }
 
-    [CommandSwitch("--recipe")]
+    [CliOption("--recipe")]
     public string? Recipe { get; set; }
 
-    [CommandSwitch("--recipe-uri")]
+    [CliOption("--recipe-uri")]
     public string? RecipeUri { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

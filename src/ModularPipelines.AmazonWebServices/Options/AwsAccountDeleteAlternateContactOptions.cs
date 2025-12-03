@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("account", "delete-alternate-contact")]
+[CliCommand("account", "delete-alternate-contact")]
 public record AwsAccountDeleteAlternateContactOptions(
-[property: CommandSwitch("--alternate-contact-type")] string AlternateContactType
+[property: CliOption("--alternate-contact-type")] string AlternateContactType
 ) : AwsOptions
 {
-    [CommandSwitch("--account-id")]
+    [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

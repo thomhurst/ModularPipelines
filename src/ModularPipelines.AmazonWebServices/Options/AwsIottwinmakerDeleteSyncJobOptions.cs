@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iottwinmaker", "delete-sync-job")]
+[CliCommand("iottwinmaker", "delete-sync-job")]
 public record AwsIottwinmakerDeleteSyncJobOptions(
-[property: CommandSwitch("--workspace-id")] string WorkspaceId,
-[property: CommandSwitch("--sync-source")] string SyncSource
+[property: CliOption("--workspace-id")] string WorkspaceId,
+[property: CliOption("--sync-source")] string SyncSource
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

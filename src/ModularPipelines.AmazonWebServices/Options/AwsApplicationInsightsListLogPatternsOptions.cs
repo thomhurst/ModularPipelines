@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("application-insights", "list-log-patterns")]
+[CliCommand("application-insights", "list-log-patterns")]
 public record AwsApplicationInsightsListLogPatternsOptions(
-[property: CommandSwitch("--resource-group-name")] string ResourceGroupName
+[property: CliOption("--resource-group-name")] string ResourceGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--pattern-set-name")]
+    [CliOption("--pattern-set-name")]
     public string? PatternSetName { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--account-id")]
+    [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "delete-domain-entry")]
+[CliCommand("lightsail", "delete-domain-entry")]
 public record AwsLightsailDeleteDomainEntryOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--domain-entry")] string DomainEntry
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--domain-entry")] string DomainEntry
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

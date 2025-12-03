@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecommit", "post-comment-for-pull-request")]
+[CliCommand("codecommit", "post-comment-for-pull-request")]
 public record AwsCodecommitPostCommentForPullRequestOptions(
-[property: CommandSwitch("--pull-request-id")] string PullRequestId,
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--before-commit-id")] string BeforeCommitId,
-[property: CommandSwitch("--after-commit-id")] string AfterCommitId,
-[property: CommandSwitch("--content")] string Content
+[property: CliOption("--pull-request-id")] string PullRequestId,
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--before-commit-id")] string BeforeCommitId,
+[property: CliOption("--after-commit-id")] string AfterCommitId,
+[property: CliOption("--content")] string Content
 ) : AwsOptions
 {
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

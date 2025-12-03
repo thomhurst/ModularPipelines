@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("evidently", "update-launch")]
+[CliCommand("evidently", "update-launch")]
 public record AwsEvidentlyUpdateLaunchOptions(
-[property: CommandSwitch("--launch")] string Launch,
-[property: CommandSwitch("--project")] string Project
+[property: CliOption("--launch")] string Launch,
+[property: CliOption("--project")] string Project
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--groups")]
+    [CliOption("--groups")]
     public string[]? Groups { get; set; }
 
-    [CommandSwitch("--metric-monitors")]
+    [CliOption("--metric-monitors")]
     public string[]? MetricMonitors { get; set; }
 
-    [CommandSwitch("--randomization-salt")]
+    [CliOption("--randomization-salt")]
     public string? RandomizationSalt { get; set; }
 
-    [CommandSwitch("--scheduled-splits-config")]
+    [CliOption("--scheduled-splits-config")]
     public string? ScheduledSplitsConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("macie2", "update-macie-session")]
+[CliCommand("macie2", "update-macie-session")]
 public record AwsMacie2UpdateMacieSessionOptions : AwsOptions
 {
-    [CommandSwitch("--finding-publishing-frequency")]
+    [CliOption("--finding-publishing-frequency")]
     public string? FindingPublishingFrequency { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

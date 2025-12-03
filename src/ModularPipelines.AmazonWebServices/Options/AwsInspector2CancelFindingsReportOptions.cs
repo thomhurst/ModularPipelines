@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("inspector2", "cancel-findings-report")]
+[CliCommand("inspector2", "cancel-findings-report")]
 public record AwsInspector2CancelFindingsReportOptions(
-[property: CommandSwitch("--report-id")] string ReportId
+[property: CliOption("--report-id")] string ReportId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

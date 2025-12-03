@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("opensearch", "add-data-source")]
+[CliCommand("opensearch", "add-data-source")]
 public record AwsOpensearchAddDataSourceOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--data-source-type")] string DataSourceType
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--data-source-type")] string DataSourceType
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

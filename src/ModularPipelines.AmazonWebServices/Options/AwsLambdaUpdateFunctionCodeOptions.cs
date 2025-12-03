@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "update-function-code")]
+[CliCommand("lambda", "update-function-code")]
 public record AwsLambdaUpdateFunctionCodeOptions(
-[property: CommandSwitch("--function-name")] string FunctionName
+[property: CliOption("--function-name")] string FunctionName
 ) : AwsOptions
 {
-    [CommandSwitch("--zip-file")]
+    [CliOption("--zip-file")]
     public string? ZipFile { get; set; }
 
-    [CommandSwitch("--s3-bucket")]
+    [CliOption("--s3-bucket")]
     public string? S3Bucket { get; set; }
 
-    [CommandSwitch("--s3-key")]
+    [CliOption("--s3-key")]
     public string? S3Key { get; set; }
 
-    [CommandSwitch("--s3-object-version")]
+    [CliOption("--s3-object-version")]
     public string? S3ObjectVersion { get; set; }
 
-    [CommandSwitch("--image-uri")]
+    [CliOption("--image-uri")]
     public string? ImageUri { get; set; }
 
-    [CommandSwitch("--revision-id")]
+    [CliOption("--revision-id")]
     public string? RevisionId { get; set; }
 
-    [CommandSwitch("--architectures")]
+    [CliOption("--architectures")]
     public string[]? Architectures { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

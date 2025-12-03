@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise", "update-asset")]
+[CliCommand("iotsitewise", "update-asset")]
 public record AwsIotsitewiseUpdateAssetOptions(
-[property: CommandSwitch("--asset-id")] string AssetId,
-[property: CommandSwitch("--asset-name")] string AssetName
+[property: CliOption("--asset-id")] string AssetId,
+[property: CliOption("--asset-name")] string AssetName
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--asset-description")]
+    [CliOption("--asset-description")]
     public string? AssetDescription { get; set; }
 
-    [CommandSwitch("--asset-external-id")]
+    [CliOption("--asset-external-id")]
     public string? AssetExternalId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

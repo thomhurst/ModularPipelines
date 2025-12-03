@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "purchase-reserved-instances-offering")]
+[CliCommand("ec2", "purchase-reserved-instances-offering")]
 public record AwsEc2PurchaseReservedInstancesOfferingOptions(
-[property: CommandSwitch("--instance-count")] int InstanceCount,
-[property: CommandSwitch("--reserved-instances-offering-id")] string ReservedInstancesOfferingId
+[property: CliOption("--instance-count")] int InstanceCount,
+[property: CliOption("--reserved-instances-offering-id")] string ReservedInstancesOfferingId
 ) : AwsOptions
 {
-    [CommandSwitch("--limit-price")]
+    [CliOption("--limit-price")]
     public string? LimitPrice { get; set; }
 
-    [CommandSwitch("--purchase-time")]
+    [CliOption("--purchase-time")]
     public long? PurchaseTime { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

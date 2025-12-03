@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotwireless", "associate-wireless-device-with-thing")]
+[CliCommand("iotwireless", "associate-wireless-device-with-thing")]
 public record AwsIotwirelessAssociateWirelessDeviceWithThingOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--thing-arn")] string ThingArn
+[property: CliOption("--id")] string Id,
+[property: CliOption("--thing-arn")] string ThingArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

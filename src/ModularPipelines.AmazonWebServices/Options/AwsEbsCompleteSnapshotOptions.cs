@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ebs", "complete-snapshot")]
+[CliCommand("ebs", "complete-snapshot")]
 public record AwsEbsCompleteSnapshotOptions(
-[property: CommandSwitch("--snapshot-id")] string SnapshotId,
-[property: CommandSwitch("--changed-blocks-count")] int ChangedBlocksCount
+[property: CliOption("--snapshot-id")] string SnapshotId,
+[property: CliOption("--changed-blocks-count")] int ChangedBlocksCount
 ) : AwsOptions
 {
-    [CommandSwitch("--checksum")]
+    [CliOption("--checksum")]
     public string? Checksum { get; set; }
 
-    [CommandSwitch("--checksum-algorithm")]
+    [CliOption("--checksum-algorithm")]
     public string? ChecksumAlgorithm { get; set; }
 
-    [CommandSwitch("--checksum-aggregation-method")]
+    [CliOption("--checksum-aggregation-method")]
     public string? ChecksumAggregationMethod { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

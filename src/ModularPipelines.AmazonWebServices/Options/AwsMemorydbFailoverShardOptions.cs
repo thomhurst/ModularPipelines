@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memorydb", "failover-shard")]
+[CliCommand("memorydb", "failover-shard")]
 public record AwsMemorydbFailoverShardOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--shard-name")] string ShardName
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--shard-name")] string ShardName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

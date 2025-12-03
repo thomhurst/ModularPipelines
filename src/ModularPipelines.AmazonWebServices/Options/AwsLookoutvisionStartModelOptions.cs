@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutvision", "start-model")]
+[CliCommand("lookoutvision", "start-model")]
 public record AwsLookoutvisionStartModelOptions(
-[property: CommandSwitch("--project-name")] string ProjectName,
-[property: CommandSwitch("--model-version")] string ModelVersion,
-[property: CommandSwitch("--min-inference-units")] int MinInferenceUnits
+[property: CliOption("--project-name")] string ProjectName,
+[property: CliOption("--model-version")] string ModelVersion,
+[property: CliOption("--min-inference-units")] int MinInferenceUnits
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--max-inference-units")]
+    [CliOption("--max-inference-units")]
     public int? MaxInferenceUnits { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

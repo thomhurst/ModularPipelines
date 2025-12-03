@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managedblockchain-query", "get-token-balance")]
+[CliCommand("managedblockchain-query", "get-token-balance")]
 public record AwsManagedblockchainQueryGetTokenBalanceOptions(
-[property: CommandSwitch("--token-identifier")] string TokenIdentifier,
-[property: CommandSwitch("--owner-identifier")] string OwnerIdentifier
+[property: CliOption("--token-identifier")] string TokenIdentifier,
+[property: CliOption("--owner-identifier")] string OwnerIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--at-blockchain-instant")]
+    [CliOption("--at-blockchain-instant")]
     public string? AtBlockchainInstant { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

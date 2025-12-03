@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise", "delete-dashboard")]
+[CliCommand("iotsitewise", "delete-dashboard")]
 public record AwsIotsitewiseDeleteDashboardOptions(
-[property: CommandSwitch("--dashboard-id")] string DashboardId
+[property: CliOption("--dashboard-id")] string DashboardId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

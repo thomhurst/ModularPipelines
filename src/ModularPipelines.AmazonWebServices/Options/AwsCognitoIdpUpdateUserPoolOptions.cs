@@ -5,65 +5,65 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "update-user-pool")]
+[CliCommand("cognito-idp", "update-user-pool")]
 public record AwsCognitoIdpUpdateUserPoolOptions(
-[property: CommandSwitch("--user-pool-id")] string UserPoolId
+[property: CliOption("--user-pool-id")] string UserPoolId
 ) : AwsOptions
 {
-    [CommandSwitch("--policies")]
+    [CliOption("--policies")]
     public string? Policies { get; set; }
 
-    [CommandSwitch("--deletion-protection")]
+    [CliOption("--deletion-protection")]
     public string? DeletionProtection { get; set; }
 
-    [CommandSwitch("--lambda-config")]
+    [CliOption("--lambda-config")]
     public string? LambdaConfig { get; set; }
 
-    [CommandSwitch("--auto-verified-attributes")]
+    [CliOption("--auto-verified-attributes")]
     public string[]? AutoVerifiedAttributes { get; set; }
 
-    [CommandSwitch("--sms-verification-message")]
+    [CliOption("--sms-verification-message")]
     public string? SmsVerificationMessage { get; set; }
 
-    [CommandSwitch("--email-verification-message")]
+    [CliOption("--email-verification-message")]
     public string? EmailVerificationMessage { get; set; }
 
-    [CommandSwitch("--email-verification-subject")]
+    [CliOption("--email-verification-subject")]
     public string? EmailVerificationSubject { get; set; }
 
-    [CommandSwitch("--verification-message-template")]
+    [CliOption("--verification-message-template")]
     public string? VerificationMessageTemplate { get; set; }
 
-    [CommandSwitch("--sms-authentication-message")]
+    [CliOption("--sms-authentication-message")]
     public string? SmsAuthenticationMessage { get; set; }
 
-    [CommandSwitch("--user-attribute-update-settings")]
+    [CliOption("--user-attribute-update-settings")]
     public string? UserAttributeUpdateSettings { get; set; }
 
-    [CommandSwitch("--mfa-configuration")]
+    [CliOption("--mfa-configuration")]
     public string? MfaConfiguration { get; set; }
 
-    [CommandSwitch("--device-configuration")]
+    [CliOption("--device-configuration")]
     public string? DeviceConfiguration { get; set; }
 
-    [CommandSwitch("--email-configuration")]
+    [CliOption("--email-configuration")]
     public string? EmailConfiguration { get; set; }
 
-    [CommandSwitch("--sms-configuration")]
+    [CliOption("--sms-configuration")]
     public string? SmsConfiguration { get; set; }
 
-    [CommandSwitch("--user-pool-tags")]
+    [CliOption("--user-pool-tags")]
     public IEnumerable<KeyValue>? UserPoolTags { get; set; }
 
-    [CommandSwitch("--admin-create-user-config")]
+    [CliOption("--admin-create-user-config")]
     public string? AdminCreateUserConfig { get; set; }
 
-    [CommandSwitch("--user-pool-add-ons")]
+    [CliOption("--user-pool-add-ons")]
     public string? UserPoolAddOns { get; set; }
 
-    [CommandSwitch("--account-recovery-setting")]
+    [CliOption("--account-recovery-setting")]
     public string? AccountRecoverySetting { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

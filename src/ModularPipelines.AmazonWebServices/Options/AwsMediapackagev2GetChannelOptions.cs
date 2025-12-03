@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediapackagev2", "get-channel")]
+[CliCommand("mediapackagev2", "get-channel")]
 public record AwsMediapackagev2GetChannelOptions(
-[property: CommandSwitch("--channel-group-name")] string ChannelGroupName,
-[property: CommandSwitch("--channel-name")] string ChannelName
+[property: CliOption("--channel-group-name")] string ChannelGroupName,
+[property: CliOption("--channel-name")] string ChannelName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

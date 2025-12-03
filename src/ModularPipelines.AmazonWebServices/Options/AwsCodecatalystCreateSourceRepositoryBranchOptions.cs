@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecatalyst", "create-source-repository-branch")]
+[CliCommand("codecatalyst", "create-source-repository-branch")]
 public record AwsCodecatalystCreateSourceRepositoryBranchOptions(
-[property: CommandSwitch("--space-name")] string SpaceName,
-[property: CommandSwitch("--project-name")] string ProjectName,
-[property: CommandSwitch("--source-repository-name")] string SourceRepositoryName,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--space-name")] string SpaceName,
+[property: CliOption("--project-name")] string ProjectName,
+[property: CliOption("--source-repository-name")] string SourceRepositoryName,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--head-commit-id")]
+    [CliOption("--head-commit-id")]
     public string? HeadCommitId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

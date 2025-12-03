@@ -5,16 +5,16 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "admin-update-user-attributes")]
+[CliCommand("cognito-idp", "admin-update-user-attributes")]
 public record AwsCognitoIdpAdminUpdateUserAttributesOptions(
-[property: CommandSwitch("--user-pool-id")] string UserPoolId,
-[property: CommandSwitch("--username")] string Username,
-[property: CommandSwitch("--user-attributes")] string[] UserAttributes
+[property: CliOption("--user-pool-id")] string UserPoolId,
+[property: CliOption("--username")] string Username,
+[property: CliOption("--user-attributes")] string[] UserAttributes
 ) : AwsOptions
 {
-    [CommandSwitch("--client-metadata")]
+    [CliOption("--client-metadata")]
     public IEnumerable<KeyValue>? ClientMetadata { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

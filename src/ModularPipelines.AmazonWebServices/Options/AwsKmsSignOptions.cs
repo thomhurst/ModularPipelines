@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "sign")]
+[CliCommand("kms", "sign")]
 public record AwsKmsSignOptions(
-[property: CommandSwitch("--key-id")] string KeyId,
-[property: CommandSwitch("--message")] string Message,
-[property: CommandSwitch("--signing-algorithm")] string SigningAlgorithm
+[property: CliOption("--key-id")] string KeyId,
+[property: CliOption("--message")] string Message,
+[property: CliOption("--signing-algorithm")] string SigningAlgorithm
 ) : AwsOptions
 {
-    [CommandSwitch("--message-type")]
+    [CliOption("--message-type")]
     public string? MessageType { get; set; }
 
-    [CommandSwitch("--grant-tokens")]
+    [CliOption("--grant-tokens")]
     public string[]? GrantTokens { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

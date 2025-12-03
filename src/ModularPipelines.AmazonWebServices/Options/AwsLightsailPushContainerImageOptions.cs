@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "push-container-image")]
+[CliCommand("lightsail", "push-container-image")]
 public record AwsLightsailPushContainerImageOptions(
-[property: CommandSwitch("--service-name")] string ServiceName,
-[property: CommandSwitch("--image")] string Image,
-[property: CommandSwitch("--label")] string Label
+[property: CliOption("--service-name")] string ServiceName,
+[property: CliOption("--image")] string Image,
+[property: CliOption("--label")] string Label
 ) : AwsOptions;

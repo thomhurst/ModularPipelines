@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache", "increase-node-groups-in-global-replication-group")]
+[CliCommand("elasticache", "increase-node-groups-in-global-replication-group")]
 public record AwsElasticacheIncreaseNodeGroupsInGlobalReplicationGroupOptions(
-[property: CommandSwitch("--global-replication-group-id")] string GlobalReplicationGroupId,
-[property: CommandSwitch("--node-group-count")] int NodeGroupCount
+[property: CliOption("--global-replication-group-id")] string GlobalReplicationGroupId,
+[property: CliOption("--node-group-count")] int NodeGroupCount
 ) : AwsOptions
 {
-    [CommandSwitch("--regional-configurations")]
+    [CliOption("--regional-configurations")]
     public string[]? RegionalConfigurations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "create-task")]
+[CliCommand("datasync", "create-task")]
 public record AwsDatasyncCreateTaskOptions(
-[property: CommandSwitch("--source-location-arn")] string SourceLocationArn,
-[property: CommandSwitch("--destination-location-arn")] string DestinationLocationArn
+[property: CliOption("--source-location-arn")] string SourceLocationArn,
+[property: CliOption("--destination-location-arn")] string DestinationLocationArn
 ) : AwsOptions
 {
-    [CommandSwitch("--cloud-watch-log-group-arn")]
+    [CliOption("--cloud-watch-log-group-arn")]
     public string? CloudWatchLogGroupArn { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--options")]
+    [CliOption("--options")]
     public string? Options { get; set; }
 
-    [CommandSwitch("--excludes")]
+    [CliOption("--excludes")]
     public string[]? Excludes { get; set; }
 
-    [CommandSwitch("--schedule")]
+    [CliOption("--schedule")]
     public string? Schedule { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--includes")]
+    [CliOption("--includes")]
     public string[]? Includes { get; set; }
 
-    [CommandSwitch("--task-report-config")]
+    [CliOption("--task-report-config")]
     public string? TaskReportConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

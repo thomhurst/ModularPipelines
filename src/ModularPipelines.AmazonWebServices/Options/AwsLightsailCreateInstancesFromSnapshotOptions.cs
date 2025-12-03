@@ -5,40 +5,40 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "create-instances-from-snapshot")]
+[CliCommand("lightsail", "create-instances-from-snapshot")]
 public record AwsLightsailCreateInstancesFromSnapshotOptions(
-[property: CommandSwitch("--instance-names")] string[] InstanceNames,
-[property: CommandSwitch("--availability-zone")] string AvailabilityZone,
-[property: CommandSwitch("--bundle-id")] string BundleId
+[property: CliOption("--instance-names")] string[] InstanceNames,
+[property: CliOption("--availability-zone")] string AvailabilityZone,
+[property: CliOption("--bundle-id")] string BundleId
 ) : AwsOptions
 {
-    [CommandSwitch("--attached-disk-mapping")]
+    [CliOption("--attached-disk-mapping")]
     public IEnumerable<KeyValue>? AttachedDiskMapping { get; set; }
 
-    [CommandSwitch("--instance-snapshot-name")]
+    [CliOption("--instance-snapshot-name")]
     public string? InstanceSnapshotName { get; set; }
 
-    [CommandSwitch("--user-data")]
+    [CliOption("--user-data")]
     public string? UserData { get; set; }
 
-    [CommandSwitch("--key-pair-name")]
+    [CliOption("--key-pair-name")]
     public string? KeyPairName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--add-ons")]
+    [CliOption("--add-ons")]
     public string[]? AddOns { get; set; }
 
-    [CommandSwitch("--ip-address-type")]
+    [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
 
-    [CommandSwitch("--source-instance-name")]
+    [CliOption("--source-instance-name")]
     public string? SourceInstanceName { get; set; }
 
-    [CommandSwitch("--restore-date")]
+    [CliOption("--restore-date")]
     public string? RestoreDate { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

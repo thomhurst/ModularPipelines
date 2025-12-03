@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "put-organization-config-rule")]
+[CliCommand("configservice", "put-organization-config-rule")]
 public record AwsConfigservicePutOrganizationConfigRuleOptions(
-[property: CommandSwitch("--organization-config-rule-name")] string OrganizationConfigRuleName
+[property: CliOption("--organization-config-rule-name")] string OrganizationConfigRuleName
 ) : AwsOptions
 {
-    [CommandSwitch("--organization-managed-rule-metadata")]
+    [CliOption("--organization-managed-rule-metadata")]
     public string? OrganizationManagedRuleMetadata { get; set; }
 
-    [CommandSwitch("--organization-custom-rule-metadata")]
+    [CliOption("--organization-custom-rule-metadata")]
     public string? OrganizationCustomRuleMetadata { get; set; }
 
-    [CommandSwitch("--excluded-accounts")]
+    [CliOption("--excluded-accounts")]
     public string[]? ExcludedAccounts { get; set; }
 
-    [CommandSwitch("--organization-custom-policy-rule-metadata")]
+    [CliOption("--organization-custom-policy-rule-metadata")]
     public string? OrganizationCustomPolicyRuleMetadata { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

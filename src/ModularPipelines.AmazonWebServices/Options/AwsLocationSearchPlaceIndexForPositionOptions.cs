@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "search-place-index-for-position")]
+[CliCommand("location", "search-place-index-for-position")]
 public record AwsLocationSearchPlaceIndexForPositionOptions(
-[property: CommandSwitch("--index-name")] string IndexName,
-[property: CommandSwitch("--position")] string[] Position
+[property: CliOption("--index-name")] string IndexName,
+[property: CliOption("--position")] string[] Position
 ) : AwsOptions
 {
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 
-    [CommandSwitch("--language")]
+    [CliOption("--language")]
     public string? Language { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

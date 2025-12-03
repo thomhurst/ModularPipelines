@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elbv2", "modify-target-group-attributes")]
+[CliCommand("elbv2", "modify-target-group-attributes")]
 public record AwsElbv2ModifyTargetGroupAttributesOptions(
-[property: CommandSwitch("--target-group-arn")] string TargetGroupArn,
-[property: CommandSwitch("--attributes")] string[] Attributes
+[property: CliOption("--target-group-arn")] string TargetGroupArn,
+[property: CliOption("--attributes")] string[] Attributes
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

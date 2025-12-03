@@ -5,31 +5,31 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "start-backup-job")]
+[CliCommand("backup", "start-backup-job")]
 public record AwsBackupStartBackupJobOptions(
-[property: CommandSwitch("--backup-vault-name")] string BackupVaultName,
-[property: CommandSwitch("--resource-arn")] string ResourceArn,
-[property: CommandSwitch("--iam-role-arn")] string IamRoleArn
+[property: CliOption("--backup-vault-name")] string BackupVaultName,
+[property: CliOption("--resource-arn")] string ResourceArn,
+[property: CliOption("--iam-role-arn")] string IamRoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--start-window-minutes")]
+    [CliOption("--start-window-minutes")]
     public long? StartWindowMinutes { get; set; }
 
-    [CommandSwitch("--complete-window-minutes")]
+    [CliOption("--complete-window-minutes")]
     public long? CompleteWindowMinutes { get; set; }
 
-    [CommandSwitch("--lifecycle")]
+    [CliOption("--lifecycle")]
     public string? Lifecycle { get; set; }
 
-    [CommandSwitch("--recovery-point-tags")]
+    [CliOption("--recovery-point-tags")]
     public IEnumerable<KeyValue>? RecoveryPointTags { get; set; }
 
-    [CommandSwitch("--backup-options")]
+    [CliOption("--backup-options")]
     public IEnumerable<KeyValue>? BackupOptions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

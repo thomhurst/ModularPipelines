@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops-guru", "add-notification-channel")]
+[CliCommand("devops-guru", "add-notification-channel")]
 public record AwsDevopsGuruAddNotificationChannelOptions(
-[property: CommandSwitch("--config")] string Config
+[property: CliOption("--config")] string Config
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

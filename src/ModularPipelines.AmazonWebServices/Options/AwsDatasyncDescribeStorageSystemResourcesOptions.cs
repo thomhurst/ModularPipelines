@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "describe-storage-system-resources")]
+[CliCommand("datasync", "describe-storage-system-resources")]
 public record AwsDatasyncDescribeStorageSystemResourcesOptions(
-[property: CommandSwitch("--discovery-job-arn")] string DiscoveryJobArn,
-[property: CommandSwitch("--resource-type")] string ResourceType
+[property: CliOption("--discovery-job-arn")] string DiscoveryJobArn,
+[property: CliOption("--resource-type")] string ResourceType
 ) : AwsOptions
 {
-    [CommandSwitch("--resource-ids")]
+    [CliOption("--resource-ids")]
     public string[]? ResourceIds { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public IEnumerable<KeyValue>? Filter { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

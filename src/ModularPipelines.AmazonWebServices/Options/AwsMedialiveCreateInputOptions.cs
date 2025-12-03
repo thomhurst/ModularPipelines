@@ -5,42 +5,42 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medialive", "create-input")]
+[CliCommand("medialive", "create-input")]
 public record AwsMedialiveCreateInputOptions : AwsOptions
 {
-    [CommandSwitch("--destinations")]
+    [CliOption("--destinations")]
     public string[]? Destinations { get; set; }
 
-    [CommandSwitch("--input-devices")]
+    [CliOption("--input-devices")]
     public string[]? InputDevices { get; set; }
 
-    [CommandSwitch("--input-security-groups")]
+    [CliOption("--input-security-groups")]
     public string[]? InputSecurityGroups { get; set; }
 
-    [CommandSwitch("--media-connect-flows")]
+    [CliOption("--media-connect-flows")]
     public string[]? MediaConnectFlows { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--request-id")]
+    [CliOption("--request-id")]
     public string? RequestId { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--sources")]
+    [CliOption("--sources")]
     public string[]? Sources { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--vpc")]
+    [CliOption("--vpc")]
     public string? Vpc { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

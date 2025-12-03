@@ -5,31 +5,31 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "create-trigger")]
+[CliCommand("glue", "create-trigger")]
 public record AwsGlueCreateTriggerOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--actions")] string[] Actions
+[property: CliOption("--name")] string Name,
+[property: CliOption("--type")] string Type,
+[property: CliOption("--actions")] string[] Actions
 ) : AwsOptions
 {
-    [CommandSwitch("--workflow-name")]
+    [CliOption("--workflow-name")]
     public string? WorkflowName { get; set; }
 
-    [CommandSwitch("--schedule")]
+    [CliOption("--schedule")]
     public string? Schedule { get; set; }
 
-    [CommandSwitch("--predicate")]
+    [CliOption("--predicate")]
     public string? Predicate { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--event-batching-condition")]
+    [CliOption("--event-batching-condition")]
     public string? EventBatchingCondition { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "attach-certificate-to-distribution")]
+[CliCommand("lightsail", "attach-certificate-to-distribution")]
 public record AwsLightsailAttachCertificateToDistributionOptions(
-[property: CommandSwitch("--distribution-name")] string DistributionName,
-[property: CommandSwitch("--certificate-name")] string CertificateName
+[property: CliOption("--distribution-name")] string DistributionName,
+[property: CliOption("--certificate-name")] string CertificateName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

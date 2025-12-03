@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotanalytics", "update-channel")]
+[CliCommand("iotanalytics", "update-channel")]
 public record AwsIotanalyticsUpdateChannelOptions(
-[property: CommandSwitch("--channel-name")] string ChannelName
+[property: CliOption("--channel-name")] string ChannelName
 ) : AwsOptions
 {
-    [CommandSwitch("--channel-storage")]
+    [CliOption("--channel-storage")]
     public string? ChannelStorage { get; set; }
 
-    [CommandSwitch("--retention-period")]
+    [CliOption("--retention-period")]
     public string? RetentionPeriod { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

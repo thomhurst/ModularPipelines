@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "delete-git-hub-account-token")]
+[CliCommand("deploy", "delete-git-hub-account-token")]
 public record AwsDeployDeleteGitHubAccountTokenOptions : AwsOptions
 {
-    [CommandSwitch("--token-name")]
+    [CliOption("--token-name")]
     public string? TokenName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

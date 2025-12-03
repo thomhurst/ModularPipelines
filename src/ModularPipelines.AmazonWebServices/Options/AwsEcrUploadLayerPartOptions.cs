@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecr", "upload-layer-part")]
+[CliCommand("ecr", "upload-layer-part")]
 public record AwsEcrUploadLayerPartOptions(
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--upload-id")] string UploadId,
-[property: CommandSwitch("--part-first-byte")] long PartFirstByte,
-[property: CommandSwitch("--part-last-byte")] long PartLastByte,
-[property: CommandSwitch("--layer-part-blob")] string LayerPartBlob
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--upload-id")] string UploadId,
+[property: CliOption("--part-first-byte")] long PartFirstByte,
+[property: CliOption("--part-last-byte")] long PartLastByte,
+[property: CliOption("--layer-part-blob")] string LayerPartBlob
 ) : AwsOptions
 {
-    [CommandSwitch("--registry-id")]
+    [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

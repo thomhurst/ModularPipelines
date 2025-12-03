@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudfront", "associate-alias")]
+[CliCommand("cloudfront", "associate-alias")]
 public record AwsCloudfrontAssociateAliasOptions(
-[property: CommandSwitch("--target-distribution-id")] string TargetDistributionId,
-[property: CommandSwitch("--alias")] string Alias
+[property: CliOption("--target-distribution-id")] string TargetDistributionId,
+[property: CliOption("--alias")] string Alias
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

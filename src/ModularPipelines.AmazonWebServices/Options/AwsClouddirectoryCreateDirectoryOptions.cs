@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "create-directory")]
+[CliCommand("clouddirectory", "create-directory")]
 public record AwsClouddirectoryCreateDirectoryOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--schema-arn")] string SchemaArn
+[property: CliOption("--name")] string Name,
+[property: CliOption("--schema-arn")] string SchemaArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

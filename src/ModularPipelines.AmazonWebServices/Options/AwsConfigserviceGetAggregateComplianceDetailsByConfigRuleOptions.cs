@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "get-aggregate-compliance-details-by-config-rule")]
+[CliCommand("configservice", "get-aggregate-compliance-details-by-config-rule")]
 public record AwsConfigserviceGetAggregateComplianceDetailsByConfigRuleOptions(
-[property: CommandSwitch("--configuration-aggregator-name")] string ConfigurationAggregatorName,
-[property: CommandSwitch("--config-rule-name")] string ConfigRuleName,
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--aws-region")] string AwsRegion
+[property: CliOption("--configuration-aggregator-name")] string ConfigurationAggregatorName,
+[property: CliOption("--config-rule-name")] string ConfigRuleName,
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--aws-region")] string AwsRegion
 ) : AwsOptions
 {
-    [CommandSwitch("--compliance-type")]
+    [CliOption("--compliance-type")]
     public string? ComplianceType { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

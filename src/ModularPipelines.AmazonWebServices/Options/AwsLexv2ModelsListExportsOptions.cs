@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lexv2-models", "list-exports")]
+[CliCommand("lexv2-models", "list-exports")]
 public record AwsLexv2ModelsListExportsOptions : AwsOptions
 {
-    [CommandSwitch("--bot-id")]
+    [CliOption("--bot-id")]
     public string? BotId { get; set; }
 
-    [CommandSwitch("--bot-version")]
+    [CliOption("--bot-version")]
     public string? BotVersion { get; set; }
 
-    [CommandSwitch("--sort-by")]
+    [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--locale-id")]
+    [CliOption("--locale-id")]
     public string? LocaleId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

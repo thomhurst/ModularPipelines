@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("finspace", "create-kx-environment")]
+[CliCommand("finspace", "create-kx-environment")]
 public record AwsFinspaceCreateKxEnvironmentOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--kms-key-id")] string KmsKeyId
+[property: CliOption("--name")] string Name,
+[property: CliOption("--kms-key-id")] string KmsKeyId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

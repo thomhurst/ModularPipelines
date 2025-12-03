@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "update-traffic-distribution")]
+[CliCommand("connect", "update-traffic-distribution")]
 public record AwsConnectUpdateTrafficDistributionOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--telephony-config")]
+    [CliOption("--telephony-config")]
     public string? TelephonyConfig { get; set; }
 
-    [CommandSwitch("--sign-in-config")]
+    [CliOption("--sign-in-config")]
     public string? SignInConfig { get; set; }
 
-    [CommandSwitch("--agent-config")]
+    [CliOption("--agent-config")]
     public string? AgentConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

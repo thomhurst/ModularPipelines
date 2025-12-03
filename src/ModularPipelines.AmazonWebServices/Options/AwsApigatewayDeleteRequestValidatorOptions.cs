@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "delete-request-validator")]
+[CliCommand("apigateway", "delete-request-validator")]
 public record AwsApigatewayDeleteRequestValidatorOptions(
-[property: CommandSwitch("--rest-api-id")] string RestApiId,
-[property: CommandSwitch("--request-validator-id")] string RequestValidatorId
+[property: CliOption("--rest-api-id")] string RestApiId,
+[property: CliOption("--request-validator-id")] string RequestValidatorId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

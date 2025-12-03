@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudtrail", "start-import")]
+[CliCommand("cloudtrail", "start-import")]
 public record AwsCloudtrailStartImportOptions : AwsOptions
 {
-    [CommandSwitch("--destinations")]
+    [CliOption("--destinations")]
     public string[]? Destinations { get; set; }
 
-    [CommandSwitch("--import-source")]
+    [CliOption("--import-source")]
     public string? ImportSource { get; set; }
 
-    [CommandSwitch("--start-event-time")]
+    [CliOption("--start-event-time")]
     public long? StartEventTime { get; set; }
 
-    [CommandSwitch("--end-event-time")]
+    [CliOption("--end-event-time")]
     public long? EndEventTime { get; set; }
 
-    [CommandSwitch("--import-id")]
+    [CliOption("--import-id")]
     public string? ImportId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("events", "update-endpoint")]
+[CliCommand("events", "update-endpoint")]
 public record AwsEventsUpdateEndpointOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--routing-config")]
+    [CliOption("--routing-config")]
     public string? RoutingConfig { get; set; }
 
-    [CommandSwitch("--replication-config")]
+    [CliOption("--replication-config")]
     public string? ReplicationConfig { get; set; }
 
-    [CommandSwitch("--event-buses")]
+    [CliOption("--event-buses")]
     public string[]? EventBuses { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

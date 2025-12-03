@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "update-alias")]
+[CliCommand("lambda", "update-alias")]
 public record AwsLambdaUpdateAliasOptions(
-[property: CommandSwitch("--function-name")] string FunctionName,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--function-name")] string FunctionName,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--function-version")]
+    [CliOption("--function-version")]
     public string? FunctionVersion { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--routing-config")]
+    [CliOption("--routing-config")]
     public string? RoutingConfig { get; set; }
 
-    [CommandSwitch("--revision-id")]
+    [CliOption("--revision-id")]
     public string? RevisionId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

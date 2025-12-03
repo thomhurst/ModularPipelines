@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "detect-stack-set-drift")]
+[CliCommand("cloudformation", "detect-stack-set-drift")]
 public record AwsCloudformationDetectStackSetDriftOptions(
-[property: CommandSwitch("--stack-set-name")] string StackSetName
+[property: CliOption("--stack-set-name")] string StackSetName
 ) : AwsOptions
 {
-    [CommandSwitch("--operation-preferences")]
+    [CliOption("--operation-preferences")]
     public string? OperationPreferences { get; set; }
 
-    [CommandSwitch("--operation-id")]
+    [CliOption("--operation-id")]
     public string? OperationId { get; set; }
 
-    [CommandSwitch("--call-as")]
+    [CliOption("--call-as")]
     public string? CallAs { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

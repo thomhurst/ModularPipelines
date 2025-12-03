@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "start-metadata-model-export-as-script")]
+[CliCommand("dms", "start-metadata-model-export-as-script")]
 public record AwsDmsStartMetadataModelExportAsScriptOptions(
-[property: CommandSwitch("--migration-project-identifier")] string MigrationProjectIdentifier,
-[property: CommandSwitch("--selection-rules")] string SelectionRules,
-[property: CommandSwitch("--origin")] string Origin
+[property: CliOption("--migration-project-identifier")] string MigrationProjectIdentifier,
+[property: CliOption("--selection-rules")] string SelectionRules,
+[property: CliOption("--origin")] string Origin
 ) : AwsOptions
 {
-    [CommandSwitch("--file-name")]
+    [CliOption("--file-name")]
     public string? FileName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

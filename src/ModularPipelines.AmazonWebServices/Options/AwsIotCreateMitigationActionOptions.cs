@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "create-mitigation-action")]
+[CliCommand("iot", "create-mitigation-action")]
 public record AwsIotCreateMitigationActionOptions(
-[property: CommandSwitch("--action-name")] string ActionName,
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--action-params")] string ActionParams
+[property: CliOption("--action-name")] string ActionName,
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--action-params")] string ActionParams
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

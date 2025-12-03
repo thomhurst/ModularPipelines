@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apprunner", "create-observability-configuration")]
+[CliCommand("apprunner", "create-observability-configuration")]
 public record AwsApprunnerCreateObservabilityConfigurationOptions(
-[property: CommandSwitch("--observability-configuration-name")] string ObservabilityConfigurationName
+[property: CliOption("--observability-configuration-name")] string ObservabilityConfigurationName
 ) : AwsOptions
 {
-    [CommandSwitch("--trace-configuration")]
+    [CliOption("--trace-configuration")]
     public string? TraceConfiguration { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

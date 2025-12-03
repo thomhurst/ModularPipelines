@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ce", "describe-cost-category-definition")]
+[CliCommand("ce", "describe-cost-category-definition")]
 public record AwsCeDescribeCostCategoryDefinitionOptions(
-[property: CommandSwitch("--cost-category-arn")] string CostCategoryArn
+[property: CliOption("--cost-category-arn")] string CostCategoryArn
 ) : AwsOptions
 {
-    [CommandSwitch("--effective-on")]
+    [CliOption("--effective-on")]
     public string? EffectiveOn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

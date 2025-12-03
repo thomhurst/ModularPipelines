@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeguru-security", "create-scan")]
+[CliCommand("codeguru-security", "create-scan")]
 public record AwsCodeguruSecurityCreateScanOptions(
-[property: CommandSwitch("--resource-id")] string ResourceId,
-[property: CommandSwitch("--scan-name")] string ScanName
+[property: CliOption("--resource-id")] string ResourceId,
+[property: CliOption("--scan-name")] string ScanName
 ) : AwsOptions
 {
-    [CommandSwitch("--analysis-type")]
+    [CliOption("--analysis-type")]
     public string? AnalysisType { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--scan-type")]
+    [CliOption("--scan-type")]
     public string? ScanType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

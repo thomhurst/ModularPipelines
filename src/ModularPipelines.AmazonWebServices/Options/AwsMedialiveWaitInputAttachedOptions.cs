@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medialive", "wait", "input-attached")]
+[CliCommand("medialive", "wait", "input-attached")]
 public record AwsMedialiveWaitInputAttachedOptions(
-[property: CommandSwitch("--input-id")] string InputId
+[property: CliOption("--input-id")] string InputId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

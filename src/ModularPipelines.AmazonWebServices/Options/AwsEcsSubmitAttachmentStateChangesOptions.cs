@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "submit-attachment-state-changes")]
+[CliCommand("ecs", "submit-attachment-state-changes")]
 public record AwsEcsSubmitAttachmentStateChangesOptions(
-[property: CommandSwitch("--attachments")] string[] Attachments
+[property: CliOption("--attachments")] string[] Attachments
 ) : AwsOptions
 {
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

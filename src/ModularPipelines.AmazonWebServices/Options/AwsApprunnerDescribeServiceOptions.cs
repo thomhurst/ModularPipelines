@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apprunner", "describe-service")]
+[CliCommand("apprunner", "describe-service")]
 public record AwsApprunnerDescribeServiceOptions(
-[property: CommandSwitch("--service-arn")] string ServiceArn
+[property: CliOption("--service-arn")] string ServiceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

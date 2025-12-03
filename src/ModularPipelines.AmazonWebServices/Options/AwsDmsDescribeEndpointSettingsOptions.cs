@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "describe-endpoint-settings")]
+[CliCommand("dms", "describe-endpoint-settings")]
 public record AwsDmsDescribeEndpointSettingsOptions(
-[property: CommandSwitch("--engine-name")] string EngineName
+[property: CliOption("--engine-name")] string EngineName
 ) : AwsOptions
 {
-    [CommandSwitch("--max-records")]
+    [CliOption("--max-records")]
     public int? MaxRecords { get; set; }
 
-    [CommandSwitch("--marker")]
+    [CliOption("--marker")]
     public string? Marker { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

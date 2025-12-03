@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "update-bucket")]
+[CliCommand("lightsail", "update-bucket")]
 public record AwsLightsailUpdateBucketOptions(
-[property: CommandSwitch("--bucket-name")] string BucketName
+[property: CliOption("--bucket-name")] string BucketName
 ) : AwsOptions
 {
-    [CommandSwitch("--access-rules")]
+    [CliOption("--access-rules")]
     public string? AccessRules { get; set; }
 
-    [CommandSwitch("--versioning")]
+    [CliOption("--versioning")]
     public string? Versioning { get; set; }
 
-    [CommandSwitch("--readonly-access-accounts")]
+    [CliOption("--readonly-access-accounts")]
     public string[]? ReadonlyAccessAccounts { get; set; }
 
-    [CommandSwitch("--access-log-config")]
+    [CliOption("--access-log-config")]
     public string? AccessLogConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

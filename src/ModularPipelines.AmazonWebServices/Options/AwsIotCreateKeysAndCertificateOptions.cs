@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "create-keys-and-certificate")]
+[CliCommand("iot", "create-keys-and-certificate")]
 public record AwsIotCreateKeysAndCertificateOptions : AwsOptions
 {
-    [CommandSwitch("--certificate-pem-outfile")]
+    [CliOption("--certificate-pem-outfile")]
     public string? CertificatePemOutfile { get; set; }
 
-    [CommandSwitch("--public-key-outfile")]
+    [CliOption("--public-key-outfile")]
     public string? PublicKeyOutfile { get; set; }
 
-    [CommandSwitch("--private-key-outfile")]
+    [CliOption("--private-key-outfile")]
     public string? PrivateKeyOutfile { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

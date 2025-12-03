@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("firehose", "tag-delivery-stream")]
+[CliCommand("firehose", "tag-delivery-stream")]
 public record AwsFirehoseTagDeliveryStreamOptions(
-[property: CommandSwitch("--delivery-stream-name")] string DeliveryStreamName,
-[property: CommandSwitch("--tags")] string[] Tags
+[property: CliOption("--delivery-stream-name")] string DeliveryStreamName,
+[property: CliOption("--tags")] string[] Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

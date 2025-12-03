@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appstream", "update-entitlement")]
+[CliCommand("appstream", "update-entitlement")]
 public record AwsAppstreamUpdateEntitlementOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--stack-name")] string StackName
+[property: CliOption("--name")] string Name,
+[property: CliOption("--stack-name")] string StackName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--app-visibility")]
+    [CliOption("--app-visibility")]
     public string? AppVisibility { get; set; }
 
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public string[]? Attributes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

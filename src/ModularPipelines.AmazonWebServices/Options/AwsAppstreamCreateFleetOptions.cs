@@ -5,69 +5,69 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appstream", "create-fleet")]
+[CliCommand("appstream", "create-fleet")]
 public record AwsAppstreamCreateFleetOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--instance-type")] string InstanceType
+[property: CliOption("--name")] string Name,
+[property: CliOption("--instance-type")] string InstanceType
 ) : AwsOptions
 {
-    [CommandSwitch("--image-name")]
+    [CliOption("--image-name")]
     public string? ImageName { get; set; }
 
-    [CommandSwitch("--image-arn")]
+    [CliOption("--image-arn")]
     public string? ImageArn { get; set; }
 
-    [CommandSwitch("--fleet-type")]
+    [CliOption("--fleet-type")]
     public string? FleetType { get; set; }
 
-    [CommandSwitch("--compute-capacity")]
+    [CliOption("--compute-capacity")]
     public string? ComputeCapacity { get; set; }
 
-    [CommandSwitch("--vpc-config")]
+    [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }
 
-    [CommandSwitch("--max-user-duration-in-seconds")]
+    [CliOption("--max-user-duration-in-seconds")]
     public int? MaxUserDurationInSeconds { get; set; }
 
-    [CommandSwitch("--disconnect-timeout-in-seconds")]
+    [CliOption("--disconnect-timeout-in-seconds")]
     public int? DisconnectTimeoutInSeconds { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--domain-join-info")]
+    [CliOption("--domain-join-info")]
     public string? DomainJoinInfo { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--idle-disconnect-timeout-in-seconds")]
+    [CliOption("--idle-disconnect-timeout-in-seconds")]
     public int? IdleDisconnectTimeoutInSeconds { get; set; }
 
-    [CommandSwitch("--iam-role-arn")]
+    [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; set; }
 
-    [CommandSwitch("--stream-view")]
+    [CliOption("--stream-view")]
     public string? StreamView { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public string? Platform { get; set; }
 
-    [CommandSwitch("--max-concurrent-sessions")]
+    [CliOption("--max-concurrent-sessions")]
     public int? MaxConcurrentSessions { get; set; }
 
-    [CommandSwitch("--usb-device-filter-strings")]
+    [CliOption("--usb-device-filter-strings")]
     public string[]? UsbDeviceFilterStrings { get; set; }
 
-    [CommandSwitch("--session-script-s3-location")]
+    [CliOption("--session-script-s3-location")]
     public string? SessionScriptS3Location { get; set; }
 
-    [CommandSwitch("--max-sessions-per-instance")]
+    [CliOption("--max-sessions-per-instance")]
     public int? MaxSessionsPerInstance { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

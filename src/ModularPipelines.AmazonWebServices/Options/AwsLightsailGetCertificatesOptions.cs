@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "get-certificates")]
+[CliCommand("lightsail", "get-certificates")]
 public record AwsLightsailGetCertificatesOptions : AwsOptions
 {
-    [CommandSwitch("--certificate-statuses")]
+    [CliOption("--certificate-statuses")]
     public string[]? CertificateStatuses { get; set; }
 
-    [CommandSwitch("--certificate-name")]
+    [CliOption("--certificate-name")]
     public string? CertificateName { get; set; }
 
-    [CommandSwitch("--page-token")]
+    [CliOption("--page-token")]
     public string? PageToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

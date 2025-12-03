@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "delete-route-table")]
+[CliCommand("ec2", "delete-route-table")]
 public record AwsEc2DeleteRouteTableOptions(
-[property: CommandSwitch("--route-table-id")] string RouteTableId
+[property: CliOption("--route-table-id")] string RouteTableId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

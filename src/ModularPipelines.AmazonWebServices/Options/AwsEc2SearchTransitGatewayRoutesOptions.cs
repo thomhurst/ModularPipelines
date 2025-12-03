@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "search-transit-gateway-routes")]
+[CliCommand("ec2", "search-transit-gateway-routes")]
 public record AwsEc2SearchTransitGatewayRoutesOptions(
-[property: CommandSwitch("--transit-gateway-route-table-id")] string TransitGatewayRouteTableId,
-[property: CommandSwitch("--filters")] string[] Filters
+[property: CliOption("--transit-gateway-route-table-id")] string TransitGatewayRouteTableId,
+[property: CliOption("--filters")] string[] Filters
 ) : AwsOptions
 {
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

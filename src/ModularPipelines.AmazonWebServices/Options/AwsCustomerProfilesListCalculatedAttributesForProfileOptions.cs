@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("customer-profiles", "list-calculated-attributes-for-profile")]
+[CliCommand("customer-profiles", "list-calculated-attributes-for-profile")]
 public record AwsCustomerProfilesListCalculatedAttributesForProfileOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--profile-id")] string ProfileId
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--profile-id")] string ProfileId
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

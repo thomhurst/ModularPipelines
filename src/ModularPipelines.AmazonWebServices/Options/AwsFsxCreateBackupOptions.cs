@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fsx", "create-backup")]
+[CliCommand("fsx", "create-backup")]
 public record AwsFsxCreateBackupOptions : AwsOptions
 {
-    [CommandSwitch("--file-system-id")]
+    [CliOption("--file-system-id")]
     public string? FileSystemId { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--volume-id")]
+    [CliOption("--volume-id")]
     public string? VolumeId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

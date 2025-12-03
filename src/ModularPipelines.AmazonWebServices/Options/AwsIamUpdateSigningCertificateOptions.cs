@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "update-signing-certificate")]
+[CliCommand("iam", "update-signing-certificate")]
 public record AwsIamUpdateSigningCertificateOptions(
-[property: CommandSwitch("--certificate-id")] string CertificateId,
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--certificate-id")] string CertificateId,
+[property: CliOption("--status")] string Status
 ) : AwsOptions
 {
-    [CommandSwitch("--user-name")]
+    [CliOption("--user-name")]
     public string? UserName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

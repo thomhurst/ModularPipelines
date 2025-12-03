@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanroomsml", "start-audience-generation-job")]
+[CliCommand("cleanroomsml", "start-audience-generation-job")]
 public record AwsCleanroomsmlStartAudienceGenerationJobOptions(
-[property: CommandSwitch("--configured-audience-model-arn")] string ConfiguredAudienceModelArn,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--seed-audience")] string SeedAudience
+[property: CliOption("--configured-audience-model-arn")] string ConfiguredAudienceModelArn,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--seed-audience")] string SeedAudience
 ) : AwsOptions
 {
-    [CommandSwitch("--collaboration-id")]
+    [CliOption("--collaboration-id")]
     public string? CollaborationId { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

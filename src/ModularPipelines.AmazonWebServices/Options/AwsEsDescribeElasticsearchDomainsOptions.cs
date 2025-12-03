@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("es", "describe-elasticsearch-domains")]
+[CliCommand("es", "describe-elasticsearch-domains")]
 public record AwsEsDescribeElasticsearchDomainsOptions(
-[property: CommandSwitch("--domain-names")] string[] DomainNames
+[property: CliOption("--domain-names")] string[] DomainNames
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

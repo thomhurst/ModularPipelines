@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("guardduty", "create-publishing-destination")]
+[CliCommand("guardduty", "create-publishing-destination")]
 public record AwsGuarddutyCreatePublishingDestinationOptions(
-[property: CommandSwitch("--detector-id")] string DetectorId,
-[property: CommandSwitch("--destination-type")] string DestinationType,
-[property: CommandSwitch("--destination-properties")] string DestinationProperties
+[property: CliOption("--detector-id")] string DetectorId,
+[property: CliOption("--destination-type")] string DestinationType,
+[property: CliOption("--destination-properties")] string DestinationProperties
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

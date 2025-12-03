@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elastictranscoder", "create-preset")]
+[CliCommand("elastictranscoder", "create-preset")]
 public record AwsElastictranscoderCreatePresetOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--container")] string Container
+[property: CliOption("--name")] string Name,
+[property: CliOption("--container")] string Container
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--video")]
+    [CliOption("--video")]
     public string? Video { get; set; }
 
-    [CommandSwitch("--audio")]
+    [CliOption("--audio")]
     public string? Audio { get; set; }
 
-    [CommandSwitch("--thumbnails")]
+    [CliOption("--thumbnails")]
     public string? Thumbnails { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "get-user-attribute-verification-code")]
+[CliCommand("cognito-idp", "get-user-attribute-verification-code")]
 public record AwsCognitoIdpGetUserAttributeVerificationCodeOptions(
-[property: CommandSwitch("--access-token")] string AccessToken,
-[property: CommandSwitch("--attribute-name")] string AttributeName
+[property: CliOption("--access-token")] string AccessToken,
+[property: CliOption("--attribute-name")] string AttributeName
 ) : AwsOptions
 {
-    [CommandSwitch("--client-metadata")]
+    [CliOption("--client-metadata")]
     public IEnumerable<KeyValue>? ClientMetadata { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

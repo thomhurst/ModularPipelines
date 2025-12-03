@@ -5,51 +5,51 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "create-dev-endpoint")]
+[CliCommand("glue", "create-dev-endpoint")]
 public record AwsGlueCreateDevEndpointOptions(
-[property: CommandSwitch("--endpoint-name")] string EndpointName,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--endpoint-name")] string EndpointName,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--security-group-ids")]
+    [CliOption("--security-group-ids")]
     public string[]? SecurityGroupIds { get; set; }
 
-    [CommandSwitch("--subnet-id")]
+    [CliOption("--subnet-id")]
     public string? SubnetId { get; set; }
 
-    [CommandSwitch("--public-key")]
+    [CliOption("--public-key")]
     public string? PublicKey { get; set; }
 
-    [CommandSwitch("--public-keys")]
+    [CliOption("--public-keys")]
     public string[]? PublicKeys { get; set; }
 
-    [CommandSwitch("--number-of-nodes")]
+    [CliOption("--number-of-nodes")]
     public int? NumberOfNodes { get; set; }
 
-    [CommandSwitch("--worker-type")]
+    [CliOption("--worker-type")]
     public string? WorkerType { get; set; }
 
-    [CommandSwitch("--glue-version")]
+    [CliOption("--glue-version")]
     public string? GlueVersion { get; set; }
 
-    [CommandSwitch("--number-of-workers")]
+    [CliOption("--number-of-workers")]
     public int? NumberOfWorkers { get; set; }
 
-    [CommandSwitch("--extra-python-libs-s3-path")]
+    [CliOption("--extra-python-libs-s3-path")]
     public string? ExtraPythonLibsS3Path { get; set; }
 
-    [CommandSwitch("--extra-jars-s3-path")]
+    [CliOption("--extra-jars-s3-path")]
     public string? ExtraJarsS3Path { get; set; }
 
-    [CommandSwitch("--security-configuration")]
+    [CliOption("--security-configuration")]
     public string? SecurityConfiguration { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--arguments")]
+    [CliOption("--arguments")]
     public IEnumerable<KeyValue>? AwsGlueArguments { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

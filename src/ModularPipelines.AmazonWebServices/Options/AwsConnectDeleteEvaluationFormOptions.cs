@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "delete-evaluation-form")]
+[CliCommand("connect", "delete-evaluation-form")]
 public record AwsConnectDeleteEvaluationFormOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--evaluation-form-id")] string EvaluationFormId
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--evaluation-form-id")] string EvaluationFormId
 ) : AwsOptions
 {
-    [CommandSwitch("--evaluation-form-version")]
+    [CliOption("--evaluation-form-version")]
     public int? EvaluationFormVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

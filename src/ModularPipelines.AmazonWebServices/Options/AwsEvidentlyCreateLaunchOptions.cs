@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("evidently", "create-launch")]
+[CliCommand("evidently", "create-launch")]
 public record AwsEvidentlyCreateLaunchOptions(
-[property: CommandSwitch("--groups")] string[] Groups,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--project")] string Project
+[property: CliOption("--groups")] string[] Groups,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--project")] string Project
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--metric-monitors")]
+    [CliOption("--metric-monitors")]
     public string[]? MetricMonitors { get; set; }
 
-    [CommandSwitch("--randomization-salt")]
+    [CliOption("--randomization-salt")]
     public string? RandomizationSalt { get; set; }
 
-    [CommandSwitch("--scheduled-splits-config")]
+    [CliOption("--scheduled-splits-config")]
     public string? ScheduledSplitsConfig { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

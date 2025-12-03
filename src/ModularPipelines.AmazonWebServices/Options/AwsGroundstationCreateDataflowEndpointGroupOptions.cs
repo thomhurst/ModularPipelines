@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("groundstation", "create-dataflow-endpoint-group")]
+[CliCommand("groundstation", "create-dataflow-endpoint-group")]
 public record AwsGroundstationCreateDataflowEndpointGroupOptions(
-[property: CommandSwitch("--endpoint-details")] string[] EndpointDetails
+[property: CliOption("--endpoint-details")] string[] EndpointDetails
 ) : AwsOptions
 {
-    [CommandSwitch("--contact-post-pass-duration-seconds")]
+    [CliOption("--contact-post-pass-duration-seconds")]
     public int? ContactPostPassDurationSeconds { get; set; }
 
-    [CommandSwitch("--contact-pre-pass-duration-seconds")]
+    [CliOption("--contact-pre-pass-duration-seconds")]
     public int? ContactPrePassDurationSeconds { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

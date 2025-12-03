@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "create-thing-type")]
+[CliCommand("iot", "create-thing-type")]
 public record AwsIotCreateThingTypeOptions(
-[property: CommandSwitch("--thing-type-name")] string ThingTypeName
+[property: CliOption("--thing-type-name")] string ThingTypeName
 ) : AwsOptions
 {
-    [CommandSwitch("--thing-type-properties")]
+    [CliOption("--thing-type-properties")]
     public string? ThingTypeProperties { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

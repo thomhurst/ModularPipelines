@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("migrationhuborchestrator", "update-workflow")]
+[CliCommand("migrationhuborchestrator", "update-workflow")]
 public record AwsMigrationhuborchestratorUpdateWorkflowOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--input-parameters")]
+    [CliOption("--input-parameters")]
     public IEnumerable<KeyValue>? InputParameters { get; set; }
 
-    [CommandSwitch("--step-targets")]
+    [CliOption("--step-targets")]
     public string[]? StepTargets { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

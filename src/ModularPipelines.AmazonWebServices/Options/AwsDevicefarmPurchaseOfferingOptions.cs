@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devicefarm", "purchase-offering")]
+[CliCommand("devicefarm", "purchase-offering")]
 public record AwsDevicefarmPurchaseOfferingOptions(
-[property: CommandSwitch("--offering-id")] string OfferingId,
-[property: CommandSwitch("--quantity")] int Quantity
+[property: CliOption("--offering-id")] string OfferingId,
+[property: CliOption("--quantity")] int Quantity
 ) : AwsOptions
 {
-    [CommandSwitch("--offering-promotion-id")]
+    [CliOption("--offering-promotion-id")]
     public string? OfferingPromotionId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

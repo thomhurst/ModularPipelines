@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ce", "get-usage-forecast")]
+[CliCommand("ce", "get-usage-forecast")]
 public record AwsCeGetUsageForecastOptions(
-[property: CommandSwitch("--time-period")] string TimePeriod,
-[property: CommandSwitch("--metric")] string Metric,
-[property: CommandSwitch("--granularity")] string Granularity
+[property: CliOption("--time-period")] string TimePeriod,
+[property: CliOption("--metric")] string Metric,
+[property: CliOption("--granularity")] string Granularity
 ) : AwsOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--prediction-interval-level")]
+    [CliOption("--prediction-interval-level")]
     public int? PredictionIntervalLevel { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,13 +5,13 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "put-workflow-run-properties")]
+[CliCommand("glue", "put-workflow-run-properties")]
 public record AwsGluePutWorkflowRunPropertiesOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--run-id")] string RunId,
-[property: CommandSwitch("--run-properties")] IEnumerable<KeyValue> RunProperties
+[property: CliOption("--name")] string Name,
+[property: CliOption("--run-id")] string RunId,
+[property: CliOption("--run-properties")] IEnumerable<KeyValue> RunProperties
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("accessanalyzer", "list-access-preview-findings")]
+[CliCommand("accessanalyzer", "list-access-preview-findings")]
 public record AwsAccessanalyzerListAccessPreviewFindingsOptions(
-[property: CommandSwitch("--access-preview-id")] string AccessPreviewId,
-[property: CommandSwitch("--analyzer-arn")] string AnalyzerArn
+[property: CliOption("--access-preview-id")] string AccessPreviewId,
+[property: CliOption("--analyzer-arn")] string AnalyzerArn
 ) : AwsOptions
 {
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public IEnumerable<KeyValue>? Filter { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

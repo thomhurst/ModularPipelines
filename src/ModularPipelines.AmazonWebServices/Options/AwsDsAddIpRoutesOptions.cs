@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "add-ip-routes")]
+[CliCommand("ds", "add-ip-routes")]
 public record AwsDsAddIpRoutesOptions(
-[property: CommandSwitch("--directory-id")] string DirectoryId,
-[property: CommandSwitch("--ip-routes")] string[] IpRoutes
+[property: CliOption("--directory-id")] string DirectoryId,
+[property: CliOption("--ip-routes")] string[] IpRoutes
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

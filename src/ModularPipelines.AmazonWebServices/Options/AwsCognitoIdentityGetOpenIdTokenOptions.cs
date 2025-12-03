@@ -5,14 +5,14 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-identity", "get-open-id-token")]
+[CliCommand("cognito-identity", "get-open-id-token")]
 public record AwsCognitoIdentityGetOpenIdTokenOptions(
-[property: CommandSwitch("--identity-id")] string IdentityId
+[property: CliOption("--identity-id")] string IdentityId
 ) : AwsOptions
 {
-    [CommandSwitch("--logins")]
+    [CliOption("--logins")]
     public IEnumerable<KeyValue>? Logins { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

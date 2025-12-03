@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-route")]
+[CliCommand("ec2", "create-route")]
 public record AwsEc2CreateRouteOptions(
-[property: CommandSwitch("--route-table-id")] string RouteTableId
+[property: CliOption("--route-table-id")] string RouteTableId
 ) : AwsOptions
 {
-    [CommandSwitch("--destination-cidr-block")]
+    [CliOption("--destination-cidr-block")]
     public string? DestinationCidrBlock { get; set; }
 
-    [CommandSwitch("--destination-ipv6-cidr-block")]
+    [CliOption("--destination-ipv6-cidr-block")]
     public string? DestinationIpv6CidrBlock { get; set; }
 
-    [CommandSwitch("--destination-prefix-list-id")]
+    [CliOption("--destination-prefix-list-id")]
     public string? DestinationPrefixListId { get; set; }
 
-    [CommandSwitch("--vpc-endpoint-id")]
+    [CliOption("--vpc-endpoint-id")]
     public string? VpcEndpointId { get; set; }
 
-    [CommandSwitch("--egress-only-internet-gateway-id")]
+    [CliOption("--egress-only-internet-gateway-id")]
     public string? EgressOnlyInternetGatewayId { get; set; }
 
-    [CommandSwitch("--gateway-id")]
+    [CliOption("--gateway-id")]
     public string? GatewayId { get; set; }
 
-    [CommandSwitch("--instance-id")]
+    [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CommandSwitch("--nat-gateway-id")]
+    [CliOption("--nat-gateway-id")]
     public string? NatGatewayId { get; set; }
 
-    [CommandSwitch("--transit-gateway-id")]
+    [CliOption("--transit-gateway-id")]
     public string? TransitGatewayId { get; set; }
 
-    [CommandSwitch("--local-gateway-id")]
+    [CliOption("--local-gateway-id")]
     public string? LocalGatewayId { get; set; }
 
-    [CommandSwitch("--carrier-gateway-id")]
+    [CliOption("--carrier-gateway-id")]
     public string? CarrierGatewayId { get; set; }
 
-    [CommandSwitch("--network-interface-id")]
+    [CliOption("--network-interface-id")]
     public string? NetworkInterfaceId { get; set; }
 
-    [CommandSwitch("--vpc-peering-connection-id")]
+    [CliOption("--vpc-peering-connection-id")]
     public string? VpcPeeringConnectionId { get; set; }
 
-    [CommandSwitch("--core-network-arn")]
+    [CliOption("--core-network-arn")]
     public string? CoreNetworkArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

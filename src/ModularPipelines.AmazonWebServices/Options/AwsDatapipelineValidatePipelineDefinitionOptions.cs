@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datapipeline", "validate-pipeline-definition")]
+[CliCommand("datapipeline", "validate-pipeline-definition")]
 public record AwsDatapipelineValidatePipelineDefinitionOptions(
-[property: CommandSwitch("--pipeline-id")] string PipelineId,
-[property: CommandSwitch("--pipeline-objects")] string[] PipelineObjects
+[property: CliOption("--pipeline-id")] string PipelineId,
+[property: CliOption("--pipeline-objects")] string[] PipelineObjects
 ) : AwsOptions
 {
-    [CommandSwitch("--parameter-objects")]
+    [CliOption("--parameter-objects")]
     public string[]? ParameterObjects { get; set; }
 
-    [CommandSwitch("--parameter-values")]
+    [CliOption("--parameter-values")]
     public string[]? ParameterValues { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

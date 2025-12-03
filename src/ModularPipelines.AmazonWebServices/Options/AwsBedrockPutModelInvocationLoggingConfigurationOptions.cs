@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bedrock", "put-model-invocation-logging-configuration")]
+[CliCommand("bedrock", "put-model-invocation-logging-configuration")]
 public record AwsBedrockPutModelInvocationLoggingConfigurationOptions(
-[property: CommandSwitch("--logging-config")] string LoggingConfig
+[property: CliOption("--logging-config")] string LoggingConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

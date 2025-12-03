@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("migrationhuborchestrator", "create-workflow")]
+[CliCommand("migrationhuborchestrator", "create-workflow")]
 public record AwsMigrationhuborchestratorCreateWorkflowOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--template-id")] string TemplateId,
-[property: CommandSwitch("--application-configuration-id")] string ApplicationConfigurationId,
-[property: CommandSwitch("--input-parameters")] IEnumerable<KeyValue> InputParameters
+[property: CliOption("--name")] string Name,
+[property: CliOption("--template-id")] string TemplateId,
+[property: CliOption("--application-configuration-id")] string ApplicationConfigurationId,
+[property: CliOption("--input-parameters")] IEnumerable<KeyValue> InputParameters
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--step-targets")]
+    [CliOption("--step-targets")]
     public string[]? StepTargets { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

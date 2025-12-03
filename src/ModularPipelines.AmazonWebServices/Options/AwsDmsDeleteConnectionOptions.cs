@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "delete-connection")]
+[CliCommand("dms", "delete-connection")]
 public record AwsDmsDeleteConnectionOptions(
-[property: CommandSwitch("--endpoint-arn")] string EndpointArn,
-[property: CommandSwitch("--replication-instance-arn")] string ReplicationInstanceArn
+[property: CliOption("--endpoint-arn")] string EndpointArn,
+[property: CliOption("--replication-instance-arn")] string ReplicationInstanceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune-graph", "update-graph")]
+[CliCommand("neptune-graph", "update-graph")]
 public record AwsNeptuneGraphUpdateGraphOptions(
-[property: CommandSwitch("--graph-identifier")] string GraphIdentifier
+[property: CliOption("--graph-identifier")] string GraphIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--provisioned-memory")]
+    [CliOption("--provisioned-memory")]
     public int? ProvisionedMemory { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

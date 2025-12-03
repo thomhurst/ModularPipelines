@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodb", "enable-kinesis-streaming-destination")]
+[CliCommand("dynamodb", "enable-kinesis-streaming-destination")]
 public record AwsDynamodbEnableKinesisStreamingDestinationOptions(
-[property: CommandSwitch("--table-name")] string TableName,
-[property: CommandSwitch("--stream-arn")] string StreamArn
+[property: CliOption("--table-name")] string TableName,
+[property: CliOption("--stream-arn")] string StreamArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

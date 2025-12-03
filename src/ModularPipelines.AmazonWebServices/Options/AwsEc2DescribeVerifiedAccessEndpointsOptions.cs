@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "describe-verified-access-endpoints")]
+[CliCommand("ec2", "describe-verified-access-endpoints")]
 public record AwsEc2DescribeVerifiedAccessEndpointsOptions : AwsOptions
 {
-    [CommandSwitch("--verified-access-endpoint-ids")]
+    [CliOption("--verified-access-endpoint-ids")]
     public string[]? VerifiedAccessEndpointIds { get; set; }
 
-    [CommandSwitch("--verified-access-instance-id")]
+    [CliOption("--verified-access-instance-id")]
     public string? VerifiedAccessInstanceId { get; set; }
 
-    [CommandSwitch("--verified-access-group-id")]
+    [CliOption("--verified-access-group-id")]
     public string? VerifiedAccessGroupId { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

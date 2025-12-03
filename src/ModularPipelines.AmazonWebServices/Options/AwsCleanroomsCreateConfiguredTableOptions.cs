@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanrooms", "create-configured-table")]
+[CliCommand("cleanrooms", "create-configured-table")]
 public record AwsCleanroomsCreateConfiguredTableOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--table-reference")] string TableReference,
-[property: CommandSwitch("--allowed-columns")] string[] AllowedColumns,
-[property: CommandSwitch("--analysis-method")] string AnalysisMethod
+[property: CliOption("--name")] string Name,
+[property: CliOption("--table-reference")] string TableReference,
+[property: CliOption("--allowed-columns")] string[] AllowedColumns,
+[property: CliOption("--analysis-method")] string AnalysisMethod
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

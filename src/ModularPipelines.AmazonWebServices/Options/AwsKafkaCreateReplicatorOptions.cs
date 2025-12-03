@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafka", "create-replicator")]
+[CliCommand("kafka", "create-replicator")]
 public record AwsKafkaCreateReplicatorOptions(
-[property: CommandSwitch("--kafka-clusters")] string[] KafkaClusters,
-[property: CommandSwitch("--replication-info-list")] string[] ReplicationInfoList,
-[property: CommandSwitch("--replicator-name")] string ReplicatorName,
-[property: CommandSwitch("--service-execution-role-arn")] string ServiceExecutionRoleArn
+[property: CliOption("--kafka-clusters")] string[] KafkaClusters,
+[property: CliOption("--replication-info-list")] string[] ReplicationInfoList,
+[property: CliOption("--replicator-name")] string ReplicatorName,
+[property: CliOption("--service-execution-role-arn")] string ServiceExecutionRoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

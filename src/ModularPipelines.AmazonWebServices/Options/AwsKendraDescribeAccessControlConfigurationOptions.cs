@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kendra", "describe-access-control-configuration")]
+[CliCommand("kendra", "describe-access-control-configuration")]
 public record AwsKendraDescribeAccessControlConfigurationOptions(
-[property: CommandSwitch("--index-id")] string IndexId,
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--index-id")] string IndexId,
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

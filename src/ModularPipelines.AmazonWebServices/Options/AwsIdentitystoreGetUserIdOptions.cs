@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("identitystore", "get-user-id")]
+[CliCommand("identitystore", "get-user-id")]
 public record AwsIdentitystoreGetUserIdOptions(
-[property: CommandSwitch("--identity-store-id")] string IdentityStoreId,
-[property: CommandSwitch("--alternate-identifier")] string AlternateIdentifier
+[property: CliOption("--identity-store-id")] string IdentityStoreId,
+[property: CliOption("--alternate-identifier")] string AlternateIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "wait", "bundle-task-complete")]
+[CliCommand("ec2", "wait", "bundle-task-complete")]
 public record AwsEc2WaitBundleTaskCompleteOptions : AwsOptions
 {
-    [CommandSwitch("--bundle-ids")]
+    [CliOption("--bundle-ids")]
     public string[]? BundleIds { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

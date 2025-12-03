@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecommit", "create-commit")]
+[CliCommand("codecommit", "create-commit")]
 public record AwsCodecommitCreateCommitOptions(
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--branch-name")] string BranchName
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--branch-name")] string BranchName
 ) : AwsOptions
 {
-    [CommandSwitch("--parent-commit-id")]
+    [CliOption("--parent-commit-id")]
     public string? ParentCommitId { get; set; }
 
-    [CommandSwitch("--author-name")]
+    [CliOption("--author-name")]
     public string? AuthorName { get; set; }
 
-    [CommandSwitch("--email")]
+    [CliOption("--email")]
     public string? Email { get; set; }
 
-    [CommandSwitch("--commit-message")]
+    [CliOption("--commit-message")]
     public string? CommitMessage { get; set; }
 
-    [CommandSwitch("--put-files")]
+    [CliOption("--put-files")]
     public string[]? PutFiles { get; set; }
 
-    [CommandSwitch("--delete-files")]
+    [CliOption("--delete-files")]
     public string[]? DeleteFiles { get; set; }
 
-    [CommandSwitch("--set-file-modes")]
+    [CliOption("--set-file-modes")]
     public string[]? SetFileModes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

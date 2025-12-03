@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eks", "wait", "fargate-profile-active")]
+[CliCommand("eks", "wait", "fargate-profile-active")]
 public record AwsEksWaitFargateProfileActiveOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--fargate-profile-name")] string FargateProfileName
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--fargate-profile-name")] string FargateProfileName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

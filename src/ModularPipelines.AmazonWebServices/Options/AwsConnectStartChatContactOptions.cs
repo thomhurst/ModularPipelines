@@ -5,37 +5,37 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "start-chat-contact")]
+[CliCommand("connect", "start-chat-contact")]
 public record AwsConnectStartChatContactOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--contact-flow-id")] string ContactFlowId,
-[property: CommandSwitch("--participant-details")] string ParticipantDetails
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--contact-flow-id")] string ContactFlowId,
+[property: CliOption("--participant-details")] string ParticipantDetails
 ) : AwsOptions
 {
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public IEnumerable<KeyValue>? Attributes { get; set; }
 
-    [CommandSwitch("--initial-message")]
+    [CliOption("--initial-message")]
     public string? InitialMessage { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--chat-duration-in-minutes")]
+    [CliOption("--chat-duration-in-minutes")]
     public int? ChatDurationInMinutes { get; set; }
 
-    [CommandSwitch("--supported-messaging-content-types")]
+    [CliOption("--supported-messaging-content-types")]
     public string[]? SupportedMessagingContentTypes { get; set; }
 
-    [CommandSwitch("--persistent-chat")]
+    [CliOption("--persistent-chat")]
     public string? PersistentChat { get; set; }
 
-    [CommandSwitch("--related-contact-id")]
+    [CliOption("--related-contact-id")]
     public string? RelatedContactId { get; set; }
 
-    [CommandSwitch("--segment-attributes")]
+    [CliOption("--segment-attributes")]
     public IEnumerable<KeyValue>? SegmentAttributes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

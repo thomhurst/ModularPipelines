@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-address-attribute")]
+[CliCommand("ec2", "modify-address-attribute")]
 public record AwsEc2ModifyAddressAttributeOptions(
-[property: CommandSwitch("--allocation-id")] string AllocationId
+[property: CliOption("--allocation-id")] string AllocationId
 ) : AwsOptions
 {
-    [CommandSwitch("--domain-name")]
+    [CliOption("--domain-name")]
     public string? DomainName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

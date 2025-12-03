@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediastore", "get-cors-policy")]
+[CliCommand("mediastore", "get-cors-policy")]
 public record AwsMediastoreGetCorsPolicyOptions(
-[property: CommandSwitch("--container-name")] string ContainerName
+[property: CliOption("--container-name")] string ContainerName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

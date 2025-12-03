@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("marketplace-catalog", "list-entities")]
+[CliCommand("marketplace-catalog", "list-entities")]
 public record AwsMarketplaceCatalogListEntitiesOptions(
-[property: CommandSwitch("--catalog")] string Catalog,
-[property: CommandSwitch("--entity-type")] string EntityType
+[property: CliOption("--catalog")] string Catalog,
+[property: CliOption("--entity-type")] string EntityType
 ) : AwsOptions
 {
-    [CommandSwitch("--filter-list")]
+    [CliOption("--filter-list")]
     public string[]? FilterList { get; set; }
 
-    [CommandSwitch("--sort")]
+    [CliOption("--sort")]
     public string? Sort { get; set; }
 
-    [CommandSwitch("--ownership-type")]
+    [CliOption("--ownership-type")]
     public string? OwnershipType { get; set; }
 
-    [CommandSwitch("--entity-type-filters")]
+    [CliOption("--entity-type-filters")]
     public string? EntityTypeFilters { get; set; }
 
-    [CommandSwitch("--entity-type-sort")]
+    [CliOption("--entity-type-sort")]
     public string? EntityTypeSort { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "create-script")]
+[CliCommand("glue", "create-script")]
 public record AwsGlueCreateScriptOptions : AwsOptions
 {
-    [CommandSwitch("--dag-nodes")]
+    [CliOption("--dag-nodes")]
     public string[]? DagNodes { get; set; }
 
-    [CommandSwitch("--dag-edges")]
+    [CliOption("--dag-edges")]
     public string[]? DagEdges { get; set; }
 
-    [CommandSwitch("--language")]
+    [CliOption("--language")]
     public string? Language { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

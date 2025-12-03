@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "create-subscription-target")]
+[CliCommand("datazone", "create-subscription-target")]
 public record AwsDatazoneCreateSubscriptionTargetOptions(
-[property: CommandSwitch("--applicable-asset-types")] string[] ApplicableAssetTypes,
-[property: CommandSwitch("--authorized-principals")] string[] AuthorizedPrincipals,
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier,
-[property: CommandSwitch("--environment-identifier")] string EnvironmentIdentifier,
-[property: CommandSwitch("--manage-access-role")] string ManageAccessRole,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--subscription-target-config")] string[] SubscriptionTargetConfig,
-[property: CommandSwitch("--type")] string Type
+[property: CliOption("--applicable-asset-types")] string[] ApplicableAssetTypes,
+[property: CliOption("--authorized-principals")] string[] AuthorizedPrincipals,
+[property: CliOption("--domain-identifier")] string DomainIdentifier,
+[property: CliOption("--environment-identifier")] string EnvironmentIdentifier,
+[property: CliOption("--manage-access-role")] string ManageAccessRole,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--subscription-target-config")] string[] SubscriptionTargetConfig,
+[property: CliOption("--type")] string Type
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--provider")]
+    [CliOption("--provider")]
     public string? Provider { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

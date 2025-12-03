@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotevents", "update-detector-model")]
+[CliCommand("iotevents", "update-detector-model")]
 public record AwsIoteventsUpdateDetectorModelOptions(
-[property: CommandSwitch("--detector-model-name")] string DetectorModelName,
-[property: CommandSwitch("--detector-model-definition")] string DetectorModelDefinition,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--detector-model-name")] string DetectorModelName,
+[property: CliOption("--detector-model-definition")] string DetectorModelDefinition,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--detector-model-description")]
+    [CliOption("--detector-model-description")]
     public string? DetectorModelDescription { get; set; }
 
-    [CommandSwitch("--evaluation-method")]
+    [CliOption("--evaluation-method")]
     public string? EvaluationMethod { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

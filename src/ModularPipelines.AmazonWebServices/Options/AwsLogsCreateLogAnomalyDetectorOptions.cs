@@ -5,29 +5,29 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "create-log-anomaly-detector")]
+[CliCommand("logs", "create-log-anomaly-detector")]
 public record AwsLogsCreateLogAnomalyDetectorOptions(
-[property: CommandSwitch("--log-group-arn-list")] string[] LogGroupArnList
+[property: CliOption("--log-group-arn-list")] string[] LogGroupArnList
 ) : AwsOptions
 {
-    [CommandSwitch("--detector-name")]
+    [CliOption("--detector-name")]
     public string? DetectorName { get; set; }
 
-    [CommandSwitch("--evaluation-frequency")]
+    [CliOption("--evaluation-frequency")]
     public string? EvaluationFrequency { get; set; }
 
-    [CommandSwitch("--filter-pattern")]
+    [CliOption("--filter-pattern")]
     public string? FilterPattern { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--anomaly-visibility-time")]
+    [CliOption("--anomaly-visibility-time")]
     public long? AnomalyVisibilityTime { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

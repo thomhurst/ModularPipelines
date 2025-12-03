@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elb", "set-load-balancer-policies-for-backend-server")]
+[CliCommand("elb", "set-load-balancer-policies-for-backend-server")]
 public record AwsElbSetLoadBalancerPoliciesForBackendServerOptions(
-[property: CommandSwitch("--load-balancer-name")] string LoadBalancerName,
-[property: CommandSwitch("--instance-port")] int InstancePort,
-[property: CommandSwitch("--policy-names")] string[] PolicyNames
+[property: CliOption("--load-balancer-name")] string LoadBalancerName,
+[property: CliOption("--instance-port")] int InstancePort,
+[property: CliOption("--policy-names")] string[] PolicyNames
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

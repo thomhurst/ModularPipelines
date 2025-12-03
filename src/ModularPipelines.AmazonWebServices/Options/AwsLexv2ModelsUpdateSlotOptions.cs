@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lexv2-models", "update-slot")]
+[CliCommand("lexv2-models", "update-slot")]
 public record AwsLexv2ModelsUpdateSlotOptions(
-[property: CommandSwitch("--slot-id")] string SlotId,
-[property: CommandSwitch("--slot-name")] string SlotName,
-[property: CommandSwitch("--value-elicitation-setting")] string ValueElicitationSetting,
-[property: CommandSwitch("--bot-id")] string BotId,
-[property: CommandSwitch("--bot-version")] string BotVersion,
-[property: CommandSwitch("--locale-id")] string LocaleId,
-[property: CommandSwitch("--intent-id")] string IntentId
+[property: CliOption("--slot-id")] string SlotId,
+[property: CliOption("--slot-name")] string SlotName,
+[property: CliOption("--value-elicitation-setting")] string ValueElicitationSetting,
+[property: CliOption("--bot-id")] string BotId,
+[property: CliOption("--bot-version")] string BotVersion,
+[property: CliOption("--locale-id")] string LocaleId,
+[property: CliOption("--intent-id")] string IntentId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--slot-type-id")]
+    [CliOption("--slot-type-id")]
     public string? SlotTypeId { get; set; }
 
-    [CommandSwitch("--obfuscation-setting")]
+    [CliOption("--obfuscation-setting")]
     public string? ObfuscationSetting { get; set; }
 
-    [CommandSwitch("--multiple-values-setting")]
+    [CliOption("--multiple-values-setting")]
     public string? MultipleValuesSetting { get; set; }
 
-    [CommandSwitch("--sub-slot-setting")]
+    [CliOption("--sub-slot-setting")]
     public string? SubSlotSetting { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

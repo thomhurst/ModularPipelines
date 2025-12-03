@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appstream", "create-entitlement")]
+[CliCommand("appstream", "create-entitlement")]
 public record AwsAppstreamCreateEntitlementOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--stack-name")] string StackName,
-[property: CommandSwitch("--app-visibility")] string AppVisibility,
-[property: CommandSwitch("--attributes")] string[] Attributes
+[property: CliOption("--name")] string Name,
+[property: CliOption("--stack-name")] string StackName,
+[property: CliOption("--app-visibility")] string AppVisibility,
+[property: CliOption("--attributes")] string[] Attributes
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

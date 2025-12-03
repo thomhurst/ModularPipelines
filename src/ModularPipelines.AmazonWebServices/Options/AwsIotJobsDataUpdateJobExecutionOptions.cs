@@ -5,25 +5,25 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot-jobs-data", "update-job-execution")]
+[CliCommand("iot-jobs-data", "update-job-execution")]
 public record AwsIotJobsDataUpdateJobExecutionOptions(
-[property: CommandSwitch("--job-id")] string JobId,
-[property: CommandSwitch("--thing-name")] string ThingName,
-[property: CommandSwitch("--status")] string Status
+[property: CliOption("--job-id")] string JobId,
+[property: CliOption("--thing-name")] string ThingName,
+[property: CliOption("--status")] string Status
 ) : AwsOptions
 {
-    [CommandSwitch("--status-details")]
+    [CliOption("--status-details")]
     public IEnumerable<KeyValue>? StatusDetails { get; set; }
 
-    [CommandSwitch("--step-timeout-in-minutes")]
+    [CliOption("--step-timeout-in-minutes")]
     public long? StepTimeoutInMinutes { get; set; }
 
-    [CommandSwitch("--expected-version")]
+    [CliOption("--expected-version")]
     public long? ExpectedVersion { get; set; }
 
-    [CommandSwitch("--execution-number")]
+    [CliOption("--execution-number")]
     public long? ExecutionNumber { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

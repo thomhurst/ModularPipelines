@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "list-open-id-connect-provider-tags")]
+[CliCommand("iam", "list-open-id-connect-provider-tags")]
 public record AwsIamListOpenIdConnectProviderTagsOptions(
-[property: CommandSwitch("--open-id-connect-provider-arn")] string OpenIdConnectProviderArn
+[property: CliOption("--open-id-connect-provider-arn")] string OpenIdConnectProviderArn
 ) : AwsOptions
 {
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,42 +5,42 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("omics", "create-workflow")]
+[CliCommand("omics", "create-workflow")]
 public record AwsOmicsCreateWorkflowOptions : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--engine")]
+    [CliOption("--engine")]
     public string? Engine { get; set; }
 
-    [CommandSwitch("--definition-zip")]
+    [CliOption("--definition-zip")]
     public string? DefinitionZip { get; set; }
 
-    [CommandSwitch("--definition-uri")]
+    [CliOption("--definition-uri")]
     public string? DefinitionUri { get; set; }
 
-    [CommandSwitch("--main")]
+    [CliOption("--main")]
     public string? Main { get; set; }
 
-    [CommandSwitch("--parameter-template")]
+    [CliOption("--parameter-template")]
     public IEnumerable<KeyValue>? ParameterTemplate { get; set; }
 
-    [CommandSwitch("--storage-capacity")]
+    [CliOption("--storage-capacity")]
     public int? StorageCapacity { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--request-id")]
+    [CliOption("--request-id")]
     public string? RequestId { get; set; }
 
-    [CommandSwitch("--accelerators")]
+    [CliOption("--accelerators")]
     public string? Accelerators { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

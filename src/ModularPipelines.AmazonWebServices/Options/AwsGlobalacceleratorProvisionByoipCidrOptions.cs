@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("globalaccelerator", "provision-byoip-cidr")]
+[CliCommand("globalaccelerator", "provision-byoip-cidr")]
 public record AwsGlobalacceleratorProvisionByoipCidrOptions(
-[property: CommandSwitch("--cidr")] string Cidr,
-[property: CommandSwitch("--cidr-authorization-context")] string CidrAuthorizationContext
+[property: CliOption("--cidr")] string Cidr,
+[property: CliOption("--cidr-authorization-context")] string CidrAuthorizationContext
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("drs", "disconnect-recovery-instance")]
+[CliCommand("drs", "disconnect-recovery-instance")]
 public record AwsDrsDisconnectRecoveryInstanceOptions(
-[property: CommandSwitch("--recovery-instance-id")] string RecoveryInstanceId
+[property: CliOption("--recovery-instance-id")] string RecoveryInstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

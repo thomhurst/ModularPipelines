@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudfront", "list-distributions-by-origin-request-policy-id")]
+[CliCommand("cloudfront", "list-distributions-by-origin-request-policy-id")]
 public record AwsCloudfrontListDistributionsByOriginRequestPolicyIdOptions(
-[property: CommandSwitch("--origin-request-policy-id")] string OriginRequestPolicyId
+[property: CliOption("--origin-request-policy-id")] string OriginRequestPolicyId
 ) : AwsOptions
 {
-    [CommandSwitch("--marker")]
+    [CliOption("--marker")]
     public string? Marker { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

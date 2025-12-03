@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kendra", "update-featured-results-set")]
+[CliCommand("kendra", "update-featured-results-set")]
 public record AwsKendraUpdateFeaturedResultsSetOptions(
-[property: CommandSwitch("--index-id")] string IndexId,
-[property: CommandSwitch("--featured-results-set-id")] string FeaturedResultsSetId
+[property: CliOption("--index-id")] string IndexId,
+[property: CliOption("--featured-results-set-id")] string FeaturedResultsSetId
 ) : AwsOptions
 {
-    [CommandSwitch("--featured-results-set-name")]
+    [CliOption("--featured-results-set-name")]
     public string? FeaturedResultsSetName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--query-texts")]
+    [CliOption("--query-texts")]
     public string[]? QueryTexts { get; set; }
 
-    [CommandSwitch("--featured-documents")]
+    [CliOption("--featured-documents")]
     public string[]? FeaturedDocuments { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

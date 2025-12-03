@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appsync", "delete-api-key")]
+[CliCommand("appsync", "delete-api-key")]
 public record AwsAppsyncDeleteApiKeyOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

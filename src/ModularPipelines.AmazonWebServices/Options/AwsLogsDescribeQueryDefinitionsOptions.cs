@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "describe-query-definitions")]
+[CliCommand("logs", "describe-query-definitions")]
 public record AwsLogsDescribeQueryDefinitionsOptions : AwsOptions
 {
-    [CommandSwitch("--query-definition-name-prefix")]
+    [CliOption("--query-definition-name-prefix")]
     public string? QueryDefinitionNamePrefix { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise", "delete-asset")]
+[CliCommand("iotsitewise", "delete-asset")]
 public record AwsIotsitewiseDeleteAssetOptions(
-[property: CommandSwitch("--asset-id")] string AssetId
+[property: CliOption("--asset-id")] string AssetId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

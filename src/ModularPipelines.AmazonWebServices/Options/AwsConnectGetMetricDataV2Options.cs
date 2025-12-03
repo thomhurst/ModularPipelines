@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "get-metric-data-v2")]
+[CliCommand("connect", "get-metric-data-v2")]
 public record AwsConnectGetMetricDataV2Options(
-[property: CommandSwitch("--resource-arn")] string ResourceArn,
-[property: CommandSwitch("--start-time")] long StartTime,
-[property: CommandSwitch("--end-time")] long EndTime,
-[property: CommandSwitch("--filters")] string[] Filters,
-[property: CommandSwitch("--metrics")] string[] Metrics
+[property: CliOption("--resource-arn")] string ResourceArn,
+[property: CliOption("--start-time")] long StartTime,
+[property: CliOption("--end-time")] long EndTime,
+[property: CliOption("--filters")] string[] Filters,
+[property: CliOption("--metrics")] string[] Metrics
 ) : AwsOptions
 {
-    [CommandSwitch("--interval")]
+    [CliOption("--interval")]
     public string? Interval { get; set; }
 
-    [CommandSwitch("--groupings")]
+    [CliOption("--groupings")]
     public string[]? Groupings { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

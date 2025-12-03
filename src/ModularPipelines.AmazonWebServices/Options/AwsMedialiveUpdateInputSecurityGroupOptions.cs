@@ -5,17 +5,17 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medialive", "update-input-security-group")]
+[CliCommand("medialive", "update-input-security-group")]
 public record AwsMedialiveUpdateInputSecurityGroupOptions(
-[property: CommandSwitch("--input-security-group-id")] string InputSecurityGroupId
+[property: CliOption("--input-security-group-id")] string InputSecurityGroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--whitelist-rules")]
+    [CliOption("--whitelist-rules")]
     public string[]? WhitelistRules { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

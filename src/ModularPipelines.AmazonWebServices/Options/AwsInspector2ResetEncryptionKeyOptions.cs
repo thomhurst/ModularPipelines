@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("inspector2", "reset-encryption-key")]
+[CliCommand("inspector2", "reset-encryption-key")]
 public record AwsInspector2ResetEncryptionKeyOptions(
-[property: CommandSwitch("--resource-type")] string ResourceType,
-[property: CommandSwitch("--scan-type")] string ScanType
+[property: CliOption("--resource-type")] string ResourceType,
+[property: CliOption("--scan-type")] string ScanType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

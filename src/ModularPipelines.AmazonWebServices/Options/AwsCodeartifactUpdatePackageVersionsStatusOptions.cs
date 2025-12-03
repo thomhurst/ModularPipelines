@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeartifact", "update-package-versions-status")]
+[CliCommand("codeartifact", "update-package-versions-status")]
 public record AwsCodeartifactUpdatePackageVersionsStatusOptions(
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--repository")] string Repository,
-[property: CommandSwitch("--format")] string Format,
-[property: CommandSwitch("--package")] string Package,
-[property: CommandSwitch("--versions")] string[] Versions,
-[property: CommandSwitch("--target-status")] string TargetStatus
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--repository")] string Repository,
+[property: CliOption("--format")] string Format,
+[property: CliOption("--package")] string Package,
+[property: CliOption("--versions")] string[] Versions,
+[property: CliOption("--target-status")] string TargetStatus
 ) : AwsOptions
 {
-    [CommandSwitch("--domain-owner")]
+    [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--version-revisions")]
+    [CliOption("--version-revisions")]
     public IEnumerable<KeyValue>? VersionRevisions { get; set; }
 
-    [CommandSwitch("--expected-status")]
+    [CliOption("--expected-status")]
     public string? ExpectedStatus { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

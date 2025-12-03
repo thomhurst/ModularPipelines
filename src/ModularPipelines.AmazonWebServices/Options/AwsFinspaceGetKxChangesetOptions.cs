@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("finspace", "get-kx-changeset")]
+[CliCommand("finspace", "get-kx-changeset")]
 public record AwsFinspaceGetKxChangesetOptions(
-[property: CommandSwitch("--environment-id")] string EnvironmentId,
-[property: CommandSwitch("--database-name")] string DatabaseName,
-[property: CommandSwitch("--changeset-id")] string ChangesetId
+[property: CliOption("--environment-id")] string EnvironmentId,
+[property: CliOption("--database-name")] string DatabaseName,
+[property: CliOption("--changeset-id")] string ChangesetId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

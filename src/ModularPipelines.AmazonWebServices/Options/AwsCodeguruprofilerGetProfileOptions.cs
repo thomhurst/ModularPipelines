@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeguruprofiler", "get-profile")]
+[CliCommand("codeguruprofiler", "get-profile")]
 public record AwsCodeguruprofilerGetProfileOptions(
-[property: CommandSwitch("--profiling-group-name")] string ProfilingGroupName
+[property: CliOption("--profiling-group-name")] string ProfilingGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--accept")]
+    [CliOption("--accept")]
     public string? Accept { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public long? EndTime { get; set; }
 
-    [CommandSwitch("--max-depth")]
+    [CliOption("--max-depth")]
     public int? MaxDepth { get; set; }
 
-    [CommandSwitch("--period")]
+    [CliOption("--period")]
     public string? Period { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 }

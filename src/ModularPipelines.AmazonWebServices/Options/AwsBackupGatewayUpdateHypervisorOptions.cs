@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup-gateway", "update-hypervisor")]
+[CliCommand("backup-gateway", "update-hypervisor")]
 public record AwsBackupGatewayUpdateHypervisorOptions(
-[property: CommandSwitch("--hypervisor-arn")] string HypervisorArn
+[property: CliOption("--hypervisor-arn")] string HypervisorArn
 ) : AwsOptions
 {
-    [CommandSwitch("--host")]
+    [CliOption("--host")]
     public string? Host { get; set; }
 
-    [CommandSwitch("--log-group-arn")]
+    [CliOption("--log-group-arn")]
     public string? LogGroupArn { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--password")]
+    [CliOption("--password")]
     public string? Password { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

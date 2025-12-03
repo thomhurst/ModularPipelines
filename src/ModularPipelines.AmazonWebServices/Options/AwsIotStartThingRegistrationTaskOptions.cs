@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "start-thing-registration-task")]
+[CliCommand("iot", "start-thing-registration-task")]
 public record AwsIotStartThingRegistrationTaskOptions(
-[property: CommandSwitch("--template-body")] string TemplateBody,
-[property: CommandSwitch("--input-file-bucket")] string InputFileBucket,
-[property: CommandSwitch("--input-file-key")] string InputFileKey,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--template-body")] string TemplateBody,
+[property: CliOption("--input-file-bucket")] string InputFileBucket,
+[property: CliOption("--input-file-key")] string InputFileKey,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

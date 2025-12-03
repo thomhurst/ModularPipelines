@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "start-instances")]
+[CliCommand("ec2", "start-instances")]
 public record AwsEc2StartInstancesOptions(
-[property: CommandSwitch("--instance-ids")] string[] InstanceIds
+[property: CliOption("--instance-ids")] string[] InstanceIds
 ) : AwsOptions
 {
-    [CommandSwitch("--additional-info")]
+    [CliOption("--additional-info")]
     public string? AdditionalInfo { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

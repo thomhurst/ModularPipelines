@@ -5,32 +5,32 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("omics", "create-annotation-store")]
+[CliCommand("omics", "create-annotation-store")]
 public record AwsOmicsCreateAnnotationStoreOptions(
-[property: CommandSwitch("--store-format")] string StoreFormat
+[property: CliOption("--store-format")] string StoreFormat
 ) : AwsOptions
 {
-    [CommandSwitch("--reference")]
+    [CliOption("--reference")]
     public string? Reference { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--version-name")]
+    [CliOption("--version-name")]
     public string? VersionName { get; set; }
 
-    [CommandSwitch("--sse-config")]
+    [CliOption("--sse-config")]
     public string? SseConfig { get; set; }
 
-    [CommandSwitch("--store-options")]
+    [CliOption("--store-options")]
     public string? StoreOptions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

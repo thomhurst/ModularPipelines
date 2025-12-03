@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "release-phone-number")]
+[CliCommand("connect", "release-phone-number")]
 public record AwsConnectReleasePhoneNumberOptions(
-[property: CommandSwitch("--phone-number-id")] string PhoneNumberId
+[property: CliOption("--phone-number-id")] string PhoneNumberId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

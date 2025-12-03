@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "update-vpc-link")]
+[CliCommand("apigateway", "update-vpc-link")]
 public record AwsApigatewayUpdateVpcLinkOptions(
-[property: CommandSwitch("--vpc-link-id")] string VpcLinkId
+[property: CliOption("--vpc-link-id")] string VpcLinkId
 ) : AwsOptions
 {
-    [CommandSwitch("--patch-operations")]
+    [CliOption("--patch-operations")]
     public string[]? PatchOperations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

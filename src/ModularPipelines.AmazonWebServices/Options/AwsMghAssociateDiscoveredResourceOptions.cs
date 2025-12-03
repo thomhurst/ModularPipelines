@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mgh", "associate-discovered-resource")]
+[CliCommand("mgh", "associate-discovered-resource")]
 public record AwsMghAssociateDiscoveredResourceOptions(
-[property: CommandSwitch("--progress-update-stream")] string ProgressUpdateStream,
-[property: CommandSwitch("--migration-task-name")] string MigrationTaskName,
-[property: CommandSwitch("--discovered-resource")] string DiscoveredResource
+[property: CliOption("--progress-update-stream")] string ProgressUpdateStream,
+[property: CliOption("--migration-task-name")] string MigrationTaskName,
+[property: CliOption("--discovered-resource")] string DiscoveredResource
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotwireless", "update-wireless-device")]
+[CliCommand("iotwireless", "update-wireless-device")]
 public record AwsIotwirelessUpdateWirelessDeviceOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--destination-name")]
+    [CliOption("--destination-name")]
     public string? DestinationName { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--positioning")]
+    [CliOption("--positioning")]
     public string? Positioning { get; set; }
 
-    [CommandSwitch("--lorawan")]
+    [CliOption("--lorawan")]
     public string? Lorawan { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,36 +5,36 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mgn", "put-template-action")]
+[CliCommand("mgn", "put-template-action")]
 public record AwsMgnPutTemplateActionOptions(
-[property: CommandSwitch("--action-id")] string ActionId,
-[property: CommandSwitch("--action-name")] string ActionName,
-[property: CommandSwitch("--document-identifier")] string DocumentIdentifier,
-[property: CommandSwitch("--launch-configuration-template-id")] string LaunchConfigurationTemplateId,
-[property: CommandSwitch("--order")] int Order
+[property: CliOption("--action-id")] string ActionId,
+[property: CliOption("--action-name")] string ActionName,
+[property: CliOption("--document-identifier")] string DocumentIdentifier,
+[property: CliOption("--launch-configuration-template-id")] string LaunchConfigurationTemplateId,
+[property: CliOption("--order")] int Order
 ) : AwsOptions
 {
-    [CommandSwitch("--category")]
+    [CliOption("--category")]
     public string? Category { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--document-version")]
+    [CliOption("--document-version")]
     public string? DocumentVersion { get; set; }
 
-    [CommandSwitch("--external-parameters")]
+    [CliOption("--external-parameters")]
     public IEnumerable<KeyValue>? ExternalParameters { get; set; }
 
-    [CommandSwitch("--operating-system")]
+    [CliOption("--operating-system")]
     public string? OperatingSystem { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public IEnumerable<KeyValue>? Parameters { get; set; }
 
-    [CommandSwitch("--timeout-seconds")]
+    [CliOption("--timeout-seconds")]
     public int? TimeoutSeconds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "create-subscription-request")]
+[CliCommand("datazone", "create-subscription-request")]
 public record AwsDatazoneCreateSubscriptionRequestOptions(
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier,
-[property: CommandSwitch("--request-reason")] string RequestReason,
-[property: CommandSwitch("--subscribed-listings")] string[] SubscribedListings,
-[property: CommandSwitch("--subscribed-principals")] string[] SubscribedPrincipals
+[property: CliOption("--domain-identifier")] string DomainIdentifier,
+[property: CliOption("--request-reason")] string RequestReason,
+[property: CliOption("--subscribed-listings")] string[] SubscribedListings,
+[property: CliOption("--subscribed-principals")] string[] SubscribedPrincipals
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

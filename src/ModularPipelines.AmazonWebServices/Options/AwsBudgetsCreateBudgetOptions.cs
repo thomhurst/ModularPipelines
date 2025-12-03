@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("budgets", "create-budget")]
+[CliCommand("budgets", "create-budget")]
 public record AwsBudgetsCreateBudgetOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--budget")] string Budget
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--budget")] string Budget
 ) : AwsOptions
 {
-    [CommandSwitch("--notifications-with-subscribers")]
+    [CliOption("--notifications-with-subscribers")]
     public string[]? NotificationsWithSubscribers { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

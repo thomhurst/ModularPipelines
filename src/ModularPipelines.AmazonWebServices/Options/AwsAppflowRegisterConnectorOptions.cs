@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appflow", "register-connector")]
+[CliCommand("appflow", "register-connector")]
 public record AwsAppflowRegisterConnectorOptions : AwsOptions
 {
-    [CommandSwitch("--connector-label")]
+    [CliOption("--connector-label")]
     public string? ConnectorLabel { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--connector-provisioning-type")]
+    [CliOption("--connector-provisioning-type")]
     public string? ConnectorProvisioningType { get; set; }
 
-    [CommandSwitch("--connector-provisioning-config")]
+    [CliOption("--connector-provisioning-config")]
     public string? ConnectorProvisioningConfig { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

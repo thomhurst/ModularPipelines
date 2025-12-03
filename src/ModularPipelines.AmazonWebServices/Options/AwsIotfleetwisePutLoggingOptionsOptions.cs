@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotfleetwise", "put-logging-options")]
+[CliCommand("iotfleetwise", "put-logging-options")]
 public record AwsIotfleetwisePutLoggingOptionsOptions(
-[property: CommandSwitch("--cloud-watch-log-delivery")] string CloudWatchLogDelivery
+[property: CliOption("--cloud-watch-log-delivery")] string CloudWatchLogDelivery
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

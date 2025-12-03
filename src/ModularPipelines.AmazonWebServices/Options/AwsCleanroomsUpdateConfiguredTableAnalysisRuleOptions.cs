@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanrooms", "update-configured-table-analysis-rule")]
+[CliCommand("cleanrooms", "update-configured-table-analysis-rule")]
 public record AwsCleanroomsUpdateConfiguredTableAnalysisRuleOptions(
-[property: CommandSwitch("--configured-table-identifier")] string ConfiguredTableIdentifier,
-[property: CommandSwitch("--analysis-rule-type")] string AnalysisRuleType,
-[property: CommandSwitch("--analysis-rule-policy")] string AnalysisRulePolicy
+[property: CliOption("--configured-table-identifier")] string ConfiguredTableIdentifier,
+[property: CliOption("--analysis-rule-type")] string AnalysisRuleType,
+[property: CliOption("--analysis-rule-policy")] string AnalysisRulePolicy
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

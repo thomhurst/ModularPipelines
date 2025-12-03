@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "get-custom-rule-policy")]
+[CliCommand("configservice", "get-custom-rule-policy")]
 public record AwsConfigserviceGetCustomRulePolicyOptions : AwsOptions
 {
-    [CommandSwitch("--config-rule-name")]
+    [CliOption("--config-rule-name")]
     public string? ConfigRuleName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

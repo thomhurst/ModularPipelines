@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mgh", "create-progress-update-stream")]
+[CliCommand("mgh", "create-progress-update-stream")]
 public record AwsMghCreateProgressUpdateStreamOptions(
-[property: CommandSwitch("--progress-update-stream-name")] string ProgressUpdateStreamName
+[property: CliOption("--progress-update-stream-name")] string ProgressUpdateStreamName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

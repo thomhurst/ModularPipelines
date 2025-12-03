@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "create-provisioning-template")]
+[CliCommand("iot", "create-provisioning-template")]
 public record AwsIotCreateProvisioningTemplateOptions(
-[property: CommandSwitch("--template-name")] string TemplateName,
-[property: CommandSwitch("--template-body")] string TemplateBody,
-[property: CommandSwitch("--provisioning-role-arn")] string ProvisioningRoleArn
+[property: CliOption("--template-name")] string TemplateName,
+[property: CliOption("--template-body")] string TemplateBody,
+[property: CliOption("--provisioning-role-arn")] string ProvisioningRoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--pre-provisioning-hook")]
+    [CliOption("--pre-provisioning-hook")]
     public string? PreProvisioningHook { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

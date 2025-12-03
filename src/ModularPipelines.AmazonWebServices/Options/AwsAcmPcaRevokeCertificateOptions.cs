@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acm-pca", "revoke-certificate")]
+[CliCommand("acm-pca", "revoke-certificate")]
 public record AwsAcmPcaRevokeCertificateOptions(
-[property: CommandSwitch("--certificate-authority-arn")] string CertificateAuthorityArn,
-[property: CommandSwitch("--certificate-serial")] string CertificateSerial,
-[property: CommandSwitch("--revocation-reason")] string RevocationReason
+[property: CliOption("--certificate-authority-arn")] string CertificateAuthorityArn,
+[property: CliOption("--certificate-serial")] string CertificateSerial,
+[property: CliOption("--revocation-reason")] string RevocationReason
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

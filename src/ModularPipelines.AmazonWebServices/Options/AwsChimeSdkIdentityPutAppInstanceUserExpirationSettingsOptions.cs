@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-identity", "put-app-instance-user-expiration-settings")]
+[CliCommand("chime-sdk-identity", "put-app-instance-user-expiration-settings")]
 public record AwsChimeSdkIdentityPutAppInstanceUserExpirationSettingsOptions(
-[property: CommandSwitch("--app-instance-user-arn")] string AppInstanceUserArn
+[property: CliOption("--app-instance-user-arn")] string AppInstanceUserArn
 ) : AwsOptions
 {
-    [CommandSwitch("--expiration-settings")]
+    [CliOption("--expiration-settings")]
     public string? ExpirationSettings { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

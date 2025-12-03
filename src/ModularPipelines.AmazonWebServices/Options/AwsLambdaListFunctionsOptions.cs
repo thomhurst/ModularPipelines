@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "list-functions")]
+[CliCommand("lambda", "list-functions")]
 public record AwsLambdaListFunctionsOptions : AwsOptions
 {
-    [CommandSwitch("--master-region")]
+    [CliOption("--master-region")]
     public string? MasterRegion { get; set; }
 
-    [CommandSwitch("--function-version")]
+    [CliOption("--function-version")]
     public string? FunctionVersion { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("license-manager", "get-license")]
+[CliCommand("license-manager", "get-license")]
 public record AwsLicenseManagerGetLicenseOptions(
-[property: CommandSwitch("--license-arn")] string LicenseArn
+[property: CliOption("--license-arn")] string LicenseArn
 ) : AwsOptions
 {
-    [CommandSwitch("--license-version")]
+    [CliOption("--license-version")]
     public string? LicenseVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memorydb", "describe-reserved-nodes-offerings")]
+[CliCommand("memorydb", "describe-reserved-nodes-offerings")]
 public record AwsMemorydbDescribeReservedNodesOfferingsOptions : AwsOptions
 {
-    [CommandSwitch("--reserved-nodes-offering-id")]
+    [CliOption("--reserved-nodes-offering-id")]
     public string? ReservedNodesOfferingId { get; set; }
 
-    [CommandSwitch("--node-type")]
+    [CliOption("--node-type")]
     public string? NodeType { get; set; }
 
-    [CommandSwitch("--duration")]
+    [CliOption("--duration")]
     public string? Duration { get; set; }
 
-    [CommandSwitch("--offering-type")]
+    [CliOption("--offering-type")]
     public string? OfferingType { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

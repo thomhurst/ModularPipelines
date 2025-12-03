@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-traffic-mirror-filter-rule")]
+[CliCommand("ec2", "modify-traffic-mirror-filter-rule")]
 public record AwsEc2ModifyTrafficMirrorFilterRuleOptions(
-[property: CommandSwitch("--traffic-mirror-filter-rule-id")] string TrafficMirrorFilterRuleId
+[property: CliOption("--traffic-mirror-filter-rule-id")] string TrafficMirrorFilterRuleId
 ) : AwsOptions
 {
-    [CommandSwitch("--traffic-direction")]
+    [CliOption("--traffic-direction")]
     public string? TrafficDirection { get; set; }
 
-    [CommandSwitch("--rule-number")]
+    [CliOption("--rule-number")]
     public int? RuleNumber { get; set; }
 
-    [CommandSwitch("--rule-action")]
+    [CliOption("--rule-action")]
     public string? RuleAction { get; set; }
 
-    [CommandSwitch("--destination-port-range")]
+    [CliOption("--destination-port-range")]
     public string? DestinationPortRange { get; set; }
 
-    [CommandSwitch("--source-port-range")]
+    [CliOption("--source-port-range")]
     public string? SourcePortRange { get; set; }
 
-    [CommandSwitch("--protocol")]
+    [CliOption("--protocol")]
     public int? Protocol { get; set; }
 
-    [CommandSwitch("--destination-cidr-block")]
+    [CliOption("--destination-cidr-block")]
     public string? DestinationCidrBlock { get; set; }
 
-    [CommandSwitch("--source-cidr-block")]
+    [CliOption("--source-cidr-block")]
     public string? SourceCidrBlock { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--remove-fields")]
+    [CliOption("--remove-fields")]
     public string[]? RemoveFields { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

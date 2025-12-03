@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "delete-managed-prefix-list")]
+[CliCommand("ec2", "delete-managed-prefix-list")]
 public record AwsEc2DeleteManagedPrefixListOptions(
-[property: CommandSwitch("--prefix-list-id")] string PrefixListId
+[property: CliOption("--prefix-list-id")] string PrefixListId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

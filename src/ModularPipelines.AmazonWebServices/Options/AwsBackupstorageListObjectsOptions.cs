@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backupstorage", "list-objects")]
+[CliCommand("backupstorage", "list-objects")]
 public record AwsBackupstorageListObjectsOptions(
-[property: CommandSwitch("--storage-job-id")] string StorageJobId
+[property: CliOption("--storage-job-id")] string StorageJobId
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-object-name")]
+    [CliOption("--starting-object-name")]
     public string? StartingObjectName { get; set; }
 
-    [CommandSwitch("--starting-object-prefix")]
+    [CliOption("--starting-object-prefix")]
     public string? StartingObjectPrefix { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--created-before")]
+    [CliOption("--created-before")]
     public long? CreatedBefore { get; set; }
 
-    [CommandSwitch("--created-after")]
+    [CliOption("--created-after")]
     public long? CreatedAfter { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

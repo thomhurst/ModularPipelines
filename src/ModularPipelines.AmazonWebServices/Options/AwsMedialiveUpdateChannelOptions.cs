@@ -4,38 +4,38 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medialive", "update-channel")]
+[CliCommand("medialive", "update-channel")]
 public record AwsMedialiveUpdateChannelOptions(
-[property: CommandSwitch("--channel-id")] string ChannelId
+[property: CliOption("--channel-id")] string ChannelId
 ) : AwsOptions
 {
-    [CommandSwitch("--cdi-input-specification")]
+    [CliOption("--cdi-input-specification")]
     public string? CdiInputSpecification { get; set; }
 
-    [CommandSwitch("--destinations")]
+    [CliOption("--destinations")]
     public string[]? Destinations { get; set; }
 
-    [CommandSwitch("--encoder-settings")]
+    [CliOption("--encoder-settings")]
     public string? EncoderSettings { get; set; }
 
-    [CommandSwitch("--input-attachments")]
+    [CliOption("--input-attachments")]
     public string[]? InputAttachments { get; set; }
 
-    [CommandSwitch("--input-specification")]
+    [CliOption("--input-specification")]
     public string? InputSpecification { get; set; }
 
-    [CommandSwitch("--log-level")]
+    [CliOption("--log-level")]
     public string? LogLevel { get; set; }
 
-    [CommandSwitch("--maintenance")]
+    [CliOption("--maintenance")]
     public string? Maintenance { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("honeycode", "invoke-screen-automation")]
+[CliCommand("honeycode", "invoke-screen-automation")]
 public record AwsHoneycodeInvokeScreenAutomationOptions(
-[property: CommandSwitch("--workbook-id")] string WorkbookId,
-[property: CommandSwitch("--app-id")] string AppId,
-[property: CommandSwitch("--screen-id")] string ScreenId,
-[property: CommandSwitch("--screen-automation-id")] string ScreenAutomationId
+[property: CliOption("--workbook-id")] string WorkbookId,
+[property: CliOption("--app-id")] string AppId,
+[property: CliOption("--screen-id")] string ScreenId,
+[property: CliOption("--screen-automation-id")] string ScreenAutomationId
 ) : AwsOptions
 {
-    [CommandSwitch("--variables")]
+    [CliOption("--variables")]
     public IEnumerable<KeyValue>? Variables { get; set; }
 
-    [CommandSwitch("--row-id")]
+    [CliOption("--row-id")]
     public string? RowId { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

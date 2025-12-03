@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glacier", "set-vault-access-policy")]
+[CliCommand("glacier", "set-vault-access-policy")]
 public record AwsGlacierSetVaultAccessPolicyOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--vault-name")] string VaultName
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--vault-name")] string VaultName
 ) : AwsOptions
 {
-    [CommandSwitch("--policy")]
+    [CliOption("--policy")]
     public string? Policy { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

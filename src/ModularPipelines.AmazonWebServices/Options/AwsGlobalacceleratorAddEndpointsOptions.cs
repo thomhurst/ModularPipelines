@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("globalaccelerator", "add-endpoints")]
+[CliCommand("globalaccelerator", "add-endpoints")]
 public record AwsGlobalacceleratorAddEndpointsOptions(
-[property: CommandSwitch("--endpoint-configurations")] string[] EndpointConfigurations,
-[property: CommandSwitch("--endpoint-group-arn")] string EndpointGroupArn
+[property: CliOption("--endpoint-configurations")] string[] EndpointConfigurations,
+[property: CliOption("--endpoint-group-arn")] string EndpointGroupArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

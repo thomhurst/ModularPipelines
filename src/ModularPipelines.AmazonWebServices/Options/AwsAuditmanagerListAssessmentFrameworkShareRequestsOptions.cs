@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auditmanager", "list-assessment-framework-share-requests")]
+[CliCommand("auditmanager", "list-assessment-framework-share-requests")]
 public record AwsAuditmanagerListAssessmentFrameworkShareRequestsOptions(
-[property: CommandSwitch("--request-type")] string RequestType
+[property: CliOption("--request-type")] string RequestType
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

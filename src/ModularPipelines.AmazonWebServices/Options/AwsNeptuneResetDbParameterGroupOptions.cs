@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune", "reset-db-parameter-group")]
+[CliCommand("neptune", "reset-db-parameter-group")]
 public record AwsNeptuneResetDbParameterGroupOptions(
-[property: CommandSwitch("--db-parameter-group-name")] string DbParameterGroupName
+[property: CliOption("--db-parameter-group-name")] string DbParameterGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string[]? Parameters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

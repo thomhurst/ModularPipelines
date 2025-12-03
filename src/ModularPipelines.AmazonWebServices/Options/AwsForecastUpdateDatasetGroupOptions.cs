@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("forecast", "update-dataset-group")]
+[CliCommand("forecast", "update-dataset-group")]
 public record AwsForecastUpdateDatasetGroupOptions(
-[property: CommandSwitch("--dataset-group-arn")] string DatasetGroupArn,
-[property: CommandSwitch("--dataset-arns")] string[] DatasetArns
+[property: CliOption("--dataset-group-arn")] string DatasetGroupArn,
+[property: CliOption("--dataset-arns")] string[] DatasetArns
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

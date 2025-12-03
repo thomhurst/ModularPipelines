@@ -5,19 +5,19 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databrew", "create-ruleset")]
+[CliCommand("databrew", "create-ruleset")]
 public record AwsDatabrewCreateRulesetOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--target-arn")] string TargetArn,
-[property: CommandSwitch("--rules")] string[] Rules
+[property: CliOption("--name")] string Name,
+[property: CliOption("--target-arn")] string TargetArn,
+[property: CliOption("--rules")] string[] Rules
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

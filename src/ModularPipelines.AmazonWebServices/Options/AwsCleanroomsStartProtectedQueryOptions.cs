@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanrooms", "start-protected-query")]
+[CliCommand("cleanrooms", "start-protected-query")]
 public record AwsCleanroomsStartProtectedQueryOptions(
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--membership-identifier")] string MembershipIdentifier,
-[property: CommandSwitch("--sql-parameters")] string SqlParameters
+[property: CliOption("--type")] string Type,
+[property: CliOption("--membership-identifier")] string MembershipIdentifier,
+[property: CliOption("--sql-parameters")] string SqlParameters
 ) : AwsOptions
 {
-    [CommandSwitch("--result-configuration")]
+    [CliOption("--result-configuration")]
     public string? ResultConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "create-role")]
+[CliCommand("iam", "create-role")]
 public record AwsIamCreateRoleOptions(
-[property: CommandSwitch("--role-name")] string RoleName,
-[property: CommandSwitch("--assume-role-policy-document")] string AssumeRolePolicyDocument
+[property: CliOption("--role-name")] string RoleName,
+[property: CliOption("--assume-role-policy-document")] string AssumeRolePolicyDocument
 ) : AwsOptions
 {
-    [CommandSwitch("--path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--max-session-duration")]
+    [CliOption("--max-session-duration")]
     public int? MaxSessionDuration { get; set; }
 
-    [CommandSwitch("--permissions-boundary")]
+    [CliOption("--permissions-boundary")]
     public string? PermissionsBoundary { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

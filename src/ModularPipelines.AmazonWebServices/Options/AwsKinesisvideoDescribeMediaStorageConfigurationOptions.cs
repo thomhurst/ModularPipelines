@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesisvideo", "describe-media-storage-configuration")]
+[CliCommand("kinesisvideo", "describe-media-storage-configuration")]
 public record AwsKinesisvideoDescribeMediaStorageConfigurationOptions : AwsOptions
 {
-    [CommandSwitch("--channel-name")]
+    [CliOption("--channel-name")]
     public string? ChannelName { get; set; }
 
-    [CommandSwitch("--channel-arn")]
+    [CliOption("--channel-arn")]
     public string? ChannelArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

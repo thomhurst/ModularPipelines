@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "add-permission")]
+[CliCommand("lambda", "add-permission")]
 public record AwsLambdaAddPermissionOptions(
-[property: CommandSwitch("--function-name")] string FunctionName,
-[property: CommandSwitch("--statement-id")] string StatementId,
-[property: CommandSwitch("--action")] string Action,
-[property: CommandSwitch("--principal")] string Principal
+[property: CliOption("--function-name")] string FunctionName,
+[property: CliOption("--statement-id")] string StatementId,
+[property: CliOption("--action")] string Action,
+[property: CliOption("--principal")] string Principal
 ) : AwsOptions
 {
-    [CommandSwitch("--source-arn")]
+    [CliOption("--source-arn")]
     public string? SourceArn { get; set; }
 
-    [CommandSwitch("--source-account")]
+    [CliOption("--source-account")]
     public string? SourceAccount { get; set; }
 
-    [CommandSwitch("--event-source-token")]
+    [CliOption("--event-source-token")]
     public string? EventSourceToken { get; set; }
 
-    [CommandSwitch("--qualifier")]
+    [CliOption("--qualifier")]
     public string? Qualifier { get; set; }
 
-    [CommandSwitch("--revision-id")]
+    [CliOption("--revision-id")]
     public string? RevisionId { get; set; }
 
-    [CommandSwitch("--principal-org-id")]
+    [CliOption("--principal-org-id")]
     public string? PrincipalOrgId { get; set; }
 
-    [CommandSwitch("--function-url-auth-type")]
+    [CliOption("--function-url-auth-type")]
     public string? FunctionUrlAuthType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

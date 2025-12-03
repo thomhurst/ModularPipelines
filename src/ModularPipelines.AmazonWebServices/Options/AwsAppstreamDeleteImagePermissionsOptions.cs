@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appstream", "delete-image-permissions")]
+[CliCommand("appstream", "delete-image-permissions")]
 public record AwsAppstreamDeleteImagePermissionsOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--shared-account-id")] string SharedAccountId
+[property: CliOption("--name")] string Name,
+[property: CliOption("--shared-account-id")] string SharedAccountId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

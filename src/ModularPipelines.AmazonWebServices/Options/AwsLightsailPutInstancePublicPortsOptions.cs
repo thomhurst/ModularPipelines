@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "put-instance-public-ports")]
+[CliCommand("lightsail", "put-instance-public-ports")]
 public record AwsLightsailPutInstancePublicPortsOptions(
-[property: CommandSwitch("--port-infos")] string[] PortInfos,
-[property: CommandSwitch("--instance-name")] string InstanceName
+[property: CliOption("--port-infos")] string[] PortInfos,
+[property: CliOption("--instance-name")] string InstanceName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

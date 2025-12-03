@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elbv2", "create-load-balancer")]
+[CliCommand("elbv2", "create-load-balancer")]
 public record AwsElbv2CreateLoadBalancerOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--subnets")]
+    [CliOption("--subnets")]
     public string[]? Subnets { get; set; }
 
-    [CommandSwitch("--subnet-mappings")]
+    [CliOption("--subnet-mappings")]
     public string[]? SubnetMappings { get; set; }
 
-    [CommandSwitch("--security-groups")]
+    [CliOption("--security-groups")]
     public string[]? SecurityGroups { get; set; }
 
-    [CommandSwitch("--scheme")]
+    [CliOption("--scheme")]
     public string? Scheme { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--ip-address-type")]
+    [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
 
-    [CommandSwitch("--customer-owned-ipv4-pool")]
+    [CliOption("--customer-owned-ipv4-pool")]
     public string? CustomerOwnedIpv4Pool { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-messaging", "update-channel-read-marker")]
+[CliCommand("chime-sdk-messaging", "update-channel-read-marker")]
 public record AwsChimeSdkMessagingUpdateChannelReadMarkerOptions(
-[property: CommandSwitch("--channel-arn")] string ChannelArn,
-[property: CommandSwitch("--chime-bearer")] string ChimeBearer
+[property: CliOption("--channel-arn")] string ChannelArn,
+[property: CliOption("--chime-bearer")] string ChimeBearer
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

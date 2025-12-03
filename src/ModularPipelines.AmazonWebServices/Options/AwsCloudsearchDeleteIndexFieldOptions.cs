@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudsearch", "delete-index-field")]
+[CliCommand("cloudsearch", "delete-index-field")]
 public record AwsCloudsearchDeleteIndexFieldOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--index-field-name")] string IndexFieldName
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--index-field-name")] string IndexFieldName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

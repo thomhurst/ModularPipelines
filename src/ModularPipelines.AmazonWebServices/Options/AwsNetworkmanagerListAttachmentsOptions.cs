@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkmanager", "list-attachments")]
+[CliCommand("networkmanager", "list-attachments")]
 public record AwsNetworkmanagerListAttachmentsOptions : AwsOptions
 {
-    [CommandSwitch("--core-network-id")]
+    [CliOption("--core-network-id")]
     public string? CoreNetworkId { get; set; }
 
-    [CommandSwitch("--attachment-type")]
+    [CliOption("--attachment-type")]
     public string? AttachmentType { get; set; }
 
-    [CommandSwitch("--edge-location")]
+    [CliOption("--edge-location")]
     public string? EdgeLocation { get; set; }
 
-    [CommandSwitch("--state")]
+    [CliOption("--state")]
     public string? State { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

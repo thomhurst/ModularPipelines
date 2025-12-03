@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("groundstation", "reserve-contact")]
+[CliCommand("groundstation", "reserve-contact")]
 public record AwsGroundstationReserveContactOptions(
-[property: CommandSwitch("--end-time")] long EndTime,
-[property: CommandSwitch("--ground-station")] string GroundStation,
-[property: CommandSwitch("--mission-profile-arn")] string MissionProfileArn,
-[property: CommandSwitch("--satellite-arn")] string SatelliteArn,
-[property: CommandSwitch("--start-time")] long StartTime
+[property: CliOption("--end-time")] long EndTime,
+[property: CliOption("--ground-station")] string GroundStation,
+[property: CliOption("--mission-profile-arn")] string MissionProfileArn,
+[property: CliOption("--satellite-arn")] string SatelliteArn,
+[property: CliOption("--start-time")] long StartTime
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

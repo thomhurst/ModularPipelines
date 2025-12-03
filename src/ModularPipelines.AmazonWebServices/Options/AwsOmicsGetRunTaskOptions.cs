@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("omics", "get-run-task")]
+[CliCommand("omics", "get-run-task")]
 public record AwsOmicsGetRunTaskOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--task-id")] string TaskId
+[property: CliOption("--id")] string Id,
+[property: CliOption("--task-id")] string TaskId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

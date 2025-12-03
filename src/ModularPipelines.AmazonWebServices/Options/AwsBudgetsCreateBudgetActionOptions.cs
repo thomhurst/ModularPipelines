@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("budgets", "create-budget-action")]
+[CliCommand("budgets", "create-budget-action")]
 public record AwsBudgetsCreateBudgetActionOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--budget-name")] string BudgetName,
-[property: CommandSwitch("--notification-type")] string NotificationType,
-[property: CommandSwitch("--action-type")] string ActionType,
-[property: CommandSwitch("--action-threshold")] string ActionThreshold,
-[property: CommandSwitch("--definition")] string Definition,
-[property: CommandSwitch("--execution-role-arn")] string ExecutionRoleArn,
-[property: CommandSwitch("--approval-model")] string ApprovalModel,
-[property: CommandSwitch("--subscribers")] string[] Subscribers
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--budget-name")] string BudgetName,
+[property: CliOption("--notification-type")] string NotificationType,
+[property: CliOption("--action-type")] string ActionType,
+[property: CliOption("--action-threshold")] string ActionThreshold,
+[property: CliOption("--definition")] string Definition,
+[property: CliOption("--execution-role-arn")] string ExecutionRoleArn,
+[property: CliOption("--approval-model")] string ApprovalModel,
+[property: CliOption("--subscribers")] string[] Subscribers
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

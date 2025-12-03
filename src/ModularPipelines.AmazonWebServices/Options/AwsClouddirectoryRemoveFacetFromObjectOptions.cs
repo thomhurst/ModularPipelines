@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "remove-facet-from-object")]
+[CliCommand("clouddirectory", "remove-facet-from-object")]
 public record AwsClouddirectoryRemoveFacetFromObjectOptions(
-[property: CommandSwitch("--directory-arn")] string DirectoryArn,
-[property: CommandSwitch("--schema-facet")] string SchemaFacet,
-[property: CommandSwitch("--object-reference")] string ObjectReference
+[property: CliOption("--directory-arn")] string DirectoryArn,
+[property: CliOption("--schema-facet")] string SchemaFacet,
+[property: CliOption("--object-reference")] string ObjectReference
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devops-guru", "list-recommendations")]
+[CliCommand("devops-guru", "list-recommendations")]
 public record AwsDevopsGuruListRecommendationsOptions(
-[property: CommandSwitch("--insight-id")] string InsightId
+[property: CliOption("--insight-id")] string InsightId
 ) : AwsOptions
 {
-    [CommandSwitch("--locale")]
+    [CliOption("--locale")]
     public string? Locale { get; set; }
 
-    [CommandSwitch("--account-id")]
+    [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("frauddetector", "create-batch-prediction-job")]
+[CliCommand("frauddetector", "create-batch-prediction-job")]
 public record AwsFrauddetectorCreateBatchPredictionJobOptions(
-[property: CommandSwitch("--job-id")] string JobId,
-[property: CommandSwitch("--input-path")] string InputPath,
-[property: CommandSwitch("--output-path")] string OutputPath,
-[property: CommandSwitch("--event-type-name")] string EventTypeName,
-[property: CommandSwitch("--detector-name")] string DetectorName,
-[property: CommandSwitch("--iam-role-arn")] string IamRoleArn
+[property: CliOption("--job-id")] string JobId,
+[property: CliOption("--input-path")] string InputPath,
+[property: CliOption("--output-path")] string OutputPath,
+[property: CliOption("--event-type-name")] string EventTypeName,
+[property: CliOption("--detector-name")] string DetectorName,
+[property: CliOption("--iam-role-arn")] string IamRoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--detector-version")]
+    [CliOption("--detector-version")]
     public string? DetectorVersion { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

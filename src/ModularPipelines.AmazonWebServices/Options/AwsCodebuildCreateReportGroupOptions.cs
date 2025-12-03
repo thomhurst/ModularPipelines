@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codebuild", "create-report-group")]
+[CliCommand("codebuild", "create-report-group")]
 public record AwsCodebuildCreateReportGroupOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--export-config")] string ExportConfig
+[property: CliOption("--name")] string Name,
+[property: CliOption("--type")] string Type,
+[property: CliOption("--export-config")] string ExportConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

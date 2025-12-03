@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise", "create-asset")]
+[CliCommand("iotsitewise", "create-asset")]
 public record AwsIotsitewiseCreateAssetOptions(
-[property: CommandSwitch("--asset-name")] string AssetName,
-[property: CommandSwitch("--asset-model-id")] string AssetModelId
+[property: CliOption("--asset-name")] string AssetName,
+[property: CliOption("--asset-model-id")] string AssetModelId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--asset-description")]
+    [CliOption("--asset-description")]
     public string? AssetDescription { get; set; }
 
-    [CommandSwitch("--asset-id")]
+    [CliOption("--asset-id")]
     public string? AssetId { get; set; }
 
-    [CommandSwitch("--asset-external-id")]
+    [CliOption("--asset-external-id")]
     public string? AssetExternalId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

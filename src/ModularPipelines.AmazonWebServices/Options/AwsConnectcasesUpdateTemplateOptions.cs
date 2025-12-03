@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectcases", "update-template")]
+[CliCommand("connectcases", "update-template")]
 public record AwsConnectcasesUpdateTemplateOptions(
-[property: CommandSwitch("--domain-id")] string DomainId,
-[property: CommandSwitch("--template-id")] string TemplateId
+[property: CliOption("--domain-id")] string DomainId,
+[property: CliOption("--template-id")] string TemplateId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--layout-configuration")]
+    [CliOption("--layout-configuration")]
     public string? LayoutConfiguration { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--required-fields")]
+    [CliOption("--required-fields")]
     public string[]? RequiredFields { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

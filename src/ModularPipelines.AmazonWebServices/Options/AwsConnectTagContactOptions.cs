@@ -5,13 +5,13 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "tag-contact")]
+[CliCommand("connect", "tag-contact")]
 public record AwsConnectTagContactOptions(
-[property: CommandSwitch("--contact-id")] string ContactId,
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--tags")] IEnumerable<KeyValue> Tags
+[property: CliOption("--contact-id")] string ContactId,
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--tags")] IEnumerable<KeyValue> Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

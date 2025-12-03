@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticbeanstalk", "update-environment")]
+[CliCommand("elasticbeanstalk", "update-environment")]
 public record AwsElasticbeanstalkUpdateEnvironmentOptions : AwsOptions
 {
-    [CommandSwitch("--application-name")]
+    [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
-    [CommandSwitch("--environment-id")]
+    [CliOption("--environment-id")]
     public string? EnvironmentId { get; set; }
 
-    [CommandSwitch("--environment-name")]
+    [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
-    [CommandSwitch("--group-name")]
+    [CliOption("--group-name")]
     public string? GroupName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [CommandSwitch("--version-label")]
+    [CliOption("--version-label")]
     public string? VersionLabel { get; set; }
 
-    [CommandSwitch("--template-name")]
+    [CliOption("--template-name")]
     public string? TemplateName { get; set; }
 
-    [CommandSwitch("--solution-stack-name")]
+    [CliOption("--solution-stack-name")]
     public string? SolutionStackName { get; set; }
 
-    [CommandSwitch("--platform-arn")]
+    [CliOption("--platform-arn")]
     public string? PlatformArn { get; set; }
 
-    [CommandSwitch("--option-settings")]
+    [CliOption("--option-settings")]
     public string[]? OptionSettings { get; set; }
 
-    [CommandSwitch("--options-to-remove")]
+    [CliOption("--options-to-remove")]
     public string[]? OptionsToRemove { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("license-manager-user-subscriptions", "update-identity-provider-settings")]
+[CliCommand("license-manager-user-subscriptions", "update-identity-provider-settings")]
 public record AwsLicenseManagerUserSubscriptionsUpdateIdentityProviderSettingsOptions(
-[property: CommandSwitch("--identity-provider")] string IdentityProvider,
-[property: CommandSwitch("--product")] string Product,
-[property: CommandSwitch("--update-settings")] string UpdateSettings
+[property: CliOption("--identity-provider")] string IdentityProvider,
+[property: CliOption("--product")] string Product,
+[property: CliOption("--update-settings")] string UpdateSettings
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

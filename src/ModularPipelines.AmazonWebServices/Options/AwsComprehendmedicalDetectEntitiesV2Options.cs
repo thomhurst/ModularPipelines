@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("comprehendmedical", "detect-entities-v2")]
+[CliCommand("comprehendmedical", "detect-entities-v2")]
 public record AwsComprehendmedicalDetectEntitiesV2Options(
-[property: CommandSwitch("--text")] string Text
+[property: CliOption("--text")] string Text
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

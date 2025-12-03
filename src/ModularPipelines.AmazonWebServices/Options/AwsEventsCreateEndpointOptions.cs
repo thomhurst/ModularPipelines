@@ -4,22 +4,22 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("events", "create-endpoint")]
+[CliCommand("events", "create-endpoint")]
 public record AwsEventsCreateEndpointOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--routing-config")] string RoutingConfig,
-[property: CommandSwitch("--event-buses")] string[] EventBuses
+[property: CliOption("--name")] string Name,
+[property: CliOption("--routing-config")] string RoutingConfig,
+[property: CliOption("--event-buses")] string[] EventBuses
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--replication-config")]
+    [CliOption("--replication-config")]
     public string? ReplicationConfig { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

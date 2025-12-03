@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "create-cluster")]
+[CliCommand("ecs", "create-cluster")]
 public record AwsEcsCreateClusterOptions : AwsOptions
 {
-    [CommandSwitch("--cluster-name")]
+    [CliOption("--cluster-name")]
     public string? ClusterName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--settings")]
+    [CliOption("--settings")]
     public string[]? Settings { get; set; }
 
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
-    [CommandSwitch("--capacity-providers")]
+    [CliOption("--capacity-providers")]
     public string[]? CapacityProviders { get; set; }
 
-    [CommandSwitch("--default-capacity-provider-strategy")]
+    [CliOption("--default-capacity-provider-strategy")]
     public string[]? DefaultCapacityProviderStrategy { get; set; }
 
-    [CommandSwitch("--service-connect-defaults")]
+    [CliOption("--service-connect-defaults")]
     public string? ServiceConnectDefaults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

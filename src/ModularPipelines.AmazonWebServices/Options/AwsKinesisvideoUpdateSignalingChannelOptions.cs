@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesisvideo", "update-signaling-channel")]
+[CliCommand("kinesisvideo", "update-signaling-channel")]
 public record AwsKinesisvideoUpdateSignalingChannelOptions(
-[property: CommandSwitch("--channel-arn")] string ChannelArn,
-[property: CommandSwitch("--current-version")] string CurrentVersion
+[property: CliOption("--channel-arn")] string ChannelArn,
+[property: CliOption("--current-version")] string CurrentVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--single-master-configuration")]
+    [CliOption("--single-master-configuration")]
     public string? SingleMasterConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

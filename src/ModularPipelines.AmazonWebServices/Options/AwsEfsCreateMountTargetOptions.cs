@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("efs", "create-mount-target")]
+[CliCommand("efs", "create-mount-target")]
 public record AwsEfsCreateMountTargetOptions(
-[property: CommandSwitch("--file-system-id")] string FileSystemId,
-[property: CommandSwitch("--subnet-id")] string SubnetId
+[property: CliOption("--file-system-id")] string FileSystemId,
+[property: CliOption("--subnet-id")] string SubnetId
 ) : AwsOptions
 {
-    [CommandSwitch("--ip-address")]
+    [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
 
-    [CommandSwitch("--security-groups")]
+    [CliOption("--security-groups")]
     public string[]? SecurityGroups { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

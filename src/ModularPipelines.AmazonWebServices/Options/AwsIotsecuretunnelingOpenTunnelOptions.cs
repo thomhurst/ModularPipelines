@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsecuretunneling", "open-tunnel")]
+[CliCommand("iotsecuretunneling", "open-tunnel")]
 public record AwsIotsecuretunnelingOpenTunnelOptions : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--destination-config")]
+    [CliOption("--destination-config")]
     public string? DestinationConfig { get; set; }
 
-    [CommandSwitch("--timeout-config")]
+    [CliOption("--timeout-config")]
     public string? TimeoutConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

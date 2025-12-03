@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodb", "export-table-to-point-in-time")]
+[CliCommand("dynamodb", "export-table-to-point-in-time")]
 public record AwsDynamodbExportTableToPointInTimeOptions(
-[property: CommandSwitch("--table-arn")] string TableArn,
-[property: CommandSwitch("--s3-bucket")] string S3Bucket
+[property: CliOption("--table-arn")] string TableArn,
+[property: CliOption("--s3-bucket")] string S3Bucket
 ) : AwsOptions
 {
-    [CommandSwitch("--export-time")]
+    [CliOption("--export-time")]
     public long? ExportTime { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--s3-bucket-owner")]
+    [CliOption("--s3-bucket-owner")]
     public string? S3BucketOwner { get; set; }
 
-    [CommandSwitch("--s3-prefix")]
+    [CliOption("--s3-prefix")]
     public string? S3Prefix { get; set; }
 
-    [CommandSwitch("--s3-sse-algorithm")]
+    [CliOption("--s3-sse-algorithm")]
     public string? S3SseAlgorithm { get; set; }
 
-    [CommandSwitch("--s3-sse-kms-key-id")]
+    [CliOption("--s3-sse-kms-key-id")]
     public string? S3SseKmsKeyId { get; set; }
 
-    [CommandSwitch("--export-format")]
+    [CliOption("--export-format")]
     public string? ExportFormat { get; set; }
 
-    [CommandSwitch("--export-type")]
+    [CliOption("--export-type")]
     public string? ExportType { get; set; }
 
-    [CommandSwitch("--incremental-export-specification")]
+    [CliOption("--incremental-export-specification")]
     public string? IncrementalExportSpecification { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

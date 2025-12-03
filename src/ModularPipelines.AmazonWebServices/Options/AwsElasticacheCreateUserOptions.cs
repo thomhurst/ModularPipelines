@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticache", "create-user")]
+[CliCommand("elasticache", "create-user")]
 public record AwsElasticacheCreateUserOptions(
-[property: CommandSwitch("--user-id")] string UserId,
-[property: CommandSwitch("--user-name")] string UserName,
-[property: CommandSwitch("--engine")] string Engine,
-[property: CommandSwitch("--access-string")] string AccessString
+[property: CliOption("--user-id")] string UserId,
+[property: CliOption("--user-name")] string UserName,
+[property: CliOption("--engine")] string Engine,
+[property: CliOption("--access-string")] string AccessString
 ) : AwsOptions
 {
-    [CommandSwitch("--passwords")]
+    [CliOption("--passwords")]
     public string[]? Passwords { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--authentication-mode")]
+    [CliOption("--authentication-mode")]
     public string? AuthenticationMode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eks", "update-cluster-version")]
+[CliCommand("eks", "update-cluster-version")]
 public record AwsEksUpdateClusterVersionOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--kubernetes-version")] string KubernetesVersion
+[property: CliOption("--name")] string Name,
+[property: CliOption("--kubernetes-version")] string KubernetesVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

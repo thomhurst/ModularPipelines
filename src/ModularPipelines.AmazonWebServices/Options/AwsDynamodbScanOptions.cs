@@ -5,56 +5,56 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodb", "scan")]
+[CliCommand("dynamodb", "scan")]
 public record AwsDynamodbScanOptions(
-[property: CommandSwitch("--table-name")] string TableName
+[property: CliOption("--table-name")] string TableName
 ) : AwsOptions
 {
-    [CommandSwitch("--index-name")]
+    [CliOption("--index-name")]
     public string? IndexName { get; set; }
 
-    [CommandSwitch("--attributes-to-get")]
+    [CliOption("--attributes-to-get")]
     public string[]? AttributesToGet { get; set; }
 
-    [CommandSwitch("--select")]
+    [CliOption("--select")]
     public string? Select { get; set; }
 
-    [CommandSwitch("--scan-filter")]
+    [CliOption("--scan-filter")]
     public IEnumerable<KeyValue>? ScanFilter { get; set; }
 
-    [CommandSwitch("--conditional-operator")]
+    [CliOption("--conditional-operator")]
     public string? ConditionalOperator { get; set; }
 
-    [CommandSwitch("--return-consumed-capacity")]
+    [CliOption("--return-consumed-capacity")]
     public string? ReturnConsumedCapacity { get; set; }
 
-    [CommandSwitch("--total-segments")]
+    [CliOption("--total-segments")]
     public int? TotalSegments { get; set; }
 
-    [CommandSwitch("--segment")]
+    [CliOption("--segment")]
     public int? Segment { get; set; }
 
-    [CommandSwitch("--projection-expression")]
+    [CliOption("--projection-expression")]
     public string? ProjectionExpression { get; set; }
 
-    [CommandSwitch("--filter-expression")]
+    [CliOption("--filter-expression")]
     public string? FilterExpression { get; set; }
 
-    [CommandSwitch("--expression-attribute-names")]
+    [CliOption("--expression-attribute-names")]
     public IEnumerable<KeyValue>? ExpressionAttributeNames { get; set; }
 
-    [CommandSwitch("--expression-attribute-values")]
+    [CliOption("--expression-attribute-values")]
     public IEnumerable<KeyValue>? ExpressionAttributeValues { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

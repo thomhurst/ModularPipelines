@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dax", "decrease-replication-factor")]
+[CliCommand("dax", "decrease-replication-factor")]
 public record AwsDaxDecreaseReplicationFactorOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--new-replication-factor")] int NewReplicationFactor
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--new-replication-factor")] int NewReplicationFactor
 ) : AwsOptions
 {
-    [CommandSwitch("--availability-zones")]
+    [CliOption("--availability-zones")]
     public string[]? AvailabilityZones { get; set; }
 
-    [CommandSwitch("--node-ids-to-remove")]
+    [CliOption("--node-ids-to-remove")]
     public string[]? NodeIdsToRemove { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

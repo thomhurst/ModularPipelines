@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apprunner", "update-service")]
+[CliCommand("apprunner", "update-service")]
 public record AwsApprunnerUpdateServiceOptions(
-[property: CommandSwitch("--service-arn")] string ServiceArn
+[property: CliOption("--service-arn")] string ServiceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--source-configuration")]
+    [CliOption("--source-configuration")]
     public string? SourceConfiguration { get; set; }
 
-    [CommandSwitch("--instance-configuration")]
+    [CliOption("--instance-configuration")]
     public string? InstanceConfiguration { get; set; }
 
-    [CommandSwitch("--auto-scaling-configuration-arn")]
+    [CliOption("--auto-scaling-configuration-arn")]
     public string? AutoScalingConfigurationArn { get; set; }
 
-    [CommandSwitch("--health-check-configuration")]
+    [CliOption("--health-check-configuration")]
     public string? HealthCheckConfiguration { get; set; }
 
-    [CommandSwitch("--network-configuration")]
+    [CliOption("--network-configuration")]
     public string? NetworkConfiguration { get; set; }
 
-    [CommandSwitch("--observability-configuration")]
+    [CliOption("--observability-configuration")]
     public string? ObservabilityConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

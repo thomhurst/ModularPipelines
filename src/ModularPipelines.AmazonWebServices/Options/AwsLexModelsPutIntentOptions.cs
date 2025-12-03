@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lex-models", "put-intent")]
+[CliCommand("lex-models", "put-intent")]
 public record AwsLexModelsPutIntentOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--slots")]
+    [CliOption("--slots")]
     public string[]? Slots { get; set; }
 
-    [CommandSwitch("--sample-utterances")]
+    [CliOption("--sample-utterances")]
     public string[]? SampleUtterances { get; set; }
 
-    [CommandSwitch("--confirmation-prompt")]
+    [CliOption("--confirmation-prompt")]
     public string? ConfirmationPrompt { get; set; }
 
-    [CommandSwitch("--rejection-statement")]
+    [CliOption("--rejection-statement")]
     public string? RejectionStatement { get; set; }
 
-    [CommandSwitch("--follow-up-prompt")]
+    [CliOption("--follow-up-prompt")]
     public string? FollowUpPrompt { get; set; }
 
-    [CommandSwitch("--conclusion-statement")]
+    [CliOption("--conclusion-statement")]
     public string? ConclusionStatement { get; set; }
 
-    [CommandSwitch("--dialog-code-hook")]
+    [CliOption("--dialog-code-hook")]
     public string? DialogCodeHook { get; set; }
 
-    [CommandSwitch("--fulfillment-activity")]
+    [CliOption("--fulfillment-activity")]
     public string? FulfillmentActivity { get; set; }
 
-    [CommandSwitch("--parent-intent-signature")]
+    [CliOption("--parent-intent-signature")]
     public string? ParentIntentSignature { get; set; }
 
-    [CommandSwitch("--checksum")]
+    [CliOption("--checksum")]
     public string? Checksum { get; set; }
 
-    [CommandSwitch("--kendra-configuration")]
+    [CliOption("--kendra-configuration")]
     public string? KendraConfiguration { get; set; }
 
-    [CommandSwitch("--input-contexts")]
+    [CliOption("--input-contexts")]
     public string[]? InputContexts { get; set; }
 
-    [CommandSwitch("--output-contexts")]
+    [CliOption("--output-contexts")]
     public string[]? OutputContexts { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

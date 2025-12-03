@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("drs", "update-launch-configuration")]
+[CliCommand("drs", "update-launch-configuration")]
 public record AwsDrsUpdateLaunchConfigurationOptions(
-[property: CommandSwitch("--source-server-id")] string SourceServerId
+[property: CliOption("--source-server-id")] string SourceServerId
 ) : AwsOptions
 {
-    [CommandSwitch("--launch-disposition")]
+    [CliOption("--launch-disposition")]
     public string? LaunchDisposition { get; set; }
 
-    [CommandSwitch("--launch-into-instance-properties")]
+    [CliOption("--launch-into-instance-properties")]
     public string? LaunchIntoInstanceProperties { get; set; }
 
-    [CommandSwitch("--licensing")]
+    [CliOption("--licensing")]
     public string? Licensing { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--target-instance-type-right-sizing-method")]
+    [CliOption("--target-instance-type-right-sizing-method")]
     public string? TargetInstanceTypeRightSizingMethod { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

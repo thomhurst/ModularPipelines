@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medialive", "purchase-offering")]
+[CliCommand("medialive", "purchase-offering")]
 public record AwsMedialivePurchaseOfferingOptions(
-[property: CommandSwitch("--count")] int Count,
-[property: CommandSwitch("--offering-id")] string OfferingId
+[property: CliOption("--count")] int Count,
+[property: CliOption("--offering-id")] string OfferingId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--renewal-settings")]
+    [CliOption("--renewal-settings")]
     public string? RenewalSettings { get; set; }
 
-    [CommandSwitch("--request-id")]
+    [CliOption("--request-id")]
     public string? RequestId { get; set; }
 
-    [CommandSwitch("--start")]
+    [CliOption("--start")]
     public string? Start { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

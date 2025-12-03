@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "get-deployment")]
+[CliCommand("apigateway", "get-deployment")]
 public record AwsApigatewayGetDeploymentOptions(
-[property: CommandSwitch("--rest-api-id")] string RestApiId,
-[property: CommandSwitch("--deployment-id")] string DeploymentId
+[property: CliOption("--rest-api-id")] string RestApiId,
+[property: CliOption("--deployment-id")] string DeploymentId
 ) : AwsOptions
 {
-    [CommandSwitch("--embed")]
+    [CliOption("--embed")]
     public string[]? Embed { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

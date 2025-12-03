@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("greengrass", "start-bulk-deployment")]
+[CliCommand("greengrass", "start-bulk-deployment")]
 public record AwsGreengrassStartBulkDeploymentOptions(
-[property: CommandSwitch("--execution-role-arn")] string ExecutionRoleArn,
-[property: CommandSwitch("--input-file-uri")] string InputFileUri
+[property: CliOption("--execution-role-arn")] string ExecutionRoleArn,
+[property: CliOption("--input-file-uri")] string InputFileUri
 ) : AwsOptions
 {
-    [CommandSwitch("--amzn-client-token")]
+    [CliOption("--amzn-client-token")]
     public string? AmznClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

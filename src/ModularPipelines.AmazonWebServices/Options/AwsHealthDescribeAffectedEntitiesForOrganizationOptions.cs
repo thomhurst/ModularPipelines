@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("health", "describe-affected-entities-for-organization")]
+[CliCommand("health", "describe-affected-entities-for-organization")]
 public record AwsHealthDescribeAffectedEntitiesForOrganizationOptions : AwsOptions
 {
-    [CommandSwitch("--organization-entity-filters")]
+    [CliOption("--organization-entity-filters")]
     public string[]? OrganizationEntityFilters { get; set; }
 
-    [CommandSwitch("--locale")]
+    [CliOption("--locale")]
     public string? Locale { get; set; }
 
-    [CommandSwitch("--organization-entity-account-filters")]
+    [CliOption("--organization-entity-account-filters")]
     public string[]? OrganizationEntityAccountFilters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectcases", "put-case-event-configuration")]
+[CliCommand("connectcases", "put-case-event-configuration")]
 public record AwsConnectcasesPutCaseEventConfigurationOptions(
-[property: CommandSwitch("--domain-id")] string DomainId,
-[property: CommandSwitch("--event-bridge")] string EventBridge
+[property: CliOption("--domain-id")] string DomainId,
+[property: CliOption("--event-bridge")] string EventBridge
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

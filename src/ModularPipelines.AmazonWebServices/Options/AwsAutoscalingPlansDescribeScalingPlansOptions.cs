@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("autoscaling-plans", "describe-scaling-plans")]
+[CliCommand("autoscaling-plans", "describe-scaling-plans")]
 public record AwsAutoscalingPlansDescribeScalingPlansOptions : AwsOptions
 {
-    [CommandSwitch("--scaling-plan-names")]
+    [CliOption("--scaling-plan-names")]
     public string[]? ScalingPlanNames { get; set; }
 
-    [CommandSwitch("--scaling-plan-version")]
+    [CliOption("--scaling-plan-version")]
     public long? ScalingPlanVersion { get; set; }
 
-    [CommandSwitch("--application-sources")]
+    [CliOption("--application-sources")]
     public string[]? ApplicationSources { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

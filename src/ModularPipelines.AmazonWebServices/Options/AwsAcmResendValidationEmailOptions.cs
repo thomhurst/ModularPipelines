@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acm", "resend-validation-email")]
+[CliCommand("acm", "resend-validation-email")]
 public record AwsAcmResendValidationEmailOptions(
-[property: CommandSwitch("--certificate-arn")] string CertificateArn,
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--validation-domain")] string ValidationDomain
+[property: CliOption("--certificate-arn")] string CertificateArn,
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--validation-domain")] string ValidationDomain
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

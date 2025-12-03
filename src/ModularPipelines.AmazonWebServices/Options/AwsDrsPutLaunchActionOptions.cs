@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("drs", "put-launch-action")]
+[CliCommand("drs", "put-launch-action")]
 public record AwsDrsPutLaunchActionOptions(
-[property: CommandSwitch("--action-code")] string ActionCode,
-[property: CommandSwitch("--action-id")] string ActionId,
-[property: CommandSwitch("--action-version")] string ActionVersion,
-[property: CommandSwitch("--category")] string Category,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--order")] int Order,
-[property: CommandSwitch("--resource-id")] string ResourceId
+[property: CliOption("--action-code")] string ActionCode,
+[property: CliOption("--action-id")] string ActionId,
+[property: CliOption("--action-version")] string ActionVersion,
+[property: CliOption("--category")] string Category,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--order")] int Order,
+[property: CliOption("--resource-id")] string ResourceId
 ) : AwsOptions
 {
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public IEnumerable<KeyValue>? Parameters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

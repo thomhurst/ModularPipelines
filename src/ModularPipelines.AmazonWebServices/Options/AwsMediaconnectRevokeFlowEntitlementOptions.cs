@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediaconnect", "revoke-flow-entitlement")]
+[CliCommand("mediaconnect", "revoke-flow-entitlement")]
 public record AwsMediaconnectRevokeFlowEntitlementOptions(
-[property: CommandSwitch("--entitlement-arn")] string EntitlementArn,
-[property: CommandSwitch("--flow-arn")] string FlowArn
+[property: CliOption("--entitlement-arn")] string EntitlementArn,
+[property: CliOption("--flow-arn")] string FlowArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

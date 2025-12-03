@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mturk", "update-notification-settings")]
+[CliCommand("mturk", "update-notification-settings")]
 public record AwsMturkUpdateNotificationSettingsOptions(
-[property: CommandSwitch("--hit-type-id")] string HitTypeId
+[property: CliOption("--hit-type-id")] string HitTypeId
 ) : AwsOptions
 {
-    [CommandSwitch("--notification")]
+    [CliOption("--notification")]
     public string? Notification { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

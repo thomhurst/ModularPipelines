@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appintegrations", "create-event-integration")]
+[CliCommand("appintegrations", "create-event-integration")]
 public record AwsAppintegrationsCreateEventIntegrationOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--event-filter")] string EventFilter,
-[property: CommandSwitch("--event-bridge-bus")] string EventBridgeBus
+[property: CliOption("--name")] string Name,
+[property: CliOption("--event-filter")] string EventFilter,
+[property: CliOption("--event-bridge-bus")] string EventBridgeBus
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

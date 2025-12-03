@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot-roborunner", "create-site")]
+[CliCommand("iot-roborunner", "create-site")]
 public record AwsIotRoborunnerCreateSiteOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--country-code")] string CountryCode
+[property: CliOption("--name")] string Name,
+[property: CliOption("--country-code")] string CountryCode
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

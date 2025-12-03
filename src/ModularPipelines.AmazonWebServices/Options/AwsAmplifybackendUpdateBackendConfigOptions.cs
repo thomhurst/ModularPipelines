@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplifybackend", "update-backend-config")]
+[CliCommand("amplifybackend", "update-backend-config")]
 public record AwsAmplifybackendUpdateBackendConfigOptions(
-[property: CommandSwitch("--app-id")] string AppId
+[property: CliOption("--app-id")] string AppId
 ) : AwsOptions
 {
-    [CommandSwitch("--login-auth-config")]
+    [CliOption("--login-auth-config")]
     public string? LoginAuthConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

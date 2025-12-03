@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediatailor", "delete-vod-source")]
+[CliCommand("mediatailor", "delete-vod-source")]
 public record AwsMediatailorDeleteVodSourceOptions(
-[property: CommandSwitch("--source-location-name")] string SourceLocationName,
-[property: CommandSwitch("--vod-source-name")] string VodSourceName
+[property: CliOption("--source-location-name")] string SourceLocationName,
+[property: CliOption("--vod-source-name")] string VodSourceName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("network-firewall", "create-firewall")]
+[CliCommand("network-firewall", "create-firewall")]
 public record AwsNetworkFirewallCreateFirewallOptions(
-[property: CommandSwitch("--firewall-name")] string FirewallName,
-[property: CommandSwitch("--firewall-policy-arn")] string FirewallPolicyArn,
-[property: CommandSwitch("--vpc-id")] string VpcId,
-[property: CommandSwitch("--subnet-mappings")] string[] SubnetMappings
+[property: CliOption("--firewall-name")] string FirewallName,
+[property: CliOption("--firewall-policy-arn")] string FirewallPolicyArn,
+[property: CliOption("--vpc-id")] string VpcId,
+[property: CliOption("--subnet-mappings")] string[] SubnetMappings
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--encryption-configuration")]
+    [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

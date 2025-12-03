@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafka", "create-vpc-connection")]
+[CliCommand("kafka", "create-vpc-connection")]
 public record AwsKafkaCreateVpcConnectionOptions(
-[property: CommandSwitch("--target-cluster-arn")] string TargetClusterArn,
-[property: CommandSwitch("--authentication")] string Authentication,
-[property: CommandSwitch("--vpc-id")] string VpcId,
-[property: CommandSwitch("--client-subnets")] string[] ClientSubnets,
-[property: CommandSwitch("--security-groups")] string[] SecurityGroups
+[property: CliOption("--target-cluster-arn")] string TargetClusterArn,
+[property: CliOption("--authentication")] string Authentication,
+[property: CliOption("--vpc-id")] string VpcId,
+[property: CliOption("--client-subnets")] string[] ClientSubnets,
+[property: CliOption("--security-groups")] string[] SecurityGroups
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

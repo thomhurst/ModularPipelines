@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "modify-data-provider")]
+[CliCommand("dms", "modify-data-provider")]
 public record AwsDmsModifyDataProviderOptions(
-[property: CommandSwitch("--data-provider-identifier")] string DataProviderIdentifier
+[property: CliOption("--data-provider-identifier")] string DataProviderIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--data-provider-name")]
+    [CliOption("--data-provider-name")]
     public string? DataProviderName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--engine")]
+    [CliOption("--engine")]
     public string? Engine { get; set; }
 
-    [CommandSwitch("--settings")]
+    [CliOption("--settings")]
     public string? Settings { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

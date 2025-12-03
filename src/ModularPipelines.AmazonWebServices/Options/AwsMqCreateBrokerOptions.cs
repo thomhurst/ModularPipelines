@@ -5,55 +5,55 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mq", "create-broker")]
+[CliCommand("mq", "create-broker")]
 public record AwsMqCreateBrokerOptions(
-[property: CommandSwitch("--broker-name")] string BrokerName,
-[property: CommandSwitch("--deployment-mode")] string DeploymentMode,
-[property: CommandSwitch("--engine-type")] string EngineType,
-[property: CommandSwitch("--engine-version")] string EngineVersion,
-[property: CommandSwitch("--host-instance-type")] string HostInstanceType,
-[property: CommandSwitch("--users")] string[] Users
+[property: CliOption("--broker-name")] string BrokerName,
+[property: CliOption("--deployment-mode")] string DeploymentMode,
+[property: CliOption("--engine-type")] string EngineType,
+[property: CliOption("--engine-version")] string EngineVersion,
+[property: CliOption("--host-instance-type")] string HostInstanceType,
+[property: CliOption("--users")] string[] Users
 ) : AwsOptions
 {
-    [CommandSwitch("--authentication-strategy")]
+    [CliOption("--authentication-strategy")]
     public string? AuthenticationStrategy { get; set; }
 
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
-    [CommandSwitch("--creator-request-id")]
+    [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
-    [CommandSwitch("--encryption-options")]
+    [CliOption("--encryption-options")]
     public string? EncryptionOptions { get; set; }
 
-    [CommandSwitch("--ldap-server-metadata")]
+    [CliOption("--ldap-server-metadata")]
     public string? LdapServerMetadata { get; set; }
 
-    [CommandSwitch("--logs")]
+    [CliOption("--logs")]
     public string? Logs { get; set; }
 
-    [CommandSwitch("--maintenance-window-start-time")]
+    [CliOption("--maintenance-window-start-time")]
     public string? MaintenanceWindowStartTime { get; set; }
 
-    [CommandSwitch("--security-groups")]
+    [CliOption("--security-groups")]
     public string[]? SecurityGroups { get; set; }
 
-    [CommandSwitch("--storage-type")]
+    [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
-    [CommandSwitch("--subnet-ids")]
+    [CliOption("--subnet-ids")]
     public string[]? SubnetIds { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--data-replication-mode")]
+    [CliOption("--data-replication-mode")]
     public string? DataReplicationMode { get; set; }
 
-    [CommandSwitch("--data-replication-primary-broker-arn")]
+    [CliOption("--data-replication-primary-broker-arn")]
     public string? DataReplicationPrimaryBrokerArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

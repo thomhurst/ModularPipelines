@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("directconnect", "delete-direct-connect-gateway-association")]
+[CliCommand("directconnect", "delete-direct-connect-gateway-association")]
 public record AwsDirectconnectDeleteDirectConnectGatewayAssociationOptions : AwsOptions
 {
-    [CommandSwitch("--association-id")]
+    [CliOption("--association-id")]
     public string? AssociationId { get; set; }
 
-    [CommandSwitch("--direct-connect-gateway-id")]
+    [CliOption("--direct-connect-gateway-id")]
     public string? DirectConnectGatewayId { get; set; }
 
-    [CommandSwitch("--virtual-gateway-id")]
+    [CliOption("--virtual-gateway-id")]
     public string? VirtualGatewayId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

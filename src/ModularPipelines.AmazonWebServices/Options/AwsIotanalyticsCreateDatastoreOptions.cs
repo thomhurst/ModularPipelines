@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotanalytics", "create-datastore")]
+[CliCommand("iotanalytics", "create-datastore")]
 public record AwsIotanalyticsCreateDatastoreOptions(
-[property: CommandSwitch("--datastore-name")] string DatastoreName
+[property: CliOption("--datastore-name")] string DatastoreName
 ) : AwsOptions
 {
-    [CommandSwitch("--datastore-storage")]
+    [CliOption("--datastore-storage")]
     public string? DatastoreStorage { get; set; }
 
-    [CommandSwitch("--retention-period")]
+    [CliOption("--retention-period")]
     public string? RetentionPeriod { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--file-format-configuration")]
+    [CliOption("--file-format-configuration")]
     public string? FileFormatConfiguration { get; set; }
 
-    [CommandSwitch("--datastore-partitions")]
+    [CliOption("--datastore-partitions")]
     public string? DatastorePartitions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafka", "reboot-broker")]
+[CliCommand("kafka", "reboot-broker")]
 public record AwsKafkaRebootBrokerOptions(
-[property: CommandSwitch("--broker-ids")] string[] BrokerIds,
-[property: CommandSwitch("--cluster-arn")] string ClusterArn
+[property: CliOption("--broker-ids")] string[] BrokerIds,
+[property: CliOption("--cluster-arn")] string ClusterArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

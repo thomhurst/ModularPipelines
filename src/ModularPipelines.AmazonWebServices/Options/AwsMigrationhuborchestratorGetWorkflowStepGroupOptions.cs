@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("migrationhuborchestrator", "get-workflow-step-group")]
+[CliCommand("migrationhuborchestrator", "get-workflow-step-group")]
 public record AwsMigrationhuborchestratorGetWorkflowStepGroupOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--workflow-id")] string WorkflowId
+[property: CliOption("--id")] string Id,
+[property: CliOption("--workflow-id")] string WorkflowId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

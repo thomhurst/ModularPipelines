@@ -5,33 +5,33 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("macie2", "create-custom-data-identifier")]
+[CliCommand("macie2", "create-custom-data-identifier")]
 public record AwsMacie2CreateCustomDataIdentifierOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--regex")] string Regex
+[property: CliOption("--name")] string Name,
+[property: CliOption("--regex")] string Regex
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--ignore-words")]
+    [CliOption("--ignore-words")]
     public string[]? IgnoreWords { get; set; }
 
-    [CommandSwitch("--keywords")]
+    [CliOption("--keywords")]
     public string[]? Keywords { get; set; }
 
-    [CommandSwitch("--maximum-match-distance")]
+    [CliOption("--maximum-match-distance")]
     public int? MaximumMatchDistance { get; set; }
 
-    [CommandSwitch("--severity-levels")]
+    [CliOption("--severity-levels")]
     public string[]? SeverityLevels { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

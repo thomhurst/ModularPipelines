@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesis", "split-shard")]
+[CliCommand("kinesis", "split-shard")]
 public record AwsKinesisSplitShardOptions(
-[property: CommandSwitch("--shard-to-split")] string ShardToSplit,
-[property: CommandSwitch("--new-starting-hash-key")] string NewStartingHashKey
+[property: CliOption("--shard-to-split")] string ShardToSplit,
+[property: CliOption("--new-starting-hash-key")] string NewStartingHashKey
 ) : AwsOptions
 {
-    [CommandSwitch("--stream-name")]
+    [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
-    [CommandSwitch("--stream-arn")]
+    [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

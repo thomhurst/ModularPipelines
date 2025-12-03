@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codestar-connections", "create-connection")]
+[CliCommand("codestar-connections", "create-connection")]
 public record AwsCodestarConnectionsCreateConnectionOptions(
-[property: CommandSwitch("--connection-name")] string ConnectionName
+[property: CliOption("--connection-name")] string ConnectionName
 ) : AwsOptions
 {
-    [CommandSwitch("--provider-type")]
+    [CliOption("--provider-type")]
     public string? ProviderType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--host-arn")]
+    [CliOption("--host-arn")]
     public string? HostArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

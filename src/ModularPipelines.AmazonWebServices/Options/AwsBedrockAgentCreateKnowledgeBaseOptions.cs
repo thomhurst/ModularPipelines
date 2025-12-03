@@ -5,23 +5,23 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bedrock-agent", "create-knowledge-base")]
+[CliCommand("bedrock-agent", "create-knowledge-base")]
 public record AwsBedrockAgentCreateKnowledgeBaseOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--knowledge-base-configuration")] string KnowledgeBaseConfiguration,
-[property: CommandSwitch("--storage-configuration")] string StorageConfiguration
+[property: CliOption("--name")] string Name,
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--knowledge-base-configuration")] string KnowledgeBaseConfiguration,
+[property: CliOption("--storage-configuration")] string StorageConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

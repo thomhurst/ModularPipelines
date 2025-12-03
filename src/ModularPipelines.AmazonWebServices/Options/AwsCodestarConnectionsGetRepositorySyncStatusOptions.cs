@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codestar-connections", "get-repository-sync-status")]
+[CliCommand("codestar-connections", "get-repository-sync-status")]
 public record AwsCodestarConnectionsGetRepositorySyncStatusOptions(
-[property: CommandSwitch("--branch")] string Branch,
-[property: CommandSwitch("--repository-link-id")] string RepositoryLinkId,
-[property: CommandSwitch("--sync-type")] string SyncType
+[property: CliOption("--branch")] string Branch,
+[property: CliOption("--repository-link-id")] string RepositoryLinkId,
+[property: CliOption("--sync-type")] string SyncType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

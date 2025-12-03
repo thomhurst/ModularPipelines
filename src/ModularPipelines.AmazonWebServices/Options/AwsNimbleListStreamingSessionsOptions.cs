@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("nimble", "list-streaming-sessions")]
+[CliCommand("nimble", "list-streaming-sessions")]
 public record AwsNimbleListStreamingSessionsOptions(
-[property: CommandSwitch("--studio-id")] string StudioId
+[property: CliOption("--studio-id")] string StudioId
 ) : AwsOptions
 {
-    [CommandSwitch("--created-by")]
+    [CliOption("--created-by")]
     public string? CreatedBy { get; set; }
 
-    [CommandSwitch("--owned-by")]
+    [CliOption("--owned-by")]
     public string? OwnedBy { get; set; }
 
-    [CommandSwitch("--session-ids")]
+    [CliOption("--session-ids")]
     public string? SessionIds { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

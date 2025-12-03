@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "get")]
+[CliCommand("emr", "get")]
 public record AwsEmrGetOptions(
-[property: CommandSwitch("--cluster-id")] string ClusterId,
-[property: CommandSwitch("--key-pair-file")] string KeyPairFile,
-[property: CommandSwitch("--src")] string Src
+[property: CliOption("--cluster-id")] string ClusterId,
+[property: CliOption("--key-pair-file")] string KeyPairFile,
+[property: CliOption("--src")] string Src
 ) : AwsOptions
 {
-    [CommandSwitch("--dest")]
+    [CliOption("--dest")]
     public string? Dest { get; set; }
 }

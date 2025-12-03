@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "delete-use-case")]
+[CliCommand("connect", "delete-use-case")]
 public record AwsConnectDeleteUseCaseOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--integration-association-id")] string IntegrationAssociationId,
-[property: CommandSwitch("--use-case-id")] string UseCaseId
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--integration-association-id")] string IntegrationAssociationId,
+[property: CliOption("--use-case-id")] string UseCaseId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

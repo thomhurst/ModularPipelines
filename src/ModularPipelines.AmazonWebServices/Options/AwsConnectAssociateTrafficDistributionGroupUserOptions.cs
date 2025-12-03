@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "associate-traffic-distribution-group-user")]
+[CliCommand("connect", "associate-traffic-distribution-group-user")]
 public record AwsConnectAssociateTrafficDistributionGroupUserOptions(
-[property: CommandSwitch("--traffic-distribution-group-id")] string TrafficDistributionGroupId,
-[property: CommandSwitch("--user-id")] string UserId,
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliOption("--traffic-distribution-group-id")] string TrafficDistributionGroupId,
+[property: CliOption("--user-id")] string UserId,
+[property: CliOption("--instance-id")] string InstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

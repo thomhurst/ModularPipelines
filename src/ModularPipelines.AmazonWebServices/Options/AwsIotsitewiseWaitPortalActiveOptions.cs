@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise", "wait", "portal-active")]
+[CliCommand("iotsitewise", "wait", "portal-active")]
 public record AwsIotsitewiseWaitPortalActiveOptions(
-[property: CommandSwitch("--portal-id")] string PortalId
+[property: CliOption("--portal-id")] string PortalId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

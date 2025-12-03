@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime", "create-phone-number-order")]
+[CliCommand("chime", "create-phone-number-order")]
 public record AwsChimeCreatePhoneNumberOrderOptions(
-[property: CommandSwitch("--product-type")] string ProductType,
-[property: CommandSwitch("--e164-phone-numbers")] string[] E164PhoneNumbers
+[property: CliOption("--product-type")] string ProductType,
+[property: CliOption("--e164-phone-numbers")] string[] E164PhoneNumbers
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

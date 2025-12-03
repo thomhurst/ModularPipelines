@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("application-insights", "describe-observation")]
+[CliCommand("application-insights", "describe-observation")]
 public record AwsApplicationInsightsDescribeObservationOptions(
-[property: CommandSwitch("--observation-id")] string ObservationId
+[property: CliOption("--observation-id")] string ObservationId
 ) : AwsOptions
 {
-    [CommandSwitch("--account-id")]
+    [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

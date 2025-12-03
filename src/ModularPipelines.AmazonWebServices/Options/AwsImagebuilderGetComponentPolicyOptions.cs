@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("imagebuilder", "get-component-policy")]
+[CliCommand("imagebuilder", "get-component-policy")]
 public record AwsImagebuilderGetComponentPolicyOptions(
-[property: CommandSwitch("--component-arn")] string ComponentArn
+[property: CliOption("--component-arn")] string ComponentArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

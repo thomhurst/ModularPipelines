@@ -5,26 +5,26 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("customer-profiles", "create-calculated-attribute-definition")]
+[CliCommand("customer-profiles", "create-calculated-attribute-definition")]
 public record AwsCustomerProfilesCreateCalculatedAttributeDefinitionOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--calculated-attribute-name")] string CalculatedAttributeName,
-[property: CommandSwitch("--attribute-details")] string AttributeDetails,
-[property: CommandSwitch("--statistic")] string Statistic
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--calculated-attribute-name")] string CalculatedAttributeName,
+[property: CliOption("--attribute-details")] string AttributeDetails,
+[property: CliOption("--statistic")] string Statistic
 ) : AwsOptions
 {
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--conditions")]
+    [CliOption("--conditions")]
     public string? Conditions { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

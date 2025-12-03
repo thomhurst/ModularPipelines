@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fms", "batch-disassociate-resource")]
+[CliCommand("fms", "batch-disassociate-resource")]
 public record AwsFmsBatchDisassociateResourceOptions(
-[property: CommandSwitch("--resource-set-identifier")] string ResourceSetIdentifier,
-[property: CommandSwitch("--items")] string[] Items
+[property: CliOption("--resource-set-identifier")] string ResourceSetIdentifier,
+[property: CliOption("--items")] string[] Items
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

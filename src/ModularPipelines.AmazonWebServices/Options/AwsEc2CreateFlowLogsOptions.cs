@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-flow-logs")]
+[CliCommand("ec2", "create-flow-logs")]
 public record AwsEc2CreateFlowLogsOptions(
-[property: CommandSwitch("--resource-ids")] string[] ResourceIds,
-[property: CommandSwitch("--resource-type")] string ResourceType
+[property: CliOption("--resource-ids")] string[] ResourceIds,
+[property: CliOption("--resource-type")] string ResourceType
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--deliver-logs-permission-arn")]
+    [CliOption("--deliver-logs-permission-arn")]
     public string? DeliverLogsPermissionArn { get; set; }
 
-    [CommandSwitch("--deliver-cross-account-role")]
+    [CliOption("--deliver-cross-account-role")]
     public string? DeliverCrossAccountRole { get; set; }
 
-    [CommandSwitch("--log-group-name")]
+    [CliOption("--log-group-name")]
     public string? LogGroupName { get; set; }
 
-    [CommandSwitch("--traffic-type")]
+    [CliOption("--traffic-type")]
     public string? TrafficType { get; set; }
 
-    [CommandSwitch("--log-destination-type")]
+    [CliOption("--log-destination-type")]
     public string? LogDestinationType { get; set; }
 
-    [CommandSwitch("--log-destination")]
+    [CliOption("--log-destination")]
     public string? LogDestination { get; set; }
 
-    [CommandSwitch("--log-format")]
+    [CliOption("--log-format")]
     public string? LogFormat { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--max-aggregation-interval")]
+    [CliOption("--max-aggregation-interval")]
     public int? MaxAggregationInterval { get; set; }
 
-    [CommandSwitch("--destination-options")]
+    [CliOption("--destination-options")]
     public string? DestinationOptions { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

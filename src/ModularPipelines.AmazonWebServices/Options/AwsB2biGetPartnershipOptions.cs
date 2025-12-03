@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("b2bi", "get-partnership")]
+[CliCommand("b2bi", "get-partnership")]
 public record AwsB2biGetPartnershipOptions(
-[property: CommandSwitch("--partnership-id")] string PartnershipId
+[property: CliOption("--partnership-id")] string PartnershipId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

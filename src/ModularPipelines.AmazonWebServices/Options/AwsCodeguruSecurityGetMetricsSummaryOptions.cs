@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeguru-security", "get-metrics-summary")]
+[CliCommand("codeguru-security", "get-metrics-summary")]
 public record AwsCodeguruSecurityGetMetricsSummaryOptions(
-[property: CommandSwitch("--date")] long Date
+[property: CliOption("--date")] long Date
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

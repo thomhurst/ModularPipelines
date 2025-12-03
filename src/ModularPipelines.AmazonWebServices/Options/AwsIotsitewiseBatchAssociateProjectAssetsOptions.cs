@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotsitewise", "batch-associate-project-assets")]
+[CliCommand("iotsitewise", "batch-associate-project-assets")]
 public record AwsIotsitewiseBatchAssociateProjectAssetsOptions(
-[property: CommandSwitch("--project-id")] string ProjectId,
-[property: CommandSwitch("--asset-ids")] string[] AssetIds
+[property: CliOption("--project-id")] string ProjectId,
+[property: CliOption("--asset-ids")] string[] AssetIds
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

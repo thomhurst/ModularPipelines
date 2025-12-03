@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "update-group")]
+[CliCommand("iam", "update-group")]
 public record AwsIamUpdateGroupOptions(
-[property: CommandSwitch("--group-name")] string GroupName
+[property: CliOption("--group-name")] string GroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--new-path")]
+    [CliOption("--new-path")]
     public string? NewPath { get; set; }
 
-    [CommandSwitch("--new-group-name")]
+    [CliOption("--new-group-name")]
     public string? NewGroupName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

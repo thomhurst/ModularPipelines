@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codestar", "associate-team-member")]
+[CliCommand("codestar", "associate-team-member")]
 public record AwsCodestarAssociateTeamMemberOptions(
-[property: CommandSwitch("--project-id")] string ProjectId,
-[property: CommandSwitch("--user-arn")] string UserArn,
-[property: CommandSwitch("--project-role")] string ProjectRole
+[property: CliOption("--project-id")] string ProjectId,
+[property: CliOption("--user-arn")] string UserArn,
+[property: CliOption("--project-role")] string ProjectRole
 ) : AwsOptions
 {
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

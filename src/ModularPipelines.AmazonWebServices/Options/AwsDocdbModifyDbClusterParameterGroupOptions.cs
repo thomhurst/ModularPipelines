@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("docdb", "modify-db-cluster-parameter-group")]
+[CliCommand("docdb", "modify-db-cluster-parameter-group")]
 public record AwsDocdbModifyDbClusterParameterGroupOptions(
-[property: CommandSwitch("--db-cluster-parameter-group-name")] string DbClusterParameterGroupName,
-[property: CommandSwitch("--parameters")] string[] Parameters
+[property: CliOption("--db-cluster-parameter-group-name")] string DbClusterParameterGroupName,
+[property: CliOption("--parameters")] string[] Parameters
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

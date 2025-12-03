@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-identity", "delete-app-instance-user")]
+[CliCommand("chime-sdk-identity", "delete-app-instance-user")]
 public record AwsChimeSdkIdentityDeleteAppInstanceUserOptions(
-[property: CommandSwitch("--app-instance-user-arn")] string AppInstanceUserArn
+[property: CliOption("--app-instance-user-arn")] string AppInstanceUserArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

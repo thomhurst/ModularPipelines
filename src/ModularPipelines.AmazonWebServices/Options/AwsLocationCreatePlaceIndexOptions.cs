@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "create-place-index")]
+[CliCommand("location", "create-place-index")]
 public record AwsLocationCreatePlaceIndexOptions(
-[property: CommandSwitch("--data-source")] string DataSource,
-[property: CommandSwitch("--index-name")] string IndexName
+[property: CliOption("--data-source")] string DataSource,
+[property: CliOption("--index-name")] string IndexName
 ) : AwsOptions
 {
-    [CommandSwitch("--data-source-configuration")]
+    [CliOption("--data-source-configuration")]
     public string? DataSourceConfiguration { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--pricing-plan")]
+    [CliOption("--pricing-plan")]
     public string? PricingPlan { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "create-instances")]
+[CliCommand("lightsail", "create-instances")]
 public record AwsLightsailCreateInstancesOptions(
-[property: CommandSwitch("--instance-names")] string[] InstanceNames,
-[property: CommandSwitch("--availability-zone")] string AvailabilityZone,
-[property: CommandSwitch("--blueprint-id")] string BlueprintId,
-[property: CommandSwitch("--bundle-id")] string BundleId
+[property: CliOption("--instance-names")] string[] InstanceNames,
+[property: CliOption("--availability-zone")] string AvailabilityZone,
+[property: CliOption("--blueprint-id")] string BlueprintId,
+[property: CliOption("--bundle-id")] string BundleId
 ) : AwsOptions
 {
-    [CommandSwitch("--custom-image-name")]
+    [CliOption("--custom-image-name")]
     public string? CustomImageName { get; set; }
 
-    [CommandSwitch("--user-data")]
+    [CliOption("--user-data")]
     public string? UserData { get; set; }
 
-    [CommandSwitch("--key-pair-name")]
+    [CliOption("--key-pair-name")]
     public string? KeyPairName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--add-ons")]
+    [CliOption("--add-ons")]
     public string[]? AddOns { get; set; }
 
-    [CommandSwitch("--ip-address-type")]
+    [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

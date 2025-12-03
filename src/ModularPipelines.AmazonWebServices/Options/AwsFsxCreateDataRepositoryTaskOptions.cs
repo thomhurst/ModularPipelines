@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fsx", "create-data-repository-task")]
+[CliCommand("fsx", "create-data-repository-task")]
 public record AwsFsxCreateDataRepositoryTaskOptions(
-[property: CommandSwitch("--type")] string Type,
-[property: CommandSwitch("--file-system-id")] string FileSystemId,
-[property: CommandSwitch("--report")] string Report
+[property: CliOption("--type")] string Type,
+[property: CliOption("--file-system-id")] string FileSystemId,
+[property: CliOption("--report")] string Report
 ) : AwsOptions
 {
-    [CommandSwitch("--paths")]
+    [CliOption("--paths")]
     public string[]? Paths { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--capacity-to-release")]
+    [CliOption("--capacity-to-release")]
     public long? CapacityToRelease { get; set; }
 
-    [CommandSwitch("--release-configuration")]
+    [CliOption("--release-configuration")]
     public string? ReleaseConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

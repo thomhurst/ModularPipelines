@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ebs", "get-snapshot-block")]
+[CliCommand("ebs", "get-snapshot-block")]
 public record AwsEbsGetSnapshotBlockOptions(
-[property: CommandSwitch("--snapshot-id")] string SnapshotId,
-[property: CommandSwitch("--block-index")] int BlockIndex,
-[property: CommandSwitch("--block-token")] string BlockToken
+[property: CliOption("--snapshot-id")] string SnapshotId,
+[property: CliOption("--block-index")] int BlockIndex,
+[property: CliOption("--block-token")] string BlockToken
 ) : AwsOptions;

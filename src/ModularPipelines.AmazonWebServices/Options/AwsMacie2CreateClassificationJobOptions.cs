@@ -5,40 +5,40 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("macie2", "create-classification-job")]
+[CliCommand("macie2", "create-classification-job")]
 public record AwsMacie2CreateClassificationJobOptions(
-[property: CommandSwitch("--job-type")] string JobType,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--s3-job-definition")] string S3JobDefinition
+[property: CliOption("--job-type")] string JobType,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--s3-job-definition")] string S3JobDefinition
 ) : AwsOptions
 {
-    [CommandSwitch("--allow-list-ids")]
+    [CliOption("--allow-list-ids")]
     public string[]? AllowListIds { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--custom-data-identifier-ids")]
+    [CliOption("--custom-data-identifier-ids")]
     public string[]? CustomDataIdentifierIds { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--managed-data-identifier-ids")]
+    [CliOption("--managed-data-identifier-ids")]
     public string[]? ManagedDataIdentifierIds { get; set; }
 
-    [CommandSwitch("--managed-data-identifier-selector")]
+    [CliOption("--managed-data-identifier-selector")]
     public string? ManagedDataIdentifierSelector { get; set; }
 
-    [CommandSwitch("--sampling-percentage")]
+    [CliOption("--sampling-percentage")]
     public int? SamplingPercentage { get; set; }
 
-    [CommandSwitch("--schedule-frequency")]
+    [CliOption("--schedule-frequency")]
     public string? ScheduleFrequency { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

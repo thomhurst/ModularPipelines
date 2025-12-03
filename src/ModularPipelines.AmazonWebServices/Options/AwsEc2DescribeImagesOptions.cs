@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "describe-images")]
+[CliCommand("ec2", "describe-images")]
 public record AwsEc2DescribeImagesOptions : AwsOptions
 {
-    [CommandSwitch("--executable-users")]
+    [CliOption("--executable-users")]
     public string[]? ExecutableUsers { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--image-ids")]
+    [CliOption("--image-ids")]
     public string[]? ImageIds { get; set; }
 
-    [CommandSwitch("--owners")]
+    [CliOption("--owners")]
     public string[]? Owners { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

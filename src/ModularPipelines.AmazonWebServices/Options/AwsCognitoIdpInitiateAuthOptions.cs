@@ -5,24 +5,24 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "initiate-auth")]
+[CliCommand("cognito-idp", "initiate-auth")]
 public record AwsCognitoIdpInitiateAuthOptions(
-[property: CommandSwitch("--auth-flow")] string AuthFlow,
-[property: CommandSwitch("--client-id")] string ClientId
+[property: CliOption("--auth-flow")] string AuthFlow,
+[property: CliOption("--client-id")] string ClientId
 ) : AwsOptions
 {
-    [CommandSwitch("--auth-parameters")]
+    [CliOption("--auth-parameters")]
     public IEnumerable<KeyValue>? AuthParameters { get; set; }
 
-    [CommandSwitch("--client-metadata")]
+    [CliOption("--client-metadata")]
     public IEnumerable<KeyValue>? ClientMetadata { get; set; }
 
-    [CommandSwitch("--analytics-metadata")]
+    [CliOption("--analytics-metadata")]
     public string? AnalyticsMetadata { get; set; }
 
-    [CommandSwitch("--user-context-data")]
+    [CliOption("--user-context-data")]
     public string? UserContextData { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

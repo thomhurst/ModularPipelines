@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medialive", "list-reservations")]
+[CliCommand("medialive", "list-reservations")]
 public record AwsMedialiveListReservationsOptions : AwsOptions
 {
-    [CommandSwitch("--channel-class")]
+    [CliOption("--channel-class")]
     public string? ChannelClass { get; set; }
 
-    [CommandSwitch("--codec")]
+    [CliOption("--codec")]
     public string? Codec { get; set; }
 
-    [CommandSwitch("--maximum-bitrate")]
+    [CliOption("--maximum-bitrate")]
     public string? MaximumBitrate { get; set; }
 
-    [CommandSwitch("--maximum-framerate")]
+    [CliOption("--maximum-framerate")]
     public string? MaximumFramerate { get; set; }
 
-    [CommandSwitch("--resolution")]
+    [CliOption("--resolution")]
     public string? Resolution { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
-    [CommandSwitch("--special-feature")]
+    [CliOption("--special-feature")]
     public string? SpecialFeature { get; set; }
 
-    [CommandSwitch("--video-quality")]
+    [CliOption("--video-quality")]
     public string? VideoQuality { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

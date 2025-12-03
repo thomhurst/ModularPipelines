@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "untag-contact")]
+[CliCommand("connect", "untag-contact")]
 public record AwsConnectUntagContactOptions(
-[property: CommandSwitch("--contact-id")] string ContactId,
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--tag-keys")] string[] TagKeys
+[property: CliOption("--contact-id")] string ContactId,
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--tag-keys")] string[] TagKeys
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

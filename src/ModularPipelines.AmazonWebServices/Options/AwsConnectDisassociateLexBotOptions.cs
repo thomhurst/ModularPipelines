@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "disassociate-lex-bot")]
+[CliCommand("connect", "disassociate-lex-bot")]
 public record AwsConnectDisassociateLexBotOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--bot-name")] string BotName,
-[property: CommandSwitch("--lex-region")] string LexRegion
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--bot-name")] string BotName,
+[property: CliOption("--lex-region")] string LexRegion
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ce", "list-savings-plans-purchase-recommendation-generation")]
+[CliCommand("ce", "list-savings-plans-purchase-recommendation-generation")]
 public record AwsCeListSavingsPlansPurchaseRecommendationGenerationOptions : AwsOptions
 {
-    [CommandSwitch("--generation-status")]
+    [CliOption("--generation-status")]
     public string? GenerationStatus { get; set; }
 
-    [CommandSwitch("--recommendation-ids")]
+    [CliOption("--recommendation-ids")]
     public string[]? RecommendationIds { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--next-page-token")]
+    [CliOption("--next-page-token")]
     public string? NextPageToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

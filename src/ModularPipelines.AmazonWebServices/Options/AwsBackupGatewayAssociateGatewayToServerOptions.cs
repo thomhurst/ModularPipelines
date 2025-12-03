@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup-gateway", "associate-gateway-to-server")]
+[CliCommand("backup-gateway", "associate-gateway-to-server")]
 public record AwsBackupGatewayAssociateGatewayToServerOptions(
-[property: CommandSwitch("--gateway-arn")] string GatewayArn,
-[property: CommandSwitch("--server-arn")] string ServerArn
+[property: CliOption("--gateway-arn")] string GatewayArn,
+[property: CliOption("--server-arn")] string ServerArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

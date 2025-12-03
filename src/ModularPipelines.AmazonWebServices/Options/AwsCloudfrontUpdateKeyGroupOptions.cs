@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudfront", "update-key-group")]
+[CliCommand("cloudfront", "update-key-group")]
 public record AwsCloudfrontUpdateKeyGroupOptions(
-[property: CommandSwitch("--key-group-config")] string KeyGroupConfig,
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--key-group-config")] string KeyGroupConfig,
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--if-match")]
+    [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

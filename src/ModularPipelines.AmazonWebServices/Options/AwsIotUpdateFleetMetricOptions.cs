@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "update-fleet-metric")]
+[CliCommand("iot", "update-fleet-metric")]
 public record AwsIotUpdateFleetMetricOptions(
-[property: CommandSwitch("--metric-name")] string MetricName,
-[property: CommandSwitch("--index-name")] string IndexName
+[property: CliOption("--metric-name")] string MetricName,
+[property: CliOption("--index-name")] string IndexName
 ) : AwsOptions
 {
-    [CommandSwitch("--query-string")]
+    [CliOption("--query-string")]
     public string? QueryString { get; set; }
 
-    [CommandSwitch("--aggregation-type")]
+    [CliOption("--aggregation-type")]
     public string? AggregationType { get; set; }
 
-    [CommandSwitch("--period")]
+    [CliOption("--period")]
     public int? Period { get; set; }
 
-    [CommandSwitch("--aggregation-field")]
+    [CliOption("--aggregation-field")]
     public string? AggregationField { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--query-version")]
+    [CliOption("--query-version")]
     public string? QueryVersion { get; set; }
 
-    [CommandSwitch("--unit")]
+    [CliOption("--unit")]
     public string? Unit { get; set; }
 
-    [CommandSwitch("--expected-version")]
+    [CliOption("--expected-version")]
     public long? ExpectedVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

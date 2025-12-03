@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kendra", "list-data-source-sync-jobs")]
+[CliCommand("kendra", "list-data-source-sync-jobs")]
 public record AwsKendraListDataSourceSyncJobsOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--index-id")] string IndexId
+[property: CliOption("--id")] string Id,
+[property: CliOption("--index-id")] string IndexId
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--start-time-filter")]
+    [CliOption("--start-time-filter")]
     public string? StartTimeFilter { get; set; }
 
-    [CommandSwitch("--status-filter")]
+    [CliOption("--status-filter")]
     public string? StatusFilter { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

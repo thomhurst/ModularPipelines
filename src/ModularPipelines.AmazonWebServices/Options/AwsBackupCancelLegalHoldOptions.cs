@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "cancel-legal-hold")]
+[CliCommand("backup", "cancel-legal-hold")]
 public record AwsBackupCancelLegalHoldOptions(
-[property: CommandSwitch("--legal-hold-id")] string LegalHoldId,
-[property: CommandSwitch("--cancel-description")] string CancelDescription
+[property: CliOption("--legal-hold-id")] string LegalHoldId,
+[property: CliOption("--cancel-description")] string CancelDescription
 ) : AwsOptions
 {
-    [CommandSwitch("--retain-record-in-days")]
+    [CliOption("--retain-record-in-days")]
     public long? RetainRecordInDays { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

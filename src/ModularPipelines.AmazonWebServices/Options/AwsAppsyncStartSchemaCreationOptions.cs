@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appsync", "start-schema-creation")]
+[CliCommand("appsync", "start-schema-creation")]
 public record AwsAppsyncStartSchemaCreationOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--definition")] string Definition
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--definition")] string Definition
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

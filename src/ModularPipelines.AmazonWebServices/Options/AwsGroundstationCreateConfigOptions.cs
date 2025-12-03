@@ -5,15 +5,15 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("groundstation", "create-config")]
+[CliCommand("groundstation", "create-config")]
 public record AwsGroundstationCreateConfigOptions(
-[property: CommandSwitch("--config-data")] string ConfigData,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--config-data")] string ConfigData,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

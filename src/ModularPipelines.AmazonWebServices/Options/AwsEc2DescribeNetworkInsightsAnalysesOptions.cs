@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "describe-network-insights-analyses")]
+[CliCommand("ec2", "describe-network-insights-analyses")]
 public record AwsEc2DescribeNetworkInsightsAnalysesOptions : AwsOptions
 {
-    [CommandSwitch("--network-insights-analysis-ids")]
+    [CliOption("--network-insights-analysis-ids")]
     public string[]? NetworkInsightsAnalysisIds { get; set; }
 
-    [CommandSwitch("--network-insights-path-id")]
+    [CliOption("--network-insights-path-id")]
     public string? NetworkInsightsPathId { get; set; }
 
-    [CommandSwitch("--analysis-start-time")]
+    [CliOption("--analysis-start-time")]
     public long? AnalysisStartTime { get; set; }
 
-    [CommandSwitch("--analysis-end-time")]
+    [CliOption("--analysis-end-time")]
     public long? AnalysisEndTime { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

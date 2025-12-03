@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("migrationhub-config", "describe-home-region-controls")]
+[CliCommand("migrationhub-config", "describe-home-region-controls")]
 public record AwsMigrationhubConfigDescribeHomeRegionControlsOptions : AwsOptions
 {
-    [CommandSwitch("--control-id")]
+    [CliOption("--control-id")]
     public string? ControlId { get; set; }
 
-    [CommandSwitch("--home-region")]
+    [CliOption("--home-region")]
     public string? HomeRegion { get; set; }
 
-    [CommandSwitch("--target")]
+    [CliOption("--target")]
     public string? Target { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

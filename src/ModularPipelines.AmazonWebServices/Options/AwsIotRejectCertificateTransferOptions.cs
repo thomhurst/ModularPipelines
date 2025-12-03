@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "reject-certificate-transfer")]
+[CliCommand("iot", "reject-certificate-transfer")]
 public record AwsIotRejectCertificateTransferOptions(
-[property: CommandSwitch("--certificate-id")] string CertificateId
+[property: CliOption("--certificate-id")] string CertificateId
 ) : AwsOptions
 {
-    [CommandSwitch("--reject-reason")]
+    [CliOption("--reject-reason")]
     public string? RejectReason { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediastore", "tag-resource")]
+[CliCommand("mediastore", "tag-resource")]
 public record AwsMediastoreTagResourceOptions(
-[property: CommandSwitch("--resource")] string Resource,
-[property: CommandSwitch("--tags")] string[] Tags
+[property: CliOption("--resource")] string Resource,
+[property: CliOption("--tags")] string[] Tags
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

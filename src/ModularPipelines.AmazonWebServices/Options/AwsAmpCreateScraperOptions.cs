@@ -5,22 +5,22 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amp", "create-scraper")]
+[CliCommand("amp", "create-scraper")]
 public record AwsAmpCreateScraperOptions(
-[property: CommandSwitch("--scrape-configuration")] string ScrapeConfiguration,
-[property: CommandSwitch("--source")] string Source,
-[property: CommandSwitch("--destination")] string Destination
+[property: CliOption("--scrape-configuration")] string ScrapeConfiguration,
+[property: CliOption("--source")] string Source,
+[property: CliOption("--destination")] string Destination
 ) : AwsOptions
 {
-    [CommandSwitch("--alias")]
+    [CliOption("--alias")]
     public string? Alias { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

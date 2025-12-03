@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "get-provisioned-concurrency-config")]
+[CliCommand("lambda", "get-provisioned-concurrency-config")]
 public record AwsLambdaGetProvisionedConcurrencyConfigOptions(
-[property: CommandSwitch("--function-name")] string FunctionName,
-[property: CommandSwitch("--qualifier")] string Qualifier
+[property: CliOption("--function-name")] string FunctionName,
+[property: CliOption("--qualifier")] string Qualifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

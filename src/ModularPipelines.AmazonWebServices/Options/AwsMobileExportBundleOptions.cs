@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mobile", "export-bundle")]
+[CliCommand("mobile", "export-bundle")]
 public record AwsMobileExportBundleOptions(
-[property: CommandSwitch("--bundle-id")] string BundleId
+[property: CliOption("--bundle-id")] string BundleId
 ) : AwsOptions
 {
-    [CommandSwitch("--project-id")]
+    [CliOption("--project-id")]
     public string? ProjectId { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public string? Platform { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

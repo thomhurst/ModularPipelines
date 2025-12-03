@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "delete-integration-association")]
+[CliCommand("connect", "delete-integration-association")]
 public record AwsConnectDeleteIntegrationAssociationOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--integration-association-id")] string IntegrationAssociationId
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--integration-association-id")] string IntegrationAssociationId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

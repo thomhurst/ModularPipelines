@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime", "invite-users")]
+[CliCommand("chime", "invite-users")]
 public record AwsChimeInviteUsersOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--user-email-list")] string[] UserEmailList
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--user-email-list")] string[] UserEmailList
 ) : AwsOptions
 {
-    [CommandSwitch("--user-type")]
+    [CliOption("--user-type")]
     public string? UserType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

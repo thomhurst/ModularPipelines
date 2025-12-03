@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "detach-from-index")]
+[CliCommand("clouddirectory", "detach-from-index")]
 public record AwsClouddirectoryDetachFromIndexOptions(
-[property: CommandSwitch("--directory-arn")] string DirectoryArn,
-[property: CommandSwitch("--index-reference")] string IndexReference,
-[property: CommandSwitch("--target-reference")] string TargetReference
+[property: CliOption("--directory-arn")] string DirectoryArn,
+[property: CliOption("--index-reference")] string IndexReference,
+[property: CliOption("--target-reference")] string TargetReference
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

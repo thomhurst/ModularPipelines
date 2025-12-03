@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acm", "export-certificate")]
+[CliCommand("acm", "export-certificate")]
 public record AwsAcmExportCertificateOptions(
-[property: CommandSwitch("--certificate-arn")] string CertificateArn,
-[property: CommandSwitch("--passphrase")] string Passphrase
+[property: CliOption("--certificate-arn")] string CertificateArn,
+[property: CliOption("--passphrase")] string Passphrase
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

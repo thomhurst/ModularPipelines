@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auditmanager", "create-assessment-framework")]
+[CliCommand("auditmanager", "create-assessment-framework")]
 public record AwsAuditmanagerCreateAssessmentFrameworkOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--control-sets")] string[] ControlSets
+[property: CliOption("--name")] string Name,
+[property: CliOption("--control-sets")] string[] ControlSets
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--compliance-type")]
+    [CliOption("--compliance-type")]
     public string? ComplianceType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

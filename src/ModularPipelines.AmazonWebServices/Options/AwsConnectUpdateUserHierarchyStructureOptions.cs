@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "update-user-hierarchy-structure")]
+[CliCommand("connect", "update-user-hierarchy-structure")]
 public record AwsConnectUpdateUserHierarchyStructureOptions(
-[property: CommandSwitch("--hierarchy-structure")] string HierarchyStructure,
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliOption("--hierarchy-structure")] string HierarchyStructure,
+[property: CliOption("--instance-id")] string InstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

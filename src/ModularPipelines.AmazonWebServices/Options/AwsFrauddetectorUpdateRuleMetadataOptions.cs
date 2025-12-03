@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("frauddetector", "update-rule-metadata")]
+[CliCommand("frauddetector", "update-rule-metadata")]
 public record AwsFrauddetectorUpdateRuleMetadataOptions(
-[property: CommandSwitch("--rule")] string Rule,
-[property: CommandSwitch("--description")] string Description
+[property: CliOption("--rule")] string Rule,
+[property: CliOption("--description")] string Description
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

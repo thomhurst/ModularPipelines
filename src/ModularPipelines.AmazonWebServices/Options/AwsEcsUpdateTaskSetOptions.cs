@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "update-task-set")]
+[CliCommand("ecs", "update-task-set")]
 public record AwsEcsUpdateTaskSetOptions(
-[property: CommandSwitch("--cluster")] string Cluster,
-[property: CommandSwitch("--service")] string Service,
-[property: CommandSwitch("--task-set")] string TaskSet,
-[property: CommandSwitch("--scale")] string Scale
+[property: CliOption("--cluster")] string Cluster,
+[property: CliOption("--service")] string Service,
+[property: CliOption("--task-set")] string TaskSet,
+[property: CliOption("--scale")] string Scale
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

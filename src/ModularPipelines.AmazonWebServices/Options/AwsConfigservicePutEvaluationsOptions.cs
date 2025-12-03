@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "put-evaluations")]
+[CliCommand("configservice", "put-evaluations")]
 public record AwsConfigservicePutEvaluationsOptions(
-[property: CommandSwitch("--result-token")] string ResultToken
+[property: CliOption("--result-token")] string ResultToken
 ) : AwsOptions
 {
-    [CommandSwitch("--evaluations")]
+    [CliOption("--evaluations")]
     public string[]? Evaluations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

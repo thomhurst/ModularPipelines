@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotwireless", "get-resource-event-configuration")]
+[CliCommand("iotwireless", "get-resource-event-configuration")]
 public record AwsIotwirelessGetResourceEventConfigurationOptions(
-[property: CommandSwitch("--identifier")] string Identifier,
-[property: CommandSwitch("--identifier-type")] string IdentifierType
+[property: CliOption("--identifier")] string Identifier,
+[property: CliOption("--identifier-type")] string IdentifierType
 ) : AwsOptions
 {
-    [CommandSwitch("--partner-type")]
+    [CliOption("--partner-type")]
     public string? PartnerType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

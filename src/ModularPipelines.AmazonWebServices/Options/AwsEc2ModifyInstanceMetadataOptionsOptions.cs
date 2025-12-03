@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-instance-metadata-options")]
+[CliCommand("ec2", "modify-instance-metadata-options")]
 public record AwsEc2ModifyInstanceMetadataOptionsOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliOption("--instance-id")] string InstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--http-tokens")]
+    [CliOption("--http-tokens")]
     public string? HttpTokens { get; set; }
 
-    [CommandSwitch("--http-put-response-hop-limit")]
+    [CliOption("--http-put-response-hop-limit")]
     public int? HttpPutResponseHopLimit { get; set; }
 
-    [CommandSwitch("--http-endpoint")]
+    [CliOption("--http-endpoint")]
     public string? HttpEndpoint { get; set; }
 
-    [CommandSwitch("--http-protocol-ipv6")]
+    [CliOption("--http-protocol-ipv6")]
     public string? HttpProtocolIpv6 { get; set; }
 
-    [CommandSwitch("--instance-metadata-tags")]
+    [CliOption("--instance-metadata-tags")]
     public string? InstanceMetadataTags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

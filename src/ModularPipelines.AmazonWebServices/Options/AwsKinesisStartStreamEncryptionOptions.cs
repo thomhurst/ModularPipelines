@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesis", "start-stream-encryption")]
+[CliCommand("kinesis", "start-stream-encryption")]
 public record AwsKinesisStartStreamEncryptionOptions(
-[property: CommandSwitch("--encryption-type")] string EncryptionType,
-[property: CommandSwitch("--key-id")] string KeyId
+[property: CliOption("--encryption-type")] string EncryptionType,
+[property: CliOption("--key-id")] string KeyId
 ) : AwsOptions
 {
-    [CommandSwitch("--stream-name")]
+    [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
-    [CommandSwitch("--stream-arn")]
+    [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("directconnect", "describe-connections")]
+[CliCommand("directconnect", "describe-connections")]
 public record AwsDirectconnectDescribeConnectionsOptions : AwsOptions
 {
-    [CommandSwitch("--connection-id")]
+    [CliOption("--connection-id")]
     public string? ConnectionId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

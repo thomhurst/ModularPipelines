@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudtrail", "stop-import")]
+[CliCommand("cloudtrail", "stop-import")]
 public record AwsCloudtrailStopImportOptions(
-[property: CommandSwitch("--import-id")] string ImportId
+[property: CliOption("--import-id")] string ImportId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

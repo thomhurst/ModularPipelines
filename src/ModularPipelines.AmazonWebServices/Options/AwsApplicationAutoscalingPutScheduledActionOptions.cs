@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("application-autoscaling", "put-scheduled-action")]
+[CliCommand("application-autoscaling", "put-scheduled-action")]
 public record AwsApplicationAutoscalingPutScheduledActionOptions(
-[property: CommandSwitch("--service-namespace")] string ServiceNamespace,
-[property: CommandSwitch("--scheduled-action-name")] string ScheduledActionName,
-[property: CommandSwitch("--resource-id")] string ResourceId,
-[property: CommandSwitch("--scalable-dimension")] string ScalableDimension
+[property: CliOption("--service-namespace")] string ServiceNamespace,
+[property: CliOption("--scheduled-action-name")] string ScheduledActionName,
+[property: CliOption("--resource-id")] string ResourceId,
+[property: CliOption("--scalable-dimension")] string ScalableDimension
 ) : AwsOptions
 {
-    [CommandSwitch("--schedule")]
+    [CliOption("--schedule")]
     public string? Schedule { get; set; }
 
-    [CommandSwitch("--timezone")]
+    [CliOption("--timezone")]
     public string? Timezone { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public long? EndTime { get; set; }
 
-    [CommandSwitch("--scalable-target-action")]
+    [CliOption("--scalable-target-action")]
     public string? ScalableTargetAction { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

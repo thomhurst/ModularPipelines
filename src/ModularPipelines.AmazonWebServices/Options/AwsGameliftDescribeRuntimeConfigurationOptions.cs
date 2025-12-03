@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "describe-runtime-configuration")]
+[CliCommand("gamelift", "describe-runtime-configuration")]
 public record AwsGameliftDescribeRuntimeConfigurationOptions(
-[property: CommandSwitch("--fleet-id")] string FleetId
+[property: CliOption("--fleet-id")] string FleetId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

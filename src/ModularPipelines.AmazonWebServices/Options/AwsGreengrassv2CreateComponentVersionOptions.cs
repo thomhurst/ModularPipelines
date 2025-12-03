@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("greengrassv2", "create-component-version")]
+[CliCommand("greengrassv2", "create-component-version")]
 public record AwsGreengrassv2CreateComponentVersionOptions : AwsOptions
 {
-    [CommandSwitch("--inline-recipe")]
+    [CliOption("--inline-recipe")]
     public string? InlineRecipe { get; set; }
 
-    [CommandSwitch("--lambda-function")]
+    [CliOption("--lambda-function")]
     public string? LambdaFunction { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

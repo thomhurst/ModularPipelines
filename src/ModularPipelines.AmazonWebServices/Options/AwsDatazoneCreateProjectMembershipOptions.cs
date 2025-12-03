@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "create-project-membership")]
+[CliCommand("datazone", "create-project-membership")]
 public record AwsDatazoneCreateProjectMembershipOptions(
-[property: CommandSwitch("--designation")] string Designation,
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier,
-[property: CommandSwitch("--member")] string Member,
-[property: CommandSwitch("--project-identifier")] string ProjectIdentifier
+[property: CliOption("--designation")] string Designation,
+[property: CliOption("--domain-identifier")] string DomainIdentifier,
+[property: CliOption("--member")] string Member,
+[property: CliOption("--project-identifier")] string ProjectIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

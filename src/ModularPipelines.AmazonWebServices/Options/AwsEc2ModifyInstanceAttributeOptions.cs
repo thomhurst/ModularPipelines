@@ -4,41 +4,41 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-instance-attribute")]
+[CliCommand("ec2", "modify-instance-attribute")]
 public record AwsEc2ModifyInstanceAttributeOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId
+[property: CliOption("--instance-id")] string InstanceId
 ) : AwsOptions
 {
-    [CommandSwitch("--attribute")]
+    [CliOption("--attribute")]
     public string? Attribute { get; set; }
 
-    [CommandSwitch("--block-device-mappings")]
+    [CliOption("--block-device-mappings")]
     public string[]? BlockDeviceMappings { get; set; }
 
-    [CommandSwitch("--groups")]
+    [CliOption("--groups")]
     public string[]? Groups { get; set; }
 
-    [CommandSwitch("--instance-initiated-shutdown-behavior")]
+    [CliOption("--instance-initiated-shutdown-behavior")]
     public string? InstanceInitiatedShutdownBehavior { get; set; }
 
-    [CommandSwitch("--instance-type")]
+    [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 
-    [CommandSwitch("--kernel")]
+    [CliOption("--kernel")]
     public string? Kernel { get; set; }
 
-    [CommandSwitch("--ramdisk")]
+    [CliOption("--ramdisk")]
     public string? Ramdisk { get; set; }
 
-    [CommandSwitch("--sriov-net-support")]
+    [CliOption("--sriov-net-support")]
     public string? SriovNetSupport { get; set; }
 
-    [CommandSwitch("--user-data")]
+    [CliOption("--user-data")]
     public string? UserData { get; set; }
 
-    [CommandSwitch("--value")]
+    [CliOption("--value")]
     public string? Value { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,26 +5,26 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kms", "decrypt")]
+[CliCommand("kms", "decrypt")]
 public record AwsKmsDecryptOptions(
-[property: CommandSwitch("--ciphertext-blob")] string CiphertextBlob
+[property: CliOption("--ciphertext-blob")] string CiphertextBlob
 ) : AwsOptions
 {
-    [CommandSwitch("--encryption-context")]
+    [CliOption("--encryption-context")]
     public IEnumerable<KeyValue>? EncryptionContext { get; set; }
 
-    [CommandSwitch("--grant-tokens")]
+    [CliOption("--grant-tokens")]
     public string[]? GrantTokens { get; set; }
 
-    [CommandSwitch("--key-id")]
+    [CliOption("--key-id")]
     public string? KeyId { get; set; }
 
-    [CommandSwitch("--encryption-algorithm")]
+    [CliOption("--encryption-algorithm")]
     public string? EncryptionAlgorithm { get; set; }
 
-    [CommandSwitch("--recipient")]
+    [CliOption("--recipient")]
     public string? Recipient { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudsearch", "describe-domains")]
+[CliCommand("cloudsearch", "describe-domains")]
 public record AwsCloudsearchDescribeDomainsOptions : AwsOptions
 {
-    [CommandSwitch("--domain-names")]
+    [CliOption("--domain-names")]
     public string[]? DomainNames { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

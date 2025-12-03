@@ -4,51 +4,51 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "describe-reserved-instances-offerings")]
+[CliCommand("ec2", "describe-reserved-instances-offerings")]
 public record AwsEc2DescribeReservedInstancesOfferingsOptions : AwsOptions
 {
-    [CommandSwitch("--availability-zone")]
+    [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; set; }
 
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--instance-type")]
+    [CliOption("--instance-type")]
     public string? InstanceType { get; set; }
 
-    [CommandSwitch("--max-duration")]
+    [CliOption("--max-duration")]
     public long? MaxDuration { get; set; }
 
-    [CommandSwitch("--max-instance-count")]
+    [CliOption("--max-instance-count")]
     public int? MaxInstanceCount { get; set; }
 
-    [CommandSwitch("--min-duration")]
+    [CliOption("--min-duration")]
     public long? MinDuration { get; set; }
 
-    [CommandSwitch("--offering-class")]
+    [CliOption("--offering-class")]
     public string? OfferingClass { get; set; }
 
-    [CommandSwitch("--product-description")]
+    [CliOption("--product-description")]
     public string? ProductDescription { get; set; }
 
-    [CommandSwitch("--reserved-instances-offering-ids")]
+    [CliOption("--reserved-instances-offering-ids")]
     public string[]? ReservedInstancesOfferingIds { get; set; }
 
-    [CommandSwitch("--instance-tenancy")]
+    [CliOption("--instance-tenancy")]
     public string? InstanceTenancy { get; set; }
 
-    [CommandSwitch("--offering-type")]
+    [CliOption("--offering-type")]
     public string? OfferingType { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

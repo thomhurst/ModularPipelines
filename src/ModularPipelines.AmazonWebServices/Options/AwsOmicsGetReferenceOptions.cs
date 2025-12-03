@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("omics", "get-reference")]
+[CliCommand("omics", "get-reference")]
 public record AwsOmicsGetReferenceOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--reference-store-id")] string ReferenceStoreId,
-[property: CommandSwitch("--part-number")] int PartNumber
+[property: CliOption("--id")] string Id,
+[property: CliOption("--reference-store-id")] string ReferenceStoreId,
+[property: CliOption("--part-number")] int PartNumber
 ) : AwsOptions
 {
-    [CommandSwitch("--range")]
+    [CliOption("--range")]
     public string? Range { get; set; }
 
-    [CommandSwitch("--file")]
+    [CliOption("--file")]
     public string? File { get; set; }
 }

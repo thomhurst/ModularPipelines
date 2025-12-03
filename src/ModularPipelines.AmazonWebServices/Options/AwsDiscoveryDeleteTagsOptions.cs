@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("discovery", "delete-tags")]
+[CliCommand("discovery", "delete-tags")]
 public record AwsDiscoveryDeleteTagsOptions(
-[property: CommandSwitch("--configuration-ids")] string[] ConfigurationIds
+[property: CliOption("--configuration-ids")] string[] ConfigurationIds
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

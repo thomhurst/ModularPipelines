@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datazone", "create-environment")]
+[CliCommand("datazone", "create-environment")]
 public record AwsDatazoneCreateEnvironmentOptions(
-[property: CommandSwitch("--domain-identifier")] string DomainIdentifier,
-[property: CommandSwitch("--environment-profile-identifier")] string EnvironmentProfileIdentifier,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--project-identifier")] string ProjectIdentifier
+[property: CliOption("--domain-identifier")] string DomainIdentifier,
+[property: CliOption("--environment-profile-identifier")] string EnvironmentProfileIdentifier,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--project-identifier")] string ProjectIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--glossary-terms")]
+    [CliOption("--glossary-terms")]
     public string[]? GlossaryTerms { get; set; }
 
-    [CommandSwitch("--user-parameters")]
+    [CliOption("--user-parameters")]
     public string[]? UserParameters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

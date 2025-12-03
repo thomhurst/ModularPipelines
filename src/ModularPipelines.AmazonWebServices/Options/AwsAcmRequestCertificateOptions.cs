@@ -4,35 +4,35 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("acm", "request-certificate")]
+[CliCommand("acm", "request-certificate")]
 public record AwsAcmRequestCertificateOptions(
-[property: CommandSwitch("--domain-name")] string DomainName
+[property: CliOption("--domain-name")] string DomainName
 ) : AwsOptions
 {
-    [CommandSwitch("--validation-method")]
+    [CliOption("--validation-method")]
     public string? ValidationMethod { get; set; }
 
-    [CommandSwitch("--subject-alternative-names")]
+    [CliOption("--subject-alternative-names")]
     public string[]? SubjectAlternativeNames { get; set; }
 
-    [CommandSwitch("--idempotency-token")]
+    [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
-    [CommandSwitch("--domain-validation-options")]
+    [CliOption("--domain-validation-options")]
     public string[]? DomainValidationOptions { get; set; }
 
-    [CommandSwitch("--options")]
+    [CliOption("--options")]
     public string? Options { get; set; }
 
-    [CommandSwitch("--certificate-authority-arn")]
+    [CliOption("--certificate-authority-arn")]
     public string? CertificateAuthorityArn { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--key-algorithm")]
+    [CliOption("--key-algorithm")]
     public string? KeyAlgorithm { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

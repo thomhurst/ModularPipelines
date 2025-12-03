@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesisanalyticsv2", "create-application")]
+[CliCommand("kinesisanalyticsv2", "create-application")]
 public record AwsKinesisanalyticsv2CreateApplicationOptions(
-[property: CommandSwitch("--application-name")] string ApplicationName,
-[property: CommandSwitch("--runtime-environment")] string RuntimeEnvironment,
-[property: CommandSwitch("--service-execution-role")] string ServiceExecutionRole
+[property: CliOption("--application-name")] string ApplicationName,
+[property: CliOption("--runtime-environment")] string RuntimeEnvironment,
+[property: CliOption("--service-execution-role")] string ServiceExecutionRole
 ) : AwsOptions
 {
-    [CommandSwitch("--application-description")]
+    [CliOption("--application-description")]
     public string? ApplicationDescription { get; set; }
 
-    [CommandSwitch("--application-configuration")]
+    [CliOption("--application-configuration")]
     public string? ApplicationConfiguration { get; set; }
 
-    [CommandSwitch("--cloud-watch-logging-options")]
+    [CliOption("--cloud-watch-logging-options")]
     public string[]? CloudWatchLoggingOptions { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--application-mode")]
+    [CliOption("--application-mode")]
     public string? ApplicationMode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

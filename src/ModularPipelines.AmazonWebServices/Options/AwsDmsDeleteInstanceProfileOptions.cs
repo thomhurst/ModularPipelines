@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "delete-instance-profile")]
+[CliCommand("dms", "delete-instance-profile")]
 public record AwsDmsDeleteInstanceProfileOptions(
-[property: CommandSwitch("--instance-profile-identifier")] string InstanceProfileIdentifier
+[property: CliOption("--instance-profile-identifier")] string InstanceProfileIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

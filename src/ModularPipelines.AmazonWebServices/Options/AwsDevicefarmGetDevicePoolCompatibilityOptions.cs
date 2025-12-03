@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devicefarm", "get-device-pool-compatibility")]
+[CliCommand("devicefarm", "get-device-pool-compatibility")]
 public record AwsDevicefarmGetDevicePoolCompatibilityOptions(
-[property: CommandSwitch("--device-pool-arn")] string DevicePoolArn
+[property: CliOption("--device-pool-arn")] string DevicePoolArn
 ) : AwsOptions
 {
-    [CommandSwitch("--app-arn")]
+    [CliOption("--app-arn")]
     public string? AppArn { get; set; }
 
-    [CommandSwitch("--test-type")]
+    [CliOption("--test-type")]
     public string? TestType { get; set; }
 
-    [CommandSwitch("--test")]
+    [CliOption("--test")]
     public string? Test { get; set; }
 
-    [CommandSwitch("--configuration")]
+    [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

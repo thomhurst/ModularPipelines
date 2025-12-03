@@ -4,56 +4,56 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-network-interface")]
+[CliCommand("ec2", "create-network-interface")]
 public record AwsEc2CreateNetworkInterfaceOptions(
-[property: CommandSwitch("--subnet-id")] string SubnetId
+[property: CliOption("--subnet-id")] string SubnetId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--groups")]
+    [CliOption("--groups")]
     public string[]? Groups { get; set; }
 
-    [CommandSwitch("--ipv6-address-count")]
+    [CliOption("--ipv6-address-count")]
     public int? Ipv6AddressCount { get; set; }
 
-    [CommandSwitch("--ipv6-addresses")]
+    [CliOption("--ipv6-addresses")]
     public string[]? Ipv6Addresses { get; set; }
 
-    [CommandSwitch("--private-ip-address")]
+    [CliOption("--private-ip-address")]
     public string? PrivateIpAddress { get; set; }
 
-    [CommandSwitch("--private-ip-addresses")]
+    [CliOption("--private-ip-addresses")]
     public string[]? PrivateIpAddresses { get; set; }
 
-    [CommandSwitch("--secondary-private-ip-address-count")]
+    [CliOption("--secondary-private-ip-address-count")]
     public int? SecondaryPrivateIpAddressCount { get; set; }
 
-    [CommandSwitch("--ipv4-prefixes")]
+    [CliOption("--ipv4-prefixes")]
     public string[]? Ipv4Prefixes { get; set; }
 
-    [CommandSwitch("--ipv4-prefix-count")]
+    [CliOption("--ipv4-prefix-count")]
     public int? Ipv4PrefixCount { get; set; }
 
-    [CommandSwitch("--ipv6-prefixes")]
+    [CliOption("--ipv6-prefixes")]
     public string[]? Ipv6Prefixes { get; set; }
 
-    [CommandSwitch("--ipv6-prefix-count")]
+    [CliOption("--ipv6-prefix-count")]
     public int? Ipv6PrefixCount { get; set; }
 
-    [CommandSwitch("--interface-type")]
+    [CliOption("--interface-type")]
     public string? InterfaceType { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--connection-tracking-specification")]
+    [CliOption("--connection-tracking-specification")]
     public string? ConnectionTrackingSpecification { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

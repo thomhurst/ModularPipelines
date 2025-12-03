@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("greengrass", "create-connector-definition-version")]
+[CliCommand("greengrass", "create-connector-definition-version")]
 public record AwsGreengrassCreateConnectorDefinitionVersionOptions(
-[property: CommandSwitch("--connector-definition-id")] string ConnectorDefinitionId
+[property: CliOption("--connector-definition-id")] string ConnectorDefinitionId
 ) : AwsOptions
 {
-    [CommandSwitch("--amzn-client-token")]
+    [CliOption("--amzn-client-token")]
     public string? AmznClientToken { get; set; }
 
-    [CommandSwitch("--connectors")]
+    [CliOption("--connectors")]
     public string[]? Connectors { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

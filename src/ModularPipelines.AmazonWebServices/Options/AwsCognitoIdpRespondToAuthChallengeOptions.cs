@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "respond-to-auth-challenge")]
+[CliCommand("cognito-idp", "respond-to-auth-challenge")]
 public record AwsCognitoIdpRespondToAuthChallengeOptions(
-[property: CommandSwitch("--client-id")] string ClientId,
-[property: CommandSwitch("--challenge-name")] string ChallengeName
+[property: CliOption("--client-id")] string ClientId,
+[property: CliOption("--challenge-name")] string ChallengeName
 ) : AwsOptions
 {
-    [CommandSwitch("--session")]
+    [CliOption("--session")]
     public string? Session { get; set; }
 
-    [CommandSwitch("--challenge-responses")]
+    [CliOption("--challenge-responses")]
     public IEnumerable<KeyValue>? ChallengeResponses { get; set; }
 
-    [CommandSwitch("--analytics-metadata")]
+    [CliOption("--analytics-metadata")]
     public string? AnalyticsMetadata { get; set; }
 
-    [CommandSwitch("--user-context-data")]
+    [CliOption("--user-context-data")]
     public string? UserContextData { get; set; }
 
-    [CommandSwitch("--client-metadata")]
+    [CliOption("--client-metadata")]
     public IEnumerable<KeyValue>? ClientMetadata { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

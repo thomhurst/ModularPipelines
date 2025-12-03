@@ -4,9 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("greengrassv2", "disassociate-service-role-from-account")]
+[CliCommand("greengrassv2", "disassociate-service-role-from-account")]
 public record AwsGreengrassv2DisassociateServiceRoleFromAccountOptions : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

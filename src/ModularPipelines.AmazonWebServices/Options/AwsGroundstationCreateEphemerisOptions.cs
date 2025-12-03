@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("groundstation", "create-ephemeris")]
+[CliCommand("groundstation", "create-ephemeris")]
 public record AwsGroundstationCreateEphemerisOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--satellite-id")] string SatelliteId
+[property: CliOption("--name")] string Name,
+[property: CliOption("--satellite-id")] string SatelliteId
 ) : AwsOptions
 {
-    [CommandSwitch("--ephemeris")]
+    [CliOption("--ephemeris")]
     public string? Ephemeris { get; set; }
 
-    [CommandSwitch("--expiration-time")]
+    [CliOption("--expiration-time")]
     public long? ExpirationTime { get; set; }
 
-    [CommandSwitch("--kms-key-arn")]
+    [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public int? Priority { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

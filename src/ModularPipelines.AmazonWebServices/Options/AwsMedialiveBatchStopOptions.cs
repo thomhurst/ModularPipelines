@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medialive", "batch-stop")]
+[CliCommand("medialive", "batch-stop")]
 public record AwsMedialiveBatchStopOptions : AwsOptions
 {
-    [CommandSwitch("--channel-ids")]
+    [CliOption("--channel-ids")]
     public string[]? ChannelIds { get; set; }
 
-    [CommandSwitch("--multiplex-ids")]
+    [CliOption("--multiplex-ids")]
     public string[]? MultiplexIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

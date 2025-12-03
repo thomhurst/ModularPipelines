@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudwatch", "list-metrics")]
+[CliCommand("cloudwatch", "list-metrics")]
 public record AwsCloudwatchListMetricsOptions : AwsOptions
 {
-    [CommandSwitch("--namespace")]
+    [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
-    [CommandSwitch("--metric-name")]
+    [CliOption("--metric-name")]
     public string? MetricName { get; set; }
 
-    [CommandSwitch("--dimensions")]
+    [CliOption("--dimensions")]
     public string[]? Dimensions { get; set; }
 
-    [CommandSwitch("--recently-active")]
+    [CliOption("--recently-active")]
     public string? RecentlyActive { get; set; }
 
-    [CommandSwitch("--owning-account")]
+    [CliOption("--owning-account")]
     public string? OwningAccount { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

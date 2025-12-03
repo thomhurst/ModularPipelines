@@ -5,29 +5,29 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("groundstation", "create-mission-profile")]
+[CliCommand("groundstation", "create-mission-profile")]
 public record AwsGroundstationCreateMissionProfileOptions(
-[property: CommandSwitch("--dataflow-edges")] string[] DataflowEdges,
-[property: CommandSwitch("--minimum-viable-contact-duration-seconds")] int MinimumViableContactDurationSeconds,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--tracking-config-arn")] string TrackingConfigArn
+[property: CliOption("--dataflow-edges")] string[] DataflowEdges,
+[property: CliOption("--minimum-viable-contact-duration-seconds")] int MinimumViableContactDurationSeconds,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--tracking-config-arn")] string TrackingConfigArn
 ) : AwsOptions
 {
-    [CommandSwitch("--contact-post-pass-duration-seconds")]
+    [CliOption("--contact-post-pass-duration-seconds")]
     public int? ContactPostPassDurationSeconds { get; set; }
 
-    [CommandSwitch("--contact-pre-pass-duration-seconds")]
+    [CliOption("--contact-pre-pass-duration-seconds")]
     public int? ContactPrePassDurationSeconds { get; set; }
 
-    [CommandSwitch("--streams-kms-key")]
+    [CliOption("--streams-kms-key")]
     public string? StreamsKmsKey { get; set; }
 
-    [CommandSwitch("--streams-kms-role")]
+    [CliOption("--streams-kms-role")]
     public string? StreamsKmsRole { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

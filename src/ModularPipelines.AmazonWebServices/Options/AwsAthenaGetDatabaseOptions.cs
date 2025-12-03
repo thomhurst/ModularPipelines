@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("athena", "get-database")]
+[CliCommand("athena", "get-database")]
 public record AwsAthenaGetDatabaseOptions(
-[property: CommandSwitch("--catalog-name")] string CatalogName,
-[property: CommandSwitch("--database-name")] string DatabaseName
+[property: CliOption("--catalog-name")] string CatalogName,
+[property: CliOption("--database-name")] string DatabaseName
 ) : AwsOptions
 {
-    [CommandSwitch("--work-group")]
+    [CliOption("--work-group")]
     public string? WorkGroup { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

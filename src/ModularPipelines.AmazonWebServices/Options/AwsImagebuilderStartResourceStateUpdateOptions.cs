@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("imagebuilder", "start-resource-state-update")]
+[CliCommand("imagebuilder", "start-resource-state-update")]
 public record AwsImagebuilderStartResourceStateUpdateOptions(
-[property: CommandSwitch("--resource-arn")] string ResourceArn,
-[property: CommandSwitch("--state")] string State
+[property: CliOption("--resource-arn")] string ResourceArn,
+[property: CliOption("--state")] string State
 ) : AwsOptions
 {
-    [CommandSwitch("--execution-role")]
+    [CliOption("--execution-role")]
     public string? ExecutionRole { get; set; }
 
-    [CommandSwitch("--include-resources")]
+    [CliOption("--include-resources")]
     public string? IncludeResources { get; set; }
 
-    [CommandSwitch("--exclusion-rules")]
+    [CliOption("--exclusion-rules")]
     public string? ExclusionRules { get; set; }
 
-    [CommandSwitch("--update-at")]
+    [CliOption("--update-at")]
     public long? UpdateAt { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

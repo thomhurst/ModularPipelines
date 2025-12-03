@@ -5,31 +5,31 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "sign-up")]
+[CliCommand("cognito-idp", "sign-up")]
 public record AwsCognitoIdpSignUpOptions(
-[property: CommandSwitch("--client-id")] string ClientId,
-[property: CommandSwitch("--username")] string Username,
-[property: CommandSwitch("--password")] string Password
+[property: CliOption("--client-id")] string ClientId,
+[property: CliOption("--username")] string Username,
+[property: CliOption("--password")] string Password
 ) : AwsOptions
 {
-    [CommandSwitch("--secret-hash")]
+    [CliOption("--secret-hash")]
     public string? SecretHash { get; set; }
 
-    [CommandSwitch("--user-attributes")]
+    [CliOption("--user-attributes")]
     public string[]? UserAttributes { get; set; }
 
-    [CommandSwitch("--validation-data")]
+    [CliOption("--validation-data")]
     public string[]? ValidationData { get; set; }
 
-    [CommandSwitch("--analytics-metadata")]
+    [CliOption("--analytics-metadata")]
     public string? AnalyticsMetadata { get; set; }
 
-    [CommandSwitch("--user-context-data")]
+    [CliOption("--user-context-data")]
     public string? UserContextData { get; set; }
 
-    [CommandSwitch("--client-metadata")]
+    [CliOption("--client-metadata")]
     public IEnumerable<KeyValue>? ClientMetadata { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

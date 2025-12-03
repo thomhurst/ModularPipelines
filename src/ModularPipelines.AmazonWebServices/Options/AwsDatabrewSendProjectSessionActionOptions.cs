@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databrew", "send-project-session-action")]
+[CliCommand("databrew", "send-project-session-action")]
 public record AwsDatabrewSendProjectSessionActionOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--recipe-step")]
+    [CliOption("--recipe-step")]
     public string? RecipeStep { get; set; }
 
-    [CommandSwitch("--step-index")]
+    [CliOption("--step-index")]
     public int? StepIndex { get; set; }
 
-    [CommandSwitch("--client-session-id")]
+    [CliOption("--client-session-id")]
     public string? ClientSessionId { get; set; }
 
-    [CommandSwitch("--view-frame")]
+    [CliOption("--view-frame")]
     public string? ViewFrame { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "change-password")]
+[CliCommand("cognito-idp", "change-password")]
 public record AwsCognitoIdpChangePasswordOptions(
-[property: CommandSwitch("--previous-password")] string PreviousPassword,
-[property: CommandSwitch("--proposed-password")] string ProposedPassword,
-[property: CommandSwitch("--access-token")] string AccessToken
+[property: CliOption("--previous-password")] string PreviousPassword,
+[property: CliOption("--proposed-password")] string ProposedPassword,
+[property: CliOption("--access-token")] string AccessToken
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

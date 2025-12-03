@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediatailor", "update-channel")]
+[CliCommand("mediatailor", "update-channel")]
 public record AwsMediatailorUpdateChannelOptions(
-[property: CommandSwitch("--channel-name")] string ChannelName,
-[property: CommandSwitch("--outputs")] string[] Outputs
+[property: CliOption("--channel-name")] string ChannelName,
+[property: CliOption("--outputs")] string[] Outputs
 ) : AwsOptions
 {
-    [CommandSwitch("--filler-slate")]
+    [CliOption("--filler-slate")]
     public string? FillerSlate { get; set; }
 
-    [CommandSwitch("--time-shift-configuration")]
+    [CliOption("--time-shift-configuration")]
     public string? TimeShiftConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

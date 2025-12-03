@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medialive", "describe-input-device-thumbnail")]
+[CliCommand("medialive", "describe-input-device-thumbnail")]
 public record AwsMedialiveDescribeInputDeviceThumbnailOptions(
-[property: CommandSwitch("--input-device-id")] string InputDeviceId,
-[property: CommandSwitch("--accept")] string Accept
+[property: CliOption("--input-device-id")] string InputDeviceId,
+[property: CliOption("--accept")] string Accept
 ) : AwsOptions;

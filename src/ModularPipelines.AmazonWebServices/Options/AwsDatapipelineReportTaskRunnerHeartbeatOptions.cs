@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datapipeline", "report-task-runner-heartbeat")]
+[CliCommand("datapipeline", "report-task-runner-heartbeat")]
 public record AwsDatapipelineReportTaskRunnerHeartbeatOptions(
-[property: CommandSwitch("--taskrunner-id")] string TaskrunnerId
+[property: CliOption("--taskrunner-id")] string TaskrunnerId
 ) : AwsOptions
 {
-    [CommandSwitch("--worker-group")]
+    [CliOption("--worker-group")]
     public string? WorkerGroup { get; set; }
 
-    [CommandSwitch("--hostname")]
+    [CliOption("--hostname")]
     public string? Hostname { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

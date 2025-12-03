@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("globalaccelerator", "list-cross-account-resources")]
+[CliCommand("globalaccelerator", "list-cross-account-resources")]
 public record AwsGlobalacceleratorListCrossAccountResourcesOptions(
-[property: CommandSwitch("--resource-owner-aws-account-id")] string ResourceOwnerAwsAccountId
+[property: CliOption("--resource-owner-aws-account-id")] string ResourceOwnerAwsAccountId
 ) : AwsOptions
 {
-    [CommandSwitch("--accelerator-arn")]
+    [CliOption("--accelerator-arn")]
     public string? AcceleratorArn { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

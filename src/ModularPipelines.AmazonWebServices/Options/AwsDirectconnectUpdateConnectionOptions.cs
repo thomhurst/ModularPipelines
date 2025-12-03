@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("directconnect", "update-connection")]
+[CliCommand("directconnect", "update-connection")]
 public record AwsDirectconnectUpdateConnectionOptions(
-[property: CommandSwitch("--connection-id")] string ConnectionId
+[property: CliOption("--connection-id")] string ConnectionId
 ) : AwsOptions
 {
-    [CommandSwitch("--connection-name")]
+    [CliOption("--connection-name")]
     public string? ConnectionName { get; set; }
 
-    [CommandSwitch("--encryption-mode")]
+    [CliOption("--encryption-mode")]
     public string? EncryptionMode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

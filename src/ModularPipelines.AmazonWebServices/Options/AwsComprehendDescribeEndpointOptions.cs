@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("comprehend", "describe-endpoint")]
+[CliCommand("comprehend", "describe-endpoint")]
 public record AwsComprehendDescribeEndpointOptions(
-[property: CommandSwitch("--endpoint-arn")] string EndpointArn
+[property: CliOption("--endpoint-arn")] string EndpointArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

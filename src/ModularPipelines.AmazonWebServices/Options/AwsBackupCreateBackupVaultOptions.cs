@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup", "create-backup-vault")]
+[CliCommand("backup", "create-backup-vault")]
 public record AwsBackupCreateBackupVaultOptions(
-[property: CommandSwitch("--backup-vault-name")] string BackupVaultName
+[property: CliOption("--backup-vault-name")] string BackupVaultName
 ) : AwsOptions
 {
-    [CommandSwitch("--backup-vault-tags")]
+    [CliOption("--backup-vault-tags")]
     public IEnumerable<KeyValue>? BackupVaultTags { get; set; }
 
-    [CommandSwitch("--encryption-key-arn")]
+    [CliOption("--encryption-key-arn")]
     public string? EncryptionKeyArn { get; set; }
 
-    [CommandSwitch("--creator-request-id")]
+    [CliOption("--creator-request-id")]
     public string? CreatorRequestId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,50 +5,50 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("omics", "start-run")]
+[CliCommand("omics", "start-run")]
 public record AwsOmicsStartRunOptions(
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--workflow-id")]
+    [CliOption("--workflow-id")]
     public string? WorkflowId { get; set; }
 
-    [CommandSwitch("--workflow-type")]
+    [CliOption("--workflow-type")]
     public string? WorkflowType { get; set; }
 
-    [CommandSwitch("--run-id")]
+    [CliOption("--run-id")]
     public string? RunId { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--run-group-id")]
+    [CliOption("--run-group-id")]
     public string? RunGroupId { get; set; }
 
-    [CommandSwitch("--priority")]
+    [CliOption("--priority")]
     public int? Priority { get; set; }
 
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public string? Parameters { get; set; }
 
-    [CommandSwitch("--storage-capacity")]
+    [CliOption("--storage-capacity")]
     public int? StorageCapacity { get; set; }
 
-    [CommandSwitch("--output-uri")]
+    [CliOption("--output-uri")]
     public string? OutputUri { get; set; }
 
-    [CommandSwitch("--log-level")]
+    [CliOption("--log-level")]
     public string? LogLevel { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--request-id")]
+    [CliOption("--request-id")]
     public string? RequestId { get; set; }
 
-    [CommandSwitch("--retention-mode")]
+    [CliOption("--retention-mode")]
     public string? RetentionMode { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("evidently", "start-experiment")]
+[CliCommand("evidently", "start-experiment")]
 public record AwsEvidentlyStartExperimentOptions(
-[property: CommandSwitch("--analysis-complete-time")] long AnalysisCompleteTime,
-[property: CommandSwitch("--experiment")] string Experiment,
-[property: CommandSwitch("--project")] string Project
+[property: CliOption("--analysis-complete-time")] long AnalysisCompleteTime,
+[property: CliOption("--experiment")] string Experiment,
+[property: CliOption("--project")] string Project
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

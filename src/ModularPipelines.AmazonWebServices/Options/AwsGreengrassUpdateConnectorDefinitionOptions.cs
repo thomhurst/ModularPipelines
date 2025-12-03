@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("greengrass", "update-connector-definition")]
+[CliCommand("greengrass", "update-connector-definition")]
 public record AwsGreengrassUpdateConnectorDefinitionOptions(
-[property: CommandSwitch("--connector-definition-id")] string ConnectorDefinitionId
+[property: CliOption("--connector-definition-id")] string ConnectorDefinitionId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

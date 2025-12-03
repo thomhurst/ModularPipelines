@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("machinelearning", "describe-data-sources")]
+[CliCommand("machinelearning", "describe-data-sources")]
 public record AwsMachinelearningDescribeDataSourcesOptions : AwsOptions
 {
-    [CommandSwitch("--filter-variable")]
+    [CliOption("--filter-variable")]
     public string? FilterVariable { get; set; }
 
-    [CommandSwitch("--eq")]
+    [CliOption("--eq")]
     public string? Eq { get; set; }
 
-    [CommandSwitch("--gt")]
+    [CliOption("--gt")]
     public string? Gt { get; set; }
 
-    [CommandSwitch("--lt")]
+    [CliOption("--lt")]
     public string? Lt { get; set; }
 
-    [CommandSwitch("--ge")]
+    [CliOption("--ge")]
     public string? Ge { get; set; }
 
-    [CommandSwitch("--le")]
+    [CliOption("--le")]
     public string? Le { get; set; }
 
-    [CommandSwitch("--ne")]
+    [CliOption("--ne")]
     public string? Ne { get; set; }
 
-    [CommandSwitch("--prefix")]
+    [CliOption("--prefix")]
     public string? Prefix { get; set; }
 
-    [CommandSwitch("--sort-order")]
+    [CliOption("--sort-order")]
     public string? SortOrder { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

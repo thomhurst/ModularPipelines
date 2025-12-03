@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("nimble", "update-launch-profile")]
+[CliCommand("nimble", "update-launch-profile")]
 public record AwsNimbleUpdateLaunchProfileOptions(
-[property: CommandSwitch("--launch-profile-id")] string LaunchProfileId,
-[property: CommandSwitch("--studio-id")] string StudioId
+[property: CliOption("--launch-profile-id")] string LaunchProfileId,
+[property: CliOption("--studio-id")] string StudioId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--launch-profile-protocol-versions")]
+    [CliOption("--launch-profile-protocol-versions")]
     public string[]? LaunchProfileProtocolVersions { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--stream-configuration")]
+    [CliOption("--stream-configuration")]
     public string? StreamConfiguration { get; set; }
 
-    [CommandSwitch("--studio-component-ids")]
+    [CliOption("--studio-component-ids")]
     public string[]? StudioComponentIds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

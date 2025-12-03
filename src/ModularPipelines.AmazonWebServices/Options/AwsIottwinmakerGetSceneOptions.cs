@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iottwinmaker", "get-scene")]
+[CliCommand("iottwinmaker", "get-scene")]
 public record AwsIottwinmakerGetSceneOptions(
-[property: CommandSwitch("--workspace-id")] string WorkspaceId,
-[property: CommandSwitch("--scene-id")] string SceneId
+[property: CliOption("--workspace-id")] string WorkspaceId,
+[property: CliOption("--scene-id")] string SceneId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

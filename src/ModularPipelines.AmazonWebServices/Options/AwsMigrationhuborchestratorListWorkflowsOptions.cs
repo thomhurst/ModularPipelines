@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("migrationhuborchestrator", "list-workflows")]
+[CliCommand("migrationhuborchestrator", "list-workflows")]
 public record AwsMigrationhuborchestratorListWorkflowsOptions : AwsOptions
 {
-    [CommandSwitch("--template-id")]
+    [CliOption("--template-id")]
     public string? TemplateId { get; set; }
 
-    [CommandSwitch("--ads-application-configuration-name")]
+    [CliOption("--ads-application-configuration-name")]
     public string? AdsApplicationConfigurationName { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

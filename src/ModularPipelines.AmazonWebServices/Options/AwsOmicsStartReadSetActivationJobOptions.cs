@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("omics", "start-read-set-activation-job")]
+[CliCommand("omics", "start-read-set-activation-job")]
 public record AwsOmicsStartReadSetActivationJobOptions(
-[property: CommandSwitch("--sequence-store-id")] string SequenceStoreId,
-[property: CommandSwitch("--sources")] string[] Sources
+[property: CliOption("--sequence-store-id")] string SequenceStoreId,
+[property: CliOption("--sources")] string[] Sources
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

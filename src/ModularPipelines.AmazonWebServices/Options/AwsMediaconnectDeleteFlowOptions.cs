@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediaconnect", "delete-flow")]
+[CliCommand("mediaconnect", "delete-flow")]
 public record AwsMediaconnectDeleteFlowOptions(
-[property: CommandSwitch("--flow-arn")] string FlowArn
+[property: CliOption("--flow-arn")] string FlowArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("auditmanager", "update-assessment")]
+[CliCommand("auditmanager", "update-assessment")]
 public record AwsAuditmanagerUpdateAssessmentOptions(
-[property: CommandSwitch("--assessment-id")] string AssessmentId,
-[property: CommandSwitch("--scope")] string Scope
+[property: CliOption("--assessment-id")] string AssessmentId,
+[property: CliOption("--scope")] string Scope
 ) : AwsOptions
 {
-    [CommandSwitch("--assessment-name")]
+    [CliOption("--assessment-name")]
     public string? AssessmentName { get; set; }
 
-    [CommandSwitch("--assessment-description")]
+    [CliOption("--assessment-description")]
     public string? AssessmentDescription { get; set; }
 
-    [CommandSwitch("--assessment-reports-destination")]
+    [CliOption("--assessment-reports-destination")]
     public string? AssessmentReportsDestination { get; set; }
 
-    [CommandSwitch("--roles")]
+    [CliOption("--roles")]
     public string[]? Roles { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

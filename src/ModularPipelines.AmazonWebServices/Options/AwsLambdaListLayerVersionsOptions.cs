@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "list-layer-versions")]
+[CliCommand("lambda", "list-layer-versions")]
 public record AwsLambdaListLayerVersionsOptions(
-[property: CommandSwitch("--layer-name")] string LayerName
+[property: CliOption("--layer-name")] string LayerName
 ) : AwsOptions
 {
-    [CommandSwitch("--compatible-runtime")]
+    [CliOption("--compatible-runtime")]
     public string? CompatibleRuntime { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--compatible-architecture")]
+    [CliOption("--compatible-architecture")]
     public string? CompatibleArchitecture { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

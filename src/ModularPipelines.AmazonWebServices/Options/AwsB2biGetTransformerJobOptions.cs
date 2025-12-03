@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("b2bi", "get-transformer-job")]
+[CliCommand("b2bi", "get-transformer-job")]
 public record AwsB2biGetTransformerJobOptions(
-[property: CommandSwitch("--transformer-job-id")] string TransformerJobId,
-[property: CommandSwitch("--transformer-id")] string TransformerId
+[property: CliOption("--transformer-job-id")] string TransformerJobId,
+[property: CliOption("--transformer-id")] string TransformerId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

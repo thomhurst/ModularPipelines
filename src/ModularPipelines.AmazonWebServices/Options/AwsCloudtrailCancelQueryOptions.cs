@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudtrail", "cancel-query")]
+[CliCommand("cloudtrail", "cancel-query")]
 public record AwsCloudtrailCancelQueryOptions(
-[property: CommandSwitch("--query-id")] string QueryId
+[property: CliOption("--query-id")] string QueryId
 ) : AwsOptions
 {
-    [CommandSwitch("--event-data-store")]
+    [CliOption("--event-data-store")]
     public string? EventDataStore { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptunedata", "get-sparql-stream")]
+[CliCommand("neptunedata", "get-sparql-stream")]
 public record AwsNeptunedataGetSparqlStreamOptions : AwsOptions
 {
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public long? Limit { get; set; }
 
-    [CommandSwitch("--iterator-type")]
+    [CliOption("--iterator-type")]
     public string? IteratorType { get; set; }
 
-    [CommandSwitch("--commit-num")]
+    [CliOption("--commit-num")]
     public long? CommitNum { get; set; }
 
-    [CommandSwitch("--op-num")]
+    [CliOption("--op-num")]
     public long? OpNum { get; set; }
 
-    [CommandSwitch("--encoding")]
+    [CliOption("--encoding")]
     public string? Encoding { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

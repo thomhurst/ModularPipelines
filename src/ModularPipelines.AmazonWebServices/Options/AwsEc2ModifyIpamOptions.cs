@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-ipam")]
+[CliCommand("ec2", "modify-ipam")]
 public record AwsEc2ModifyIpamOptions(
-[property: CommandSwitch("--ipam-id")] string IpamId
+[property: CliOption("--ipam-id")] string IpamId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--add-operating-regions")]
+    [CliOption("--add-operating-regions")]
     public string[]? AddOperatingRegions { get; set; }
 
-    [CommandSwitch("--remove-operating-regions")]
+    [CliOption("--remove-operating-regions")]
     public string[]? RemoveOperatingRegions { get; set; }
 
-    [CommandSwitch("--tier")]
+    [CliOption("--tier")]
     public string? Tier { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

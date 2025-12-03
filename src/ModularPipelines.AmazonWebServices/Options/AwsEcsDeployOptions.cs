@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "deploy")]
+[CliCommand("ecs", "deploy")]
 public record AwsEcsDeployOptions(
-[property: CommandSwitch("--service")] string Service,
-[property: CommandSwitch("--task-definition")] string TaskDefinition,
-[property: CommandSwitch("--codedeploy-appspec")] string CodedeployAppspec
+[property: CliOption("--service")] string Service,
+[property: CliOption("--task-definition")] string TaskDefinition,
+[property: CliOption("--codedeploy-appspec")] string CodedeployAppspec
 ) : AwsOptions
 {
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--codedeploy-application")]
+    [CliOption("--codedeploy-application")]
     public string? CodedeployApplication { get; set; }
 
-    [CommandSwitch("--codedeploy-deployment-group")]
+    [CliOption("--codedeploy-deployment-group")]
     public string? CodedeployDeploymentGroup { get; set; }
 }

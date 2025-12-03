@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("forecast", "create-dataset")]
+[CliCommand("forecast", "create-dataset")]
 public record AwsForecastCreateDatasetOptions(
-[property: CommandSwitch("--dataset-name")] string DatasetName,
-[property: CommandSwitch("--domain")] string Domain,
-[property: CommandSwitch("--dataset-type")] string DatasetType,
-[property: CommandSwitch("--schema")] string Schema
+[property: CliOption("--dataset-name")] string DatasetName,
+[property: CliOption("--domain")] string Domain,
+[property: CliOption("--dataset-type")] string DatasetType,
+[property: CliOption("--schema")] string Schema
 ) : AwsOptions
 {
-    [CommandSwitch("--data-frequency")]
+    [CliOption("--data-frequency")]
     public string? DataFrequency { get; set; }
 
-    [CommandSwitch("--encryption-config")]
+    [CliOption("--encryption-config")]
     public string? EncryptionConfig { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

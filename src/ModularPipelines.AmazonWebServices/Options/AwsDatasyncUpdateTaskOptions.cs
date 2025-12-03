@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("datasync", "update-task")]
+[CliCommand("datasync", "update-task")]
 public record AwsDatasyncUpdateTaskOptions(
-[property: CommandSwitch("--task-arn")] string TaskArn
+[property: CliOption("--task-arn")] string TaskArn
 ) : AwsOptions
 {
-    [CommandSwitch("--options")]
+    [CliOption("--options")]
     public string? Options { get; set; }
 
-    [CommandSwitch("--excludes")]
+    [CliOption("--excludes")]
     public string[]? Excludes { get; set; }
 
-    [CommandSwitch("--schedule")]
+    [CliOption("--schedule")]
     public string? Schedule { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--cloud-watch-log-group-arn")]
+    [CliOption("--cloud-watch-log-group-arn")]
     public string? CloudWatchLogGroupArn { get; set; }
 
-    [CommandSwitch("--includes")]
+    [CliOption("--includes")]
     public string[]? Includes { get; set; }
 
-    [CommandSwitch("--task-report-config")]
+    [CliOption("--task-report-config")]
     public string? TaskReportConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

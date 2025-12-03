@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "simulate-custom-policy")]
+[CliCommand("iam", "simulate-custom-policy")]
 public record AwsIamSimulateCustomPolicyOptions(
-[property: CommandSwitch("--policy-input-list")] string[] PolicyInputList,
-[property: CommandSwitch("--action-names")] string[] ActionNames
+[property: CliOption("--policy-input-list")] string[] PolicyInputList,
+[property: CliOption("--action-names")] string[] ActionNames
 ) : AwsOptions
 {
-    [CommandSwitch("--permissions-boundary-policy-input-list")]
+    [CliOption("--permissions-boundary-policy-input-list")]
     public string[]? PermissionsBoundaryPolicyInputList { get; set; }
 
-    [CommandSwitch("--resource-arns")]
+    [CliOption("--resource-arns")]
     public string[]? ResourceArns { get; set; }
 
-    [CommandSwitch("--resource-policy")]
+    [CliOption("--resource-policy")]
     public string? ResourcePolicy { get; set; }
 
-    [CommandSwitch("--resource-owner")]
+    [CliOption("--resource-owner")]
     public string? ResourceOwner { get; set; }
 
-    [CommandSwitch("--caller-arn")]
+    [CliOption("--caller-arn")]
     public string? CallerArn { get; set; }
 
-    [CommandSwitch("--context-entries")]
+    [CliOption("--context-entries")]
     public string[]? ContextEntries { get; set; }
 
-    [CommandSwitch("--resource-handling-option")]
+    [CliOption("--resource-handling-option")]
     public string? ResourceHandlingOption { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

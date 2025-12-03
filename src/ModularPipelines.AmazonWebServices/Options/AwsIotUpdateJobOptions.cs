@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "update-job")]
+[CliCommand("iot", "update-job")]
 public record AwsIotUpdateJobOptions(
-[property: CommandSwitch("--job-id")] string JobId
+[property: CliOption("--job-id")] string JobId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--presigned-url-config")]
+    [CliOption("--presigned-url-config")]
     public string? PresignedUrlConfig { get; set; }
 
-    [CommandSwitch("--job-executions-rollout-config")]
+    [CliOption("--job-executions-rollout-config")]
     public string? JobExecutionsRolloutConfig { get; set; }
 
-    [CommandSwitch("--abort-config")]
+    [CliOption("--abort-config")]
     public string? AbortConfig { get; set; }
 
-    [CommandSwitch("--timeout-config")]
+    [CliOption("--timeout-config")]
     public string? TimeoutConfig { get; set; }
 
-    [CommandSwitch("--namespace-id")]
+    [CliOption("--namespace-id")]
     public string? NamespaceId { get; set; }
 
-    [CommandSwitch("--job-executions-retry-config")]
+    [CliOption("--job-executions-retry-config")]
     public string? JobExecutionsRetryConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

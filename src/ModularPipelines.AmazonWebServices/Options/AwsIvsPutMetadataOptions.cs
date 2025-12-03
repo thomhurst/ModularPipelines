@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ivs", "put-metadata")]
+[CliCommand("ivs", "put-metadata")]
 public record AwsIvsPutMetadataOptions(
-[property: CommandSwitch("--channel-arn")] string ChannelArn,
-[property: CommandSwitch("--metadata")] string Metadata
+[property: CliOption("--channel-arn")] string ChannelArn,
+[property: CliOption("--metadata")] string Metadata
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

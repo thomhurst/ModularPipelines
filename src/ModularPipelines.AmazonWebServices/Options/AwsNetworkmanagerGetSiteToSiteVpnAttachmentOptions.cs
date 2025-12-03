@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkmanager", "get-site-to-site-vpn-attachment")]
+[CliCommand("networkmanager", "get-site-to-site-vpn-attachment")]
 public record AwsNetworkmanagerGetSiteToSiteVpnAttachmentOptions(
-[property: CommandSwitch("--attachment-id")] string AttachmentId
+[property: CliOption("--attachment-id")] string AttachmentId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

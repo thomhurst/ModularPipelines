@@ -5,60 +5,60 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigatewayv2", "create-integration")]
+[CliCommand("apigatewayv2", "create-integration")]
 public record AwsApigatewayv2CreateIntegrationOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--integration-type")] string IntegrationType
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--integration-type")] string IntegrationType
 ) : AwsOptions
 {
-    [CommandSwitch("--connection-id")]
+    [CliOption("--connection-id")]
     public string? ConnectionId { get; set; }
 
-    [CommandSwitch("--connection-type")]
+    [CliOption("--connection-type")]
     public string? ConnectionType { get; set; }
 
-    [CommandSwitch("--content-handling-strategy")]
+    [CliOption("--content-handling-strategy")]
     public string? ContentHandlingStrategy { get; set; }
 
-    [CommandSwitch("--credentials-arn")]
+    [CliOption("--credentials-arn")]
     public string? CredentialsArn { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--integration-method")]
+    [CliOption("--integration-method")]
     public string? IntegrationMethod { get; set; }
 
-    [CommandSwitch("--integration-subtype")]
+    [CliOption("--integration-subtype")]
     public string? IntegrationSubtype { get; set; }
 
-    [CommandSwitch("--integration-uri")]
+    [CliOption("--integration-uri")]
     public string? IntegrationUri { get; set; }
 
-    [CommandSwitch("--passthrough-behavior")]
+    [CliOption("--passthrough-behavior")]
     public string? PassthroughBehavior { get; set; }
 
-    [CommandSwitch("--payload-format-version")]
+    [CliOption("--payload-format-version")]
     public string? PayloadFormatVersion { get; set; }
 
-    [CommandSwitch("--request-parameters")]
+    [CliOption("--request-parameters")]
     public IEnumerable<KeyValue>? RequestParameters { get; set; }
 
-    [CommandSwitch("--request-templates")]
+    [CliOption("--request-templates")]
     public IEnumerable<KeyValue>? RequestTemplates { get; set; }
 
-    [CommandSwitch("--response-parameters")]
+    [CliOption("--response-parameters")]
     public IEnumerable<KeyValue>? ResponseParameters { get; set; }
 
-    [CommandSwitch("--template-selection-expression")]
+    [CliOption("--template-selection-expression")]
     public string? TemplateSelectionExpression { get; set; }
 
-    [CommandSwitch("--timeout-in-millis")]
+    [CliOption("--timeout-in-millis")]
     public int? TimeoutInMillis { get; set; }
 
-    [CommandSwitch("--tls-config")]
+    [CliOption("--tls-config")]
     public string? TlsConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

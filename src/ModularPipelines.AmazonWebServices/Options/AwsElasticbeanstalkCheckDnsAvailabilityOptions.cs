@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticbeanstalk", "check-dns-availability")]
+[CliCommand("elasticbeanstalk", "check-dns-availability")]
 public record AwsElasticbeanstalkCheckDnsAvailabilityOptions(
-[property: CommandSwitch("--cname-prefix")] string CnamePrefix
+[property: CliOption("--cname-prefix")] string CnamePrefix
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

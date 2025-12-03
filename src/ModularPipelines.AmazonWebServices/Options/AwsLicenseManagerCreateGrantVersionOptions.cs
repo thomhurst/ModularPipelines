@@ -4,30 +4,30 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("license-manager", "create-grant-version")]
+[CliCommand("license-manager", "create-grant-version")]
 public record AwsLicenseManagerCreateGrantVersionOptions(
-[property: CommandSwitch("--client-token")] string ClientToken,
-[property: CommandSwitch("--grant-arn")] string GrantArn
+[property: CliOption("--client-token")] string ClientToken,
+[property: CliOption("--grant-arn")] string GrantArn
 ) : AwsOptions
 {
-    [CommandSwitch("--grant-name")]
+    [CliOption("--grant-name")]
     public string? GrantName { get; set; }
 
-    [CommandSwitch("--allowed-operations")]
+    [CliOption("--allowed-operations")]
     public string[]? AllowedOperations { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string? Status { get; set; }
 
-    [CommandSwitch("--status-reason")]
+    [CliOption("--status-reason")]
     public string? StatusReason { get; set; }
 
-    [CommandSwitch("--source-version")]
+    [CliOption("--source-version")]
     public string? SourceVersion { get; set; }
 
-    [CommandSwitch("--options")]
+    [CliOption("--options")]
     public string? Options { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

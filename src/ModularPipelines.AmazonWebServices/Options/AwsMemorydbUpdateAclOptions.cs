@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memorydb", "update-acl")]
+[CliCommand("memorydb", "update-acl")]
 public record AwsMemorydbUpdateAclOptions(
-[property: CommandSwitch("--acl-name")] string AclName
+[property: CliOption("--acl-name")] string AclName
 ) : AwsOptions
 {
-    [CommandSwitch("--user-names-to-add")]
+    [CliOption("--user-names-to-add")]
     public string[]? UserNamesToAdd { get; set; }
 
-    [CommandSwitch("--user-names-to-remove")]
+    [CliOption("--user-names-to-remove")]
     public string[]? UserNamesToRemove { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

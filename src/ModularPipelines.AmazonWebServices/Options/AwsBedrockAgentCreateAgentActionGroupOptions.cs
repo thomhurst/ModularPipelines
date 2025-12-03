@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bedrock-agent", "create-agent-action-group")]
+[CliCommand("bedrock-agent", "create-agent-action-group")]
 public record AwsBedrockAgentCreateAgentActionGroupOptions(
-[property: CommandSwitch("--agent-id")] string AgentId,
-[property: CommandSwitch("--agent-version")] string AgentVersion,
-[property: CommandSwitch("--action-group-name")] string ActionGroupName
+[property: CliOption("--agent-id")] string AgentId,
+[property: CliOption("--agent-version")] string AgentVersion,
+[property: CliOption("--action-group-name")] string ActionGroupName
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--parent-action-group-signature")]
+    [CliOption("--parent-action-group-signature")]
     public string? ParentActionGroupSignature { get; set; }
 
-    [CommandSwitch("--action-group-executor")]
+    [CliOption("--action-group-executor")]
     public string? ActionGroupExecutor { get; set; }
 
-    [CommandSwitch("--api-schema")]
+    [CliOption("--api-schema")]
     public string? ApiSchema { get; set; }
 
-    [CommandSwitch("--action-group-state")]
+    [CliOption("--action-group-state")]
     public string? ActionGroupState { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

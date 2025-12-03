@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "detach-thing-principal")]
+[CliCommand("iot", "detach-thing-principal")]
 public record AwsIotDetachThingPrincipalOptions(
-[property: CommandSwitch("--thing-name")] string ThingName,
-[property: CommandSwitch("--principal")] string Principal
+[property: CliOption("--thing-name")] string ThingName,
+[property: CliOption("--principal")] string Principal
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

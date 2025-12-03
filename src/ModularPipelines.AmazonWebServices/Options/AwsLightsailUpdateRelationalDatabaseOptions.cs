@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "update-relational-database")]
+[CliCommand("lightsail", "update-relational-database")]
 public record AwsLightsailUpdateRelationalDatabaseOptions(
-[property: CommandSwitch("--relational-database-name")] string RelationalDatabaseName
+[property: CliOption("--relational-database-name")] string RelationalDatabaseName
 ) : AwsOptions
 {
-    [CommandSwitch("--master-user-password")]
+    [CliOption("--master-user-password")]
     public string? MasterUserPassword { get; set; }
 
-    [CommandSwitch("--preferred-backup-window")]
+    [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
 
-    [CommandSwitch("--preferred-maintenance-window")]
+    [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
-    [CommandSwitch("--ca-certificate-identifier")]
+    [CliOption("--ca-certificate-identifier")]
     public string? CaCertificateIdentifier { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

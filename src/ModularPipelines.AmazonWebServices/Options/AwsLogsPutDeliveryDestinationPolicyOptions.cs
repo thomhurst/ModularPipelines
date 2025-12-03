@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "put-delivery-destination-policy")]
+[CliCommand("logs", "put-delivery-destination-policy")]
 public record AwsLogsPutDeliveryDestinationPolicyOptions(
-[property: CommandSwitch("--delivery-destination-name")] string DeliveryDestinationName,
-[property: CommandSwitch("--delivery-destination-policy")] string DeliveryDestinationPolicy
+[property: CliOption("--delivery-destination-name")] string DeliveryDestinationName,
+[property: CliOption("--delivery-destination-policy")] string DeliveryDestinationPolicy
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

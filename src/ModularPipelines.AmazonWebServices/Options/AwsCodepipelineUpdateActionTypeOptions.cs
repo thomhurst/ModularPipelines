@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codepipeline", "update-action-type")]
+[CliCommand("codepipeline", "update-action-type")]
 public record AwsCodepipelineUpdateActionTypeOptions(
-[property: CommandSwitch("--action-type")] string ActionType
+[property: CliOption("--action-type")] string ActionType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

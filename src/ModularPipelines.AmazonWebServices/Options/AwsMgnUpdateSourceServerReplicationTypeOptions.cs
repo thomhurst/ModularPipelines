@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mgn", "update-source-server-replication-type")]
+[CliCommand("mgn", "update-source-server-replication-type")]
 public record AwsMgnUpdateSourceServerReplicationTypeOptions(
-[property: CommandSwitch("--replication-type")] string ReplicationType,
-[property: CommandSwitch("--source-server-id")] string SourceServerId
+[property: CliOption("--replication-type")] string ReplicationType,
+[property: CliOption("--source-server-id")] string SourceServerId
 ) : AwsOptions
 {
-    [CommandSwitch("--account-id")]
+    [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

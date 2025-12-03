@@ -4,28 +4,28 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("frauddetector", "put-event-type")]
+[CliCommand("frauddetector", "put-event-type")]
 public record AwsFrauddetectorPutEventTypeOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--event-variables")] string[] EventVariables,
-[property: CommandSwitch("--entity-types")] string[] EntityTypes
+[property: CliOption("--name")] string Name,
+[property: CliOption("--event-variables")] string[] EventVariables,
+[property: CliOption("--entity-types")] string[] EntityTypes
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--labels")]
+    [CliOption("--labels")]
     public string[]? Labels { get; set; }
 
-    [CommandSwitch("--event-ingestion")]
+    [CliOption("--event-ingestion")]
     public string? EventIngestion { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--event-orchestration")]
+    [CliOption("--event-orchestration")]
     public string? EventOrchestration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

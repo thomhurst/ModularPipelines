@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "cancel-job")]
+[CliCommand("batch", "cancel-job")]
 public record AwsBatchCancelJobOptions(
-[property: CommandSwitch("--job-id")] string JobId,
-[property: CommandSwitch("--reason")] string Reason
+[property: CliOption("--job-id")] string JobId,
+[property: CliOption("--reason")] string Reason
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

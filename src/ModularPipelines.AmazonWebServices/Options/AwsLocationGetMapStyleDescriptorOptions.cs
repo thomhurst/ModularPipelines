@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "get-map-style-descriptor")]
+[CliCommand("location", "get-map-style-descriptor")]
 public record AwsLocationGetMapStyleDescriptorOptions(
-[property: CommandSwitch("--map-name")] string MapName
+[property: CliOption("--map-name")] string MapName
 ) : AwsOptions
 {
-    [CommandSwitch("--key")]
+    [CliOption("--key")]
     public string? Key { get; set; }
 }

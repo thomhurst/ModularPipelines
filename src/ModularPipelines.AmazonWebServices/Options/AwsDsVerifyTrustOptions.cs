@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "verify-trust")]
+[CliCommand("ds", "verify-trust")]
 public record AwsDsVerifyTrustOptions(
-[property: CommandSwitch("--trust-id")] string TrustId
+[property: CliOption("--trust-id")] string TrustId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

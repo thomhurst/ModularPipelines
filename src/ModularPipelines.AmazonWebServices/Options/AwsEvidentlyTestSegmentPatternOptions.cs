@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("evidently", "test-segment-pattern")]
+[CliCommand("evidently", "test-segment-pattern")]
 public record AwsEvidentlyTestSegmentPatternOptions(
-[property: CommandSwitch("--pattern")] string Pattern,
-[property: CommandSwitch("--payload")] string Payload
+[property: CliOption("--pattern")] string Pattern,
+[property: CliOption("--payload")] string Payload
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

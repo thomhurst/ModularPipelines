@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotwireless", "update-resource-position")]
+[CliCommand("iotwireless", "update-resource-position")]
 public record AwsIotwirelessUpdateResourcePositionOptions(
-[property: CommandSwitch("--resource-identifier")] string ResourceIdentifier,
-[property: CommandSwitch("--resource-type")] string ResourceType
+[property: CliOption("--resource-identifier")] string ResourceIdentifier,
+[property: CliOption("--resource-type")] string ResourceType
 ) : AwsOptions
 {
-    [CommandSwitch("--geo-json-payload")]
+    [CliOption("--geo-json-payload")]
     public string? GeoJsonPayload { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

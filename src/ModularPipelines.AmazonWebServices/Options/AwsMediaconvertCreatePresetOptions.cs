@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediaconvert", "create-preset")]
+[CliCommand("mediaconvert", "create-preset")]
 public record AwsMediaconvertCreatePresetOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--settings")] string Settings
+[property: CliOption("--name")] string Name,
+[property: CliOption("--settings")] string Settings
 ) : AwsOptions
 {
-    [CommandSwitch("--category")]
+    [CliOption("--category")]
     public string? Category { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

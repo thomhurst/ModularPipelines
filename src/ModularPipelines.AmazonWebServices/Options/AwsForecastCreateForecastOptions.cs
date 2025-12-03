@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("forecast", "create-forecast")]
+[CliCommand("forecast", "create-forecast")]
 public record AwsForecastCreateForecastOptions(
-[property: CommandSwitch("--forecast-name")] string ForecastName,
-[property: CommandSwitch("--predictor-arn")] string PredictorArn
+[property: CliOption("--forecast-name")] string ForecastName,
+[property: CliOption("--predictor-arn")] string PredictorArn
 ) : AwsOptions
 {
-    [CommandSwitch("--forecast-types")]
+    [CliOption("--forecast-types")]
     public string[]? ForecastTypes { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--time-series-selector")]
+    [CliOption("--time-series-selector")]
     public string? TimeSeriesSelector { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "update-thing")]
+[CliCommand("iot", "update-thing")]
 public record AwsIotUpdateThingOptions(
-[property: CommandSwitch("--thing-name")] string ThingName
+[property: CliOption("--thing-name")] string ThingName
 ) : AwsOptions
 {
-    [CommandSwitch("--thing-type-name")]
+    [CliOption("--thing-type-name")]
     public string? ThingTypeName { get; set; }
 
-    [CommandSwitch("--attribute-payload")]
+    [CliOption("--attribute-payload")]
     public string? AttributePayload { get; set; }
 
-    [CommandSwitch("--expected-version")]
+    [CliOption("--expected-version")]
     public long? ExpectedVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

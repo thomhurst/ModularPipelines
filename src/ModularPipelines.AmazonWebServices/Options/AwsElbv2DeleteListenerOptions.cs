@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elbv2", "delete-listener")]
+[CliCommand("elbv2", "delete-listener")]
 public record AwsElbv2DeleteListenerOptions(
-[property: CommandSwitch("--listener-arn")] string ListenerArn
+[property: CliOption("--listener-arn")] string ListenerArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

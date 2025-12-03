@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudwatch", "set-alarm-state")]
+[CliCommand("cloudwatch", "set-alarm-state")]
 public record AwsCloudwatchSetAlarmStateOptions(
-[property: CommandSwitch("--alarm-name")] string AlarmName,
-[property: CommandSwitch("--state-value")] string StateValue,
-[property: CommandSwitch("--state-reason")] string StateReason
+[property: CliOption("--alarm-name")] string AlarmName,
+[property: CliOption("--state-value")] string StateValue,
+[property: CliOption("--state-reason")] string StateReason
 ) : AwsOptions
 {
-    [CommandSwitch("--state-reason-data")]
+    [CliOption("--state-reason-data")]
     public string? StateReasonData { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

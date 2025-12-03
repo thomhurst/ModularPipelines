@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iottwinmaker", "update-entity")]
+[CliCommand("iottwinmaker", "update-entity")]
 public record AwsIottwinmakerUpdateEntityOptions(
-[property: CommandSwitch("--workspace-id")] string WorkspaceId,
-[property: CommandSwitch("--entity-id")] string EntityId
+[property: CliOption("--workspace-id")] string WorkspaceId,
+[property: CliOption("--entity-id")] string EntityId
 ) : AwsOptions
 {
-    [CommandSwitch("--entity-name")]
+    [CliOption("--entity-name")]
     public string? EntityName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--component-updates")]
+    [CliOption("--component-updates")]
     public IEnumerable<KeyValue>? ComponentUpdates { get; set; }
 
-    [CommandSwitch("--composite-component-updates")]
+    [CliOption("--composite-component-updates")]
     public IEnumerable<KeyValue>? CompositeComponentUpdates { get; set; }
 
-    [CommandSwitch("--parent-entity-update")]
+    [CliOption("--parent-entity-update")]
     public string? ParentEntityUpdate { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

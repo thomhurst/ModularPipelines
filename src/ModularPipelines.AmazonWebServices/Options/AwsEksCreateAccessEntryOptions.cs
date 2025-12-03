@@ -5,27 +5,27 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eks", "create-access-entry")]
+[CliCommand("eks", "create-access-entry")]
 public record AwsEksCreateAccessEntryOptions(
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--principal-arn")] string PrincipalArn
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--principal-arn")] string PrincipalArn
 ) : AwsOptions
 {
-    [CommandSwitch("--kubernetes-groups")]
+    [CliOption("--kubernetes-groups")]
     public string[]? KubernetesGroups { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--username")]
+    [CliOption("--username")]
     public string? Username { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

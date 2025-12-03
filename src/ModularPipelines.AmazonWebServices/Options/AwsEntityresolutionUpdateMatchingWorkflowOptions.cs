@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("entityresolution", "update-matching-workflow")]
+[CliCommand("entityresolution", "update-matching-workflow")]
 public record AwsEntityresolutionUpdateMatchingWorkflowOptions(
-[property: CommandSwitch("--input-source-config")] string[] InputSourceConfig,
-[property: CommandSwitch("--output-source-config")] string[] OutputSourceConfig,
-[property: CommandSwitch("--resolution-techniques")] string ResolutionTechniques,
-[property: CommandSwitch("--role-arn")] string RoleArn,
-[property: CommandSwitch("--workflow-name")] string WorkflowName
+[property: CliOption("--input-source-config")] string[] InputSourceConfig,
+[property: CliOption("--output-source-config")] string[] OutputSourceConfig,
+[property: CliOption("--resolution-techniques")] string ResolutionTechniques,
+[property: CliOption("--role-arn")] string RoleArn,
+[property: CliOption("--workflow-name")] string WorkflowName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--incremental-run-config")]
+    [CliOption("--incremental-run-config")]
     public string? IncrementalRunConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

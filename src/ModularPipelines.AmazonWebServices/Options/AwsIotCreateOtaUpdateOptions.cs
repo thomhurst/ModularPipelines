@@ -5,41 +5,41 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "create-ota-update")]
+[CliCommand("iot", "create-ota-update")]
 public record AwsIotCreateOtaUpdateOptions(
-[property: CommandSwitch("--ota-update-id")] string OtaUpdateId,
-[property: CommandSwitch("--targets")] string[] Targets,
-[property: CommandSwitch("--files")] string[] Files,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--ota-update-id")] string OtaUpdateId,
+[property: CliOption("--targets")] string[] Targets,
+[property: CliOption("--files")] string[] Files,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--protocols")]
+    [CliOption("--protocols")]
     public string[]? Protocols { get; set; }
 
-    [CommandSwitch("--target-selection")]
+    [CliOption("--target-selection")]
     public string? TargetSelection { get; set; }
 
-    [CommandSwitch("--aws-job-executions-rollout-config")]
+    [CliOption("--aws-job-executions-rollout-config")]
     public string? AwsJobExecutionsRolloutConfig { get; set; }
 
-    [CommandSwitch("--aws-job-presigned-url-config")]
+    [CliOption("--aws-job-presigned-url-config")]
     public string? AwsJobPresignedUrlConfig { get; set; }
 
-    [CommandSwitch("--aws-job-abort-config")]
+    [CliOption("--aws-job-abort-config")]
     public string? AwsJobAbortConfig { get; set; }
 
-    [CommandSwitch("--aws-job-timeout-config")]
+    [CliOption("--aws-job-timeout-config")]
     public string? AwsJobTimeoutConfig { get; set; }
 
-    [CommandSwitch("--additional-parameters")]
+    [CliOption("--additional-parameters")]
     public IEnumerable<KeyValue>? AdditionalParameters { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

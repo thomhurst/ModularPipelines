@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appmesh", "update-virtual-node")]
+[CliCommand("appmesh", "update-virtual-node")]
 public record AwsAppmeshUpdateVirtualNodeOptions(
-[property: CommandSwitch("--mesh-name")] string MeshName,
-[property: CommandSwitch("--spec")] string Spec,
-[property: CommandSwitch("--virtual-node-name")] string VirtualNodeName
+[property: CliOption("--mesh-name")] string MeshName,
+[property: CliOption("--spec")] string Spec,
+[property: CliOption("--virtual-node-name")] string VirtualNodeName
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--mesh-owner")]
+    [CliOption("--mesh-owner")]
     public string? MeshOwner { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

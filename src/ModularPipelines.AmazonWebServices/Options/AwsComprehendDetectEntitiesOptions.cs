@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("comprehend", "detect-entities")]
+[CliCommand("comprehend", "detect-entities")]
 public record AwsComprehendDetectEntitiesOptions : AwsOptions
 {
-    [CommandSwitch("--text")]
+    [CliOption("--text")]
     public string? Text { get; set; }
 
-    [CommandSwitch("--language-code")]
+    [CliOption("--language-code")]
     public string? LanguageCode { get; set; }
 
-    [CommandSwitch("--endpoint-arn")]
+    [CliOption("--endpoint-arn")]
     public string? EndpointArn { get; set; }
 
-    [CommandSwitch("--bytes")]
+    [CliOption("--bytes")]
     public string? Bytes { get; set; }
 
-    [CommandSwitch("--document-reader-config")]
+    [CliOption("--document-reader-config")]
     public string? DocumentReaderConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medialive", "update-input")]
+[CliCommand("medialive", "update-input")]
 public record AwsMedialiveUpdateInputOptions(
-[property: CommandSwitch("--input-id")] string InputId
+[property: CliOption("--input-id")] string InputId
 ) : AwsOptions
 {
-    [CommandSwitch("--destinations")]
+    [CliOption("--destinations")]
     public string[]? Destinations { get; set; }
 
-    [CommandSwitch("--input-devices")]
+    [CliOption("--input-devices")]
     public string[]? InputDevices { get; set; }
 
-    [CommandSwitch("--input-security-groups")]
+    [CliOption("--input-security-groups")]
     public string[]? InputSecurityGroups { get; set; }
 
-    [CommandSwitch("--media-connect-flows")]
+    [CliOption("--media-connect-flows")]
     public string[]? MediaConnectFlows { get; set; }
 
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--sources")]
+    [CliOption("--sources")]
     public string[]? Sources { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

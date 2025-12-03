@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudwatch", "get-metric-statistics")]
+[CliCommand("cloudwatch", "get-metric-statistics")]
 public record AwsCloudwatchGetMetricStatisticsOptions(
-[property: CommandSwitch("--namespace")] string Namespace,
-[property: CommandSwitch("--metric-name")] string MetricName,
-[property: CommandSwitch("--start-time")] long StartTime,
-[property: CommandSwitch("--end-time")] long EndTime,
-[property: CommandSwitch("--period")] int Period
+[property: CliOption("--namespace")] string Namespace,
+[property: CliOption("--metric-name")] string MetricName,
+[property: CliOption("--start-time")] long StartTime,
+[property: CliOption("--end-time")] long EndTime,
+[property: CliOption("--period")] int Period
 ) : AwsOptions
 {
-    [CommandSwitch("--dimensions")]
+    [CliOption("--dimensions")]
     public string[]? Dimensions { get; set; }
 
-    [CommandSwitch("--statistics")]
+    [CliOption("--statistics")]
     public string[]? Statistics { get; set; }
 
-    [CommandSwitch("--extended-statistics")]
+    [CliOption("--extended-statistics")]
     public string[]? ExtendedStatistics { get; set; }
 
-    [CommandSwitch("--unit")]
+    [CliOption("--unit")]
     public string? Unit { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "create-typed-link-facet")]
+[CliCommand("clouddirectory", "create-typed-link-facet")]
 public record AwsClouddirectoryCreateTypedLinkFacetOptions(
-[property: CommandSwitch("--schema-arn")] string SchemaArn,
-[property: CommandSwitch("--facet")] string Facet
+[property: CliOption("--schema-arn")] string SchemaArn,
+[property: CliOption("--facet")] string Facet
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

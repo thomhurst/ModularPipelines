@@ -5,47 +5,47 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr-serverless", "update-application")]
+[CliCommand("emr-serverless", "update-application")]
 public record AwsEmrServerlessUpdateApplicationOptions(
-[property: CommandSwitch("--application-id")] string ApplicationId
+[property: CliOption("--application-id")] string ApplicationId
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--initial-capacity")]
+    [CliOption("--initial-capacity")]
     public IEnumerable<KeyValue>? InitialCapacity { get; set; }
 
-    [CommandSwitch("--maximum-capacity")]
+    [CliOption("--maximum-capacity")]
     public string? MaximumCapacity { get; set; }
 
-    [CommandSwitch("--auto-start-configuration")]
+    [CliOption("--auto-start-configuration")]
     public string? AutoStartConfiguration { get; set; }
 
-    [CommandSwitch("--auto-stop-configuration")]
+    [CliOption("--auto-stop-configuration")]
     public string? AutoStopConfiguration { get; set; }
 
-    [CommandSwitch("--network-configuration")]
+    [CliOption("--network-configuration")]
     public string? NetworkConfiguration { get; set; }
 
-    [CommandSwitch("--architecture")]
+    [CliOption("--architecture")]
     public string? Architecture { get; set; }
 
-    [CommandSwitch("--image-configuration")]
+    [CliOption("--image-configuration")]
     public string? ImageConfiguration { get; set; }
 
-    [CommandSwitch("--worker-type-specifications")]
+    [CliOption("--worker-type-specifications")]
     public IEnumerable<KeyValue>? WorkerTypeSpecifications { get; set; }
 
-    [CommandSwitch("--release-label")]
+    [CliOption("--release-label")]
     public string? ReleaseLabel { get; set; }
 
-    [CommandSwitch("--runtime-configuration")]
+    [CliOption("--runtime-configuration")]
     public string[]? RuntimeConfiguration { get; set; }
 
-    [CommandSwitch("--monitoring-configuration")]
+    [CliOption("--monitoring-configuration")]
     public string? MonitoringConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

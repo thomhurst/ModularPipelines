@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memorydb", "copy-snapshot")]
+[CliCommand("memorydb", "copy-snapshot")]
 public record AwsMemorydbCopySnapshotOptions(
-[property: CommandSwitch("--source-snapshot-name")] string SourceSnapshotName,
-[property: CommandSwitch("--target-snapshot-name")] string TargetSnapshotName
+[property: CliOption("--source-snapshot-name")] string SourceSnapshotName,
+[property: CliOption("--target-snapshot-name")] string TargetSnapshotName
 ) : AwsOptions
 {
-    [CommandSwitch("--target-bucket")]
+    [CliOption("--target-bucket")]
     public string? TargetBucket { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medialive", "delete-multiplex")]
+[CliCommand("medialive", "delete-multiplex")]
 public record AwsMedialiveDeleteMultiplexOptions(
-[property: CommandSwitch("--multiplex-id")] string MultiplexId
+[property: CliOption("--multiplex-id")] string MultiplexId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

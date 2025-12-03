@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkmanager", "put-resource-policy")]
+[CliCommand("networkmanager", "put-resource-policy")]
 public record AwsNetworkmanagerPutResourcePolicyOptions(
-[property: CommandSwitch("--policy-document")] string PolicyDocument,
-[property: CommandSwitch("--resource-arn")] string ResourceArn
+[property: CliOption("--policy-document")] string PolicyDocument,
+[property: CliOption("--resource-arn")] string ResourceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

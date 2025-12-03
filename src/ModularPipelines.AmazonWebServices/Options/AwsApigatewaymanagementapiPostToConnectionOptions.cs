@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigatewaymanagementapi", "post-to-connection")]
+[CliCommand("apigatewaymanagementapi", "post-to-connection")]
 public record AwsApigatewaymanagementapiPostToConnectionOptions(
-[property: CommandSwitch("--data")] string Data,
-[property: CommandSwitch("--connection-id")] string ConnectionId
+[property: CliOption("--data")] string Data,
+[property: CliOption("--connection-id")] string ConnectionId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecommit", "describe-pull-request-events")]
+[CliCommand("codecommit", "describe-pull-request-events")]
 public record AwsCodecommitDescribePullRequestEventsOptions(
-[property: CommandSwitch("--pull-request-id")] string PullRequestId
+[property: CliOption("--pull-request-id")] string PullRequestId
 ) : AwsOptions
 {
-    [CommandSwitch("--pull-request-event-type")]
+    [CliOption("--pull-request-event-type")]
     public string? PullRequestEventType { get; set; }
 
-    [CommandSwitch("--actor-arn")]
+    [CliOption("--actor-arn")]
     public string? ActorArn { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

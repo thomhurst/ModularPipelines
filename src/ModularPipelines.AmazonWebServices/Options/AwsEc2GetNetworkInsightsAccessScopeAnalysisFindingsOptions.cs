@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "get-network-insights-access-scope-analysis-findings")]
+[CliCommand("ec2", "get-network-insights-access-scope-analysis-findings")]
 public record AwsEc2GetNetworkInsightsAccessScopeAnalysisFindingsOptions(
-[property: CommandSwitch("--network-insights-access-scope-analysis-id")] string NetworkInsightsAccessScopeAnalysisId
+[property: CliOption("--network-insights-access-scope-analysis-id")] string NetworkInsightsAccessScopeAnalysisId
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

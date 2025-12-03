@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "update-role-alias")]
+[CliCommand("iot", "update-role-alias")]
 public record AwsIotUpdateRoleAliasOptions(
-[property: CommandSwitch("--role-alias")] string RoleAlias
+[property: CliOption("--role-alias")] string RoleAlias
 ) : AwsOptions
 {
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--credential-duration-seconds")]
+    [CliOption("--credential-duration-seconds")]
     public int? CredentialDurationSeconds { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutmetrics", "create-anomaly-detector")]
+[CliCommand("lookoutmetrics", "create-anomaly-detector")]
 public record AwsLookoutmetricsCreateAnomalyDetectorOptions(
-[property: CommandSwitch("--anomaly-detector-name")] string AnomalyDetectorName,
-[property: CommandSwitch("--anomaly-detector-config")] string AnomalyDetectorConfig
+[property: CliOption("--anomaly-detector-name")] string AnomalyDetectorName,
+[property: CliOption("--anomaly-detector-config")] string AnomalyDetectorConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--anomaly-detector-description")]
+    [CliOption("--anomaly-detector-description")]
     public string? AnomalyDetectorDescription { get; set; }
 
-    [CommandSwitch("--kms-key-arn")]
+    [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

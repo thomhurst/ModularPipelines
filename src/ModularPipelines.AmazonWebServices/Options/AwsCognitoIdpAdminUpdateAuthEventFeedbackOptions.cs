@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "admin-update-auth-event-feedback")]
+[CliCommand("cognito-idp", "admin-update-auth-event-feedback")]
 public record AwsCognitoIdpAdminUpdateAuthEventFeedbackOptions(
-[property: CommandSwitch("--user-pool-id")] string UserPoolId,
-[property: CommandSwitch("--username")] string Username,
-[property: CommandSwitch("--event-id")] string EventId,
-[property: CommandSwitch("--feedback-value")] string FeedbackValue
+[property: CliOption("--user-pool-id")] string UserPoolId,
+[property: CliOption("--username")] string Username,
+[property: CliOption("--event-id")] string EventId,
+[property: CliOption("--feedback-value")] string FeedbackValue
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

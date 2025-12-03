@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("configservice", "batch-get-resource-config")]
+[CliCommand("configservice", "batch-get-resource-config")]
 public record AwsConfigserviceBatchGetResourceConfigOptions(
-[property: CommandSwitch("--resource-keys")] string[] ResourceKeys
+[property: CliOption("--resource-keys")] string[] ResourceKeys
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

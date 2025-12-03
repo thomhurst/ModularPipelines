@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "start-ml-evaluation-task-run")]
+[CliCommand("glue", "start-ml-evaluation-task-run")]
 public record AwsGlueStartMlEvaluationTaskRunOptions(
-[property: CommandSwitch("--transform-id")] string TransformId
+[property: CliOption("--transform-id")] string TransformId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

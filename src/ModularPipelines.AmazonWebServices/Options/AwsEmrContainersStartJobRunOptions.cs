@@ -5,41 +5,41 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr-containers", "start-job-run")]
+[CliCommand("emr-containers", "start-job-run")]
 public record AwsEmrContainersStartJobRunOptions(
-[property: CommandSwitch("--virtual-cluster-id")] string VirtualClusterId
+[property: CliOption("--virtual-cluster-id")] string VirtualClusterId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--execution-role-arn")]
+    [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 
-    [CommandSwitch("--release-label")]
+    [CliOption("--release-label")]
     public string? ReleaseLabel { get; set; }
 
-    [CommandSwitch("--job-driver")]
+    [CliOption("--job-driver")]
     public string? JobDriver { get; set; }
 
-    [CommandSwitch("--configuration-overrides")]
+    [CliOption("--configuration-overrides")]
     public string? ConfigurationOverrides { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--job-template-id")]
+    [CliOption("--job-template-id")]
     public string? JobTemplateId { get; set; }
 
-    [CommandSwitch("--job-template-parameters")]
+    [CliOption("--job-template-parameters")]
     public IEnumerable<KeyValue>? JobTemplateParameters { get; set; }
 
-    [CommandSwitch("--retry-policy-configuration")]
+    [CliOption("--retry-policy-configuration")]
     public string? RetryPolicyConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

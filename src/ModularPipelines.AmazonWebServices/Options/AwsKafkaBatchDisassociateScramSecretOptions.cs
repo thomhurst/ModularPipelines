@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafka", "batch-disassociate-scram-secret")]
+[CliCommand("kafka", "batch-disassociate-scram-secret")]
 public record AwsKafkaBatchDisassociateScramSecretOptions(
-[property: CommandSwitch("--cluster-arn")] string ClusterArn,
-[property: CommandSwitch("--secret-arn-list")] string[] SecretArnList
+[property: CliOption("--cluster-arn")] string ClusterArn,
+[property: CliOption("--secret-arn-list")] string[] SecretArnList
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ivs-realtime", "disconnect-participant")]
+[CliCommand("ivs-realtime", "disconnect-participant")]
 public record AwsIvsRealtimeDisconnectParticipantOptions(
-[property: CommandSwitch("--participant-id")] string ParticipantId,
-[property: CommandSwitch("--stage-arn")] string StageArn
+[property: CliOption("--participant-id")] string ParticipantId,
+[property: CliOption("--stage-arn")] string StageArn
 ) : AwsOptions
 {
-    [CommandSwitch("--reason")]
+    [CliOption("--reason")]
     public string? Reason { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

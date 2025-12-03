@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("nimble", "get-eula")]
+[CliCommand("nimble", "get-eula")]
 public record AwsNimbleGetEulaOptions(
-[property: CommandSwitch("--eula-id")] string EulaId
+[property: CliOption("--eula-id")] string EulaId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

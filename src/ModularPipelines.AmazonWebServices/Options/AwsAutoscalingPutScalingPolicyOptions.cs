@@ -4,45 +4,45 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("autoscaling", "put-scaling-policy")]
+[CliCommand("autoscaling", "put-scaling-policy")]
 public record AwsAutoscalingPutScalingPolicyOptions(
-[property: CommandSwitch("--auto-scaling-group-name")] string AutoScalingGroupName,
-[property: CommandSwitch("--policy-name")] string PolicyName
+[property: CliOption("--auto-scaling-group-name")] string AutoScalingGroupName,
+[property: CliOption("--policy-name")] string PolicyName
 ) : AwsOptions
 {
-    [CommandSwitch("--policy-type")]
+    [CliOption("--policy-type")]
     public string? PolicyType { get; set; }
 
-    [CommandSwitch("--adjustment-type")]
+    [CliOption("--adjustment-type")]
     public string? AdjustmentType { get; set; }
 
-    [CommandSwitch("--min-adjustment-step")]
+    [CliOption("--min-adjustment-step")]
     public int? MinAdjustmentStep { get; set; }
 
-    [CommandSwitch("--min-adjustment-magnitude")]
+    [CliOption("--min-adjustment-magnitude")]
     public int? MinAdjustmentMagnitude { get; set; }
 
-    [CommandSwitch("--scaling-adjustment")]
+    [CliOption("--scaling-adjustment")]
     public int? ScalingAdjustment { get; set; }
 
-    [CommandSwitch("--cooldown")]
+    [CliOption("--cooldown")]
     public int? Cooldown { get; set; }
 
-    [CommandSwitch("--metric-aggregation-type")]
+    [CliOption("--metric-aggregation-type")]
     public string? MetricAggregationType { get; set; }
 
-    [CommandSwitch("--step-adjustments")]
+    [CliOption("--step-adjustments")]
     public string[]? StepAdjustments { get; set; }
 
-    [CommandSwitch("--estimated-instance-warmup")]
+    [CliOption("--estimated-instance-warmup")]
     public int? EstimatedInstanceWarmup { get; set; }
 
-    [CommandSwitch("--target-tracking-configuration")]
+    [CliOption("--target-tracking-configuration")]
     public string? TargetTrackingConfiguration { get; set; }
 
-    [CommandSwitch("--predictive-scaling-configuration")]
+    [CliOption("--predictive-scaling-configuration")]
     public string? PredictiveScalingConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ce", "list-cost-category-definitions")]
+[CliCommand("ce", "list-cost-category-definitions")]
 public record AwsCeListCostCategoryDefinitionsOptions : AwsOptions
 {
-    [CommandSwitch("--effective-on")]
+    [CliOption("--effective-on")]
     public string? EffectiveOn { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

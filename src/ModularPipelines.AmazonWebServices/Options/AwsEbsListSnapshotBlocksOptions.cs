@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ebs", "list-snapshot-blocks")]
+[CliCommand("ebs", "list-snapshot-blocks")]
 public record AwsEbsListSnapshotBlocksOptions(
-[property: CommandSwitch("--snapshot-id")] string SnapshotId
+[property: CliOption("--snapshot-id")] string SnapshotId
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--starting-block-index")]
+    [CliOption("--starting-block-index")]
     public int? StartingBlockIndex { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

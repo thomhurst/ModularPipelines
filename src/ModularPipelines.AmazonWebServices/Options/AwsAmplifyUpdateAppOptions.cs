@@ -5,53 +5,53 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("amplify", "update-app")]
+[CliCommand("amplify", "update-app")]
 public record AwsAmplifyUpdateAppOptions(
-[property: CommandSwitch("--app-id")] string AppId
+[property: CliOption("--app-id")] string AppId
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--platform")]
+    [CliOption("--platform")]
     public string? Platform { get; set; }
 
-    [CommandSwitch("--iam-service-role-arn")]
+    [CliOption("--iam-service-role-arn")]
     public string? IamServiceRoleArn { get; set; }
 
-    [CommandSwitch("--environment-variables")]
+    [CliOption("--environment-variables")]
     public IEnumerable<KeyValue>? AwsAmplEnvironmentVariables { get; set; }
 
-    [CommandSwitch("--basic-auth-credentials")]
+    [CliOption("--basic-auth-credentials")]
     public string? BasicAuthCredentials { get; set; }
 
-    [CommandSwitch("--custom-rules")]
+    [CliOption("--custom-rules")]
     public string[]? CustomRules { get; set; }
 
-    [CommandSwitch("--build-spec")]
+    [CliOption("--build-spec")]
     public string? BuildSpec { get; set; }
 
-    [CommandSwitch("--custom-headers")]
+    [CliOption("--custom-headers")]
     public string? CustomHeaders { get; set; }
 
-    [CommandSwitch("--auto-branch-creation-patterns")]
+    [CliOption("--auto-branch-creation-patterns")]
     public string[]? AutoBranchCreationPatterns { get; set; }
 
-    [CommandSwitch("--auto-branch-creation-config")]
+    [CliOption("--auto-branch-creation-config")]
     public string? AutoBranchCreationConfig { get; set; }
 
-    [CommandSwitch("--repository")]
+    [CliOption("--repository")]
     public string? Repository { get; set; }
 
-    [CommandSwitch("--oauth-token")]
+    [CliOption("--oauth-token")]
     public string? OauthToken { get; set; }
 
-    [CommandSwitch("--access-token")]
+    [CliOption("--access-token")]
     public string? AccessToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

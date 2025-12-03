@@ -4,53 +4,53 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "update-service")]
+[CliCommand("ecs", "update-service")]
 public record AwsEcsUpdateServiceOptions(
-[property: CommandSwitch("--service")] string Service
+[property: CliOption("--service")] string Service
 ) : AwsOptions
 {
-    [CommandSwitch("--cluster")]
+    [CliOption("--cluster")]
     public string? Cluster { get; set; }
 
-    [CommandSwitch("--desired-count")]
+    [CliOption("--desired-count")]
     public int? DesiredCount { get; set; }
 
-    [CommandSwitch("--task-definition")]
+    [CliOption("--task-definition")]
     public string? TaskDefinition { get; set; }
 
-    [CommandSwitch("--capacity-provider-strategy")]
+    [CliOption("--capacity-provider-strategy")]
     public string[]? CapacityProviderStrategy { get; set; }
 
-    [CommandSwitch("--deployment-configuration")]
+    [CliOption("--deployment-configuration")]
     public string? DeploymentConfiguration { get; set; }
 
-    [CommandSwitch("--network-configuration")]
+    [CliOption("--network-configuration")]
     public string? NetworkConfiguration { get; set; }
 
-    [CommandSwitch("--placement-constraints")]
+    [CliOption("--placement-constraints")]
     public string[]? PlacementConstraints { get; set; }
 
-    [CommandSwitch("--placement-strategy")]
+    [CliOption("--placement-strategy")]
     public string[]? PlacementStrategy { get; set; }
 
-    [CommandSwitch("--platform-version")]
+    [CliOption("--platform-version")]
     public string? PlatformVersion { get; set; }
 
-    [CommandSwitch("--health-check-grace-period-seconds")]
+    [CliOption("--health-check-grace-period-seconds")]
     public int? HealthCheckGracePeriodSeconds { get; set; }
 
-    [CommandSwitch("--load-balancers")]
+    [CliOption("--load-balancers")]
     public string[]? LoadBalancers { get; set; }
 
-    [CommandSwitch("--propagate-tags")]
+    [CliOption("--propagate-tags")]
     public string? PropagateTags { get; set; }
 
-    [CommandSwitch("--service-registries")]
+    [CliOption("--service-registries")]
     public string[]? ServiceRegistries { get; set; }
 
-    [CommandSwitch("--service-connect-configuration")]
+    [CliOption("--service-connect-configuration")]
     public string? ServiceConnectConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

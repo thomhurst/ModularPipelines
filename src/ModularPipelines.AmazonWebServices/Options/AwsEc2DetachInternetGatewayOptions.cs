@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "detach-internet-gateway")]
+[CliCommand("ec2", "detach-internet-gateway")]
 public record AwsEc2DetachInternetGatewayOptions(
-[property: CommandSwitch("--internet-gateway-id")] string InternetGatewayId,
-[property: CommandSwitch("--vpc-id")] string VpcId
+[property: CliOption("--internet-gateway-id")] string InternetGatewayId,
+[property: CliOption("--vpc-id")] string VpcId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

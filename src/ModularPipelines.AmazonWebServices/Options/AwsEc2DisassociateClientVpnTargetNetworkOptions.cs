@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "disassociate-client-vpn-target-network")]
+[CliCommand("ec2", "disassociate-client-vpn-target-network")]
 public record AwsEc2DisassociateClientVpnTargetNetworkOptions(
-[property: CommandSwitch("--client-vpn-endpoint-id")] string ClientVpnEndpointId,
-[property: CommandSwitch("--association-id")] string AssociationId
+[property: CliOption("--client-vpn-endpoint-id")] string ClientVpnEndpointId,
+[property: CliOption("--association-id")] string AssociationId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

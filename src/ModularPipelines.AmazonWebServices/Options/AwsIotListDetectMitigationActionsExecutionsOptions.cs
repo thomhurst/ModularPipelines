@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "list-detect-mitigation-actions-executions")]
+[CliCommand("iot", "list-detect-mitigation-actions-executions")]
 public record AwsIotListDetectMitigationActionsExecutionsOptions : AwsOptions
 {
-    [CommandSwitch("--task-id")]
+    [CliOption("--task-id")]
     public string? TaskId { get; set; }
 
-    [CommandSwitch("--violation-id")]
+    [CliOption("--violation-id")]
     public string? ViolationId { get; set; }
 
-    [CommandSwitch("--thing-name")]
+    [CliOption("--thing-name")]
     public string? ThingName { get; set; }
 
-    [CommandSwitch("--start-time")]
+    [CliOption("--start-time")]
     public long? StartTime { get; set; }
 
-    [CommandSwitch("--end-time")]
+    [CliOption("--end-time")]
     public long? EndTime { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

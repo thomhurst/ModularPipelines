@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("autoscaling", "execute-policy")]
+[CliCommand("autoscaling", "execute-policy")]
 public record AwsAutoscalingExecutePolicyOptions(
-[property: CommandSwitch("--policy-name")] string PolicyName
+[property: CliOption("--policy-name")] string PolicyName
 ) : AwsOptions
 {
-    [CommandSwitch("--auto-scaling-group-name")]
+    [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
 
-    [CommandSwitch("--metric-value")]
+    [CliOption("--metric-value")]
     public double? MetricValue { get; set; }
 
-    [CommandSwitch("--breach-threshold")]
+    [CliOption("--breach-threshold")]
     public double? BreachThreshold { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

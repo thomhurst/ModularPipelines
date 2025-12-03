@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-messaging", "channel-flow-callback")]
+[CliCommand("chime-sdk-messaging", "channel-flow-callback")]
 public record AwsChimeSdkMessagingChannelFlowCallbackOptions(
-[property: CommandSwitch("--channel-arn")] string ChannelArn,
-[property: CommandSwitch("--channel-message")] string ChannelMessage
+[property: CliOption("--channel-arn")] string ChannelArn,
+[property: CliOption("--channel-message")] string ChannelMessage
 ) : AwsOptions
 {
-    [CommandSwitch("--callback-id")]
+    [CliOption("--callback-id")]
     public string? CallbackId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

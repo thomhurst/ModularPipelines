@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecommit", "create-branch")]
+[CliCommand("codecommit", "create-branch")]
 public record AwsCodecommitCreateBranchOptions(
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--branch-name")] string BranchName,
-[property: CommandSwitch("--commit-id")] string CommitId
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--branch-name")] string BranchName,
+[property: CliOption("--commit-id")] string CommitId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

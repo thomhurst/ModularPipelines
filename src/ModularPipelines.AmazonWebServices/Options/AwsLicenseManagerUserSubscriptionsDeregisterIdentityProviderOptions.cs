@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("license-manager-user-subscriptions", "deregister-identity-provider")]
+[CliCommand("license-manager-user-subscriptions", "deregister-identity-provider")]
 public record AwsLicenseManagerUserSubscriptionsDeregisterIdentityProviderOptions(
-[property: CommandSwitch("--identity-provider")] string IdentityProvider,
-[property: CommandSwitch("--product")] string Product
+[property: CliOption("--identity-provider")] string IdentityProvider,
+[property: CliOption("--product")] string Product
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

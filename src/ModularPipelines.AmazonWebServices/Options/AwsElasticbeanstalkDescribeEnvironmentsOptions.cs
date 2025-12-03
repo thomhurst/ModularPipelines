@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elasticbeanstalk", "describe-environments")]
+[CliCommand("elasticbeanstalk", "describe-environments")]
 public record AwsElasticbeanstalkDescribeEnvironmentsOptions : AwsOptions
 {
-    [CommandSwitch("--application-name")]
+    [CliOption("--application-name")]
     public string? ApplicationName { get; set; }
 
-    [CommandSwitch("--version-label")]
+    [CliOption("--version-label")]
     public string? VersionLabel { get; set; }
 
-    [CommandSwitch("--environment-ids")]
+    [CliOption("--environment-ids")]
     public string[]? EnvironmentIds { get; set; }
 
-    [CommandSwitch("--environment-names")]
+    [CliOption("--environment-names")]
     public string[]? EnvironmentNames { get; set; }
 
-    [CommandSwitch("--included-deleted-back-to")]
+    [CliOption("--included-deleted-back-to")]
     public long? IncludedDeletedBackTo { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

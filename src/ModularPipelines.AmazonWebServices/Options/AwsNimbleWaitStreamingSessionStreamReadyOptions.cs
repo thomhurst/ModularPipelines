@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("nimble", "wait", "streaming-session-stream-ready")]
+[CliCommand("nimble", "wait", "streaming-session-stream-ready")]
 public record AwsNimbleWaitStreamingSessionStreamReadyOptions(
-[property: CommandSwitch("--session-id")] string SessionId,
-[property: CommandSwitch("--stream-id")] string StreamId,
-[property: CommandSwitch("--studio-id")] string StudioId
+[property: CliOption("--session-id")] string SessionId,
+[property: CliOption("--stream-id")] string StreamId,
+[property: CliOption("--studio-id")] string StudioId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

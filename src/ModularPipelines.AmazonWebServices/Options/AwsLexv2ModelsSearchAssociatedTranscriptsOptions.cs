@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lexv2-models", "search-associated-transcripts")]
+[CliCommand("lexv2-models", "search-associated-transcripts")]
 public record AwsLexv2ModelsSearchAssociatedTranscriptsOptions(
-[property: CommandSwitch("--bot-id")] string BotId,
-[property: CommandSwitch("--bot-version")] string BotVersion,
-[property: CommandSwitch("--locale-id")] string LocaleId,
-[property: CommandSwitch("--bot-recommendation-id")] string BotRecommendationId,
-[property: CommandSwitch("--filters")] string[] Filters
+[property: CliOption("--bot-id")] string BotId,
+[property: CliOption("--bot-version")] string BotVersion,
+[property: CliOption("--locale-id")] string LocaleId,
+[property: CliOption("--bot-recommendation-id")] string BotRecommendationId,
+[property: CliOption("--filters")] string[] Filters
 ) : AwsOptions
 {
-    [CommandSwitch("--search-order")]
+    [CliOption("--search-order")]
     public string? SearchOrder { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-index")]
+    [CliOption("--next-index")]
     public int? NextIndex { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

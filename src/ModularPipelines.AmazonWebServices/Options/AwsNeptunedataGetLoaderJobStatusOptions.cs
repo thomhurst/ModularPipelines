@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptunedata", "get-loader-job-status")]
+[CliCommand("neptunedata", "get-loader-job-status")]
 public record AwsNeptunedataGetLoaderJobStatusOptions(
-[property: CommandSwitch("--load-id")] string LoadId
+[property: CliOption("--load-id")] string LoadId
 ) : AwsOptions
 {
-    [CommandSwitch("--page")]
+    [CliOption("--page")]
     public int? Page { get; set; }
 
-    [CommandSwitch("--errors-per-page")]
+    [CliOption("--errors-per-page")]
     public int? ErrorsPerPage { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

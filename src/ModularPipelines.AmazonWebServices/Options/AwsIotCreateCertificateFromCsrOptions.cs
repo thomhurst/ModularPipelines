@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "create-certificate-from-csr")]
+[CliCommand("iot", "create-certificate-from-csr")]
 public record AwsIotCreateCertificateFromCsrOptions(
-[property: CommandSwitch("--certificate-signing-request")] string CertificateSigningRequest
+[property: CliOption("--certificate-signing-request")] string CertificateSigningRequest
 ) : AwsOptions
 {
-    [CommandSwitch("--certificate-pem-outfile")]
+    [CliOption("--certificate-pem-outfile")]
     public string? CertificatePemOutfile { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

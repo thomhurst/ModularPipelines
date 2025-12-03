@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "query-schema-version-metadata")]
+[CliCommand("glue", "query-schema-version-metadata")]
 public record AwsGlueQuerySchemaVersionMetadataOptions : AwsOptions
 {
-    [CommandSwitch("--schema-id")]
+    [CliOption("--schema-id")]
     public string? SchemaId { get; set; }
 
-    [CommandSwitch("--schema-version-number")]
+    [CliOption("--schema-version-number")]
     public string? SchemaVersionNumber { get; set; }
 
-    [CommandSwitch("--schema-version-id")]
+    [CliOption("--schema-version-id")]
     public string? SchemaVersionId { get; set; }
 
-    [CommandSwitch("--metadata-list")]
+    [CliOption("--metadata-list")]
     public string[]? MetadataList { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

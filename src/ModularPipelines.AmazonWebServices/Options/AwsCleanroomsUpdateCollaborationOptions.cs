@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cleanrooms", "update-collaboration")]
+[CliCommand("cleanrooms", "update-collaboration")]
 public record AwsCleanroomsUpdateCollaborationOptions(
-[property: CommandSwitch("--collaboration-identifier")] string CollaborationIdentifier
+[property: CliOption("--collaboration-identifier")] string CollaborationIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

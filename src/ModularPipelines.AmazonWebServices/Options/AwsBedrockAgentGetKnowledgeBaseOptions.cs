@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("bedrock-agent", "get-knowledge-base")]
+[CliCommand("bedrock-agent", "get-knowledge-base")]
 public record AwsBedrockAgentGetKnowledgeBaseOptions(
-[property: CommandSwitch("--knowledge-base-id")] string KnowledgeBaseId
+[property: CliOption("--knowledge-base-id")] string KnowledgeBaseId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

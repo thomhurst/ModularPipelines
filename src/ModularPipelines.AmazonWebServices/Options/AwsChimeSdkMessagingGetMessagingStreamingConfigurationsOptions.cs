@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-messaging", "get-messaging-streaming-configurations")]
+[CliCommand("chime-sdk-messaging", "get-messaging-streaming-configurations")]
 public record AwsChimeSdkMessagingGetMessagingStreamingConfigurationsOptions(
-[property: CommandSwitch("--app-instance-arn")] string AppInstanceArn
+[property: CliOption("--app-instance-arn")] string AppInstanceArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

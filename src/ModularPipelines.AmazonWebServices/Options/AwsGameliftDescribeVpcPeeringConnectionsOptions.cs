@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "describe-vpc-peering-connections")]
+[CliCommand("gamelift", "describe-vpc-peering-connections")]
 public record AwsGameliftDescribeVpcPeeringConnectionsOptions : AwsOptions
 {
-    [CommandSwitch("--fleet-id")]
+    [CliOption("--fleet-id")]
     public string? FleetId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "connect-directory")]
+[CliCommand("ds", "connect-directory")]
 public record AwsDsConnectDirectoryOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--password")] string Password,
-[property: CommandSwitch("--size")] string Size,
-[property: CommandSwitch("--connect-settings")] string ConnectSettings
+[property: CliOption("--name")] string Name,
+[property: CliOption("--password")] string Password,
+[property: CliOption("--size")] string Size,
+[property: CliOption("--connect-settings")] string ConnectSettings
 ) : AwsOptions
 {
-    [CommandSwitch("--short-name")]
+    [CliOption("--short-name")]
     public string? ShortName { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "update-contact-flow-content")]
+[CliCommand("connect", "update-contact-flow-content")]
 public record AwsConnectUpdateContactFlowContentOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--contact-flow-id")] string ContactFlowId,
-[property: CommandSwitch("--content")] string Content
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--contact-flow-id")] string ContactFlowId,
+[property: CliOption("--content")] string Content
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

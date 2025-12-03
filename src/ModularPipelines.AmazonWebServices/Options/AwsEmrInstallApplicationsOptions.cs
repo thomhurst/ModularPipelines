@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "install-applications")]
+[CliCommand("emr", "install-applications")]
 public record AwsEmrInstallApplicationsOptions(
-[property: CommandSwitch("--cluster-id")] string ClusterId,
-[property: CommandSwitch("--applications")] string[] Applications
+[property: CliOption("--cluster-id")] string ClusterId,
+[property: CliOption("--applications")] string[] Applications
 ) : AwsOptions;

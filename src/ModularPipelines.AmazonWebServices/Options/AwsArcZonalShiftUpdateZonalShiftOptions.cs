@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("arc-zonal-shift", "update-zonal-shift")]
+[CliCommand("arc-zonal-shift", "update-zonal-shift")]
 public record AwsArcZonalShiftUpdateZonalShiftOptions(
-[property: CommandSwitch("--zonal-shift-id")] string ZonalShiftId
+[property: CliOption("--zonal-shift-id")] string ZonalShiftId
 ) : AwsOptions
 {
-    [CommandSwitch("--comment")]
+    [CliOption("--comment")]
     public string? Comment { get; set; }
 
-    [CommandSwitch("--expires-in")]
+    [CliOption("--expires-in")]
     public string? ExpiresIn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

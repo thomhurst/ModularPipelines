@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fsx", "create-storage-virtual-machine")]
+[CliCommand("fsx", "create-storage-virtual-machine")]
 public record AwsFsxCreateStorageVirtualMachineOptions(
-[property: CommandSwitch("--file-system-id")] string FileSystemId,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--file-system-id")] string FileSystemId,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--active-directory-configuration")]
+    [CliOption("--active-directory-configuration")]
     public string? ActiveDirectoryConfiguration { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--svm-admin-password")]
+    [CliOption("--svm-admin-password")]
     public string? SvmAdminPassword { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--root-volume-security-style")]
+    [CliOption("--root-volume-security-style")]
     public string? RootVolumeSecurityStyle { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

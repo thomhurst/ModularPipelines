@@ -5,17 +5,17 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connectcampaigns", "create-campaign")]
+[CliCommand("connectcampaigns", "create-campaign")]
 public record AwsConnectcampaignsCreateCampaignOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--connect-instance-id")] string ConnectInstanceId,
-[property: CommandSwitch("--dialer-config")] string DialerConfig,
-[property: CommandSwitch("--outbound-call-config")] string OutboundCallConfig
+[property: CliOption("--name")] string Name,
+[property: CliOption("--connect-instance-id")] string ConnectInstanceId,
+[property: CliOption("--dialer-config")] string DialerConfig,
+[property: CliOption("--outbound-call-config")] string OutboundCallConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

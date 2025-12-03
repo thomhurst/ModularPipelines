@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dlm", "create-default-role")]
+[CliCommand("dlm", "create-default-role")]
 public record AwsDlmCreateDefaultRoleOptions : AwsOptions
 {
-    [CommandSwitch("--iam-endpoint")]
+    [CliOption("--iam-endpoint")]
     public string? IamEndpoint { get; set; }
 
-    [CommandSwitch("--resource-type")]
+    [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 }

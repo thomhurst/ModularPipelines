@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("directconnect", "create-lag")]
+[CliCommand("directconnect", "create-lag")]
 public record AwsDirectconnectCreateLagOptions(
-[property: CommandSwitch("--number-of-connections")] int NumberOfConnections,
-[property: CommandSwitch("--location")] string Location,
-[property: CommandSwitch("--connections-bandwidth")] string ConnectionsBandwidth,
-[property: CommandSwitch("--lag-name")] string LagName
+[property: CliOption("--number-of-connections")] int NumberOfConnections,
+[property: CliOption("--location")] string Location,
+[property: CliOption("--connections-bandwidth")] string ConnectionsBandwidth,
+[property: CliOption("--lag-name")] string LagName
 ) : AwsOptions
 {
-    [CommandSwitch("--connection-id")]
+    [CliOption("--connection-id")]
     public string? ConnectionId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--child-connection-tags")]
+    [CliOption("--child-connection-tags")]
     public string[]? ChildConnectionTags { get; set; }
 
-    [CommandSwitch("--provider-name")]
+    [CliOption("--provider-name")]
     public string? ProviderName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

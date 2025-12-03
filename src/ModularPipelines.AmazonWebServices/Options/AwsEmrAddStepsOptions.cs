@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "add-steps")]
+[CliCommand("emr", "add-steps")]
 public record AwsEmrAddStepsOptions(
-[property: CommandSwitch("--cluster-id")] string ClusterId,
-[property: CommandSwitch("--steps")] string[] Steps
+[property: CliOption("--cluster-id")] string ClusterId,
+[property: CliOption("--steps")] string[] Steps
 ) : AwsOptions
 {
-    [CommandSwitch("--execution-role-arn")]
+    [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 }

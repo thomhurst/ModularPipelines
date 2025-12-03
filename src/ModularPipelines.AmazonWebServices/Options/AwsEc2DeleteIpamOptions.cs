@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "delete-ipam")]
+[CliCommand("ec2", "delete-ipam")]
 public record AwsEc2DeleteIpamOptions(
-[property: CommandSwitch("--ipam-id")] string IpamId
+[property: CliOption("--ipam-id")] string IpamId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

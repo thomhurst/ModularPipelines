@@ -5,28 +5,28 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafkaconnect", "create-connector")]
+[CliCommand("kafkaconnect", "create-connector")]
 public record AwsKafkaconnectCreateConnectorOptions(
-[property: CommandSwitch("--capacity")] string Capacity,
-[property: CommandSwitch("--connector-configuration")] IEnumerable<KeyValue> ConnectorConfiguration,
-[property: CommandSwitch("--connector-name")] string ConnectorName,
-[property: CommandSwitch("--kafka-cluster")] string KafkaCluster,
-[property: CommandSwitch("--kafka-cluster-client-authentication")] string KafkaClusterClientAuthentication,
-[property: CommandSwitch("--kafka-cluster-encryption-in-transit")] string KafkaClusterEncryptionInTransit,
-[property: CommandSwitch("--kafka-connect-version")] string KafkaConnectVersion,
-[property: CommandSwitch("--plugins")] string[] Plugins,
-[property: CommandSwitch("--service-execution-role-arn")] string ServiceExecutionRoleArn
+[property: CliOption("--capacity")] string Capacity,
+[property: CliOption("--connector-configuration")] IEnumerable<KeyValue> ConnectorConfiguration,
+[property: CliOption("--connector-name")] string ConnectorName,
+[property: CliOption("--kafka-cluster")] string KafkaCluster,
+[property: CliOption("--kafka-cluster-client-authentication")] string KafkaClusterClientAuthentication,
+[property: CliOption("--kafka-cluster-encryption-in-transit")] string KafkaClusterEncryptionInTransit,
+[property: CliOption("--kafka-connect-version")] string KafkaConnectVersion,
+[property: CliOption("--plugins")] string[] Plugins,
+[property: CliOption("--service-execution-role-arn")] string ServiceExecutionRoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--connector-description")]
+    [CliOption("--connector-description")]
     public string? ConnectorDescription { get; set; }
 
-    [CommandSwitch("--log-delivery")]
+    [CliOption("--log-delivery")]
     public string? LogDelivery { get; set; }
 
-    [CommandSwitch("--worker-configuration")]
+    [CliOption("--worker-configuration")]
     public string? WorkerConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

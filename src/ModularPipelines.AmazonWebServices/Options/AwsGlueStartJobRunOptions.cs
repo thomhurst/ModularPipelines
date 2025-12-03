@@ -5,41 +5,41 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "start-job-run")]
+[CliCommand("glue", "start-job-run")]
 public record AwsGlueStartJobRunOptions(
-[property: CommandSwitch("--job-name")] string JobName
+[property: CliOption("--job-name")] string JobName
 ) : AwsOptions
 {
-    [CommandSwitch("--job-run-id")]
+    [CliOption("--job-run-id")]
     public string? JobRunId { get; set; }
 
-    [CommandSwitch("--arguments")]
+    [CliOption("--arguments")]
     public IEnumerable<KeyValue>? AwsGlueArguments { get; set; }
 
-    [CommandSwitch("--allocated-capacity")]
+    [CliOption("--allocated-capacity")]
     public int? AllocatedCapacity { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public int? Timeout { get; set; }
 
-    [CommandSwitch("--max-capacity")]
+    [CliOption("--max-capacity")]
     public double? MaxCapacity { get; set; }
 
-    [CommandSwitch("--security-configuration")]
+    [CliOption("--security-configuration")]
     public string? SecurityConfiguration { get; set; }
 
-    [CommandSwitch("--notification-property")]
+    [CliOption("--notification-property")]
     public string? NotificationProperty { get; set; }
 
-    [CommandSwitch("--worker-type")]
+    [CliOption("--worker-type")]
     public string? WorkerType { get; set; }
 
-    [CommandSwitch("--number-of-workers")]
+    [CliOption("--number-of-workers")]
     public int? NumberOfWorkers { get; set; }
 
-    [CommandSwitch("--execution-class")]
+    [CliOption("--execution-class")]
     public string? ExecutionClass { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

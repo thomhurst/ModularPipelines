@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("location", "update-place-index")]
+[CliCommand("location", "update-place-index")]
 public record AwsLocationUpdatePlaceIndexOptions(
-[property: CommandSwitch("--index-name")] string IndexName
+[property: CliOption("--index-name")] string IndexName
 ) : AwsOptions
 {
-    [CommandSwitch("--data-source-configuration")]
+    [CliOption("--data-source-configuration")]
     public string? DataSourceConfiguration { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--pricing-plan")]
+    [CliOption("--pricing-plan")]
     public string? PricingPlan { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

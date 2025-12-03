@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("neptune", "copy-db-parameter-group")]
+[CliCommand("neptune", "copy-db-parameter-group")]
 public record AwsNeptuneCopyDbParameterGroupOptions(
-[property: CommandSwitch("--source-db-parameter-group-identifier")] string SourceDbParameterGroupIdentifier,
-[property: CommandSwitch("--target-db-parameter-group-identifier")] string TargetDbParameterGroupIdentifier,
-[property: CommandSwitch("--target-db-parameter-group-description")] string TargetDbParameterGroupDescription
+[property: CliOption("--source-db-parameter-group-identifier")] string SourceDbParameterGroupIdentifier,
+[property: CliOption("--target-db-parameter-group-identifier")] string TargetDbParameterGroupIdentifier,
+[property: CliOption("--target-db-parameter-group-description")] string TargetDbParameterGroupDescription
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("apigateway", "flush-stage-cache")]
+[CliCommand("apigateway", "flush-stage-cache")]
 public record AwsApigatewayFlushStageCacheOptions(
-[property: CommandSwitch("--rest-api-id")] string RestApiId,
-[property: CommandSwitch("--stage-name")] string StageName
+[property: CliOption("--rest-api-id")] string RestApiId,
+[property: CliOption("--stage-name")] string StageName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

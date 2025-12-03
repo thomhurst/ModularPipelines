@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "describe-spot-fleet-request-history")]
+[CliCommand("ec2", "describe-spot-fleet-request-history")]
 public record AwsEc2DescribeSpotFleetRequestHistoryOptions(
-[property: CommandSwitch("--spot-fleet-request-id")] string SpotFleetRequestId,
-[property: CommandSwitch("--start-time")] long StartTime
+[property: CliOption("--spot-fleet-request-id")] string SpotFleetRequestId,
+[property: CliOption("--start-time")] long StartTime
 ) : AwsOptions
 {
-    [CommandSwitch("--event-type")]
+    [CliOption("--event-type")]
     public string? EventType { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("inspector", "describe-rules-packages")]
+[CliCommand("inspector", "describe-rules-packages")]
 public record AwsInspectorDescribeRulesPackagesOptions(
-[property: CommandSwitch("--rules-package-arns")] string[] RulesPackageArns
+[property: CliOption("--rules-package-arns")] string[] RulesPackageArns
 ) : AwsOptions
 {
-    [CommandSwitch("--locale")]
+    [CliOption("--locale")]
     public string? Locale { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

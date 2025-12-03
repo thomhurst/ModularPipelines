@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("athena", "delete-named-query")]
+[CliCommand("athena", "delete-named-query")]
 public record AwsAthenaDeleteNamedQueryOptions : AwsOptions
 {
-    [CommandSwitch("--named-query-id")]
+    [CliOption("--named-query-id")]
     public string? NamedQueryId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

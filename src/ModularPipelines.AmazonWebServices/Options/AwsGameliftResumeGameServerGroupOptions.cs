@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "resume-game-server-group")]
+[CliCommand("gamelift", "resume-game-server-group")]
 public record AwsGameliftResumeGameServerGroupOptions(
-[property: CommandSwitch("--game-server-group-name")] string GameServerGroupName,
-[property: CommandSwitch("--resume-actions")] string[] ResumeActions
+[property: CliOption("--game-server-group-name")] string GameServerGroupName,
+[property: CliOption("--resume-actions")] string[] ResumeActions
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

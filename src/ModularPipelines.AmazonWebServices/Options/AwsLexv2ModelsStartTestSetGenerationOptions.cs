@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lexv2-models", "start-test-set-generation")]
+[CliCommand("lexv2-models", "start-test-set-generation")]
 public record AwsLexv2ModelsStartTestSetGenerationOptions(
-[property: CommandSwitch("--test-set-name")] string TestSetName,
-[property: CommandSwitch("--storage-location")] string StorageLocation,
-[property: CommandSwitch("--generation-data-source")] string GenerationDataSource,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--test-set-name")] string TestSetName,
+[property: CliOption("--storage-location")] string StorageLocation,
+[property: CliOption("--generation-data-source")] string GenerationDataSource,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--test-set-tags")]
+    [CliOption("--test-set-tags")]
     public IEnumerable<KeyValue>? TestSetTags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

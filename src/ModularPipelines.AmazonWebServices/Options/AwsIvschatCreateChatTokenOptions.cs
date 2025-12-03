@@ -5,21 +5,21 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ivschat", "create-chat-token")]
+[CliCommand("ivschat", "create-chat-token")]
 public record AwsIvschatCreateChatTokenOptions(
-[property: CommandSwitch("--room-identifier")] string RoomIdentifier,
-[property: CommandSwitch("--user-id")] string UserId
+[property: CliOption("--room-identifier")] string RoomIdentifier,
+[property: CliOption("--user-id")] string UserId
 ) : AwsOptions
 {
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public IEnumerable<KeyValue>? Attributes { get; set; }
 
-    [CommandSwitch("--capabilities")]
+    [CliOption("--capabilities")]
     public string[]? Capabilities { get; set; }
 
-    [CommandSwitch("--session-duration-in-minutes")]
+    [CliOption("--session-duration-in-minutes")]
     public int? SessionDurationInMinutes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

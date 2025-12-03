@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "update-group")]
+[CliCommand("cognito-idp", "update-group")]
 public record AwsCognitoIdpUpdateGroupOptions(
-[property: CommandSwitch("--group-name")] string GroupName,
-[property: CommandSwitch("--user-pool-id")] string UserPoolId
+[property: CliOption("--group-name")] string GroupName,
+[property: CliOption("--user-pool-id")] string UserPoolId
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--precedence")]
+    [CliOption("--precedence")]
     public int? Precedence { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

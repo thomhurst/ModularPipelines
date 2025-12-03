@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediastore-data", "put-object")]
+[CliCommand("mediastore-data", "put-object")]
 public record AwsMediastoreDataPutObjectOptions(
-[property: CommandSwitch("--body")] string Body,
-[property: CommandSwitch("--path")] string Path
+[property: CliOption("--body")] string Body,
+[property: CliOption("--path")] string Path
 ) : AwsOptions
 {
-    [CommandSwitch("--content-type")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
-    [CommandSwitch("--cache-control")]
+    [CliOption("--cache-control")]
     public string? CacheControl { get; set; }
 
-    [CommandSwitch("--storage-class")]
+    [CliOption("--storage-class")]
     public string? StorageClass { get; set; }
 
-    [CommandSwitch("--upload-availability")]
+    [CliOption("--upload-availability")]
     public string? UploadAvailability { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

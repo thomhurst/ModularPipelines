@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("meteringmarketplace", "meter-usage")]
+[CliCommand("meteringmarketplace", "meter-usage")]
 public record AwsMeteringmarketplaceMeterUsageOptions(
-[property: CommandSwitch("--product-code")] string ProductCode,
-[property: CommandSwitch("--timestamp")] long Timestamp,
-[property: CommandSwitch("--usage-dimension")] string UsageDimension
+[property: CliOption("--product-code")] string ProductCode,
+[property: CliOption("--timestamp")] long Timestamp,
+[property: CliOption("--usage-dimension")] string UsageDimension
 ) : AwsOptions
 {
-    [CommandSwitch("--usage-quantity")]
+    [CliOption("--usage-quantity")]
     public int? UsageQuantity { get; set; }
 
-    [CommandSwitch("--usage-allocations")]
+    [CliOption("--usage-allocations")]
     public string[]? UsageAllocations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

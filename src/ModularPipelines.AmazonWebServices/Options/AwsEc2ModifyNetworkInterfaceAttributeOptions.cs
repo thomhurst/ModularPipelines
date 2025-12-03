@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-network-interface-attribute")]
+[CliCommand("ec2", "modify-network-interface-attribute")]
 public record AwsEc2ModifyNetworkInterfaceAttributeOptions(
-[property: CommandSwitch("--network-interface-id")] string NetworkInterfaceId
+[property: CliOption("--network-interface-id")] string NetworkInterfaceId
 ) : AwsOptions
 {
-    [CommandSwitch("--attachment")]
+    [CliOption("--attachment")]
     public string? Attachment { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--groups")]
+    [CliOption("--groups")]
     public string[]? Groups { get; set; }
 
-    [CommandSwitch("--ena-srd-specification")]
+    [CliOption("--ena-srd-specification")]
     public string? EnaSrdSpecification { get; set; }
 
-    [CommandSwitch("--connection-tracking-specification")]
+    [CliOption("--connection-tracking-specification")]
     public string? ConnectionTrackingSpecification { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

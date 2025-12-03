@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("efs", "create-replication-configuration")]
+[CliCommand("efs", "create-replication-configuration")]
 public record AwsEfsCreateReplicationConfigurationOptions(
-[property: CommandSwitch("--source-file-system-id")] string SourceFileSystemId,
-[property: CommandSwitch("--destinations")] string[] Destinations
+[property: CliOption("--source-file-system-id")] string SourceFileSystemId,
+[property: CliOption("--destinations")] string[] Destinations
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

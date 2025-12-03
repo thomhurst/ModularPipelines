@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codeguru-security", "update-account-configuration")]
+[CliCommand("codeguru-security", "update-account-configuration")]
 public record AwsCodeguruSecurityUpdateAccountConfigurationOptions(
-[property: CommandSwitch("--encryption-config")] string EncryptionConfig
+[property: CliOption("--encryption-config")] string EncryptionConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

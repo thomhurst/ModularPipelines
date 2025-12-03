@@ -5,50 +5,50 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediatailor", "put-playback-configuration")]
+[CliCommand("mediatailor", "put-playback-configuration")]
 public record AwsMediatailorPutPlaybackConfigurationOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--ad-decision-server-url")]
+    [CliOption("--ad-decision-server-url")]
     public string? AdDecisionServerUrl { get; set; }
 
-    [CommandSwitch("--avail-suppression")]
+    [CliOption("--avail-suppression")]
     public string? AvailSuppression { get; set; }
 
-    [CommandSwitch("--bumper")]
+    [CliOption("--bumper")]
     public string? Bumper { get; set; }
 
-    [CommandSwitch("--cdn-configuration")]
+    [CliOption("--cdn-configuration")]
     public string? CdnConfiguration { get; set; }
 
-    [CommandSwitch("--configuration-aliases")]
+    [CliOption("--configuration-aliases")]
     public IEnumerable<KeyValue>? ConfigurationAliases { get; set; }
 
-    [CommandSwitch("--dash-configuration")]
+    [CliOption("--dash-configuration")]
     public string? DashConfiguration { get; set; }
 
-    [CommandSwitch("--live-pre-roll-configuration")]
+    [CliOption("--live-pre-roll-configuration")]
     public string? LivePreRollConfiguration { get; set; }
 
-    [CommandSwitch("--manifest-processing-rules")]
+    [CliOption("--manifest-processing-rules")]
     public string? ManifestProcessingRules { get; set; }
 
-    [CommandSwitch("--personalization-threshold-seconds")]
+    [CliOption("--personalization-threshold-seconds")]
     public int? PersonalizationThresholdSeconds { get; set; }
 
-    [CommandSwitch("--slate-ad-url")]
+    [CliOption("--slate-ad-url")]
     public string? SlateAdUrl { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--transcode-profile-name")]
+    [CliOption("--transcode-profile-name")]
     public string? TranscodeProfileName { get; set; }
 
-    [CommandSwitch("--video-content-source-url")]
+    [CliOption("--video-content-source-url")]
     public string? VideoContentSourceUrl { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

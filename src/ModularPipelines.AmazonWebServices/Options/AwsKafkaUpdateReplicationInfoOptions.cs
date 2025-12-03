@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafka", "update-replication-info")]
+[CliCommand("kafka", "update-replication-info")]
 public record AwsKafkaUpdateReplicationInfoOptions(
-[property: CommandSwitch("--current-version")] string CurrentVersion,
-[property: CommandSwitch("--replicator-arn")] string ReplicatorArn,
-[property: CommandSwitch("--source-kafka-cluster-arn")] string SourceKafkaClusterArn,
-[property: CommandSwitch("--target-kafka-cluster-arn")] string TargetKafkaClusterArn
+[property: CliOption("--current-version")] string CurrentVersion,
+[property: CliOption("--replicator-arn")] string ReplicatorArn,
+[property: CliOption("--source-kafka-cluster-arn")] string SourceKafkaClusterArn,
+[property: CliOption("--target-kafka-cluster-arn")] string TargetKafkaClusterArn
 ) : AwsOptions
 {
-    [CommandSwitch("--consumer-group-replication")]
+    [CliOption("--consumer-group-replication")]
     public string? ConsumerGroupReplication { get; set; }
 
-    [CommandSwitch("--topic-replication")]
+    [CliOption("--topic-replication")]
     public string? TopicReplication { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

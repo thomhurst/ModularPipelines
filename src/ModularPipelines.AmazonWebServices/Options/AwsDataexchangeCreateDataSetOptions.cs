@@ -5,16 +5,16 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dataexchange", "create-data-set")]
+[CliCommand("dataexchange", "create-data-set")]
 public record AwsDataexchangeCreateDataSetOptions(
-[property: CommandSwitch("--asset-type")] string AssetType,
-[property: CommandSwitch("--description")] string Description,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--asset-type")] string AssetType,
+[property: CliOption("--description")] string Description,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

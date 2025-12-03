@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesis-video-archived-media", "get-media-for-fragment-list")]
+[CliCommand("kinesis-video-archived-media", "get-media-for-fragment-list")]
 public record AwsKinesisVideoArchivedMediaGetMediaForFragmentListOptions(
-[property: CommandSwitch("--fragments")] string[] Fragments
+[property: CliOption("--fragments")] string[] Fragments
 ) : AwsOptions
 {
-    [CommandSwitch("--stream-name")]
+    [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
-    [CommandSwitch("--stream-arn")]
+    [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 }

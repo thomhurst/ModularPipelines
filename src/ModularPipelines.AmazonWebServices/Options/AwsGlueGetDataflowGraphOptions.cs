@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "get-dataflow-graph")]
+[CliCommand("glue", "get-dataflow-graph")]
 public record AwsGlueGetDataflowGraphOptions : AwsOptions
 {
-    [CommandSwitch("--python-script")]
+    [CliOption("--python-script")]
     public string? PythonScript { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

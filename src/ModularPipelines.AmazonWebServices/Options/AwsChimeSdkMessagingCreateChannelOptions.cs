@@ -4,43 +4,43 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("chime-sdk-messaging", "create-channel")]
+[CliCommand("chime-sdk-messaging", "create-channel")]
 public record AwsChimeSdkMessagingCreateChannelOptions(
-[property: CommandSwitch("--app-instance-arn")] string AppInstanceArn,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--chime-bearer")] string ChimeBearer
+[property: CliOption("--app-instance-arn")] string AppInstanceArn,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--chime-bearer")] string ChimeBearer
 ) : AwsOptions
 {
-    [CommandSwitch("--mode")]
+    [CliOption("--mode")]
     public string? Mode { get; set; }
 
-    [CommandSwitch("--privacy")]
+    [CliOption("--privacy")]
     public string? Privacy { get; set; }
 
-    [CommandSwitch("--metadata")]
+    [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
-    [CommandSwitch("--client-request-token")]
+    [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--channel-id")]
+    [CliOption("--channel-id")]
     public string? ChannelId { get; set; }
 
-    [CommandSwitch("--member-arns")]
+    [CliOption("--member-arns")]
     public string[]? MemberArns { get; set; }
 
-    [CommandSwitch("--moderator-arns")]
+    [CliOption("--moderator-arns")]
     public string[]? ModeratorArns { get; set; }
 
-    [CommandSwitch("--elastic-channel-configuration")]
+    [CliOption("--elastic-channel-configuration")]
     public string? ElasticChannelConfiguration { get; set; }
 
-    [CommandSwitch("--expiration-settings")]
+    [CliOption("--expiration-settings")]
     public string? ExpirationSettings { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

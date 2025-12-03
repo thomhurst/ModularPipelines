@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("omics", "batch-delete-read-set")]
+[CliCommand("omics", "batch-delete-read-set")]
 public record AwsOmicsBatchDeleteReadSetOptions(
-[property: CommandSwitch("--ids")] string[] Ids,
-[property: CommandSwitch("--sequence-store-id")] string SequenceStoreId
+[property: CliOption("--ids")] string[] Ids,
+[property: CliOption("--sequence-store-id")] string SequenceStoreId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

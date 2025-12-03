@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lightsail", "create-distribution")]
+[CliCommand("lightsail", "create-distribution")]
 public record AwsLightsailCreateDistributionOptions(
-[property: CommandSwitch("--distribution-name")] string DistributionName,
-[property: CommandSwitch("--origin")] string Origin,
-[property: CommandSwitch("--default-cache-behavior")] string DefaultCacheBehavior,
-[property: CommandSwitch("--bundle-id")] string BundleId
+[property: CliOption("--distribution-name")] string DistributionName,
+[property: CliOption("--origin")] string Origin,
+[property: CliOption("--default-cache-behavior")] string DefaultCacheBehavior,
+[property: CliOption("--bundle-id")] string BundleId
 ) : AwsOptions
 {
-    [CommandSwitch("--cache-behavior-settings")]
+    [CliOption("--cache-behavior-settings")]
     public string? CacheBehaviorSettings { get; set; }
 
-    [CommandSwitch("--cache-behaviors")]
+    [CliOption("--cache-behaviors")]
     public string[]? CacheBehaviors { get; set; }
 
-    [CommandSwitch("--ip-address-type")]
+    [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

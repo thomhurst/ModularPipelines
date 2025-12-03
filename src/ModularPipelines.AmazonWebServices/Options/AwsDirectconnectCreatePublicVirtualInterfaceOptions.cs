@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("directconnect", "create-public-virtual-interface")]
+[CliCommand("directconnect", "create-public-virtual-interface")]
 public record AwsDirectconnectCreatePublicVirtualInterfaceOptions(
-[property: CommandSwitch("--connection-id")] string ConnectionId,
-[property: CommandSwitch("--new-public-virtual-interface")] string NewPublicVirtualInterface
+[property: CliOption("--connection-id")] string ConnectionId,
+[property: CliOption("--new-public-virtual-interface")] string NewPublicVirtualInterface
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

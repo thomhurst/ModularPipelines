@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("deploy", "install")]
+[CliCommand("deploy", "install")]
 public record AwsDeployInstallOptions(
-[property: CommandSwitch("--config-file")] string ConfigFile
+[property: CliOption("--config-file")] string ConfigFile
 ) : AwsOptions
 {
-    [BooleanCommandSwitch("--override-config")]
+    [CliFlag("--override-config")]
     public bool? OverrideConfig { get; set; }
 
-    [CommandSwitch("--agent-installer")]
+    [CliOption("--agent-installer")]
     public string? AgentInstaller { get; set; }
 }

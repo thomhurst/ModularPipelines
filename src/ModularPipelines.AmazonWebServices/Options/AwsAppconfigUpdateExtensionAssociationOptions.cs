@@ -5,14 +5,14 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appconfig", "update-extension-association")]
+[CliCommand("appconfig", "update-extension-association")]
 public record AwsAppconfigUpdateExtensionAssociationOptions(
-[property: CommandSwitch("--extension-association-id")] string ExtensionAssociationId
+[property: CliOption("--extension-association-id")] string ExtensionAssociationId
 ) : AwsOptions
 {
-    [CommandSwitch("--parameters")]
+    [CliOption("--parameters")]
     public IEnumerable<KeyValue>? Parameters { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

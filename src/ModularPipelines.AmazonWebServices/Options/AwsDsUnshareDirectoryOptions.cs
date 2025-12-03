@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ds", "unshare-directory")]
+[CliCommand("ds", "unshare-directory")]
 public record AwsDsUnshareDirectoryOptions(
-[property: CommandSwitch("--directory-id")] string DirectoryId,
-[property: CommandSwitch("--unshare-target")] string UnshareTarget
+[property: CliOption("--directory-id")] string DirectoryId,
+[property: CliOption("--unshare-target")] string UnshareTarget
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

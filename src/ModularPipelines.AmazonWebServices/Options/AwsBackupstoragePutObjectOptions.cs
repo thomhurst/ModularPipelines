@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backupstorage", "put-object")]
+[CliCommand("backupstorage", "put-object")]
 public record AwsBackupstoragePutObjectOptions(
-[property: CommandSwitch("--backup-job-id")] string BackupJobId,
-[property: CommandSwitch("--object-name")] string ObjectName
+[property: CliOption("--backup-job-id")] string BackupJobId,
+[property: CliOption("--object-name")] string ObjectName
 ) : AwsOptions
 {
-    [CommandSwitch("--metadata-string")]
+    [CliOption("--metadata-string")]
     public string? MetadataString { get; set; }
 
-    [CommandSwitch("--inline-chunk")]
+    [CliOption("--inline-chunk")]
     public string? InlineChunk { get; set; }
 
-    [CommandSwitch("--inline-chunk-length")]
+    [CliOption("--inline-chunk-length")]
     public long? InlineChunkLength { get; set; }
 
-    [CommandSwitch("--inline-chunk-checksum")]
+    [CliOption("--inline-chunk-checksum")]
     public string? InlineChunkChecksum { get; set; }
 
-    [CommandSwitch("--inline-chunk-checksum-algorithm")]
+    [CliOption("--inline-chunk-checksum-algorithm")]
     public string? InlineChunkChecksumAlgorithm { get; set; }
 
-    [CommandSwitch("--object-checksum")]
+    [CliOption("--object-checksum")]
     public string? ObjectChecksum { get; set; }
 
-    [CommandSwitch("--object-checksum-algorithm")]
+    [CliOption("--object-checksum-algorithm")]
     public string? ObjectChecksumAlgorithm { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

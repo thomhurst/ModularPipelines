@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mobile", "delete-project")]
+[CliCommand("mobile", "delete-project")]
 public record AwsMobileDeleteProjectOptions(
-[property: CommandSwitch("--project-id")] string ProjectId
+[property: CliOption("--project-id")] string ProjectId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

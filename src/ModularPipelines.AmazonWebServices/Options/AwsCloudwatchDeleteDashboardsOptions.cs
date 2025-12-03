@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudwatch", "delete-dashboards")]
+[CliCommand("cloudwatch", "delete-dashboards")]
 public record AwsCloudwatchDeleteDashboardsOptions(
-[property: CommandSwitch("--dashboard-names")] string[] DashboardNames
+[property: CliOption("--dashboard-names")] string[] DashboardNames
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

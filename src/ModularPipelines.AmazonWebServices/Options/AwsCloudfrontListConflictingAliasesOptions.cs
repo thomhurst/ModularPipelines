@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudfront", "list-conflicting-aliases")]
+[CliCommand("cloudfront", "list-conflicting-aliases")]
 public record AwsCloudfrontListConflictingAliasesOptions(
-[property: CommandSwitch("--distribution-id")] string DistributionId,
-[property: CommandSwitch("--alias")] string Alias
+[property: CliOption("--distribution-id")] string DistributionId,
+[property: CliOption("--alias")] string Alias
 ) : AwsOptions
 {
-    [CommandSwitch("--marker")]
+    [CliOption("--marker")]
     public string? Marker { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,50 +4,50 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lambda", "update-event-source-mapping")]
+[CliCommand("lambda", "update-event-source-mapping")]
 public record AwsLambdaUpdateEventSourceMappingOptions(
-[property: CommandSwitch("--uuid")] string Uuid
+[property: CliOption("--uuid")] string Uuid
 ) : AwsOptions
 {
-    [CommandSwitch("--function-name")]
+    [CliOption("--function-name")]
     public string? FunctionName { get; set; }
 
-    [CommandSwitch("--batch-size")]
+    [CliOption("--batch-size")]
     public int? BatchSize { get; set; }
 
-    [CommandSwitch("--filter-criteria")]
+    [CliOption("--filter-criteria")]
     public string? FilterCriteria { get; set; }
 
-    [CommandSwitch("--maximum-batching-window-in-seconds")]
+    [CliOption("--maximum-batching-window-in-seconds")]
     public int? MaximumBatchingWindowInSeconds { get; set; }
 
-    [CommandSwitch("--destination-config")]
+    [CliOption("--destination-config")]
     public string? DestinationConfig { get; set; }
 
-    [CommandSwitch("--maximum-record-age-in-seconds")]
+    [CliOption("--maximum-record-age-in-seconds")]
     public int? MaximumRecordAgeInSeconds { get; set; }
 
-    [CommandSwitch("--maximum-retry-attempts")]
+    [CliOption("--maximum-retry-attempts")]
     public int? MaximumRetryAttempts { get; set; }
 
-    [CommandSwitch("--parallelization-factor")]
+    [CliOption("--parallelization-factor")]
     public int? ParallelizationFactor { get; set; }
 
-    [CommandSwitch("--source-access-configurations")]
+    [CliOption("--source-access-configurations")]
     public string[]? SourceAccessConfigurations { get; set; }
 
-    [CommandSwitch("--tumbling-window-in-seconds")]
+    [CliOption("--tumbling-window-in-seconds")]
     public int? TumblingWindowInSeconds { get; set; }
 
-    [CommandSwitch("--function-response-types")]
+    [CliOption("--function-response-types")]
     public string[]? FunctionResponseTypes { get; set; }
 
-    [CommandSwitch("--scaling-config")]
+    [CliOption("--scaling-config")]
     public string? ScalingConfig { get; set; }
 
-    [CommandSwitch("--document-db-event-source-config")]
+    [CliOption("--document-db-event-source-config")]
     public string? DocumentDbEventSourceConfig { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

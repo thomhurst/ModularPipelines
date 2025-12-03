@@ -4,32 +4,32 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ce", "get-reservation-coverage")]
+[CliCommand("ce", "get-reservation-coverage")]
 public record AwsCeGetReservationCoverageOptions(
-[property: CommandSwitch("--time-period")] string TimePeriod
+[property: CliOption("--time-period")] string TimePeriod
 ) : AwsOptions
 {
-    [CommandSwitch("--group-by")]
+    [CliOption("--group-by")]
     public string[]? GroupBy { get; set; }
 
-    [CommandSwitch("--granularity")]
+    [CliOption("--granularity")]
     public string? Granularity { get; set; }
 
-    [CommandSwitch("--filter")]
+    [CliOption("--filter")]
     public string? Filter { get; set; }
 
-    [CommandSwitch("--metrics")]
+    [CliOption("--metrics")]
     public string[]? Metrics { get; set; }
 
-    [CommandSwitch("--next-page-token")]
+    [CliOption("--next-page-token")]
     public string? NextPageToken { get; set; }
 
-    [CommandSwitch("--sort-by")]
+    [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

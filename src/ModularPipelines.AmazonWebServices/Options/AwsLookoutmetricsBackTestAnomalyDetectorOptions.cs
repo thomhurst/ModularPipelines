@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutmetrics", "back-test-anomaly-detector")]
+[CliCommand("lookoutmetrics", "back-test-anomaly-detector")]
 public record AwsLookoutmetricsBackTestAnomalyDetectorOptions(
-[property: CommandSwitch("--anomaly-detector-arn")] string AnomalyDetectorArn
+[property: CliOption("--anomaly-detector-arn")] string AnomalyDetectorArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

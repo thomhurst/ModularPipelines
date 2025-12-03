@@ -4,39 +4,39 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("docdb", "restore-db-cluster-to-point-in-time")]
+[CliCommand("docdb", "restore-db-cluster-to-point-in-time")]
 public record AwsDocdbRestoreDbClusterToPointInTimeOptions(
-[property: CommandSwitch("--db-cluster-identifier")] string DbClusterIdentifier,
-[property: CommandSwitch("--source-db-cluster-identifier")] string SourceDbClusterIdentifier
+[property: CliOption("--db-cluster-identifier")] string DbClusterIdentifier,
+[property: CliOption("--source-db-cluster-identifier")] string SourceDbClusterIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--restore-type")]
+    [CliOption("--restore-type")]
     public string? RestoreType { get; set; }
 
-    [CommandSwitch("--restore-to-time")]
+    [CliOption("--restore-to-time")]
     public long? RestoreToTime { get; set; }
 
-    [CommandSwitch("--port")]
+    [CliOption("--port")]
     public int? Port { get; set; }
 
-    [CommandSwitch("--db-subnet-group-name")]
+    [CliOption("--db-subnet-group-name")]
     public string? DbSubnetGroupName { get; set; }
 
-    [CommandSwitch("--vpc-security-group-ids")]
+    [CliOption("--vpc-security-group-ids")]
     public string[]? VpcSecurityGroupIds { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--kms-key-id")]
+    [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
-    [CommandSwitch("--enable-cloudwatch-logs-exports")]
+    [CliOption("--enable-cloudwatch-logs-exports")]
     public string[]? EnableCloudwatchLogsExports { get; set; }
 
-    [CommandSwitch("--storage-type")]
+    [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

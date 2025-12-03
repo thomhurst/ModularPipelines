@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "update-fleet-capacity")]
+[CliCommand("gamelift", "update-fleet-capacity")]
 public record AwsGameliftUpdateFleetCapacityOptions(
-[property: CommandSwitch("--fleet-id")] string FleetId
+[property: CliOption("--fleet-id")] string FleetId
 ) : AwsOptions
 {
-    [CommandSwitch("--desired-instances")]
+    [CliOption("--desired-instances")]
     public int? DesiredInstances { get; set; }
 
-    [CommandSwitch("--min-size")]
+    [CliOption("--min-size")]
     public int? MinSize { get; set; }
 
-    [CommandSwitch("--max-size")]
+    [CliOption("--max-size")]
     public int? MaxSize { get; set; }
 
-    [CommandSwitch("--location")]
+    [CliOption("--location")]
     public string? Location { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

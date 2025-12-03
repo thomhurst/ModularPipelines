@@ -5,19 +5,19 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "create-quick-connect")]
+[CliCommand("connect", "create-quick-connect")]
 public record AwsConnectCreateQuickConnectOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--quick-connect-config")] string QuickConnectConfig
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--quick-connect-config")] string QuickConnectConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

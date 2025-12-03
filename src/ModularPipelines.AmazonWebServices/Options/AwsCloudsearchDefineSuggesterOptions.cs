@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudsearch", "define-suggester")]
+[CliCommand("cloudsearch", "define-suggester")]
 public record AwsCloudsearchDefineSuggesterOptions(
-[property: CommandSwitch("--domain-name")] string DomainName,
-[property: CommandSwitch("--suggester")] string Suggester
+[property: CliOption("--domain-name")] string DomainName,
+[property: CliOption("--suggester")] string Suggester
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

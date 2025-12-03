@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devicefarm", "create-device-pool")]
+[CliCommand("devicefarm", "create-device-pool")]
 public record AwsDevicefarmCreateDevicePoolOptions(
-[property: CommandSwitch("--project-arn")] string ProjectArn,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--rules")] string[] Rules
+[property: CliOption("--project-arn")] string ProjectArn,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--rules")] string[] Rules
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--max-devices")]
+    [CliOption("--max-devices")]
     public int? MaxDevices { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

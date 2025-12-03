@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("elb", "attach-load-balancer-to-subnets")]
+[CliCommand("elb", "attach-load-balancer-to-subnets")]
 public record AwsElbAttachLoadBalancerToSubnetsOptions(
-[property: CommandSwitch("--load-balancer-name")] string LoadBalancerName,
-[property: CommandSwitch("--subnets")] string[] Subnets
+[property: CliOption("--load-balancer-name")] string LoadBalancerName,
+[property: CliOption("--subnets")] string[] Subnets
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

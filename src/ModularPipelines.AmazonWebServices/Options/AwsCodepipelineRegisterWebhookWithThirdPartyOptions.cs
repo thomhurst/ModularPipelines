@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codepipeline", "register-webhook-with-third-party")]
+[CliCommand("codepipeline", "register-webhook-with-third-party")]
 public record AwsCodepipelineRegisterWebhookWithThirdPartyOptions : AwsOptions
 {
-    [CommandSwitch("--webhook-name")]
+    [CliOption("--webhook-name")]
     public string? WebhookName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

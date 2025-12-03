@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "modify-verified-access-group-policy")]
+[CliCommand("ec2", "modify-verified-access-group-policy")]
 public record AwsEc2ModifyVerifiedAccessGroupPolicyOptions(
-[property: CommandSwitch("--verified-access-group-id")] string VerifiedAccessGroupId
+[property: CliOption("--verified-access-group-id")] string VerifiedAccessGroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--policy-document")]
+    [CliOption("--policy-document")]
     public string? PolicyDocument { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--sse-specification")]
+    [CliOption("--sse-specification")]
     public string? SseSpecification { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

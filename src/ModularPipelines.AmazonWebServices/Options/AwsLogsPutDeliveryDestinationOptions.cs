@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "put-delivery-destination")]
+[CliCommand("logs", "put-delivery-destination")]
 public record AwsLogsPutDeliveryDestinationOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--delivery-destination-configuration")] string DeliveryDestinationConfiguration
+[property: CliOption("--name")] string Name,
+[property: CliOption("--delivery-destination-configuration")] string DeliveryDestinationConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--output-format")]
+    [CliOption("--output-format")]
     public string? OutputFormat { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

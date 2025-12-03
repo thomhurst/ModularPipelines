@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "update-view-content")]
+[CliCommand("connect", "update-view-content")]
 public record AwsConnectUpdateViewContentOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--view-id")] string ViewId,
-[property: CommandSwitch("--status")] string Status,
-[property: CommandSwitch("--content")] string Content
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--view-id")] string ViewId,
+[property: CliOption("--status")] string Status,
+[property: CliOption("--content")] string Content
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

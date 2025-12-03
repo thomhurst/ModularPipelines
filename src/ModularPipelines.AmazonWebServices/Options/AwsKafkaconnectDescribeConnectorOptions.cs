@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafkaconnect", "describe-connector")]
+[CliCommand("kafkaconnect", "describe-connector")]
 public record AwsKafkaconnectDescribeConnectorOptions(
-[property: CommandSwitch("--connector-arn")] string ConnectorArn
+[property: CliOption("--connector-arn")] string ConnectorArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

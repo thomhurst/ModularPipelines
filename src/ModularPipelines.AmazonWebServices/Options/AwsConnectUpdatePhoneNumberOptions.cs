@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "update-phone-number")]
+[CliCommand("connect", "update-phone-number")]
 public record AwsConnectUpdatePhoneNumberOptions(
-[property: CommandSwitch("--phone-number-id")] string PhoneNumberId
+[property: CliOption("--phone-number-id")] string PhoneNumberId
 ) : AwsOptions
 {
-    [CommandSwitch("--target-arn")]
+    [CliOption("--target-arn")]
     public string? TargetArn { get; set; }
 
-    [CommandSwitch("--instance-id")]
+    [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

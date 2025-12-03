@@ -5,42 +5,42 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "start-task-contact")]
+[CliCommand("connect", "start-task-contact")]
 public record AwsConnectStartTaskContactOptions(
-[property: CommandSwitch("--instance-id")] string InstanceId,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--instance-id")] string InstanceId,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--previous-contact-id")]
+    [CliOption("--previous-contact-id")]
     public string? PreviousContactId { get; set; }
 
-    [CommandSwitch("--contact-flow-id")]
+    [CliOption("--contact-flow-id")]
     public string? ContactFlowId { get; set; }
 
-    [CommandSwitch("--attributes")]
+    [CliOption("--attributes")]
     public IEnumerable<KeyValue>? Attributes { get; set; }
 
-    [CommandSwitch("--references")]
+    [CliOption("--references")]
     public IEnumerable<KeyValue>? References { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--scheduled-time")]
+    [CliOption("--scheduled-time")]
     public long? ScheduledTime { get; set; }
 
-    [CommandSwitch("--task-template-id")]
+    [CliOption("--task-template-id")]
     public string? TaskTemplateId { get; set; }
 
-    [CommandSwitch("--quick-connect-id")]
+    [CliOption("--quick-connect-id")]
     public string? QuickConnectId { get; set; }
 
-    [CommandSwitch("--related-contact-id")]
+    [CliOption("--related-contact-id")]
     public string? RelatedContactId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

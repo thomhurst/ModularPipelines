@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-identity", "get-principal-tag-attribute-map")]
+[CliCommand("cognito-identity", "get-principal-tag-attribute-map")]
 public record AwsCognitoIdentityGetPrincipalTagAttributeMapOptions(
-[property: CommandSwitch("--identity-pool-id")] string IdentityPoolId,
-[property: CommandSwitch("--identity-provider-name")] string IdentityProviderName
+[property: CliOption("--identity-pool-id")] string IdentityPoolId,
+[property: CliOption("--identity-provider-name")] string IdentityProviderName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodb", "update-global-table")]
+[CliCommand("dynamodb", "update-global-table")]
 public record AwsDynamodbUpdateGlobalTableOptions(
-[property: CommandSwitch("--global-table-name")] string GlobalTableName,
-[property: CommandSwitch("--replica-updates")] string[] ReplicaUpdates
+[property: CliOption("--global-table-name")] string GlobalTableName,
+[property: CliOption("--replica-updates")] string[] ReplicaUpdates
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

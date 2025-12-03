@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "disable--network-performance-metric-subscription")]
+[CliCommand("ec2", "disable--network-performance-metric-subscription")]
 public record AwsEc2DisableAwsNetworkPerformanceMetricSubscriptionOptions : AwsOptions
 {
-    [CommandSwitch("--source")]
+    [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CommandSwitch("--destination")]
+    [CliOption("--destination")]
     public string? Destination { get; set; }
 
-    [CommandSwitch("--metric")]
+    [CliOption("--metric")]
     public string? Metric { get; set; }
 
-    [CommandSwitch("--statistic")]
+    [CliOption("--statistic")]
     public string? Statistic { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

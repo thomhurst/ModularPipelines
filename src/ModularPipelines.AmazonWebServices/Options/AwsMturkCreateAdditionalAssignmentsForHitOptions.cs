@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mturk", "create-additional-assignments-for-hit")]
+[CliCommand("mturk", "create-additional-assignments-for-hit")]
 public record AwsMturkCreateAdditionalAssignmentsForHitOptions(
-[property: CommandSwitch("--hit-id")] string HitId,
-[property: CommandSwitch("--number-of-additional-assignments")] int NumberOfAdditionalAssignments
+[property: CliOption("--hit-id")] string HitId,
+[property: CliOption("--number-of-additional-assignments")] int NumberOfAdditionalAssignments
 ) : AwsOptions
 {
-    [CommandSwitch("--unique-request-token")]
+    [CliOption("--unique-request-token")]
     public string? UniqueRequestToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

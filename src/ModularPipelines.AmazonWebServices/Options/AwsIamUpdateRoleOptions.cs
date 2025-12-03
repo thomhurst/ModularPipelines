@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "update-role")]
+[CliCommand("iam", "update-role")]
 public record AwsIamUpdateRoleOptions(
-[property: CommandSwitch("--role-name")] string RoleName
+[property: CliOption("--role-name")] string RoleName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--max-session-duration")]
+    [CliOption("--max-session-duration")]
     public int? MaxSessionDuration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,24 +4,24 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lakeformation", "get-temporary-glue-partition-credentials")]
+[CliCommand("lakeformation", "get-temporary-glue-partition-credentials")]
 public record AwsLakeformationGetTemporaryGluePartitionCredentialsOptions(
-[property: CommandSwitch("--table-arn")] string TableArn,
-[property: CommandSwitch("--partition")] string Partition
+[property: CliOption("--table-arn")] string TableArn,
+[property: CliOption("--partition")] string Partition
 ) : AwsOptions
 {
-    [CommandSwitch("--permissions")]
+    [CliOption("--permissions")]
     public string[]? Permissions { get; set; }
 
-    [CommandSwitch("--duration-seconds")]
+    [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
-    [CommandSwitch("--audit-context")]
+    [CliOption("--audit-context")]
     public string? AuditContext { get; set; }
 
-    [CommandSwitch("--supported-permission-types")]
+    [CliOption("--supported-permission-types")]
     public string[]? SupportedPermissionTypes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

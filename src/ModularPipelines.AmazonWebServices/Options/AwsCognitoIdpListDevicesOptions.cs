@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-idp", "list-devices")]
+[CliCommand("cognito-idp", "list-devices")]
 public record AwsCognitoIdpListDevicesOptions(
-[property: CommandSwitch("--access-token")] string AccessToken
+[property: CliOption("--access-token")] string AccessToken
 ) : AwsOptions
 {
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CommandSwitch("--pagination-token")]
+    [CliOption("--pagination-token")]
     public string? PaginationToken { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

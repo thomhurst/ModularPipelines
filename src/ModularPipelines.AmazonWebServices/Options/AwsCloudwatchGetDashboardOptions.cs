@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudwatch", "get-dashboard")]
+[CliCommand("cloudwatch", "get-dashboard")]
 public record AwsCloudwatchGetDashboardOptions(
-[property: CommandSwitch("--dashboard-name")] string DashboardName
+[property: CliOption("--dashboard-name")] string DashboardName
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

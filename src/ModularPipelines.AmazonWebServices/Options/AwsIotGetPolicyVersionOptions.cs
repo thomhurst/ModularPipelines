@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "get-policy-version")]
+[CliCommand("iot", "get-policy-version")]
 public record AwsIotGetPolicyVersionOptions(
-[property: CommandSwitch("--policy-name")] string PolicyName,
-[property: CommandSwitch("--policy-version-id")] string PolicyVersionId
+[property: CliOption("--policy-name")] string PolicyName,
+[property: CliOption("--policy-version-id")] string PolicyVersionId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

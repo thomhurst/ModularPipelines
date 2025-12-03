@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotevents", "describe-alarm-model")]
+[CliCommand("iotevents", "describe-alarm-model")]
 public record AwsIoteventsDescribeAlarmModelOptions(
-[property: CommandSwitch("--alarm-model-name")] string AlarmModelName
+[property: CliOption("--alarm-model-name")] string AlarmModelName
 ) : AwsOptions
 {
-    [CommandSwitch("--alarm-model-version")]
+    [CliOption("--alarm-model-version")]
     public string? AlarmModelVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

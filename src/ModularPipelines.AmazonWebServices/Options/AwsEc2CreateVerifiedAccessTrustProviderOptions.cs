@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "create-verified-access-trust-provider")]
+[CliCommand("ec2", "create-verified-access-trust-provider")]
 public record AwsEc2CreateVerifiedAccessTrustProviderOptions(
-[property: CommandSwitch("--trust-provider-type")] string TrustProviderType,
-[property: CommandSwitch("--policy-reference-name")] string PolicyReferenceName
+[property: CliOption("--trust-provider-type")] string TrustProviderType,
+[property: CliOption("--policy-reference-name")] string PolicyReferenceName
 ) : AwsOptions
 {
-    [CommandSwitch("--user-trust-provider-type")]
+    [CliOption("--user-trust-provider-type")]
     public string? UserTrustProviderType { get; set; }
 
-    [CommandSwitch("--device-trust-provider-type")]
+    [CliOption("--device-trust-provider-type")]
     public string? DeviceTrustProviderType { get; set; }
 
-    [CommandSwitch("--oidc-options")]
+    [CliOption("--oidc-options")]
     public string? OidcOptions { get; set; }
 
-    [CommandSwitch("--device-options")]
+    [CliOption("--device-options")]
     public string? DeviceOptions { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--tag-specifications")]
+    [CliOption("--tag-specifications")]
     public string[]? TagSpecifications { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--sse-specification")]
+    [CliOption("--sse-specification")]
     public string? SseSpecification { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

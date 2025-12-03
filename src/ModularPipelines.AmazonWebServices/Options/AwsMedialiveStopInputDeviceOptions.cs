@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("medialive", "stop-input-device")]
+[CliCommand("medialive", "stop-input-device")]
 public record AwsMedialiveStopInputDeviceOptions(
-[property: CommandSwitch("--input-device-id")] string InputDeviceId
+[property: CliOption("--input-device-id")] string InputDeviceId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

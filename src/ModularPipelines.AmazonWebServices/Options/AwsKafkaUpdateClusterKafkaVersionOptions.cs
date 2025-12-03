@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kafka", "update-cluster-kafka-version")]
+[CliCommand("kafka", "update-cluster-kafka-version")]
 public record AwsKafkaUpdateClusterKafkaVersionOptions(
-[property: CommandSwitch("--cluster-arn")] string ClusterArn,
-[property: CommandSwitch("--current-version")] string CurrentVersion,
-[property: CommandSwitch("--target-kafka-version")] string TargetKafkaVersion
+[property: CliOption("--cluster-arn")] string ClusterArn,
+[property: CliOption("--current-version")] string CurrentVersion,
+[property: CliOption("--target-kafka-version")] string TargetKafkaVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--configuration-info")]
+    [CliOption("--configuration-info")]
     public string? ConfigurationInfo { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

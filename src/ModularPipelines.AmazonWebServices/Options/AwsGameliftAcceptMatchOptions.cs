@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("gamelift", "accept-match")]
+[CliCommand("gamelift", "accept-match")]
 public record AwsGameliftAcceptMatchOptions(
-[property: CommandSwitch("--ticket-id")] string TicketId,
-[property: CommandSwitch("--player-ids")] string[] PlayerIds,
-[property: CommandSwitch("--acceptance-type")] string AcceptanceType
+[property: CliOption("--ticket-id")] string TicketId,
+[property: CliOption("--player-ids")] string[] PlayerIds,
+[property: CliOption("--acceptance-type")] string AcceptanceType
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

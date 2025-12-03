@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("macie2", "create-sample-findings")]
+[CliCommand("macie2", "create-sample-findings")]
 public record AwsMacie2CreateSampleFindingsOptions : AwsOptions
 {
-    [CommandSwitch("--finding-types")]
+    [CliOption("--finding-types")]
     public string[]? FindingTypes { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

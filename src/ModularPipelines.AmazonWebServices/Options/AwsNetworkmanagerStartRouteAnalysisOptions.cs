@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("networkmanager", "start-route-analysis")]
+[CliCommand("networkmanager", "start-route-analysis")]
 public record AwsNetworkmanagerStartRouteAnalysisOptions(
-[property: CommandSwitch("--global-network-id")] string GlobalNetworkId,
-[property: CommandSwitch("--source")] string Source,
-[property: CommandSwitch("--destination")] string Destination
+[property: CliOption("--global-network-id")] string GlobalNetworkId,
+[property: CliOption("--source")] string Source,
+[property: CliOption("--destination")] string Destination
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

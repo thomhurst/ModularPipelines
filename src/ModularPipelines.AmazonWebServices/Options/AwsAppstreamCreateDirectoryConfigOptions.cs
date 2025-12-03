@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appstream", "create-directory-config")]
+[CliCommand("appstream", "create-directory-config")]
 public record AwsAppstreamCreateDirectoryConfigOptions(
-[property: CommandSwitch("--directory-name")] string DirectoryName,
-[property: CommandSwitch("--organizational-unit-distinguished-names")] string[] OrganizationalUnitDistinguishedNames
+[property: CliOption("--directory-name")] string DirectoryName,
+[property: CliOption("--organizational-unit-distinguished-names")] string[] OrganizationalUnitDistinguishedNames
 ) : AwsOptions
 {
-    [CommandSwitch("--service-account-credentials")]
+    [CliOption("--service-account-credentials")]
     public string? ServiceAccountCredentials { get; set; }
 
-    [CommandSwitch("--certificate-based-auth-properties")]
+    [CliOption("--certificate-based-auth-properties")]
     public string? CertificateBasedAuthProperties { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

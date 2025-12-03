@@ -5,37 +5,37 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("braket", "create-job")]
+[CliCommand("braket", "create-job")]
 public record AwsBraketCreateJobOptions(
-[property: CommandSwitch("--algorithm-specification")] string AlgorithmSpecification,
-[property: CommandSwitch("--device-config")] string DeviceConfig,
-[property: CommandSwitch("--instance-config")] string InstanceConfig,
-[property: CommandSwitch("--job-name")] string JobName,
-[property: CommandSwitch("--output-data-config")] string OutputDataConfig,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--algorithm-specification")] string AlgorithmSpecification,
+[property: CliOption("--device-config")] string DeviceConfig,
+[property: CliOption("--instance-config")] string InstanceConfig,
+[property: CliOption("--job-name")] string JobName,
+[property: CliOption("--output-data-config")] string OutputDataConfig,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--associations")]
+    [CliOption("--associations")]
     public string[]? Associations { get; set; }
 
-    [CommandSwitch("--checkpoint-config")]
+    [CliOption("--checkpoint-config")]
     public string? CheckpointConfig { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--hyper-parameters")]
+    [CliOption("--hyper-parameters")]
     public IEnumerable<KeyValue>? HyperParameters { get; set; }
 
-    [CommandSwitch("--input-data-config")]
+    [CliOption("--input-data-config")]
     public string[]? InputDataConfig { get; set; }
 
-    [CommandSwitch("--stopping-condition")]
+    [CliOption("--stopping-condition")]
     public string? StoppingCondition { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

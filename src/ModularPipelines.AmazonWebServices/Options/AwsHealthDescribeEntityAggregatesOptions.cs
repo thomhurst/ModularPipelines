@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("health", "describe-entity-aggregates")]
+[CliCommand("health", "describe-entity-aggregates")]
 public record AwsHealthDescribeEntityAggregatesOptions : AwsOptions
 {
-    [CommandSwitch("--event-arns")]
+    [CliOption("--event-arns")]
     public string[]? EventArns { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

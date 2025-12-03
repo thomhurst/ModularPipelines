@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("drs", "stop-source-network-replication")]
+[CliCommand("drs", "stop-source-network-replication")]
 public record AwsDrsStopSourceNetworkReplicationOptions(
-[property: CommandSwitch("--source-network-id")] string SourceNetworkId
+[property: CliOption("--source-network-id")] string SourceNetworkId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

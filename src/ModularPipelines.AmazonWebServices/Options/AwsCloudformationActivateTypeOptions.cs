@@ -4,36 +4,36 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "activate-type")]
+[CliCommand("cloudformation", "activate-type")]
 public record AwsCloudformationActivateTypeOptions : AwsOptions
 {
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--public-type-arn")]
+    [CliOption("--public-type-arn")]
     public string? PublicTypeArn { get; set; }
 
-    [CommandSwitch("--publisher-id")]
+    [CliOption("--publisher-id")]
     public string? PublisherId { get; set; }
 
-    [CommandSwitch("--type-name")]
+    [CliOption("--type-name")]
     public string? TypeName { get; set; }
 
-    [CommandSwitch("--type-name-alias")]
+    [CliOption("--type-name-alias")]
     public string? TypeNameAlias { get; set; }
 
-    [CommandSwitch("--logging-config")]
+    [CliOption("--logging-config")]
     public string? LoggingConfig { get; set; }
 
-    [CommandSwitch("--execution-role-arn")]
+    [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 
-    [CommandSwitch("--version-bump")]
+    [CliOption("--version-bump")]
     public string? VersionBump { get; set; }
 
-    [CommandSwitch("--major-version")]
+    [CliOption("--major-version")]
     public long? MajorVersion { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

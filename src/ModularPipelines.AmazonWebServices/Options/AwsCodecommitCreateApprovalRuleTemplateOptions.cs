@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecommit", "create-approval-rule-template")]
+[CliCommand("codecommit", "create-approval-rule-template")]
 public record AwsCodecommitCreateApprovalRuleTemplateOptions(
-[property: CommandSwitch("--approval-rule-template-name")] string ApprovalRuleTemplateName,
-[property: CommandSwitch("--approval-rule-template-content")] string ApprovalRuleTemplateContent
+[property: CliOption("--approval-rule-template-name")] string ApprovalRuleTemplateName,
+[property: CliOption("--approval-rule-template-content")] string ApprovalRuleTemplateContent
 ) : AwsOptions
 {
-    [CommandSwitch("--approval-rule-template-description")]
+    [CliOption("--approval-rule-template-description")]
     public string? ApprovalRuleTemplateDescription { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

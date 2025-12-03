@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iottwinmaker", "list-metadata-transfer-jobs")]
+[CliCommand("iottwinmaker", "list-metadata-transfer-jobs")]
 public record AwsIottwinmakerListMetadataTransferJobsOptions(
-[property: CommandSwitch("--source-type")] string SourceType,
-[property: CommandSwitch("--destination-type")] string DestinationType
+[property: CliOption("--source-type")] string SourceType,
+[property: CliOption("--destination-type")] string DestinationType
 ) : AwsOptions
 {
-    [CommandSwitch("--filters")]
+    [CliOption("--filters")]
     public string[]? Filters { get; set; }
 
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutequipment", "import-model-version")]
+[CliCommand("lookoutequipment", "import-model-version")]
 public record AwsLookoutequipmentImportModelVersionOptions(
-[property: CommandSwitch("--source-model-version-arn")] string SourceModelVersionArn,
-[property: CommandSwitch("--dataset-name")] string DatasetName
+[property: CliOption("--source-model-version-arn")] string SourceModelVersionArn,
+[property: CliOption("--dataset-name")] string DatasetName
 ) : AwsOptions
 {
-    [CommandSwitch("--model-name")]
+    [CliOption("--model-name")]
     public string? ModelName { get; set; }
 
-    [CommandSwitch("--labels-input-configuration")]
+    [CliOption("--labels-input-configuration")]
     public string? LabelsInputConfiguration { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--role-arn")]
+    [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
-    [CommandSwitch("--server-side-kms-key-id")]
+    [CliOption("--server-side-kms-key-id")]
     public string? ServerSideKmsKeyId { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--inference-data-import-strategy")]
+    [CliOption("--inference-data-import-strategy")]
     public string? InferenceDataImportStrategy { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

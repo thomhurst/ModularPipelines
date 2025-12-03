@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("logs", "get-log-record")]
+[CliCommand("logs", "get-log-record")]
 public record AwsLogsGetLogRecordOptions(
-[property: CommandSwitch("--log-record-pointer")] string LogRecordPointer
+[property: CliOption("--log-record-pointer")] string LogRecordPointer
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

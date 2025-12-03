@@ -4,25 +4,25 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("finspace", "update-kx-cluster-code-configuration")]
+[CliCommand("finspace", "update-kx-cluster-code-configuration")]
 public record AwsFinspaceUpdateKxClusterCodeConfigurationOptions(
-[property: CommandSwitch("--environment-id")] string EnvironmentId,
-[property: CommandSwitch("--cluster-name")] string ClusterName,
-[property: CommandSwitch("--code")] string Code
+[property: CliOption("--environment-id")] string EnvironmentId,
+[property: CliOption("--cluster-name")] string ClusterName,
+[property: CliOption("--code")] string Code
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--initialization-script")]
+    [CliOption("--initialization-script")]
     public string? InitializationScript { get; set; }
 
-    [CommandSwitch("--command-line-arguments")]
+    [CliOption("--command-line-arguments")]
     public string[]? CommandLineArguments { get; set; }
 
-    [CommandSwitch("--deployment-configuration")]
+    [CliOption("--deployment-configuration")]
     public string? DeploymentConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

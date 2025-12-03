@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudfront", "list-distributions-by-realtime-log-config")]
+[CliCommand("cloudfront", "list-distributions-by-realtime-log-config")]
 public record AwsCloudfrontListDistributionsByRealtimeLogConfigOptions : AwsOptions
 {
-    [CommandSwitch("--marker")]
+    [CliOption("--marker")]
     public string? Marker { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public string? MaxItems { get; set; }
 
-    [CommandSwitch("--realtime-log-config-name")]
+    [CliOption("--realtime-log-config-name")]
     public string? RealtimeLogConfigName { get; set; }
 
-    [CommandSwitch("--realtime-log-config-arn")]
+    [CliOption("--realtime-log-config-arn")]
     public string? RealtimeLogConfigArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

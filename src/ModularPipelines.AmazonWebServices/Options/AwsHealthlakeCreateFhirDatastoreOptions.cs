@@ -4,29 +4,29 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("healthlake", "create-fhir-datastore")]
+[CliCommand("healthlake", "create-fhir-datastore")]
 public record AwsHealthlakeCreateFhirDatastoreOptions(
-[property: CommandSwitch("--datastore-type-version")] string DatastoreTypeVersion
+[property: CliOption("--datastore-type-version")] string DatastoreTypeVersion
 ) : AwsOptions
 {
-    [CommandSwitch("--datastore-name")]
+    [CliOption("--datastore-name")]
     public string? DatastoreName { get; set; }
 
-    [CommandSwitch("--sse-configuration")]
+    [CliOption("--sse-configuration")]
     public string? SseConfiguration { get; set; }
 
-    [CommandSwitch("--preload-data-config")]
+    [CliOption("--preload-data-config")]
     public string? PreloadDataConfig { get; set; }
 
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--identity-provider-configuration")]
+    [CliOption("--identity-provider-configuration")]
     public string? IdentityProviderConfiguration { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

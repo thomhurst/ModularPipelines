@@ -4,31 +4,31 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("budgets", "update-budget-action")]
+[CliCommand("budgets", "update-budget-action")]
 public record AwsBudgetsUpdateBudgetActionOptions(
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--budget-name")] string BudgetName,
-[property: CommandSwitch("--action-id")] string ActionId
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--budget-name")] string BudgetName,
+[property: CliOption("--action-id")] string ActionId
 ) : AwsOptions
 {
-    [CommandSwitch("--notification-type")]
+    [CliOption("--notification-type")]
     public string? NotificationType { get; set; }
 
-    [CommandSwitch("--action-threshold")]
+    [CliOption("--action-threshold")]
     public string? ActionThreshold { get; set; }
 
-    [CommandSwitch("--definition")]
+    [CliOption("--definition")]
     public string? Definition { get; set; }
 
-    [CommandSwitch("--execution-role-arn")]
+    [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; set; }
 
-    [CommandSwitch("--approval-model")]
+    [CliOption("--approval-model")]
     public string? ApprovalModel { get; set; }
 
-    [CommandSwitch("--subscribers")]
+    [CliOption("--subscribers")]
     public string[]? Subscribers { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

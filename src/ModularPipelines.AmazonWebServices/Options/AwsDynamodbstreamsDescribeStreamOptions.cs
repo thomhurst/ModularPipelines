@@ -4,17 +4,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dynamodbstreams", "describe-stream")]
+[CliCommand("dynamodbstreams", "describe-stream")]
 public record AwsDynamodbstreamsDescribeStreamOptions(
-[property: CommandSwitch("--stream-arn")] string StreamArn
+[property: CliOption("--stream-arn")] string StreamArn
 ) : AwsOptions
 {
-    [CommandSwitch("--limit")]
+    [CliOption("--limit")]
     public int? Limit { get; set; }
 
-    [CommandSwitch("--exclusive-start-shard-id")]
+    [CliOption("--exclusive-start-shard-id")]
     public string? ExclusiveStartShardId { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

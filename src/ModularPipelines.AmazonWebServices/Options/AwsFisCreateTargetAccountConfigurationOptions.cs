@@ -4,19 +4,19 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("fis", "create-target-account-configuration")]
+[CliCommand("fis", "create-target-account-configuration")]
 public record AwsFisCreateTargetAccountConfigurationOptions(
-[property: CommandSwitch("--experiment-template-id")] string ExperimentTemplateId,
-[property: CommandSwitch("--account-id")] string AccountId,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--experiment-template-id")] string ExperimentTemplateId,
+[property: CliOption("--account-id")] string AccountId,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--client-token")]
+    [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

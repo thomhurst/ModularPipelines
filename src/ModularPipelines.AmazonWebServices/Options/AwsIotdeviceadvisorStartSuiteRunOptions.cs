@@ -5,18 +5,18 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotdeviceadvisor", "start-suite-run")]
+[CliCommand("iotdeviceadvisor", "start-suite-run")]
 public record AwsIotdeviceadvisorStartSuiteRunOptions(
-[property: CommandSwitch("--suite-definition-id")] string SuiteDefinitionId,
-[property: CommandSwitch("--suite-run-configuration")] string SuiteRunConfiguration
+[property: CliOption("--suite-definition-id")] string SuiteDefinitionId,
+[property: CliOption("--suite-run-configuration")] string SuiteRunConfiguration
 ) : AwsOptions
 {
-    [CommandSwitch("--suite-definition-version")]
+    [CliOption("--suite-definition-version")]
     public string? SuiteDefinitionVersion { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

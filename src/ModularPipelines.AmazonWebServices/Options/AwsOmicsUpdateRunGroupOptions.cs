@@ -4,26 +4,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("omics", "update-run-group")]
+[CliCommand("omics", "update-run-group")]
 public record AwsOmicsUpdateRunGroupOptions(
-[property: CommandSwitch("--id")] string Id
+[property: CliOption("--id")] string Id
 ) : AwsOptions
 {
-    [CommandSwitch("--name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
-    [CommandSwitch("--max-cpus")]
+    [CliOption("--max-cpus")]
     public int? MaxCpus { get; set; }
 
-    [CommandSwitch("--max-runs")]
+    [CliOption("--max-runs")]
     public int? MaxRuns { get; set; }
 
-    [CommandSwitch("--max-duration")]
+    [CliOption("--max-duration")]
     public int? MaxDuration { get; set; }
 
-    [CommandSwitch("--max-gpus")]
+    [CliOption("--max-gpus")]
     public int? MaxGpus { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

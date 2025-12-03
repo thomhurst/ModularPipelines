@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediatailor", "create-program")]
+[CliCommand("mediatailor", "create-program")]
 public record AwsMediatailorCreateProgramOptions(
-[property: CommandSwitch("--channel-name")] string ChannelName,
-[property: CommandSwitch("--program-name")] string ProgramName,
-[property: CommandSwitch("--schedule-configuration")] string ScheduleConfiguration,
-[property: CommandSwitch("--source-location-name")] string SourceLocationName
+[property: CliOption("--channel-name")] string ChannelName,
+[property: CliOption("--program-name")] string ProgramName,
+[property: CliOption("--schedule-configuration")] string ScheduleConfiguration,
+[property: CliOption("--source-location-name")] string SourceLocationName
 ) : AwsOptions
 {
-    [CommandSwitch("--ad-breaks")]
+    [CliOption("--ad-breaks")]
     public string[]? AdBreaks { get; set; }
 
-    [CommandSwitch("--live-source-name")]
+    [CliOption("--live-source-name")]
     public string? LiveSourceName { get; set; }
 
-    [CommandSwitch("--vod-source-name")]
+    [CliOption("--vod-source-name")]
     public string? VodSourceName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

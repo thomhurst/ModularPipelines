@@ -4,37 +4,37 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appsync", "create-function")]
+[CliCommand("appsync", "create-function")]
 public record AwsAppsyncCreateFunctionOptions(
-[property: CommandSwitch("--api-id")] string ApiId,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--data-source-name")] string DataSourceName
+[property: CliOption("--api-id")] string ApiId,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--data-source-name")] string DataSourceName
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--request-mapping-template")]
+    [CliOption("--request-mapping-template")]
     public string? RequestMappingTemplate { get; set; }
 
-    [CommandSwitch("--response-mapping-template")]
+    [CliOption("--response-mapping-template")]
     public string? ResponseMappingTemplate { get; set; }
 
-    [CommandSwitch("--function-version")]
+    [CliOption("--function-version")]
     public string? FunctionVersion { get; set; }
 
-    [CommandSwitch("--sync-config")]
+    [CliOption("--sync-config")]
     public string? SyncConfig { get; set; }
 
-    [CommandSwitch("--max-batch-size")]
+    [CliOption("--max-batch-size")]
     public int? MaxBatchSize { get; set; }
 
-    [CommandSwitch("--runtime")]
+    [CliOption("--runtime")]
     public string? Runtime { get; set; }
 
-    [CommandSwitch("--code")]
+    [CliOption("--code")]
     public string? Code { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

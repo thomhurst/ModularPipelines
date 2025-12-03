@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kinesis", "list-stream-consumers")]
+[CliCommand("kinesis", "list-stream-consumers")]
 public record AwsKinesisListStreamConsumersOptions(
-[property: CommandSwitch("--stream-arn")] string StreamArn
+[property: CliOption("--stream-arn")] string StreamArn
 ) : AwsOptions
 {
-    [CommandSwitch("--stream-creation-timestamp")]
+    [CliOption("--stream-creation-timestamp")]
     public long? StreamCreationTimestamp { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,12 +4,12 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("clouddirectory", "upgrade-applied-schema")]
+[CliCommand("clouddirectory", "upgrade-applied-schema")]
 public record AwsClouddirectoryUpgradeAppliedSchemaOptions(
-[property: CommandSwitch("--published-schema-arn")] string PublishedSchemaArn,
-[property: CommandSwitch("--directory-arn")] string DirectoryArn
+[property: CliOption("--published-schema-arn")] string PublishedSchemaArn,
+[property: CliOption("--directory-arn")] string DirectoryArn
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -5,20 +5,20 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("databrew", "create-project")]
+[CliCommand("databrew", "create-project")]
 public record AwsDatabrewCreateProjectOptions(
-[property: CommandSwitch("--dataset-name")] string DatasetName,
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--recipe-name")] string RecipeName,
-[property: CommandSwitch("--role-arn")] string RoleArn
+[property: CliOption("--dataset-name")] string DatasetName,
+[property: CliOption("--name")] string Name,
+[property: CliOption("--recipe-name")] string RecipeName,
+[property: CliOption("--role-arn")] string RoleArn
 ) : AwsOptions
 {
-    [CommandSwitch("--sample")]
+    [CliOption("--sample")]
     public string? Sample { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

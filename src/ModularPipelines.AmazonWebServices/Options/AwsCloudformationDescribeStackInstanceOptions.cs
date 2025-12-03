@@ -4,16 +4,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cloudformation", "describe-stack-instance")]
+[CliCommand("cloudformation", "describe-stack-instance")]
 public record AwsCloudformationDescribeStackInstanceOptions(
-[property: CommandSwitch("--stack-set-name")] string StackSetName,
-[property: CommandSwitch("--stack-instance-account")] string StackInstanceAccount,
-[property: CommandSwitch("--stack-instance-region")] string StackInstanceRegion
+[property: CliOption("--stack-set-name")] string StackSetName,
+[property: CliOption("--stack-instance-account")] string StackInstanceAccount,
+[property: CliOption("--stack-instance-region")] string StackInstanceRegion
 ) : AwsOptions
 {
-    [CommandSwitch("--call-as")]
+    [CliOption("--call-as")]
     public string? CallAs { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ecs", "delete-task-set")]
+[CliCommand("ecs", "delete-task-set")]
 public record AwsEcsDeleteTaskSetOptions(
-[property: CommandSwitch("--cluster")] string Cluster,
-[property: CommandSwitch("--service")] string Service,
-[property: CommandSwitch("--task-set")] string TaskSet
+[property: CliOption("--cluster")] string Cluster,
+[property: CliOption("--service")] string Service,
+[property: CliOption("--task-set")] string TaskSet
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

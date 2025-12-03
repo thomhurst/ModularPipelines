@@ -4,18 +4,18 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appstream", "list-entitled-applications")]
+[CliCommand("appstream", "list-entitled-applications")]
 public record AwsAppstreamListEntitledApplicationsOptions(
-[property: CommandSwitch("--stack-name")] string StackName,
-[property: CommandSwitch("--entitlement-name")] string EntitlementName
+[property: CliOption("--stack-name")] string StackName,
+[property: CliOption("--entitlement-name")] string EntitlementName
 ) : AwsOptions
 {
-    [CommandSwitch("--next-token")]
+    [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
-    [CommandSwitch("--max-results")]
+    [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

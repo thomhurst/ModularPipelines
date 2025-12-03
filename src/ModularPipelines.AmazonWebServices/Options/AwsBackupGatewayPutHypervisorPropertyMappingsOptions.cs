@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("backup-gateway", "put-hypervisor-property-mappings")]
+[CliCommand("backup-gateway", "put-hypervisor-property-mappings")]
 public record AwsBackupGatewayPutHypervisorPropertyMappingsOptions(
-[property: CommandSwitch("--hypervisor-arn")] string HypervisorArn,
-[property: CommandSwitch("--iam-role-arn")] string IamRoleArn,
-[property: CommandSwitch("--vmware-to-aws-tag-mappings")] string[] VmwareToAwsTagMappings
+[property: CliOption("--hypervisor-arn")] string HypervisorArn,
+[property: CliOption("--iam-role-arn")] string IamRoleArn,
+[property: CliOption("--vmware-to-aws-tag-mappings")] string[] VmwareToAwsTagMappings
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

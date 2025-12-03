@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("frauddetector", "create-model-version")]
+[CliCommand("frauddetector", "create-model-version")]
 public record AwsFrauddetectorCreateModelVersionOptions(
-[property: CommandSwitch("--model-id")] string ModelId,
-[property: CommandSwitch("--model-type")] string ModelType,
-[property: CommandSwitch("--training-data-source")] string TrainingDataSource,
-[property: CommandSwitch("--training-data-schema")] string TrainingDataSchema
+[property: CliOption("--model-id")] string ModelId,
+[property: CliOption("--model-type")] string ModelType,
+[property: CliOption("--training-data-source")] string TrainingDataSource,
+[property: CliOption("--training-data-schema")] string TrainingDataSchema
 ) : AwsOptions
 {
-    [CommandSwitch("--external-events-detail")]
+    [CliOption("--external-events-detail")]
     public string? ExternalEventsDetail { get; set; }
 
-    [CommandSwitch("--ingested-events-detail")]
+    [CliOption("--ingested-events-detail")]
     public string? IngestedEventsDetail { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public string[]? Tags { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

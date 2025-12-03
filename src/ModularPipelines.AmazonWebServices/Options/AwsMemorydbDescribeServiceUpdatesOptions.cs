@@ -4,27 +4,27 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("memorydb", "describe-service-updates")]
+[CliCommand("memorydb", "describe-service-updates")]
 public record AwsMemorydbDescribeServiceUpdatesOptions : AwsOptions
 {
-    [CommandSwitch("--service-update-name")]
+    [CliOption("--service-update-name")]
     public string? ServiceUpdateName { get; set; }
 
-    [CommandSwitch("--cluster-names")]
+    [CliOption("--cluster-names")]
     public string[]? ClusterNames { get; set; }
 
-    [CommandSwitch("--status")]
+    [CliOption("--status")]
     public string[]? Status { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

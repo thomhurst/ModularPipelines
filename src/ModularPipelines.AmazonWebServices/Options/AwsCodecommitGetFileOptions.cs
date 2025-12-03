@@ -4,15 +4,15 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("codecommit", "get-file")]
+[CliCommand("codecommit", "get-file")]
 public record AwsCodecommitGetFileOptions(
-[property: CommandSwitch("--repository-name")] string RepositoryName,
-[property: CommandSwitch("--file-path")] string FilePath
+[property: CliOption("--repository-name")] string RepositoryName,
+[property: CliOption("--file-path")] string FilePath
 ) : AwsOptions
 {
-    [CommandSwitch("--commit-specifier")]
+    [CliOption("--commit-specifier")]
     public string? CommitSpecifier { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

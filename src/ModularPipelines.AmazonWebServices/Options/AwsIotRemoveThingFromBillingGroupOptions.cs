@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iot", "remove-thing-from-billing-group")]
+[CliCommand("iot", "remove-thing-from-billing-group")]
 public record AwsIotRemoveThingFromBillingGroupOptions : AwsOptions
 {
-    [CommandSwitch("--billing-group-name")]
+    [CliOption("--billing-group-name")]
     public string? BillingGroupName { get; set; }
 
-    [CommandSwitch("--billing-group-arn")]
+    [CliOption("--billing-group-arn")]
     public string? BillingGroupArn { get; set; }
 
-    [CommandSwitch("--thing-name")]
+    [CliOption("--thing-name")]
     public string? ThingName { get; set; }
 
-    [CommandSwitch("--thing-arn")]
+    [CliOption("--thing-arn")]
     public string? ThingArn { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

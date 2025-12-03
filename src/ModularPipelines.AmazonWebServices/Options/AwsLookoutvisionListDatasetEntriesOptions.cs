@@ -4,33 +4,33 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("lookoutvision", "list-dataset-entries")]
+[CliCommand("lookoutvision", "list-dataset-entries")]
 public record AwsLookoutvisionListDatasetEntriesOptions(
-[property: CommandSwitch("--project-name")] string ProjectName,
-[property: CommandSwitch("--dataset-type")] string DatasetType
+[property: CliOption("--project-name")] string ProjectName,
+[property: CliOption("--dataset-type")] string DatasetType
 ) : AwsOptions
 {
-    [CommandSwitch("--anomaly-class")]
+    [CliOption("--anomaly-class")]
     public string? AnomalyClass { get; set; }
 
-    [CommandSwitch("--before-creation-date")]
+    [CliOption("--before-creation-date")]
     public long? BeforeCreationDate { get; set; }
 
-    [CommandSwitch("--after-creation-date")]
+    [CliOption("--after-creation-date")]
     public long? AfterCreationDate { get; set; }
 
-    [CommandSwitch("--source-ref-contains")]
+    [CliOption("--source-ref-contains")]
     public string? SourceRefContains { get; set; }
 
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

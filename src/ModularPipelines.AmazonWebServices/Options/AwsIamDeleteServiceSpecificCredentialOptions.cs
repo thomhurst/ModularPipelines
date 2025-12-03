@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iam", "delete-service-specific-credential")]
+[CliCommand("iam", "delete-service-specific-credential")]
 public record AwsIamDeleteServiceSpecificCredentialOptions(
-[property: CommandSwitch("--service-specific-credential-id")] string ServiceSpecificCredentialId
+[property: CliOption("--service-specific-credential-id")] string ServiceSpecificCredentialId
 ) : AwsOptions
 {
-    [CommandSwitch("--user-name")]
+    [CliOption("--user-name")]
     public string? UserName { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

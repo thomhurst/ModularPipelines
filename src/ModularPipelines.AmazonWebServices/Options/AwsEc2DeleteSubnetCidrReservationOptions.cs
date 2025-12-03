@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("ec2", "delete-subnet-cidr-reservation")]
+[CliCommand("ec2", "delete-subnet-cidr-reservation")]
 public record AwsEc2DeleteSubnetCidrReservationOptions(
-[property: CommandSwitch("--subnet-cidr-reservation-id")] string SubnetCidrReservationId
+[property: CliOption("--subnet-cidr-reservation-id")] string SubnetCidrReservationId
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

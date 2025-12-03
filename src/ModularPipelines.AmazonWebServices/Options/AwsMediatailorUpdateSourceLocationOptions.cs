@@ -4,21 +4,21 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("mediatailor", "update-source-location")]
+[CliCommand("mediatailor", "update-source-location")]
 public record AwsMediatailorUpdateSourceLocationOptions(
-[property: CommandSwitch("--http-configuration")] string HttpConfiguration,
-[property: CommandSwitch("--source-location-name")] string SourceLocationName
+[property: CliOption("--http-configuration")] string HttpConfiguration,
+[property: CliOption("--source-location-name")] string SourceLocationName
 ) : AwsOptions
 {
-    [CommandSwitch("--access-configuration")]
+    [CliOption("--access-configuration")]
     public string? AccessConfiguration { get; set; }
 
-    [CommandSwitch("--default-segment-delivery-configuration")]
+    [CliOption("--default-segment-delivery-configuration")]
     public string? DefaultSegmentDeliveryConfiguration { get; set; }
 
-    [CommandSwitch("--segment-delivery-configurations")]
+    [CliOption("--segment-delivery-configurations")]
     public string[]? SegmentDeliveryConfigurations { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

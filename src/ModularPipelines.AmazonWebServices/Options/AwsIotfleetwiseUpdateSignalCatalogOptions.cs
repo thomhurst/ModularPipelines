@@ -4,23 +4,23 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("iotfleetwise", "update-signal-catalog")]
+[CliCommand("iotfleetwise", "update-signal-catalog")]
 public record AwsIotfleetwiseUpdateSignalCatalogOptions(
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--nodes-to-add")]
+    [CliOption("--nodes-to-add")]
     public string[]? NodesToAdd { get; set; }
 
-    [CommandSwitch("--nodes-to-update")]
+    [CliOption("--nodes-to-update")]
     public string[]? NodesToUpdate { get; set; }
 
-    [CommandSwitch("--nodes-to-remove")]
+    [CliOption("--nodes-to-remove")]
     public string[]? NodesToRemove { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

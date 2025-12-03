@@ -4,42 +4,42 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("devicefarm", "create-network-profile")]
+[CliCommand("devicefarm", "create-network-profile")]
 public record AwsDevicefarmCreateNetworkProfileOptions(
-[property: CommandSwitch("--project-arn")] string ProjectArn,
-[property: CommandSwitch("--name")] string Name
+[property: CliOption("--project-arn")] string ProjectArn,
+[property: CliOption("--name")] string Name
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--type")]
+    [CliOption("--type")]
     public string? Type { get; set; }
 
-    [CommandSwitch("--uplink-bandwidth-bits")]
+    [CliOption("--uplink-bandwidth-bits")]
     public long? UplinkBandwidthBits { get; set; }
 
-    [CommandSwitch("--downlink-bandwidth-bits")]
+    [CliOption("--downlink-bandwidth-bits")]
     public long? DownlinkBandwidthBits { get; set; }
 
-    [CommandSwitch("--uplink-delay-ms")]
+    [CliOption("--uplink-delay-ms")]
     public long? UplinkDelayMs { get; set; }
 
-    [CommandSwitch("--downlink-delay-ms")]
+    [CliOption("--downlink-delay-ms")]
     public long? DownlinkDelayMs { get; set; }
 
-    [CommandSwitch("--uplink-jitter-ms")]
+    [CliOption("--uplink-jitter-ms")]
     public long? UplinkJitterMs { get; set; }
 
-    [CommandSwitch("--downlink-jitter-ms")]
+    [CliOption("--downlink-jitter-ms")]
     public long? DownlinkJitterMs { get; set; }
 
-    [CommandSwitch("--uplink-loss-percent")]
+    [CliOption("--uplink-loss-percent")]
     public int? UplinkLossPercent { get; set; }
 
-    [CommandSwitch("--downlink-loss-percent")]
+    [CliOption("--downlink-loss-percent")]
     public int? DownlinkLossPercent { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

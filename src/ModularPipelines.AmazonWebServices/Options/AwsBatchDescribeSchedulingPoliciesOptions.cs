@@ -4,11 +4,11 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "describe-scheduling-policies")]
+[CliCommand("batch", "describe-scheduling-policies")]
 public record AwsBatchDescribeSchedulingPoliciesOptions(
-[property: CommandSwitch("--arns")] string[] Arns
+[property: CliOption("--arns")] string[] Arns
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

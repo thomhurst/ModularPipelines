@@ -5,29 +5,29 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("appstream", "create-app-block-builder")]
+[CliCommand("appstream", "create-app-block-builder")]
 public record AwsAppstreamCreateAppBlockBuilderOptions(
-[property: CommandSwitch("--name")] string Name,
-[property: CommandSwitch("--platform")] string Platform,
-[property: CommandSwitch("--instance-type")] string InstanceType,
-[property: CommandSwitch("--vpc-config")] string VpcConfig
+[property: CliOption("--name")] string Name,
+[property: CliOption("--platform")] string Platform,
+[property: CliOption("--instance-type")] string InstanceType,
+[property: CliOption("--vpc-config")] string VpcConfig
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--display-name")]
+    [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--iam-role-arn")]
+    [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; set; }
 
-    [CommandSwitch("--access-endpoints")]
+    [CliOption("--access-endpoints")]
     public string[]? AccessEndpoints { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

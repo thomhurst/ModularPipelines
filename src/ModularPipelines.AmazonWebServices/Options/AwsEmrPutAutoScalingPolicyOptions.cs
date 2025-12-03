@@ -4,13 +4,13 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("emr", "put-auto-scaling-policy")]
+[CliCommand("emr", "put-auto-scaling-policy")]
 public record AwsEmrPutAutoScalingPolicyOptions(
-[property: CommandSwitch("--cluster-id")] string ClusterId,
-[property: CommandSwitch("--instance-group-id")] string InstanceGroupId,
-[property: CommandSwitch("--auto-scaling-policy")] string AutoScalingPolicy
+[property: CliOption("--cluster-id")] string ClusterId,
+[property: CliOption("--instance-group-id")] string InstanceGroupId,
+[property: CliOption("--auto-scaling-policy")] string AutoScalingPolicy
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

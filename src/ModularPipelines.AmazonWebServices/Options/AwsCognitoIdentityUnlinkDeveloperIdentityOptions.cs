@@ -4,14 +4,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cognito-identity", "unlink-developer-identity")]
+[CliCommand("cognito-identity", "unlink-developer-identity")]
 public record AwsCognitoIdentityUnlinkDeveloperIdentityOptions(
-[property: CommandSwitch("--identity-id")] string IdentityId,
-[property: CommandSwitch("--identity-pool-id")] string IdentityPoolId,
-[property: CommandSwitch("--developer-provider-name")] string DeveloperProviderName,
-[property: CommandSwitch("--developer-user-identifier")] string DeveloperUserIdentifier
+[property: CliOption("--identity-id")] string IdentityId,
+[property: CliOption("--identity-pool-id")] string IdentityPoolId,
+[property: CliOption("--developer-provider-name")] string DeveloperProviderName,
+[property: CliOption("--developer-user-identifier")] string DeveloperUserIdentifier
 ) : AwsOptions
 {
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

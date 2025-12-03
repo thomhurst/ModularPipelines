@@ -5,49 +5,49 @@ using ModularPipelines.Models;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("glue", "create-session")]
+[CliCommand("glue", "create-session")]
 public record AwsGlueCreateSessionOptions(
-[property: CommandSwitch("--id")] string Id,
-[property: CommandSwitch("--role")] string Role,
-[property: CommandSwitch("--command")] string Command
+[property: CliOption("--id")] string Id,
+[property: CliOption("--role")] string Role,
+[property: CliOption("--command")] string Command
 ) : AwsOptions
 {
-    [CommandSwitch("--description")]
+    [CliOption("--description")]
     public string? Description { get; set; }
 
-    [CommandSwitch("--timeout")]
+    [CliOption("--timeout")]
     public int? Timeout { get; set; }
 
-    [CommandSwitch("--idle-timeout")]
+    [CliOption("--idle-timeout")]
     public int? IdleTimeout { get; set; }
 
-    [CommandSwitch("--default-arguments")]
+    [CliOption("--default-arguments")]
     public IEnumerable<KeyValue>? DefaultArguments { get; set; }
 
-    [CommandSwitch("--connections")]
+    [CliOption("--connections")]
     public string? Connections { get; set; }
 
-    [CommandSwitch("--max-capacity")]
+    [CliOption("--max-capacity")]
     public double? MaxCapacity { get; set; }
 
-    [CommandSwitch("--number-of-workers")]
+    [CliOption("--number-of-workers")]
     public int? NumberOfWorkers { get; set; }
 
-    [CommandSwitch("--worker-type")]
+    [CliOption("--worker-type")]
     public string? WorkerType { get; set; }
 
-    [CommandSwitch("--security-configuration")]
+    [CliOption("--security-configuration")]
     public string? SecurityConfiguration { get; set; }
 
-    [CommandSwitch("--glue-version")]
+    [CliOption("--glue-version")]
     public string? GlueVersion { get; set; }
 
-    [CommandSwitch("--tags")]
+    [CliOption("--tags")]
     public IEnumerable<KeyValue>? Tags { get; set; }
 
-    [CommandSwitch("--request-origin")]
+    [CliOption("--request-origin")]
     public string? RequestOrigin { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }

@@ -4,20 +4,20 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("connect", "list-traffic-distribution-group-users")]
+[CliCommand("connect", "list-traffic-distribution-group-users")]
 public record AwsConnectListTrafficDistributionGroupUsersOptions(
-[property: CommandSwitch("--traffic-distribution-group-id")] string TrafficDistributionGroupId
+[property: CliOption("--traffic-distribution-group-id")] string TrafficDistributionGroupId
 ) : AwsOptions
 {
-    [CommandSwitch("--starting-token")]
+    [CliOption("--starting-token")]
     public string? StartingToken { get; set; }
 
-    [CommandSwitch("--page-size")]
+    [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
-    [CommandSwitch("--max-items")]
+    [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
-    [CommandSwitch("--generate-cli-skeleton")]
+    [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
 }
