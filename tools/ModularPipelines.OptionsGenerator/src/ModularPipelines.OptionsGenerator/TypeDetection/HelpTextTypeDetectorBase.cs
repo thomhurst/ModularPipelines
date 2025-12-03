@@ -127,29 +127,21 @@ public abstract class HelpTextTypeDetectorBase : IOptionTypeDetector
 
     /// <summary>
     /// Converts a detected type string (e.g., "string", "int", "list") to CliOptionType.
+    /// Delegates to the centralized CliTypeMapper for consistency.
     /// </summary>
     protected static CliOptionType ParseTypeHint(string typeHint)
     {
-        var normalized = typeHint.Trim().ToLowerInvariant();
-
-        return normalized switch
+        // Empty type hint typically means boolean flag
+        if (string.IsNullOrWhiteSpace(typeHint))
         {
-            // Boolean indicators
-            "" => CliOptionType.Bool, // No type specified often means boolean flag
-            "bool" or "boolean" => CliOptionType.Bool,
+            return CliOptionType.Bool;
+        }
 
-            // Numeric types
-            "int" or "integer" or "number" or "uint" => CliOptionType.Int,
-            "float" or "decimal" or "double" => CliOptionType.Decimal,
+        // Delegate to centralized mapper
+        var result = CliTypeMapper.FromTypeName(typeHint);
 
-            // List/array types
-            "list" or "array" or "strings" or "stringarray" => CliOptionType.StringList,
-
-            // Map/dictionary types
-            "map" or "dict" or "dictionary" or "stringtostring" => CliOptionType.KeyValue,
-
-            // Everything else is a string
-            _ => CliOptionType.String
-        };
+        // FromTypeName returns Unknown for unrecognized types, but for help text
+        // we should default to String rather than Unknown
+        return result == CliOptionType.Unknown ? CliOptionType.String : result;
     }
 }

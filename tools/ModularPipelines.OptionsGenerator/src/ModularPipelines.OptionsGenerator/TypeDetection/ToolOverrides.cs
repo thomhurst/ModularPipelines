@@ -18,19 +18,3 @@ public class ToolOverrides
     /// </summary>
     public Dictionary<string, Dictionary<string, OptionOverride>> Commands { get; set; } = new();
 }
-
-/// <summary>
-/// Override definition for a single option.
-/// </summary>
-public class OptionOverride
-{
-    /// <summary>
-    /// The correct type for this option.
-    /// </summary>
-    public CliOptionType Type { get; set; }
-
-    /// <summary>
-    /// Optional reason for the override (for documentation).
-    /// </summary>
-    public string? Reason { get; set; }
-}

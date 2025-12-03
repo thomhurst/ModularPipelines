@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 
@@ -11,8 +12,7 @@ public class ManualOverrideDetector : IOptionTypeDetector
 {
     private readonly ILogger<ManualOverrideDetector> _logger;
     private readonly string _overridesDirectory;
-    private readonly Dictionary<string, ToolOverrides> _cache = new();
-    private static readonly object CacheLock = new();
+    private readonly ConcurrentDictionary<string, ToolOverrides?> _cache = new();
 
     public int Priority => 0; // Highest priority
     public string Name => "ManualOverride";
@@ -84,41 +84,32 @@ public class ManualOverrideDetector : IOptionTypeDetector
 
     private ToolOverrides? LoadOverrides(string toolName)
     {
-        lock (CacheLock)
+        return _cache.GetOrAdd(toolName, LoadOverridesFromFile);
+    }
+
+    private ToolOverrides? LoadOverridesFromFile(string toolName)
+    {
+        var filePath = GetOverrideFilePath(toolName);
+        if (!File.Exists(filePath))
         {
-            if (_cache.TryGetValue(toolName, out var cached))
-            {
-                return cached;
-            }
+            return null;
+        }
 
-            var filePath = GetOverrideFilePath(toolName);
-            if (!File.Exists(filePath))
+        try
+        {
+            var json = File.ReadAllText(filePath);
+            var options = new JsonSerializerOptions
             {
-                return null;
-            }
+                PropertyNameCaseInsensitive = true,
+                Converters = { new CliOptionTypeConverter() }
+            };
 
-            try
-            {
-                var json = File.ReadAllText(filePath);
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true,
-                    Converters = { new CliOptionTypeConverter() }
-                };
-
-                var overrides = JsonSerializer.Deserialize<ToolOverrides>(json, options);
-                if (overrides is not null)
-                {
-                    _cache[toolName] = overrides;
-                }
-
-                return overrides;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogWarning(ex, "Failed to load override file: {Path}", filePath);
-                return null;
-            }
+            return JsonSerializer.Deserialize<ToolOverrides>(json, options);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to load override file: {Path}", filePath);
+            return null;
         }
     }
 

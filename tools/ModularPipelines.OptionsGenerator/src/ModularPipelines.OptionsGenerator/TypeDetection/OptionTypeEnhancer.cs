@@ -9,6 +9,11 @@ namespace ModularPipelines.OptionsGenerator.TypeDetection;
 /// </summary>
 public class OptionTypeEnhancer
 {
+    /// <summary>
+    /// Minimum confidence level required to apply type enhancement.
+    /// </summary>
+    private const int MinimumConfidenceToEnhance = 70;
+
     private readonly OptionTypeDetectorPipeline _pipeline;
     private readonly ILogger<OptionTypeEnhancer> _logger;
 
@@ -97,7 +102,7 @@ public class OptionTypeEnhancer
         {
             var result = await _pipeline.DetectTypeAsync(context, cancellationToken);
 
-            if (result.Type != CliOptionType.Unknown && result.Confidence >= 70)
+            if (result.Type != CliOptionType.Unknown && result.Confidence >= MinimumConfidenceToEnhance)
             {
                 var newCSharpType = CliTypeMapper.ToCSharpType(result.Type, option.EnumDefinition);
                 var newIsFlag = result.Type == CliOptionType.Bool;
