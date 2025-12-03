@@ -1,4 +1,6 @@
+using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace ModularPipelines.OptionsGenerator.Generators;
 
@@ -6,7 +8,7 @@ namespace ModularPipelines.OptionsGenerator.Generators;
 /// Shared utilities for code generators.
 /// Centralizes common functionality to avoid DRY violations.
 /// </summary>
-public static class GeneratorUtils
+public static partial class GeneratorUtils
 {
     /// <summary>
     /// Escapes text for use in XML documentation comments.
@@ -57,4 +59,80 @@ public static class GeneratorUtils
         sb.AppendLine("#nullable enable");
         sb.AppendLine();
     }
+
+    /// <summary>
+    /// Converts a CLI option name to a valid C# enum name.
+    /// Example: "--verbosity" -> "Verbosity", "--dry-run" -> "DryRun"
+    /// </summary>
+    public static string ToEnumName(string optionName, string commandPrefix)
+    {
+        var cleaned = optionName.TrimStart('-');
+        var pascalCase = ToPascalCase(cleaned);
+        return $"{commandPrefix}{pascalCase}";
+    }
+
+    /// <summary>
+    /// Converts a CLI enum value to a valid C# enum member name.
+    /// Example: "quiet" -> "Quiet", "dry-run" -> "DryRun", "1" -> "Value1"
+    /// </summary>
+    public static string ToEnumMemberName(string cliValue)
+    {
+        if (string.IsNullOrWhiteSpace(cliValue))
+        {
+            return "Unknown";
+        }
+
+        // Handle numeric values
+        if (char.IsDigit(cliValue[0]))
+        {
+            return $"Value{cliValue}";
+        }
+
+        // Convert to PascalCase
+        var pascalCase = ToPascalCase(cliValue);
+
+        // Ensure it starts with a letter
+        if (!char.IsLetter(pascalCase[0]))
+        {
+            pascalCase = $"Value{pascalCase}";
+        }
+
+        return pascalCase;
+    }
+
+    /// <summary>
+    /// Converts a string to PascalCase.
+    /// Handles kebab-case, snake_case, and space-separated words.
+    /// </summary>
+    public static string ToPascalCase(string input)
+    {
+        if (string.IsNullOrWhiteSpace(input))
+        {
+            return string.Empty;
+        }
+
+        // Split on common separators
+        var words = SeparatorPattern().Split(input);
+        var sb = new StringBuilder();
+
+        foreach (var word in words)
+        {
+            if (string.IsNullOrWhiteSpace(word))
+            {
+                continue;
+            }
+
+            // Capitalize first letter, lowercase the rest
+            sb.Append(char.ToUpperInvariant(word[0]));
+            if (word.Length > 1)
+            {
+                sb.Append(word[1..].ToLowerInvariant());
+            }
+        }
+
+        return sb.ToString();
+    }
+
+    [GeneratedRegex(@"[-_\s]+")]
+    private static partial Regex SeparatorPattern();
 }

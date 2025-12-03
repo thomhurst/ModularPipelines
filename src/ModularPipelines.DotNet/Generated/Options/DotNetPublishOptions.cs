@@ -9,6 +9,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.DotNet.Generated.Enums;
 
 namespace ModularPipelines.DotNet.Generated.Options;
 
@@ -88,8 +89,8 @@ public record DotNetPublishOptions : DotNetOptions
     [CliFlag("--use-current-runtime")]
     public bool? UseCurrentRuntime { get; set; }
 
-    [CliOption("--verbosity", ShortForm = "-v")]
-    public string? Verbosity { get; set; }
+    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
+    public DotNetPublishVerbosity? Verbosity { get; set; }
 
     [CliOption("--version-suffix")]
     public string? VersionSuffix { get; set; }

@@ -9,6 +9,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.DotNet.Generated.Enums;
 
 namespace ModularPipelines.DotNet.Generated.Options;
 
@@ -79,8 +80,8 @@ public record DotNetRestoreOptions : DotNetOptions
     [CliFlag("--use-lock-file")]
     public bool? UseLockFile { get; set; }
 
-    [CliOption("--verbosity", ShortForm = "-v")]
-    public string? Verbosity { get; set; }
+    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
+    public DotNetRestoreVerbosity? Verbosity { get; set; }
 
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

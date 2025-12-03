@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Scrapers;
 using ModularPipelines.OptionsGenerator.Scrapers.Base;
+using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
 var toolsOption = new Option<string>(
@@ -17,19 +18,25 @@ var outputOption = new Option<string>(
     description: "Output directory (repository root)",
     getDefaultValue: () => ".");
 
+var useCliFirstOption = new Option<bool>(
+    name: "--use-cli-first",
+    description: "Use CLI --help parsing instead of HTML scraping (requires CLI tools to be installed). Recommended for Cobra CLIs (helm, docker, kubectl).",
+    getDefaultValue: () => true);
+
 var enhanceTypesOption = new Option<bool>(
     name: "--enhance-types",
-    description: "Use CLI --help output to enhance type detection (requires CLI tools to be installed)",
-    getDefaultValue: () => false);
+    description: "Use CLI --help output to enhance type detection after scraping",
+    getDefaultValue: () => true);
 
 var rootCommand = new RootCommand("ModularPipelines CLI Options Generator")
 {
     toolsOption,
     outputOption,
+    useCliFirstOption,
     enhanceTypesOption
 };
 
-rootCommand.SetHandler(async (tools, outputDir, enhanceTypes) =>
+rootCommand.SetHandler(async (tools, outputDir, useCliFirst, enhanceTypes) =>
 {
     var builder = Host.CreateApplicationBuilder();
 
@@ -37,27 +44,36 @@ rootCommand.SetHandler(async (tools, outputDir, enhanceTypes) =>
     builder.Logging.AddConsole();
     builder.Logging.SetMinimumLevel(LogLevel.Information);
 
-    // Configure HTTP client
+    // Configure HTTP client (for HTML scrapers as fallback)
     builder.Services.AddHttpClient();
 
-    // Register scrapers
+    // Register CLI command executor (needed for CLI scrapers and type enhancement)
+    builder.Services.AddSingleton<ICliCommandExecutor, ProcessCliCommandExecutor>();
+
+    // Register CLI-first scrapers for Cobra-based CLIs
+    builder.Services.AddSingleton<ICliScraper, HelmCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, DockerCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, KubectlCliScraper>();
+
+    // Register HTML scrapers (used as fallback or for non-Cobra CLIs)
     builder.Services.AddSingleton<ICliDocumentationScraper, HelmDocumentationScraper>();
     builder.Services.AddSingleton<ICliDocumentationScraper, KubectlDocumentationScraper>();
     builder.Services.AddSingleton<ICliDocumentationScraper, DockerDocumentationScraper>();
     builder.Services.AddSingleton<ICliDocumentationScraper, AzureCliDocumentationScraper>();
     builder.Services.AddSingleton<ICliDocumentationScraper, DotNetCliDocumentationScraper>();
-    // builder.Services.AddSingleton<ICliDocumentationScraper, NpmDocumentationScraper>(); // Requires Playwright
 
     // Register generators
     builder.Services.AddSingleton<ICodeGenerator, OptionsClassGenerator>();
     builder.Services.AddSingleton<ICodeGenerator, EnumGenerator>();
     builder.Services.AddSingleton<ICodeGenerator, ServiceInterfaceGenerator>();
+    builder.Services.AddSingleton<ICodeGenerator, ServiceImplementationGenerator>();
     builder.Services.AddSingleton<ICodeGenerator, SubDomainClassGenerator>();
+    builder.Services.AddSingleton<ICodeGenerator, GlobalOptionsBaseGenerator>();
+    builder.Services.AddSingleton<ICodeGenerator, DependencyRegistrationGenerator>();
 
-    // Register type enhancer if enabled
+    // Register type enhancer
     if (enhanceTypes)
     {
-        builder.Services.AddSingleton<ICliCommandExecutor, ProcessCliCommandExecutor>();
         builder.Services.AddSingleton(sp =>
         {
             var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
@@ -76,9 +92,10 @@ rootCommand.SetHandler(async (tools, outputDir, enhanceTypes) =>
     logger.LogInformation("Starting CLI Options Generator");
     logger.LogInformation("Tools: {Tools}", tools);
     logger.LogInformation("Output directory: {OutputDir}", Path.GetFullPath(outputDir));
+    logger.LogInformation("CLI-first scraping: {UseCliFirst}", useCliFirst ? "Enabled" : "Disabled");
     logger.LogInformation("Type enhancement: {EnhanceTypes}", enhanceTypes ? "Enabled" : "Disabled");
 
-    var result = await orchestrator.GenerateAsync(tools, outputDir);
+    var result = await orchestrator.GenerateAsync(tools, outputDir, useCliFirst);
 
     Console.WriteLine(result.GetSummary());
 
@@ -98,6 +115,6 @@ rootCommand.SetHandler(async (tools, outputDir, enhanceTypes) =>
         Environment.ExitCode = 0;
     }
 
-}, toolsOption, outputOption, enhanceTypesOption);
+}, toolsOption, outputOption, useCliFirstOption, enhanceTypesOption);
 
 await rootCommand.InvokeAsync(args);

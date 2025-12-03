@@ -9,6 +9,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.DotNet.Generated.Enums;
 
 namespace ModularPipelines.DotNet.Generated.Options;
 
@@ -49,8 +50,8 @@ public record DotNetWorkloadUpdateOptions : DotNetOptions
     [CliOption("--temp-dir")]
     public string? TempDir { get; set; }
 
-    [CliOption("--verbosity", ShortForm = "-v")]
-    public string? Verbosity { get; set; }
+    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
+    public DotNetWorkloadUpdateVerbosity? Verbosity { get; set; }
 
     [CliFlag("--version")]
     public bool? Version { get; set; }

@@ -18,7 +18,99 @@ on:
         type: boolean
 
 jobs:
+  # Generate options for each tool in parallel
   generate:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        tool:
+          - helm
+          - kubectl
+          - docker
+          - az
+          - dotnet
+
+    steps:
+      - name: Check if tool should run
+        id: should-run
+        run: |
+          TOOLS="${{ github.event.inputs.tools || 'all' }}"
+          if [[ "$TOOLS" == "all" ]] || [[ "$TOOLS" == *"${{ matrix.tool }}"* ]]; then
+            echo "run=true" >> $GITHUB_OUTPUT
+          else
+            echo "run=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout
+        if: steps.should-run.outputs.run == 'true'
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        if: steps.should-run.outputs.run == 'true'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Cache NuGet
+        if: steps.should-run.outputs.run == 'true'
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      # Install CLI tools needed for CLI-first scraping
+      - name: Install Helm
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'helm'
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      - name: Install kubectl
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'kubectl'
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+
+      - name: Install Azure CLI
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'az'
+        run: |
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+      # Docker is pre-installed on ubuntu-latest
+      # .NET CLI is installed via setup-dotnet
+
+      - name: Build Generator
+        if: steps.should-run.outputs.run == 'true'
+        run: dotnet build -c Release
+        working-directory: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator
+
+      - name: Run Generator for ${{ matrix.tool }}
+        if: steps.should-run.outputs.run == 'true'
+        run: |
+          dotnet run -c Release -- \
+            --tools "${{ matrix.tool }}" \
+            --output-dir "${{ github.workspace }}"
+        working-directory: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator
+
+      - name: Upload generated files
+        if: steps.should-run.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-${{ matrix.tool }}
+          path: |
+            src/ModularPipelines.*/Generated/**
+            src/ModularPipelines.*/Options/**
+          if-no-files-found: ignore
+          retention-days: 1
+
+  # Combine all generated files and create PR
+  create-pr:
+    needs: generate
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -31,29 +123,11 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v5
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
         with:
-          dotnet-version: 10.0.x
-
-      - name: Cache NuGet
-        uses: actions/cache@v4
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
-
-      - name: Build Generator
-        run: dotnet build -c Release
-        working-directory: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator
-
-      - name: Run Generator
-        run: |
-          dotnet run -c Release -- \
-            --tools "${{ github.event.inputs.tools || 'all' }}" \
-            --output-dir "${{ github.workspace }}"
-        working-directory: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator
+          pattern: generated-*
+          merge-multiple: true
 
       - name: Check for changes
         id: changes
@@ -66,6 +140,12 @@ jobs:
             echo "Changed files:"
             git diff --staged --name-only
           fi
+
+      - name: Setup .NET
+        if: steps.changes.outputs.has_changes == 'true'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
 
       - name: Build solution to verify changes
         if: steps.changes.outputs.has_changes == 'true'

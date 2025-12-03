@@ -9,6 +9,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.DotNet.Generated.Enums;
 
 namespace ModularPipelines.DotNet.Generated.Options;
 
@@ -55,8 +56,8 @@ public record DotNetToolInstallOptions : DotNetOptions
     [CliOption("--tool-manifest")]
     public string? ToolManifest { get; set; }
 
-    [CliOption("--verbosity", ShortForm = "-v")]
-    public string? Verbosity { get; set; }
+    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
+    public DotNetToolInstallVerbosity? Verbosity { get; set; }
 
     [CliFlag("--version")]
     public bool? Version { get; set; }

@@ -48,30 +48,41 @@ public class ServiceInterfaceGenerator : ICodeGenerator
         sb.AppendLine($"public partial interface I{tool.NamespacePrefix}");
         sb.AppendLine("{");
 
-        // Group commands by sub-domain if available
-        var groupedCommands = tool.Commands
-            .GroupBy(c => c.SubDomainGroup ?? "Root")
-            .OrderBy(g => g.Key);
-
-        foreach (var group in groupedCommands)
+        // Sub-domain properties (like Docker's DockerNetwork, DockerContainer, etc.)
+        var subDomains = tool.SubDomainGroups.OrderBy(s => s).ToList();
+        if (subDomains.Count > 0)
         {
-            if (group.Key != "Root")
+            sb.AppendLine("    #region Sub-domain Services");
+            sb.AppendLine();
+
+            foreach (var subDomain in subDomains)
             {
-                sb.AppendLine($"    #region {group.Key} Commands");
+                var subDomainClassName = $"{tool.NamespacePrefix}{subDomain}";
+                sb.AppendLine($"    /// <summary>");
+                sb.AppendLine($"    /// Gets the {subDomain.ToLowerInvariant()} sub-domain service.");
+                sb.AppendLine($"    /// </summary>");
+                sb.AppendLine($"    {subDomainClassName} {subDomain} {{ get; }}");
                 sb.AppendLine();
             }
 
-            foreach (var command in group.OrderBy(c => c.ClassName))
+            sb.AppendLine("    #endregion");
+            sb.AppendLine();
+        }
+
+        // Root-level commands (commands without a sub-domain)
+        var rootCommands = tool.Commands.Where(c => c.SubDomainGroup is null).ToList();
+        if (rootCommands.Count > 0)
+        {
+            sb.AppendLine("    #region Commands");
+            sb.AppendLine();
+
+            foreach (var command in rootCommands.OrderBy(c => c.ClassName))
             {
                 GenerateMethodSignature(sb, command);
                 sb.AppendLine();
             }
 
-            if (group.Key != "Root")
-            {
-                sb.AppendLine("    #endregion");
-                sb.AppendLine();
-            }
+            sb.AppendLine("    #endregion");
         }
 
         sb.AppendLine("}");

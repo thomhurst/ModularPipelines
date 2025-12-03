@@ -9,6 +9,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.DotNet.Generated.Enums;
 
 namespace ModularPipelines.DotNet.Generated.Options;
 
@@ -55,8 +56,8 @@ public record DotNetPackageListOptions : DotNetOptions
     [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CliOption("--verbosity", ShortForm = "-v")]
-    public string? Verbosity { get; set; }
+    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
+    public DotNetPackageListVerbosity? Verbosity { get; set; }
 
     [CliFlag("--vulnerable")]
     public bool? Vulnerable { get; set; }

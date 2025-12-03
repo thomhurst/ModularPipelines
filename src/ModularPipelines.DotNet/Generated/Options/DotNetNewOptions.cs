@@ -9,6 +9,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.DotNet.Generated.Enums;
 
 namespace ModularPipelines.DotNet.Generated.Options;
 
@@ -46,8 +47,8 @@ public record DotNetNewOptions : DotNetOptions
     [CliFlag("--diagnostics", ShortForm = "-d")]
     public bool? Diagnostics { get; set; }
 
-    [CliOption("--verbosity")]
-    public string? Verbosity { get; set; }
+    [CliOption("--verbosity", Format = OptionFormat.EqualsSeparated)]
+    public DotNetNewVerbosity? Verbosity { get; set; }
 
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

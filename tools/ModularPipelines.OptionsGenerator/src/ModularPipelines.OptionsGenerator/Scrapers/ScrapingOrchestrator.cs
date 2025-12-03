@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Base;
+using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Scrapers;
@@ -139,6 +140,118 @@ public class ScrapingOrchestrator
 
         _logger.LogInformation(
             "Completed scraping {Count} tools with {TotalCommands} total commands",
+            results.Length,
+            results.Sum(r => r.Commands.Count));
+
+        return results;
+    }
+
+    /// <summary>
+    /// Scrapes CLI documentation using a CLI-first scraper and applies type enhancement.
+    /// CLI-first scrapers parse --help output directly, which is the authoritative source.
+    /// </summary>
+    /// <param name="scraper">The CLI scraper to use.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The enhanced tool definition.</returns>
+    public async Task<CliToolDefinition> ScrapeAndEnhanceAsync(
+        ICliScraper scraper,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(scraper);
+
+        _logger.LogInformation("Starting CLI-first scrape for {Tool}", scraper.ToolName);
+
+        // Check if tool is available
+        if (!await scraper.IsAvailableAsync(cancellationToken))
+        {
+            _logger.LogWarning("{Tool} is not available on this system, skipping", scraper.ToolName);
+            return new CliToolDefinition
+            {
+                ToolName = scraper.ToolName,
+                NamespacePrefix = scraper.NamespacePrefix,
+                TargetNamespace = scraper.TargetNamespace,
+                OutputDirectory = scraper.OutputDirectory,
+                Commands = [],
+                Errors = [new ScrapingError
+                {
+                    Source = scraper.ToolName,
+                    Message = $"{scraper.ToolName} is not available on this system"
+                }]
+            };
+        }
+
+        // Step 1: Scrape using CLI help
+        var toolDefinition = await scraper.ScrapeAsync(cancellationToken);
+
+        _logger.LogInformation(
+            "Scraped {CommandCount} commands for {Tool} via CLI",
+            toolDefinition.Commands.Count,
+            scraper.ToolName);
+
+        // Step 2: Apply type enhancement if available
+        if (_enhancer is not null)
+        {
+            _logger.LogInformation("Applying type enhancement for {Tool}", scraper.ToolName);
+            toolDefinition = await _enhancer.EnhanceAsync(toolDefinition, cancellationToken);
+            _logger.LogInformation("Type enhancement complete for {Tool}", scraper.ToolName);
+        }
+        else
+        {
+            _logger.LogDebug("Type enhancement not configured, using scraped types as-is");
+        }
+
+        // Log any errors encountered during scraping
+        if (toolDefinition.Errors.Count > 0)
+        {
+            _logger.LogWarning(
+                "Scraping completed with {ErrorCount} errors for {Tool}",
+                toolDefinition.Errors.Count,
+                scraper.ToolName);
+
+            foreach (var error in toolDefinition.Errors.Take(10))
+            {
+                _logger.LogWarning("  - {Source}: {Message}", error.Source, error.Message);
+            }
+        }
+
+        return toolDefinition;
+    }
+
+    /// <summary>
+    /// Scrapes multiple CLI tools using CLI-first scrapers in parallel.
+    /// </summary>
+    /// <param name="scrapers">The CLI scrapers to run.</param>
+    /// <param name="maxParallelism">Maximum number of concurrent scraping operations.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>List of enhanced tool definitions.</returns>
+    public async Task<IReadOnlyList<CliToolDefinition>> ScrapeAllCliAsync(
+        IEnumerable<ICliScraper> scrapers,
+        int maxParallelism = 3,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(scrapers);
+
+        var scraperList = scrapers.ToList();
+        _logger.LogInformation("Starting parallel CLI-first scrape of {Count} tools", scraperList.Count);
+
+        var semaphore = new SemaphoreSlim(maxParallelism);
+        var tasks = scraperList.Select(async scraper =>
+        {
+            await semaphore.WaitAsync(cancellationToken);
+            try
+            {
+                return await ScrapeAndEnhanceAsync(scraper, cancellationToken);
+            }
+            finally
+            {
+                semaphore.Release();
+            }
+        });
+
+        var results = await Task.WhenAll(tasks);
+
+        _logger.LogInformation(
+            "Completed CLI-first scraping {Count} tools with {TotalCommands} total commands",
             results.Length,
             results.Sum(r => r.Commands.Count));
 

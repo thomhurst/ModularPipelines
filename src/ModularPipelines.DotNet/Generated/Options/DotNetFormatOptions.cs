@@ -9,6 +9,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.DotNet.Generated.Enums;
 
 namespace ModularPipelines.DotNet.Generated.Options;
 
@@ -43,11 +44,11 @@ public record DotNetFormatOptions : DotNetOptions
     [CliOption("--report")]
     public string? Report { get; set; }
 
-    [CliOption("--severity")]
-    public string? Severity { get; set; }
+    [CliOption("--severity", Format = OptionFormat.EqualsSeparated)]
+    public DotNetFormatSeverity? Severity { get; set; }
 
-    [CliOption("--verbosity", ShortForm = "-v")]
-    public string? Verbosity { get; set; }
+    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
+    public DotNetFormatVerbosity? Verbosity { get; set; }
 
     [CliFlag("--verify-no-changes")]
     public bool? VerifyNoChanges { get; set; }

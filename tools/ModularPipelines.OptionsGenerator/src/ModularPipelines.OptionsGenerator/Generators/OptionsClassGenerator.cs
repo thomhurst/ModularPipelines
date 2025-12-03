@@ -52,6 +52,12 @@ public class OptionsClassGenerator : ICodeGenerator
             sb.AppendLine("using System.ComponentModel.DataAnnotations;");
         }
 
+        // Include enums namespace if any options use enum types
+        if (command.Options.Any(o => o.EnumDefinition is not null))
+        {
+            sb.AppendLine($"using {tool.TargetNamespace}.Generated.Enums;");
+        }
+
         sb.AppendLine();
 
         // Namespace
