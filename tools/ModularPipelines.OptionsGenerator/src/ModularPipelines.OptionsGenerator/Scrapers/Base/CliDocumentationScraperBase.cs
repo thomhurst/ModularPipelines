@@ -116,15 +116,54 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
     }
 
     /// <summary>
-    /// Parses a description to detect if this is a boolean flag.
+    /// Parses option metadata to detect if this is a boolean flag (no value required).
+    /// Uses reliable signals from documentation:
+    /// - Default value is exactly "true" or "false"
+    /// - Accepted values contain boolean patterns like {0, 1, f, false, n, no, t, true, y, yes}
+    /// - Explicit type annotation like "bool" or "boolean"
     /// </summary>
-    protected static bool DetectBooleanFlag(string? description, string? valueType)
+    protected static bool DetectBooleanFlag(string? description, string? defaultValue, string? acceptedValues = null, string? explicitType = null)
     {
-        if (string.IsNullOrEmpty(valueType))
-            return true; // No value type means it's likely a flag
+        // 1. Explicit type annotation (most reliable)
+        if (!string.IsNullOrEmpty(explicitType))
+        {
+            var lowerType = explicitType.ToLowerInvariant().Trim();
+            if (lowerType is "bool" or "boolean" or "flag")
+                return true;
+            // Explicit non-boolean types
+            if (lowerType is "string" or "int" or "integer" or "number" or "path" or "file"
+                or "list" or "array" or "duration" or "bytes" or "uint" or "float" or "double")
+                return false;
+        }
 
-        var lowerType = valueType.ToLowerInvariant();
-        return lowerType is "bool" or "boolean" or "" or "flag";
+        // 2. Default value is exactly "true" or "false" (kubectl pattern)
+        if (!string.IsNullOrEmpty(defaultValue))
+        {
+            var lowerDefault = defaultValue.ToLowerInvariant().Trim();
+            if (lowerDefault is "true" or "false")
+                return true;
+        }
+
+        // 3. Accepted values contain boolean patterns (Azure CLI pattern)
+        if (!string.IsNullOrEmpty(acceptedValues))
+        {
+            var lowerAccepted = acceptedValues.ToLowerInvariant();
+            // Azure CLI pattern: {0, 1, f, false, n, no, t, true, y, yes}
+            if ((lowerAccepted.Contains("true") && lowerAccepted.Contains("false")) ||
+                (lowerAccepted.Contains("yes") && lowerAccepted.Contains("no")))
+                return true;
+        }
+
+        // 4. Default: assume it's NOT a boolean (safer to require explicit signals)
+        return false;
+    }
+
+    /// <summary>
+    /// Overload for backwards compatibility with scrapers that don't have acceptedValues/explicitType.
+    /// </summary>
+    protected static bool DetectBooleanFlag(string? description, string? defaultValue)
+    {
+        return DetectBooleanFlag(description, defaultValue, null, null);
     }
 
     /// <summary>

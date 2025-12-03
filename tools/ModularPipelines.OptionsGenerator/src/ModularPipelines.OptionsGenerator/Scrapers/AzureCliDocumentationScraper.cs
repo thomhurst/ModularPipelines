@@ -436,9 +436,10 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
         if (propertyName is null)
             return null;
 
-        var isFlag = description?.Contains("flag", StringComparison.OrdinalIgnoreCase) == true ||
-                     description?.Contains("boolean", StringComparison.OrdinalIgnoreCase) == true;
-        var isNumeric = description?.Contains("integer", StringComparison.OrdinalIgnoreCase) == true;
+        // Extract accepted values from description (Azure CLI shows: "Accepted values: 0, 1, f, false, n, no, t, true, y, yes")
+        var acceptedValues = ExtractAcceptedValues(description);
+        var isFlag = DetectBooleanFlag(description, null, acceptedValues);
+        var isNumeric = !isFlag && description?.Contains("integer", StringComparison.OrdinalIgnoreCase) == true;
         var acceptsMultiple = description?.Contains("multiple", StringComparison.OrdinalIgnoreCase) == true ||
                               description?.Contains("list", StringComparison.OrdinalIgnoreCase) == true;
 
@@ -460,6 +461,23 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
             ValueSeparator = " ",
             EnumDefinition = enumDef
         };
+    }
+
+    /// <summary>
+    /// Extracts "Accepted values: ..." from Azure CLI documentation.
+    /// </summary>
+    private static string? ExtractAcceptedValues(string? text)
+    {
+        if (string.IsNullOrEmpty(text))
+            return null;
+
+        // Look for "Accepted values:" pattern
+        var match = System.Text.RegularExpressions.Regex.Match(
+            text,
+            @"Accepted values?:\s*([^.]+)",
+            System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+
+        return match.Success ? match.Groups[1].Value.Trim() : null;
     }
 
     private List<CliOptionDefinition> ParseParameterTable(IElement table, string className)
@@ -503,8 +521,10 @@ public partial class AzureCliDocumentationScraper : CliDocumentationScraperBase
             if (propertyName is null)
                 continue;
 
-            var isFlag = description?.Contains("flag", StringComparison.OrdinalIgnoreCase) == true;
-            var isNumeric = description?.Contains("integer", StringComparison.OrdinalIgnoreCase) == true;
+            // Extract accepted values from description (Azure CLI shows: "Accepted values: 0, 1, f, false, n, no, t, true, y, yes")
+            var acceptedValues = ExtractAcceptedValues(description);
+            var isFlag = DetectBooleanFlag(description, null, acceptedValues);
+            var isNumeric = !isFlag && description?.Contains("integer", StringComparison.OrdinalIgnoreCase) == true;
             var acceptsMultiple = description?.Contains("multiple", StringComparison.OrdinalIgnoreCase) == true;
 
             var enumDef = DetectEnumValues(propertyName, className, null, description);

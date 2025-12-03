@@ -287,12 +287,9 @@ public partial class KubectlDocumentationScraper : CliDocumentationScraperBase
         if (propertyName is null)
             return null;
 
-        // Detect types from default value and usage
-        var isFlag = string.Equals(defaultValue, "false", StringComparison.OrdinalIgnoreCase) ||
-                     string.Equals(defaultValue, "true", StringComparison.OrdinalIgnoreCase) ||
-                     usage.Contains("true", StringComparison.OrdinalIgnoreCase) && !usage.Contains("=");
-
-        var isNumeric = int.TryParse(defaultValue, out _) && !isFlag;
+        // Detect types from default value (kubectl shows "true"/"false" for boolean flags)
+        var isFlag = DetectBooleanFlag(usage, defaultValue);
+        var isNumeric = !isFlag && int.TryParse(defaultValue, out _);
         var acceptsMultiple = usage.Contains("[]") || usage.Contains("can be specified multiple", StringComparison.OrdinalIgnoreCase);
 
         var enumDef = DetectEnumValues(propertyName, className, defaultValue, usage);
