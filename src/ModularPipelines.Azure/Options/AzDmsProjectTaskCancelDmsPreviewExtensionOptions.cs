@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "project", "task", "cancel", "(dms-preview", "extension)")]
+[CliCommand("dms", "project", "task", "cancel", "(dms-preview", "extension)")]
 public record AzDmsProjectTaskCancelDmsPreviewExtensionOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--project-name")] string ProjectName,

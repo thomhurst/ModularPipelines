@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("netappfiles", "volume", "update", "(netappfiles-preview", "extension)")]
+[CliCommand("netappfiles", "volume", "update", "(netappfiles-preview", "extension)")]
 public record AzNetappfilesVolumeUpdateNetappfilesPreviewExtensionOptions : AzOptions
 {
     [CliOption("--account-name")]

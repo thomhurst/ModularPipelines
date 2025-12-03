@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "create", "(appservice-kube", "extension)")]
+[CliCommand("functionapp", "create", "(appservice-kube", "extension)")]
 public record AzFunctionappCreateAppserviceKubeExtensionOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

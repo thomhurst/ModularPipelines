@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "blob", "service-properties", "update", "(storage-blob-preview", "extension)")]
+[CliCommand("storage", "blob", "service-properties", "update", "(storage-blob-preview", "extension)")]
 public record AzStorageBlobServicePropertiesUpdateStorageBlobPreviewExtensionOptions : AzOptions
 {
     [CliOption("--404-document")]

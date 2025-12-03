@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "config", "ssl", "unbind", "(appservice-kube", "extension)")]
+[CliCommand("webapp", "config", "ssl", "unbind", "(appservice-kube", "extension)")]
 public record AzWebappConfigSslUnbindAppserviceKubeExtensionOptions(
 [property: CliOption("--certificate-thumbprint")] string CertificateThumbprint
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "table", "retrieve-latest-backup-time", "(cosmosdb-preview", "extension)")]
+[CliCommand("cosmosdb", "table", "retrieve-latest-backup-time", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbTableRetrieveLatestBackupTimeCosmosdbPreviewExtensionOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--location")] string Location,

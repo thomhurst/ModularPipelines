@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "show-community", "(image-gallery", "extension)")]
+[CliCommand("sig", "show-community", "(image-gallery", "extension)")]
 public record AzSigShowCommunityImageGalleryExtensionOptions : AzOptions
 {
     [CliOption("--ids")]

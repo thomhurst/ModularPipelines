@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "blob", "set-tier", "(storage-blob-preview", "extension)")]
+[CliCommand("storage", "blob", "set-tier", "(storage-blob-preview", "extension)")]
 public record AzStorageBlobSetTierStorageBlobPreviewExtensionOptions(
 [property: CliOption("--tier")] string Tier
 ) : AzOptions

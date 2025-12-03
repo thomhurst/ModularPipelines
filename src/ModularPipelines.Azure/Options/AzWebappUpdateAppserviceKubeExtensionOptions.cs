@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "update", "(appservice-kube", "extension)")]
+[CliCommand("webapp", "update", "(appservice-kube", "extension)")]
 public record AzWebappUpdateAppserviceKubeExtensionOptions : AzOptions
 {
     [CliOption("--add")]

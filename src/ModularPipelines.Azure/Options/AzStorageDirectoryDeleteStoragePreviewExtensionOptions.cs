@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "directory", "delete", "(storage-preview", "extension)")]
+[CliCommand("storage", "directory", "delete", "(storage-preview", "extension)")]
 public record AzStorageDirectoryDeleteStoragePreviewExtensionOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--share-name")] string ShareName

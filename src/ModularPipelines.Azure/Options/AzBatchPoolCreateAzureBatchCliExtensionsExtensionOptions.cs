@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("batch", "pool", "create", "(ure-batch-cli-extensions", "extension)")]
+[CliCommand("batch", "pool", "create", "(ure-batch-cli-extensions", "extension)")]
 public record AzBatchPoolCreateAzureBatchCliExtensionsExtensionOptions : AzOptions
 {
     [CliOption("--account-endpoint")]

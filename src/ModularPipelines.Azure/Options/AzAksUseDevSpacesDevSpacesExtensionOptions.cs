@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "use-dev-spaces", "(dev-spaces", "extension)")]
+[CliCommand("aks", "use-dev-spaces", "(dev-spaces", "extension)")]
 public record AzAksUseDevSpacesDevSpacesExtensionOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

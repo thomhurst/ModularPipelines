@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managed-cassandra", "datacenter", "create", "(cosmosdb-preview", "extension)")]
+[CliCommand("managed-cassandra", "datacenter", "create", "(cosmosdb-preview", "extension)")]
 public record AzManagedCassandraDatacenterCreateCosmosdbPreviewExtensionOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--data-center-location")] string DataCenterLocation,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "connection", "create", "postgres", "(serviceconnector-passwordless", "extension)")]
+[CliCommand("webapp", "connection", "create", "postgres", "(serviceconnector-passwordless", "extension)")]
 public record AzWebappConnectionCreatePostgresServiceconnectorPasswordlessExtensionOptions : AzOptions
 {
     [CliOption("--client-type")]

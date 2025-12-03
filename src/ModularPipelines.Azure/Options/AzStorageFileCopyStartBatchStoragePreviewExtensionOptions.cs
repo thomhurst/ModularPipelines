@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "file", "copy", "start-batch", "(storage-preview", "extension)")]
+[CliCommand("storage", "file", "copy", "start-batch", "(storage-preview", "extension)")]
 public record AzStorageFileCopyStartBatchStoragePreviewExtensionOptions : AzOptions
 {
     [CliOption("--account-key")]

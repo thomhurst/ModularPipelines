@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "restore", "(cosmosdb-preview", "extension)")]
+[CliCommand("cosmosdb", "restore", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbRestoreCosmosdbPreviewExtensionOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--location")] string Location,

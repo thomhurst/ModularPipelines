@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("webapp", "auth", "show", "(authV2", "extension)")]
+[CliCommand("webapp", "auth", "show", "(authV2", "extension)")]
 public record AzWebappAuthShowAuthV2ExtensionOptions : AzOptions
 {
     [CliOption("--ids")]

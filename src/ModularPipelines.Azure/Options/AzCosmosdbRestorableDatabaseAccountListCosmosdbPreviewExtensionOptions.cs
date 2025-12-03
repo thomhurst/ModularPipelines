@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "restorable-database-account", "list", "(cosmosdb-preview", "extension)")]
+[CliCommand("cosmosdb", "restorable-database-account", "list", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbRestorableDatabaseAccountListCosmosdbPreviewExtensionOptions : AzOptions
 {
     [CliOption("--account-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("dms", "project", "create", "(dms-preview", "extension)")]
+[CliCommand("dms", "project", "create", "(dms-preview", "extension)")]
 public record AzDmsProjectCreateDmsPreviewExtensionOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--name")] string Name,

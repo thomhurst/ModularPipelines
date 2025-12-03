@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "operation-abort", "(aks-preview", "extension)")]
+[CliCommand("aks", "operation-abort", "(aks-preview", "extension)")]
 public record AzAksOperationAbortAksPreviewExtensionOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

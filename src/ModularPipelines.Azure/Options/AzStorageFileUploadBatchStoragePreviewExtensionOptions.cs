@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "file", "upload-batch", "(storage-preview", "extension)")]
+[CliCommand("storage", "file", "upload-batch", "(storage-preview", "extension)")]
 public record AzStorageFileUploadBatchStoragePreviewExtensionOptions(
 [property: CliOption("--destination")] string Destination,
 [property: CliOption("--source")] string Source

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "restart", "(appservice-kube", "extension)")]
+[CliCommand("functionapp", "restart", "(appservice-kube", "extension)")]
 public record AzFunctionappRestartAppserviceKubeExtensionOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "rotate-certs", "(aks-preview", "extension)")]
+[CliCommand("aks", "rotate-certs", "(aks-preview", "extension)")]
 public record AzAksRotateCertsAksPreviewExtensionOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "file", "copy", "cancel", "(storage-preview", "extension)")]
+[CliCommand("storage", "file", "copy", "cancel", "(storage-preview", "extension)")]
 public record AzStorageFileCopyCancelStoragePreviewExtensionOptions(
 [property: CliOption("--copy-id")] string CopyId,
 [property: CliOption("--destination-path")] string DestinationPath,

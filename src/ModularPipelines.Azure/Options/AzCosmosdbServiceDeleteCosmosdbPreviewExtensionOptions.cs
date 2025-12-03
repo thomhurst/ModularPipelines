@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "service", "delete", "(cosmosdb-preview", "extension)")]
+[CliCommand("cosmosdb", "service", "delete", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbServiceDeleteCosmosdbPreviewExtensionOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--name")] string Name,

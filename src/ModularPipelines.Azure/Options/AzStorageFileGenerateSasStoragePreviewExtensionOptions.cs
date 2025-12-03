@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "file", "generate-sas", "(storage-preview", "extension)")]
+[CliCommand("storage", "file", "generate-sas", "(storage-preview", "extension)")]
 public record AzStorageFileGenerateSasStoragePreviewExtensionOptions(
 [property: CliOption("--path")] string Path,
 [property: CliOption("--share-name")] string ShareName

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "partner", "namespace", "event-channel", "create", "(eventgrid", "extension)")]
+[CliCommand("eventgrid", "partner", "namespace", "event-channel", "create", "(eventgrid", "extension)")]
 public record AzEventgridPartnerNamespaceEventChannelCreateEventgridExtensionOptions(
 [property: CliOption("--desination-topic-name")] string DesinationTopicName,
 [property: CliOption("--destination-resource-group")] string DestinationResourceGroup,

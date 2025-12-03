@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("managed-cassandra", "datacenter", "delete", "(cosmosdb-preview", "extension)")]
+[CliCommand("managed-cassandra", "datacenter", "delete", "(cosmosdb-preview", "extension)")]
 public record AzManagedCassandraDatacenterDeleteCosmosdbPreviewExtensionOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--data-center-name")] string DataCenterName,

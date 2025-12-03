@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "system-topic", "delete", "(eventgrid", "extension)")]
+[CliCommand("eventgrid", "system-topic", "delete", "(eventgrid", "extension)")]
 public record AzEventgridSystemTopicDeleteEventgridExtensionOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("kusto", "cluster", "start", "(kusto", "extension)")]
+[CliCommand("kusto", "cluster", "start", "(kusto", "extension)")]
 public record AzKustoClusterStartKustoExtensionOptions : AzOptions
 {
     [CliOption("--cluster-name")]

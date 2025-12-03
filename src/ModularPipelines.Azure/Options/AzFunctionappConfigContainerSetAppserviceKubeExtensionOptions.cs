@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "config", "container", "set", "(appservice-kube", "extension)")]
+[CliCommand("functionapp", "config", "container", "set", "(appservice-kube", "extension)")]
 public record AzFunctionappConfigContainerSetAppserviceKubeExtensionOptions : AzOptions
 {
     [CliOption("--docker-custom-image-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "blob", "copy", "start", "(storage-blob-preview", "extension)")]
+[CliCommand("storage", "blob", "copy", "start", "(storage-blob-preview", "extension)")]
 public record AzStorageBlobCopyStartStorageBlobPreviewExtensionOptions(
 [property: CliOption("--destination-blob")] string DestinationBlob,
 [property: CliOption("--destination-container")] string DestinationContainer

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("functionapp", "connection", "create", "mysql-flexible", "(serviceconnector-passwordless", "extension)")]
+[CliCommand("functionapp", "connection", "create", "mysql-flexible", "(serviceconnector-passwordless", "extension)")]
 public record AzFunctionappConnectionCreateMysqlFlexibleServiceconnectorPasswordlessExtensionOptions : AzOptions
 {
     [CliOption("--client-type")]

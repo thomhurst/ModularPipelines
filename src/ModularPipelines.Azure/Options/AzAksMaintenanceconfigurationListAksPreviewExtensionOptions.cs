@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("aks", "maintenanceconfiguration", "list", "(aks-preview", "extension)")]
+[CliCommand("aks", "maintenanceconfiguration", "list", "(aks-preview", "extension)")]
 public record AzAksMaintenanceconfigurationListAksPreviewExtensionOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--resource-group")] string ResourceGroup

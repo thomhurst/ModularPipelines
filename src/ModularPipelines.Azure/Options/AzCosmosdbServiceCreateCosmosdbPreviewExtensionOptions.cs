@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("cosmosdb", "service", "create", "(cosmosdb-preview", "extension)")]
+[CliCommand("cosmosdb", "service", "create", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbServiceCreateCosmosdbPreviewExtensionOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--kind")] string Kind,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "account", "update", "(storage-preview", "extension)")]
+[CliCommand("storage", "account", "update", "(storage-preview", "extension)")]
 public record AzStorageAccountUpdateStoragePreviewExtensionOptions : AzOptions
 {
     [CliOption("--access-tier")]

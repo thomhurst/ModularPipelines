@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("storage", "file", "delete-batch", "(storage-preview", "extension)")]
+[CliCommand("storage", "file", "delete-batch", "(storage-preview", "extension)")]
 public record AzStorageFileDeleteBatchStoragePreviewExtensionOptions(
 [property: CliOption("--source")] string Source
 ) : AzOptions

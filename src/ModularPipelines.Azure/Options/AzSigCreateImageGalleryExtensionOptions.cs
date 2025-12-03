@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("sig", "create", "(image-gallery", "extension)")]
+[CliCommand("sig", "create", "(image-gallery", "extension)")]
 public record AzSigCreateImageGalleryExtensionOptions(
 [property: CliOption("--gallery-name")] string GalleryName,
 [property: CliOption("--resource-group")] string ResourceGroup

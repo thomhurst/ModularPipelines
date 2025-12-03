@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CommandPrecedingArguments("eventgrid", "domain", "key", "regenerate", "(eventgrid", "extension)")]
+[CliCommand("eventgrid", "domain", "key", "regenerate", "(eventgrid", "extension)")]
 public record AzEventgridDomainKeyRegenerateEventgridExtensionOptions(
 [property: CliOption("--key-name")] string KeyName,
 [property: CliOption("--name")] string Name,
