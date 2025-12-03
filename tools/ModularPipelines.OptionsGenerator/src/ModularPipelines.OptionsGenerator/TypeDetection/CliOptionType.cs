@@ -38,5 +38,10 @@ public enum CliOptionType
     /// <summary>
     /// Key-value pairs (map type).
     /// </summary>
-    KeyValue
+    KeyValue,
+
+    /// <summary>
+    /// Enumeration type with a fixed set of valid values.
+    /// </summary>
+    Enum
 }

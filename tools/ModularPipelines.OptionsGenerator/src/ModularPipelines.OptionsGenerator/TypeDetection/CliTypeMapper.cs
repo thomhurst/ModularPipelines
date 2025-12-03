@@ -66,6 +66,7 @@ public static class CliTypeMapper
             "decimal" or "float" or "double" => CliOptionType.Decimal,
             "stringlist" or "list" or "array" => CliOptionType.StringList,
             "keyvalue" or "map" or "dictionary" => CliOptionType.KeyValue,
+            "enum" or "enumeration" => CliOptionType.Enum,
             _ => CliOptionType.Unknown
         };
     }
@@ -82,7 +83,9 @@ public static class CliTypeMapper
             CliOptionType.Decimal => "decimal?",
             CliOptionType.StringList => "string[]?",
             CliOptionType.KeyValue => "IEnumerable<KeyValue>?",
-            _ when enumDef is not null => $"{enumDef.EnumName}?",
+            CliOptionType.Enum when enumDef is not null => $"{enumDef.EnumName}?",
+            CliOptionType.Enum => "string?", // Fallback when no enum definition provided
+            _ when enumDef is not null => $"{enumDef.EnumName}?", // Any type with enum def
             _ => "string?"
         };
     }
@@ -100,6 +103,7 @@ public static class CliTypeMapper
             CliOptionType.Decimal => "decimal",
             CliOptionType.StringList => "stringlist",
             CliOptionType.KeyValue => "keyvalue",
+            CliOptionType.Enum => "enum",
             _ => "unknown"
         };
     }
