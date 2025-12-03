@@ -19,9 +19,9 @@ public class ModuleLoggerTests
     {
         public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            ((IConsoleWriter)context.Logger).LogToConsole(RandomString);
+            ((IConsoleWriter) context.Logger).LogToConsole(RandomString);
 
-            ((IConsoleWriter)context.Logger).LogToConsole(new MySecrets().Value1!);
+            ((IConsoleWriter) context.Logger).LogToConsole(new MySecrets().Value1!);
 
             await Task.Yield();
             return null;
