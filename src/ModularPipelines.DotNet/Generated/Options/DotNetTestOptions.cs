@@ -106,8 +106,8 @@ public record DotNetTestOptions : DotNetOptions
     [CliFlag("--tl")]
     public bool? Tl { get; set; }
 
-    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public int? Verbosity { get; set; }
+    [CliOption("--verbosity", ShortForm = "-v")]
+    public string? Verbosity { get; set; }
 
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

@@ -105,10 +105,11 @@ public class HeuristicTypeDetector : IOptionTypeDetector
         }
 
         // Check for numeric patterns
+        // Note: "level" removed - often refers to verbosity levels which are enums/strings
         var numericNamePatterns = new[]
         {
             "count", "limit", "max", "min", "size", "length", "depth",
-            "level", "retries", "timeout", "interval", "port", "number"
+            "retries", "timeout", "interval", "port", "number"
         };
 
         if (numericNamePatterns.Any(p => optionName.Contains(p, StringComparison.OrdinalIgnoreCase)))

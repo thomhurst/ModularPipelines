@@ -27,6 +27,11 @@ public class OptionTypeDetectionResult
     public string? Notes { get; init; }
 
     /// <summary>
+    /// For enum types, the list of allowed values.
+    /// </summary>
+    public string[]? EnumValues { get; init; }
+
+    /// <summary>
     /// Creates a result indicating the detector could not determine the type.
     /// </summary>
     public static OptionTypeDetectionResult Unknown(string source) => new()

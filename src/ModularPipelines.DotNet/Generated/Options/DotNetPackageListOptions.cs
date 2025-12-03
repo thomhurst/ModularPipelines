@@ -55,8 +55,8 @@ public record DotNetPackageListOptions : DotNetOptions
     [CliOption("--source")]
     public string? Source { get; set; }
 
-    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public int? Verbosity { get; set; }
+    [CliOption("--verbosity", ShortForm = "-v")]
+    public string? Verbosity { get; set; }
 
     [CliFlag("--vulnerable")]
     public bool? Vulnerable { get; set; }

@@ -49,8 +49,8 @@ public record DotNetToolUpdateOptions : DotNetOptions
     [CliFlag("--prerelease")]
     public bool? Prerelease { get; set; }
 
-    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public int? Verbosity { get; set; }
+    [CliOption("--verbosity", ShortForm = "-v")]
+    public string? Verbosity { get; set; }
 
     [CliFlag("--version")]
     public bool? Version { get; set; }

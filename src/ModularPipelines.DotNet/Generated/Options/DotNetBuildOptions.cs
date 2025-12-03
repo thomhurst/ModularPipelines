@@ -88,8 +88,8 @@ public record DotNetBuildOptions : DotNetOptions
     [CliFlag("--use-current-runtime")]
     public bool? UseCurrentRuntime { get; set; }
 
-    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public int? Verbosity { get; set; }
+    [CliOption("--verbosity", ShortForm = "-v")]
+    public string? Verbosity { get; set; }
 
     [CliOption("--version-suffix")]
     public string? VersionSuffix { get; set; }

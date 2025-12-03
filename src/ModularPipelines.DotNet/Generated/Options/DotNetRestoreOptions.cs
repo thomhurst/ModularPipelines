@@ -79,8 +79,8 @@ public record DotNetRestoreOptions : DotNetOptions
     [CliFlag("--use-lock-file")]
     public bool? UseLockFile { get; set; }
 
-    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public int? Verbosity { get; set; }
+    [CliOption("--verbosity", ShortForm = "-v")]
+    public string? Verbosity { get; set; }
 
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

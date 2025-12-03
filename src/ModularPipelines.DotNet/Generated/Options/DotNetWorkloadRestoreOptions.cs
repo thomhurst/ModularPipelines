@@ -46,8 +46,8 @@ public record DotNetWorkloadRestoreOptions : DotNetOptions
     [CliOption("--temp-dir")]
     public string? TempDir { get; set; }
 
-    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public int? Verbosity { get; set; }
+    [CliOption("--verbosity", ShortForm = "-v")]
+    public string? Verbosity { get; set; }
 
     [CliFlag("--version")]
     public bool? Version { get; set; }
