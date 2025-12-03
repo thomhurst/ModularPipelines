@@ -228,6 +228,8 @@ public partial class HelmDocumentationScraper : CliDocumentationScraperBase
 
             var switchName = longForm;
             var propertyName = NormalizePropertyName(longForm);
+            if (propertyName is null)
+                continue;
 
             // Detect if this is a boolean flag
             var isFlag = DetectBooleanFlag(description, valueType);

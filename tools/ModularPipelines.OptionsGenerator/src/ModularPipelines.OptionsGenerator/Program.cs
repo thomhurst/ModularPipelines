@@ -35,11 +35,11 @@ rootCommand.SetHandler(async (tools, outputDir) =>
 
     // Register scrapers
     builder.Services.AddSingleton<ICliDocumentationScraper, HelmDocumentationScraper>();
-    // builder.Services.AddSingleton<ICliDocumentationScraper, KubectlDocumentationScraper>();
-    // builder.Services.AddSingleton<ICliDocumentationScraper, DockerDocumentationScraper>();
-    // builder.Services.AddSingleton<ICliDocumentationScraper, AzureCliDocumentationScraper>();
-    // builder.Services.AddSingleton<ICliDocumentationScraper, DotNetCliDocumentationScraper>();
-    // builder.Services.AddSingleton<ICliDocumentationScraper, NpmDocumentationScraper>();
+    builder.Services.AddSingleton<ICliDocumentationScraper, KubectlDocumentationScraper>();
+    builder.Services.AddSingleton<ICliDocumentationScraper, DockerDocumentationScraper>();
+    builder.Services.AddSingleton<ICliDocumentationScraper, AzureCliDocumentationScraper>();
+    builder.Services.AddSingleton<ICliDocumentationScraper, DotNetCliDocumentationScraper>();
+    // builder.Services.AddSingleton<ICliDocumentationScraper, NpmDocumentationScraper>(); // Requires Playwright
 
     // Register generators
     builder.Services.AddSingleton<ICodeGenerator, OptionsClassGenerator>();

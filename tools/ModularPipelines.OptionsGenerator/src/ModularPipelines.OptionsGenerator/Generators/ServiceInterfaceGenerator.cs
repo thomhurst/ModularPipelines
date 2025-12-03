@@ -106,8 +106,10 @@ public class ServiceInterfaceGenerator : ICodeGenerator
     {
         // Convert command parts to method name
         // e.g., ["container", "create"] -> "ContainerCreate"
-        return string.Join("", command.CommandParts.Select(p =>
-            char.ToUpperInvariant(p[0]) + p[1..].ToLowerInvariant()));
+        // Handle hyphens within parts (e.g., "build-server" -> "BuildServer")
+        return string.Join("", command.CommandParts
+            .SelectMany(p => p.Split('-', StringSplitOptions.RemoveEmptyEntries))
+            .Select(p => char.ToUpperInvariant(p[0]) + p[1..].ToLowerInvariant()));
     }
 
     private static string EscapeXmlComment(string text)

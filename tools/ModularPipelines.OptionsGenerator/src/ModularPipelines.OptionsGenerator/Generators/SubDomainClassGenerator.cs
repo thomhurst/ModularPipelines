@@ -96,9 +96,15 @@ public class SubDomainClassGenerator : ICodeGenerator
         }
 
         // Method name from the last command part (since sub-domain is already in the class name)
-        var methodName = command.CommandParts.Length > 0
-            ? char.ToUpperInvariant(command.CommandParts[^1][0]) + command.CommandParts[^1][1..].ToLowerInvariant()
-            : "Execute";
+        // Handle hyphens within the command part (e.g., "accept-ownership-status" -> "AcceptOwnershipStatus")
+        var methodName = "Execute";
+        if (command.CommandParts.Length > 0)
+        {
+            var lastPart = command.CommandParts[^1];
+            var parts = lastPart.Split('-', StringSplitOptions.RemoveEmptyEntries);
+            methodName = string.Join("", parts.Select(p =>
+                char.ToUpperInvariant(p[0]) + p[1..].ToLowerInvariant()));
+        }
 
         sb.AppendLine($"    public virtual async Task<CommandResult> {methodName}(");
         sb.AppendLine($"        {command.ClassName} options,");

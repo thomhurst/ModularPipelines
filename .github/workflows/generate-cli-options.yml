@@ -1,0 +1,107 @@
+name: Generate CLI Options
+
+on:
+  schedule:
+    # Run every Sunday at 2:00 AM UTC
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+    inputs:
+      tools:
+        description: 'Comma-separated list of tools to generate (or "all")'
+        required: false
+        default: 'all'
+        type: string
+      create-pr:
+        description: 'Create a pull request with changes'
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Build Generator
+        run: dotnet build -c Release
+        working-directory: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator
+
+      - name: Run Generator
+        run: |
+          dotnet run -c Release -- \
+            --tools "${{ github.event.inputs.tools || 'all' }}" \
+            --output-dir "${{ github.workspace }}"
+        working-directory: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git add -A
+          if git diff --staged --quiet; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "Changed files:"
+            git diff --staged --name-only
+          fi
+
+      - name: Build solution to verify changes
+        if: steps.changes.outputs.has_changes == 'true'
+        run: dotnet build ModularPipelines.sln -c Release
+
+      - name: Create Pull Request
+        if: steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: Update generated CLI options"
+          title: "[Automated] Update CLI Options from Documentation"
+          body: |
+            ## Summary
+            This PR contains automatically generated updates to CLI options classes.
+
+            The generator scraped the latest documentation from:
+            - Helm (helm.sh)
+            - kubectl (kubernetes.io)
+            - Docker (docs.docker.com)
+            - Azure CLI (learn.microsoft.com)
+            - .NET CLI (learn.microsoft.com)
+
+            ## Changes
+            - Updated options classes to reflect latest CLI documentation
+            - Added new commands if any were detected
+            - Updated option types and descriptions
+
+            ## Verification
+            - [x] Solution builds successfully
+
+            ---
+            🤖 Generated with ModularPipelines.OptionsGenerator
+          branch: automated/update-cli-options
+          base: main
+          delete-branch: true
+          labels: |
+            automated
+            dependencies

@@ -44,14 +44,33 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
 
     /// <summary>
     /// Normalizes CLI option names to C# property names.
+    /// Returns null if the option name is invalid (e.g., just dashes, contains special characters).
     /// </summary>
-    protected static string NormalizePropertyName(string optionName)
+    protected static string? NormalizePropertyName(string optionName)
     {
+        // Skip if the switch name contains special characters (like examples with quotes/equals)
+        // e.g., --security-opt="label=user:USER" is an example, not a valid option
+        if (optionName.Contains('=') || optionName.Contains('"') || optionName.Contains('\'') || optionName.Contains(':'))
+            return null;
+
         // Remove leading dashes
         var cleaned = optionName.TrimStart('-');
 
+        // Skip if there's nothing left after removing dashes
+        if (string.IsNullOrWhiteSpace(cleaned))
+            return null;
+
+        // Skip if it's just a line of dashes (table separator)
+        if (cleaned.All(c => c == '-' || c == '_'))
+            return null;
+
         // Split by dash or underscore and convert to PascalCase
         var parts = cleaned.Split(['-', '_'], StringSplitOptions.RemoveEmptyEntries);
+
+        // Skip if no valid parts remain
+        if (parts.Length == 0)
+            return null;
+
         return string.Join("", parts.Select(ToPascalCase));
     }
 
@@ -71,8 +90,11 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
     /// </summary>
     protected string GenerateClassName(string[] commandParts)
     {
-        var pascalParts = commandParts.Select(ToPascalCase);
-        return $"{NamespacePrefix}{string.Join("", pascalParts)}Options";
+        // Handle hyphens within command parts (e.g., "build-server" -> "BuildServer")
+        var expandedParts = commandParts
+            .SelectMany(part => part.Split('-', StringSplitOptions.RemoveEmptyEntries))
+            .Select(ToPascalCase);
+        return $"{NamespacePrefix}{string.Join("", expandedParts)}Options";
     }
 
     /// <summary>
