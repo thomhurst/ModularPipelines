@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("for-each-ref")]
+[CliSubCommand("for-each-ref")]
 [ExcludeFromCodeCoverage]
 public record GitForEachRefOptions : GitOptions
 {

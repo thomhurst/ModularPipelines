@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CliCommand("dev-certs", "https")]
+[CliSubCommand("dev-certs", "https")]
 [ExcludeFromCodeCoverage]
 public record DotNetDevCertsOptions : DotNetOptions
 {

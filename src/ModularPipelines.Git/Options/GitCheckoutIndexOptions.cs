@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("checkout-index")]
+[CliSubCommand("checkout-index")]
 [ExcludeFromCodeCoverage]
 public record GitCheckoutIndexOptions : GitOptions
 {

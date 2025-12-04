@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("archive")]
+[CliSubCommand("archive")]
 [ExcludeFromCodeCoverage]
 public record GitArchiveOptions : GitOptions
 {

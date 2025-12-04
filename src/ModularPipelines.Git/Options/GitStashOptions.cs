@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("stash")]
+[CliSubCommand("stash")]
 [ExcludeFromCodeCoverage]
 public record GitStashOptions : GitOptions
 {

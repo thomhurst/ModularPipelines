@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("bisect")]
+[CliSubCommand("bisect")]
 [ExcludeFromCodeCoverage]
 public record GitBisectOptions : GitOptions
 {

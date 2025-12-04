@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("revert")]
+[CliSubCommand("revert")]
 [ExcludeFromCodeCoverage]
 public record GitRevertOptions : GitOptions
 {

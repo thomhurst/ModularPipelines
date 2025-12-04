@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("ls-files")]
+[CliSubCommand("ls-files")]
 [ExcludeFromCodeCoverage]
 public record GitLsFilesOptions : GitOptions
 {

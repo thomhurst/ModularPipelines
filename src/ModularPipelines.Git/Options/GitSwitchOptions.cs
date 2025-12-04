@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("switch")]
+[CliSubCommand("switch")]
 [ExcludeFromCodeCoverage]
 public record GitSwitchOptions : GitOptions
 {

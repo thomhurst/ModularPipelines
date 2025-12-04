@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CliCommand("sdk", "check")]
+[CliSubCommand("sdk", "check")]
 [ExcludeFromCodeCoverage]
 public record DotNetSdkCheckOptions : DotNetOptions
 {

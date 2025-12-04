@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("update-index")]
+[CliSubCommand("update-index")]
 [ExcludeFromCodeCoverage]
 public record GitUpdateIndexOptions : GitOptions
 {

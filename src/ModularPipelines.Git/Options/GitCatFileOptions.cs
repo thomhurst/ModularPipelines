@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("cat-file")]
+[CliSubCommand("cat-file")]
 [ExcludeFromCodeCoverage]
 public record GitCatFileOptions : GitOptions
 {

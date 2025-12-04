@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("diff")]
+[CliSubCommand("diff")]
 [ExcludeFromCodeCoverage]
 public record GitDiffOptions : GitOptions
 {

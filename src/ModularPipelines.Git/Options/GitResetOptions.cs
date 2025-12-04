@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("reset")]
+[CliSubCommand("reset")]
 [ExcludeFromCodeCoverage]
 public record GitResetOptions : GitOptions
 {

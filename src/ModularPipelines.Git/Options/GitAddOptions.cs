@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("add")]
+[CliSubCommand("add")]
 [ExcludeFromCodeCoverage]
 public record GitAddOptions : GitOptions
 {

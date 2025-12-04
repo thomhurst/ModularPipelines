@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("fast-import")]
+[CliSubCommand("fast-import")]
 [ExcludeFromCodeCoverage]
 public record GitFastImportOptions : GitOptions
 {

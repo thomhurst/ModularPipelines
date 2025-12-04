@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("worktree", "add")]
+[CliSubCommand("worktree", "add")]
 [ExcludeFromCodeCoverage]
 public record GitWorktreeOptions : GitOptions
 {

@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("merge-base")]
+[CliSubCommand("merge-base")]
 [ExcludeFromCodeCoverage]
 public record GitMergeBaseOptions : GitOptions
 {

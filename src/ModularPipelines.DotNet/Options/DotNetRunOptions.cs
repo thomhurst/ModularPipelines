@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CliCommand("run")]
+[CliSubCommand("run")]
 [ExcludeFromCodeCoverage]
 public record DotNetRunOptions : DotNetOptions
 {

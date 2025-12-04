@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("range-diff")]
+[CliSubCommand("range-diff")]
 [ExcludeFromCodeCoverage]
 public record GitRangeDiffOptions : GitOptions
 {

@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("daemon")]
+[CliSubCommand("daemon")]
 [ExcludeFromCodeCoverage]
 public record GitDaemonOptions : GitOptions
 {

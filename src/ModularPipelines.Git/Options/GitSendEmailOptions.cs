@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("send-email")]
+[CliSubCommand("send-email")]
 [ExcludeFromCodeCoverage]
 public record GitSendEmailOptions : GitOptions
 {

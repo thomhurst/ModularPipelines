@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("rebase")]
+[CliSubCommand("rebase")]
 [ExcludeFromCodeCoverage]
 public record GitRebaseOptions : GitOptions
 {

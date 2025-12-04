@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("mergetool")]
+[CliSubCommand("mergetool")]
 [ExcludeFromCodeCoverage]
 public record GitMergetoolOptions : GitOptions
 {

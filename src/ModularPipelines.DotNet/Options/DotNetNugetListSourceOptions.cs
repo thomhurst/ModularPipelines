@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CliCommand("nuget", "list", "source")]
+[CliSubCommand("nuget", "list", "source")]
 [ExcludeFromCodeCoverage]
 public record DotNetNugetListSourceOptions : DotNetOptions
 {

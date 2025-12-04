@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("ls-tree")]
+[CliSubCommand("ls-tree")]
 [ExcludeFromCodeCoverage]
 public record GitLsTreeOptions : GitOptions
 {

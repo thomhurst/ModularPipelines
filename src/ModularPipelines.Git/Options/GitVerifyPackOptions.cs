@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("verify-pack")]
+[CliSubCommand("verify-pack")]
 [ExcludeFromCodeCoverage]
 public record GitVerifyPackOptions : GitOptions
 {

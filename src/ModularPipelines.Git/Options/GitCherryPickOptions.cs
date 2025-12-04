@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("cherry-pick")]
+[CliSubCommand("cherry-pick")]
 [ExcludeFromCodeCoverage]
 public record GitCherryPickOptions : GitOptions
 {

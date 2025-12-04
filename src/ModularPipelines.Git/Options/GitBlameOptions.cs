@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("blame")]
+[CliSubCommand("blame")]
 [ExcludeFromCodeCoverage]
 public record GitBlameOptions : GitOptions
 {

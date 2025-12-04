@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("fsck")]
+[CliSubCommand("fsck")]
 [ExcludeFromCodeCoverage]
 public record GitFsckOptions : GitOptions
 {

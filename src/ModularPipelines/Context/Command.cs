@@ -102,18 +102,18 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
             return preferredAlias.CommandParts.ToList();
         }
 
+        // Prefer the explicit CliSubCommand attribute if it exists (for classes that inherit tool from base)
+        var cliSubCommandAttribute = type.GetCustomAttribute<CliSubCommandAttribute>();
+        if (cliSubCommandAttribute is not null)
+        {
+            return cliSubCommandAttribute.SubCommands.ToList();
+        }
+
+        // Fall back to full CliCommand attribute (defines both tool and subcommands)
         var cliCommandAttribute = type.GetCustomAttribute<CliCommandAttribute>();
         if (cliCommandAttribute is not null)
         {
-            // If CliCommand.Tool matches the options.Tool, only return SubCommands
-            // Otherwise, CliCommand.Tool is being used as a subcommand (e.g., [CliCommand("rev-parse")] on GitOptions)
-            if (optionsObject is CommandLineToolOptions toolOptions &&
-                !string.Equals(cliCommandAttribute.Tool, toolOptions.Tool, StringComparison.OrdinalIgnoreCase))
-            {
-                // Tool doesn't match - include CliCommand.Tool as the first subcommand
-                return [cliCommandAttribute.Tool, .. cliCommandAttribute.SubCommands];
-            }
-
+            // Only return SubCommands, not the tool name (which is already used by Cli.Wrap)
             return cliCommandAttribute.SubCommands.ToList();
         }
 

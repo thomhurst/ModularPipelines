@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("reflog")]
+[CliSubCommand("reflog")]
 [ExcludeFromCodeCoverage]
 public record GitReflogOptions : GitOptions
 {

@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("clean")]
+[CliSubCommand("clean")]
 [ExcludeFromCodeCoverage]
 public record GitCleanOptions : GitOptions
 {

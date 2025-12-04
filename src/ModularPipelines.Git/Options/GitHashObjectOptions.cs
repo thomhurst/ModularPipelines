@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("hash-object")]
+[CliSubCommand("hash-object")]
 [ExcludeFromCodeCoverage]
 public record GitHashObjectOptions : GitOptions
 {

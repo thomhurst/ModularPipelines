@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CliCommand("build-server", "shutdown")]
+[CliSubCommand("build-server", "shutdown")]
 [ExcludeFromCodeCoverage]
 public record DotNetBuildServerOptions : DotNetOptions
 {

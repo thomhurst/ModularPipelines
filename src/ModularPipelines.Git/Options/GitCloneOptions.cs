@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("clone")]
+[CliSubCommand("clone")]
 [ExcludeFromCodeCoverage]
 public record GitCloneOptions : GitOptions
 {

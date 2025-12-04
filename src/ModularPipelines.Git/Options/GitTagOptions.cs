@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("tag")]
+[CliSubCommand("tag")]
 [ExcludeFromCodeCoverage]
 public record GitTagOptions : GitOptions
 {

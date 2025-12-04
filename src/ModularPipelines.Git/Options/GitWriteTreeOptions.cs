@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("write-tree")]
+[CliSubCommand("write-tree")]
 [ExcludeFromCodeCoverage]
 public record GitWriteTreeOptions : GitOptions
 {

@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("shortlog")]
+[CliSubCommand("shortlog")]
 [ExcludeFromCodeCoverage]
 public record GitShortlogOptions : GitOptions
 {

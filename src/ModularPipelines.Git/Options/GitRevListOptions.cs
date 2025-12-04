@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("rev-list")]
+[CliSubCommand("rev-list")]
 [ExcludeFromCodeCoverage]
 public record GitRevListOptions : GitOptions
 {

@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("count-objects")]
+[CliSubCommand("count-objects")]
 [ExcludeFromCodeCoverage]
 public record GitCountObjectsOptions : GitOptions
 {

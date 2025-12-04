@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("grep")]
+[CliSubCommand("grep")]
 [ExcludeFromCodeCoverage]
 public record GitGrepOptions : GitOptions
 {

@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("restore")]
+[CliSubCommand("restore")]
 [ExcludeFromCodeCoverage]
 public record GitRestoreOptions : GitOptions
 {

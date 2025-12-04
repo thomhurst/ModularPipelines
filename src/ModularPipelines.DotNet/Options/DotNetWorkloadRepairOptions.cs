@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.DotNet.Options;
 
-[CliCommand("workload", "repair")]
+[CliSubCommand("workload", "repair")]
 [ExcludeFromCodeCoverage]
 public record DotNetWorkloadRepairOptions : DotNetOptions
 {

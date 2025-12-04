@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("format-patch")]
+[CliSubCommand("format-patch")]
 [ExcludeFromCodeCoverage]
 public record GitFormatPatchOptions : GitOptions
 {

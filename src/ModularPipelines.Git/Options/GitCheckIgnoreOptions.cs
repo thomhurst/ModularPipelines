@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("check-ignore")]
+[CliSubCommand("check-ignore")]
 [ExcludeFromCodeCoverage]
 public record GitCheckIgnoreOptions : GitOptions
 {

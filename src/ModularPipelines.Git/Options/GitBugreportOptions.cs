@@ -3,7 +3,7 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Git.Options;
 
-[CliCommand("bugreport")]
+[CliSubCommand("bugreport")]
 [ExcludeFromCodeCoverage]
 public record GitBugreportOptions : GitOptions
 {
