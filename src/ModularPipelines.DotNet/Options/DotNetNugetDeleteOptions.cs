@@ -23,10 +23,10 @@ public record DotNetNugetDeleteOptions : DotNetOptions
         CommandParts = ["nuget", "delete", "<PACKAGE_NAME>", "<PACKAGE_VERSION>"];
     }
 
-    [CliArgument(Name = "<PACKAGE_NAME>")]
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions, Name = "<PACKAGE_NAME>")]
     public string? PackageName { get; set; }
 
-    [CliArgument(Name = "<PACKAGE_VERSION>")]
+    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions, Name = "<PACKAGE_VERSION>")]
     public string? PackageVersion { get; set; }
 
     [CliFlag("--force-english-output")]

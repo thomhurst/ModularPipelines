@@ -105,7 +105,8 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
         var cliCommandAttribute = type.GetCustomAttribute<CliCommandAttribute>();
         if (cliCommandAttribute is not null)
         {
-            return cliCommandAttribute.GetAllParts().ToList();
+            // Only return SubCommands, not the tool name (which is already used by Cli.Wrap)
+            return cliCommandAttribute.SubCommands.ToList();
         }
 
         return new List<string>();
