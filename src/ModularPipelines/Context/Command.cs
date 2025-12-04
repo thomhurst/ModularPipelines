@@ -78,7 +78,8 @@ public sealed class Command(ICommandLogger commandLogger) : ICommand
 
     private List<string> SantiseArguments(List<string> parsedArgs)
     {
-        parsedArgs.RemoveAll(x => x.StartsWith("<"));
+        // Remove placeholder arguments like "<PROJECT>" or "[<PROJECT>|<SOLUTION>]"
+        parsedArgs.RemoveAll(x => x.StartsWith("<") || x.StartsWith("[<"));
 
         return parsedArgs;
     }
