@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "namespace", "wait")]
+[CliSubCommand("eventgrid", "namespace", "wait")]
 public record AzEventgridNamespaceWaitOptions : AzOptions
 {
     [CliFlag("--created")]

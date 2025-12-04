@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cluster", "update")]
+[CliSubCommand("networkcloud", "cluster", "update")]
 public record AzNetworkcloudClusterUpdateOptions : AzOptions
 {
     [CliOption("--aggregator-or-single-rack-definition")]

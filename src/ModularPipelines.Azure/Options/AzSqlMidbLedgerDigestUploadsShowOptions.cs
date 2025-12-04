@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "midb", "ledger-digest-uploads", "show")]
+[CliSubCommand("sql", "midb", "ledger-digest-uploads", "show")]
 public record AzSqlMidbLedgerDigestUploadsShowOptions : AzOptions
 {
     [CliOption("--ids")]

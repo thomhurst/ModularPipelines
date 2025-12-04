@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databoxedge", "bandwidth-schedule", "wait")]
+[CliSubCommand("databoxedge", "bandwidth-schedule", "wait")]
 public record AzDataboxedgeBandwidthScheduleWaitOptions : AzOptions
 {
     [CliFlag("--created")]

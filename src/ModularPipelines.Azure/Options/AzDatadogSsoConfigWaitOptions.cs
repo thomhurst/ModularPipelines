@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datadog", "sso-config", "wait")]
+[CliSubCommand("datadog", "sso-config", "wait")]
 public record AzDatadogSsoConfigWaitOptions : AzOptions
 {
     [CliOption("--configuration-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet-gateway", "list-bgp-peer-status")]
+[CliSubCommand("network", "vnet-gateway", "list-bgp-peer-status")]
 public record AzNetworkVnetGatewayListBgpPeerStatusOptions : AzOptions
 {
     [CliOption("--ids")]

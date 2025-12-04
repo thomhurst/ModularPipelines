@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "notebook", "list")]
+[CliSubCommand("synapse", "notebook", "list")]
 public record AzSynapseNotebookListOptions(
 [property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions;

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci-vm", "image", "delete")]
+[CliSubCommand("stack-hci-vm", "image", "delete")]
 public record AzStackHciVmImageDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("reservations", "list")]
+[CliSubCommand("reservations", "list")]
 public record AzReservationsListOptions : AzOptions
 {
     [CliOption("--filter")]

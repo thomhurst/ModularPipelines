@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "front-door", "probe", "create")]
+[CliSubCommand("network", "front-door", "probe", "create")]
 public record AzNetworkFrontDoorProbeCreateOptions(
 [property: CliOption("--front-door-name")] string FrontDoorName,
 [property: CliOption("--interval")] int Interval,

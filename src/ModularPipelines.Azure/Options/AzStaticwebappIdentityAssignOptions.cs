@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("staticwebapp", "identity", "assign")]
+[CliSubCommand("staticwebapp", "identity", "assign")]
 public record AzStaticwebappIdentityAssignOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

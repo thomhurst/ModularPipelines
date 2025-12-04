@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "job", "show")]
+[CliSubCommand("iot", "central", "job", "show")]
 public record AzIotCentralJobShowOptions(
 [property: CliOption("--app-id")] string AppId,
 [property: CliOption("--job-id")] string JobId

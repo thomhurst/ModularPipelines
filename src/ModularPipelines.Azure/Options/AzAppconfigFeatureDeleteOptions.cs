@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "feature", "delete")]
+[CliSubCommand("appconfig", "feature", "delete")]
 public record AzAppconfigFeatureDeleteOptions : AzOptions
 {
     [CliOption("--auth-mode")]

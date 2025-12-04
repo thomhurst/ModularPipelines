@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webpubsub", "key", "regenerate")]
+[CliSubCommand("webpubsub", "key", "regenerate")]
 public record AzWebpubsubKeyRegenerateOptions(
 [property: CliOption("--key-type")] string KeyType
 ) : AzOptions

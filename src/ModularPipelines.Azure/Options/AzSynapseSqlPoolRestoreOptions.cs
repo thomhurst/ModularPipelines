@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "sql", "pool", "restore")]
+[CliSubCommand("synapse", "sql", "pool", "restore")]
 public record AzSynapseSqlPoolRestoreOptions(
 [property: CliOption("--dest-name")] string DestName
 ) : AzOptions

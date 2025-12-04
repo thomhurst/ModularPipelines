@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("lab", "environment", "create")]
+[CliSubCommand("lab", "environment", "create")]
 public record AzLabEnvironmentCreateOptions(
 [property: CliOption("--arm-template")] string ArmTemplate,
 [property: CliOption("--lab-name")] string LabName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "kubernetescluster", "show")]
+[CliSubCommand("networkcloud", "kubernetescluster", "show")]
 public record AzNetworkcloudKubernetesclusterShowOptions : AzOptions
 {
     [CliOption("--ids")]

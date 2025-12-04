@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appservice", "plan", "show")]
+[CliSubCommand("appservice", "plan", "show")]
 public record AzAppservicePlanShowOptions : AzOptions
 {
     [CliOption("--ids")]

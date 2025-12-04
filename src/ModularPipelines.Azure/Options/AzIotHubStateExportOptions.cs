@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "state", "export")]
+[CliSubCommand("iot", "hub", "state", "export")]
 public record AzIotHubStateExportOptions(
 [property: CliOption("--state-file")] string StateFile
 ) : AzOptions

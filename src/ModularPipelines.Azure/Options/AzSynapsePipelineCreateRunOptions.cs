@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "pipeline", "create-run")]
+[CliSubCommand("synapse", "pipeline", "create-run")]
 public record AzSynapsePipelineCreateRunOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--workspace-name")] string WorkspaceName

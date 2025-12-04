@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tag", "list")]
+[CliSubCommand("tag", "list")]
 public record AzTagListOptions : AzOptions
 {
     [CliOption("--resource-id")]

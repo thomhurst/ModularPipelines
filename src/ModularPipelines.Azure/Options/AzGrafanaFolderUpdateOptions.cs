@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("grafana", "folder", "update")]
+[CliSubCommand("grafana", "folder", "update")]
 public record AzGrafanaFolderUpdateOptions(
 [property: CliOption("--folder")] string Folder,
 [property: CliOption("--name")] string Name,

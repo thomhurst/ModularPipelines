@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resource-mover", "move-resource", "add")]
+[CliSubCommand("resource-mover", "move-resource", "add")]
 public record AzResourceMoverMoveResourceAddOptions : AzOptions
 {
     [CliOption("--depends-on-overrides")]

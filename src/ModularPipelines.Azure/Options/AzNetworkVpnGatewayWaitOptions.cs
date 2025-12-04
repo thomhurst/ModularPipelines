@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vpn-gateway", "wait")]
+[CliSubCommand("network", "vpn-gateway", "wait")]
 public record AzNetworkVpnGatewayWaitOptions : AzOptions
 {
     [CliFlag("--created")]

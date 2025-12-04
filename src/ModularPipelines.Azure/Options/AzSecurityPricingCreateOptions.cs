@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "pricing", "create")]
+[CliSubCommand("security", "pricing", "create")]
 public record AzSecurityPricingCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--tier")] string Tier

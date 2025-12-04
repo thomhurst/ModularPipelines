@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "front-door", "waf-policy", "managed-rules", "exclusion", "remove")]
+[CliSubCommand("network", "front-door", "waf-policy", "managed-rules", "exclusion", "remove")]
 public record AzNetworkFrontDoorWafPolicyManagedRulesExclusionRemoveOptions(
 [property: CliOption("--match-variable")] string MatchVariable,
 [property: CliOption("--operator")] string Operator,

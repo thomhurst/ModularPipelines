@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci-vm", "restart")]
+[CliSubCommand("stack-hci-vm", "restart")]
 public record AzStackHciVmRestartOptions : AzOptions
 {
     [CliOption("--ids")]

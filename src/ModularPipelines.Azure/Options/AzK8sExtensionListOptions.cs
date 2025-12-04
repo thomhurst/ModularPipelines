@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("k8s-extension", "list")]
+[CliSubCommand("k8s-extension", "list")]
 public record AzK8sExtensionListOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--cluster-type")] string ClusterType,

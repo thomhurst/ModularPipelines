@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "edge", "deployment", "show")]
+[CliSubCommand("iot", "edge", "deployment", "show")]
 public record AzIotEdgeDeploymentShowOptions(
 [property: CliOption("--deployment-id")] string DeploymentId
 ) : AzOptions

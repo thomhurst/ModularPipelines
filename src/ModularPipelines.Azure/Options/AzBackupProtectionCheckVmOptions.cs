@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "protection", "check-vm")]
+[CliSubCommand("backup", "protection", "check-vm")]
 public record AzBackupProtectionCheckVmOptions : AzOptions
 {
     [CliOption("--resource-group")]

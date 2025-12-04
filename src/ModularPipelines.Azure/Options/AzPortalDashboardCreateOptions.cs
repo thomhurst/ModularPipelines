@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("portal", "dashboard", "create")]
+[CliSubCommand("portal", "dashboard", "create")]
 public record AzPortalDashboardCreateOptions(
 [property: CliOption("--input-path")] string InputPath,
 [property: CliOption("--name")] string Name,

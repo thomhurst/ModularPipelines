@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "alb", "create")]
+[CliSubCommand("network", "alb", "create")]
 public record AzNetworkAlbCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

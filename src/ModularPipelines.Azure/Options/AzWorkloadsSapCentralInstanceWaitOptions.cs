@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("workloads", "sap-central-instance", "wait")]
+[CliSubCommand("workloads", "sap-central-instance", "wait")]
 public record AzWorkloadsSapCentralInstanceWaitOptions : AzOptions
 {
     [CliOption("--central-instance-name")]

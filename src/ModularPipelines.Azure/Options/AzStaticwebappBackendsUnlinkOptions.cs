@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("staticwebapp", "backends", "unlink")]
+[CliSubCommand("staticwebapp", "backends", "unlink")]
 public record AzStaticwebappBackendsUnlinkOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "ad-admin", "wait")]
+[CliSubCommand("postgres", "flexible-server", "ad-admin", "wait")]
 public record AzPostgresFlexibleServerAdAdminWaitOptions(
 [property: CliOption("--object-id")] string ObjectId,
 [property: CliOption("--resource-group")] string ResourceGroup,

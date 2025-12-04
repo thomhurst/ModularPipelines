@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "schedule", "list")]
+[CliSubCommand("ml", "schedule", "list")]
 public record AzMlScheduleListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

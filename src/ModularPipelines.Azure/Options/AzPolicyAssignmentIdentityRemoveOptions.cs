@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("policy", "assignment", "identity", "remove")]
+[CliSubCommand("policy", "assignment", "identity", "remove")]
 public record AzPolicyAssignmentIdentityRemoveOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

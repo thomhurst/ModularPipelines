@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "vault", "list-soft-deleted-containers")]
+[CliSubCommand("backup", "vault", "list-soft-deleted-containers")]
 public record AzBackupVaultListSoftDeletedContainersOptions(
 [property: CliOption("--backup-management-type")] string BackupManagementType
 ) : AzOptions

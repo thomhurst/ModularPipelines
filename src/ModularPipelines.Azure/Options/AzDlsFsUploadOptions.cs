@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "fs", "upload")]
+[CliSubCommand("dls", "fs", "upload")]
 public record AzDlsFsUploadOptions(
 [property: CliOption("--destination-path")] string DestinationPath,
 [property: CliOption("--source-path")] string SourcePath

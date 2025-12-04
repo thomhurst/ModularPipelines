@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "port-mirroring", "update")]
+[CliSubCommand("vmware", "workload-network", "port-mirroring", "update")]
 public record AzVmwareWorkloadNetworkPortMirroringUpdateOptions : AzOptions
 {
     [CliOption("--add")]

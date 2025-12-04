@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apic", "metadata-schema", "export-metadata-schema")]
+[CliSubCommand("apic", "metadata-schema", "export-metadata-schema")]
 public record AzApicMetadataSchemaExportMetadataSchemaOptions(
 [property: CliOption("--file-name")] string FileName
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "ref", "create")]
+[CliSubCommand("repos", "ref", "create")]
 public record AzReposRefCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--object-id")] string ObjectId

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("search", "shared-private-link-resource", "create")]
+[CliSubCommand("search", "shared-private-link-resource", "create")]
 public record AzSearchSharedPrivateLinkResourceCreateOptions(
 [property: CliOption("--group-id")] string GroupId,
 [property: CliOption("--name")] string Name,

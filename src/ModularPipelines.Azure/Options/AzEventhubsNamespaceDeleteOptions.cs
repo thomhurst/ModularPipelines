@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "delete")]
+[CliSubCommand("eventhubs", "namespace", "delete")]
 public record AzEventhubsNamespaceDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

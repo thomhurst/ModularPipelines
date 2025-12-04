@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "endpoint", "realtime", "regen-key")]
+[CliSubCommand("ml", "endpoint", "realtime", "regen-key")]
 public record AzMlEndpointRealtimeRegenKeyOptions(
 [property: CliOption("--key")] string Key,
 [property: CliOption("--name")] string Name

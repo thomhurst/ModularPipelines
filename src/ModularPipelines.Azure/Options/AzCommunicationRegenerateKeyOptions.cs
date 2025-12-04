@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication", "regenerate-key")]
+[CliSubCommand("communication", "regenerate-key")]
 public record AzCommunicationRegenerateKeyOptions : AzOptions
 {
     [CliOption("--ids")]

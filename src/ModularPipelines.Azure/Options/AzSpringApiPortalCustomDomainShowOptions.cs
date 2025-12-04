@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "api-portal", "custom-domain", "show")]
+[CliSubCommand("spring", "api-portal", "custom-domain", "show")]
 public record AzSpringApiPortalCustomDomainShowOptions(
 [property: CliOption("--domain-name")] string DomainName,
 [property: CliOption("--resource-group")] string ResourceGroup,

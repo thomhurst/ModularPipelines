@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "list")]
+[CliSubCommand("storage", "account", "list")]
 public record AzStorageAccountListOptions : AzOptions
 {
     [CliOption("--resource-group")]

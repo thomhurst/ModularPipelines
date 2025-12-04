@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "replica", "create")]
+[CliSubCommand("sql", "db", "replica", "create")]
 public record AzSqlDbReplicaCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--partner-server")] string PartnerServer,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "sideload", "set-deployment-timeout")]
+[CliSubCommand("sphere", "device", "sideload", "set-deployment-timeout")]
 public record AzSphereDeviceSideloadSetDeploymentTimeoutOptions(
 [property: CliOption("--value")] string Value
 ) : AzOptions;

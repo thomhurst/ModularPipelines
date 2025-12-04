@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "product", "update")]
+[CliSubCommand("sphere", "product", "update")]
 public record AzSphereProductUpdateOptions(
 [property: CliOption("--catalog")] string Catalog,
 [property: CliOption("--description")] string Description,

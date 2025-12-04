@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apic", "api", "definition", "import-specification")]
+[CliSubCommand("apic", "api", "definition", "import-specification")]
 public record AzApicApiDefinitionImportSpecificationOptions : AzOptions
 {
     [CliOption("--api")]

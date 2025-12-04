@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "streaming-locator", "list-content-keys")]
+[CliSubCommand("ams", "streaming-locator", "list-content-keys")]
 public record AzAmsStreamingLocatorListContentKeysOptions : AzOptions
 {
     [CliOption("--account-name")]

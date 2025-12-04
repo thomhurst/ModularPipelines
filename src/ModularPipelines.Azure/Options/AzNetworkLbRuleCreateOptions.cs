@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "lb", "rule", "create")]
+[CliSubCommand("network", "lb", "rule", "create")]
 public record AzNetworkLbRuleCreateOptions(
 [property: CliOption("--backend-port")] string BackendPort,
 [property: CliOption("--frontend-port")] string FrontendPort,

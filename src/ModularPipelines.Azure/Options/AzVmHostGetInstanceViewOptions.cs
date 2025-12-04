@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "host", "get-instance-view")]
+[CliSubCommand("vm", "host", "get-instance-view")]
 public record AzVmHostGetInstanceViewOptions : AzOptions
 {
     [CliOption("--host-group")]

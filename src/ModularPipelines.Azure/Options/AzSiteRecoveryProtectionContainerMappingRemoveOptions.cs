@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "protection-container", "mapping", "remove")]
+[CliSubCommand("site-recovery", "protection-container", "mapping", "remove")]
 public record AzSiteRecoveryProtectionContainerMappingRemoveOptions : AzOptions
 {
     [CliOption("--fabric-name")]

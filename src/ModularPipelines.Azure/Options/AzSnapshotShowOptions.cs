@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("snapshot", "show")]
+[CliSubCommand("snapshot", "show")]
 public record AzSnapshotShowOptions : AzOptions
 {
     [CliOption("--ids")]

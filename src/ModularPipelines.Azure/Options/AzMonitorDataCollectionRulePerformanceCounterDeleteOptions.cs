@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "data-collection", "rule", "performance-counter", "delete")]
+[CliSubCommand("monitor", "data-collection", "rule", "performance-counter", "delete")]
 public record AzMonitorDataCollectionRulePerformanceCounterDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

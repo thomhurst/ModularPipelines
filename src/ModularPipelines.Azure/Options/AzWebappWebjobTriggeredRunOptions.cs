@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "webjob", "triggered", "run")]
+[CliSubCommand("webapp", "webjob", "triggered", "run")]
 public record AzWebappWebjobTriggeredRunOptions(
 [property: CliOption("--webjob-name")] string WebjobName
 ) : AzOptions

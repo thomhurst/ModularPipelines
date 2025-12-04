@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "data-collection", "rule", "windows-event-log", "show")]
+[CliSubCommand("monitor", "data-collection", "rule", "windows-event-log", "show")]
 public record AzMonitorDataCollectionRuleWindowsEventLogShowOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

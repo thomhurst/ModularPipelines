@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vhub", "connection", "create")]
+[CliSubCommand("network", "vhub", "connection", "create")]
 public record AzNetworkVhubConnectionCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--remote-vnet")] string RemoteVnet,

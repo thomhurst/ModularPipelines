@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "job", "start")]
+[CliSubCommand("containerapp", "job", "start")]
 public record AzContainerappJobStartOptions : AzOptions
 {
     [CliOption("--args")]

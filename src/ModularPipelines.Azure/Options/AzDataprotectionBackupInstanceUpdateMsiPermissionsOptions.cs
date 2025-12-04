@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "backup-instance", "update-msi-permissions")]
+[CliSubCommand("dataprotection", "backup-instance", "update-msi-permissions")]
 public record AzDataprotectionBackupInstanceUpdateMsiPermissionsOptions(
 [property: CliOption("--datasource-type")] string DatasourceType,
 [property: CliOption("--operation")] string Operation,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "alb", "frontend", "show")]
+[CliSubCommand("network", "alb", "frontend", "show")]
 public record AzNetworkAlbFrontendShowOptions : AzOptions
 {
     [CliOption("--alb-name")]

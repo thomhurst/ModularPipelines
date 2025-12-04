@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webpubsub", "service", "group", "remove-connection")]
+[CliSubCommand("webpubsub", "service", "group", "remove-connection")]
 public record AzWebpubsubServiceGroupRemoveConnectionOptions(
 [property: CliOption("--connection-id")] string ConnectionId,
 [property: CliOption("--group-name")] string GroupName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("nginx", "deployment", "configuration", "update")]
+[CliSubCommand("nginx", "deployment", "configuration", "update")]
 public record AzNginxDeploymentConfigurationUpdateOptions : AzOptions
 {
     [CliOption("--add")]

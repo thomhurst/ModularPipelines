@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "workspace", "update")]
+[CliSubCommand("synapse", "workspace", "update")]
 public record AzSynapseWorkspaceUpdateOptions : AzOptions
 {
     [CliOption("--account-name")]

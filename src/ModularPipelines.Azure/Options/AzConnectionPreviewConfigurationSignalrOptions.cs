@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "preview-configuration", "signalr")]
+[CliSubCommand("connection", "preview-configuration", "signalr")]
 public record AzConnectionPreviewConfigurationSignalrOptions : AzOptions
 {
     [CliOption("--client-type")]

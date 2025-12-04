@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("deployment", "sub", "cancel")]
+[CliSubCommand("deployment", "sub", "cancel")]
 public record AzDeploymentSubCancelOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions;

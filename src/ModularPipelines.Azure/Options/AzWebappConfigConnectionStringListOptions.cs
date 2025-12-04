@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "connection-string", "list")]
+[CliSubCommand("webapp", "config", "connection-string", "list")]
 public record AzWebappConfigConnectionStringListOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

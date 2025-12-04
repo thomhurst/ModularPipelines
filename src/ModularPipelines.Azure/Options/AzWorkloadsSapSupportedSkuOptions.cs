@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("workloads", "sap-supported-sku")]
+[CliSubCommand("workloads", "sap-supported-sku")]
 public record AzWorkloadsSapSupportedSkuOptions : AzOptions
 {
     [CliOption("--app-location")]

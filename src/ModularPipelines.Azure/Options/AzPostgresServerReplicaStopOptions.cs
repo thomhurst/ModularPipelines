@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server", "replica", "stop")]
+[CliSubCommand("postgres", "server", "replica", "stop")]
 public record AzPostgresServerReplicaStopOptions : AzOptions
 {
     [CliOption("--ids")]

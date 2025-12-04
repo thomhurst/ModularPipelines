@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("offure", "vmware", "machine", "show")]
+[CliSubCommand("offure", "vmware", "machine", "show")]
 public record AzOffazureVmwareMachineShowOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "account", "blob-storage", "update")]
+[CliSubCommand("dla", "account", "blob-storage", "update")]
 public record AzDlaAccountBlobStorageUpdateOptions(
 [property: CliOption("--access-key")] string AccessKey,
 [property: CliOption("--storage-account-name")] int StorageAccountName

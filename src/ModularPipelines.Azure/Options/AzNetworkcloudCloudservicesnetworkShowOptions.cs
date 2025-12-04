@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cloudservicesnetwork", "show")]
+[CliSubCommand("networkcloud", "cloudservicesnetwork", "show")]
 public record AzNetworkcloudCloudservicesnetworkShowOptions : AzOptions
 {
     [CliOption("--cloud-services-network-name")]

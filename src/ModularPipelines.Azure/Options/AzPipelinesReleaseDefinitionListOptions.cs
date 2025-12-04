@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "release", "definition", "list")]
+[CliSubCommand("pipelines", "release", "definition", "list")]
 public record AzPipelinesReleaseDefinitionListOptions : AzOptions
 {
     [CliOption("--artifact-source-id")]

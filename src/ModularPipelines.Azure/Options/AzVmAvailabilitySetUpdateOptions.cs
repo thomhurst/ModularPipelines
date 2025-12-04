@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "availability-set", "update")]
+[CliSubCommand("vm", "availability-set", "update")]
 public record AzVmAvailabilitySetUpdateOptions : AzOptions
 {
     [CliOption("--add")]

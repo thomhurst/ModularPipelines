@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "integration-runtime-node", "get-ip-address")]
+[CliSubCommand("synapse", "integration-runtime-node", "get-ip-address")]
 public record AzSynapseIntegrationRuntimeNodeGetIpAddressOptions(
 [property: CliOption("--node-name")] string NodeName
 ) : AzOptions

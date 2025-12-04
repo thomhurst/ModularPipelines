@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "log-analytics", "query-pack", "query", "show")]
+[CliSubCommand("monitor", "log-analytics", "query-pack", "query", "show")]
 public record AzMonitorLogAnalyticsQueryPackQueryShowOptions : AzOptions
 {
     [CliOption("--ids")]

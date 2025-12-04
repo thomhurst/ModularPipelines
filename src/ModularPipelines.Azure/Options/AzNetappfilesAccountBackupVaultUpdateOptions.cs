@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "account", "backup-vault", "update")]
+[CliSubCommand("netappfiles", "account", "backup-vault", "update")]
 public record AzNetappfilesAccountBackupVaultUpdateOptions : AzOptions
 {
     [CliOption("--account-name")]

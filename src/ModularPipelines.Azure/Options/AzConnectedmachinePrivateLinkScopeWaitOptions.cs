@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedmachine", "private-link-scope", "wait")]
+[CliSubCommand("connectedmachine", "private-link-scope", "wait")]
 public record AzConnectedmachinePrivateLinkScopeWaitOptions : AzOptions
 {
     [CliFlag("--created")]

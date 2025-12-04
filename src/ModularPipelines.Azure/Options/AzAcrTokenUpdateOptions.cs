@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "token", "update")]
+[CliSubCommand("acr", "token", "update")]
 public record AzAcrTokenUpdateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--registry")] string Registry

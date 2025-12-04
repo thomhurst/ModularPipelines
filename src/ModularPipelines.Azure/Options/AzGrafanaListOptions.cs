@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("grafana", "list")]
+[CliSubCommand("grafana", "list")]
 public record AzGrafanaListOptions : AzOptions
 {
     [CliOption("--resource-group")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "account", "keys", "renew")]
+[CliSubCommand("batch", "account", "keys", "renew")]
 public record AzBatchAccountKeysRenewOptions : AzOptions
 {
     [CliOption("--key-name")]

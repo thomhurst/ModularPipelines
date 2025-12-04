@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("palo-alto", "cloudngfw", "firewall", "create")]
+[CliSubCommand("palo-alto", "cloudngfw", "firewall", "create")]
 public record AzPaloAltoCloudngfwFirewallCreateOptions(
 [property: CliOption("--dns-settings")] string DnsSettings,
 [property: CliOption("--firewall-name")] string FirewallName,

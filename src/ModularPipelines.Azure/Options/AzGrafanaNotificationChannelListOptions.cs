@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("grafana", "notification-channel", "list")]
+[CliSubCommand("grafana", "notification-channel", "list")]
 public record AzGrafanaNotificationChannelListOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

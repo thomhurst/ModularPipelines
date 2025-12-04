@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "container", "generate-sas")]
+[CliSubCommand("storage", "container", "generate-sas")]
 public record AzStorageContainerGenerateSasOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

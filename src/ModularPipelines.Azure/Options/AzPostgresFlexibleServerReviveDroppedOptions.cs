@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "revive-dropped")]
+[CliSubCommand("postgres", "flexible-server", "revive-dropped")]
 public record AzPostgresFlexibleServerReviveDroppedOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--source-server")] string SourceServer

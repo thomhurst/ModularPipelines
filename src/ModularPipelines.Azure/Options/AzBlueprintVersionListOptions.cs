@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("blueprint", "version", "list")]
+[CliSubCommand("blueprint", "version", "list")]
 public record AzBlueprintVersionListOptions(
 [property: CliOption("--blueprint-name")] string BlueprintName
 ) : AzOptions

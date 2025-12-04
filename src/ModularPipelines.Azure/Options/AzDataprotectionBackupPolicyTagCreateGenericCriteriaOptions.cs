@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "backup-policy", "tag", "create-generic-criteria")]
+[CliSubCommand("dataprotection", "backup-policy", "tag", "create-generic-criteria")]
 public record AzDataprotectionBackupPolicyTagCreateGenericCriteriaOptions : AzOptions
 {
     [CliOption("--days-of-month")]

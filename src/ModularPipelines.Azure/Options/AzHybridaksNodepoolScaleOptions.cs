@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hybridaks", "nodepool", "scale")]
+[CliSubCommand("hybridaks", "nodepool", "scale")]
 public record AzHybridaksNodepoolScaleOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--name")] string Name,

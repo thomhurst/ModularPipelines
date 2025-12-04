@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hdinsight-on-aks", "cluster", "list-service-config")]
+[CliSubCommand("hdinsight-on-aks", "cluster", "list-service-config")]
 public record AzHdinsightOnAksClusterListServiceConfigOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--cluster-pool-name")] string ClusterPoolName,

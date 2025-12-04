@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "linked-service", "delete")]
+[CliSubCommand("datafactory", "linked-service", "delete")]
 public record AzDatafactoryLinkedServiceDeleteOptions : AzOptions
 {
     [CliOption("--factory-name")]

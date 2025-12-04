@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("qumulo", "storage", "file-system", "wait")]
+[CliSubCommand("qumulo", "storage", "file-system", "wait")]
 public record AzQumuloStorageFileSystemWaitOptions : AzOptions
 {
     [CliFlag("--created")]

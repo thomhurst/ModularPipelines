@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "tde-key", "set")]
+[CliSubCommand("sql", "mi", "tde-key", "set")]
 public record AzSqlMiTdeKeySetOptions(
 [property: CliOption("--server-key-type")] string ServerKeyType
 ) : AzOptions

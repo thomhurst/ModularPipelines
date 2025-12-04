@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "job", "create")]
+[CliSubCommand("ml", "job", "create")]
 public record AzMlJobCreateOptions(
 [property: CliOption("--file")] string File,
 [property: CliOption("--resource-group")] string ResourceGroup,

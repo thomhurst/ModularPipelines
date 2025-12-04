@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ppg", "show")]
+[CliSubCommand("ppg", "show")]
 public record AzPpgShowOptions : AzOptions
 {
     [CliOption("--ids")]

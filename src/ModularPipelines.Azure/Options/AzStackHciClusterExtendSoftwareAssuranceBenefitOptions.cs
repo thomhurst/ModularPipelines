@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci", "cluster", "extend-software-assurance-benefit")]
+[CliSubCommand("stack-hci", "cluster", "extend-software-assurance-benefit")]
 public record AzStackHciClusterExtendSoftwareAssuranceBenefitOptions : AzOptions
 {
     [CliOption("--cluster-name")]

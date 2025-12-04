@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "build", "queue")]
+[CliSubCommand("pipelines", "build", "queue")]
 public record AzPipelinesBuildQueueOptions : AzOptions
 {
     [CliOption("--branch")]

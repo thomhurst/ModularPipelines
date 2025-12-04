@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "integration-runtime", "upgrade")]
+[CliSubCommand("synapse", "integration-runtime", "upgrade")]
 public record AzSynapseIntegrationRuntimeUpgradeOptions : AzOptions
 {
     [CliOption("--ids")]

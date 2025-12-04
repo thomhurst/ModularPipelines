@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedmachine", "private-endpoint-connection", "list")]
+[CliSubCommand("connectedmachine", "private-endpoint-connection", "list")]
 public record AzConnectedmachinePrivateEndpointConnectionListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--scope-name")] string ScopeName

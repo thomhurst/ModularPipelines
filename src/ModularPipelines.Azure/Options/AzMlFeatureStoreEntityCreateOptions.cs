@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "feature-store-entity", "create")]
+[CliSubCommand("ml", "feature-store-entity", "create")]
 public record AzMlFeatureStoreEntityCreateOptions : AzOptions
 {
     [CliOption("--description")]

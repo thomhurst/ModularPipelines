@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-dns", "record-set", "aaaa", "add-record")]
+[CliSubCommand("network", "private-dns", "record-set", "aaaa", "add-record")]
 public record AzNetworkPrivateDnsRecordSetAaaaAddRecordOptions(
 [property: CliOption("--ipv6-address")] string Ipv6Address,
 [property: CliOption("--record-set-name")] string RecordSetName,

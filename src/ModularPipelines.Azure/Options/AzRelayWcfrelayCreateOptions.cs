@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("relay", "wcfrelay", "create")]
+[CliSubCommand("relay", "wcfrelay", "create")]
 public record AzRelayWcfrelayCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--namespace-name")] string NamespaceName,

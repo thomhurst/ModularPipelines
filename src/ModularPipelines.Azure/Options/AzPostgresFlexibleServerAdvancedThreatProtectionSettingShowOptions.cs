@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "advanced-threat-protection-setting", "show")]
+[CliSubCommand("postgres", "flexible-server", "advanced-threat-protection-setting", "show")]
 public record AzPostgresFlexibleServerAdvancedThreatProtectionSettingShowOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "computetarget", "update", "aks")]
+[CliSubCommand("ml", "computetarget", "update", "aks")]
 public record AzMlComputetargetUpdateAksOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "resource-guard", "create")]
+[CliSubCommand("dataprotection", "resource-guard", "create")]
 public record AzDataprotectionResourceGuardCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "backup", "start")]
+[CliSubCommand("keyvault", "backup", "start")]
 public record AzKeyvaultBackupStartOptions : AzOptions
 {
     [CliOption("--blob-container-name")]

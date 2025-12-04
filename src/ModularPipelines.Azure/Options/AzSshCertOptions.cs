@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ssh", "cert")]
+[CliSubCommand("ssh", "cert")]
 public record AzSshCertOptions : AzOptions
 {
     [CliOption("--file")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "item", "list")]
+[CliSubCommand("backup", "item", "list")]
 public record AzBackupItemListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--vault-name")] string VaultName

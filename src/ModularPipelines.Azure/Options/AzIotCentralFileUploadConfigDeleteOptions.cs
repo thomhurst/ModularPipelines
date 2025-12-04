@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "file-upload-config", "delete")]
+[CliSubCommand("iot", "central", "file-upload-config", "delete")]
 public record AzIotCentralFileUploadConfigDeleteOptions(
 [property: CliOption("--app-id")] string AppId
 ) : AzOptions

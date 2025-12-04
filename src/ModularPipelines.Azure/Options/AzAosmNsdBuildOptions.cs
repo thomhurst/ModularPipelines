@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aosm", "nsd", "build")]
+[CliSubCommand("aosm", "nsd", "build")]
 public record AzAosmNsdBuildOptions(
 [property: CliOption("--config-file")] string ConfigFile
 ) : AzOptions

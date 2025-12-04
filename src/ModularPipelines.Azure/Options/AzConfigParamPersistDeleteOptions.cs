@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("config", "param-persist", "delete")]
+[CliSubCommand("config", "param-persist", "delete")]
 public record AzConfigParamPersistDeleteOptions : AzOptions
 {
     [CliFlag("--all")]

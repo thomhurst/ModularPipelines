@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "secret", "set")]
+[CliSubCommand("containerapp", "secret", "set")]
 public record AzContainerappSecretSetOptions(
 [property: CliOption("--secrets")] string Secrets
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "security-policy", "update")]
+[CliSubCommand("afd", "security-policy", "update")]
 public record AzAfdSecurityPolicyUpdateOptions : AzOptions
 {
     [CliOption("--domains")]

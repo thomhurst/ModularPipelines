@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("lab", "formula", "delete")]
+[CliSubCommand("lab", "formula", "delete")]
 public record AzLabFormulaDeleteOptions(
 [property: CliOption("--lab-name")] string LabName,
 [property: CliOption("--name")] string Name,

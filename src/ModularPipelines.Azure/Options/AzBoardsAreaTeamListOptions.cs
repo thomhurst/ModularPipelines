@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("boards", "area", "team", "list")]
+[CliSubCommand("boards", "area", "team", "list")]
 public record AzBoardsAreaTeamListOptions(
 [property: CliOption("--team")] string Team
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "interface", "delete")]
+[CliSubCommand("networkfabric", "interface", "delete")]
 public record AzNetworkfabricInterfaceDeleteOptions : AzOptions
 {
     [CliOption("--device")]

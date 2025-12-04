@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "migration", "start")]
+[CliSubCommand("storage", "account", "migration", "start")]
 public record AzStorageAccountMigrationStartOptions(
 [property: CliOption("--sku")] string Sku
 ) : AzOptions

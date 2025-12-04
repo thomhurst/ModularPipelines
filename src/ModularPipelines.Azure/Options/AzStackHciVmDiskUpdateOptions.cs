@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci-vm", "disk", "update")]
+[CliSubCommand("stack-hci-vm", "disk", "update")]
 public record AzStackHciVmDiskUpdateOptions : AzOptions
 {
     [CliOption("--ids")]

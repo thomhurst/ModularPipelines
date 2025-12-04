@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack", "mg", "export")]
+[CliSubCommand("stack", "mg", "export")]
 public record AzStackMgExportOptions(
 [property: CliOption("--management-group-id")] string ManagementGroupId
 ) : AzOptions

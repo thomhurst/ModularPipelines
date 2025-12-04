@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "integration-runtime-node", "get-ip-address")]
+[CliSubCommand("datafactory", "integration-runtime-node", "get-ip-address")]
 public record AzDatafactoryIntegrationRuntimeNodeGetIpAddressOptions : AzOptions
 {
     [CliOption("--factory-name")]

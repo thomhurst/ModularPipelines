@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "batch-deployment", "show")]
+[CliSubCommand("ml", "batch-deployment", "show")]
 public record AzMlBatchDeploymentShowOptions(
 [property: CliOption("--endpoint-name")] string EndpointName,
 [property: CliOption("--name")] string Name,

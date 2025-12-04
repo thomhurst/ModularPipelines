@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "jit-policy", "list")]
+[CliSubCommand("security", "jit-policy", "list")]
 public record AzSecurityJitPolicyListOptions : AzOptions
 {
     [CliOption("--location")]

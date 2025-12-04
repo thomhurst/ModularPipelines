@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("import-export", "list")]
+[CliSubCommand("import-export", "list")]
 public record AzImportExportListOptions : AzOptions
 {
     [CliOption("--resource-group")]

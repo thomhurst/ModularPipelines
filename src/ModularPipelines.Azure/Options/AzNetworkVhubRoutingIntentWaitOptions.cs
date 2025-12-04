@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vhub", "routing-intent", "wait")]
+[CliSubCommand("network", "vhub", "routing-intent", "wait")]
 public record AzNetworkVhubRoutingIntentWaitOptions : AzOptions
 {
     [CliFlag("--created")]

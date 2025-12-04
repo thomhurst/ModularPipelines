@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "virtualmachine", "power-off")]
+[CliSubCommand("networkcloud", "virtualmachine", "power-off")]
 public record AzNetworkcloudVirtualmachinePowerOffOptions : AzOptions
 {
     [CliOption("--ids")]

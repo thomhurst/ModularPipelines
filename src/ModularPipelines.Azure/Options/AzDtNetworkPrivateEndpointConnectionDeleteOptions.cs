@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "network", "private-endpoint", "connection", "delete")]
+[CliSubCommand("dt", "network", "private-endpoint", "connection", "delete")]
 public record AzDtNetworkPrivateEndpointConnectionDeleteOptions(
 [property: CliOption("--cn")] string Cn,
 [property: CliOption("--dt-name")] string DtName

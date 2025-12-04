@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "l2domain", "wait")]
+[CliSubCommand("networkfabric", "l2domain", "wait")]
 public record AzNetworkfabricL2domainWaitOptions : AzOptions
 {
     [CliFlag("--created")]

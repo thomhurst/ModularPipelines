@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "log-analytics", "workspace", "linked-service", "create")]
+[CliSubCommand("monitor", "log-analytics", "workspace", "linked-service", "create")]
 public record AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions(
 [property: CliOption("--linked-service-name")] string LinkedServiceName,
 [property: CliOption("--resource-group")] string ResourceGroup,

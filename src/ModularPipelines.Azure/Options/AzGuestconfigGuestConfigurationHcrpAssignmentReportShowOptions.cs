@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("guestconfig", "guest-configuration-hcrp-assignment-report", "show")]
+[CliSubCommand("guestconfig", "guest-configuration-hcrp-assignment-report", "show")]
 public record AzGuestconfigGuestConfigurationHcrpAssignmentReportShowOptions : AzOptions
 {
     [CliOption("--guest-configuration-assignment-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "addon", "arc", "create")]
+[CliSubCommand("vmware", "addon", "arc", "create")]
 public record AzVmwareAddonArcCreateOptions(
 [property: CliOption("--private-cloud")] string PrivateCloud,
 [property: CliOption("--resource-group")] string ResourceGroup,

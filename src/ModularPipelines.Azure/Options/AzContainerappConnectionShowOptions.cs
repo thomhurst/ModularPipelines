@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "connection", "show")]
+[CliSubCommand("containerapp", "connection", "show")]
 public record AzContainerappConnectionShowOptions : AzOptions
 {
     [CliOption("--connection")]

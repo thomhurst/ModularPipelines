@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "event", "show")]
+[CliSubCommand("site-recovery", "event", "show")]
 public record AzSiteRecoveryEventShowOptions : AzOptions
 {
     [CliOption("--event-name")]

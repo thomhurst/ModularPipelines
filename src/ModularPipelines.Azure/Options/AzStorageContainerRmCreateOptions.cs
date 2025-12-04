@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "container-rm", "create")]
+[CliSubCommand("storage", "container-rm", "create")]
 public record AzStorageContainerRmCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--storage-account")] int StorageAccount

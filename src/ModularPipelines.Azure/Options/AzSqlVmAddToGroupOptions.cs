@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "vm", "add-to-group")]
+[CliSubCommand("sql", "vm", "add-to-group")]
 public record AzSqlVmAddToGroupOptions(
 [property: CliOption("--sqlvm-group")] string SqlvmGroup
 ) : AzOptions

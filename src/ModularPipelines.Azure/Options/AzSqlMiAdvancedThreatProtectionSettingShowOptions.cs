@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "advanced-threat-protection-setting", "show")]
+[CliSubCommand("sql", "mi", "advanced-threat-protection-setting", "show")]
 public record AzSqlMiAdvancedThreatProtectionSettingShowOptions : AzOptions
 {
     [CliOption("--ids")]

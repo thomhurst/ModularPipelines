@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "source-control", "show")]
+[CliSubCommand("sentinel", "source-control", "show")]
 public record AzSentinelSourceControlShowOptions : AzOptions
 {
     [CliOption("--ids")]

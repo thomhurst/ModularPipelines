@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "key", "list")]
+[CliSubCommand("sql", "mi", "key", "list")]
 public record AzSqlMiKeyListOptions : AzOptions
 {
     [CliOption("--filter")]

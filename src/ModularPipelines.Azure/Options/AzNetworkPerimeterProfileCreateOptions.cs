@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "perimeter", "profile", "create")]
+[CliSubCommand("network", "perimeter", "profile", "create")]
 public record AzNetworkPerimeterProfileCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--perimeter-name")] string PerimeterName,

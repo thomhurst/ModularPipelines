@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("offure", "hyperv", "run-as-account", "show")]
+[CliSubCommand("offure", "hyperv", "run-as-account", "show")]
 public record AzOffazureHypervRunAsAccountShowOptions : AzOptions
 {
     [CliOption("--account-name")]

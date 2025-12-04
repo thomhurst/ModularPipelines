@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet-gateway", "list-advertised-routes")]
+[CliSubCommand("network", "vnet-gateway", "list-advertised-routes")]
 public record AzNetworkVnetGatewayListAdvertisedRoutesOptions(
 [property: CliOption("--peer")] string Peer
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "set-orchestration-service-state")]
+[CliSubCommand("vmss", "set-orchestration-service-state")]
 public record AzVmssSetOrchestrationServiceStateOptions(
 [property: CliOption("--action")] string Action,
 [property: CliOption("--service-name")] string ServiceName

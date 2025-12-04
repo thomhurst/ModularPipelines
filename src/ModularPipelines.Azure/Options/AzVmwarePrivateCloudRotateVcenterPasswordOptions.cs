@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "private-cloud", "rotate-vcenter-password")]
+[CliSubCommand("vmware", "private-cloud", "rotate-vcenter-password")]
 public record AzVmwarePrivateCloudRotateVcenterPasswordOptions : AzOptions
 {
     [CliOption("--ids")]

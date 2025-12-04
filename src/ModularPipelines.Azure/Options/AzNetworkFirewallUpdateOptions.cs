@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "firewall", "update")]
+[CliSubCommand("network", "firewall", "update")]
 public record AzNetworkFirewallUpdateOptions : AzOptions
 {
     [CliOption("--add")]

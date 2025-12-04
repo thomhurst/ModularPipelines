@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "interface", "show")]
+[CliSubCommand("networkfabric", "interface", "show")]
 public record AzNetworkfabricInterfaceShowOptions : AzOptions
 {
     [CliOption("--device")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "firewall", "nat-rule", "show")]
+[CliSubCommand("network", "firewall", "nat-rule", "show")]
 public record AzNetworkFirewallNatRuleShowOptions : AzOptions
 {
     [CliOption("--collection-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("boards", "iteration", "project", "update")]
+[CliSubCommand("boards", "iteration", "project", "update")]
 public record AzBoardsIterationProjectUpdateOptions(
 [property: CliOption("--path")] string Path
 ) : AzOptions

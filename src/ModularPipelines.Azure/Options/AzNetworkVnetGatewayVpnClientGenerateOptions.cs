@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet-gateway", "vpn-client", "generate")]
+[CliSubCommand("network", "vnet-gateway", "vpn-client", "generate")]
 public record AzNetworkVnetGatewayVpnClientGenerateOptions : AzOptions
 {
     [CliOption("--authentication-method")]

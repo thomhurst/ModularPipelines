@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "ad-admin", "list")]
+[CliSubCommand("mysql", "flexible-server", "ad-admin", "list")]
 public record AzMysqlFlexibleServerAdAdminListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--server-name")] string ServerName

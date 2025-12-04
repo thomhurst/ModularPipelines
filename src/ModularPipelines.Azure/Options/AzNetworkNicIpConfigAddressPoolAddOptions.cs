@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "nic", "ip-config", "address-pool", "add")]
+[CliSubCommand("network", "nic", "ip-config", "address-pool", "add")]
 public record AzNetworkNicIpConfigAddressPoolAddOptions(
 [property: CliOption("--address-pool")] string AddressPool,
 [property: CliOption("--ip-config-name")] string IpConfigName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("notification-hub", "namespace", "update")]
+[CliSubCommand("notification-hub", "namespace", "update")]
 public record AzNotificationHubNamespaceUpdateOptions : AzOptions
 {
     [CliOption("--add")]

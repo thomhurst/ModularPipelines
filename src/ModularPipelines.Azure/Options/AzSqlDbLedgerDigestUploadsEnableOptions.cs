@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "ledger-digest-uploads", "enable")]
+[CliSubCommand("sql", "db", "ledger-digest-uploads", "enable")]
 public record AzSqlDbLedgerDigestUploadsEnableOptions(
 [property: CliOption("--endpoint")] string Endpoint
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "release", "create")]
+[CliSubCommand("pipelines", "release", "create")]
 public record AzPipelinesReleaseCreateOptions : AzOptions
 {
     [CliOption("--artifact-metadata-list")]

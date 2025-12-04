@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dnc", "delegated-subnet-service", "wait")]
+[CliSubCommand("dnc", "delegated-subnet-service", "wait")]
 public record AzDncDelegatedSubnetServiceWaitOptions : AzOptions
 {
     [CliFlag("--created")]

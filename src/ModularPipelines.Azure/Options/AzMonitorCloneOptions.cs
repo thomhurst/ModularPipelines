@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "clone")]
+[CliSubCommand("monitor", "clone")]
 public record AzMonitorCloneOptions(
 [property: CliOption("--source-resource")] string SourceResource,
 [property: CliOption("--target-resource")] string TargetResource

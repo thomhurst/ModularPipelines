@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redis", "server-link", "show")]
+[CliSubCommand("redis", "server-link", "show")]
 public record AzRedisServerLinkShowOptions(
 [property: CliOption("--linked-server-name")] string LinkedServerName,
 [property: CliOption("--name")] string Name,

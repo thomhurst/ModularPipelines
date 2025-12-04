@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcappliance", "logs", "hci")]
+[CliSubCommand("arcappliance", "logs", "hci")]
 public record AzArcapplianceLogsHciOptions : AzOptions
 {
     [CliOption("--cloudagent")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "account", "list")]
+[CliSubCommand("batch", "account", "list")]
 public record AzBatchAccountListOptions : AzOptions
 {
     [CliOption("--resource-group")]

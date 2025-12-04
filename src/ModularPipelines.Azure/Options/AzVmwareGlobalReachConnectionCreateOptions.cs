@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "global-reach-connection", "create")]
+[CliSubCommand("vmware", "global-reach-connection", "create")]
 public record AzVmwareGlobalReachConnectionCreateOptions(
 [property: CliOption("--global-reach-connection-name")] string GlobalReachConnectionName,
 [property: CliOption("--private-cloud")] string PrivateCloud,

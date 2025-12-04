@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databox", "job", "delete")]
+[CliSubCommand("databox", "job", "delete")]
 public record AzDataboxJobDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

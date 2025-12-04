@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "sql", "pool", "threat-policy", "update")]
+[CliSubCommand("synapse", "sql", "pool", "threat-policy", "update")]
 public record AzSynapseSqlPoolThreatPolicyUpdateOptions : AzOptions
 {
     [CliOption("--add")]

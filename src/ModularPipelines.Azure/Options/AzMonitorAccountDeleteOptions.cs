@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "account", "delete")]
+[CliSubCommand("monitor", "account", "delete")]
 public record AzMonitorAccountDeleteOptions : AzOptions
 {
     [CliOption("--azure-monitor-workspace-name")]

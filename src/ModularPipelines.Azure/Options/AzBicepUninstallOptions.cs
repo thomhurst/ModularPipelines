@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("bicep", "uninstall")]
+[CliSubCommand("bicep", "uninstall")]
 public record AzBicepUninstallOptions : AzOptions;

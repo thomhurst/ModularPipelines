@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "data", "list-materialization-status")]
+[CliSubCommand("ml", "data", "list-materialization-status")]
 public record AzMlDataListMaterializationStatusOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--workspace-name")] string WorkspaceName

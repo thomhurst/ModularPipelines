@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "fs", "move")]
+[CliSubCommand("dls", "fs", "move")]
 public record AzDlsFsMoveOptions(
 [property: CliOption("--destination-path")] string DestinationPath,
 [property: CliOption("--source-path")] string SourcePath

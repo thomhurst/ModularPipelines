@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("elastic", "monitor", "list-resource")]
+[CliSubCommand("elastic", "monitor", "list-resource")]
 public record AzElasticMonitorListResourceOptions(
 [property: CliOption("--monitor-name")] string MonitorName,
 [property: CliOption("--resource-group")] string ResourceGroup

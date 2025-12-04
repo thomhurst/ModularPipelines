@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "traffic-manager", "endpoint", "show-geographic-hierarchy")]
+[CliSubCommand("network", "traffic-manager", "endpoint", "show-geographic-hierarchy")]
 public record AzNetworkTrafficManagerEndpointShowGeographicHierarchyOptions : AzOptions;

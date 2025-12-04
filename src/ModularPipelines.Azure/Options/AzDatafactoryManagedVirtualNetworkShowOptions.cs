@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "managed-virtual-network", "show")]
+[CliSubCommand("datafactory", "managed-virtual-network", "show")]
 public record AzDatafactoryManagedVirtualNetworkShowOptions : AzOptions
 {
     [CliOption("--factory-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databoxedge", "bandwidth-schedule", "list")]
+[CliSubCommand("databoxedge", "bandwidth-schedule", "list")]
 public record AzDataboxedgeBandwidthScheduleListOptions(
 [property: CliOption("--device-name")] string DeviceName,
 [property: CliOption("--resource-group")] string ResourceGroup

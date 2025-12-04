@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "global-reach-connection", "wait")]
+[CliSubCommand("vmware", "global-reach-connection", "wait")]
 public record AzVmwareGlobalReachConnectionWaitOptions : AzOptions
 {
     [CliFlag("--created")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("artifacts", "universal", "download")]
+[CliSubCommand("artifacts", "universal", "download")]
 public record AzArtifactsUniversalDownloadOptions(
 [property: CliOption("--feed")] string Feed,
 [property: CliOption("--name")] string Name,

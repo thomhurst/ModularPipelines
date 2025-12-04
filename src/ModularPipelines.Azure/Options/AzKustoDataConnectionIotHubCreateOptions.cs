@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "data-connection", "iot-hub", "create")]
+[CliSubCommand("kusto", "data-connection", "iot-hub", "create")]
 public record AzKustoDataConnectionIotHubCreateOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--data-connection-name")] string DataConnectionName,

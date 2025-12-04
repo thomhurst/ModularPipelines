@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("palo-alto", "cloudngfw", "local-rulestack", "local-rule", "delete")]
+[CliSubCommand("palo-alto", "cloudngfw", "local-rulestack", "local-rule", "delete")]
 public record AzPaloAltoCloudngfwLocalRulestackLocalRuleDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

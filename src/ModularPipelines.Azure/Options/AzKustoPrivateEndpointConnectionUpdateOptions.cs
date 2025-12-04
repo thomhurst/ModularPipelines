@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "private-endpoint-connection", "update")]
+[CliSubCommand("kusto", "private-endpoint-connection", "update")]
 public record AzKustoPrivateEndpointConnectionUpdateOptions : AzOptions
 {
     [CliOption("--add")]

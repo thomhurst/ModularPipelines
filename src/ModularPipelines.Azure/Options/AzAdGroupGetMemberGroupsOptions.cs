@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ad", "group", "get-member-groups")]
+[CliSubCommand("ad", "group", "get-member-groups")]
 public record AzAdGroupGetMemberGroupsOptions(
 [property: CliOption("--group")] string Group
 ) : AzOptions

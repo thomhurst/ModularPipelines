@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "asset-track", "show")]
+[CliSubCommand("ams", "asset-track", "show")]
 public record AzAmsAssetTrackShowOptions(
 [property: CliOption("--asset-name")] string AssetName,
 [property: CliOption("--track-name")] string TrackName

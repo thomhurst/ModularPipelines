@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "mongodb", "collection", "create")]
+[CliSubCommand("cosmosdb", "mongodb", "collection", "create")]
 public record AzCosmosdbMongodbCollectionCreateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--database-name")] string DatabaseName,

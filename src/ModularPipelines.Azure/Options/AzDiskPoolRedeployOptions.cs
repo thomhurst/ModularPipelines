@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-pool", "redeploy")]
+[CliSubCommand("disk-pool", "redeploy")]
 public record AzDiskPoolRedeployOptions : AzOptions
 {
     [CliOption("--disk-pool-name")]

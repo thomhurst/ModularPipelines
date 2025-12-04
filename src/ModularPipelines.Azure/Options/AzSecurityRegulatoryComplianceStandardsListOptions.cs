@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "regulatory-compliance-standards", "list")]
+[CliSubCommand("security", "regulatory-compliance-standards", "list")]
 public record AzSecurityRegulatoryComplianceStandardsListOptions : AzOptions;

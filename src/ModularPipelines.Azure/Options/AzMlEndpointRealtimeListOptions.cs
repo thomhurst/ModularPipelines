@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "endpoint", "realtime", "list")]
+[CliSubCommand("ml", "endpoint", "realtime", "list")]
 public record AzMlEndpointRealtimeListOptions : AzOptions
 {
     [CliOption("--compute-type")]

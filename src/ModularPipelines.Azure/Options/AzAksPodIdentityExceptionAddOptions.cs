@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "pod-identity", "exception", "add")]
+[CliSubCommand("aks", "pod-identity", "exception", "add")]
 public record AzAksPodIdentityExceptionAddOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--namespace")] string Namespace,

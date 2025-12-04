@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stream-analytics", "job", "stop")]
+[CliSubCommand("stream-analytics", "job", "stop")]
 public record AzStreamAnalyticsJobStopOptions(
 [property: CliOption("--job-name")] string JobName,
 [property: CliOption("--resource-group")] string ResourceGroup

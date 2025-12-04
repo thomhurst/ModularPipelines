@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "namespace", "network-rule-set", "create")]
+[CliSubCommand("servicebus", "namespace", "network-rule-set", "create")]
 public record AzServicebusNamespaceNetworkRuleSetCreateOptions(
 [property: CliOption("--namespace-name")] string NamespaceName,
 [property: CliOption("--resource-group")] string ResourceGroup

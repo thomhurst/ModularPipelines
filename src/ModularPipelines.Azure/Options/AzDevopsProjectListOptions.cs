@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "project", "list")]
+[CliSubCommand("devops", "project", "list")]
 public record AzDevopsProjectListOptions : AzOptions
 {
     [CliOption("--continuation-token")]

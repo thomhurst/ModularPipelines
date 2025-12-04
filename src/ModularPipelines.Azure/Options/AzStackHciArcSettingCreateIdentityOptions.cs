@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci", "arc-setting", "create-identity")]
+[CliSubCommand("stack-hci", "arc-setting", "create-identity")]
 public record AzStackHciArcSettingCreateIdentityOptions : AzOptions
 {
     [CliOption("--arc-setting-name")]

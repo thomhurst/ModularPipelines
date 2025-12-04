@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "queue", "create")]
+[CliSubCommand("servicebus", "queue", "create")]
 public record AzServicebusQueueCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--namespace-name")] string NamespaceName,

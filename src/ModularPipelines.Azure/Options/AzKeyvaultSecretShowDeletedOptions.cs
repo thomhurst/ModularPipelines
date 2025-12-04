@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "secret", "show-deleted")]
+[CliSubCommand("keyvault", "secret", "show-deleted")]
 public record AzKeyvaultSecretShowDeletedOptions : AzOptions
 {
     [CliOption("--id")]

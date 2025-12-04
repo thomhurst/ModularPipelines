@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "log-analytics", "workspace", "saved-search", "list")]
+[CliSubCommand("monitor", "log-analytics", "workspace", "saved-search", "list")]
 public record AzMonitorLogAnalyticsWorkspaceSavedSearchListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--workspace-name")] string WorkspaceName

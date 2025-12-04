@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "import-pipeline", "show")]
+[CliSubCommand("acr", "import-pipeline", "show")]
 public record AzAcrImportPipelineShowOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--registry")] string Registry,

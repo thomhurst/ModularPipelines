@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "firewall-rule", "show")]
+[CliSubCommand("mysql", "flexible-server", "firewall-rule", "show")]
 public record AzMysqlFlexibleServerFirewallRuleShowOptions : AzOptions
 {
     [CliOption("--ids")]

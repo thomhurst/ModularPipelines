@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "probe", "create")]
+[CliSubCommand("network", "application-gateway", "probe", "create")]
 public record AzNetworkApplicationGatewayProbeCreateOptions(
 [property: CliOption("--gateway-name")] string GatewayName,
 [property: CliOption("--name")] string Name,

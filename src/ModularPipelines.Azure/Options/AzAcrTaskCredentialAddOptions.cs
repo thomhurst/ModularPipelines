@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "task", "credential", "add")]
+[CliSubCommand("acr", "task", "credential", "add")]
 public record AzAcrTaskCredentialAddOptions(
 [property: CliOption("--login-server")] string LoginServer,
 [property: CliOption("--name")] string Name,

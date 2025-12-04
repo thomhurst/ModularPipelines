@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("signalr", "custom-certificate", "create")]
+[CliSubCommand("signalr", "custom-certificate", "create")]
 public record AzSignalrCustomCertificateCreateOptions(
 [property: CliOption("--keyvault-base-uri")] string KeyvaultBaseUri,
 [property: CliOption("--keyvault-secret-name")] string KeyvaultSecretName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "policy", "merge-strategy", "create")]
+[CliSubCommand("repos", "policy", "merge-strategy", "create")]
 public record AzReposPolicyMergeStrategyCreateOptions(
 [property: CliFlag("--blocking")] bool Blocking,
 [property: CliOption("--branch")] string Branch,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "clustermanager", "create")]
+[CliSubCommand("networkcloud", "clustermanager", "create")]
 public record AzNetworkcloudClustermanagerCreateOptions(
 [property: CliOption("--cluster-manager-name")] string ClusterManagerName,
 [property: CliOption("--fabric-controller-id")] string FabricControllerId,

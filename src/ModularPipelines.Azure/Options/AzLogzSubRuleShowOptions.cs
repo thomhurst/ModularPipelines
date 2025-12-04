@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logz", "sub-rule", "show")]
+[CliSubCommand("logz", "sub-rule", "show")]
 public record AzLogzSubRuleShowOptions : AzOptions
 {
     [CliOption("--ids")]

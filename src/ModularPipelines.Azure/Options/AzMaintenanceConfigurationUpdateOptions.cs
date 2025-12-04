@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("maintenance", "configuration", "update")]
+[CliSubCommand("maintenance", "configuration", "update")]
 public record AzMaintenanceConfigurationUpdateOptions : AzOptions
 {
     [CliOption("--duration")]

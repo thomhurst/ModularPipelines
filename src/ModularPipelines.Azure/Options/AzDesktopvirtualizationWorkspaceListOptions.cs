@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("desktopvirtualization", "workspace", "list")]
+[CliSubCommand("desktopvirtualization", "workspace", "list")]
 public record AzDesktopvirtualizationWorkspaceListOptions : AzOptions
 {
     [CliOption("--resource-group")]

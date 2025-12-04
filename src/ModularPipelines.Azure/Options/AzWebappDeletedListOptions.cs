@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "deleted", "list")]
+[CliSubCommand("webapp", "deleted", "list")]
 public record AzWebappDeletedListOptions : AzOptions
 {
     [CliOption("--name")]

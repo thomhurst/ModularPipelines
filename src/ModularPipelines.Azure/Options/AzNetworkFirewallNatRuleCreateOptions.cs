@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "firewall", "nat-rule", "create")]
+[CliSubCommand("network", "firewall", "nat-rule", "create")]
 public record AzNetworkFirewallNatRuleCreateOptions(
 [property: CliOption("--collection-name")] string CollectionName,
 [property: CliOption("--dest-addr")] string DestAddr,

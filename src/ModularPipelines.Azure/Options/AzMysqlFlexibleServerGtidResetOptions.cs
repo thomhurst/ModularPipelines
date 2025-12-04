@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "gtid", "reset")]
+[CliSubCommand("mysql", "flexible-server", "gtid", "reset")]
 public record AzMysqlFlexibleServerGtidResetOptions(
 [property: CliOption("--gtid-set")] string GtidSet,
 [property: CliOption("--resource-group")] string ResourceGroup,

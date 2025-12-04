@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("quantum", "target", "list")]
+[CliSubCommand("quantum", "target", "list")]
 public record AzQuantumTargetListOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--resource-group")] string ResourceGroup,

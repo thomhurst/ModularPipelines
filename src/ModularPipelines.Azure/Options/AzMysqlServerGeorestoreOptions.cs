@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "georestore")]
+[CliSubCommand("mysql", "server", "georestore")]
 public record AzMysqlServerGeorestoreOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--source-server")] string SourceServer

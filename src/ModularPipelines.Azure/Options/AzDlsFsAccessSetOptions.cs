@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "fs", "access", "set")]
+[CliSubCommand("dls", "fs", "access", "set")]
 public record AzDlsFsAccessSetOptions(
 [property: CliOption("--acl-spec")] string AclSpec,
 [property: CliOption("--path")] string Path

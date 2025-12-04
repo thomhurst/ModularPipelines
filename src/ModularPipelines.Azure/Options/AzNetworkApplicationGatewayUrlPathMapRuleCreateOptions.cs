@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "url-path-map", "rule", "create")]
+[CliSubCommand("network", "application-gateway", "url-path-map", "rule", "create")]
 public record AzNetworkApplicationGatewayUrlPathMapRuleCreateOptions(
 [property: CliOption("--gateway-name")] string GatewayName,
 [property: CliOption("--name")] string Name,

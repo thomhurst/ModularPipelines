@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "draft", "setup-gh")]
+[CliSubCommand("aks", "draft", "setup-gh")]
 public record AzAksDraftSetupGhOptions : AzOptions
 {
     [CliOption("--app")]

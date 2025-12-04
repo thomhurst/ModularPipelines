@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vhub", "route-table", "update")]
+[CliSubCommand("network", "vhub", "route-table", "update")]
 public record AzNetworkVhubRouteTableUpdateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

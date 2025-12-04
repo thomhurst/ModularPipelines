@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server", "key", "list")]
+[CliSubCommand("postgres", "server", "key", "list")]
 public record AzPostgresServerKeyListOptions : AzOptions
 {
     [CliOption("--ids")]

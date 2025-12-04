@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("lab", "arm-template", "show")]
+[CliSubCommand("lab", "arm-template", "show")]
 public record AzLabArmTemplateShowOptions(
 [property: CliOption("--artifact-source-name")] string ArtifactSourceName,
 [property: CliOption("--lab-name")] string LabName,

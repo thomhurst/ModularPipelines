@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "express-route", "gateway", "connection", "wait")]
+[CliSubCommand("network", "express-route", "gateway", "connection", "wait")]
 public record AzNetworkExpressRouteGatewayConnectionWaitOptions : AzOptions
 {
     [CliFlag("--created")]

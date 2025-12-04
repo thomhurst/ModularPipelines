@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redisenterprise", "list")]
+[CliSubCommand("redisenterprise", "list")]
 public record AzRedisenterpriseListOptions : AzOptions
 {
     [CliOption("--resource-group")]

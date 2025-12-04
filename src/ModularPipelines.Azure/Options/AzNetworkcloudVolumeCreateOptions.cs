@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "volume", "create")]
+[CliSubCommand("networkcloud", "volume", "create")]
 public record AzNetworkcloudVolumeCreateOptions(
 [property: CliOption("--extended-location")] string ExtendedLocation,
 [property: CliOption("--name")] string Name,

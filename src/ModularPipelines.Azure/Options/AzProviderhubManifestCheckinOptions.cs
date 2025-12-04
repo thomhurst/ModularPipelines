@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("providerhub", "manifest", "checkin")]
+[CliSubCommand("providerhub", "manifest", "checkin")]
 public record AzProviderhubManifestCheckinOptions(
 [property: CliOption("--arm-manifest-location")] string ArmManifestLocation,
 [property: CliOption("--environment")] string Environment

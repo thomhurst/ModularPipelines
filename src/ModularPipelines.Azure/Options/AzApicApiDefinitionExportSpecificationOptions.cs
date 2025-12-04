@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apic", "api", "definition", "export-specification")]
+[CliSubCommand("apic", "api", "definition", "export-specification")]
 public record AzApicApiDefinitionExportSpecificationOptions(
 [property: CliOption("--file-name")] string FileName
 ) : AzOptions

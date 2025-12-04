@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "certificate", "list-reference-app")]
+[CliSubCommand("spring", "certificate", "list-reference-app")]
 public record AzSpringCertificateListReferenceAppOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

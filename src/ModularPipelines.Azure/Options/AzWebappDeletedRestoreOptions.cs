@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "deleted", "restore")]
+[CliSubCommand("webapp", "deleted", "restore")]
 public record AzWebappDeletedRestoreOptions(
 [property: CliOption("--deleted-id")] string DeletedId
 ) : AzOptions

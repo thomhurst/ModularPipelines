@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedmachine", "extension", "show")]
+[CliSubCommand("connectedmachine", "extension", "show")]
 public record AzConnectedmachineExtensionShowOptions : AzOptions
 {
     [CliOption("--extension-name")]

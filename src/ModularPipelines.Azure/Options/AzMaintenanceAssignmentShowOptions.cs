@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("maintenance", "assignment", "show")]
+[CliSubCommand("maintenance", "assignment", "show")]
 public record AzMaintenanceAssignmentShowOptions : AzOptions
 {
     [CliOption("--configuration-assignment-name")]

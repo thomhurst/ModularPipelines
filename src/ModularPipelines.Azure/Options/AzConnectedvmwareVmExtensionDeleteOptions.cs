@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "vm", "extension", "delete")]
+[CliSubCommand("connectedvmware", "vm", "extension", "delete")]
 public record AzConnectedvmwareVmExtensionDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

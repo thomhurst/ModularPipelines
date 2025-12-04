@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "mongodb", "database", "throughput", "update")]
+[CliSubCommand("cosmosdb", "mongodb", "database", "throughput", "update")]
 public record AzCosmosdbMongodbDatabaseThroughputUpdateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--name")] string Name,

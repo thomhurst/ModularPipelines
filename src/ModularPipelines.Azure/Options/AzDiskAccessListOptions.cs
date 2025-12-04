@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-access", "list")]
+[CliSubCommand("disk-access", "list")]
 public record AzDiskAccessListOptions : AzOptions
 {
     [CliOption("--resource-group")]

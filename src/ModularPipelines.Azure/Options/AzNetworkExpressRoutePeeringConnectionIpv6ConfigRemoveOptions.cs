@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "express-route", "peering", "connection", "ipv6-config", "remove")]
+[CliSubCommand("network", "express-route", "peering", "connection", "ipv6-config", "remove")]
 public record AzNetworkExpressRoutePeeringConnectionIpv6ConfigRemoveOptions(
 [property: CliOption("--circuit-name")] string CircuitName,
 [property: CliOption("--name")] string Name,

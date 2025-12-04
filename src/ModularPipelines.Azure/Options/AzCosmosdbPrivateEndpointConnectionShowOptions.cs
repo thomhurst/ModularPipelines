@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "private-endpoint-connection", "show")]
+[CliSubCommand("cosmosdb", "private-endpoint-connection", "show")]
 public record AzCosmosdbPrivateEndpointConnectionShowOptions : AzOptions
 {
     [CliOption("--account-name")]

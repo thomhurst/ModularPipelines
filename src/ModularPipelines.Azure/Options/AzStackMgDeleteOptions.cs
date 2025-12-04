@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack", "mg", "delete")]
+[CliSubCommand("stack", "mg", "delete")]
 public record AzStackMgDeleteOptions(
 [property: CliOption("--management-group-id")] string ManagementGroupId
 ) : AzOptions

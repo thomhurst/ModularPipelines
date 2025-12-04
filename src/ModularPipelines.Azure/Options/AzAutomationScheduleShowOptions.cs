@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation", "schedule", "show")]
+[CliSubCommand("automation", "schedule", "show")]
 public record AzAutomationScheduleShowOptions(
 [property: CliOption("--automation-account-name")] int AutomationAccountName,
 [property: CliOption("--name")] string Name,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "dps", "policy", "create")]
+[CliSubCommand("iot", "dps", "policy", "create")]
 public record AzIotDpsPolicyCreateOptions(
 [property: CliOption("--dps-name")] string DpsName,
 [property: CliOption("--pn")] string Pn,

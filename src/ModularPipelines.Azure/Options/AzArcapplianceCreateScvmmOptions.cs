@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcappliance", "create", "scvmm")]
+[CliSubCommand("arcappliance", "create", "scvmm")]
 public record AzArcapplianceCreateScvmmOptions(
 [property: CliOption("--config-file")] string ConfigFile,
 [property: CliOption("--kubeconfig")] string Kubeconfig

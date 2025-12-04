@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "taprule", "create")]
+[CliSubCommand("networkfabric", "taprule", "create")]
 public record AzNetworkfabricTapruleCreateOptions(
 [property: CliOption("--configuration-type")] string ConfigurationType,
 [property: CliOption("--resource-group")] string ResourceGroup,

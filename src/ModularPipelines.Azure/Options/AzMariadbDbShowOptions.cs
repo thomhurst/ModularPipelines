@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "db", "show")]
+[CliSubCommand("mariadb", "db", "show")]
 public record AzMariadbDbShowOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

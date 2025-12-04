@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "message-endpoint", "create", "cosmosdb-container")]
+[CliSubCommand("iot", "hub", "message-endpoint", "create", "cosmosdb-container")]
 public record AzIotHubMessageEndpointCreateCosmosdbContainerOptions(
 [property: CliOption("--container")] string Container,
 [property: CliOption("--database-name")] string DatabaseName,

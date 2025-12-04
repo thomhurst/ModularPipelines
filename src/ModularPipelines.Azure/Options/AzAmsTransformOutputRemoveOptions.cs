@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "transform", "output", "remove")]
+[CliSubCommand("ams", "transform", "output", "remove")]
 public record AzAmsTransformOutputRemoveOptions(
 [property: CliOption("--output-index")] string OutputIndex
 ) : AzOptions

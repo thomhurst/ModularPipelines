@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "api-token", "create")]
+[CliSubCommand("iot", "central", "api-token", "create")]
 public record AzIotCentralApiTokenCreateOptions(
 [property: CliOption("--app-id")] string AppId,
 [property: CliOption("--role")] string Role,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dns-resolver", "create")]
+[CliSubCommand("dns-resolver", "create")]
 public record AzDnsResolverCreateOptions(
 [property: CliOption("--dns-resolver-name")] string DnsResolverName,
 [property: CliOption("--id")] string Id,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "resource-guard", "unlock")]
+[CliSubCommand("dataprotection", "resource-guard", "unlock")]
 public record AzDataprotectionResourceGuardUnlockOptions : AzOptions
 {
     [CliOption("--ids")]

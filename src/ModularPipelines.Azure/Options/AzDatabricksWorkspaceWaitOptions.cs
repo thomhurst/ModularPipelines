@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databricks", "workspace", "wait")]
+[CliSubCommand("databricks", "workspace", "wait")]
 public record AzDatabricksWorkspaceWaitOptions : AzOptions
 {
     [CliFlag("--created")]

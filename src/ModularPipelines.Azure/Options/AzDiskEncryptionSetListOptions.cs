@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-encryption-set", "list")]
+[CliSubCommand("disk-encryption-set", "list")]
 public record AzDiskEncryptionSetListOptions : AzOptions
 {
     [CliOption("--max-items")]

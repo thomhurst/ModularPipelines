@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ad", "app", "federated-credential", "show")]
+[CliSubCommand("ad", "app", "federated-credential", "show")]
 public record AzAdAppFederatedCredentialShowOptions(
 [property: CliOption("--federated-credential-id")] string FederatedCredentialId,
 [property: CliOption("--id")] string Id

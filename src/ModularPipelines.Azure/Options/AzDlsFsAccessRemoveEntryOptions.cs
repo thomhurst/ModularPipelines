@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "fs", "access", "remove-entry")]
+[CliSubCommand("dls", "fs", "access", "remove-entry")]
 public record AzDlsFsAccessRemoveEntryOptions(
 [property: CliOption("--acl-spec")] string AclSpec,
 [property: CliOption("--path")] string Path

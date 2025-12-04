@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("purview", "account", "add-root-collection-admin")]
+[CliSubCommand("purview", "account", "add-root-collection-admin")]
 public record AzPurviewAccountAddRootCollectionAdminOptions : AzOptions
 {
     [CliOption("--account-name")]

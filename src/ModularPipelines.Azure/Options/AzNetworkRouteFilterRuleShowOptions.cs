@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "route-filter", "rule", "show")]
+[CliSubCommand("network", "route-filter", "rule", "show")]
 public record AzNetworkRouteFilterRuleShowOptions : AzOptions
 {
     [CliOption("--filter-name")]

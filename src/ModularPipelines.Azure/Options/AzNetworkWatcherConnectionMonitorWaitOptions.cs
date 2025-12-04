@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "watcher", "connection-monitor", "wait")]
+[CliSubCommand("network", "watcher", "connection-monitor", "wait")]
 public record AzNetworkWatcherConnectionMonitorWaitOptions : AzOptions
 {
     [CliOption("--connection-monitor-name")]

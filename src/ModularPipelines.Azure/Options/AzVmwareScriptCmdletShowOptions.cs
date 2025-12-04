@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "script-cmdlet", "show")]
+[CliSubCommand("vmware", "script-cmdlet", "show")]
 public record AzVmwareScriptCmdletShowOptions : AzOptions
 {
     [CliOption("--ids")]

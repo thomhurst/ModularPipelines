@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "private-link-resource", "list")]
+[CliSubCommand("mysql", "server", "private-link-resource", "list")]
 public record AzMysqlServerPrivateLinkResourceListOptions : AzOptions
 {
     [CliOption("--ids")]

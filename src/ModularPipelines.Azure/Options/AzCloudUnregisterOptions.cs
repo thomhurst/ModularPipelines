@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cloud", "unregister")]
+[CliSubCommand("cloud", "unregister")]
 public record AzCloudUnregisterOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions;

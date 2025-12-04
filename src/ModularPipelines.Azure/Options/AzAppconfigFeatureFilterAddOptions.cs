@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "feature", "filter", "add")]
+[CliSubCommand("appconfig", "feature", "filter", "add")]
 public record AzAppconfigFeatureFilterAddOptions(
 [property: CliOption("--filter-name")] string FilterName
 ) : AzOptions

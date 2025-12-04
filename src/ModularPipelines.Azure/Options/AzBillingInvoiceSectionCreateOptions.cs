@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("billing", "invoice", "section", "create")]
+[CliSubCommand("billing", "invoice", "section", "create")]
 public record AzBillingInvoiceSectionCreateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--invoice-section-name")] string InvoiceSectionName,

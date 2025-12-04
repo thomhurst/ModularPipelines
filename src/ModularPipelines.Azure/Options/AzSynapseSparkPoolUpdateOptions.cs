@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "spark", "pool", "update")]
+[CliSubCommand("synapse", "spark", "pool", "update")]
 public record AzSynapseSparkPoolUpdateOptions : AzOptions
 {
     [CliOption("--delay")]

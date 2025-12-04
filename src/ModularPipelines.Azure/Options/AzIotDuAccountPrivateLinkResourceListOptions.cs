@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "du", "account", "private-link-resource", "list")]
+[CliSubCommand("iot", "du", "account", "private-link-resource", "list")]
 public record AzIotDuAccountPrivateLinkResourceListOptions(
 [property: CliOption("--account")] int Account
 ) : AzOptions

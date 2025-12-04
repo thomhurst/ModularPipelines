@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "addon", "hcx", "update")]
+[CliSubCommand("vmware", "addon", "hcx", "update")]
 public record AzVmwareAddonHcxUpdateOptions(
 [property: CliOption("--offer")] string Offer
 ) : AzOptions

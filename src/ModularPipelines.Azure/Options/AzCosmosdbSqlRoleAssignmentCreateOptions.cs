@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "sql", "role", "assignment", "create")]
+[CliSubCommand("cosmosdb", "sql", "role", "assignment", "create")]
 public record AzCosmosdbSqlRoleAssignmentCreateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--principal-id")] string PrincipalId,

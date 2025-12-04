@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "network-connection", "update")]
+[CliSubCommand("devcenter", "admin", "network-connection", "update")]
 public record AzDevcenterAdminNetworkConnectionUpdateOptions : AzOptions
 {
     [CliOption("--domain-name")]

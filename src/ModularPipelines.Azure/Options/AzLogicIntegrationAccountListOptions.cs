@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logic", "integration-account", "list")]
+[CliSubCommand("logic", "integration-account", "list")]
 public record AzLogicIntegrationAccountListOptions : AzOptions
 {
     [CliOption("--max-items")]

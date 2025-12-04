@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "image-version", "show")]
+[CliSubCommand("devcenter", "admin", "image-version", "show")]
 public record AzDevcenterAdminImageVersionShowOptions : AzOptions
 {
     [CliOption("--dev-center")]

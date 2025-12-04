@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "ops", "asset", "event", "add")]
+[CliSubCommand("iot", "ops", "asset", "event", "add")]
 public record AzIotOpsAssetEventAddOptions(
 [property: CliOption("--asset")] string Asset,
 [property: CliOption("--en")] string En,

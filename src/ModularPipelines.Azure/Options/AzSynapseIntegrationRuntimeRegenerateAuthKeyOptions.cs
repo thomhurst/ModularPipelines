@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "integration-runtime", "regenerate-auth-key")]
+[CliSubCommand("synapse", "integration-runtime", "regenerate-auth-key")]
 public record AzSynapseIntegrationRuntimeRegenerateAuthKeyOptions : AzOptions
 {
     [CliOption("--ids")]

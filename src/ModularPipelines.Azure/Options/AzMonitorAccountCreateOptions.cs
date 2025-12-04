@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "account", "create")]
+[CliSubCommand("monitor", "account", "create")]
 public record AzMonitorAccountCreateOptions(
 [property: CliOption("--azure-monitor-workspace-name")] string AzureMonitorWorkspaceName,
 [property: CliOption("--resource-group")] string ResourceGroup

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "network", "mapping", "delete")]
+[CliSubCommand("site-recovery", "network", "mapping", "delete")]
 public record AzSiteRecoveryNetworkMappingDeleteOptions : AzOptions
 {
     [CliOption("--fabric-name")]

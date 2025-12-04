@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "data-collection", "endpoint", "update")]
+[CliSubCommand("monitor", "data-collection", "endpoint", "update")]
 public record AzMonitorDataCollectionEndpointUpdateOptions : AzOptions
 {
     [CliOption("--description")]

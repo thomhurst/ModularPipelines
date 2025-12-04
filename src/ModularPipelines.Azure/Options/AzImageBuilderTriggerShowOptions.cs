@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("image", "builder", "trigger", "show")]
+[CliSubCommand("image", "builder", "trigger", "show")]
 public record AzImageBuilderTriggerShowOptions : AzOptions
 {
     [CliOption("--ids")]

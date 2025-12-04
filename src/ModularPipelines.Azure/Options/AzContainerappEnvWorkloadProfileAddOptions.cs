@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "env", "workload-profile", "add")]
+[CliSubCommand("containerapp", "env", "workload-profile", "add")]
 public record AzContainerappEnvWorkloadProfileAddOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

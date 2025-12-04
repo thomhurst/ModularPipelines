@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("policy", "exemption", "delete")]
+[CliSubCommand("policy", "exemption", "delete")]
 public record AzPolicyExemptionDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

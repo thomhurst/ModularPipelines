@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcdata", "dc", "delete")]
+[CliSubCommand("arcdata", "dc", "delete")]
 public record AzArcdataDcDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

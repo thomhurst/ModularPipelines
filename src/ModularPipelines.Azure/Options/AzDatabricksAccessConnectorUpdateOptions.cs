@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databricks", "access-connector", "update")]
+[CliSubCommand("databricks", "access-connector", "update")]
 public record AzDatabricksAccessConnectorUpdateOptions : AzOptions
 {
     [CliOption("--add")]

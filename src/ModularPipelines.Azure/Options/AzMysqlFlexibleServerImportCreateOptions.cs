@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "import", "create")]
+[CliSubCommand("mysql", "flexible-server", "import", "create")]
 public record AzMysqlFlexibleServerImportCreateOptions(
 [property: CliOption("--data-source")] string DataSource,
 [property: CliOption("--data-source-type")] string DataSourceType,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "volume-group", "wait")]
+[CliSubCommand("netappfiles", "volume-group", "wait")]
 public record AzNetappfilesVolumeGroupWaitOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--group-name")] string GroupName,

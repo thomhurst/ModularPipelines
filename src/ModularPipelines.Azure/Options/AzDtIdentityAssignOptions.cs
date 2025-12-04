@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "identity", "assign")]
+[CliSubCommand("dt", "identity", "assign")]
 public record AzDtIdentityAssignOptions(
 [property: CliOption("--dt-name")] string DtName
 ) : AzOptions

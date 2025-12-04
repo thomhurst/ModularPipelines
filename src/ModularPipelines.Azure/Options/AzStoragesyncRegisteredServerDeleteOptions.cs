@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storagesync", "registered-server", "delete")]
+[CliSubCommand("storagesync", "registered-server", "delete")]
 public record AzStoragesyncRegisteredServerDeleteOptions(
 [property: CliOption("--server-id")] string ServerId,
 [property: CliOption("--storage-sync-service")] string StorageSyncService

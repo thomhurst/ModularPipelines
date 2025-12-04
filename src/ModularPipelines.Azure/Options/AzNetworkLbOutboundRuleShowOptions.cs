@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "lb", "outbound-rule", "show")]
+[CliSubCommand("network", "lb", "outbound-rule", "show")]
 public record AzNetworkLbOutboundRuleShowOptions(
 [property: CliOption("--lb-name")] string LbName,
 [property: CliOption("--name")] string Name,

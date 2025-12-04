@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-endpoint-connection", "reject")]
+[CliSubCommand("network", "private-endpoint-connection", "reject")]
 public record AzNetworkPrivateEndpointConnectionRejectOptions : AzOptions
 {
     [CliOption("--description")]

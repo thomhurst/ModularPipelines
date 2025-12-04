@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "connection", "create", "cosmos-mongo")]
+[CliSubCommand("webapp", "connection", "create", "cosmos-mongo")]
 public record AzWebappConnectionCreateCosmosMongoOptions : AzOptions
 {
     [CliOption("--account")]

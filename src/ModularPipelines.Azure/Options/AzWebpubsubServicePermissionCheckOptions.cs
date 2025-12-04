@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webpubsub", "service", "permission", "check")]
+[CliSubCommand("webpubsub", "service", "permission", "check")]
 public record AzWebpubsubServicePermissionCheckOptions(
 [property: CliOption("--connection-id")] string ConnectionId,
 [property: CliOption("--group-name")] string GroupName,

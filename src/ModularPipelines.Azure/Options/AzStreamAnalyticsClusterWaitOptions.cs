@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stream-analytics", "cluster", "wait")]
+[CliSubCommand("stream-analytics", "cluster", "wait")]
 public record AzStreamAnalyticsClusterWaitOptions : AzOptions
 {
     [CliOption("--cluster-name")]

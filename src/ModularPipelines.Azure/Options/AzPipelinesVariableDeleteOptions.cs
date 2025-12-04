@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "variable", "delete")]
+[CliSubCommand("pipelines", "variable", "delete")]
 public record AzPipelinesVariableDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("login")]
+[CliSubCommand("login")]
 public record AzLoginOptions : AzOptions
 {
     [CliFlag("--allow-no-subscriptions")]

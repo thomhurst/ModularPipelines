@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("urestackhci", "galleryimage", "delete")]
+[CliSubCommand("urestackhci", "galleryimage", "delete")]
 public record AzAzurestackhciGalleryimageDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

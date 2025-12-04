@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spatial-anchors-account", "list")]
+[CliSubCommand("spatial-anchors-account", "list")]
 public record AzSpatialAnchorsAccountListOptions : AzOptions
 {
     [CliOption("--resource-group")]

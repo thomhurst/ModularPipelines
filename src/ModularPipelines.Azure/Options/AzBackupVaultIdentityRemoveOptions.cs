@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "vault", "identity", "remove")]
+[CliSubCommand("backup", "vault", "identity", "remove")]
 public record AzBackupVaultIdentityRemoveOptions : AzOptions
 {
     [CliOption("--ids")]

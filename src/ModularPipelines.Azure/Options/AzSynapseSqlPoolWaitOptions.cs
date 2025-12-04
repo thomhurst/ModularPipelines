@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "sql", "pool", "wait")]
+[CliSubCommand("synapse", "sql", "pool", "wait")]
 public record AzSynapseSqlPoolWaitOptions(
 [property: CliOption("--sql-pool-name")] string SqlPoolName
 ) : AzOptions

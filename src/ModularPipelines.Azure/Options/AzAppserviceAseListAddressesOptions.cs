@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appservice", "ase", "list-addresses")]
+[CliSubCommand("appservice", "ase", "list-addresses")]
 public record AzAppserviceAseListAddressesOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

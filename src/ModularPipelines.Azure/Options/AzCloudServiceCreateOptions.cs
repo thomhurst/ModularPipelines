@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cloud-service", "create")]
+[CliSubCommand("cloud-service", "create")]
 public record AzCloudServiceCreateOptions(
 [property: CliOption("--cloud-service-name")] string CloudServiceName,
 [property: CliOption("--resource-group")] string ResourceGroup

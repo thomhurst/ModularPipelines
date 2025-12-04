@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication", "sms", "send")]
+[CliSubCommand("communication", "sms", "send")]
 public record AzCommunicationSmsSendOptions(
 [property: CliOption("--message")] string Message,
 [property: CliOption("--recipient")] string Recipient,

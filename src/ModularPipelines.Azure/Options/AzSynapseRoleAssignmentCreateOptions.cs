@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "role", "assignment", "create")]
+[CliSubCommand("synapse", "role", "assignment", "create")]
 public record AzSynapseRoleAssignmentCreateOptions(
 [property: CliOption("--role")] string Role,
 [property: CliOption("--workspace-name")] string WorkspaceName

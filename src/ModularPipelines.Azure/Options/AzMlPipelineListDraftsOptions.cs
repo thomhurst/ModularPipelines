@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "pipeline", "list-drafts")]
+[CliSubCommand("ml", "pipeline", "list-drafts")]
 public record AzMlPipelineListDraftsOptions : AzOptions
 {
     [CliOption("--resource-group")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dns-resolver", "forwarding-ruleset", "wait")]
+[CliSubCommand("dns-resolver", "forwarding-ruleset", "wait")]
 public record AzDnsResolverForwardingRulesetWaitOptions : AzOptions
 {
     [CliFlag("--created")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "failover")]
+[CliSubCommand("storage", "account", "failover")]
 public record AzStorageAccountFailoverOptions : AzOptions
 {
     [CliOption("--failover-type")]

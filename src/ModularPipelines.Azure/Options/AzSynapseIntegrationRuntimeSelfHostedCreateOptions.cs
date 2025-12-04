@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "integration-runtime", "self-hosted", "create")]
+[CliSubCommand("synapse", "integration-runtime", "self-hosted", "create")]
 public record AzSynapseIntegrationRuntimeSelfHostedCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

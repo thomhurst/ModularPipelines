@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "express-route", "peering", "peer-connection", "show")]
+[CliSubCommand("network", "express-route", "peering", "peer-connection", "show")]
 public record AzNetworkExpressRoutePeeringPeerConnectionShowOptions : AzOptions
 {
     [CliOption("--circuit-name")]

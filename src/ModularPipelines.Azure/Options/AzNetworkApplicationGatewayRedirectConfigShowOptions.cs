@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "redirect-config", "show")]
+[CliSubCommand("network", "application-gateway", "redirect-config", "show")]
 public record AzNetworkApplicationGatewayRedirectConfigShowOptions(
 [property: CliOption("--gateway-name")] string GatewayName,
 [property: CliOption("--name")] string Name,

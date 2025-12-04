@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resource", "patch")]
+[CliSubCommand("resource", "patch")]
 public record AzResourcePatchOptions(
 [property: CliOption("--properties")] string Properties
 ) : AzOptions

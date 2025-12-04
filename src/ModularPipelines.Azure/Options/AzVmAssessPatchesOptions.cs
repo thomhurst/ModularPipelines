@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "assess-patches")]
+[CliSubCommand("vm", "assess-patches")]
 public record AzVmAssessPatchesOptions : AzOptions
 {
     [CliOption("--ids")]

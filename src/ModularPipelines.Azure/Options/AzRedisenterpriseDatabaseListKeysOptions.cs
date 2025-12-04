@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redisenterprise", "database", "list-keys")]
+[CliSubCommand("redisenterprise", "database", "list-keys")]
 public record AzRedisenterpriseDatabaseListKeysOptions : AzOptions
 {
     [CliOption("--cluster-name")]

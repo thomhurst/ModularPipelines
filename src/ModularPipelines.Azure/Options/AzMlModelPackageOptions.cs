@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "model", "package")]
+[CliSubCommand("ml", "model", "package")]
 public record AzMlModelPackageOptions(
 [property: CliOption("--file")] string File,
 [property: CliOption("--name")] string Name,

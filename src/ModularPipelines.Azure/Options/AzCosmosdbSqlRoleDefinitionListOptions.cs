@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "sql", "role", "definition", "list")]
+[CliSubCommand("cosmosdb", "sql", "role", "definition", "list")]
 public record AzCosmosdbSqlRoleDefinitionListOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--resource-group")] string ResourceGroup

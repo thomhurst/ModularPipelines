@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "volume", "break-file-locks")]
+[CliSubCommand("netappfiles", "volume", "break-file-locks")]
 public record AzNetappfilesVolumeBreakFileLocksOptions : AzOptions
 {
     [CliOption("--account-name")]

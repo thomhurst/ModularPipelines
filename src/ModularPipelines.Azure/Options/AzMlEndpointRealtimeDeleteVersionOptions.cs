@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "endpoint", "realtime", "delete-version")]
+[CliSubCommand("ml", "endpoint", "realtime", "delete-version")]
 public record AzMlEndpointRealtimeDeleteVersionOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--version-name")] string VersionName

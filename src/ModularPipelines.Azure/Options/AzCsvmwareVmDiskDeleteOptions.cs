@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("csvmware", "vm", "disk", "delete")]
+[CliSubCommand("csvmware", "vm", "disk", "delete")]
 public record AzCsvmwareVmDiskDeleteOptions(
 [property: CliOption("--disks")] string Disks,
 [property: CliOption("--resource-group")] string ResourceGroup,

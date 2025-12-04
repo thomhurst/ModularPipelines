@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tsi", "access-policy", "show")]
+[CliSubCommand("tsi", "access-policy", "show")]
 public record AzTsiAccessPolicyShowOptions : AzOptions
 {
     [CliOption("--access-policy-name")]

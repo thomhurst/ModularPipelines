@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "dev", "dev-box", "skip-action")]
+[CliSubCommand("devcenter", "dev", "dev-box", "skip-action")]
 public record AzDevcenterDevDevBoxSkipActionOptions(
 [property: CliOption("--action-name")] string ActionName,
 [property: CliOption("--dev-box-name")] string DevBoxName,

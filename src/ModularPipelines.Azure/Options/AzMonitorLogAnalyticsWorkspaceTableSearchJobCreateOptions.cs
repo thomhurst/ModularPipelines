@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "log-analytics", "workspace", "table", "search-job", "create")]
+[CliSubCommand("monitor", "log-analytics", "workspace", "table", "search-job", "create")]
 public record AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions(
 [property: CliOption("--end-search-time")] string EndSearchTime,
 [property: CliOption("--name")] string Name,

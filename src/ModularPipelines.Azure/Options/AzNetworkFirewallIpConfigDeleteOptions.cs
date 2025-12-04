@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "firewall", "ip-config", "delete")]
+[CliSubCommand("network", "firewall", "ip-config", "delete")]
 public record AzNetworkFirewallIpConfigDeleteOptions : AzOptions
 {
     [CliOption("--firewall-name")]

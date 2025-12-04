@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "encryption-scope", "list")]
+[CliSubCommand("storage", "account", "encryption-scope", "list")]
 public record AzStorageAccountEncryptionScopeListOptions(
 [property: CliOption("--account-name")] int AccountName
 ) : AzOptions

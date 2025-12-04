@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "manager", "connect-config", "update")]
+[CliSubCommand("network", "manager", "connect-config", "update")]
 public record AzNetworkManagerConnectConfigUpdateOptions : AzOptions
 {
     [CliOption("--applies-to-groups")]

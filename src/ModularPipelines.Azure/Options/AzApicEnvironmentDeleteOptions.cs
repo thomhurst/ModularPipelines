@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apic", "environment", "delete")]
+[CliSubCommand("apic", "environment", "delete")]
 public record AzApicEnvironmentDeleteOptions : AzOptions
 {
     [CliOption("--environment")]

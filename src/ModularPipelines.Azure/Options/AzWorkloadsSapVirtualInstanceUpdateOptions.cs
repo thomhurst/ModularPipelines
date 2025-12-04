@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("workloads", "sap-virtual-instance", "update")]
+[CliSubCommand("workloads", "sap-virtual-instance", "update")]
 public record AzWorkloadsSapVirtualInstanceUpdateOptions : AzOptions
 {
     [CliOption("--identity")]

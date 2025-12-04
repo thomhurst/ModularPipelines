@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "deployment", "source", "update-token")]
+[CliSubCommand("functionapp", "deployment", "source", "update-token")]
 public record AzFunctionappDeploymentSourceUpdateTokenOptions : AzOptions
 {
     [CliOption("--git-token")]

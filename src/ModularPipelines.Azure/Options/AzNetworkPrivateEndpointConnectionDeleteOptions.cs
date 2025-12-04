@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-endpoint-connection", "delete")]
+[CliSubCommand("network", "private-endpoint-connection", "delete")]
 public record AzNetworkPrivateEndpointConnectionDeleteOptions : AzOptions
 {
     [CliOption("--id")]

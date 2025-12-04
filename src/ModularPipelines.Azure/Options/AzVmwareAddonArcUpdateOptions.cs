@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "addon", "arc", "update")]
+[CliSubCommand("vmware", "addon", "arc", "update")]
 public record AzVmwareAddonArcUpdateOptions(
 [property: CliOption("--vcenter")] string Vcenter
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "mongocluster", "update")]
+[CliSubCommand("cosmosdb", "mongocluster", "update")]
 public record AzCosmosdbMongoclusterUpdateOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--resource-group")] string ResourceGroup

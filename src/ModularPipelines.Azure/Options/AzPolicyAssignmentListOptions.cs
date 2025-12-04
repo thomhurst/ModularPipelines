@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("policy", "assignment", "list")]
+[CliSubCommand("policy", "assignment", "list")]
 public record AzPolicyAssignmentListOptions : AzOptions
 {
     [CliFlag("--disable-scope-strict-match")]

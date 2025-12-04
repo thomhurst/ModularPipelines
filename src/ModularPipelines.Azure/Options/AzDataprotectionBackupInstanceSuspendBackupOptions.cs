@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "backup-instance", "suspend-backup")]
+[CliSubCommand("dataprotection", "backup-instance", "suspend-backup")]
 public record AzDataprotectionBackupInstanceSuspendBackupOptions : AzOptions
 {
     [CliOption("--backup-instance-name")]

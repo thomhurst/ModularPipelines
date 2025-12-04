@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "str-policy", "set")]
+[CliSubCommand("sql", "db", "str-policy", "set")]
 public record AzSqlDbStrPolicySetOptions(
 [property: CliOption("--retention-days")] string RetentionDays
 ) : AzOptions

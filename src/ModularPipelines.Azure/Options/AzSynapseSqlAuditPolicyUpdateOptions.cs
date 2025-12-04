@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "sql", "audit-policy", "update")]
+[CliSubCommand("synapse", "sql", "audit-policy", "update")]
 public record AzSynapseSqlAuditPolicyUpdateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--workspace-name")] string WorkspaceName

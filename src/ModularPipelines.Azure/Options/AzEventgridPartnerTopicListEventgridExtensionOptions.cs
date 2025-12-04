@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "partner", "topic", "list", "(eventgrid", "extension)")]
+[CliSubCommand("eventgrid", "partner", "topic", "list", "(eventgrid", "extension)")]
 public record AzEventgridPartnerTopicListEventgridExtensionOptions : AzOptions
 {
     [CliOption("--odata-query")]

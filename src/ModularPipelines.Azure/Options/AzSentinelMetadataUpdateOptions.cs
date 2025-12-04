@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "metadata", "update")]
+[CliSubCommand("sentinel", "metadata", "update")]
 public record AzSentinelMetadataUpdateOptions : AzOptions
 {
     [CliOption("--add")]

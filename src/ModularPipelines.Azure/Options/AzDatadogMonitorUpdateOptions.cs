@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datadog", "monitor", "update")]
+[CliSubCommand("datadog", "monitor", "update")]
 public record AzDatadogMonitorUpdateOptions : AzOptions
 {
     [CliOption("--ids")]

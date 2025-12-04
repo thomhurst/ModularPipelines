@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-link-service", "create")]
+[CliSubCommand("network", "private-link-service", "create")]
 public record AzNetworkPrivateLinkServiceCreateOptions(
 [property: CliOption("--lb-frontend-ip-configs")] string LbFrontendIpConfigs,
 [property: CliOption("--name")] string Name,

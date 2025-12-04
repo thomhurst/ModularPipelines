@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("palo-alto", "cloudngfw", "local-rulestack", "commit")]
+[CliSubCommand("palo-alto", "cloudngfw", "local-rulestack", "commit")]
 public record AzPaloAltoCloudngfwLocalRulestackCommitOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("image", "builder", "trigger", "wait")]
+[CliSubCommand("image", "builder", "trigger", "wait")]
 public record AzImageBuilderTriggerWaitOptions : AzOptions
 {
     [CliFlag("--created")]

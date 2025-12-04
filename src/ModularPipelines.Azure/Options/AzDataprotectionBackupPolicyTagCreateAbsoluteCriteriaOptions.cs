@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "backup-policy", "tag", "create-absolute-criteria")]
+[CliSubCommand("dataprotection", "backup-policy", "tag", "create-absolute-criteria")]
 public record AzDataprotectionBackupPolicyTagCreateAbsoluteCriteriaOptions(
 [property: CliOption("--absolute-criteria")] string AbsoluteCriteria
 ) : AzOptions;

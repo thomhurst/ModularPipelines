@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "server", "firewall-rule", "update")]
+[CliSubCommand("mariadb", "server", "firewall-rule", "update")]
 public record AzMariadbServerFirewallRuleUpdateOptions : AzOptions
 {
     [CliOption("--add")]

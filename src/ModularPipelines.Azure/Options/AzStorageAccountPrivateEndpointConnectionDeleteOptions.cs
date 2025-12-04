@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "private-endpoint-connection", "delete")]
+[CliSubCommand("storage", "account", "private-endpoint-connection", "delete")]
 public record AzStorageAccountPrivateEndpointConnectionDeleteOptions : AzOptions
 {
     [CliOption("--account-name")]

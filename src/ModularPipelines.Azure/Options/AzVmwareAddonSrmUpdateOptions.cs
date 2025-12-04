@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "addon", "srm", "update")]
+[CliSubCommand("vmware", "addon", "srm", "update")]
 public record AzVmwareAddonSrmUpdateOptions(
 [property: CliOption("--license-key")] string LicenseKey
 ) : AzOptions

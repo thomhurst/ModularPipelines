@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("bicep", "build")]
+[CliSubCommand("bicep", "build")]
 public record AzBicepBuildOptions(
 [property: CliOption("--file")] string File
 ) : AzOptions

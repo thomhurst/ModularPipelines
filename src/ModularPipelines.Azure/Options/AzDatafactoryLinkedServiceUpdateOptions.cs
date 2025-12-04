@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "linked-service", "update")]
+[CliSubCommand("datafactory", "linked-service", "update")]
 public record AzDatafactoryLinkedServiceUpdateOptions : AzOptions
 {
     [CliOption("--add")]

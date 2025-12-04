@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("maintenance", "applyupdate", "show")]
+[CliSubCommand("maintenance", "applyupdate", "show")]
 public record AzMaintenanceApplyupdateShowOptions : AzOptions
 {
     [CliOption("--apply-update-name")]

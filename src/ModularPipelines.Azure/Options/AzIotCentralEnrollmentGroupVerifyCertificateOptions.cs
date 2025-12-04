@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "enrollment-group", "verify-certificate")]
+[CliSubCommand("iot", "central", "enrollment-group", "verify-certificate")]
 public record AzIotCentralEnrollmentGroupVerifyCertificateOptions(
 [property: CliOption("--app-id")] string AppId,
 [property: CliOption("--group-id")] string GroupId

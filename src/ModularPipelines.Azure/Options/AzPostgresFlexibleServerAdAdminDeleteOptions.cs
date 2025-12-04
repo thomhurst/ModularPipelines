@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "ad-admin", "delete")]
+[CliSubCommand("postgres", "flexible-server", "ad-admin", "delete")]
 public record AzPostgresFlexibleServerAdAdminDeleteOptions(
 [property: CliOption("--object-id")] string ObjectId,
 [property: CliOption("--resource-group")] string ResourceGroup,

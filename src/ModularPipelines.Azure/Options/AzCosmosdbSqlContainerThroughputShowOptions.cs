@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "sql", "container", "throughput", "show")]
+[CliSubCommand("cosmosdb", "sql", "container", "throughput", "show")]
 public record AzCosmosdbSqlContainerThroughputShowOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--database-name")] string DatabaseName,

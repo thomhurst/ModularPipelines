@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dedicated-hsm", "wait")]
+[CliSubCommand("dedicated-hsm", "wait")]
 public record AzDedicatedHsmWaitOptions : AzOptions
 {
     [CliFlag("--created")]

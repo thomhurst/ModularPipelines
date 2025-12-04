@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("csvmware", "vm", "nic", "delete")]
+[CliSubCommand("csvmware", "vm", "nic", "delete")]
 public record AzCsvmwareVmNicDeleteOptions(
 [property: CliOption("--nics")] string Nics,
 [property: CliOption("--resource-group")] string ResourceGroup,

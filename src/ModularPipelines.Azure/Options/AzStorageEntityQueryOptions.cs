@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "entity", "query")]
+[CliSubCommand("storage", "entity", "query")]
 public record AzStorageEntityQueryOptions(
 [property: CliOption("--table-name")] string TableName
 ) : AzOptions

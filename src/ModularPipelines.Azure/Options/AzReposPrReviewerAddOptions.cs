@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "pr", "reviewer", "add")]
+[CliSubCommand("repos", "pr", "reviewer", "add")]
 public record AzReposPrReviewerAddOptions(
 [property: CliOption("--id")] string Id,
 [property: CliOption("--reviewers")] string Reviewers

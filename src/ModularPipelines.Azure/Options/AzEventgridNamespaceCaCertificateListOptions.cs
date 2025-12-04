@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "namespace", "ca-certificate", "list")]
+[CliSubCommand("eventgrid", "namespace", "ca-certificate", "list")]
 public record AzEventgridNamespaceCaCertificateListOptions(
 [property: CliOption("--namespace-name")] string NamespaceName,
 [property: CliOption("--resource-group")] string ResourceGroup

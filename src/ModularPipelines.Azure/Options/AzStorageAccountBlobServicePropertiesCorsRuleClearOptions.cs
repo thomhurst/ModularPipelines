@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "blob-service-properties", "cors-rule", "clear")]
+[CliSubCommand("storage", "account", "blob-service-properties", "cors-rule", "clear")]
 public record AzStorageAccountBlobServicePropertiesCorsRuleClearOptions(
 [property: CliOption("--account-name")] int AccountName
 ) : AzOptions

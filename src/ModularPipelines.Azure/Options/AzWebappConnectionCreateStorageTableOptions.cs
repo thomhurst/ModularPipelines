@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "connection", "create", "storage-table")]
+[CliSubCommand("webapp", "connection", "create", "storage-table")]
 public record AzWebappConnectionCreateStorageTableOptions : AzOptions
 {
     [CliOption("--account")]

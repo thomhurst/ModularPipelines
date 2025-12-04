@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "script-cmdlet", "list")]
+[CliSubCommand("vmware", "script-cmdlet", "list")]
 public record AzVmwareScriptCmdletListOptions(
 [property: CliOption("--private-cloud")] string PrivateCloud,
 [property: CliOption("--resource-group")] string ResourceGroup,

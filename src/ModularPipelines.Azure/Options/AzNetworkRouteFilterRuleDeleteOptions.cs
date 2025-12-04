@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "route-filter", "rule", "delete")]
+[CliSubCommand("network", "route-filter", "rule", "delete")]
 public record AzNetworkRouteFilterRuleDeleteOptions : AzOptions
 {
     [CliOption("--filter-name")]

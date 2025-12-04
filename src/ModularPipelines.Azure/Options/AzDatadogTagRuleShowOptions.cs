@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datadog", "tag-rule", "show")]
+[CliSubCommand("datadog", "tag-rule", "show")]
 public record AzDatadogTagRuleShowOptions : AzOptions
 {
     [CliOption("--ids")]

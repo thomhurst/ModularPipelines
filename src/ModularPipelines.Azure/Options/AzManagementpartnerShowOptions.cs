@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("managementpartner", "show")]
+[CliSubCommand("managementpartner", "show")]
 public record AzManagementpartnerShowOptions : AzOptions
 {
     [CliOption("--partner-id")]

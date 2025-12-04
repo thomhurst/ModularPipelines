@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "preview-configuration", "mysql")]
+[CliSubCommand("connection", "preview-configuration", "mysql")]
 public record AzConnectionPreviewConfigurationMysqlOptions : AzOptions
 {
     [CliOption("--client-type")]

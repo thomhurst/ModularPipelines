@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("signalr", "replica", "create")]
+[CliSubCommand("signalr", "replica", "create")]
 public record AzSignalrReplicaCreateOptions(
 [property: CliOption("--replica-name")] string ReplicaName,
 [property: CliOption("--resource-group")] string ResourceGroup,

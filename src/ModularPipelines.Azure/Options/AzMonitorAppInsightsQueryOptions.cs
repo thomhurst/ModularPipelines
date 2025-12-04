@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "app-insights", "query")]
+[CliSubCommand("monitor", "app-insights", "query")]
 public record AzMonitorAppInsightsQueryOptions(
 [property: CliOption("--analytics-query")] string AnalyticsQuery
 ) : AzOptions

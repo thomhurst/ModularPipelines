@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi-arc", "endpoint", "list")]
+[CliSubCommand("sql", "mi-arc", "endpoint", "list")]
 public record AzSqlMiArcEndpointListOptions : AzOptions
 {
     [CliOption("--k8s-namespace")]

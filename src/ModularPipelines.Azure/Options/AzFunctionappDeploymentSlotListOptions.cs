@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "deployment", "slot", "list")]
+[CliSubCommand("functionapp", "deployment", "slot", "list")]
 public record AzFunctionappDeploymentSlotListOptions : AzOptions
 {
     [CliOption("--ids")]

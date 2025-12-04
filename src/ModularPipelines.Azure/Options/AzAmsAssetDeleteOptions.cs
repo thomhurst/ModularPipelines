@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "asset", "delete")]
+[CliSubCommand("ams", "asset", "delete")]
 public record AzAmsAssetDeleteOptions : AzOptions
 {
     [CliOption("--account-name")]

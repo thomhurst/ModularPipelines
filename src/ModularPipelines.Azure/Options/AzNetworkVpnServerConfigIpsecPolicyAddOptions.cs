@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vpn-server-config", "ipsec-policy", "add")]
+[CliSubCommand("network", "vpn-server-config", "ipsec-policy", "add")]
 public record AzNetworkVpnServerConfigIpsecPolicyAddOptions(
 [property: CliOption("--dh-group")] string DhGroup,
 [property: CliOption("--ike-encryption")] string IkeEncryption,

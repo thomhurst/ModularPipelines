@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "disk", "detach")]
+[CliSubCommand("vmss", "disk", "detach")]
 public record AzVmssDiskDetachOptions(
 [property: CliOption("--lun")] string Lun
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "linked-service", "update")]
+[CliSubCommand("synapse", "linked-service", "update")]
 public record AzSynapseLinkedServiceUpdateOptions(
 [property: CliOption("--file")] string File,
 [property: CliOption("--name")] string Name,

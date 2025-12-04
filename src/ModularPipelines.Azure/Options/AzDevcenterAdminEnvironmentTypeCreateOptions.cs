@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "environment-type", "create")]
+[CliSubCommand("devcenter", "admin", "environment-type", "create")]
 public record AzDevcenterAdminEnvironmentTypeCreateOptions(
 [property: CliOption("--dev-center")] string DevCenter,
 [property: CliOption("--environment-type-name")] string EnvironmentTypeName,

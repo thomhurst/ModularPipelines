@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "run", "submit-script")]
+[CliSubCommand("ml", "run", "submit-script")]
 public record AzMlRunSubmitScriptOptions : AzOptions
 {
     [CliFlag("--async")]

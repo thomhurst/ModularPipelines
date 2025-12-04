@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "server", "firewall-rule", "create")]
+[CliSubCommand("mariadb", "server", "firewall-rule", "create")]
 public record AzMariadbServerFirewallRuleCreateOptions(
 [property: CliOption("--end-ip-address")] string EndIpAddress,
 [property: CliOption("--name")] string Name,

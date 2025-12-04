@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("boards", "iteration", "team", "show-default-iteration")]
+[CliSubCommand("boards", "iteration", "team", "show-default-iteration")]
 public record AzBoardsIterationTeamShowDefaultIterationOptions(
 [property: CliOption("--team")] string Team
 ) : AzOptions

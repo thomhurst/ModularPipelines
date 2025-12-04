@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "topic", "private-endpoint-connection", "approve")]
+[CliSubCommand("eventgrid", "topic", "private-endpoint-connection", "approve")]
 public record AzEventgridTopicPrivateEndpointConnectionApproveOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "encryption", "enable")]
+[CliSubCommand("vm", "encryption", "enable")]
 public record AzVmEncryptionEnableOptions(
 [property: CliOption("--disk-encryption-keyvault")] string DiskEncryptionKeyvault
 ) : AzOptions

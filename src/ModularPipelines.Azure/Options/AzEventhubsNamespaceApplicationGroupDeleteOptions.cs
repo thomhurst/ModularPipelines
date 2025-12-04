@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "application-group", "delete")]
+[CliSubCommand("eventhubs", "namespace", "application-group", "delete")]
 public record AzEventhubsNamespaceApplicationGroupDeleteOptions : AzOptions
 {
     [CliOption("--application-group-name")]

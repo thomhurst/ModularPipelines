@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "managed-private-endpoint", "update")]
+[CliSubCommand("datafactory", "managed-private-endpoint", "update")]
 public record AzDatafactoryManagedPrivateEndpointUpdateOptions : AzOptions
 {
     [CliOption("--add")]

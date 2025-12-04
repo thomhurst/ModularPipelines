@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hdinsight-on-aks", "clusterpool", "delete")]
+[CliSubCommand("hdinsight-on-aks", "clusterpool", "delete")]
 public record AzHdinsightOnAksClusterpoolDeleteOptions : AzOptions
 {
     [CliOption("--cluster-pool-name")]

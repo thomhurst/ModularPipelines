@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("self-help", "diagnostic", "show")]
+[CliSubCommand("self-help", "diagnostic", "show")]
 public record AzSelfHelpDiagnosticShowOptions(
 [property: CliOption("--diagnostic-name")] string DiagnosticName,
 [property: CliOption("--scope")] string Scope

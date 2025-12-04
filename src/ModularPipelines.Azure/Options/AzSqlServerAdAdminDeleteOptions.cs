@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "ad-admin", "delete")]
+[CliSubCommand("sql", "server", "ad-admin", "delete")]
 public record AzSqlServerAdAdminDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

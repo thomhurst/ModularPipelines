@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kusto", "attached-database-configuration", "create")]
+[CliSubCommand("synapse", "kusto", "attached-database-configuration", "create")]
 public record AzSynapseKustoAttachedDatabaseConfigurationCreateOptions(
 [property: CliFlag("--attached-database-configuration-name")] bool AttachedDatabaseConfigurationName,
 [property: CliOption("--kusto-pool-name")] string KustoPoolName,

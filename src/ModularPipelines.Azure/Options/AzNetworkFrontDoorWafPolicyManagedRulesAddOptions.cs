@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "front-door", "waf-policy", "managed-rules", "add")]
+[CliSubCommand("network", "front-door", "waf-policy", "managed-rules", "add")]
 public record AzNetworkFrontDoorWafPolicyManagedRulesAddOptions(
 [property: CliOption("--type")] string Type,
 [property: CliOption("--version")] string Version

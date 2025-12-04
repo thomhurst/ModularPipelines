@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("grafana", "api-key", "list")]
+[CliSubCommand("grafana", "api-key", "list")]
 public record AzGrafanaApiKeyListOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

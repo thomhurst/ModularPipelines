@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "list-service-aliases")]
+[CliSubCommand("network", "list-service-aliases")]
 public record AzNetworkListServiceAliasesOptions : AzOptions
 {
     [CliOption("--location")]

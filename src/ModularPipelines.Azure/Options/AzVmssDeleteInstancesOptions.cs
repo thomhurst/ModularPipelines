@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "delete-instances")]
+[CliSubCommand("vmss", "delete-instances")]
 public record AzVmssDeleteInstancesOptions(
 [property: CliOption("--instance-ids")] string InstanceIds,
 [property: CliOption("--name")] string Name,

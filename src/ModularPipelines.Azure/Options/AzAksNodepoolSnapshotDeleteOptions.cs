@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "nodepool", "snapshot", "delete")]
+[CliSubCommand("aks", "nodepool", "snapshot", "delete")]
 public record AzAksNodepoolSnapshotDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

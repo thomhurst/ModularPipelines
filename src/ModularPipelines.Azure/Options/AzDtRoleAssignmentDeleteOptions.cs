@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "role-assignment", "delete")]
+[CliSubCommand("dt", "role-assignment", "delete")]
 public record AzDtRoleAssignmentDeleteOptions(
 [property: CliOption("--dt-name")] string DtName
 ) : AzOptions

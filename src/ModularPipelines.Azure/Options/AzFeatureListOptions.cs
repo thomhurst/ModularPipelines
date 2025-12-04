@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("feature", "list")]
+[CliSubCommand("feature", "list")]
 public record AzFeatureListOptions : AzOptions
 {
     [CliOption("--namespace")]

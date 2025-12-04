@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "ingress", "enable")]
+[CliSubCommand("containerapp", "ingress", "enable")]
 public record AzContainerappIngressEnableOptions(
 [property: CliOption("--target-port")] string TargetPort,
 [property: CliOption("--type")] string Type

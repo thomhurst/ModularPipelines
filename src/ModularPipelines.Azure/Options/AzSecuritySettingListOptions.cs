@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "setting", "list")]
+[CliSubCommand("security", "setting", "list")]
 public record AzSecuritySettingListOptions : AzOptions;

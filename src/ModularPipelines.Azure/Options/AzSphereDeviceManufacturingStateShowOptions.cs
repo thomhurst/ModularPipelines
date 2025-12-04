@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "manufacturing-state", "show")]
+[CliSubCommand("sphere", "device", "manufacturing-state", "show")]
 public record AzSphereDeviceManufacturingStateShowOptions : AzOptions
 {
     [CliOption("--device")]

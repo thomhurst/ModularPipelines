@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack", "group", "export")]
+[CliSubCommand("stack", "group", "export")]
 public record AzStackGroupExportOptions : AzOptions
 {
     [CliOption("--id")]

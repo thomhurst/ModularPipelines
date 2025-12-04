@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "connection", "create", "eventhub")]
+[CliSubCommand("spring", "connection", "create", "eventhub")]
 public record AzSpringConnectionCreateEventhubOptions : AzOptions
 {
     [CliOption("--app")]

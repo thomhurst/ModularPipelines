@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dnc", "delegated-subnet-service", "delete")]
+[CliSubCommand("dnc", "delegated-subnet-service", "delete")]
 public record AzDncDelegatedSubnetServiceDeleteOptions : AzOptions
 {
     [CliFlag("--force-delete")]

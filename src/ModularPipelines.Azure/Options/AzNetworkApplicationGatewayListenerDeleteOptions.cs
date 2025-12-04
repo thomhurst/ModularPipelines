@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "listener", "delete")]
+[CliSubCommand("network", "application-gateway", "listener", "delete")]
 public record AzNetworkApplicationGatewayListenerDeleteOptions(
 [property: CliOption("--gateway-name")] string GatewayName,
 [property: CliOption("--name")] string Name,

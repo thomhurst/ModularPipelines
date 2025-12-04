@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation", "python3-package", "delete")]
+[CliSubCommand("automation", "python3-package", "delete")]
 public record AzAutomationPython3PackageDeleteOptions : AzOptions
 {
     [CliOption("--automation-account-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "virtual-cluster", "delete")]
+[CliSubCommand("sql", "virtual-cluster", "delete")]
 public record AzSqlVirtualClusterDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

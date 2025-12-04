@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "blob", "delete-batch")]
+[CliSubCommand("storage", "blob", "delete-batch")]
 public record AzStorageBlobDeleteBatchOptions(
 [property: CliOption("--source")] string Source
 ) : AzOptions

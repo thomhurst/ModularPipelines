@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "kv", "import")]
+[CliSubCommand("appconfig", "kv", "import")]
 public record AzAppconfigKvImportOptions(
 [property: CliOption("--source")] string Source
 ) : AzOptions

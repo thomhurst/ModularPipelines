@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "boot-diagnostics", "get-boot-log-uris")]
+[CliSubCommand("vm", "boot-diagnostics", "get-boot-log-uris")]
 public record AzVmBootDiagnosticsGetBootLogUrisOptions : AzOptions
 {
     [CliOption("--expire")]

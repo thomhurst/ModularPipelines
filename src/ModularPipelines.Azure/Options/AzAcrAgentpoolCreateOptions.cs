@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "agentpool", "create")]
+[CliSubCommand("acr", "agentpool", "create")]
 public record AzAcrAgentpoolCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--registry")] string Registry

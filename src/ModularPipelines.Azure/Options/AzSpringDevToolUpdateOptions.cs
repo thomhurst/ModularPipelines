@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "dev-tool", "update")]
+[CliSubCommand("spring", "dev-tool", "update")]
 public record AzSpringDevToolUpdateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--service")] string Service

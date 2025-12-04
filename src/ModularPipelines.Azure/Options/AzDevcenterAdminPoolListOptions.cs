@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "pool", "list")]
+[CliSubCommand("devcenter", "admin", "pool", "list")]
 public record AzDevcenterAdminPoolListOptions(
 [property: CliOption("--project")] string Project,
 [property: CliOption("--resource-group")] string ResourceGroup

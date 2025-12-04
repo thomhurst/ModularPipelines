@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "create")]
+[CliSubCommand("webapp", "create")]
 public record AzWebappCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--plan")] string Plan,

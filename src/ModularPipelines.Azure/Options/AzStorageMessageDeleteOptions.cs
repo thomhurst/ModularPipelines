@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "message", "delete")]
+[CliSubCommand("storage", "message", "delete")]
 public record AzStorageMessageDeleteOptions(
 [property: CliOption("--id")] string Id,
 [property: CliOption("--pop-receipt")] string PopReceipt,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "front-door", "delete")]
+[CliSubCommand("network", "front-door", "delete")]
 public record AzNetworkFrontDoorDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

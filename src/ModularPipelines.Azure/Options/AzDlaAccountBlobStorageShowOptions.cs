@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "account", "blob-storage", "show")]
+[CliSubCommand("dla", "account", "blob-storage", "show")]
 public record AzDlaAccountBlobStorageShowOptions(
 [property: CliOption("--storage-account-name")] int StorageAccountName
 ) : AzOptions

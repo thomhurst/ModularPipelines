@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "link-connection", "update-landing-zone-credential")]
+[CliSubCommand("synapse", "link-connection", "update-landing-zone-credential")]
 public record AzSynapseLinkConnectionUpdateLandingZoneCredentialOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--sas-token")] string SasToken,

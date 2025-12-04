@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "update")]
+[CliSubCommand("cosmosdb", "update")]
 public record AzCosmosdbUpdateOptions : AzOptions
 {
     [CliOption("--analytical-storage-schema-type")]

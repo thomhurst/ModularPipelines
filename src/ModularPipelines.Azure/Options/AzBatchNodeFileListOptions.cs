@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "node", "file", "list")]
+[CliSubCommand("batch", "node", "file", "list")]
 public record AzBatchNodeFileListOptions(
 [property: CliOption("--node-id")] string NodeId,
 [property: CliOption("--pool-id")] string PoolId

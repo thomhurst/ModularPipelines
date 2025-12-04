@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "connection", "wait")]
+[CliSubCommand("functionapp", "connection", "wait")]
 public record AzFunctionappConnectionWaitOptions : AzOptions
 {
     [CliOption("--connection")]

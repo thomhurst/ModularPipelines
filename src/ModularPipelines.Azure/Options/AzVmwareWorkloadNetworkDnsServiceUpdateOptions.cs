@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "dns-service", "update")]
+[CliSubCommand("vmware", "workload-network", "dns-service", "update")]
 public record AzVmwareWorkloadNetworkDnsServiceUpdateOptions : AzOptions
 {
     [CliOption("--add")]

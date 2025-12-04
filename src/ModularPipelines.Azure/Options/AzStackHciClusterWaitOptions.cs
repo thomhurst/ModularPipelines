@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci", "cluster", "wait")]
+[CliSubCommand("stack-hci", "cluster", "wait")]
 public record AzStackHciClusterWaitOptions : AzOptions
 {
     [CliOption("--cluster-name")]

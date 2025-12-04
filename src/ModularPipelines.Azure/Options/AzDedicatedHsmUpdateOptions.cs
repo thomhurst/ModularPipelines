@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dedicated-hsm", "update")]
+[CliSubCommand("dedicated-hsm", "update")]
 public record AzDedicatedHsmUpdateOptions : AzOptions
 {
     [CliOption("--ids")]

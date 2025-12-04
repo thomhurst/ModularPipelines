@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "lb", "inbound-nat-rule", "list")]
+[CliSubCommand("network", "lb", "inbound-nat-rule", "list")]
 public record AzNetworkLbInboundNatRuleListOptions(
 [property: CliOption("--lb-name")] string LbName,
 [property: CliOption("--resource-group")] string ResourceGroup

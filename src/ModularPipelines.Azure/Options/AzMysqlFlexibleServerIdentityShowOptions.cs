@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "identity", "show")]
+[CliSubCommand("mysql", "flexible-server", "identity", "show")]
 public record AzMysqlFlexibleServerIdentityShowOptions(
 [property: CliOption("--identity")] string Identity,
 [property: CliOption("--resource-group")] string ResourceGroup,

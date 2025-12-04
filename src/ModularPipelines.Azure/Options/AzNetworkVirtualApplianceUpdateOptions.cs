@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "virtual-appliance", "update")]
+[CliSubCommand("network", "virtual-appliance", "update")]
 public record AzNetworkVirtualApplianceUpdateOptions : AzOptions
 {
     [CliOption("--add")]

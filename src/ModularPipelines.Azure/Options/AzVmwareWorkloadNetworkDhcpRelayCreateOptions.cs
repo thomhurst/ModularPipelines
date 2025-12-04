@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "dhcp", "relay", "create")]
+[CliSubCommand("vmware", "workload-network", "dhcp", "relay", "create")]
 public record AzVmwareWorkloadNetworkDhcpRelayCreateOptions(
 [property: CliOption("--dhcp")] string Dhcp,
 [property: CliOption("--private-cloud")] string PrivateCloud,

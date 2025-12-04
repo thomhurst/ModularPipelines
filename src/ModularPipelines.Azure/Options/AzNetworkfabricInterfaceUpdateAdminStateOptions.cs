@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "interface", "update-admin-state")]
+[CliSubCommand("networkfabric", "interface", "update-admin-state")]
 public record AzNetworkfabricInterfaceUpdateAdminStateOptions : AzOptions
 {
     [CliOption("--device")]

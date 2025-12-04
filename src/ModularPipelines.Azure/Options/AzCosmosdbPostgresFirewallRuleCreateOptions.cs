@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "postgres", "firewall-rule", "create")]
+[CliSubCommand("cosmosdb", "postgres", "firewall-rule", "create")]
 public record AzCosmosdbPostgresFirewallRuleCreateOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--end-ip-address")] string EndIpAddress,

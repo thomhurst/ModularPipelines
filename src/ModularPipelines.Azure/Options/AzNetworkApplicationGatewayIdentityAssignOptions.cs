@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "identity", "assign")]
+[CliSubCommand("network", "application-gateway", "identity", "assign")]
 public record AzNetworkApplicationGatewayIdentityAssignOptions(
 [property: CliOption("--gateway-name")] string GatewayName,
 [property: CliOption("--identity")] string Identity,

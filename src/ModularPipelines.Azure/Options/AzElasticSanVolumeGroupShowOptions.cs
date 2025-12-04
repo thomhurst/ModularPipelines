@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("elastic-san", "volume-group", "show")]
+[CliSubCommand("elastic-san", "volume-group", "show")]
 public record AzElasticSanVolumeGroupShowOptions : AzOptions
 {
     [CliOption("--elastic-san")]

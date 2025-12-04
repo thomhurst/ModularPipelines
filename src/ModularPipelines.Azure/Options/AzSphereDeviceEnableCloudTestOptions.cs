@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "enable-cloud-test")]
+[CliSubCommand("sphere", "device", "enable-cloud-test")]
 public record AzSphereDeviceEnableCloudTestOptions(
 [property: CliOption("--catalog")] string Catalog,
 [property: CliOption("--resource-group")] string ResourceGroup

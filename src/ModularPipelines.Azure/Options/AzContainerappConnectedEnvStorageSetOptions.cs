@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "connected-env", "storage", "set")]
+[CliSubCommand("containerapp", "connected-env", "storage", "set")]
 public record AzContainerappConnectedEnvStorageSetOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datamigration", "sql-managed-instance", "cutover")]
+[CliSubCommand("datamigration", "sql-managed-instance", "cutover")]
 public record AzDatamigrationSqlManagedInstanceCutoverOptions(
 [property: CliOption("--migration-operation-id")] string MigrationOperationId
 ) : AzOptions

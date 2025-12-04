@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci-vm", "create")]
+[CliSubCommand("stack-hci-vm", "create")]
 public record AzStackHciVmCreateOptions(
 [property: CliOption("--custom-location")] string CustomLocation,
 [property: CliOption("--name")] string Name,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ad", "group", "owner", "add")]
+[CliSubCommand("ad", "group", "owner", "add")]
 public record AzAdGroupOwnerAddOptions(
 [property: CliOption("--group")] string Group,
 [property: CliOption("--owner-object-id")] string OwnerObjectId

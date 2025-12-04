@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("image", "copy")]
+[CliSubCommand("image", "copy")]
 public record AzImageCopyOptions(
 [property: CliOption("--source-object-name")] string SourceObjectName,
 [property: CliOption("--source-resource-group")] string SourceResourceGroup,

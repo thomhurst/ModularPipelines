@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apic", "api", "deployment", "head")]
+[CliSubCommand("apic", "api", "deployment", "head")]
 public record AzApicApiDeploymentHeadOptions : AzOptions
 {
     [CliOption("--api")]

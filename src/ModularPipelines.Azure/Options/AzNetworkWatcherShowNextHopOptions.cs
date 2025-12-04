@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "watcher", "show-next-hop")]
+[CliSubCommand("network", "watcher", "show-next-hop")]
 public record AzNetworkWatcherShowNextHopOptions(
 [property: CliOption("--dest-ip")] string DestIp,
 [property: CliOption("--source-ip")] string SourceIp,

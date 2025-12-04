@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("nginx", "deployment", "show")]
+[CliSubCommand("nginx", "deployment", "show")]
 public record AzNginxDeploymentShowOptions : AzOptions
 {
     [CliOption("--deployment-name")]

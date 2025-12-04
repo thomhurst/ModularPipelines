@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hdinsight-on-aks", "clusterpool", "wait")]
+[CliSubCommand("hdinsight-on-aks", "clusterpool", "wait")]
 public record AzHdinsightOnAksClusterpoolWaitOptions : AzOptions
 {
     [CliOption("--cluster-pool-name")]

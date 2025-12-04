@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "apply-network-updates")]
+[CliSubCommand("apim", "apply-network-updates")]
 public record AzApimApplyNetworkUpdatesOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

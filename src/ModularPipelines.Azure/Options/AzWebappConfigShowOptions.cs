@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "show")]
+[CliSubCommand("webapp", "config", "show")]
 public record AzWebappConfigShowOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "open-port")]
+[CliSubCommand("vm", "open-port")]
 public record AzVmOpenPortOptions(
 [property: CliOption("--port")] int Port
 ) : AzOptions

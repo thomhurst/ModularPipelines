@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "endpoint", "create", "servicebus")]
+[CliSubCommand("dt", "endpoint", "create", "servicebus")]
 public record AzDtEndpointCreateServicebusOptions(
 [property: CliOption("--dt-name")] string DtName,
 [property: CliOption("--en")] string En,

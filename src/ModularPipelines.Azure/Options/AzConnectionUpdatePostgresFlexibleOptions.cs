@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "update", "postgres-flexible")]
+[CliSubCommand("connection", "update", "postgres-flexible")]
 public record AzConnectionUpdatePostgresFlexibleOptions : AzOptions
 {
     [CliOption("--client-type")]

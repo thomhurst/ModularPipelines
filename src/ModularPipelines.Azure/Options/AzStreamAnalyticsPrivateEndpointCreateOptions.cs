@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stream-analytics", "private-endpoint", "create")]
+[CliSubCommand("stream-analytics", "private-endpoint", "create")]
 public record AzStreamAnalyticsPrivateEndpointCreateOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--name")] string Name,

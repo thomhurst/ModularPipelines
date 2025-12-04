@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "lb", "frontend-ip", "wait")]
+[CliSubCommand("network", "lb", "frontend-ip", "wait")]
 public record AzNetworkLbFrontendIpWaitOptions : AzOptions
 {
     [CliFlag("--created")]

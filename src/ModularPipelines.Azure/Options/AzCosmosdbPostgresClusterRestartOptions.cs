@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "postgres", "cluster", "restart")]
+[CliSubCommand("cosmosdb", "postgres", "cluster", "restart")]
 public record AzCosmosdbPostgresClusterRestartOptions : AzOptions
 {
     [CliOption("--cluster-name")]

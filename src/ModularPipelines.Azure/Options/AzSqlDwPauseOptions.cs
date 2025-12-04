@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "dw", "pause")]
+[CliSubCommand("sql", "dw", "pause")]
 public record AzSqlDwPauseOptions : AzOptions
 {
     [CliOption("--ids")]

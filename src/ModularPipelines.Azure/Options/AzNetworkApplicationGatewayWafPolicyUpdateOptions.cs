@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "waf-policy", "update")]
+[CliSubCommand("network", "application-gateway", "waf-policy", "update")]
 public record AzNetworkApplicationGatewayWafPolicyUpdateOptions : AzOptions
 {
     [CliOption("--add")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("support", "tickets", "update")]
+[CliSubCommand("support", "tickets", "update")]
 public record AzSupportTicketsUpdateOptions(
 [property: CliOption("--ticket-name")] string TicketName
 ) : AzOptions

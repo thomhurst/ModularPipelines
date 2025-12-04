@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("role", "definition", "list")]
+[CliSubCommand("role", "definition", "list")]
 public record AzRoleDefinitionListOptions : AzOptions
 {
     [CliFlag("--custom-role-only")]

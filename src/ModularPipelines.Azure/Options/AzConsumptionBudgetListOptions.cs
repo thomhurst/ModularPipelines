@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("consumption", "budget", "list")]
+[CliSubCommand("consumption", "budget", "list")]
 public record AzConsumptionBudgetListOptions : AzOptions
 {
     [CliOption("--max-items")]

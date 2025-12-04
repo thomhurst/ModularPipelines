@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "connected-registry", "show")]
+[CliSubCommand("acr", "connected-registry", "show")]
 public record AzAcrConnectedRegistryShowOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--registry")] string Registry

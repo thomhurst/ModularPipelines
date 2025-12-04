@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "account", "storage", "sync-storage-keys")]
+[CliSubCommand("ams", "account", "storage", "sync-storage-keys")]
 public record AzAmsAccountStorageSyncStorageKeysOptions(
 [property: CliOption("--storage-account-id")] int StorageAccountId
 ) : AzOptions

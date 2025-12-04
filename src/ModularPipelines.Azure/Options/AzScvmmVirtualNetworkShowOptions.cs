@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "virtual-network", "show")]
+[CliSubCommand("scvmm", "virtual-network", "show")]
 public record AzScvmmVirtualNetworkShowOptions : AzOptions
 {
     [CliOption("--ids")]

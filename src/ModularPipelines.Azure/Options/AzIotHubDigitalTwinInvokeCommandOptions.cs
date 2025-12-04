@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "digital-twin", "invoke-command")]
+[CliSubCommand("iot", "hub", "digital-twin", "invoke-command")]
 public record AzIotHubDigitalTwinInvokeCommandOptions(
 [property: CliOption("--cn")] string Cn,
 [property: CliOption("--device-id")] string DeviceId

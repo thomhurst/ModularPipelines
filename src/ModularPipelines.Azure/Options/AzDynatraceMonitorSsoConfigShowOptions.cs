@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dynatrace", "monitor", "sso-config", "show")]
+[CliSubCommand("dynatrace", "monitor", "sso-config", "show")]
 public record AzDynatraceMonitorSsoConfigShowOptions : AzOptions
 {
     [CliOption("--configuration-name")]

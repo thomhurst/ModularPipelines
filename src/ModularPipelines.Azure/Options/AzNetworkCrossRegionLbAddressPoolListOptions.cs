@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "cross-region-lb", "address-pool", "list")]
+[CliSubCommand("network", "cross-region-lb", "address-pool", "list")]
 public record AzNetworkCrossRegionLbAddressPoolListOptions(
 [property: CliOption("--lb-name")] string LbName,
 [property: CliOption("--resource-group")] string ResourceGroup

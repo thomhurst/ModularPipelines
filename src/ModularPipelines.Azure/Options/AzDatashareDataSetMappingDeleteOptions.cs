@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datashare", "data-set-mapping", "delete")]
+[CliSubCommand("datashare", "data-set-mapping", "delete")]
 public record AzDatashareDataSetMappingDeleteOptions : AzOptions
 {
     [CliOption("--account-name")]

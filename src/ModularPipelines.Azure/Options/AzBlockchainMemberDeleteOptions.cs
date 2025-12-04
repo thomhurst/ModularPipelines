@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("blockchain", "member", "delete")]
+[CliSubCommand("blockchain", "member", "delete")]
 public record AzBlockchainMemberDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

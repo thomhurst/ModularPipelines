@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "fs", "undelete-path")]
+[CliSubCommand("storage", "fs", "undelete-path")]
 public record AzStorageFsUndeletePathOptions(
 [property: CliOption("--deleted-path-name")] string DeletedPathName,
 [property: CliOption("--deletion-id")] string DeletionId,

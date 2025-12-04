@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "application-configuration-service", "bind")]
+[CliSubCommand("spring", "application-configuration-service", "bind")]
 public record AzSpringApplicationConfigurationServiceBindOptions(
 [property: CliOption("--app")] string App,
 [property: CliOption("--resource-group")] string ResourceGroup,

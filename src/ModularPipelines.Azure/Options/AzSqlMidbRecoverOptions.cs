@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "midb", "recover")]
+[CliSubCommand("sql", "midb", "recover")]
 public record AzSqlMidbRecoverOptions(
 [property: CliOption("--recoverable-database-id")] string RecoverableDatabaseId
 ) : AzOptions

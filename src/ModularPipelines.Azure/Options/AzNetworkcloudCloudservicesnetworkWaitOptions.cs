@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cloudservicesnetwork", "wait")]
+[CliSubCommand("networkcloud", "cloudservicesnetwork", "wait")]
 public record AzNetworkcloudCloudservicesnetworkWaitOptions : AzOptions
 {
     [CliOption("--cloud-services-network-name")]

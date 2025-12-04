@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "ingress", "cors", "enable")]
+[CliSubCommand("containerapp", "ingress", "cors", "enable")]
 public record AzContainerappIngressCorsEnableOptions(
 [property: CliFlag("--allowed-origins")] bool AllowedOrigins
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "cloud-link", "delete")]
+[CliSubCommand("vmware", "cloud-link", "delete")]
 public record AzVmwareCloudLinkDeleteOptions : AzOptions
 {
     [CliOption("--cloud-link-name")]

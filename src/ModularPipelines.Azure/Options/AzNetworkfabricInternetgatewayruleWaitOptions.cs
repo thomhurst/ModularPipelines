@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "internetgatewayrule", "wait")]
+[CliSubCommand("networkfabric", "internetgatewayrule", "wait")]
 public record AzNetworkfabricInternetgatewayruleWaitOptions : AzOptions
 {
     [CliFlag("--created")]

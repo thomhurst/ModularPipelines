@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "acl", "update")]
+[CliSubCommand("networkfabric", "acl", "update")]
 public record AzNetworkfabricAclUpdateOptions : AzOptions
 {
     [CliOption("--acls-url")]

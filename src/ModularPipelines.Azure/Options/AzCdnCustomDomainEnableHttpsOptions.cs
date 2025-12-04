@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cdn", "custom-domain", "enable-https")]
+[CliSubCommand("cdn", "custom-domain", "enable-https")]
 public record AzCdnCustomDomainEnableHttpsOptions(
 [property: CliOption("--endpoint-name")] string EndpointName,
 [property: CliOption("--name")] string Name,

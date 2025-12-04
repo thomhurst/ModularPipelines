@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ts", "export")]
+[CliSubCommand("ts", "export")]
 public record AzTsExportOptions(
 [property: CliOption("--output-folder")] string OutputFolder
 ) : AzOptions

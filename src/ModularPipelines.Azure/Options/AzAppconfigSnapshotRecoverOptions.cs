@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "snapshot", "recover")]
+[CliSubCommand("appconfig", "snapshot", "recover")]
 public record AzAppconfigSnapshotRecoverOptions(
 [property: CliOption("--snapshot-name")] string SnapshotName
 ) : AzOptions

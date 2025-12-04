@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storagesync", "registered-server", "wait")]
+[CliSubCommand("storagesync", "registered-server", "wait")]
 public record AzStoragesyncRegisteredServerWaitOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--server-id")] string ServerId,

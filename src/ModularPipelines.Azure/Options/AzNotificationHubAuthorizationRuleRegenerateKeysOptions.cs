@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("notification-hub", "authorization-rule", "regenerate-keys")]
+[CliSubCommand("notification-hub", "authorization-rule", "regenerate-keys")]
 public record AzNotificationHubAuthorizationRuleRegenerateKeysOptions(
 [property: CliOption("--policy-key")] string PolicyKey
 ) : AzOptions

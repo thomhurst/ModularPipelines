@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "generalize")]
+[CliSubCommand("vm", "generalize")]
 public record AzVmGeneralizeOptions : AzOptions
 {
     [CliOption("--ids")]

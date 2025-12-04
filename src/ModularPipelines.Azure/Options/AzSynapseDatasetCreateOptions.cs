@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "dataset", "create")]
+[CliSubCommand("synapse", "dataset", "create")]
 public record AzSynapseDatasetCreateOptions(
 [property: CliOption("--file")] string File,
 [property: CliOption("--name")] string Name,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("baremetalinstance", "list")]
+[CliSubCommand("baremetalinstance", "list")]
 public record AzBaremetalinstanceListOptions : AzOptions
 {
     [CliOption("--resource-group")]

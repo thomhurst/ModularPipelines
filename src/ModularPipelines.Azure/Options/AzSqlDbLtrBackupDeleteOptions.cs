@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "ltr-backup", "delete")]
+[CliSubCommand("sql", "db", "ltr-backup", "delete")]
 public record AzSqlDbLtrBackupDeleteOptions(
 [property: CliOption("--database")] string Database,
 [property: CliOption("--location")] string Location,

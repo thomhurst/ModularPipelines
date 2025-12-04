@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "local-user", "delete")]
+[CliSubCommand("storage", "account", "local-user", "delete")]
 public record AzStorageAccountLocalUserDeleteOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--name")] string Name,

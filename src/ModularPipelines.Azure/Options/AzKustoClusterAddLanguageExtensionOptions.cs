@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "cluster", "add-language-extension")]
+[CliSubCommand("kusto", "cluster", "add-language-extension")]
 public record AzKustoClusterAddLanguageExtensionOptions : AzOptions
 {
     [CliOption("--cluster-name")]

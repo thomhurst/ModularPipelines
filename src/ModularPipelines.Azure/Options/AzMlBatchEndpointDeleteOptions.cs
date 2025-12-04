@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "batch-endpoint", "delete")]
+[CliSubCommand("ml", "batch-endpoint", "delete")]
 public record AzMlBatchEndpointDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

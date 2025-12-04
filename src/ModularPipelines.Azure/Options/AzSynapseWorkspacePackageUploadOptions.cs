@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "workspace-package", "upload")]
+[CliSubCommand("synapse", "workspace-package", "upload")]
 public record AzSynapseWorkspacePackageUploadOptions(
 [property: CliOption("--file")] string File,
 [property: CliOption("--workspace-name")] string WorkspaceName

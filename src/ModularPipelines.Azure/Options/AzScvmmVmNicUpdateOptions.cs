@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vm", "nic", "update")]
+[CliSubCommand("scvmm", "vm", "nic", "update")]
 public record AzScvmmVmNicUpdateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--vm-name")] string VmName

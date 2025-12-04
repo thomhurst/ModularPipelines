@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ad", "app", "permission", "grant")]
+[CliSubCommand("ad", "app", "permission", "grant")]
 public record AzAdAppPermissionGrantOptions(
 [property: CliOption("--api")] string Api,
 [property: CliOption("--id")] string Id,

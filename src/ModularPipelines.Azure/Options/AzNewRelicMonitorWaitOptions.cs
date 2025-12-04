@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("new-relic", "monitor", "wait")]
+[CliSubCommand("new-relic", "monitor", "wait")]
 public record AzNewRelicMonitorWaitOptions : AzOptions
 {
     [CliFlag("--created")]

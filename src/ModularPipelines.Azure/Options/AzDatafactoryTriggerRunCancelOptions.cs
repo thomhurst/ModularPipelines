@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "trigger-run", "cancel")]
+[CliSubCommand("datafactory", "trigger-run", "cancel")]
 public record AzDatafactoryTriggerRunCancelOptions : AzOptions
 {
     [CliOption("--factory-name")]

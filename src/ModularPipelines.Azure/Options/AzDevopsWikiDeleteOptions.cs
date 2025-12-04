@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "wiki", "delete")]
+[CliSubCommand("devops", "wiki", "delete")]
 public record AzDevopsWikiDeleteOptions(
 [property: CliOption("--wiki")] string Wiki
 ) : AzOptions

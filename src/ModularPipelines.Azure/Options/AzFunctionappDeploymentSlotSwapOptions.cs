@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "deployment", "slot", "swap")]
+[CliSubCommand("functionapp", "deployment", "slot", "swap")]
 public record AzFunctionappDeploymentSlotSwapOptions(
 [property: CliOption("--slot")] string Slot
 ) : AzOptions

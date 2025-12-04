@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "sql-script", "create")]
+[CliSubCommand("synapse", "sql-script", "create")]
 public record AzSynapseSqlScriptCreateOptions(
 [property: CliOption("--file")] string File,
 [property: CliOption("--name")] string Name,

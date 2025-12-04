@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("boards", "iteration", "team", "set-backlog-iteration")]
+[CliSubCommand("boards", "iteration", "team", "set-backlog-iteration")]
 public record AzBoardsIterationTeamSetBacklogIterationOptions(
 [property: CliOption("--id")] string Id,
 [property: CliOption("--team")] string Team

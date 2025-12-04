@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "deployment", "container", "show-cd-url")]
+[CliSubCommand("webapp", "deployment", "container", "show-cd-url")]
 public record AzWebappDeploymentContainerShowCdUrlOptions : AzOptions
 {
     [CliOption("--ids")]

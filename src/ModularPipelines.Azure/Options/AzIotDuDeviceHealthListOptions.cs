@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "du", "device", "health", "list")]
+[CliSubCommand("iot", "du", "device", "health", "list")]
 public record AzIotDuDeviceHealthListOptions(
 [property: CliOption("--account")] int Account,
 [property: CliOption("--filter")] string Filter,

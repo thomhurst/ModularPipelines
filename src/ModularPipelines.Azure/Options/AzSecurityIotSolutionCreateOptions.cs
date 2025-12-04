@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "iot-solution", "create")]
+[CliSubCommand("security", "iot-solution", "create")]
 public record AzSecurityIotSolutionCreateOptions(
 [property: CliOption("--display-name")] string DisplayName,
 [property: CliOption("--iot-hubs")] string IotHubs,

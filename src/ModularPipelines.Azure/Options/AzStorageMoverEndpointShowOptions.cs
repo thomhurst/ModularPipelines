@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage-mover", "endpoint", "show")]
+[CliSubCommand("storage-mover", "endpoint", "show")]
 public record AzStorageMoverEndpointShowOptions : AzOptions
 {
     [CliOption("--endpoint-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databox", "job", "show")]
+[CliSubCommand("databox", "job", "show")]
 public record AzDataboxJobShowOptions : AzOptions
 {
     [CliOption("--ids")]

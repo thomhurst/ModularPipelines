@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "network", "show-diagnostics")]
+[CliSubCommand("sphere", "device", "network", "show-diagnostics")]
 public record AzSphereDeviceNetworkShowDiagnosticsOptions : AzOptions
 {
     [CliOption("--device")]

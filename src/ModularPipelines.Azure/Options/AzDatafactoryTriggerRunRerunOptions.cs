@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "trigger-run", "rerun")]
+[CliSubCommand("datafactory", "trigger-run", "rerun")]
 public record AzDatafactoryTriggerRunRerunOptions : AzOptions
 {
     [CliOption("--factory-name")]

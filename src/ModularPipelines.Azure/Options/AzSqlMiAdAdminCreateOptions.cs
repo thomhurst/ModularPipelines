@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "ad-admin", "create")]
+[CliSubCommand("sql", "mi", "ad-admin", "create")]
 public record AzSqlMiAdAdminCreateOptions(
 [property: CliOption("--display-name")] string DisplayName,
 [property: CliOption("--managed-instance")] string ManagedInstance,

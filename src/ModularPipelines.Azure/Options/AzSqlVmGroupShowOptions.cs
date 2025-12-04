@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "vm", "group", "show")]
+[CliSubCommand("sql", "vm", "group", "show")]
 public record AzSqlVmGroupShowOptions : AzOptions
 {
     [CliOption("--ids")]

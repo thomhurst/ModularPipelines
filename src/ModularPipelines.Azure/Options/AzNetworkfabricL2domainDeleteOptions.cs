@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "l2domain", "delete")]
+[CliSubCommand("networkfabric", "l2domain", "delete")]
 public record AzNetworkfabricL2domainDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("elastic-san", "volume", "create")]
+[CliSubCommand("elastic-san", "volume", "create")]
 public record AzElasticSanVolumeCreateOptions(
 [property: CliOption("--elastic-san")] string ElasticSan,
 [property: CliOption("--name")] string Name,

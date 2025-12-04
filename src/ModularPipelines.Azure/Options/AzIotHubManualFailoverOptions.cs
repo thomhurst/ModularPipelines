@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "manual-failover")]
+[CliSubCommand("iot", "hub", "manual-failover")]
 public record AzIotHubManualFailoverOptions : AzOptions
 {
     [CliOption("--ids")]

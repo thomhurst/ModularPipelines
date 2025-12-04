@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "virtual-appliance", "site", "delete")]
+[CliSubCommand("network", "virtual-appliance", "site", "delete")]
 public record AzNetworkVirtualApplianceSiteDeleteOptions : AzOptions
 {
     [CliOption("--appliance-name")]

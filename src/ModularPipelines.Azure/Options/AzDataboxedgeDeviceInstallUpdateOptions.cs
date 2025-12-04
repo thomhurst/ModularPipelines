@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databoxedge", "device", "install-update")]
+[CliSubCommand("databoxedge", "device", "install-update")]
 public record AzDataboxedgeDeviceInstallUpdateOptions : AzOptions
 {
     [CliOption("--device-name")]

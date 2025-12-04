@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "server-configuration-option", "wait")]
+[CliSubCommand("sql", "mi", "server-configuration-option", "wait")]
 public record AzSqlMiServerConfigurationOptionWaitOptions : AzOptions
 {
     [CliFlag("--created")]

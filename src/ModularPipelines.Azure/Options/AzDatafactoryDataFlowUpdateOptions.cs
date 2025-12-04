@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "data-flow", "update")]
+[CliSubCommand("datafactory", "data-flow", "update")]
 public record AzDatafactoryDataFlowUpdateOptions(
 [property: CliOption("--properties")] string Properties
 ) : AzOptions

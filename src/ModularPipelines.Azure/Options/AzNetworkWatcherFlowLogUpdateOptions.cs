@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "watcher", "flow-log", "update")]
+[CliSubCommand("network", "watcher", "flow-log", "update")]
 public record AzNetworkWatcherFlowLogUpdateOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "backup-instance", "adhoc-backup")]
+[CliSubCommand("dataprotection", "backup-instance", "adhoc-backup")]
 public record AzDataprotectionBackupInstanceAdhocBackupOptions(
 [property: CliOption("--rule-name")] string RuleName
 ) : AzOptions

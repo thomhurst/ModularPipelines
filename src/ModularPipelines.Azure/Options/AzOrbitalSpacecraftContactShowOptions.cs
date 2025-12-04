@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("orbital", "spacecraft", "contact", "show")]
+[CliSubCommand("orbital", "spacecraft", "contact", "show")]
 public record AzOrbitalSpacecraftContactShowOptions : AzOptions
 {
     [CliOption("--contact-name")]

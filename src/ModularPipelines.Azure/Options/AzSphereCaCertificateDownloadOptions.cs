@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "ca-certificate", "download")]
+[CliSubCommand("sphere", "ca-certificate", "download")]
 public record AzSphereCaCertificateDownloadOptions(
 [property: CliOption("--catalog")] string Catalog,
 [property: CliOption("--output-file")] string OutputFile,

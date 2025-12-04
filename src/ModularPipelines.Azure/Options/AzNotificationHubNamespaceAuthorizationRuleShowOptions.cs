@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("notification-hub", "namespace", "authorization-rule", "show")]
+[CliSubCommand("notification-hub", "namespace", "authorization-rule", "show")]
 public record AzNotificationHubNamespaceAuthorizationRuleShowOptions : AzOptions
 {
     [CliOption("--ids")]

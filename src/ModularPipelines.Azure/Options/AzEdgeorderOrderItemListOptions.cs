@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("edgeorder", "order-item", "list")]
+[CliSubCommand("edgeorder", "order-item", "list")]
 public record AzEdgeorderOrderItemListOptions : AzOptions
 {
     [CliOption("--expand")]

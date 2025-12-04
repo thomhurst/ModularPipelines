@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "log-profiles", "create")]
+[CliSubCommand("monitor", "log-profiles", "create")]
 public record AzMonitorLogProfilesCreateOptions(
 [property: CliOption("--categories")] string Categories,
 [property: CliOption("--days")] int Days,

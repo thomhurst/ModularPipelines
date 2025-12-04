@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "midb", "copy", "cancel")]
+[CliSubCommand("sql", "midb", "copy", "cancel")]
 public record AzSqlMidbCopyCancelOptions(
 [property: CliOption("--dest-mi")] string DestMi
 ) : AzOptions

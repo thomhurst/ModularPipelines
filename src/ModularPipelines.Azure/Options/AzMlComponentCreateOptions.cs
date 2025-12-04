@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "component", "create")]
+[CliSubCommand("ml", "component", "create")]
 public record AzMlComponentCreateOptions(
 [property: CliOption("--file")] string File
 ) : AzOptions

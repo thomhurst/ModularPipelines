@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "account", "renew-credentials")]
+[CliSubCommand("netappfiles", "account", "renew-credentials")]
 public record AzNetappfilesAccountRenewCredentialsOptions : AzOptions
 {
     [CliOption("--account-name")]

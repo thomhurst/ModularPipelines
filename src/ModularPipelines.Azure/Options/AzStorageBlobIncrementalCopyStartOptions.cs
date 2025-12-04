@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "blob", "incremental-copy", "start")]
+[CliSubCommand("storage", "blob", "incremental-copy", "start")]
 public record AzStorageBlobIncrementalCopyStartOptions(
 [property: CliOption("--destination-blob")] string DestinationBlob,
 [property: CliOption("--destination-container")] string DestinationContainer

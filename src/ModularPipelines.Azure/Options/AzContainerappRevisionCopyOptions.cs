@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "revision", "copy")]
+[CliSubCommand("containerapp", "revision", "copy")]
 public record AzContainerappRevisionCopyOptions : AzOptions
 {
     [CliOption("--args")]

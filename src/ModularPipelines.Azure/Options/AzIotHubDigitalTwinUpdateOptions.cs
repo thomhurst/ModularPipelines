@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "digital-twin", "update")]
+[CliSubCommand("iot", "hub", "digital-twin", "update")]
 public record AzIotHubDigitalTwinUpdateOptions(
 [property: CliOption("--device-id")] string DeviceId,
 [property: CliOption("--json-patch")] string JsonPatch

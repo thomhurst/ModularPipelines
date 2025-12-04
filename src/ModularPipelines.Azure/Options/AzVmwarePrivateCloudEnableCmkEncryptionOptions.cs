@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "private-cloud", "enable-cmk-encryption")]
+[CliSubCommand("vmware", "private-cloud", "enable-cmk-encryption")]
 public record AzVmwarePrivateCloudEnableCmkEncryptionOptions(
 [property: CliOption("--private-cloud")] string PrivateCloud,
 [property: CliOption("--resource-group")] string ResourceGroup

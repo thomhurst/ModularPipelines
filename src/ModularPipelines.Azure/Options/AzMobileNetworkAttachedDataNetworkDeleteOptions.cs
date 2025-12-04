@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mobile-network", "attached-data-network", "delete")]
+[CliSubCommand("mobile-network", "attached-data-network", "delete")]
 public record AzMobileNetworkAttachedDataNetworkDeleteOptions : AzOptions
 {
     [CliOption("--adn-name")]

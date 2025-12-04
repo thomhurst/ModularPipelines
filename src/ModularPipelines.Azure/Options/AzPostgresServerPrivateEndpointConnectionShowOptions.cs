@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server", "private-endpoint-connection", "show")]
+[CliSubCommand("postgres", "server", "private-endpoint-connection", "show")]
 public record AzPostgresServerPrivateEndpointConnectionShowOptions : AzOptions
 {
     [CliOption("--id")]

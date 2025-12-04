@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "addon", "hcx", "create")]
+[CliSubCommand("vmware", "addon", "hcx", "create")]
 public record AzVmwareAddonHcxCreateOptions(
 [property: CliOption("--offer")] string Offer,
 [property: CliOption("--private-cloud")] string PrivateCloud,

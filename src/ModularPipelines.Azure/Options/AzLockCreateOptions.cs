@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("lock", "create")]
+[CliSubCommand("lock", "create")]
 public record AzLockCreateOptions(
 [property: CliOption("--lock-type")] string LockType,
 [property: CliOption("--name")] string Name

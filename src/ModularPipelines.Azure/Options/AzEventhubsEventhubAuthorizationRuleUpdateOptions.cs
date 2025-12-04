@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "eventhub", "authorization-rule", "update")]
+[CliSubCommand("eventhubs", "eventhub", "authorization-rule", "update")]
 public record AzEventhubsEventhubAuthorizationRuleUpdateOptions : AzOptions
 {
     [CliOption("--add")]

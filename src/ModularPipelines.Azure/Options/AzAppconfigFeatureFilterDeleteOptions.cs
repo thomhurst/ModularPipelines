@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "feature", "filter", "delete")]
+[CliSubCommand("appconfig", "feature", "filter", "delete")]
 public record AzAppconfigFeatureFilterDeleteOptions : AzOptions
 {
     [CliFlag("--all")]

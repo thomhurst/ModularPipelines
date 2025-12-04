@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "replica", "show")]
+[CliSubCommand("appconfig", "replica", "show")]
 public record AzAppconfigReplicaShowOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--store-name")] string StoreName

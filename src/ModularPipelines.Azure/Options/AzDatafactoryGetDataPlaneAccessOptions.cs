@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "get-data-plane-access")]
+[CliSubCommand("datafactory", "get-data-plane-access")]
 public record AzDatafactoryGetDataPlaneAccessOptions : AzOptions
 {
     [CliOption("--access-resource-path")]

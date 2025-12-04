@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "taprule", "delete")]
+[CliSubCommand("networkfabric", "taprule", "delete")]
 public record AzNetworkfabricTapruleDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage-mover", "endpoint", "create-for-nfs")]
+[CliSubCommand("storage-mover", "endpoint", "create-for-nfs")]
 public record AzStorageMoverEndpointCreateForNfsOptions(
 [property: CliOption("--endpoint-name")] string EndpointName,
 [property: CliOption("--export")] string Export,

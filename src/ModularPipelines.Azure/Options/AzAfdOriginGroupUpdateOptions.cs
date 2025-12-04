@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "origin-group", "update")]
+[CliSubCommand("afd", "origin-group", "update")]
 public record AzAfdOriginGroupUpdateOptions : AzOptions
 {
     [CliOption("--additional-latency-in-milliseconds")]

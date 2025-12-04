@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("load", "test", "download-files")]
+[CliSubCommand("load", "test", "download-files")]
 public record AzLoadTestDownloadFilesOptions(
 [property: CliOption("--load-test-resource")] string LoadTestResource,
 [property: CliOption("--path")] string Path,

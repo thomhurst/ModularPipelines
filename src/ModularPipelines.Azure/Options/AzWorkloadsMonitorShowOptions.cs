@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("workloads", "monitor", "show")]
+[CliSubCommand("workloads", "monitor", "show")]
 public record AzWorkloadsMonitorShowOptions : AzOptions
 {
     [CliOption("--ids")]

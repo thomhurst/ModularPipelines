@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "notebook", "delete")]
+[CliSubCommand("synapse", "notebook", "delete")]
 public record AzSynapseNotebookDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--workspace-name")] string WorkspaceName

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "trigger", "unsubscribe-from-event")]
+[CliSubCommand("synapse", "trigger", "unsubscribe-from-event")]
 public record AzSynapseTriggerUnsubscribeFromEventOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--workspace-name")] string WorkspaceName

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "wiki", "create")]
+[CliSubCommand("devops", "wiki", "create")]
 public record AzDevopsWikiCreateOptions : AzOptions
 {
     [CliFlag("--detect")]

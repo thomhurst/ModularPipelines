@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("load", "test", "server-metric", "remove")]
+[CliSubCommand("load", "test", "server-metric", "remove")]
 public record AzLoadTestServerMetricRemoveOptions(
 [property: CliOption("--load-test-resource")] string LoadTestResource,
 [property: CliOption("--metric-id")] string MetricId,

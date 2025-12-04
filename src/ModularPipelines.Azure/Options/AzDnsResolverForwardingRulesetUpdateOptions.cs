@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dns-resolver", "forwarding-ruleset", "update")]
+[CliSubCommand("dns-resolver", "forwarding-ruleset", "update")]
 public record AzDnsResolverForwardingRulesetUpdateOptions : AzOptions
 {
     [CliOption("--dns-forwarding-ruleset-name")]

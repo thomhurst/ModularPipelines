@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "namespace", "exists")]
+[CliSubCommand("servicebus", "namespace", "exists")]
 public record AzServicebusNamespaceExistsOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions;

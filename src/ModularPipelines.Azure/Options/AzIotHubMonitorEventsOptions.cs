@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "monitor-events")]
+[CliSubCommand("iot", "hub", "monitor-events")]
 public record AzIotHubMonitorEventsOptions : AzOptions
 {
     [CliOption("--cg")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "private-endpoint-connection", "approve")]
+[CliSubCommand("eventhubs", "namespace", "private-endpoint-connection", "approve")]
 public record AzEventhubsNamespacePrivateEndpointConnectionApproveOptions : AzOptions
 {
     [CliOption("--description")]

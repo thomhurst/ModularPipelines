@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "nic", "list")]
+[CliSubCommand("vmss", "nic", "list")]
 public record AzVmssNicListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--virtual-machine-scale-set-name")] string VirtualMachineScaleSetName

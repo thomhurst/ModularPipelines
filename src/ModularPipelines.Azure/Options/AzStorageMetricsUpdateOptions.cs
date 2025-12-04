@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "metrics", "update")]
+[CliSubCommand("storage", "metrics", "update")]
 public record AzStorageMetricsUpdateOptions(
 [property: CliOption("--retention")] string Retention,
 [property: CliOption("--services")] string Services

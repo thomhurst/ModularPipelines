@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "watcher", "troubleshooting", "start")]
+[CliSubCommand("network", "watcher", "troubleshooting", "start")]
 public record AzNetworkWatcherTroubleshootingStartOptions(
 [property: CliOption("--resource")] string Resource,
 [property: CliOption("--storage-account")] int StorageAccount,

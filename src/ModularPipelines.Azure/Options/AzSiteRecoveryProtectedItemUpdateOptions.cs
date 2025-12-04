@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "protected-item", "update")]
+[CliSubCommand("site-recovery", "protected-item", "update")]
 public record AzSiteRecoveryProtectedItemUpdateOptions : AzOptions
 {
     [CliOption("--add")]

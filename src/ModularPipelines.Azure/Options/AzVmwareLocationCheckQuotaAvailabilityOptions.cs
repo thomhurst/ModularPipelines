@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "location", "check-quota-availability")]
+[CliSubCommand("vmware", "location", "check-quota-availability")]
 public record AzVmwareLocationCheckQuotaAvailabilityOptions : AzOptions
 {
     [CliOption("--ids")]

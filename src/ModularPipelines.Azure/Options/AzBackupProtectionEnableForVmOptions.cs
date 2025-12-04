@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "protection", "enable-for-vm")]
+[CliSubCommand("backup", "protection", "enable-for-vm")]
 public record AzBackupProtectionEnableForVmOptions(
 [property: CliOption("--policy-name")] string PolicyName,
 [property: CliOption("--resource-group")] string ResourceGroup,

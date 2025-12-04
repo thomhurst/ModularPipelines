@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication", "rooms", "participant", "remove")]
+[CliSubCommand("communication", "rooms", "participant", "remove")]
 public record AzCommunicationRoomsParticipantRemoveOptions(
 [property: CliOption("--participants")] string Participants,
 [property: CliOption("--room")] string Room

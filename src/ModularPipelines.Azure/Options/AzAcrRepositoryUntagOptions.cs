@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "repository", "untag")]
+[CliSubCommand("acr", "repository", "untag")]
 public record AzAcrRepositoryUntagOptions(
 [property: CliOption("--image")] string Image,
 [property: CliOption("--name")] string Name

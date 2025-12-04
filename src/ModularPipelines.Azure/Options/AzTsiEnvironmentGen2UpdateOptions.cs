@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tsi", "environment", "gen2", "update")]
+[CliSubCommand("tsi", "environment", "gen2", "update")]
 public record AzTsiEnvironmentGen2UpdateOptions : AzOptions
 {
     [CliOption("--environment-name")]

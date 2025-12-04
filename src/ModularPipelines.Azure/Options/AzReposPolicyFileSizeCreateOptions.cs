@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "policy", "file-size", "create")]
+[CliSubCommand("repos", "policy", "file-size", "create")]
 public record AzReposPolicyFileSizeCreateOptions(
 [property: CliFlag("--blocking")] bool Blocking,
 [property: CliFlag("--enabled")] bool Enabled,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "application-group", "policy", "remove")]
+[CliSubCommand("eventhubs", "namespace", "application-group", "policy", "remove")]
 public record AzEventhubsNamespaceApplicationGroupPolicyRemoveOptions(
 [property: CliOption("--policy")] string Policy
 ) : AzOptions

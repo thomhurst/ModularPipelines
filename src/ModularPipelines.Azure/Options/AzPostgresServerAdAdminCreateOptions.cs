@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server", "ad-admin", "create")]
+[CliSubCommand("postgres", "server", "ad-admin", "create")]
 public record AzPostgresServerAdAdminCreateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--server-name")] string ServerName

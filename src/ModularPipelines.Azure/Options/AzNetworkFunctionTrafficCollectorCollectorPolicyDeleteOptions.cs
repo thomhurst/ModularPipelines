@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network-function", "traffic-collector", "collector-policy", "delete")]
+[CliSubCommand("network-function", "traffic-collector", "collector-policy", "delete")]
 public record AzNetworkFunctionTrafficCollectorCollectorPolicyDeleteOptions : AzOptions
 {
     [CliOption("--collector-policy-name")]

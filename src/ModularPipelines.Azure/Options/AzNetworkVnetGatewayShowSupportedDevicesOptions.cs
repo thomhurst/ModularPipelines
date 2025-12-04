@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet-gateway", "show-supported-devices")]
+[CliSubCommand("network", "vnet-gateway", "show-supported-devices")]
 public record AzNetworkVnetGatewayShowSupportedDevicesOptions : AzOptions
 {
     [CliOption("--ids")]

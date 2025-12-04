@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "deployment", "list-publishing-profiles")]
+[CliSubCommand("webapp", "deployment", "list-publishing-profiles")]
 public record AzWebappDeploymentListPublishingProfilesOptions : AzOptions
 {
     [CliOption("--ids")]

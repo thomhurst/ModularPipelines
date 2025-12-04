@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "environment-definition", "list")]
+[CliSubCommand("devcenter", "admin", "environment-definition", "list")]
 public record AzDevcenterAdminEnvironmentDefinitionListOptions(
 [property: CliOption("--catalog-name")] string CatalogName,
 [property: CliOption("--dev-center")] string DevCenter,

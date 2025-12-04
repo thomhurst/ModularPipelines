@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "managed-private-endpoints", "show")]
+[CliSubCommand("synapse", "managed-private-endpoints", "show")]
 public record AzSynapseManagedPrivateEndpointsShowOptions(
 [property: CliOption("--pe-name")] string PeName
 ) : AzOptions

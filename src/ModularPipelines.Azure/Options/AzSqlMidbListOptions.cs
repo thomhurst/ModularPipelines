@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "midb", "list")]
+[CliSubCommand("sql", "midb", "list")]
 public record AzSqlMidbListOptions : AzOptions
 {
     [CliOption("--ids")]

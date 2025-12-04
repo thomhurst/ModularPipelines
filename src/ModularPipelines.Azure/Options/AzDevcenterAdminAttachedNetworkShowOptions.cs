@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "attached-network", "show")]
+[CliSubCommand("devcenter", "admin", "attached-network", "show")]
 public record AzDevcenterAdminAttachedNetworkShowOptions : AzOptions
 {
     [CliFlag("--attached-network-connection-name")]

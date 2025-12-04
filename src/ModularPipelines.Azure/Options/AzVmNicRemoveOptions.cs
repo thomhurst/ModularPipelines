@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "nic", "remove")]
+[CliSubCommand("vm", "nic", "remove")]
 public record AzVmNicRemoveOptions(
 [property: CliOption("--nics")] string Nics,
 [property: CliOption("--resource-group")] string ResourceGroup,

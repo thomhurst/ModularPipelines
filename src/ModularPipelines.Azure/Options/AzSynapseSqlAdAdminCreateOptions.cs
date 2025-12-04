@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "sql", "ad-admin", "create")]
+[CliSubCommand("synapse", "sql", "ad-admin", "create")]
 public record AzSynapseSqlAdAdminCreateOptions(
 [property: CliOption("--display-name")] string DisplayName,
 [property: CliOption("--object-id")] string ObjectId,

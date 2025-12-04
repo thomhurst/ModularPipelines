@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci-vm", "disk", "attach")]
+[CliSubCommand("stack-hci-vm", "disk", "attach")]
 public record AzStackHciVmDiskAttachOptions : AzOptions
 {
     [CliOption("--disks")]

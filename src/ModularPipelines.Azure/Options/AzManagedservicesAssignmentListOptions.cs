@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("managedservices", "assignment", "list")]
+[CliSubCommand("managedservices", "assignment", "list")]
 public record AzManagedservicesAssignmentListOptions : AzOptions
 {
     [CliFlag("--include-definition")]

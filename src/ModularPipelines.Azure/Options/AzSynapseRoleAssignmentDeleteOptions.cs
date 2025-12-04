@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "role", "assignment", "delete")]
+[CliSubCommand("synapse", "role", "assignment", "delete")]
 public record AzSynapseRoleAssignmentDeleteOptions(
 [property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions

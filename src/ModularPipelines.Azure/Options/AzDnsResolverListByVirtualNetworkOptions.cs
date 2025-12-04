@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dns-resolver", "list-by-virtual-network")]
+[CliSubCommand("dns-resolver", "list-by-virtual-network")]
 public record AzDnsResolverListByVirtualNetworkOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--virtual-network-name")] string VirtualNetworkName

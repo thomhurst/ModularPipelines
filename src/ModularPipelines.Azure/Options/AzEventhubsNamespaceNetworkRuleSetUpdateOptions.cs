@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "network-rule-set", "update")]
+[CliSubCommand("eventhubs", "namespace", "network-rule-set", "update")]
 public record AzEventhubsNamespaceNetworkRuleSetUpdateOptions : AzOptions
 {
     [CliOption("--add")]

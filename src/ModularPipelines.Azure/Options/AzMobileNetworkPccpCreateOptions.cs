@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mobile-network", "pccp", "create")]
+[CliSubCommand("mobile-network", "pccp", "create")]
 public record AzMobileNetworkPccpCreateOptions(
 [property: CliOption("--access-interface")] string AccessInterface,
 [property: CliOption("--local-diagnostics")] string LocalDiagnostics,

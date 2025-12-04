@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("image", "builder", "output", "clear")]
+[CliSubCommand("image", "builder", "output", "clear")]
 public record AzImageBuilderOutputClearOptions : AzOptions
 {
     [CliOption("--defer")]

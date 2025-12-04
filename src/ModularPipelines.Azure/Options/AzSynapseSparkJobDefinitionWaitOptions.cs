@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "spark-job-definition", "wait")]
+[CliSubCommand("synapse", "spark-job-definition", "wait")]
 public record AzSynapseSparkJobDefinitionWaitOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--workspace-name")] string WorkspaceName

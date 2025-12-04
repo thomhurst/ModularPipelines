@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-encryption-set", "show")]
+[CliSubCommand("disk-encryption-set", "show")]
 public record AzDiskEncryptionSetShowOptions : AzOptions
 {
     [CliOption("--disk-encryption-set-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcappliance", "upgrade", "scvmm")]
+[CliSubCommand("arcappliance", "upgrade", "scvmm")]
 public record AzArcapplianceUpgradeScvmmOptions(
 [property: CliOption("--config-file")] string ConfigFile
 ) : AzOptions

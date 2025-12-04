@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "container-rm", "migrate-vlw")]
+[CliSubCommand("storage", "container-rm", "migrate-vlw")]
 public record AzStorageContainerRmMigrateVlwOptions : AzOptions
 {
     [CliOption("--ids")]

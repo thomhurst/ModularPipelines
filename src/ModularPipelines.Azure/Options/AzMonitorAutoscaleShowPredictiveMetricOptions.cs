@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "autoscale", "show-predictive-metric")]
+[CliSubCommand("monitor", "autoscale", "show-predictive-metric")]
 public record AzMonitorAutoscaleShowPredictiveMetricOptions(
 [property: CliOption("--aggregation")] string Aggregation,
 [property: CliOption("--interval")] int Interval,

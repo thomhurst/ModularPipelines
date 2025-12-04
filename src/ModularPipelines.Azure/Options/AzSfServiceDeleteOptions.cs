@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "service", "delete")]
+[CliSubCommand("sf", "service", "delete")]
 public record AzSfServiceDeleteOptions(
 [property: CliOption("--application-name")] string ApplicationName,
 [property: CliOption("--cluster-name")] string ClusterName,

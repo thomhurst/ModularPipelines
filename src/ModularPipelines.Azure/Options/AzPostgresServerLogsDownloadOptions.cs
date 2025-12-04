@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server-logs", "download")]
+[CliSubCommand("postgres", "server-logs", "download")]
 public record AzPostgresServerLogsDownloadOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

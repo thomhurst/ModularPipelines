@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dms", "project", "task", "restart")]
+[CliSubCommand("dms", "project", "task", "restart")]
 public record AzDmsProjectTaskRestartOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--project-name")] string ProjectName,

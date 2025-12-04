@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "perimeter", "show")]
+[CliSubCommand("network", "perimeter", "show")]
 public record AzNetworkPerimeterShowOptions : AzOptions
 {
     [CliOption("--ids")]

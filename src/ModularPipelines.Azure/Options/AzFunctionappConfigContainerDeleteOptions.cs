@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "config", "container", "delete")]
+[CliSubCommand("functionapp", "config", "container", "delete")]
 public record AzFunctionappConfigContainerDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

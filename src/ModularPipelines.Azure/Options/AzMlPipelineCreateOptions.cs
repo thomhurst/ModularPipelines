@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "pipeline", "create")]
+[CliSubCommand("ml", "pipeline", "create")]
 public record AzMlPipelineCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--pipeline-yaml")] string PipelineYaml

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kusto", "data-connection", "delete")]
+[CliSubCommand("synapse", "kusto", "data-connection", "delete")]
 public record AzSynapseKustoDataConnectionDeleteOptions : AzOptions
 {
     [CliOption("--data-connection-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "sql", "stored-procedure", "show")]
+[CliSubCommand("cosmosdb", "sql", "stored-procedure", "show")]
 public record AzCosmosdbSqlStoredProcedureShowOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--container-name")] string ContainerName,

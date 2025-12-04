@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "gremlin", "graph", "exists")]
+[CliSubCommand("cosmosdb", "gremlin", "graph", "exists")]
 public record AzCosmosdbGremlinGraphExistsOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--database-name")] string DatabaseName,

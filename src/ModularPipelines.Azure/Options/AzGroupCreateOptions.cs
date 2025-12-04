@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("group", "create")]
+[CliSubCommand("group", "create")]
 public record AzGroupCreateOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--name")] string Name

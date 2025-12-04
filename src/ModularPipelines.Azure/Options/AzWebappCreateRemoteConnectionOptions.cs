@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "create-remote-connection")]
+[CliSubCommand("webapp", "create-remote-connection")]
 public record AzWebappCreateRemoteConnectionOptions : AzOptions
 {
     [CliOption("--ids")]

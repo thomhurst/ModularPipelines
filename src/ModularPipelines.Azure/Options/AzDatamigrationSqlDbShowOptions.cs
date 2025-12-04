@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datamigration", "sql-db", "show")]
+[CliSubCommand("datamigration", "sql-db", "show")]
 public record AzDatamigrationSqlDbShowOptions : AzOptions
 {
     [CliOption("--expand")]

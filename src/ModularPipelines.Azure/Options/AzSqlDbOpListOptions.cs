@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "op", "list")]
+[CliSubCommand("sql", "db", "op", "list")]
 public record AzSqlDbOpListOptions : AzOptions
 {
     [CliOption("--database")]

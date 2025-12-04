@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "sql", "trigger", "list")]
+[CliSubCommand("cosmosdb", "sql", "trigger", "list")]
 public record AzCosmosdbSqlTriggerListOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--container-name")] string ContainerName,

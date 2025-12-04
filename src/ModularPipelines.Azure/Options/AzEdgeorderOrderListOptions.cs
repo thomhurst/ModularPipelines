@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("edgeorder", "order", "list")]
+[CliSubCommand("edgeorder", "order", "list")]
 public record AzEdgeorderOrderListOptions : AzOptions
 {
     [CliOption("--resource-group")]

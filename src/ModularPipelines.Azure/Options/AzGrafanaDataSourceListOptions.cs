@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("grafana", "data-source", "list")]
+[CliSubCommand("grafana", "data-source", "list")]
 public record AzGrafanaDataSourceListOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "ssl", "unbind")]
+[CliSubCommand("webapp", "config", "ssl", "unbind")]
 public record AzWebappConfigSslUnbindOptions(
 [property: CliOption("--certificate-thumbprint")] string CertificateThumbprint
 ) : AzOptions

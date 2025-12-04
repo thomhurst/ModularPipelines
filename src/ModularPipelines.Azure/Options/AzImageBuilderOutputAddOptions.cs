@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("image", "builder", "output", "add")]
+[CliSubCommand("image", "builder", "output", "add")]
 public record AzImageBuilderOutputAddOptions : AzOptions
 {
     [CliOption("--artifact-tags")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "linked-service", "show")]
+[CliSubCommand("datafactory", "linked-service", "show")]
 public record AzDatafactoryLinkedServiceShowOptions : AzOptions
 {
     [CliOption("--factory-name")]

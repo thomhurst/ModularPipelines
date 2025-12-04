@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("role", "assignment", "list")]
+[CliSubCommand("role", "assignment", "list")]
 public record AzRoleAssignmentListOptions : AzOptions
 {
     [CliFlag("--all")]

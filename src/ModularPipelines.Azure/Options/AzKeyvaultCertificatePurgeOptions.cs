@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "certificate", "purge")]
+[CliSubCommand("keyvault", "certificate", "purge")]
 public record AzKeyvaultCertificatePurgeOptions : AzOptions
 {
     [CliOption("--id")]

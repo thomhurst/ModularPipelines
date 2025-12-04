@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "environment", "create")]
+[CliSubCommand("ml", "environment", "create")]
 public record AzMlEnvironmentCreateOptions : AzOptions
 {
     [CliOption("--build-context")]

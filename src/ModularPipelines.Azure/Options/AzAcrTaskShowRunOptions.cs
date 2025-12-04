@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "task", "show-run")]
+[CliSubCommand("acr", "task", "show-run")]
 public record AzAcrTaskShowRunOptions(
 [property: CliOption("--registry")] string Registry,
 [property: CliOption("--run-id")] string RunId

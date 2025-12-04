@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "cache", "delete")]
+[CliSubCommand("acr", "cache", "delete")]
 public record AzAcrCacheDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--registry")] string Registry

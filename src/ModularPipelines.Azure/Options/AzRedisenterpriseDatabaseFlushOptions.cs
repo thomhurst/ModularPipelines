@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redisenterprise", "database", "flush")]
+[CliSubCommand("redisenterprise", "database", "flush")]
 public record AzRedisenterpriseDatabaseFlushOptions : AzOptions
 {
     [CliOption("--cluster-name")]

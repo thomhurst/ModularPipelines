@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "link-connection", "get-link-tables-status")]
+[CliSubCommand("synapse", "link-connection", "get-link-tables-status")]
 public record AzSynapseLinkConnectionGetLinkTablesStatusOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--workspace-name")] string WorkspaceName

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "show-connection-string")]
+[CliSubCommand("storage", "account", "show-connection-string")]
 public record AzStorageAccountShowConnectionStringOptions : AzOptions
 {
     [CliOption("--blob-endpoint")]

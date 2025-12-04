@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "resource-pool", "show")]
+[CliSubCommand("connectedvmware", "resource-pool", "show")]
 public record AzConnectedvmwareResourcePoolShowOptions : AzOptions
 {
     [CliOption("--ids")]

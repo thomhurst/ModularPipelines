@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "queue", "authorization-rule", "update")]
+[CliSubCommand("servicebus", "queue", "authorization-rule", "update")]
 public record AzServicebusQueueAuthorizationRuleUpdateOptions : AzOptions
 {
     [CliOption("--add")]

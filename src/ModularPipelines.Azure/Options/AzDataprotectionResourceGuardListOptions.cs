@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "resource-guard", "list")]
+[CliSubCommand("dataprotection", "resource-guard", "list")]
 public record AzDataprotectionResourceGuardListOptions : AzOptions
 {
     [CliOption("--max-items")]

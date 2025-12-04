@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "internetgatewayrule", "show")]
+[CliSubCommand("networkfabric", "internetgatewayrule", "show")]
 public record AzNetworkfabricInternetgatewayruleShowOptions : AzOptions
 {
     [CliOption("--ids")]

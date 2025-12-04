@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "scheduled-query", "list")]
+[CliSubCommand("monitor", "scheduled-query", "list")]
 public record AzMonitorScheduledQueryListOptions : AzOptions
 {
     [CliOption("--resource-group")]

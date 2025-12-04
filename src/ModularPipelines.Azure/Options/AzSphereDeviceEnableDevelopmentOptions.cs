@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "enable-development")]
+[CliSubCommand("sphere", "device", "enable-development")]
 public record AzSphereDeviceEnableDevelopmentOptions(
 [property: CliOption("--catalog")] string Catalog,
 [property: CliOption("--resource-group")] string ResourceGroup

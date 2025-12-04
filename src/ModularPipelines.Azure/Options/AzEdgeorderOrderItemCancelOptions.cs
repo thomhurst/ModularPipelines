@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("edgeorder", "order-item", "cancel")]
+[CliSubCommand("edgeorder", "order-item", "cancel")]
 public record AzEdgeorderOrderItemCancelOptions(
 [property: CliOption("--reason")] string Reason
 ) : AzOptions

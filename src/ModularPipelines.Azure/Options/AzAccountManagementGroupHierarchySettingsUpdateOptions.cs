@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("account", "management-group", "hierarchy-settings", "update")]
+[CliSubCommand("account", "management-group", "hierarchy-settings", "update")]
 public record AzAccountManagementGroupHierarchySettingsUpdateOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

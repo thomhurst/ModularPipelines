@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "catalog", "get-sync-error-detail")]
+[CliSubCommand("devcenter", "admin", "catalog", "get-sync-error-detail")]
 public record AzDevcenterAdminCatalogGetSyncErrorDetailOptions : AzOptions
 {
     [CliOption("--catalog-name")]

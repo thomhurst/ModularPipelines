@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cluster", "bmckeyset", "wait")]
+[CliSubCommand("networkcloud", "cluster", "bmckeyset", "wait")]
 public record AzNetworkcloudClusterBmckeysetWaitOptions : AzOptions
 {
     [CliOption("--bmc-key-set-name")]

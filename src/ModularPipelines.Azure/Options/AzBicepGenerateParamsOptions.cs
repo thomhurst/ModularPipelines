@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("bicep", "generate-params")]
+[CliSubCommand("bicep", "generate-params")]
 public record AzBicepGenerateParamsOptions(
 [property: CliOption("--file")] string File
 ) : AzOptions

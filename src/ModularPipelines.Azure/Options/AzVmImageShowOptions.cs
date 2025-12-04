@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "image", "show")]
+[CliSubCommand("vm", "image", "show")]
 public record AzVmImageShowOptions : AzOptions
 {
     [CliOption("--edge-zone")]

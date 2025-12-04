@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("qumulo", "storage", "file-system", "create")]
+[CliSubCommand("qumulo", "storage", "file-system", "create")]
 public record AzQumuloStorageFileSystemCreateOptions(
 [property: CliOption("--admin-password")] string AdminPassword,
 [property: CliOption("--delegated-subnet-id")] string DelegatedSubnetId,

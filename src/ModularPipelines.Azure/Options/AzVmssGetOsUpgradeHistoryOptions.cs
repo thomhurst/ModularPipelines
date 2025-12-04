@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "get-os-upgrade-history")]
+[CliSubCommand("vmss", "get-os-upgrade-history")]
 public record AzVmssGetOsUpgradeHistoryOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

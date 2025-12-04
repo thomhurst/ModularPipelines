@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "container", "register")]
+[CliSubCommand("backup", "container", "register")]
 public record AzBackupContainerRegisterOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--resource-id")] string ResourceId,

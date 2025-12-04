@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("fleet", "updaterun", "stop")]
+[CliSubCommand("fleet", "updaterun", "stop")]
 public record AzFleetUpdaterunStopOptions(
 [property: CliOption("--fleet-name")] string FleetName,
 [property: CliOption("--name")] string Name,

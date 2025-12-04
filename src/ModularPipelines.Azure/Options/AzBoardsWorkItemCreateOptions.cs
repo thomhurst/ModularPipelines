@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("boards", "work-item", "create")]
+[CliSubCommand("boards", "work-item", "create")]
 public record AzBoardsWorkItemCreateOptions(
 [property: CliOption("--title")] string Title,
 [property: CliOption("--type")] string Type

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "restore", "restore-urefileshare")]
+[CliSubCommand("backup", "restore", "restore-urefileshare")]
 public record AzBackupRestoreRestoreAzurefileshareOptions(
 [property: CliOption("--resolve-conflict")] string ResolveConflict,
 [property: CliOption("--restore-mode")] string RestoreMode

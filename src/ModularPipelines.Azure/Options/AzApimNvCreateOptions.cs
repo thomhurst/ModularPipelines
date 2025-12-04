@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "nv", "create")]
+[CliSubCommand("apim", "nv", "create")]
 public record AzApimNvCreateOptions(
 [property: CliOption("--display-name")] string DisplayName,
 [property: CliOption("--named-value-id")] string NamedValueId,

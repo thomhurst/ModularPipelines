@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("csvmware", "vm", "disk", "show")]
+[CliSubCommand("csvmware", "vm", "disk", "show")]
 public record AzCsvmwareVmDiskShowOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

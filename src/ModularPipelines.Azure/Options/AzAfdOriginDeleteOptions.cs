@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "origin", "delete")]
+[CliSubCommand("afd", "origin", "delete")]
 public record AzAfdOriginDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

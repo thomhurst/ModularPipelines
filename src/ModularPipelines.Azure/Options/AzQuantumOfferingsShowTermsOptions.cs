@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("quantum", "offerings", "show-terms")]
+[CliSubCommand("quantum", "offerings", "show-terms")]
 public record AzQuantumOfferingsShowTermsOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--provider-id")] string ProviderId,

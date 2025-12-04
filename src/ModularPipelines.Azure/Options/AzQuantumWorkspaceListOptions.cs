@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("quantum", "workspace", "list")]
+[CliSubCommand("quantum", "workspace", "list")]
 public record AzQuantumWorkspaceListOptions : AzOptions
 {
     [CliOption("--location")]

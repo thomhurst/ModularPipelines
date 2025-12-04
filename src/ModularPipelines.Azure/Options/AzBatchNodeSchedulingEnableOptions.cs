@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "node", "scheduling", "enable")]
+[CliSubCommand("batch", "node", "scheduling", "enable")]
 public record AzBatchNodeSchedulingEnableOptions(
 [property: CliOption("--node-id")] string NodeId,
 [property: CliOption("--pool-id")] string PoolId

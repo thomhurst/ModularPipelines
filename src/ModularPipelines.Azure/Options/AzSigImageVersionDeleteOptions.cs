@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sig", "image-version", "delete")]
+[CliSubCommand("sig", "image-version", "delete")]
 public record AzSigImageVersionDeleteOptions : AzOptions
 {
     [CliOption("--gallery-image-definition")]

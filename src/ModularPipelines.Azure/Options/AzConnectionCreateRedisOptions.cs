@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "create", "redis")]
+[CliSubCommand("connection", "create", "redis")]
 public record AzConnectionCreateRedisOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

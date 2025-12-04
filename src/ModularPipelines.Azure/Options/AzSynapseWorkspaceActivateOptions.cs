@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "workspace", "activate")]
+[CliSubCommand("synapse", "workspace", "activate")]
 public record AzSynapseWorkspaceActivateOptions(
 [property: CliOption("--key-identifier")] string KeyIdentifier
 ) : AzOptions

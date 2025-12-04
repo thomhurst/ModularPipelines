@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "account", "ad", "add")]
+[CliSubCommand("netappfiles", "account", "ad", "add")]
 public record AzNetappfilesAccountAdAddOptions(
 [property: CliOption("--dns")] string Dns,
 [property: CliOption("--domain")] string Domain,

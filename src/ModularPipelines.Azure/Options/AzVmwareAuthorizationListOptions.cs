@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "authorization", "list")]
+[CliSubCommand("vmware", "authorization", "list")]
 public record AzVmwareAuthorizationListOptions(
 [property: CliOption("--private-cloud")] string PrivateCloud,
 [property: CliOption("--resource-group")] string ResourceGroup

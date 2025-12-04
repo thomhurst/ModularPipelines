@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("akshybrid", "vmsize", "list")]
+[CliSubCommand("akshybrid", "vmsize", "list")]
 public record AzAkshybridVmsizeListOptions(
 [property: CliOption("--custom-location")] string CustomLocation,
 [property: CliOption("--resource-group")] string ResourceGroup

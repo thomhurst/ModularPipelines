@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("workloads", "sap-database-instance", "wait")]
+[CliSubCommand("workloads", "sap-database-instance", "wait")]
 public record AzWorkloadsSapDatabaseInstanceWaitOptions : AzOptions
 {
     [CliFlag("--created")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("search", "admin-key", "renew")]
+[CliSubCommand("search", "admin-key", "renew")]
 public record AzSearchAdminKeyRenewOptions(
 [property: CliOption("--key-kind")] string KeyKind,
 [property: CliOption("--resource-group")] string ResourceGroup,

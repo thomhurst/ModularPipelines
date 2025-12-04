@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "job", "submit")]
+[CliSubCommand("dla", "job", "submit")]
 public record AzDlaJobSubmitOptions(
 [property: CliOption("--job-name")] string JobName,
 [property: CliOption("--script")] string Script

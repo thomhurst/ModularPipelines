@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "show")]
+[CliSubCommand("sql", "db", "show")]
 public record AzSqlDbShowOptions : AzOptions
 {
     [CliFlag("--expand-keys")]

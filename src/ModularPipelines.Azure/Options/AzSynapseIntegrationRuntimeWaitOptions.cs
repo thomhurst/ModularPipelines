@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "integration-runtime", "wait")]
+[CliSubCommand("synapse", "integration-runtime", "wait")]
 public record AzSynapseIntegrationRuntimeWaitOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

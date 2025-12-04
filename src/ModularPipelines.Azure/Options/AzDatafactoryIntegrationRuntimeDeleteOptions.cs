@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "integration-runtime", "delete")]
+[CliSubCommand("datafactory", "integration-runtime", "delete")]
 public record AzDatafactoryIntegrationRuntimeDeleteOptions : AzOptions
 {
     [CliOption("--factory-name")]

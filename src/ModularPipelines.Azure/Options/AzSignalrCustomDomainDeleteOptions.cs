@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("signalr", "custom-domain", "delete")]
+[CliSubCommand("signalr", "custom-domain", "delete")]
 public record AzSignalrCustomDomainDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

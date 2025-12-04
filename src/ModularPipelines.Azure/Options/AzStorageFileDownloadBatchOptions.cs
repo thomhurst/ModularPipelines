@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "file", "download-batch")]
+[CliSubCommand("storage", "file", "download-batch")]
 public record AzStorageFileDownloadBatchOptions(
 [property: CliOption("--destination")] string Destination,
 [property: CliOption("--source")] string Source

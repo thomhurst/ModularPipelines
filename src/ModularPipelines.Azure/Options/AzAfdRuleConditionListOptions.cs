@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "rule", "condition", "list")]
+[CliSubCommand("afd", "rule", "condition", "list")]
 public record AzAfdRuleConditionListOptions(
 [property: CliOption("--profile-name")] string ProfileName,
 [property: CliOption("--resource-group")] string ResourceGroup,

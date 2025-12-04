@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "volume", "export-policy", "remove")]
+[CliSubCommand("netappfiles", "volume", "export-policy", "remove")]
 public record AzNetappfilesVolumeExportPolicyRemoveOptions(
 [property: CliOption("--rule-index")] string RuleIndex
 ) : AzOptions

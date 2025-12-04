@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ad", "sp", "credential", "list")]
+[CliSubCommand("ad", "sp", "credential", "list")]
 public record AzAdSpCredentialListOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions

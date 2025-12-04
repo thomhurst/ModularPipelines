@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "install-cli")]
+[CliSubCommand("aks", "install-cli")]
 public record AzAksInstallCliOptions : AzOptions
 {
     [CliOption("--base-src-url")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "private-cloud", "list-admin-credentials")]
+[CliSubCommand("vmware", "private-cloud", "list-admin-credentials")]
 public record AzVmwarePrivateCloudListAdminCredentialsOptions : AzOptions
 {
     [CliOption("--ids")]

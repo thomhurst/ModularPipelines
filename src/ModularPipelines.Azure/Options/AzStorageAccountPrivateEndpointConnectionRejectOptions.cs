@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "private-endpoint-connection", "reject")]
+[CliSubCommand("storage", "account", "private-endpoint-connection", "reject")]
 public record AzStorageAccountPrivateEndpointConnectionRejectOptions : AzOptions
 {
     [CliOption("--account-name")]

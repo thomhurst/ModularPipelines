@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "bookmark", "relation", "delete")]
+[CliSubCommand("sentinel", "bookmark", "relation", "delete")]
 public record AzSentinelBookmarkRelationDeleteOptions : AzOptions
 {
     [CliOption("--bookmark-id")]

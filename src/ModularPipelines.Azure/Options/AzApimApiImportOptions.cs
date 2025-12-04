@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "api", "import")]
+[CliSubCommand("apim", "api", "import")]
 public record AzApimApiImportOptions(
 [property: CliOption("--path")] string Path,
 [property: CliOption("--resource-group")] string ResourceGroup,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "draft", "up")]
+[CliSubCommand("aks", "draft", "up")]
 public record AzAksDraftUpOptions : AzOptions
 {
     [CliOption("--app")]

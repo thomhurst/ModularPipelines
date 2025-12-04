@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcappliance", "upgrade", "hci")]
+[CliSubCommand("arcappliance", "upgrade", "hci")]
 public record AzArcapplianceUpgradeHciOptions(
 [property: CliOption("--config-file")] string ConfigFile
 ) : AzOptions

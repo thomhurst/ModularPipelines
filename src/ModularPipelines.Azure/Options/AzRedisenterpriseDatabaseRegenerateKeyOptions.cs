@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redisenterprise", "database", "regenerate-key")]
+[CliSubCommand("redisenterprise", "database", "regenerate-key")]
 public record AzRedisenterpriseDatabaseRegenerateKeyOptions(
 [property: CliOption("--key-type")] string KeyType
 ) : AzOptions

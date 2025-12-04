@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "du", "instance", "update")]
+[CliSubCommand("iot", "du", "instance", "update")]
 public record AzIotDuInstanceUpdateOptions(
 [property: CliOption("--account")] int Account,
 [property: CliOption("--instance")] string Instance

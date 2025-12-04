@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "task", "file", "delete")]
+[CliSubCommand("batch", "task", "file", "delete")]
 public record AzBatchTaskFileDeleteOptions(
 [property: CliOption("--file-path")] string FilePath,
 [property: CliOption("--job-id")] string JobId,

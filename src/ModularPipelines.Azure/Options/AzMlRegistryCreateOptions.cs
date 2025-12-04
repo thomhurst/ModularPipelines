@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "registry", "create")]
+[CliSubCommand("ml", "registry", "create")]
 public record AzMlRegistryCreateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

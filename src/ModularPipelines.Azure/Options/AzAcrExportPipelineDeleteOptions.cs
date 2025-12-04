@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "export-pipeline", "delete")]
+[CliSubCommand("acr", "export-pipeline", "delete")]
 public record AzAcrExportPipelineDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--registry")] string Registry,

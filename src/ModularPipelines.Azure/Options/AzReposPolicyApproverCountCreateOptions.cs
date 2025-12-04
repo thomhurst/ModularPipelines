@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "policy", "approver-count", "create")]
+[CliSubCommand("repos", "policy", "approver-count", "create")]
 public record AzReposPolicyApproverCountCreateOptions(
 [property: CliFlag("--allow-downvotes")] bool AllowDownvotes,
 [property: CliFlag("--blocking")] bool Blocking,

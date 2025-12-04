@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "tap", "list")]
+[CliSubCommand("networkfabric", "tap", "list")]
 public record AzNetworkfabricTapListOptions : AzOptions
 {
     [CliOption("--resource-group")]

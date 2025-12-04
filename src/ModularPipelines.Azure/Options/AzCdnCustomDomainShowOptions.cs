@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cdn", "custom-domain", "show")]
+[CliSubCommand("cdn", "custom-domain", "show")]
 public record AzCdnCustomDomainShowOptions(
 [property: CliOption("--endpoint-name")] string EndpointName,
 [property: CliOption("--name")] string Name,

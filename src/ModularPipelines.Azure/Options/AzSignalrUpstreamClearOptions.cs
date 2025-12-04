@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("signalr", "upstream", "clear")]
+[CliSubCommand("signalr", "upstream", "clear")]
 public record AzSignalrUpstreamClearOptions : AzOptions
 {
     [CliOption("--ids")]

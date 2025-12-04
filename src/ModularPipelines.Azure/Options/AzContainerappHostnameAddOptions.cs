@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "hostname", "add")]
+[CliSubCommand("containerapp", "hostname", "add")]
 public record AzContainerappHostnameAddOptions(
 [property: CliOption("--hostname")] string Hostname
 ) : AzOptions

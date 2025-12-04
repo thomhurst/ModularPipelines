@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "twin", "component", "update")]
+[CliSubCommand("dt", "twin", "component", "update")]
 public record AzDtTwinComponentUpdateOptions(
 [property: CliOption("--component")] string Component,
 [property: CliOption("--dt-name")] string DtName,

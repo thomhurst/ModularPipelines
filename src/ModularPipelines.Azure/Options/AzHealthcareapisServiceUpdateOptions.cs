@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("healthcareapis", "service", "update")]
+[CliSubCommand("healthcareapis", "service", "update")]
 public record AzHealthcareapisServiceUpdateOptions : AzOptions
 {
     [CliOption("--ids")]

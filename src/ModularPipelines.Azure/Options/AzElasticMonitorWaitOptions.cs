@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("elastic", "monitor", "wait")]
+[CliSubCommand("elastic", "monitor", "wait")]
 public record AzElasticMonitorWaitOptions : AzOptions
 {
     [CliFlag("--created")]

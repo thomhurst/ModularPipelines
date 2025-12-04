@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "export", "create")]
+[CliSubCommand("iot", "central", "export", "create")]
 public record AzIotCentralExportCreateOptions(
 [property: CliOption("--app-id")] string AppId,
 [property: CliOption("--destinations")] string Destinations,

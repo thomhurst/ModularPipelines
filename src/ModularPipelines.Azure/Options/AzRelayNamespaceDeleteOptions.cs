@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("relay", "namespace", "delete")]
+[CliSubCommand("relay", "namespace", "delete")]
 public record AzRelayNamespaceDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

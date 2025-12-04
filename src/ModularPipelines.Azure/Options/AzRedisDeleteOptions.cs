@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redis", "delete")]
+[CliSubCommand("redis", "delete")]
 public record AzRedisDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

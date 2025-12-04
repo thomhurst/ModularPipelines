@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resource-mover", "move-collection", "wait")]
+[CliSubCommand("resource-mover", "move-collection", "wait")]
 public record AzResourceMoverMoveCollectionWaitOptions : AzOptions
 {
     [CliFlag("--created")]

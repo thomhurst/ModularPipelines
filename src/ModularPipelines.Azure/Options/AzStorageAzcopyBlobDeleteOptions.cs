@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "copy", "blob", "delete")]
+[CliSubCommand("storage", "copy", "blob", "delete")]
 public record AzStorageAzcopyBlobDeleteOptions(
 [property: CliOption("--container")] string Container
 ) : AzOptions

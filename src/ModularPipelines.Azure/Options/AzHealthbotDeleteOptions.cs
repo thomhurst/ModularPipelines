@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("healthbot", "delete")]
+[CliSubCommand("healthbot", "delete")]
 public record AzHealthbotDeleteOptions : AzOptions
 {
     [CliOption("--bot-name")]

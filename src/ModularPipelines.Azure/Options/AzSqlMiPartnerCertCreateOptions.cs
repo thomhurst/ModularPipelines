@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "partner-cert", "create")]
+[CliSubCommand("sql", "mi", "partner-cert", "create")]
 public record AzSqlMiPartnerCertCreateOptions(
 [property: CliOption("--certificate-name")] string CertificateName,
 [property: CliOption("--instance-name")] string InstanceName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "du", "account", "delete")]
+[CliSubCommand("iot", "du", "account", "delete")]
 public record AzIotDuAccountDeleteOptions(
 [property: CliOption("--account")] int Account
 ) : AzOptions

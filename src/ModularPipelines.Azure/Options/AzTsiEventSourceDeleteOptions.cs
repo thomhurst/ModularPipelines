@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tsi", "event-source", "delete")]
+[CliSubCommand("tsi", "event-source", "delete")]
 public record AzTsiEventSourceDeleteOptions : AzOptions
 {
     [CliOption("--environment-name")]

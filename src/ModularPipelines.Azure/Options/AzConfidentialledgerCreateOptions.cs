@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("confidentialledger", "create")]
+[CliSubCommand("confidentialledger", "create")]
 public record AzConfidentialledgerCreateOptions(
 [property: CliOption("--ledger-name")] string LedgerName,
 [property: CliOption("--resource-group")] string ResourceGroup

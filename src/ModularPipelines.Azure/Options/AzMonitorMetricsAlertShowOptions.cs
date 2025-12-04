@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "metrics", "alert", "show")]
+[CliSubCommand("monitor", "metrics", "alert", "show")]
 public record AzMonitorMetricsAlertShowOptions : AzOptions
 {
     [CliOption("--ids")]

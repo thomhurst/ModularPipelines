@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "connection", "update", "keyvault")]
+[CliSubCommand("containerapp", "connection", "update", "keyvault")]
 public record AzContainerappConnectionUpdateKeyvaultOptions : AzOptions
 {
     [CliOption("--client-type")]

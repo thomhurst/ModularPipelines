@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "autoscale", "show")]
+[CliSubCommand("monitor", "autoscale", "show")]
 public record AzMonitorAutoscaleShowOptions : AzOptions
 {
     [CliOption("--autoscale-name")]

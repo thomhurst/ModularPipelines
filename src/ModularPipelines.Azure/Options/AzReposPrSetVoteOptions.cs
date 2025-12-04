@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "pr", "set-vote")]
+[CliSubCommand("repos", "pr", "set-vote")]
 public record AzReposPrSetVoteOptions(
 [property: CliOption("--id")] string Id,
 [property: CliOption("--vote")] string Vote

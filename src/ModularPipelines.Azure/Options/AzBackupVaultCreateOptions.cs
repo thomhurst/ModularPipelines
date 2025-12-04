@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "vault", "create")]
+[CliSubCommand("backup", "vault", "create")]
 public record AzBackupVaultCreateOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--name")] string Name,

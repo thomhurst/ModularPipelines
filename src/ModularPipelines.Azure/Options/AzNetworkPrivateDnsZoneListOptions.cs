@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-dns", "zone", "list")]
+[CliSubCommand("network", "private-dns", "zone", "list")]
 public record AzNetworkPrivateDnsZoneListOptions : AzOptions
 {
     [CliOption("--max-items")]

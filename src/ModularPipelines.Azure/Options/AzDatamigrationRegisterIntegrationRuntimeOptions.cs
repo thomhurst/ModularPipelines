@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datamigration", "register-integration-runtime")]
+[CliSubCommand("datamigration", "register-integration-runtime")]
 public record AzDatamigrationRegisterIntegrationRuntimeOptions(
 [property: CliOption("--auth-key")] string AuthKey
 ) : AzOptions

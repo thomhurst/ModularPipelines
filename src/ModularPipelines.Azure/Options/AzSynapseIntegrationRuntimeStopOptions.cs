@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "integration-runtime", "stop")]
+[CliSubCommand("synapse", "integration-runtime", "stop")]
 public record AzSynapseIntegrationRuntimeStopOptions : AzOptions
 {
     [CliOption("--ids")]

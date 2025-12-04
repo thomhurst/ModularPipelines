@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datamigration", "sql-vm", "create")]
+[CliSubCommand("datamigration", "sql-vm", "create")]
 public record AzDatamigrationSqlVmCreateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--sql-vm-name")] string SqlVmName,

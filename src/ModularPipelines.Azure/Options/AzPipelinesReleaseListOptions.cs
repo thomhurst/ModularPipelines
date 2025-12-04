@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "release", "list")]
+[CliSubCommand("pipelines", "release", "list")]
 public record AzPipelinesReleaseListOptions : AzOptions
 {
     [CliOption("--definition-id")]

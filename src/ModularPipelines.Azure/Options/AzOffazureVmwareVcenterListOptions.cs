@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("offure", "vmware", "vcenter", "list")]
+[CliSubCommand("offure", "vmware", "vcenter", "list")]
 public record AzOffazureVmwareVcenterListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--site-name")] string SiteName

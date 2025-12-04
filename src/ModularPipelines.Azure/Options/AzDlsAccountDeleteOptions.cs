@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "account", "delete")]
+[CliSubCommand("dls", "account", "delete")]
 public record AzDlsAccountDeleteOptions : AzOptions
 {
     [CliOption("--account")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hybridaks", "proxy")]
+[CliSubCommand("hybridaks", "proxy")]
 public record AzHybridaksProxyOptions : AzOptions
 {
     [CliOption("--file")]

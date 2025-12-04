@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "p2s-vpn-gateway", "update")]
+[CliSubCommand("network", "p2s-vpn-gateway", "update")]
 public record AzNetworkP2sVpnGatewayUpdateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

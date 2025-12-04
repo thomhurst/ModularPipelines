@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mobile-network", "create")]
+[CliSubCommand("mobile-network", "create")]
 public record AzMobileNetworkCreateOptions(
 [property: CliOption("--identifier")] string Identifier,
 [property: CliOption("--mobile-network-name")] string MobileNetworkName,

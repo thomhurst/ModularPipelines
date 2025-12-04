@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "app-insights", "component", "connect-webapp")]
+[CliSubCommand("monitor", "app-insights", "component", "connect-webapp")]
 public record AzMonitorAppInsightsComponentConnectWebappOptions(
 [property: CliOption("--web-app")] string WebApp
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation", "software-update-configuration", "list")]
+[CliSubCommand("automation", "software-update-configuration", "list")]
 public record AzAutomationSoftwareUpdateConfigurationListOptions(
 [property: CliOption("--automation-account-name")] int AutomationAccountName,
 [property: CliOption("--resource-group")] string ResourceGroup

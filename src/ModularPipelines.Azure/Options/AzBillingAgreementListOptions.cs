@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("billing", "agreement", "list")]
+[CliSubCommand("billing", "agreement", "list")]
 public record AzBillingAgreementListOptions(
 [property: CliOption("--account-name")] int AccountName
 ) : AzOptions

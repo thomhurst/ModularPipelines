@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("workloads", "monitor", "provider-instance", "delete")]
+[CliSubCommand("workloads", "monitor", "provider-instance", "delete")]
 public record AzWorkloadsMonitorProviderInstanceDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

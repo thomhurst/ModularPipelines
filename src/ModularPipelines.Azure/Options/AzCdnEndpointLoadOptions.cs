@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cdn", "endpoint", "load")]
+[CliSubCommand("cdn", "endpoint", "load")]
 public record AzCdnEndpointLoadOptions(
 [property: CliOption("--content-paths")] string ContentPaths
 ) : AzOptions

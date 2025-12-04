@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aro", "validate")]
+[CliSubCommand("aro", "validate")]
 public record AzAroValidateOptions(
 [property: CliOption("--master-subnet")] string MasterSubnet,
 [property: CliOption("--name")] string Name,

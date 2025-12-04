@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("fleet", "member", "create")]
+[CliSubCommand("fleet", "member", "create")]
 public record AzFleetMemberCreateOptions(
 [property: CliOption("--fleet-name")] string FleetName,
 [property: CliOption("--member-cluster-id")] string MemberClusterId,

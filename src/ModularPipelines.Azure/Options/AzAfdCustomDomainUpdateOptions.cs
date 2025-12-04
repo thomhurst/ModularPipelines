@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "custom-domain", "update")]
+[CliSubCommand("afd", "custom-domain", "update")]
 public record AzAfdCustomDomainUpdateOptions : AzOptions
 {
     [CliOption("--azure-dns-zone")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "namespace", "client", "delete")]
+[CliSubCommand("eventgrid", "namespace", "client", "delete")]
 public record AzEventgridNamespaceClientDeleteOptions : AzOptions
 {
     [CliOption("--client-name")]

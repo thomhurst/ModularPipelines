@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redisenterprise", "database", "import")]
+[CliSubCommand("redisenterprise", "database", "import")]
 public record AzRedisenterpriseDatabaseImportOptions(
 [property: CliOption("--sas-uris")] string SasUris
 ) : AzOptions

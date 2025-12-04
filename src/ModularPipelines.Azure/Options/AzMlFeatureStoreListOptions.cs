@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "feature-store", "list")]
+[CliSubCommand("ml", "feature-store", "list")]
 public record AzMlFeatureStoreListOptions : AzOptions
 {
     [CliOption("--max-results")]

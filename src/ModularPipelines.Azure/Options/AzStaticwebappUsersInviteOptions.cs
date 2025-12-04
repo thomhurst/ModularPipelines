@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("staticwebapp", "users", "invite")]
+[CliSubCommand("staticwebapp", "users", "invite")]
 public record AzStaticwebappUsersInviteOptions(
 [property: CliOption("--authentication-provider")] string AuthenticationProvider,
 [property: CliOption("--domain")] string Domain,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("confidentialledger", "managedccfs", "wait")]
+[CliSubCommand("confidentialledger", "managedccfs", "wait")]
 public record AzConfidentialledgerManagedccfsWaitOptions : AzOptions
 {
     [CliFlag("--created")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("powerbi", "embedded-capacity", "update")]
+[CliSubCommand("powerbi", "embedded-capacity", "update")]
 public record AzPowerbiEmbeddedCapacityUpdateOptions : AzOptions
 {
     [CliOption("--administration-members")]

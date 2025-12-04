@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "region", "wait")]
+[CliSubCommand("keyvault", "region", "wait")]
 public record AzKeyvaultRegionWaitOptions(
 [property: CliOption("--hsm-name")] string HsmName
 ) : AzOptions

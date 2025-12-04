@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "global-reach-connection", "delete")]
+[CliSubCommand("vmware", "global-reach-connection", "delete")]
 public record AzVmwareGlobalReachConnectionDeleteOptions : AzOptions
 {
     [CliOption("--global-reach-connection-name")]

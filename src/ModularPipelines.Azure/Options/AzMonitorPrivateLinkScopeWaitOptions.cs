@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "private-link-scope", "wait")]
+[CliSubCommand("monitor", "private-link-scope", "wait")]
 public record AzMonitorPrivateLinkScopeWaitOptions : AzOptions
 {
     [CliFlag("--created")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "location", "list-skus")]
+[CliSubCommand("batch", "location", "list-skus")]
 public record AzBatchLocationListSkusOptions(
 [property: CliOption("--location")] string Location
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "ipextendedcommunity", "delete")]
+[CliSubCommand("networkfabric", "ipextendedcommunity", "delete")]
 public record AzNetworkfabricIpextendedcommunityDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

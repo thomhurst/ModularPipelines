@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "application-configuration-service", "git", "repo", "add")]
+[CliSubCommand("spring", "application-configuration-service", "git", "repo", "add")]
 public record AzSpringApplicationConfigurationServiceGitRepoAddOptions(
 [property: CliOption("--label")] string Label,
 [property: CliOption("--name")] string Name,

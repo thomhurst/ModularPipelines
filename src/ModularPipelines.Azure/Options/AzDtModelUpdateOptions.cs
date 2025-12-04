@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "model", "update")]
+[CliSubCommand("dt", "model", "update")]
 public record AzDtModelUpdateOptions(
 [property: CliOption("--dt-name")] string DtName,
 [property: CliOption("--dtmi")] string Dtmi

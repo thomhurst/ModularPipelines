@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dynatrace", "monitor", "list-linkable-environment")]
+[CliSubCommand("dynatrace", "monitor", "list-linkable-environment")]
 public record AzDynatraceMonitorListLinkableEnvironmentOptions(
 [property: CliOption("--monitor-name")] string MonitorName,
 [property: CliOption("--resource-group")] string ResourceGroup

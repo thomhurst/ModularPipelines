@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "trustedaccess", "rolebinding", "create")]
+[CliSubCommand("aks", "trustedaccess", "rolebinding", "create")]
 public record AzAksTrustedaccessRolebindingCreateOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--name")] string Name,

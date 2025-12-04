@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "private-link-scope", "list")]
+[CliSubCommand("monitor", "private-link-scope", "list")]
 public record AzMonitorPrivateLinkScopeListOptions : AzOptions
 {
     [CliOption("--max-items")]

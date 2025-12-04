@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "private-endpoint-connection", "wait")]
+[CliSubCommand("eventhubs", "namespace", "private-endpoint-connection", "wait")]
 public record AzEventhubsNamespacePrivateEndpointConnectionWaitOptions : AzOptions
 {
     [CliFlag("--created")]

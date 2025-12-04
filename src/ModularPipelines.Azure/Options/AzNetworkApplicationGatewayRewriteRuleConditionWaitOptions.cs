@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "rewrite-rule", "condition", "wait")]
+[CliSubCommand("network", "application-gateway", "rewrite-rule", "condition", "wait")]
 public record AzNetworkApplicationGatewayRewriteRuleConditionWaitOptions : AzOptions
 {
     [CliFlag("--created")]

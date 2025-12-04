@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spatial-anchors-account", "key", "renew")]
+[CliSubCommand("spatial-anchors-account", "key", "renew")]
 public record AzSpatialAnchorsAccountKeyRenewOptions : AzOptions
 {
     [CliOption("--ids")]

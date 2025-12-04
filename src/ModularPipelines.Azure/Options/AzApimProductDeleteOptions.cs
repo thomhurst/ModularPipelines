@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "product", "delete")]
+[CliSubCommand("apim", "product", "delete")]
 public record AzApimProductDeleteOptions(
 [property: CliOption("--product-id")] string ProductId,
 [property: CliOption("--resource-group")] string ResourceGroup,

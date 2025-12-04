@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet", "peering", "show")]
+[CliSubCommand("network", "vnet", "peering", "show")]
 public record AzNetworkVnetPeeringShowOptions : AzOptions
 {
     [CliOption("--ids")]

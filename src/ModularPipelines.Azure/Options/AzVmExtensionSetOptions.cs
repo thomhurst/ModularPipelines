@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "extension", "set")]
+[CliSubCommand("vm", "extension", "set")]
 public record AzVmExtensionSetOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--publisher")] string Publisher

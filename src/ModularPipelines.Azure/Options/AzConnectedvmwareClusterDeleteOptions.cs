@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "cluster", "delete")]
+[CliSubCommand("connectedvmware", "cluster", "delete")]
 public record AzConnectedvmwareClusterDeleteOptions : AzOptions
 {
     [CliFlag("--force")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "kubernetescluster", "agentpool", "list")]
+[CliSubCommand("networkcloud", "kubernetescluster", "agentpool", "list")]
 public record AzNetworkcloudKubernetesclusterAgentpoolListOptions(
 [property: CliOption("--kubernetes-cluster-name")] string KubernetesClusterName,
 [property: CliOption("--resource-group")] string ResourceGroup

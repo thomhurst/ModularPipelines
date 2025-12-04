@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "create", "servicebus")]
+[CliSubCommand("connection", "create", "servicebus")]
 public record AzConnectionCreateServicebusOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

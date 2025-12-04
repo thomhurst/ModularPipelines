@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "database-principal-assignment", "wait")]
+[CliSubCommand("kusto", "database-principal-assignment", "wait")]
 public record AzKustoDatabasePrincipalAssignmentWaitOptions : AzOptions
 {
     [CliOption("--cluster-name")]

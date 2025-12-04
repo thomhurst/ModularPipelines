@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "account", "ad", "update")]
+[CliSubCommand("netappfiles", "account", "ad", "update")]
 public record AzNetappfilesAccountAdUpdateOptions(
 [property: CliOption("--active-directory-id")] string ActiveDirectoryId,
 [property: CliOption("--dns")] string Dns,

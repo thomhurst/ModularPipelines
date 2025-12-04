@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "gateway", "sync-cert")]
+[CliSubCommand("spring", "gateway", "sync-cert")]
 public record AzSpringGatewaySyncCertOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--service")] string Service

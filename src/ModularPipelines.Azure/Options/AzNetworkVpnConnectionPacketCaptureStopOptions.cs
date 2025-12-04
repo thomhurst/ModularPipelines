@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vpn-connection", "packet-capture", "stop")]
+[CliSubCommand("network", "vpn-connection", "packet-capture", "stop")]
 public record AzNetworkVpnConnectionPacketCaptureStopOptions(
 [property: CliOption("--sas-url")] string SasUrl
 ) : AzOptions

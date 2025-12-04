@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "cloud-link", "create")]
+[CliSubCommand("vmware", "cloud-link", "create")]
 public record AzVmwareCloudLinkCreateOptions(
 [property: CliOption("--cloud-link-name")] string CloudLinkName,
 [property: CliOption("--linked-cloud")] string LinkedCloud,

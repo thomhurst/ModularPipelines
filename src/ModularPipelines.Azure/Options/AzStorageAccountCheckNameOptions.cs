@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "check-name")]
+[CliSubCommand("storage", "account", "check-name")]
 public record AzStorageAccountCheckNameOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions;

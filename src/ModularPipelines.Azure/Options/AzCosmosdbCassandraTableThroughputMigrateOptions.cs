@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "cassandra", "table", "throughput", "migrate")]
+[CliSubCommand("cosmosdb", "cassandra", "table", "throughput", "migrate")]
 public record AzCosmosdbCassandraTableThroughputMigrateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--keyspace-name")] string KeyspaceName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network-analytics", "data-product", "list-roles-assignment")]
+[CliSubCommand("network-analytics", "data-product", "list-roles-assignment")]
 public record AzNetworkAnalyticsDataProductListRolesAssignmentOptions : AzOptions
 {
     [CliOption("--data-product-name")]

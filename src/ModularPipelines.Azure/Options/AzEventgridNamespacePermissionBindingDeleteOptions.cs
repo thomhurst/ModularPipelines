@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "namespace", "permission-binding", "delete")]
+[CliSubCommand("eventgrid", "namespace", "permission-binding", "delete")]
 public record AzEventgridNamespacePermissionBindingDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

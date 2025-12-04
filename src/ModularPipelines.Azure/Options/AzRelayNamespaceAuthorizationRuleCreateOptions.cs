@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("relay", "namespace", "authorization-rule", "create")]
+[CliSubCommand("relay", "namespace", "authorization-rule", "create")]
 public record AzRelayNamespaceAuthorizationRuleCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--namespace-name")] string NamespaceName,

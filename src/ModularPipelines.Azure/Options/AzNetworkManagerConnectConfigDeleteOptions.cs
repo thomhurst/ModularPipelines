@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "manager", "connect-config", "delete")]
+[CliSubCommand("network", "manager", "connect-config", "delete")]
 public record AzNetworkManagerConnectConfigDeleteOptions : AzOptions
 {
     [CliOption("--configuration-name")]

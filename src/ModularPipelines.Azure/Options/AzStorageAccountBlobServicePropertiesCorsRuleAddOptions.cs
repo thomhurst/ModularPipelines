@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "blob-service-properties", "cors-rule", "add")]
+[CliSubCommand("storage", "account", "blob-service-properties", "cors-rule", "add")]
 public record AzStorageAccountBlobServicePropertiesCorsRuleAddOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliFlag("--allowed-methods")] bool AllowedMethods,

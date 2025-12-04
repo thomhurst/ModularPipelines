@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vhub", "route-map", "get-outbound-routes")]
+[CliSubCommand("network", "vhub", "route-map", "get-outbound-routes")]
 public record AzNetworkVhubRouteMapGetOutboundRoutesOptions : AzOptions
 {
     [CliOption("--connection-type")]

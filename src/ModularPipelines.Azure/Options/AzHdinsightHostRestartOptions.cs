@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hdinsight", "host", "restart")]
+[CliSubCommand("hdinsight", "host", "restart")]
 public record AzHdinsightHostRestartOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--host-names")] string HostNames,

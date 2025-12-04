@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "resiliency", "update")]
+[CliSubCommand("containerapp", "resiliency", "update")]
 public record AzContainerappResiliencyUpdateOptions(
 [property: CliOption("--container-app-name")] string ContainerAppName,
 [property: CliOption("--resource-group")] string ResourceGroup

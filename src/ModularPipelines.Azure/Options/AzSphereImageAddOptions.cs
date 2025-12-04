@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "image", "add")]
+[CliSubCommand("sphere", "image", "add")]
 public record AzSphereImageAddOptions(
 [property: CliOption("--catalog")] string Catalog,
 [property: CliOption("--image-path")] string ImagePath,

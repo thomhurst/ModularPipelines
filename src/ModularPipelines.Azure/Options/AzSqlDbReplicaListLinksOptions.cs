@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "replica", "list-links")]
+[CliSubCommand("sql", "db", "replica", "list-links")]
 public record AzSqlDbReplicaListLinksOptions : AzOptions
 {
     [CliOption("--ids")]

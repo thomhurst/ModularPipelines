@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "private-cloud", "create")]
+[CliSubCommand("vmware", "private-cloud", "create")]
 public record AzVmwarePrivateCloudCreateOptions(
 [property: CliOption("--cluster-size")] string ClusterSize,
 [property: CliOption("--name")] string Name,

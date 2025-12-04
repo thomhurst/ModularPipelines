@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "add-on", "qdrant", "delete")]
+[CliSubCommand("containerapp", "add-on", "qdrant", "delete")]
 public record AzContainerappAddOnQdrantDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

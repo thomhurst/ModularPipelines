@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "express-route", "port", "generate-loa")]
+[CliSubCommand("network", "express-route", "port", "generate-loa")]
 public record AzNetworkExpressRoutePortGenerateLoaOptions(
 [property: CliOption("--customer-name")] string CustomerName
 ) : AzOptions

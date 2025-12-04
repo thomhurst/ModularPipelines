@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage-mover", "project", "wait")]
+[CliSubCommand("storage-mover", "project", "wait")]
 public record AzStorageMoverProjectWaitOptions : AzOptions
 {
     [CliFlag("--created")]

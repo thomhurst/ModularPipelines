@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cluster", "baremetalmachinekeyset", "create")]
+[CliSubCommand("networkcloud", "cluster", "baremetalmachinekeyset", "create")]
 public record AzNetworkcloudClusterBaremetalmachinekeysetCreateOptions(
 [property: CliOption("--azure-group-id")] string AzureGroupId,
 [property: CliOption("--bare-metal-machine-key-set-name")] string BareMetalMachineKeySetName,

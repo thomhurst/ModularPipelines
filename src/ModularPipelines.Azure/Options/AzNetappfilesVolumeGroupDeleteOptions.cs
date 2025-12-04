@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "volume-group", "delete")]
+[CliSubCommand("netappfiles", "volume-group", "delete")]
 public record AzNetappfilesVolumeGroupDeleteOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--group-name")] string GroupName,

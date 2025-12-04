@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "connection", "update", "confluent-cloud")]
+[CliSubCommand("spring", "connection", "update", "confluent-cloud")]
 public record AzSpringConnectionUpdateConfluentCloudOptions(
 [property: CliOption("--connection")] string Connection
 ) : AzOptions

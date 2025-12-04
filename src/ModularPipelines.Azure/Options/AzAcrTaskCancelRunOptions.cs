@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "task", "cancel-run")]
+[CliSubCommand("acr", "task", "cancel-run")]
 public record AzAcrTaskCancelRunOptions(
 [property: CliOption("--registry")] string Registry,
 [property: CliOption("--run-id")] string RunId

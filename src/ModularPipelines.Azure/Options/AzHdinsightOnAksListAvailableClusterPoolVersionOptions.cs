@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hdinsight-on-aks", "list-available-cluster-pool-version")]
+[CliSubCommand("hdinsight-on-aks", "list-available-cluster-pool-version")]
 public record AzHdinsightOnAksListAvailableClusterPoolVersionOptions(
 [property: CliOption("--location")] string Location
 ) : AzOptions

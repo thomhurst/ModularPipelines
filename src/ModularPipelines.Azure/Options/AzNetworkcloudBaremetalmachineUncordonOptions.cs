@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "baremetalmachine", "uncordon")]
+[CliSubCommand("networkcloud", "baremetalmachine", "uncordon")]
 public record AzNetworkcloudBaremetalmachineUncordonOptions : AzOptions
 {
     [CliOption("--bare-metal-machine-name")]

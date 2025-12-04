@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hanainstance", "list")]
+[CliSubCommand("hanainstance", "list")]
 public record AzHanainstanceListOptions : AzOptions
 {
     [CliOption("--resource-group")]

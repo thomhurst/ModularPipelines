@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "endpoint", "purge")]
+[CliSubCommand("afd", "endpoint", "purge")]
 public record AzAfdEndpointPurgeOptions(
 [property: CliOption("--content-paths")] string ContentPaths
 ) : AzOptions

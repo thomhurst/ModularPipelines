@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server-logs", "list")]
+[CliSubCommand("mysql", "server-logs", "list")]
 public record AzMysqlServerLogsListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--server-name")] string ServerName

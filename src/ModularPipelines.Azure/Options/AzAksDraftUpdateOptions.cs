@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "draft", "update")]
+[CliSubCommand("aks", "draft", "update")]
 public record AzAksDraftUpdateOptions : AzOptions
 {
     [CliOption("--certificate")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "query")]
+[CliSubCommand("acr", "query")]
 public record AzAcrQueryOptions(
 [property: CliOption("--kql-query")] string KqlQuery,
 [property: CliOption("--name")] string Name

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "firewall", "policy", "rule-collection-group", "collection", "rule", "update")]
+[CliSubCommand("network", "firewall", "policy", "rule-collection-group", "collection", "rule", "update")]
 public record AzNetworkFirewallPolicyRuleCollectionGroupCollectionRuleUpdateOptions(
 [property: CliOption("--collection-name")] string CollectionName,
 [property: CliOption("--name")] string Name,

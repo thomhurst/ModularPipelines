@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation", "hrwg", "update")]
+[CliSubCommand("automation", "hrwg", "update")]
 public record AzAutomationHrwgUpdateOptions : AzOptions
 {
     [CliOption("--add")]

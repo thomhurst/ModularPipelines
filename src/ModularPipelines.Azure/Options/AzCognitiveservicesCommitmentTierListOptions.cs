@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cognitiveservices", "commitment-tier", "list")]
+[CliSubCommand("cognitiveservices", "commitment-tier", "list")]
 public record AzCognitiveservicesCommitmentTierListOptions(
 [property: CliOption("--location")] string Location
 ) : AzOptions;

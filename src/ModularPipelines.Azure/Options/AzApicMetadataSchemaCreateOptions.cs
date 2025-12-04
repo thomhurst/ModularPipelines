@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apic", "metadata-schema", "create")]
+[CliSubCommand("apic", "metadata-schema", "create")]
 public record AzApicMetadataSchemaCreateOptions(
 [property: CliOption("--metadata-schema")] string MetadataSchema,
 [property: CliOption("--resource-group")] string ResourceGroup,

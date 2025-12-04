@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "product", "update")]
+[CliSubCommand("apim", "product", "update")]
 public record AzApimProductUpdateOptions(
 [property: CliOption("--product-id")] string ProductId,
 [property: CliOption("--resource-group")] string ResourceGroup,

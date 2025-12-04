@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "hostname", "list")]
+[CliSubCommand("webapp", "config", "hostname", "list")]
 public record AzWebappConfigHostnameListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--webapp-name")] string WebappName

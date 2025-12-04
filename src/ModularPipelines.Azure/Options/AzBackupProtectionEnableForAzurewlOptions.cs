@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "protection", "enable-for-urewl")]
+[CliSubCommand("backup", "protection", "enable-for-urewl")]
 public record AzBackupProtectionEnableForAzurewlOptions(
 [property: CliOption("--policy-name")] string PolicyName,
 [property: CliOption("--protectable-item-name")] string ProtectableItemName,

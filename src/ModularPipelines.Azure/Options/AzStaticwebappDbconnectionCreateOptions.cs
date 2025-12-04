@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("staticwebapp", "dbconnection", "create")]
+[CliSubCommand("staticwebapp", "dbconnection", "create")]
 public record AzStaticwebappDbconnectionCreateOptions(
 [property: CliOption("--db-resource-id")] string DbResourceId,
 [property: CliOption("--name")] string Name,

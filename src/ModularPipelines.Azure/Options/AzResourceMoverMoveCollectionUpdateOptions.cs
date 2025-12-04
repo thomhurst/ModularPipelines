@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resource-mover", "move-collection", "update")]
+[CliSubCommand("resource-mover", "move-collection", "update")]
 public record AzResourceMoverMoveCollectionUpdateOptions : AzOptions
 {
     [CliOption("--add")]

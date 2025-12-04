@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "blob-service-properties", "update")]
+[CliSubCommand("storage", "account", "blob-service-properties", "update")]
 public record AzStorageAccountBlobServicePropertiesUpdateOptions(
 [property: CliOption("--account-name")] int AccountName
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "application-group", "create")]
+[CliSubCommand("eventhubs", "namespace", "application-group", "create")]
 public record AzEventhubsNamespaceApplicationGroupCreateOptions(
 [property: CliOption("--client-app-group-id")] string ClientAppGroupId,
 [property: CliOption("--name")] string Name,

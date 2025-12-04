@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "server", "wait")]
+[CliSubCommand("mariadb", "server", "wait")]
 public record AzMariadbServerWaitOptions : AzOptions
 {
     [CliOption("--custom")]

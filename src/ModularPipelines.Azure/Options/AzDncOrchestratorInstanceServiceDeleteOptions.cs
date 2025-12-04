@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dnc", "orchestrator-instance-service", "delete")]
+[CliSubCommand("dnc", "orchestrator-instance-service", "delete")]
 public record AzDncOrchestratorInstanceServiceDeleteOptions : AzOptions
 {
     [CliFlag("--force-delete")]

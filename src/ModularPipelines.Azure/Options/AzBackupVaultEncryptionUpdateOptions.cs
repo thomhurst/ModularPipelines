@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "vault", "encryption", "update")]
+[CliSubCommand("backup", "vault", "encryption", "update")]
 public record AzBackupVaultEncryptionUpdateOptions(
 [property: CliOption("--encryption-key-id")] string EncryptionKeyId
 ) : AzOptions

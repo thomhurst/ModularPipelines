@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "mesh", "upgrade", "complete")]
+[CliSubCommand("aks", "mesh", "upgrade", "complete")]
 public record AzAksMeshUpgradeCompleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

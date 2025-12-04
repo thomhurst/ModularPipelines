@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "online-deployment", "get-logs")]
+[CliSubCommand("ml", "online-deployment", "get-logs")]
 public record AzMlOnlineDeploymentGetLogsOptions(
 [property: CliOption("--endpoint-name")] string EndpointName,
 [property: CliOption("--name")] string Name,

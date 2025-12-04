@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databricks", "access-connector", "list")]
+[CliSubCommand("databricks", "access-connector", "list")]
 public record AzDatabricksAccessConnectorListOptions : AzOptions
 {
     [CliOption("--resource-group")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "metrics", "list")]
+[CliSubCommand("monitor", "metrics", "list")]
 public record AzMonitorMetricsListOptions(
 [property: CliOption("--resource")] string Resource
 ) : AzOptions

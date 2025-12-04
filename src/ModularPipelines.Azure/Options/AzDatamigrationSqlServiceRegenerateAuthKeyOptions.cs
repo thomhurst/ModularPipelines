@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datamigration", "sql-service", "regenerate-auth-key")]
+[CliSubCommand("datamigration", "sql-service", "regenerate-auth-key")]
 public record AzDatamigrationSqlServiceRegenerateAuthKeyOptions : AzOptions
 {
     [CliOption("--auth-key1")]

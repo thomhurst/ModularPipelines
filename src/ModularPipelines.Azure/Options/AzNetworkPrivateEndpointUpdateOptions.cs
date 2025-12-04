@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-endpoint", "update")]
+[CliSubCommand("network", "private-endpoint", "update")]
 public record AzNetworkPrivateEndpointUpdateOptions : AzOptions
 {
     [CliOption("--add")]

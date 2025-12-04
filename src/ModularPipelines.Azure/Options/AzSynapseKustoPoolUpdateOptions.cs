@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kusto", "pool", "update")]
+[CliSubCommand("synapse", "kusto", "pool", "update")]
 public record AzSynapseKustoPoolUpdateOptions : AzOptions
 {
     [CliFlag("--enable-purge")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("command-change", "version-diff")]
+[CliSubCommand("command-change", "version-diff")]
 public record AzCommandChangeVersionDiffOptions(
 [property: CliOption("--base-version")] string BaseVersion,
 [property: CliOption("--diff-version")] string DiffVersion

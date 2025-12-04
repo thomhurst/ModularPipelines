@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "delete")]
+[CliSubCommand("postgres", "flexible-server", "delete")]
 public record AzPostgresFlexibleServerDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

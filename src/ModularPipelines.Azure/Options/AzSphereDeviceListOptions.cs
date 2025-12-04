@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "list")]
+[CliSubCommand("sphere", "device", "list")]
 public record AzSphereDeviceListOptions(
 [property: CliOption("--catalog")] string Catalog,
 [property: CliOption("--resource-group")] string ResourceGroup

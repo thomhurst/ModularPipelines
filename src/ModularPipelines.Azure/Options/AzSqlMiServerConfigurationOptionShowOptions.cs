@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "server-configuration-option", "show")]
+[CliSubCommand("sql", "mi", "server-configuration-option", "show")]
 public record AzSqlMiServerConfigurationOptionShowOptions : AzOptions
 {
     [CliOption("--ids")]

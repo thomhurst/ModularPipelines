@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storagesync", "show")]
+[CliSubCommand("storagesync", "show")]
 public record AzStoragesyncShowOptions : AzOptions
 {
     [CliOption("--ids")]

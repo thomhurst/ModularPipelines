@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "log-profiles", "list")]
+[CliSubCommand("monitor", "log-profiles", "list")]
 public record AzMonitorLogProfilesListOptions : AzOptions;

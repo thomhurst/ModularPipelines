@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sapmonitor", "update")]
+[CliSubCommand("sapmonitor", "update")]
 public record AzSapmonitorUpdateOptions(
 [property: CliOption("--monitor-name")] string MonitorName,
 [property: CliOption("--resource-group")] string ResourceGroup

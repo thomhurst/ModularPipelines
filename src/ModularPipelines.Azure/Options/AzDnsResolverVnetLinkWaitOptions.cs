@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dns-resolver", "vnet-link", "wait")]
+[CliSubCommand("dns-resolver", "vnet-link", "wait")]
 public record AzDnsResolverVnetLinkWaitOptions : AzOptions
 {
     [CliFlag("--created")]

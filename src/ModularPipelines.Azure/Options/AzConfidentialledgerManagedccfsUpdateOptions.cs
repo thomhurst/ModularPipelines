@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("confidentialledger", "managedccfs", "update")]
+[CliSubCommand("confidentialledger", "managedccfs", "update")]
 public record AzConfidentialledgerManagedccfsUpdateOptions : AzOptions
 {
     [CliOption("--deployment-type")]

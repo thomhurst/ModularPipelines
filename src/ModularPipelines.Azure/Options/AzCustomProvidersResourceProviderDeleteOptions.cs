@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("custom-providers", "resource-provider", "delete")]
+[CliSubCommand("custom-providers", "resource-provider", "delete")]
 public record AzCustomProvidersResourceProviderDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

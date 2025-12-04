@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cdn", "custom-domain", "create")]
+[CliSubCommand("cdn", "custom-domain", "create")]
 public record AzCdnCustomDomainCreateOptions(
 [property: CliOption("--endpoint-name")] string EndpointName,
 [property: CliOption("--hostname")] string Hostname,

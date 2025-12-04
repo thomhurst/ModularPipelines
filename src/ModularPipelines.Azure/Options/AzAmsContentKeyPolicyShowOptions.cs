@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "content-key-policy", "show")]
+[CliSubCommand("ams", "content-key-policy", "show")]
 public record AzAmsContentKeyPolicyShowOptions : AzOptions
 {
     [CliOption("--account-name")]

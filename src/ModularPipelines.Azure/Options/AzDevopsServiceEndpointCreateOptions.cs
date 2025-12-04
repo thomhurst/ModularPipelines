@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "service-endpoint", "create")]
+[CliSubCommand("devops", "service-endpoint", "create")]
 public record AzDevopsServiceEndpointCreateOptions(
 [property: CliOption("--service-endpoint-configuration")] string ServiceEndpointConfiguration
 ) : AzOptions

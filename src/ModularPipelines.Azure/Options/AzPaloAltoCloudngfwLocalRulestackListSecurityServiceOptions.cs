@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("palo-alto", "cloudngfw", "local-rulestack", "list-security-service")]
+[CliSubCommand("palo-alto", "cloudngfw", "local-rulestack", "list-security-service")]
 public record AzPaloAltoCloudngfwLocalRulestackListSecurityServiceOptions(
 [property: CliOption("--type")] string Type
 ) : AzOptions

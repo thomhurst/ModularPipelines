@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network-analytics", "data-product", "show")]
+[CliSubCommand("network-analytics", "data-product", "show")]
 public record AzNetworkAnalyticsDataProductShowOptions : AzOptions
 {
     [CliOption("--data-product-name")]

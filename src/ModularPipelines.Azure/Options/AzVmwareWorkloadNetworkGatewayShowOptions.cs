@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "gateway", "show")]
+[CliSubCommand("vmware", "workload-network", "gateway", "show")]
 public record AzVmwareWorkloadNetworkGatewayShowOptions : AzOptions
 {
     [CliOption("--gateway")]

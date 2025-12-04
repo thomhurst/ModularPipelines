@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "lb", "address-pool", "address", "show")]
+[CliSubCommand("network", "lb", "address-pool", "address", "show")]
 public record AzNetworkLbAddressPoolAddressShowOptions(
 [property: CliOption("--lb-name")] string LbName,
 [property: CliOption("--name")] string Name,

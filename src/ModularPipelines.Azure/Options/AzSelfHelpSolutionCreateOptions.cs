@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("self-help", "solution", "create")]
+[CliSubCommand("self-help", "solution", "create")]
 public record AzSelfHelpSolutionCreateOptions(
 [property: CliOption("--scope")] string Scope,
 [property: CliOption("--solution-name")] string SolutionName

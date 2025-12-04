@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("container", "exec")]
+[CliSubCommand("container", "exec")]
 public record AzContainerExecOptions(
 [property: CliOption("--exec-command")] string ExecCommand
 ) : AzOptions

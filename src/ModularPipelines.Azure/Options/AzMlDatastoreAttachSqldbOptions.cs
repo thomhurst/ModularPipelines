@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "datastore", "attach-sqldb")]
+[CliSubCommand("ml", "datastore", "attach-sqldb")]
 public record AzMlDatastoreAttachSqldbOptions(
 [property: CliOption("--database-name")] string DatabaseName,
 [property: CliOption("--name")] string Name,

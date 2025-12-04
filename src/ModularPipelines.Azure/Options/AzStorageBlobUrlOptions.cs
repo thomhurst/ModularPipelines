@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "blob", "url")]
+[CliSubCommand("storage", "blob", "url")]
 public record AzStorageBlobUrlOptions(
 [property: CliOption("--container-name")] string ContainerName,
 [property: CliOption("--name")] string Name

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aro", "create")]
+[CliSubCommand("aro", "create")]
 public record AzAroCreateOptions(
 [property: CliOption("--master-subnet")] string MasterSubnet,
 [property: CliOption("--name")] string Name,

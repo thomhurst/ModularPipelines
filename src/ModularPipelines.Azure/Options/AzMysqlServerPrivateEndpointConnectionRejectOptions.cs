@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "private-endpoint-connection", "reject")]
+[CliSubCommand("mysql", "server", "private-endpoint-connection", "reject")]
 public record AzMysqlServerPrivateEndpointConnectionRejectOptions : AzOptions
 {
     [CliOption("--description")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "security-partner-provider", "wait")]
+[CliSubCommand("network", "security-partner-provider", "wait")]
 public record AzNetworkSecurityPartnerProviderWaitOptions : AzOptions
 {
     [CliFlag("--created")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("palo-alto", "cloudngfw", "firewall", "list")]
+[CliSubCommand("palo-alto", "cloudngfw", "firewall", "list")]
 public record AzPaloAltoCloudngfwFirewallListOptions : AzOptions
 {
     [CliOption("--max-items")]

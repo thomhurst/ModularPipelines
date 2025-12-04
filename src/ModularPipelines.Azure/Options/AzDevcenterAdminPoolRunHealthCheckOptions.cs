@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "pool", "run-health-check")]
+[CliSubCommand("devcenter", "admin", "pool", "run-health-check")]
 public record AzDevcenterAdminPoolRunHealthCheckOptions : AzOptions
 {
     [CliOption("--ids")]

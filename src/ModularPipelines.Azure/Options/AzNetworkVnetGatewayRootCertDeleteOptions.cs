@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet-gateway", "root-cert", "delete")]
+[CliSubCommand("network", "vnet-gateway", "root-cert", "delete")]
 public record AzNetworkVnetGatewayRootCertDeleteOptions(
 [property: CliOption("--gateway-name")] string GatewayName,
 [property: CliOption("--name")] string Name,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "network-rule", "add")]
+[CliSubCommand("acr", "network-rule", "add")]
 public record AzAcrNetworkRuleAddOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

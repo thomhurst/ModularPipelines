@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("orbital", "operation-result", "show")]
+[CliSubCommand("orbital", "operation-result", "show")]
 public record AzOrbitalOperationResultShowOptions : AzOptions
 {
     [CliOption("--ids")]

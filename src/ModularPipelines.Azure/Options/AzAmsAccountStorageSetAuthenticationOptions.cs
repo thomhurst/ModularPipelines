@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "account", "storage", "set-authentication")]
+[CliSubCommand("ams", "account", "storage", "set-authentication")]
 public record AzAmsAccountStorageSetAuthenticationOptions(
 [property: CliOption("--storage-auth")] string StorageAuth
 ) : AzOptions

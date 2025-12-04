@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "front-door", "waf-policy", "rule", "match-condition", "add")]
+[CliSubCommand("network", "front-door", "waf-policy", "rule", "match-condition", "add")]
 public record AzNetworkFrontDoorWafPolicyRuleMatchConditionAddOptions(
 [property: CliOption("--match-variable")] string MatchVariable,
 [property: CliOption("--operator")] string Operator,

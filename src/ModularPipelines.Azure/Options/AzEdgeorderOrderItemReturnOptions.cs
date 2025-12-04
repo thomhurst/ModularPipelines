@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("edgeorder", "order-item", "return")]
+[CliSubCommand("edgeorder", "order-item", "return")]
 public record AzEdgeorderOrderItemReturnOptions(
 [property: CliOption("--return-reason")] string ReturnReason
 ) : AzOptions

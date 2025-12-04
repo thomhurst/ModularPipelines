@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("nginx", "deployment", "certificate", "delete")]
+[CliSubCommand("nginx", "deployment", "certificate", "delete")]
 public record AzNginxDeploymentCertificateDeleteOptions : AzOptions
 {
     [CliOption("--certificate-name")]

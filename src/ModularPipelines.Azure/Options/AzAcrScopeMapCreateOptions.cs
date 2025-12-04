@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "scope-map", "create")]
+[CliSubCommand("acr", "scope-map", "create")]
 public record AzAcrScopeMapCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--registry")] string Registry

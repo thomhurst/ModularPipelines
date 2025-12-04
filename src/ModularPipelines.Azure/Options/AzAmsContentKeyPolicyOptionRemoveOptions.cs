@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "content-key-policy", "option", "remove")]
+[CliSubCommand("ams", "content-key-policy", "option", "remove")]
 public record AzAmsContentKeyPolicyOptionRemoveOptions(
 [property: CliOption("--policy-option-id")] string PolicyOptionId
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "task", "update-run")]
+[CliSubCommand("acr", "task", "update-run")]
 public record AzAcrTaskUpdateRunOptions(
 [property: CliOption("--registry")] string Registry,
 [property: CliOption("--run-id")] string RunId

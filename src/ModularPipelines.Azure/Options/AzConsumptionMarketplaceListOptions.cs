@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("consumption", "marketplace", "list")]
+[CliSubCommand("consumption", "marketplace", "list")]
 public record AzConsumptionMarketplaceListOptions : AzOptions
 {
     [CliOption("--billing-period-name")]

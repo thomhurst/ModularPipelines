@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("urestackhci", "virtualharddisk", "update")]
+[CliSubCommand("urestackhci", "virtualharddisk", "update")]
 public record AzAzurestackhciVirtualharddiskUpdateOptions : AzOptions
 {
     [CliOption("--ids")]

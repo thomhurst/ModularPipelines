@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "pool", "node-counts", "list")]
+[CliSubCommand("batch", "pool", "node-counts", "list")]
 public record AzBatchPoolNodeCountsListOptions : AzOptions
 {
     [CliOption("--account-endpoint")]

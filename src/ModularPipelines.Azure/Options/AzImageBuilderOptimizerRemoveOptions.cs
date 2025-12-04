@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("image", "builder", "optimizer", "remove")]
+[CliSubCommand("image", "builder", "optimizer", "remove")]
 public record AzImageBuilderOptimizerRemoveOptions : AzOptions
 {
     [CliOption("--defer")]

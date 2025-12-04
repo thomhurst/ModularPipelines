@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resource", "wait")]
+[CliSubCommand("resource", "wait")]
 public record AzResourceWaitOptions : AzOptions
 {
     [CliOption("--api-version")]

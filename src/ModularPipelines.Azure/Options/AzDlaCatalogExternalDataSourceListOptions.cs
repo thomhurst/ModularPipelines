@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "catalog", "external-data-source", "list")]
+[CliSubCommand("dla", "catalog", "external-data-source", "list")]
 public record AzDlaCatalogExternalDataSourceListOptions(
 [property: CliOption("--database-name")] string DatabaseName
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcappliance", "validate", "hci")]
+[CliSubCommand("arcappliance", "validate", "hci")]
 public record AzArcapplianceValidateHciOptions(
 [property: CliOption("--config-file")] string ConfigFile
 ) : AzOptions

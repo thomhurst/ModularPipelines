@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "geo-restore")]
+[CliSubCommand("mysql", "flexible-server", "geo-restore")]
 public record AzMysqlFlexibleServerGeoRestoreOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--source-server")] string SourceServer

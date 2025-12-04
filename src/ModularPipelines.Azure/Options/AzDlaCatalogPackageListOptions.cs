@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "catalog", "package", "list")]
+[CliSubCommand("dla", "catalog", "package", "list")]
 public record AzDlaCatalogPackageListOptions(
 [property: CliOption("--database-name")] string DatabaseName,
 [property: CliOption("--schema-name")] string SchemaName

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hdinsight-on-aks", "clusterpool", "create")]
+[CliSubCommand("hdinsight-on-aks", "clusterpool", "create")]
 public record AzHdinsightOnAksClusterpoolCreateOptions(
 [property: CliOption("--cluster-pool-name")] string ClusterPoolName,
 [property: CliOption("--resource-group")] string ResourceGroup

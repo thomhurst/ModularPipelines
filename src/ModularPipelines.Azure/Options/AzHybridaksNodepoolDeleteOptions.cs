@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hybridaks", "nodepool", "delete")]
+[CliSubCommand("hybridaks", "nodepool", "delete")]
 public record AzHybridaksNodepoolDeleteOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--name")] string Name,

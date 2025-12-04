@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "migration", "show")]
+[CliSubCommand("servicebus", "migration", "show")]
 public record AzServicebusMigrationShowOptions : AzOptions
 {
     [CliOption("--config-name")]

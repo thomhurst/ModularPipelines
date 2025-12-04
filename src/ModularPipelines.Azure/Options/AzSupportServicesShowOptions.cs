@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("support", "services", "show")]
+[CliSubCommand("support", "services", "show")]
 public record AzSupportServicesShowOptions(
 [property: CliOption("--service-name")] string ServiceName
 ) : AzOptions;

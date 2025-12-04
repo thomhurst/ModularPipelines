@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("urestackhci", "networkinterface", "delete")]
+[CliSubCommand("urestackhci", "networkinterface", "delete")]
 public record AzAzurestackhciNetworkinterfaceDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

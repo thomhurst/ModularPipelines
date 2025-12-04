@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "diagnostics", "validate-properties")]
+[CliSubCommand("iot", "central", "diagnostics", "validate-properties")]
 public record AzIotCentralDiagnosticsValidatePropertiesOptions(
 [property: CliOption("--app-id")] string AppId,
 [property: CliOption("--device-id")] string DeviceId

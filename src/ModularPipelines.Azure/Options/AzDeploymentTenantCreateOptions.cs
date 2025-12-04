@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("deployment", "tenant", "create")]
+[CliSubCommand("deployment", "tenant", "create")]
 public record AzDeploymentTenantCreateOptions(
 [property: CliOption("--location")] string Location
 ) : AzOptions

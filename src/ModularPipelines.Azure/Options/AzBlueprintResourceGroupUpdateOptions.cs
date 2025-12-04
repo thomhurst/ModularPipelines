@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("blueprint", "resource-group", "update")]
+[CliSubCommand("blueprint", "resource-group", "update")]
 public record AzBlueprintResourceGroupUpdateOptions(
 [property: CliOption("--artifact-name")] string ArtifactName,
 [property: CliOption("--blueprint-name")] string BlueprintName

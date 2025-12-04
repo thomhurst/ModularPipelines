@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "ingress", "sticky-sessions", "show")]
+[CliSubCommand("containerapp", "ingress", "sticky-sessions", "show")]
 public record AzContainerappIngressStickySessionsShowOptions : AzOptions
 {
     [CliOption("--ids")]

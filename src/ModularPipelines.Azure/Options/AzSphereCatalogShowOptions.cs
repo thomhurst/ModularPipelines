@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "catalog", "show")]
+[CliSubCommand("sphere", "catalog", "show")]
 public record AzSphereCatalogShowOptions(
 [property: CliOption("--catalog")] string Catalog,
 [property: CliOption("--resource-group")] string ResourceGroup

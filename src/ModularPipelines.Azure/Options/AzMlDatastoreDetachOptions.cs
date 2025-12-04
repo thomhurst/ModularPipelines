@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "datastore", "detach")]
+[CliSubCommand("ml", "datastore", "detach")]
 public record AzMlDatastoreDetachOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

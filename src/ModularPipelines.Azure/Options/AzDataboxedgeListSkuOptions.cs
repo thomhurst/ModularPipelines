@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databoxedge", "list-sku")]
+[CliSubCommand("databoxedge", "list-sku")]
 public record AzDataboxedgeListSkuOptions : AzOptions
 {
     [CliOption("--filter")]

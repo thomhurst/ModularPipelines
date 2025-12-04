@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network-function", "traffic-collector", "wait")]
+[CliSubCommand("network-function", "traffic-collector", "wait")]
 public record AzNetworkFunctionTrafficCollectorWaitOptions : AzOptions
 {
     [CliFlag("--created")]

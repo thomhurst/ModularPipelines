@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "app-insights", "component", "linked-storage", "update")]
+[CliSubCommand("monitor", "app-insights", "component", "linked-storage", "update")]
 public record AzMonitorAppInsightsComponentLinkedStorageUpdateOptions(
 [property: CliOption("--storage-account")] int StorageAccount
 ) : AzOptions

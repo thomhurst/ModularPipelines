@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "management-policy", "update")]
+[CliSubCommand("storage", "account", "management-policy", "update")]
 public record AzStorageAccountManagementPolicyUpdateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--resource-group")] string ResourceGroup

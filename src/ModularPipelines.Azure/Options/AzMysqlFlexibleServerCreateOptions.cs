@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "create")]
+[CliSubCommand("mysql", "flexible-server", "create")]
 public record AzMysqlFlexibleServerCreateOptions : AzOptions
 {
     [CliOption("--address-prefixes")]

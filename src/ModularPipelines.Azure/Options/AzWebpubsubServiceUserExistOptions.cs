@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webpubsub", "service", "user", "exist")]
+[CliSubCommand("webpubsub", "service", "user", "exist")]
 public record AzWebpubsubServiceUserExistOptions(
 [property: CliOption("--hub-name")] string HubName,
 [property: CliOption("--user-id")] string UserId

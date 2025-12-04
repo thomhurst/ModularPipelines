@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redis", "export")]
+[CliSubCommand("redis", "export")]
 public record AzRedisExportOptions(
 [property: CliOption("--container")] string Container,
 [property: CliOption("--prefix")] string Prefix

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "workspace-hub", "create")]
+[CliSubCommand("ml", "workspace-hub", "create")]
 public record AzMlWorkspaceHubCreateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

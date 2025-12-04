@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vhub", "get-effective-routes")]
+[CliSubCommand("network", "vhub", "get-effective-routes")]
 public record AzNetworkVhubGetEffectiveRoutesOptions : AzOptions
 {
     [CliOption("--ids")]

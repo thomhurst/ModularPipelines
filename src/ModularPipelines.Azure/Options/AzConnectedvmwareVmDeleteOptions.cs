@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "vm", "delete")]
+[CliSubCommand("connectedvmware", "vm", "delete")]
 public record AzConnectedvmwareVmDeleteOptions : AzOptions
 {
     [CliOption("--delete-from-host")]

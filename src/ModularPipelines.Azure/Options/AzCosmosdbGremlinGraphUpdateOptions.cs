@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "gremlin", "graph", "update")]
+[CliSubCommand("cosmosdb", "gremlin", "graph", "update")]
 public record AzCosmosdbGremlinGraphUpdateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--database-name")] string DatabaseName,

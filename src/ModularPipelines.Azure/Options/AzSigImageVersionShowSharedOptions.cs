@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sig", "image-version", "show-shared")]
+[CliSubCommand("sig", "image-version", "show-shared")]
 public record AzSigImageVersionShowSharedOptions : AzOptions
 {
     [CliOption("--gallery-image-definition")]

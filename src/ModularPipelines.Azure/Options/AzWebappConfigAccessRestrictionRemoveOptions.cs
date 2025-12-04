@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "access-restriction", "remove")]
+[CliSubCommand("webapp", "config", "access-restriction", "remove")]
 public record AzWebappConfigAccessRestrictionRemoveOptions : AzOptions
 {
     [CliOption("--action")]

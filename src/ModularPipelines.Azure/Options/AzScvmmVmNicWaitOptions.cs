@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vm", "nic", "wait")]
+[CliSubCommand("scvmm", "vm", "nic", "wait")]
 public record AzScvmmVmNicWaitOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--virtual-machine-name")] string VirtualMachineName

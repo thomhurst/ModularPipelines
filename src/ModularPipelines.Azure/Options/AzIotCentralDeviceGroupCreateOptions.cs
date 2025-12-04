@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "device-group", "create")]
+[CliSubCommand("iot", "central", "device-group", "create")]
 public record AzIotCentralDeviceGroupCreateOptions(
 [property: CliOption("--app-id")] string AppId,
 [property: CliOption("--device-group-id")] string DeviceGroupId,

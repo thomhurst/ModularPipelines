@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vhub", "routing-intent", "delete")]
+[CliSubCommand("network", "vhub", "routing-intent", "delete")]
 public record AzNetworkVhubRoutingIntentDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

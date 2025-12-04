@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sapmonitor", "list")]
+[CliSubCommand("sapmonitor", "list")]
 public record AzSapmonitorListOptions : AzOptions;

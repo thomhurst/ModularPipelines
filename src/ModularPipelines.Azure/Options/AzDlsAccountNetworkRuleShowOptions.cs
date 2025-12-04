@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "account", "network-rule", "show")]
+[CliSubCommand("dls", "account", "network-rule", "show")]
 public record AzDlsAccountNetworkRuleShowOptions(
 [property: CliOption("--account-name")] int AccountName
 ) : AzOptions

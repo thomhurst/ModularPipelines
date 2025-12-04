@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kusto", "attached-database-configuration", "delete")]
+[CliSubCommand("synapse", "kusto", "attached-database-configuration", "delete")]
 public record AzSynapseKustoAttachedDatabaseConfigurationDeleteOptions : AzOptions
 {
     [CliFlag("--attached-database-configuration-name")]

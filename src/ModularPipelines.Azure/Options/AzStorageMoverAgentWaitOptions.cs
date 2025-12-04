@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage-mover", "agent", "wait")]
+[CliSubCommand("storage-mover", "agent", "wait")]
 public record AzStorageMoverAgentWaitOptions : AzOptions
 {
     [CliOption("--agent-name")]

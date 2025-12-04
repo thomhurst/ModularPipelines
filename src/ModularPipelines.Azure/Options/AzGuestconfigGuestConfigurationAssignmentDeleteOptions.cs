@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("guestconfig", "guest-configuration-assignment", "delete")]
+[CliSubCommand("guestconfig", "guest-configuration-assignment", "delete")]
 public record AzGuestconfigGuestConfigurationAssignmentDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "activity-log", "alert", "list")]
+[CliSubCommand("monitor", "activity-log", "alert", "list")]
 public record AzMonitorActivityLogAlertListOptions : AzOptions
 {
     [CliOption("--resource-group")]

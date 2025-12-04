@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "volume", "relocate")]
+[CliSubCommand("netappfiles", "volume", "relocate")]
 public record AzNetappfilesVolumeRelocateOptions : AzOptions
 {
     [CliOption("--account-name")]

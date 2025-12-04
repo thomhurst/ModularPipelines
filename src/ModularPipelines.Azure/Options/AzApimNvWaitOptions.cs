@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "nv", "wait")]
+[CliSubCommand("apim", "nv", "wait")]
 public record AzApimNvWaitOptions(
 [property: CliOption("--named-value-id")] string NamedValueId,
 [property: CliOption("--resource-group")] string ResourceGroup,

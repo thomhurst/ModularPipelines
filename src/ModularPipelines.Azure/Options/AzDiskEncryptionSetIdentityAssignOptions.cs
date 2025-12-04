@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-encryption-set", "identity", "assign")]
+[CliSubCommand("disk-encryption-set", "identity", "assign")]
 public record AzDiskEncryptionSetIdentityAssignOptions : AzOptions
 {
     [CliOption("--ids")]

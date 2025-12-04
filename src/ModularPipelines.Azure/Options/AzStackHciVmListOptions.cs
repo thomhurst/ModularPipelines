@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci-vm", "list")]
+[CliSubCommand("stack-hci-vm", "list")]
 public record AzStackHciVmListOptions : AzOptions
 {
     [CliOption("--resource-group")]

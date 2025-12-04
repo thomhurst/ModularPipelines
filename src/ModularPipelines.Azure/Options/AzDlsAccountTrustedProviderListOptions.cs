@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "account", "trusted-provider", "list")]
+[CliSubCommand("dls", "account", "trusted-provider", "list")]
 public record AzDlsAccountTrustedProviderListOptions : AzOptions
 {
     [CliOption("--account")]

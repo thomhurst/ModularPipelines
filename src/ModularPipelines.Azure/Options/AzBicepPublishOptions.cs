@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("bicep", "publish")]
+[CliSubCommand("bicep", "publish")]
 public record AzBicepPublishOptions(
 [property: CliOption("--file")] string File,
 [property: CliOption("--target")] string Target

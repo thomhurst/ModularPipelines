@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("offure", "hyperv", "cluster", "show")]
+[CliSubCommand("offure", "hyperv", "cluster", "show")]
 public record AzOffazureHypervClusterShowOptions : AzOptions
 {
     [CliOption("--cluster-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "volume", "create", "(netappfiles-preview", "extension)")]
+[CliSubCommand("netappfiles", "volume", "create", "(netappfiles-preview", "extension)")]
 public record AzNetappfilesVolumeCreateNetappfilesPreviewExtensionOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--creation-token")] string CreationToken,

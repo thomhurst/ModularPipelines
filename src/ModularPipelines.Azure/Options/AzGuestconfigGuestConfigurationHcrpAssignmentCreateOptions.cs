@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("guestconfig", "guest-configuration-hcrp-assignment", "create")]
+[CliSubCommand("guestconfig", "guest-configuration-hcrp-assignment", "create")]
 public record AzGuestconfigGuestConfigurationHcrpAssignmentCreateOptions(
 [property: CliOption("--guest-configuration-assignment-name")] string GuestConfigurationAssignmentName,
 [property: CliOption("--machine-name")] string MachineName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "url-path-map", "rule", "wait")]
+[CliSubCommand("network", "application-gateway", "url-path-map", "rule", "wait")]
 public record AzNetworkApplicationGatewayUrlPathMapRuleWaitOptions : AzOptions
 {
     [CliFlag("--created")]

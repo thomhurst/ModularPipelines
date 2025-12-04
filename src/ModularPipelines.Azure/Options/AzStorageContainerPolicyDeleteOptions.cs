@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "container", "policy", "delete")]
+[CliSubCommand("storage", "container", "policy", "delete")]
 public record AzStorageContainerPolicyDeleteOptions(
 [property: CliOption("--container-name")] string ContainerName,
 [property: CliOption("--name")] string Name

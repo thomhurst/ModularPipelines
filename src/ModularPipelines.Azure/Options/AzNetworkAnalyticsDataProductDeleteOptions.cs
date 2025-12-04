@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network-analytics", "data-product", "delete")]
+[CliSubCommand("network-analytics", "data-product", "delete")]
 public record AzNetworkAnalyticsDataProductDeleteOptions : AzOptions
 {
     [CliOption("--data-product-name")]

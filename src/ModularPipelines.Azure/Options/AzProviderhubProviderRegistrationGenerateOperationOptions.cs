@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("providerhub", "provider-registration", "generate-operation")]
+[CliSubCommand("providerhub", "provider-registration", "generate-operation")]
 public record AzProviderhubProviderRegistrationGenerateOperationOptions : AzOptions
 {
     [CliOption("--ids")]

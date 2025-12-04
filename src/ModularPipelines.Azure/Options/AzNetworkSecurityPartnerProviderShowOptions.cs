@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "security-partner-provider", "show")]
+[CliSubCommand("network", "security-partner-provider", "show")]
 public record AzNetworkSecurityPartnerProviderShowOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "ssl-profile", "remove")]
+[CliSubCommand("network", "application-gateway", "ssl-profile", "remove")]
 public record AzNetworkApplicationGatewaySslProfileRemoveOptions(
 [property: CliOption("--gateway-name")] string GatewayName,
 [property: CliOption("--name")] string Name,

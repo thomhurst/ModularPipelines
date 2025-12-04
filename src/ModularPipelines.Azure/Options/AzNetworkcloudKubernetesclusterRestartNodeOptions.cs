@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "kubernetescluster", "restart-node")]
+[CliSubCommand("networkcloud", "kubernetescluster", "restart-node")]
 public record AzNetworkcloudKubernetesclusterRestartNodeOptions(
 [property: CliOption("--node-name")] string NodeName
 ) : AzOptions

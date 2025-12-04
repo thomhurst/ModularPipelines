@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "registry", "update")]
+[CliSubCommand("ml", "registry", "update")]
 public record AzMlRegistryUpdateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

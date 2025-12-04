@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "front-door", "probe", "delete")]
+[CliSubCommand("network", "front-door", "probe", "delete")]
 public record AzNetworkFrontDoorProbeDeleteOptions(
 [property: CliOption("--front-door-name")] string FrontDoorName,
 [property: CliOption("--name")] string Name,

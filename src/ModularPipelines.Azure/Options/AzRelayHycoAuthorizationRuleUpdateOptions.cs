@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("relay", "hyco", "authorization-rule", "update")]
+[CliSubCommand("relay", "hyco", "authorization-rule", "update")]
 public record AzRelayHycoAuthorizationRuleUpdateOptions(
 [property: CliOption("--rights")] string Rights
 ) : AzOptions

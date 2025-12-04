@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "spark", "session", "create")]
+[CliSubCommand("synapse", "spark", "session", "create")]
 public record AzSynapseSparkSessionCreateOptions(
 [property: CliOption("--executor-size")] string ExecutorSize,
 [property: CliOption("--executors")] string Executors,

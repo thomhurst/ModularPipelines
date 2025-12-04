@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "backup")]
+[CliSubCommand("apim", "backup")]
 public record AzApimBackupOptions(
 [property: CliOption("--backup-name")] string BackupName,
 [property: CliOption("--container-name")] string ContainerName,

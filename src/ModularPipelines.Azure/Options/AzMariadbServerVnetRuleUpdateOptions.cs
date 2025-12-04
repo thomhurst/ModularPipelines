@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "server", "vnet-rule", "update")]
+[CliSubCommand("mariadb", "server", "vnet-rule", "update")]
 public record AzMariadbServerVnetRuleUpdateOptions(
 [property: CliOption("--subnet")] string Subnet
 ) : AzOptions

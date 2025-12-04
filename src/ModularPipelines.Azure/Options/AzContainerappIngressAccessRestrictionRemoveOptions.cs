@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "ingress", "access-restriction", "remove")]
+[CliSubCommand("containerapp", "ingress", "access-restriction", "remove")]
 public record AzContainerappIngressAccessRestrictionRemoveOptions(
 [property: CliOption("--rule-name")] string RuleName
 ) : AzOptions

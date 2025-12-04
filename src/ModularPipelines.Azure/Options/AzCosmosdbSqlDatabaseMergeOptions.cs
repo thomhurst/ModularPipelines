@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "sql", "database", "merge")]
+[CliSubCommand("cosmosdb", "sql", "database", "merge")]
 public record AzCosmosdbSqlDatabaseMergeOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--name")] string Name,

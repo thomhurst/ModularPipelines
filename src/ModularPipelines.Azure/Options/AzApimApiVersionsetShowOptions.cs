@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "api", "versionset", "show")]
+[CliSubCommand("apim", "api", "versionset", "show")]
 public record AzApimApiVersionsetShowOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--service-name")] string ServiceName,

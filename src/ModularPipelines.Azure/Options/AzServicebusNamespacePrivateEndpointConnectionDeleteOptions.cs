@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "namespace", "private-endpoint-connection", "delete")]
+[CliSubCommand("servicebus", "namespace", "private-endpoint-connection", "delete")]
 public record AzServicebusNamespacePrivateEndpointConnectionDeleteOptions : AzOptions
 {
     [CliOption("--description")]

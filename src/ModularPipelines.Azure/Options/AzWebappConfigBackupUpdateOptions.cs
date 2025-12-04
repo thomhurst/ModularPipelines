@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "backup", "update")]
+[CliSubCommand("webapp", "config", "backup", "update")]
 public record AzWebappConfigBackupUpdateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--webapp-name")] string WebappName

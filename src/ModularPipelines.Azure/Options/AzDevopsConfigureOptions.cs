@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "configure")]
+[CliSubCommand("devops", "configure")]
 public record AzDevopsConfigureOptions : AzOptions
 {
     [CliOption("--defaults")]

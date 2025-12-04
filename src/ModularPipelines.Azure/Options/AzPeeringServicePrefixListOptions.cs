@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("peering", "service", "prefix", "list")]
+[CliSubCommand("peering", "service", "prefix", "list")]
 public record AzPeeringServicePrefixListOptions(
 [property: CliOption("--peering-service-name")] string PeeringServiceName,
 [property: CliOption("--resource-group")] string ResourceGroup

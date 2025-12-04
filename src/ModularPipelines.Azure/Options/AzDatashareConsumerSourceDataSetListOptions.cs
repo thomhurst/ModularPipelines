@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datashare", "consumer-source-data-set", "list")]
+[CliSubCommand("datashare", "consumer-source-data-set", "list")]
 public record AzDatashareConsumerSourceDataSetListOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--resource-group")] string ResourceGroup,

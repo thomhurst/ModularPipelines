@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("staticwebapp", "backends", "validate")]
+[CliSubCommand("staticwebapp", "backends", "validate")]
 public record AzStaticwebappBackendsValidateOptions(
 [property: CliOption("--backend-resource-id")] string BackendResourceId,
 [property: CliOption("--name")] string Name,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vpn-gateway", "connection", "update")]
+[CliSubCommand("network", "vpn-gateway", "connection", "update")]
 public record AzNetworkVpnGatewayConnectionUpdateOptions : AzOptions
 {
     [CliOption("--add")]

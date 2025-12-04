@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage-mover", "agent", "show")]
+[CliSubCommand("storage-mover", "agent", "show")]
 public record AzStorageMoverAgentShowOptions : AzOptions
 {
     [CliOption("--agent-name")]

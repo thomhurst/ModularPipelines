@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "ipv6-firewall-rule", "create")]
+[CliSubCommand("sql", "server", "ipv6-firewall-rule", "create")]
 public record AzSqlServerIpv6FirewallRuleCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "vnet-rule", "delete")]
+[CliSubCommand("sql", "server", "vnet-rule", "delete")]
 public record AzSqlServerVnetRuleDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

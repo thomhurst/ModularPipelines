@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("consumption", "reservation", "summary", "list")]
+[CliSubCommand("consumption", "reservation", "summary", "list")]
 public record AzConsumptionReservationSummaryListOptions(
 [property: CliOption("--grain")] string Grain,
 [property: CliOption("--reservation-order-id")] string ReservationOrderId

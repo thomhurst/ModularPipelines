@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vpn-connection", "packet-capture", "start")]
+[CliSubCommand("network", "vpn-connection", "packet-capture", "start")]
 public record AzNetworkVpnConnectionPacketCaptureStartOptions : AzOptions
 {
     [CliOption("--filter")]

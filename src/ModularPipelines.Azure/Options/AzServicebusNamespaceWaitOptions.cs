@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "namespace", "wait")]
+[CliSubCommand("servicebus", "namespace", "wait")]
 public record AzServicebusNamespaceWaitOptions : AzOptions
 {
     [CliFlag("--created")]

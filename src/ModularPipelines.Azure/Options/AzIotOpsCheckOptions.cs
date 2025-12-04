@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "ops", "check")]
+[CliSubCommand("iot", "ops", "check")]
 public record AzIotOpsCheckOptions : AzOptions
 {
     [CliFlag("--as-object")]

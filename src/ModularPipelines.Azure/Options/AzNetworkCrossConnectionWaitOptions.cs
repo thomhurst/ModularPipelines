@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "cross-connection", "wait")]
+[CliSubCommand("network", "cross-connection", "wait")]
 public record AzNetworkCrossConnectionWaitOptions : AzOptions
 {
     [CliFlag("--created")]

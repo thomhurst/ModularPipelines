@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "integration-runtime-node", "update")]
+[CliSubCommand("datafactory", "integration-runtime-node", "update")]
 public record AzDatafactoryIntegrationRuntimeNodeUpdateOptions : AzOptions
 {
     [CliOption("--concurrent-jobs-limit")]

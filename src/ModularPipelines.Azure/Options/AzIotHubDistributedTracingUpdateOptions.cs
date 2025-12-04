@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "distributed-tracing", "update")]
+[CliSubCommand("iot", "hub", "distributed-tracing", "update")]
 public record AzIotHubDistributedTracingUpdateOptions(
 [property: CliOption("--device-id")] string DeviceId,
 [property: CliOption("--hub-name")] string HubName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "image", "list-skus")]
+[CliSubCommand("vm", "image", "list-skus")]
 public record AzVmImageListSkusOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--offer")] string Offer,

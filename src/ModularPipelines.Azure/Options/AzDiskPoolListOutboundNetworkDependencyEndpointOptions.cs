@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-pool", "list-outbound-network-dependency-endpoint")]
+[CliSubCommand("disk-pool", "list-outbound-network-dependency-endpoint")]
 public record AzDiskPoolListOutboundNetworkDependencyEndpointOptions(
 [property: CliOption("--disk-pool-name")] string DiskPoolName,
 [property: CliOption("--resource-group")] string ResourceGroup

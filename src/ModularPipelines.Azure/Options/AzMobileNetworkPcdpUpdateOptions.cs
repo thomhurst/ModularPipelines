@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mobile-network", "pcdp", "update")]
+[CliSubCommand("mobile-network", "pcdp", "update")]
 public record AzMobileNetworkPcdpUpdateOptions : AzOptions
 {
     [CliOption("--ids")]

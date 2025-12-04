@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "nv", "delete")]
+[CliSubCommand("apim", "nv", "delete")]
 public record AzApimNvDeleteOptions(
 [property: CliOption("--named-value-id")] string NamedValueId,
 [property: CliOption("--resource-group")] string ResourceGroup,

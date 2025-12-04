@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redis", "import")]
+[CliSubCommand("redis", "import")]
 public record AzRedisImportOptions(
 [property: CliOption("--files")] string Files
 ) : AzOptions

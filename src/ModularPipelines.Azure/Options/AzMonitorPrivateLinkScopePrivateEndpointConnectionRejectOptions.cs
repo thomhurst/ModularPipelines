@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "private-link-scope", "private-endpoint-connection", "reject")]
+[CliSubCommand("monitor", "private-link-scope", "private-endpoint-connection", "reject")]
 public record AzMonitorPrivateLinkScopePrivateEndpointConnectionRejectOptions : AzOptions
 {
     [CliOption("--add")]

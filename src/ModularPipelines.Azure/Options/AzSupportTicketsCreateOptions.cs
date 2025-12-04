@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("support", "tickets", "create")]
+[CliSubCommand("support", "tickets", "create")]
 public record AzSupportTicketsCreateOptions(
 [property: CliOption("--contact-country")] int ContactCountry,
 [property: CliOption("--contact-email")] string ContactEmail,

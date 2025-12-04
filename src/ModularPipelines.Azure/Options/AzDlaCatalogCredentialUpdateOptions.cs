@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "catalog", "credential", "update")]
+[CliSubCommand("dla", "catalog", "credential", "update")]
 public record AzDlaCatalogCredentialUpdateOptions(
 [property: CliOption("--credential-name")] string CredentialName,
 [property: CliOption("--database-name")] string DatabaseName,

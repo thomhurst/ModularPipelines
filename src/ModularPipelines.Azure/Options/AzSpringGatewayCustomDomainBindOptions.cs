@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "gateway", "custom-domain", "bind")]
+[CliSubCommand("spring", "gateway", "custom-domain", "bind")]
 public record AzSpringGatewayCustomDomainBindOptions(
 [property: CliOption("--domain-name")] string DomainName,
 [property: CliOption("--resource-group")] string ResourceGroup,

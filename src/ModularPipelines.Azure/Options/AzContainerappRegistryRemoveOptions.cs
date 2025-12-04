@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "registry", "remove")]
+[CliSubCommand("containerapp", "registry", "remove")]
 public record AzContainerappRegistryRemoveOptions(
 [property: CliOption("--server")] string Server
 ) : AzOptions

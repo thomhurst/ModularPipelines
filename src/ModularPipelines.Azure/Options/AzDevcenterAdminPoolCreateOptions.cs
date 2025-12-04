@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "pool", "create")]
+[CliSubCommand("devcenter", "admin", "pool", "create")]
 public record AzDevcenterAdminPoolCreateOptions(
 [property: CliOption("--devbox-definition-name")] string DevboxDefinitionName,
 [property: CliOption("--local-administrator")] string LocalAdministrator,

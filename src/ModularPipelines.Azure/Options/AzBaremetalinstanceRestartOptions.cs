@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("baremetalinstance", "restart")]
+[CliSubCommand("baremetalinstance", "restart")]
 public record AzBaremetalinstanceRestartOptions : AzOptions
 {
     [CliFlag("--force")]

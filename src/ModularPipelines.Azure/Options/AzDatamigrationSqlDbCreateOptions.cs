@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datamigration", "sql-db", "create")]
+[CliSubCommand("datamigration", "sql-db", "create")]
 public record AzDatamigrationSqlDbCreateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--sqldb-instance-name")] string SqldbInstanceName,

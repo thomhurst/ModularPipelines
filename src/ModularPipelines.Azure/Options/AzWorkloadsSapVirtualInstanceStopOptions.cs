@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("workloads", "sap-virtual-instance", "stop")]
+[CliSubCommand("workloads", "sap-virtual-instance", "stop")]
 public record AzWorkloadsSapVirtualInstanceStopOptions : AzOptions
 {
     [CliOption("--ids")]

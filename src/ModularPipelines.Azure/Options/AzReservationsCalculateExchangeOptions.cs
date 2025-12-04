@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("reservations", "calculate-exchange")]
+[CliSubCommand("reservations", "calculate-exchange")]
 public record AzReservationsCalculateExchangeOptions : AzOptions
 {
     [CliFlag("--no-wait")]

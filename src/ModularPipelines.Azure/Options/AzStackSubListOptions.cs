@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack", "sub", "list")]
+[CliSubCommand("stack", "sub", "list")]
 public record AzStackSubListOptions : AzOptions;

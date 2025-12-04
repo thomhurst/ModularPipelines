@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "nic", "set")]
+[CliSubCommand("vm", "nic", "set")]
 public record AzVmNicSetOptions(
 [property: CliOption("--nics")] string Nics,
 [property: CliOption("--resource-group")] string ResourceGroup,

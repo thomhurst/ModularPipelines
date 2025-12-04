@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack", "group", "create")]
+[CliSubCommand("stack", "group", "create")]
 public record AzStackGroupCreateOptions(
 [property: CliOption("--deny-settings-mode")] string DenySettingsMode,
 [property: CliOption("--name")] string Name,

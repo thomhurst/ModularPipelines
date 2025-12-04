@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "fs", "show")]
+[CliSubCommand("dls", "fs", "show")]
 public record AzDlsFsShowOptions(
 [property: CliOption("--path")] string Path
 ) : AzOptions

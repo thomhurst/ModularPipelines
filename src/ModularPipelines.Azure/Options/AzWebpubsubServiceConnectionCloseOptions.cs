@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webpubsub", "service", "connection", "close")]
+[CliSubCommand("webpubsub", "service", "connection", "close")]
 public record AzWebpubsubServiceConnectionCloseOptions(
 [property: CliOption("--connection-id")] string ConnectionId,
 [property: CliOption("--hub-name")] string HubName

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "workspace", "outbound-rule", "remove")]
+[CliSubCommand("ml", "workspace", "outbound-rule", "remove")]
 public record AzMlWorkspaceOutboundRuleRemoveOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--rule")] string Rule,

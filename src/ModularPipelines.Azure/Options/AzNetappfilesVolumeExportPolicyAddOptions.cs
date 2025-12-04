@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "volume", "export-policy", "add")]
+[CliSubCommand("netappfiles", "volume", "export-policy", "add")]
 public record AzNetappfilesVolumeExportPolicyAddOptions(
 [property: CliFlag("--allowed-clients")] bool AllowedClients,
 [property: CliFlag("--cifs")] bool Cifs,

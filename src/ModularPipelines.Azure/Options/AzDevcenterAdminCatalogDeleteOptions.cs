@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "catalog", "delete")]
+[CliSubCommand("devcenter", "admin", "catalog", "delete")]
 public record AzDevcenterAdminCatalogDeleteOptions : AzOptions
 {
     [CliOption("--catalog-name")]

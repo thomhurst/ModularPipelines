@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "streaming-policy", "create")]
+[CliSubCommand("ams", "streaming-policy", "create")]
 public record AzAmsStreamingPolicyCreateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--name")] string Name,

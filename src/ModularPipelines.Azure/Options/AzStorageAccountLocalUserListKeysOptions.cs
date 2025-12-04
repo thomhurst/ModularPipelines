@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "local-user", "list-keys")]
+[CliSubCommand("storage", "account", "local-user", "list-keys")]
 public record AzStorageAccountLocalUserListKeysOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--name")] string Name,

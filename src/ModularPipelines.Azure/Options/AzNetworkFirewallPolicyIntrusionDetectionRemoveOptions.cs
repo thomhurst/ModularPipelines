@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "firewall", "policy", "intrusion-detection", "remove")]
+[CliSubCommand("network", "firewall", "policy", "intrusion-detection", "remove")]
 public record AzNetworkFirewallPolicyIntrusionDetectionRemoveOptions : AzOptions
 {
     [CliOption("--add")]

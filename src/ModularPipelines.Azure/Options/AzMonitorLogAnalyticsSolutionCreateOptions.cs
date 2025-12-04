@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "log-analytics", "solution", "create")]
+[CliSubCommand("monitor", "log-analytics", "solution", "create")]
 public record AzMonitorLogAnalyticsSolutionCreateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--solution-type")] string SolutionType,

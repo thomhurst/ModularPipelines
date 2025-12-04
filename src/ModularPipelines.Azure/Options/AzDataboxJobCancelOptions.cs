@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databox", "job", "cancel")]
+[CliSubCommand("databox", "job", "cancel")]
 public record AzDataboxJobCancelOptions(
 [property: CliOption("--reason")] string Reason
 ) : AzOptions

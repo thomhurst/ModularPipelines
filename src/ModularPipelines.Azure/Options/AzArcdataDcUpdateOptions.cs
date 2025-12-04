@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcdata", "dc", "update")]
+[CliSubCommand("arcdata", "dc", "update")]
 public record AzArcdataDcUpdateOptions : AzOptions
 {
     [CliFlag("--auto-upload-logs")]

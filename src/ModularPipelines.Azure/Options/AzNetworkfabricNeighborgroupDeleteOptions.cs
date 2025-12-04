@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "neighborgroup", "delete")]
+[CliSubCommand("networkfabric", "neighborgroup", "delete")]
 public record AzNetworkfabricNeighborgroupDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

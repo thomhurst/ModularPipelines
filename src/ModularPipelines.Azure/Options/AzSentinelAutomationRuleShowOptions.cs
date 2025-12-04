@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "automation-rule", "show")]
+[CliSubCommand("sentinel", "automation-rule", "show")]
 public record AzSentinelAutomationRuleShowOptions : AzOptions
 {
     [CliOption("--automation-rule-name")]

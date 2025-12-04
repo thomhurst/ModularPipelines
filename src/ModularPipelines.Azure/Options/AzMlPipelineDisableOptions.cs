@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "pipeline", "disable")]
+[CliSubCommand("ml", "pipeline", "disable")]
 public record AzMlPipelineDisableOptions(
 [property: CliOption("--pipeline-id")] string PipelineId
 ) : AzOptions

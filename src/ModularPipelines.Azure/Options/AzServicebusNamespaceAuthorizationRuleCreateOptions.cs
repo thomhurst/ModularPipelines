@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "namespace", "authorization-rule", "create")]
+[CliSubCommand("servicebus", "namespace", "authorization-rule", "create")]
 public record AzServicebusNamespaceAuthorizationRuleCreateOptions(
 [property: CliOption("--authorization-rule-name")] string AuthorizationRuleName,
 [property: CliOption("--namespace-name")] string NamespaceName,

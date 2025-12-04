@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "datastore", "attach-adls-gen2")]
+[CliSubCommand("ml", "datastore", "attach-adls-gen2")]
 public record AzMlDatastoreAttachAdlsGen2Options(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--client-id")] string ClientId,

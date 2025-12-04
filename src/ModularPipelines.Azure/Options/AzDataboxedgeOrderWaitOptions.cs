@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databoxedge", "order", "wait")]
+[CliSubCommand("databoxedge", "order", "wait")]
 public record AzDataboxedgeOrderWaitOptions : AzOptions
 {
     [CliFlag("--created")]

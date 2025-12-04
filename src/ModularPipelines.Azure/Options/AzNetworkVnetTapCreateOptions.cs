@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet", "tap", "create")]
+[CliSubCommand("network", "vnet", "tap", "create")]
 public record AzNetworkVnetTapCreateOptions(
 [property: CliOption("--destination")] string Destination,
 [property: CliOption("--name")] string Name,

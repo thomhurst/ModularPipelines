@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("confluent", "organization", "delete")]
+[CliSubCommand("confluent", "organization", "delete")]
 public record AzConfluentOrganizationDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "autoscale", "rule", "create")]
+[CliSubCommand("monitor", "autoscale", "rule", "create")]
 public record AzMonitorAutoscaleRuleCreateOptions(
 [property: CliOption("--autoscale-name")] string AutoscaleName,
 [property: CliOption("--condition")] string Condition,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "create", "keyvault")]
+[CliSubCommand("connection", "create", "keyvault")]
 public record AzConnectionCreateKeyvaultOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vmmserver", "inventory-item", "show")]
+[CliSubCommand("scvmm", "vmmserver", "inventory-item", "show")]
 public record AzScvmmVmmserverInventoryItemShowOptions(
 [property: CliOption("--inventory-item")] string InventoryItem,
 [property: CliOption("--resource-group")] string ResourceGroup,

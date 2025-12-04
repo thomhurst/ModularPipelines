@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vhub", "route-map", "rule", "delete")]
+[CliSubCommand("network", "vhub", "route-map", "rule", "delete")]
 public record AzNetworkVhubRouteMapRuleDeleteOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--route-map-name")] string RouteMapName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vpn-connection", "shared-key", "show")]
+[CliSubCommand("network", "vpn-connection", "shared-key", "show")]
 public record AzNetworkVpnConnectionSharedKeyShowOptions : AzOptions
 {
     [CliOption("--connection-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("consumption", "budget", "show-with-rg")]
+[CliSubCommand("consumption", "budget", "show-with-rg")]
 public record AzConsumptionBudgetShowWithRgOptions : AzOptions
 {
     [CliOption("--budget-name")]

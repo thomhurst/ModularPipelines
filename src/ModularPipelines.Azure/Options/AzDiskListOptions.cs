@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk", "list")]
+[CliSubCommand("disk", "list")]
 public record AzDiskListOptions : AzOptions
 {
     [CliOption("--max-items")]

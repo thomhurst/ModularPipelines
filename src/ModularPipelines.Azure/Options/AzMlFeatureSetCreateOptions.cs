@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "feature-set", "create")]
+[CliSubCommand("ml", "feature-set", "create")]
 public record AzMlFeatureSetCreateOptions : AzOptions
 {
     [CliOption("--description")]

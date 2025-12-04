@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "server", "show-connection-string")]
+[CliSubCommand("mariadb", "server", "show-connection-string")]
 public record AzMariadbServerShowConnectionStringOptions : AzOptions
 {
     [CliOption("--admin-password")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "kv", "set-keyvault")]
+[CliSubCommand("appconfig", "kv", "set-keyvault")]
 public record AzAppconfigKvSetKeyvaultOptions(
 [property: CliOption("--key")] string Key,
 [property: CliOption("--secret-identifier")] string SecretIdentifier

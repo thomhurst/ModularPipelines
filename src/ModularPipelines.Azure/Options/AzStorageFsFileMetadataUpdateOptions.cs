@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "fs", "file", "metadata", "update")]
+[CliSubCommand("storage", "fs", "file", "metadata", "update")]
 public record AzStorageFsFileMetadataUpdateOptions(
 [property: CliOption("--file-system")] string FileSystem,
 [property: CliOption("--metadata")] string Metadata,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "cluster", "update", "(kusto", "extension)")]
+[CliSubCommand("kusto", "cluster", "update", "(kusto", "extension)")]
 public record AzKustoClusterUpdateKustoExtensionOptions : AzOptions
 {
     [CliOption("--accepted-audiences")]

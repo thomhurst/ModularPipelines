@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "cross-connection", "peering", "delete")]
+[CliSubCommand("network", "cross-connection", "peering", "delete")]
 public record AzNetworkCrossConnectionPeeringDeleteOptions : AzOptions
 {
     [CliOption("--cross-connection-name")]

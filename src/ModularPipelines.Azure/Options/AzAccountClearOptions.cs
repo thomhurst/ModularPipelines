@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("account", "clear")]
+[CliSubCommand("account", "clear")]
 public record AzAccountClearOptions : AzOptions;

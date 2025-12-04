@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi-arc", "delete")]
+[CliSubCommand("sql", "mi-arc", "delete")]
 public record AzSqlMiArcDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

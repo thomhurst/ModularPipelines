@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automanage", "configuration-profile-assignment", "arc", "update")]
+[CliSubCommand("automanage", "configuration-profile-assignment", "arc", "update")]
 public record AzAutomanageConfigurationProfileAssignmentArcUpdateOptions : AzOptions
 {
     [CliOption("--add")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet", "peering", "create")]
+[CliSubCommand("network", "vnet", "peering", "create")]
 public record AzNetworkVnetPeeringCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--remote-vnet")] string RemoteVnet,

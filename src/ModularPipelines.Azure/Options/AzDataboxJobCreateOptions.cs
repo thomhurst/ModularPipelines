@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databox", "job", "create")]
+[CliSubCommand("databox", "job", "create")]
 public record AzDataboxJobCreateOptions(
 [property: CliOption("--job-name")] string JobName,
 [property: CliOption("--resource-group")] string ResourceGroup,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "deployment", "slot", "delete")]
+[CliSubCommand("functionapp", "deployment", "slot", "delete")]
 public record AzFunctionappDeploymentSlotDeleteOptions(
 [property: CliOption("--slot")] string Slot
 ) : AzOptions

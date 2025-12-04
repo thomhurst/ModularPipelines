@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication", "chat", "message", "update")]
+[CliSubCommand("communication", "chat", "message", "update")]
 public record AzCommunicationChatMessageUpdateOptions(
 [property: CliOption("--content")] string Content,
 [property: CliOption("--message-id")] string MessageId,

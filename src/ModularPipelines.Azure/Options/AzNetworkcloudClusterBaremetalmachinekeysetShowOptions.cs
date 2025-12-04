@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cluster", "baremetalmachinekeyset", "show")]
+[CliSubCommand("networkcloud", "cluster", "baremetalmachinekeyset", "show")]
 public record AzNetworkcloudClusterBaremetalmachinekeysetShowOptions : AzOptions
 {
     [CliOption("--bare-metal-machine-key-set-name")]

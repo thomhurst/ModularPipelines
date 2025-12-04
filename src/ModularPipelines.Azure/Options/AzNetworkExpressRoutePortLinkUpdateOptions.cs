@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "express-route", "port", "link", "update")]
+[CliSubCommand("network", "express-route", "port", "link", "update")]
 public record AzNetworkExpressRoutePortLinkUpdateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--port-name")] string PortName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "file", "upload")]
+[CliSubCommand("batch", "file", "upload")]
 public record AzBatchFileUploadOptions(
 [property: CliOption("--file-group")] string FileGroup,
 [property: CliOption("--local-path")] string LocalPath

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "dns", "record-set", "tlsa", "add-record")]
+[CliSubCommand("network", "dns", "record-set", "tlsa", "add-record")]
 public record AzNetworkDnsRecordSetTlsaAddRecordOptions(
 [property: CliOption("--certificate-data")] string CertificateData,
 [property: CliOption("--certificate-usage")] string CertificateUsage,

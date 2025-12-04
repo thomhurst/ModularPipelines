@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "restart")]
+[CliSubCommand("mysql", "flexible-server", "restart")]
 public record AzMysqlFlexibleServerRestartOptions : AzOptions
 {
     [CliOption("--failover")]

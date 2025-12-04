@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resource", "lock", "list")]
+[CliSubCommand("resource", "lock", "list")]
 public record AzResourceLockListOptions : AzOptions
 {
     [CliOption("--filter-string")]

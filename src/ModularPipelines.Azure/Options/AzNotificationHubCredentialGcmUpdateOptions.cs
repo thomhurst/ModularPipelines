@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("notification-hub", "credential", "gcm", "update")]
+[CliSubCommand("notification-hub", "credential", "gcm", "update")]
 public record AzNotificationHubCredentialGcmUpdateOptions(
 [property: CliOption("--google-api-key")] string GoogleApiKey,
 [property: CliOption("--name")] string Name,

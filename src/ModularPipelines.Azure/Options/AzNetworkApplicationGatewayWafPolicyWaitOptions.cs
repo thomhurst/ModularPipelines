@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "waf-policy", "wait")]
+[CliSubCommand("network", "application-gateway", "waf-policy", "wait")]
 public record AzNetworkApplicationGatewayWafPolicyWaitOptions : AzOptions
 {
     [CliFlag("--created")]

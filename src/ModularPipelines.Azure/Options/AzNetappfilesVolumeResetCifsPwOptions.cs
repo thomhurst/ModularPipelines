@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "volume", "reset-cifs-pw")]
+[CliSubCommand("netappfiles", "volume", "reset-cifs-pw")]
 public record AzNetappfilesVolumeResetCifsPwOptions : AzOptions
 {
     [CliOption("--account-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "replication-eligibility", "show-default")]
+[CliSubCommand("site-recovery", "replication-eligibility", "show-default")]
 public record AzSiteRecoveryReplicationEligibilityShowDefaultOptions : AzOptions
 {
     [CliOption("--ids")]

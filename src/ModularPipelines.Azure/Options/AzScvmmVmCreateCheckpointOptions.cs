@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vm", "create-checkpoint")]
+[CliSubCommand("scvmm", "vm", "create-checkpoint")]
 public record AzScvmmVmCreateCheckpointOptions(
 [property: CliOption("--checkpoint-description")] string CheckpointDescription,
 [property: CliOption("--checkpoint-name")] string CheckpointName

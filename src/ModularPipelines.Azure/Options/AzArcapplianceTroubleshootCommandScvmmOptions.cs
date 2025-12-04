@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcappliance", "troubleshoot", "command", "scvmm")]
+[CliSubCommand("arcappliance", "troubleshoot", "command", "scvmm")]
 public record AzArcapplianceTroubleshootCommandScvmmOptions : AzOptions
 {
     [CliOption("--command")]

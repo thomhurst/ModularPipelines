@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("healthcareapis", "service", "create")]
+[CliSubCommand("healthcareapis", "service", "create")]
 public record AzHealthcareapisServiceCreateOptions(
 [property: CliOption("--kind")] string Kind,
 [property: CliOption("--location")] string Location,

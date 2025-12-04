@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "express-route", "port", "location", "list")]
+[CliSubCommand("network", "express-route", "port", "location", "list")]
 public record AzNetworkExpressRoutePortLocationListOptions : AzOptions;

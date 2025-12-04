@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "secure-scores", "show")]
+[CliSubCommand("security", "secure-scores", "show")]
 public record AzSecuritySecureScoresShowOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions;

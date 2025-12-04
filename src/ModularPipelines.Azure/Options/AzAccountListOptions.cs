@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("account", "list")]
+[CliSubCommand("account", "list")]
 public record AzAccountListOptions : AzOptions
 {
     [CliFlag("--all")]

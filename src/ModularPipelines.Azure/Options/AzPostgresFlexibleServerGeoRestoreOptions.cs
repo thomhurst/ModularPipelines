@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "geo-restore")]
+[CliSubCommand("postgres", "flexible-server", "geo-restore")]
 public record AzPostgresFlexibleServerGeoRestoreOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--source-server")] string SourceServer

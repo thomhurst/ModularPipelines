@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("managed-cassandra", "cluster", "list", "(cosmosdb-preview", "extension)")]
+[CliSubCommand("managed-cassandra", "cluster", "list", "(cosmosdb-preview", "extension)")]
 public record AzManagedCassandraClusterListCosmosdbPreviewExtensionOptions : AzOptions
 {
     [CliOption("--resource-group")]

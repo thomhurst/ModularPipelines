@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "app-insights", "api-key", "create")]
+[CliSubCommand("monitor", "app-insights", "api-key", "create")]
 public record AzMonitorAppInsightsApiKeyCreateOptions(
 [property: CliOption("--api-key")] string ApiKey,
 [property: CliOption("--app")] string App,

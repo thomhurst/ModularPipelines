@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "alert-setting", "create")]
+[CliSubCommand("site-recovery", "alert-setting", "create")]
 public record AzSiteRecoveryAlertSettingCreateOptions(
 [property: CliOption("--alert-setting-name")] string AlertSettingName,
 [property: CliOption("--resource-group")] string ResourceGroup,

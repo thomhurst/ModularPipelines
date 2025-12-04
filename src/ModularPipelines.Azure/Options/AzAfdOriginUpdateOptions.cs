@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "origin", "update")]
+[CliSubCommand("afd", "origin", "update")]
 public record AzAfdOriginUpdateOptions : AzOptions
 {
     [CliFlag("--enable-private-link")]

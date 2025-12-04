@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hpc-cache", "list")]
+[CliSubCommand("hpc-cache", "list")]
 public record AzHpcCacheListOptions : AzOptions
 {
     [CliOption("--resource-group")]

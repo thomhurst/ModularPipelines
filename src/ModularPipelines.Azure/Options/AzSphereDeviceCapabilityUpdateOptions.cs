@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "capability", "update")]
+[CliSubCommand("sphere", "device", "capability", "update")]
 public record AzSphereDeviceCapabilityUpdateOptions(
 [property: CliOption("--capability-file")] string CapabilityFile
 ) : AzOptions

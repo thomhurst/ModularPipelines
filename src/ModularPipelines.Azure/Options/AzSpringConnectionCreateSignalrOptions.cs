@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "connection", "create", "signalr")]
+[CliSubCommand("spring", "connection", "create", "signalr")]
 public record AzSpringConnectionCreateSignalrOptions : AzOptions
 {
     [CliOption("--app")]

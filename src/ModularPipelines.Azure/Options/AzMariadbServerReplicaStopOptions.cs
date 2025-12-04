@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "server", "replica", "stop")]
+[CliSubCommand("mariadb", "server", "replica", "stop")]
 public record AzMariadbServerReplicaStopOptions : AzOptions
 {
     [CliOption("--ids")]

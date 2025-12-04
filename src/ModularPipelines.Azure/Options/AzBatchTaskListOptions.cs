@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "task", "list")]
+[CliSubCommand("batch", "task", "list")]
 public record AzBatchTaskListOptions(
 [property: CliOption("--job-id")] string JobId
 ) : AzOptions

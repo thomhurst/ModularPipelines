@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "snapshot", "create")]
+[CliSubCommand("appconfig", "snapshot", "create")]
 public record AzAppconfigSnapshotCreateOptions(
 [property: CliOption("--filters")] string Filters,
 [property: CliOption("--snapshot-name")] string SnapshotName

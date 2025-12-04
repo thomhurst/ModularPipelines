@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet", "tap", "update")]
+[CliSubCommand("network", "vnet", "tap", "update")]
 public record AzNetworkVnetTapUpdateOptions : AzOptions
 {
     [CliOption("--add")]

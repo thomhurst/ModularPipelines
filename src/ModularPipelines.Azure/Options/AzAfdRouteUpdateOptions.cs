@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "route", "update")]
+[CliSubCommand("afd", "route", "update")]
 public record AzAfdRouteUpdateOptions : AzOptions
 {
     [CliOption("--content-types-to-compress")]

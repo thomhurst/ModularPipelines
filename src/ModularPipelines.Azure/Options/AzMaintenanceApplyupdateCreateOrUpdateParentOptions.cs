@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("maintenance", "applyupdate", "create-or-update-parent")]
+[CliSubCommand("maintenance", "applyupdate", "create-or-update-parent")]
 public record AzMaintenanceApplyupdateCreateOrUpdateParentOptions : AzOptions
 {
     [CliOption("--ids")]

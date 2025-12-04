@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "watchlist", "update")]
+[CliSubCommand("sentinel", "watchlist", "update")]
 public record AzSentinelWatchlistUpdateOptions : AzOptions
 {
     [CliOption("--add")]

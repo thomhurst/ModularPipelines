@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databricks", "workspace", "update")]
+[CliSubCommand("databricks", "workspace", "update")]
 public record AzDatabricksWorkspaceUpdateOptions : AzOptions
 {
     [CliOption("--add")]

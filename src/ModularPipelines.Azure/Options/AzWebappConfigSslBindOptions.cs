@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "ssl", "bind")]
+[CliSubCommand("webapp", "config", "ssl", "bind")]
 public record AzWebappConfigSslBindOptions(
 [property: CliOption("--certificate-thumbprint")] string CertificateThumbprint,
 [property: CliOption("--ssl-type")] string SslType

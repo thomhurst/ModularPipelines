@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("image", "builder", "update")]
+[CliSubCommand("image", "builder", "update")]
 public record AzImageBuilderUpdateOptions : AzOptions
 {
     [CliOption("--add")]

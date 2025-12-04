@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "protectable-item", "show")]
+[CliSubCommand("backup", "protectable-item", "show")]
 public record AzBackupProtectableItemShowOptions(
 [property: CliOption("--protectable-item-type")] string ProtectableItemType,
 [property: CliOption("--server-name")] string ServerName,

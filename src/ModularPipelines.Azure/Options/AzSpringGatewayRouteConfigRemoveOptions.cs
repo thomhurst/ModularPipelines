@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "gateway", "route-config", "remove")]
+[CliSubCommand("spring", "gateway", "route-config", "remove")]
 public record AzSpringGatewayRouteConfigRemoveOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

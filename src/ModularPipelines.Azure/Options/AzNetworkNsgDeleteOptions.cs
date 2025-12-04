@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "nsg", "delete")]
+[CliSubCommand("network", "nsg", "delete")]
 public record AzNetworkNsgDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

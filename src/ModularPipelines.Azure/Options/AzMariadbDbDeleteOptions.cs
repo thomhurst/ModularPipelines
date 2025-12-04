@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "db", "delete")]
+[CliSubCommand("mariadb", "db", "delete")]
 public record AzMariadbDbDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

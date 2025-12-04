@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "integration-runtime-node", "update")]
+[CliSubCommand("synapse", "integration-runtime-node", "update")]
 public record AzSynapseIntegrationRuntimeNodeUpdateOptions(
 [property: CliOption("--auto-update")] string AutoUpdate,
 [property: CliOption("--node-name")] string NodeName,

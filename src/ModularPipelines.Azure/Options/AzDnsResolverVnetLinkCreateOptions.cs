@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dns-resolver", "vnet-link", "create")]
+[CliSubCommand("dns-resolver", "vnet-link", "create")]
 public record AzDnsResolverVnetLinkCreateOptions(
 [property: CliOption("--id")] string Id,
 [property: CliOption("--name")] string Name,

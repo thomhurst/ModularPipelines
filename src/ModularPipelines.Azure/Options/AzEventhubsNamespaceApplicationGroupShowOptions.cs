@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "application-group", "show")]
+[CliSubCommand("eventhubs", "namespace", "application-group", "show")]
 public record AzEventhubsNamespaceApplicationGroupShowOptions : AzOptions
 {
     [CliOption("--application-group-name")]

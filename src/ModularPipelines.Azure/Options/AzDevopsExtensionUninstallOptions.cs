@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "extension", "uninstall")]
+[CliSubCommand("devops", "extension", "uninstall")]
 public record AzDevopsExtensionUninstallOptions(
 [property: CliOption("--extension-id")] string ExtensionId,
 [property: CliOption("--publisher-id")] string PublisherId

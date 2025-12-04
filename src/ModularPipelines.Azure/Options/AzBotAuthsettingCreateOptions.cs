@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("bot", "authsetting", "create")]
+[CliSubCommand("bot", "authsetting", "create")]
 public record AzBotAuthsettingCreateOptions(
 [property: CliOption("--client-id")] string ClientId,
 [property: CliOption("--client-secret")] string ClientSecret,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("workloads", "sap-disk-configuration")]
+[CliSubCommand("workloads", "sap-disk-configuration")]
 public record AzWorkloadsSapDiskConfigurationOptions : AzOptions
 {
     [CliOption("--app-location")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "cross-region-lb", "rule", "delete")]
+[CliSubCommand("network", "cross-region-lb", "rule", "delete")]
 public record AzNetworkCrossRegionLbRuleDeleteOptions(
 [property: CliOption("--lb-name")] string LbName,
 [property: CliOption("--name")] string Name,

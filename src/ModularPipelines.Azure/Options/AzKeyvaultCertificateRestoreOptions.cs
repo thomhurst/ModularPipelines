@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "certificate", "restore")]
+[CliSubCommand("keyvault", "certificate", "restore")]
 public record AzKeyvaultCertificateRestoreOptions(
 [property: CliOption("--file")] string File
 ) : AzOptions

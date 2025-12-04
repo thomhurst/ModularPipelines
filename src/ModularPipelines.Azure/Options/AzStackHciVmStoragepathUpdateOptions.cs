@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci-vm", "storagepath", "update")]
+[CliSubCommand("stack-hci-vm", "storagepath", "update")]
 public record AzStackHciVmStoragepathUpdateOptions : AzOptions
 {
     [CliOption("--ids")]

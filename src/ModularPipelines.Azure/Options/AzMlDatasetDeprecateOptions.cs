@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "dataset", "deprecate")]
+[CliSubCommand("ml", "dataset", "deprecate")]
 public record AzMlDatasetDeprecateOptions(
 [property: CliOption("--deprecate-by-id")] string DeprecateById
 ) : AzOptions

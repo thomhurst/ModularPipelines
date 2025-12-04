@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("large-instance", "shutdown")]
+[CliSubCommand("large-instance", "shutdown")]
 public record AzLargeInstanceShutdownOptions : AzOptions
 {
     [CliOption("--ids")]

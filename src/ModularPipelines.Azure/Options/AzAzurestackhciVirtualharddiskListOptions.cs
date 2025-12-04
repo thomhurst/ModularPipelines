@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("urestackhci", "virtualharddisk", "list")]
+[CliSubCommand("urestackhci", "virtualharddisk", "list")]
 public record AzAzurestackhciVirtualharddiskListOptions : AzOptions
 {
     [CliOption("--resource-group")]

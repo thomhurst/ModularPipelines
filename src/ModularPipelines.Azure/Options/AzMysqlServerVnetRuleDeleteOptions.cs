@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "vnet-rule", "delete")]
+[CliSubCommand("mysql", "server", "vnet-rule", "delete")]
 public record AzMysqlServerVnetRuleDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

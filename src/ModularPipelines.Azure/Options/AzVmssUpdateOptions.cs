@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "update")]
+[CliSubCommand("vmss", "update")]
 public record AzVmssUpdateOptions : AzOptions
 {
     [CliOption("--add")]

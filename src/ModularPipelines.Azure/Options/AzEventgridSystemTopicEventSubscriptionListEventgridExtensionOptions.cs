@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "system-topic", "event-subscription", "list", "(eventgrid", "extension)")]
+[CliSubCommand("eventgrid", "system-topic", "event-subscription", "list", "(eventgrid", "extension)")]
 public record AzEventgridSystemTopicEventSubscriptionListEventgridExtensionOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--system-topic-name")] string SystemTopicName

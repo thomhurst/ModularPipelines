@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "alert-setting", "update")]
+[CliSubCommand("site-recovery", "alert-setting", "update")]
 public record AzSiteRecoveryAlertSettingUpdateOptions : AzOptions
 {
     [CliOption("--add")]

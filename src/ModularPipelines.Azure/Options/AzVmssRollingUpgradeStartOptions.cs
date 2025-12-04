@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "rolling-upgrade", "start")]
+[CliSubCommand("vmss", "rolling-upgrade", "start")]
 public record AzVmssRollingUpgradeStartOptions : AzOptions
 {
     [CliOption("--ids")]

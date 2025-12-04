@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "cross-region-lb", "update")]
+[CliSubCommand("network", "cross-region-lb", "update")]
 public record AzNetworkCrossRegionLbUpdateOptions : AzOptions
 {
     [CliOption("--add")]

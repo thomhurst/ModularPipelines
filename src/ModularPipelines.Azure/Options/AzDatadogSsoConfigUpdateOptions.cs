@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datadog", "sso-config", "update")]
+[CliSubCommand("datadog", "sso-config", "update")]
 public record AzDatadogSsoConfigUpdateOptions : AzOptions
 {
     [CliOption("--add")]

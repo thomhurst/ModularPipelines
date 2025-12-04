@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "create", "postgres")]
+[CliSubCommand("connection", "create", "postgres")]
 public record AzConnectionCreatePostgresOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

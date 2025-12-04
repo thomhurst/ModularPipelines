@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-pool", "create")]
+[CliSubCommand("disk-pool", "create")]
 public record AzDiskPoolCreateOptions(
 [property: CliOption("--disk-pool-name")] string DiskPoolName,
 [property: CliOption("--resource-group")] string ResourceGroup,

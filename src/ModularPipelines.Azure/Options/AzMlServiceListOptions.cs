@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "service", "list")]
+[CliSubCommand("ml", "service", "list")]
 public record AzMlServiceListOptions : AzOptions
 {
     [CliOption("--compute-type")]

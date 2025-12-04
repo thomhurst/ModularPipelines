@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet", "subnet", "list-available-delegations")]
+[CliSubCommand("network", "vnet", "subnet", "list-available-delegations")]
 public record AzNetworkVnetSubnetListAvailableDelegationsOptions : AzOptions
 {
     [CliOption("--location")]

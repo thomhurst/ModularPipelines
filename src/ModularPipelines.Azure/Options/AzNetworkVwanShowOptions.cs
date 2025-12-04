@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vwan", "show")]
+[CliSubCommand("network", "vwan", "show")]
 public record AzNetworkVwanShowOptions : AzOptions
 {
     [CliOption("--ids")]

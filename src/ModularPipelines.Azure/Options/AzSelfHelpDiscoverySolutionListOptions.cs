@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("self-help", "discovery-solution", "list")]
+[CliSubCommand("self-help", "discovery-solution", "list")]
 public record AzSelfHelpDiscoverySolutionListOptions(
 [property: CliOption("--scope")] string Scope
 ) : AzOptions

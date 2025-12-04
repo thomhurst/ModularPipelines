@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logz", "sub-account", "create")]
+[CliSubCommand("logz", "sub-account", "create")]
 public record AzLogzSubAccountCreateOptions(
 [property: CliOption("--monitor-name")] string MonitorName,
 [property: CliOption("--name")] string Name,

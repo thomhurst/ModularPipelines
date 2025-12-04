@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "endpoint", "show")]
+[CliSubCommand("afd", "endpoint", "show")]
 public record AzAfdEndpointShowOptions : AzOptions
 {
     [CliOption("--endpoint-name")]

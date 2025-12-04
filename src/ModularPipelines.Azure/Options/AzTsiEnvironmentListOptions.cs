@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tsi", "environment", "list")]
+[CliSubCommand("tsi", "environment", "list")]
 public record AzTsiEnvironmentListOptions : AzOptions
 {
     [CliOption("--resource-group")]

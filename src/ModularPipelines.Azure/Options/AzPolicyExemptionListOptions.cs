@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("policy", "exemption", "list")]
+[CliSubCommand("policy", "exemption", "list")]
 public record AzPolicyExemptionListOptions : AzOptions
 {
     [CliFlag("--disable-scope-strict-match")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cloud-service", "role-instance", "delete")]
+[CliSubCommand("cloud-service", "role-instance", "delete")]
 public record AzCloudServiceRoleInstanceDeleteOptions : AzOptions
 {
     [CliOption("--cloud-service-name")]

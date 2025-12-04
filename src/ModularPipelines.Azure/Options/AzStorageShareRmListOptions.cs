@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "share-rm", "list")]
+[CliSubCommand("storage", "share-rm", "list")]
 public record AzStorageShareRmListOptions(
 [property: CliOption("--storage-account")] int StorageAccount
 ) : AzOptions

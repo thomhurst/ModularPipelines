@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "ipprefix", "show")]
+[CliSubCommand("networkfabric", "ipprefix", "show")]
 public record AzNetworkfabricIpprefixShowOptions : AzOptions
 {
     [CliOption("--ids")]

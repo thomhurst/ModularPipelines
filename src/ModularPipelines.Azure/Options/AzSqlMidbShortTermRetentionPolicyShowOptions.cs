@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "midb", "short-term-retention-policy", "show")]
+[CliSubCommand("sql", "midb", "short-term-retention-policy", "show")]
 public record AzSqlMidbShortTermRetentionPolicyShowOptions : AzOptions
 {
     [CliOption("--deleted-time")]

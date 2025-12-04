@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "auth", "openid-connect", "remove")]
+[CliSubCommand("containerapp", "auth", "openid-connect", "remove")]
 public record AzContainerappAuthOpenidConnectRemoveOptions(
 [property: CliOption("--provider-name")] string ProviderName
 ) : AzOptions

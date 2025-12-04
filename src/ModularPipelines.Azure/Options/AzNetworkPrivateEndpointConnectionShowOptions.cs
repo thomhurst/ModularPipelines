@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-endpoint-connection", "show")]
+[CliSubCommand("network", "private-endpoint-connection", "show")]
 public record AzNetworkPrivateEndpointConnectionShowOptions : AzOptions
 {
     [CliOption("--id")]

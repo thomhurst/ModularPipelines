@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "virtualmachine", "start")]
+[CliSubCommand("networkcloud", "virtualmachine", "start")]
 public record AzNetworkcloudVirtualmachineStartOptions : AzOptions
 {
     [CliOption("--ids")]

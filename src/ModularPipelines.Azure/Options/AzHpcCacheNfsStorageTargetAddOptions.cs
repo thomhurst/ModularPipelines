@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hpc-cache", "nfs-storage-target", "add")]
+[CliSubCommand("hpc-cache", "nfs-storage-target", "add")]
 public record AzHpcCacheNfsStorageTargetAddOptions(
 [property: CliOption("--cache-name")] string CacheName,
 [property: CliOption("--junction")] string Junction,

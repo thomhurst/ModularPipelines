@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "office-consent", "show")]
+[CliSubCommand("sentinel", "office-consent", "show")]
 public record AzSentinelOfficeConsentShowOptions : AzOptions
 {
     [CliOption("--consent-id")]

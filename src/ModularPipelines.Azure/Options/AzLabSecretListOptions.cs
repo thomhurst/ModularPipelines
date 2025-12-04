@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("lab", "secret", "list")]
+[CliSubCommand("lab", "secret", "list")]
 public record AzLabSecretListOptions(
 [property: CliOption("--lab-name")] string LabName,
 [property: CliOption("--resource-group")] string ResourceGroup

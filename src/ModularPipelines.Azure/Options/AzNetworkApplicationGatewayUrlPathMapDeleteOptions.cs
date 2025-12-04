@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "url-path-map", "delete")]
+[CliSubCommand("network", "application-gateway", "url-path-map", "delete")]
 public record AzNetworkApplicationGatewayUrlPathMapDeleteOptions(
 [property: CliOption("--gateway-name")] string GatewayName,
 [property: CliOption("--name")] string Name,

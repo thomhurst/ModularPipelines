@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "message", "clear")]
+[CliSubCommand("storage", "message", "clear")]
 public record AzStorageMessageClearOptions(
 [property: CliOption("--queue-name")] string QueueName
 ) : AzOptions

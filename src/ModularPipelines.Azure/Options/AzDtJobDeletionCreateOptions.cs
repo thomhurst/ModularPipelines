@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "job", "deletion", "create")]
+[CliSubCommand("dt", "job", "deletion", "create")]
 public record AzDtJobDeletionCreateOptions(
 [property: CliOption("--dt-name")] string DtName
 ) : AzOptions

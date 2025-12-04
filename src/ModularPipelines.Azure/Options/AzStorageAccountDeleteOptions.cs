@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "delete")]
+[CliSubCommand("storage", "account", "delete")]
 public record AzStorageAccountDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

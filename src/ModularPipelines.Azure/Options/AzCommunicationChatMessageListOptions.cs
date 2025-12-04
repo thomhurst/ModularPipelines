@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication", "chat", "message", "list")]
+[CliSubCommand("communication", "chat", "message", "list")]
 public record AzCommunicationChatMessageListOptions(
 [property: CliOption("--thread")] string Thread
 ) : AzOptions

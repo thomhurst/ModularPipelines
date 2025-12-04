@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("signalr", "replica", "show")]
+[CliSubCommand("signalr", "replica", "show")]
 public record AzSignalrReplicaShowOptions : AzOptions
 {
     [CliOption("--ids")]

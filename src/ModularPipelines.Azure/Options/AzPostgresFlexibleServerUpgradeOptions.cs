@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "upgrade")]
+[CliSubCommand("postgres", "flexible-server", "upgrade")]
 public record AzPostgresFlexibleServerUpgradeOptions(
 [property: CliOption("--version")] string Version
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "revision", "label", "add")]
+[CliSubCommand("containerapp", "revision", "label", "add")]
 public record AzContainerappRevisionLabelAddOptions(
 [property: CliOption("--label")] string Label,
 [property: CliOption("--resource-group")] string ResourceGroup,

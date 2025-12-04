@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "namespace", "update")]
+[CliSubCommand("servicebus", "namespace", "update")]
 public record AzServicebusNamespaceUpdateOptions : AzOptions
 {
     [CliOption("--add")]

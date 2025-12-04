@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "watcher", "troubleshooting", "show")]
+[CliSubCommand("network", "watcher", "troubleshooting", "show")]
 public record AzNetworkWatcherTroubleshootingShowOptions(
 [property: CliOption("--resource")] string Resource
 ) : AzOptions

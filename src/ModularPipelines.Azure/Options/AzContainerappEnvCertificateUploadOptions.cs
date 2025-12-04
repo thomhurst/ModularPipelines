@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "env", "certificate", "upload")]
+[CliSubCommand("containerapp", "env", "certificate", "upload")]
 public record AzContainerappEnvCertificateUploadOptions(
 [property: CliOption("--certificate-file")] string CertificateFile
 ) : AzOptions

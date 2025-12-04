@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "app", "up")]
+[CliSubCommand("functionapp", "app", "up")]
 public record AzFunctionappAppUpOptions : AzOptions
 {
     [CliOption("--app-name")]

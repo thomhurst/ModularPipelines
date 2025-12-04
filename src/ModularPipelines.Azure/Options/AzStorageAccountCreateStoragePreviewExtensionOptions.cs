@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "create", "(storage-preview", "extension)")]
+[CliSubCommand("storage", "account", "create", "(storage-preview", "extension)")]
 public record AzStorageAccountCreateStoragePreviewExtensionOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

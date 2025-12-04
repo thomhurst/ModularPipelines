@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "neighborgroup", "wait")]
+[CliSubCommand("networkfabric", "neighborgroup", "wait")]
 public record AzNetworkfabricNeighborgroupWaitOptions : AzOptions
 {
     [CliFlag("--created")]

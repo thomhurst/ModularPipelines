@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "routeserver", "peering", "create")]
+[CliSubCommand("network", "routeserver", "peering", "create")]
 public record AzNetworkRouteserverPeeringCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

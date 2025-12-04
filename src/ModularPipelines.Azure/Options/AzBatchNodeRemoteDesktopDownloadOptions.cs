@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "node", "remote-desktop", "download")]
+[CliSubCommand("batch", "node", "remote-desktop", "download")]
 public record AzBatchNodeRemoteDesktopDownloadOptions(
 [property: CliOption("--destination")] string Destination,
 [property: CliOption("--node-id")] string NodeId,

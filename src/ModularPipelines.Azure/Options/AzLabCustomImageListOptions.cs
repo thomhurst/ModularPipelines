@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("lab", "custom-image", "list")]
+[CliSubCommand("lab", "custom-image", "list")]
 public record AzLabCustomImageListOptions(
 [property: CliOption("--lab-name")] string LabName,
 [property: CliOption("--resource-group")] string ResourceGroup

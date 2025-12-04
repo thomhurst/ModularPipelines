@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "security-partner-provider", "update")]
+[CliSubCommand("network", "security-partner-provider", "update")]
 public record AzNetworkSecurityPartnerProviderUpdateOptions : AzOptions
 {
     [CliOption("--add")]

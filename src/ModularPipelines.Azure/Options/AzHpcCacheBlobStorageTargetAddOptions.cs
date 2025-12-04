@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hpc-cache", "blob-storage-target", "add")]
+[CliSubCommand("hpc-cache", "blob-storage-target", "add")]
 public record AzHpcCacheBlobStorageTargetAddOptions(
 [property: CliOption("--cache-name")] string CacheName,
 [property: CliOption("--container-name")] string ContainerName,

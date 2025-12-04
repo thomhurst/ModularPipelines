@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "connection", "update", "storage-blob")]
+[CliSubCommand("functionapp", "connection", "update", "storage-blob")]
 public record AzFunctionappConnectionUpdateStorageBlobOptions : AzOptions
 {
     [CliOption("--client-type")]

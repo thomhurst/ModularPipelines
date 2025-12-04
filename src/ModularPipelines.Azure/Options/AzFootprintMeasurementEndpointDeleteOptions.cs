@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("footprint", "measurement-endpoint", "delete")]
+[CliSubCommand("footprint", "measurement-endpoint", "delete")]
 public record AzFootprintMeasurementEndpointDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

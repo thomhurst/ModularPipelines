@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databoxedge", "bandwidth-schedule", "update")]
+[CliSubCommand("databoxedge", "bandwidth-schedule", "update")]
 public record AzDataboxedgeBandwidthScheduleUpdateOptions(
 [property: CliOption("--days")] int Days,
 [property: CliOption("--rate-in-mbps")] string RateInMbps,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "managed-node-type", "create")]
+[CliSubCommand("sf", "managed-node-type", "create")]
 public record AzSfManagedNodeTypeCreateOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--instance-count")] int InstanceCount,

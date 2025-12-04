@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "datastore", "attach-dbfs")]
+[CliSubCommand("ml", "datastore", "attach-dbfs")]
 public record AzMlDatastoreAttachDbfsOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

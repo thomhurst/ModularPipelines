@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "product", "wait")]
+[CliSubCommand("apim", "product", "wait")]
 public record AzApimProductWaitOptions(
 [property: CliOption("--product-id")] string ProductId,
 [property: CliOption("--resource-group")] string ResourceGroup,

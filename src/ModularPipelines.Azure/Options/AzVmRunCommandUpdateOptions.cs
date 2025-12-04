@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "run-command", "update")]
+[CliSubCommand("vm", "run-command", "update")]
 public record AzVmRunCommandUpdateOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

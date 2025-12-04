@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "managed-node-type", "vm-secret", "add")]
+[CliSubCommand("sf", "managed-node-type", "vm-secret", "add")]
 public record AzSfManagedNodeTypeVmSecretAddOptions(
 [property: CliOption("--certificate-store")] string CertificateStore,
 [property: CliOption("--certificate-url")] string CertificateUrl,

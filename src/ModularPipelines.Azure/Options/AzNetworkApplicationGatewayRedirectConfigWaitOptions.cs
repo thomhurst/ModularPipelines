@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "redirect-config", "wait")]
+[CliSubCommand("network", "application-gateway", "redirect-config", "wait")]
 public record AzNetworkApplicationGatewayRedirectConfigWaitOptions : AzOptions
 {
     [CliFlag("--created")]

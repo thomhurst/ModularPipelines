@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "private-endpoint-connection", "approve")]
+[CliSubCommand("keyvault", "private-endpoint-connection", "approve")]
 public record AzKeyvaultPrivateEndpointConnectionApproveOptions : AzOptions
 {
     [CliOption("--description")]

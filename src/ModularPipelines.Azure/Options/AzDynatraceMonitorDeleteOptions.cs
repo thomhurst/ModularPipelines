@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dynatrace", "monitor", "delete")]
+[CliSubCommand("dynatrace", "monitor", "delete")]
 public record AzDynatraceMonitorDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

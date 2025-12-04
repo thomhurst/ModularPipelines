@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "pool", "resize")]
+[CliSubCommand("batch", "pool", "resize")]
 public record AzBatchPoolResizeOptions(
 [property: CliOption("--pool-id")] string PoolId
 ) : AzOptions

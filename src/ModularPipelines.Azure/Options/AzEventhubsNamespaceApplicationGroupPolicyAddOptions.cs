@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "application-group", "policy", "add")]
+[CliSubCommand("eventhubs", "namespace", "application-group", "policy", "add")]
 public record AzEventhubsNamespaceApplicationGroupPolicyAddOptions(
 [property: CliOption("--policy-config")] string PolicyConfig
 ) : AzOptions

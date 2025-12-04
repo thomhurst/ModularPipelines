@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stream-analytics", "subscription", "inspect")]
+[CliSubCommand("stream-analytics", "subscription", "inspect")]
 public record AzStreamAnalyticsSubscriptionInspectOptions : AzOptions
 {
     [CliOption("--ids")]

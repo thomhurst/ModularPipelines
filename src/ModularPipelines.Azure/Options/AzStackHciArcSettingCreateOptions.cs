@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci", "arc-setting", "create")]
+[CliSubCommand("stack-hci", "arc-setting", "create")]
 public record AzStackHciArcSettingCreateOptions(
 [property: CliOption("--arc-setting-name")] string ArcSettingName,
 [property: CliOption("--cluster-name")] string ClusterName,

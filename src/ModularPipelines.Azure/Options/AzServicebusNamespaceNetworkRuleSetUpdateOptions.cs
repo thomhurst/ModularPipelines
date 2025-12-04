@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "namespace", "network-rule-set", "update")]
+[CliSubCommand("servicebus", "namespace", "network-rule-set", "update")]
 public record AzServicebusNamespaceNetworkRuleSetUpdateOptions : AzOptions
 {
     [CliOption("--add")]

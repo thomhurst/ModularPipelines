@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "traffic-routing", "set")]
+[CliSubCommand("webapp", "traffic-routing", "set")]
 public record AzWebappTrafficRoutingSetOptions(
 [property: CliOption("--distribution")] string Distribution
 ) : AzOptions

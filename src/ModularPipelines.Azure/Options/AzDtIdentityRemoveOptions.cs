@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "identity", "remove")]
+[CliSubCommand("dt", "identity", "remove")]
 public record AzDtIdentityRemoveOptions(
 [property: CliOption("--dt-name")] string DtName
 ) : AzOptions

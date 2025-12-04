@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "db", "show")]
+[CliSubCommand("mysql", "flexible-server", "db", "show")]
 public record AzMysqlFlexibleServerDbShowOptions : AzOptions
 {
     [CliOption("--database-name")]

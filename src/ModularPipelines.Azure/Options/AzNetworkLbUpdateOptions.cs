@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "lb", "update")]
+[CliSubCommand("network", "lb", "update")]
 public record AzNetworkLbUpdateOptions : AzOptions
 {
     [CliOption("--add")]

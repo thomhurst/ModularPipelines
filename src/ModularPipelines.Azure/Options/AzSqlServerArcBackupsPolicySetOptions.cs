@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server-arc", "backups-policy", "set")]
+[CliSubCommand("sql", "server-arc", "backups-policy", "set")]
 public record AzSqlServerArcBackupsPolicySetOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

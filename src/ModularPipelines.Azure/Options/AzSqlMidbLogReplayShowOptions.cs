@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "midb", "log-replay", "show")]
+[CliSubCommand("sql", "midb", "log-replay", "show")]
 public record AzSqlMidbLogReplayShowOptions : AzOptions
 {
     [CliOption("--ids")]

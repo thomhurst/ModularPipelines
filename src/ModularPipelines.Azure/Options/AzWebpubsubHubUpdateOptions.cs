@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webpubsub", "hub", "update")]
+[CliSubCommand("webpubsub", "hub", "update")]
 public record AzWebpubsubHubUpdateOptions(
 [property: CliOption("--hub-name")] string HubName
 ) : AzOptions

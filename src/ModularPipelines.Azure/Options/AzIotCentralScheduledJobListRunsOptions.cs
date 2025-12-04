@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "scheduled-job", "list-runs")]
+[CliSubCommand("iot", "central", "scheduled-job", "list-runs")]
 public record AzIotCentralScheduledJobListRunsOptions(
 [property: CliOption("--app-id")] string AppId,
 [property: CliOption("--id")] string Id

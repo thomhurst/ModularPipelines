@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("quota", "usage", "list")]
+[CliSubCommand("quota", "usage", "list")]
 public record AzQuotaUsageListOptions(
 [property: CliOption("--scope")] string Scope
 ) : AzOptions

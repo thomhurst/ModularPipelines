@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "show-deleted")]
+[CliSubCommand("appconfig", "show-deleted")]
 public record AzAppconfigShowDeletedOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "boot-diagnostics", "enable")]
+[CliSubCommand("vm", "boot-diagnostics", "enable")]
 public record AzVmBootDiagnosticsEnableOptions : AzOptions
 {
     [CliOption("--ids")]

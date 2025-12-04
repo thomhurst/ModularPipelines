@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "segment", "show")]
+[CliSubCommand("vmware", "workload-network", "segment", "show")]
 public record AzVmwareWorkloadNetworkSegmentShowOptions : AzOptions
 {
     [CliOption("--ids")]

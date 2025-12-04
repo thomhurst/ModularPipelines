@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "origin-group", "show")]
+[CliSubCommand("afd", "origin-group", "show")]
 public record AzAfdOriginGroupShowOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("quantum", "target", "show")]
+[CliSubCommand("quantum", "target", "show")]
 public record AzQuantumTargetShowOptions : AzOptions
 {
     [CliOption("--target-id")]

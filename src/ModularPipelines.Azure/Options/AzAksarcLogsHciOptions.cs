@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aksarc", "logs", "hci")]
+[CliSubCommand("aksarc", "logs", "hci")]
 public record AzAksarcLogsHciOptions(
 [property: CliOption("--credentials-dir")] string CredentialsDir
 ) : AzOptions

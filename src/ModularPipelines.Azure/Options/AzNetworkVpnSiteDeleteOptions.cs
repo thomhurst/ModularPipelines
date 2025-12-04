@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vpn-site", "delete")]
+[CliSubCommand("network", "vpn-site", "delete")]
 public record AzNetworkVpnSiteDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

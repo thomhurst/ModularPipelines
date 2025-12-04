@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "purge")]
+[CliSubCommand("keyvault", "purge")]
 public record AzKeyvaultPurgeOptions : AzOptions
 {
     [CliOption("--hsm-name")]

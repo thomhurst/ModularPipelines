@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "namespace", "private-endpoint-connection", "wait")]
+[CliSubCommand("servicebus", "namespace", "private-endpoint-connection", "wait")]
 public record AzServicebusNamespacePrivateEndpointConnectionWaitOptions : AzOptions
 {
     [CliFlag("--created")]

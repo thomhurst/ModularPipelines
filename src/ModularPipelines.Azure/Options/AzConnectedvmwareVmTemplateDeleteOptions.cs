@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "vm-template", "delete")]
+[CliSubCommand("connectedvmware", "vm-template", "delete")]
 public record AzConnectedvmwareVmTemplateDeleteOptions : AzOptions
 {
     [CliFlag("--force")]

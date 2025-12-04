@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("palo-alto", "cloudngfw", "local-rulestack", "fqdnlist", "create")]
+[CliSubCommand("palo-alto", "cloudngfw", "local-rulestack", "fqdnlist", "create")]
 public record AzPaloAltoCloudngfwLocalRulestackFqdnlistCreateOptions(
 [property: CliOption("--fqdn-list")] string FqdnList,
 [property: CliOption("--local-rulestack-name")] string LocalRulestackName,

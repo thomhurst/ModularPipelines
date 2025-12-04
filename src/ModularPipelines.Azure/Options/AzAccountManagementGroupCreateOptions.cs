@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("account", "management-group", "create")]
+[CliSubCommand("account", "management-group", "create")]
 public record AzAccountManagementGroupCreateOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

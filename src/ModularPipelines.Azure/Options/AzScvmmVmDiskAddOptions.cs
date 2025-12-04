@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vm", "disk", "add")]
+[CliSubCommand("scvmm", "vm", "disk", "add")]
 public record AzScvmmVmDiskAddOptions(
 [property: CliOption("--bus")] string Bus,
 [property: CliOption("--disk-size")] string DiskSize,

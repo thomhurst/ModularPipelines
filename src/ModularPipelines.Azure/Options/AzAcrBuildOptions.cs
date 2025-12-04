@@ -5,7 +5,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "build")]
+[CliSubCommand("acr", "build")]
 public record AzAcrBuildOptions(
 [property: CliOption("--registry")] string Registry
 ) : AzOptions

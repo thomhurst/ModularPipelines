@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dms", "project", "task", "create", "(dms-preview", "extension)")]
+[CliSubCommand("dms", "project", "task", "create", "(dms-preview", "extension)")]
 public record AzDmsProjectTaskCreateDmsPreviewExtensionOptions(
 [property: CliOption("--database-options-json")] string DatabaseOptionsJson,
 [property: CliOption("--name")] string Name,

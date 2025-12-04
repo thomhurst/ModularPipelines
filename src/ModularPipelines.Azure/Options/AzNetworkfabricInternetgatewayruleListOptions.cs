@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "internetgatewayrule", "list")]
+[CliSubCommand("networkfabric", "internetgatewayrule", "list")]
 public record AzNetworkfabricInternetgatewayruleListOptions : AzOptions
 {
     [CliOption("--resource-group")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcdata", "resource-kind", "get")]
+[CliSubCommand("arcdata", "resource-kind", "get")]
 public record AzArcdataResourceKindGetOptions(
 [property: CliOption("--kind")] string Kind
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "activity-log", "alert", "scope", "add")]
+[CliSubCommand("monitor", "activity-log", "alert", "scope", "add")]
 public record AzMonitorActivityLogAlertScopeAddOptions(
 [property: CliOption("--scope")] string Scope
 ) : AzOptions

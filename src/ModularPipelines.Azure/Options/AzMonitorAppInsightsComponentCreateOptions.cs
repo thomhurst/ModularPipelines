@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "app-insights", "component", "create")]
+[CliSubCommand("monitor", "app-insights", "component", "create")]
 public record AzMonitorAppInsightsComponentCreateOptions(
 [property: CliOption("--app")] string App,
 [property: CliOption("--location")] string Location,

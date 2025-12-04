@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "key", "list")]
+[CliSubCommand("mysql", "server", "key", "list")]
 public record AzMysqlServerKeyListOptions : AzOptions
 {
     [CliOption("--ids")]

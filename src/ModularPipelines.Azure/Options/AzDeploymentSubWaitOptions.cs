@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("deployment", "sub", "wait")]
+[CliSubCommand("deployment", "sub", "wait")]
 public record AzDeploymentSubWaitOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

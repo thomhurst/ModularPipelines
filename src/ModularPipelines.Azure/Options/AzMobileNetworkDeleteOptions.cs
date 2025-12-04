@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mobile-network", "delete")]
+[CliSubCommand("mobile-network", "delete")]
 public record AzMobileNetworkDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

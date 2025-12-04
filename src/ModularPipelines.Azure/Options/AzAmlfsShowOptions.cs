@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("amlfs", "show")]
+[CliSubCommand("amlfs", "show")]
 public record AzAmlfsShowOptions : AzOptions
 {
     [CliOption("--aml-filesystem-name")]

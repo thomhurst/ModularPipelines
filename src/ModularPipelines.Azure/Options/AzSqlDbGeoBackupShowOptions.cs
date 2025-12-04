@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "geo-backup", "show")]
+[CliSubCommand("sql", "db", "geo-backup", "show")]
 public record AzSqlDbGeoBackupShowOptions : AzOptions
 {
     [CliOption("--database")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "va", "sql", "results", "list")]
+[CliSubCommand("security", "va", "sql", "results", "list")]
 public record AzSecurityVaSqlResultsListOptions(
 [property: CliOption("--database-name")] string DatabaseName,
 [property: CliOption("--scan-id")] string ScanId,

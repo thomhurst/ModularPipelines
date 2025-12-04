@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("grafana", "data-source", "delete")]
+[CliSubCommand("grafana", "data-source", "delete")]
 public record AzGrafanaDataSourceDeleteOptions(
 [property: CliOption("--data-source")] string DataSource,
 [property: CliOption("--name")] string Name

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redisenterprise", "database", "export")]
+[CliSubCommand("redisenterprise", "database", "export")]
 public record AzRedisenterpriseDatabaseExportOptions(
 [property: CliOption("--sas-uri")] string SasUri
 ) : AzOptions

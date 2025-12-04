@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "image", "terms", "cancel")]
+[CliSubCommand("vm", "image", "terms", "cancel")]
 public record AzVmImageTermsCancelOptions : AzOptions
 {
     [CliOption("--offer")]

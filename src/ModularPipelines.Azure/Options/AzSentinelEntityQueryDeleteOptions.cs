@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "entity-query", "delete")]
+[CliSubCommand("sentinel", "entity-query", "delete")]
 public record AzSentinelEntityQueryDeleteOptions : AzOptions
 {
     [CliOption("--entity-query-id")]

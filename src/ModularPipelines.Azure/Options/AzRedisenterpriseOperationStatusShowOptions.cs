@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redisenterprise", "operation-status", "show")]
+[CliSubCommand("redisenterprise", "operation-status", "show")]
 public record AzRedisenterpriseOperationStatusShowOptions : AzOptions
 {
     [CliOption("--ids")]

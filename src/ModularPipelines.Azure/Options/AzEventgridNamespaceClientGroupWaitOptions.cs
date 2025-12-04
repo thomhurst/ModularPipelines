@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "namespace", "client-group", "wait")]
+[CliSubCommand("eventgrid", "namespace", "client-group", "wait")]
 public record AzEventgridNamespaceClientGroupWaitOptions : AzOptions
 {
     [CliOption("--client-group-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vpn-server-config", "ipsec-policy", "wait")]
+[CliSubCommand("network", "vpn-server-config", "ipsec-policy", "wait")]
 public record AzNetworkVpnServerConfigIpsecPolicyWaitOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

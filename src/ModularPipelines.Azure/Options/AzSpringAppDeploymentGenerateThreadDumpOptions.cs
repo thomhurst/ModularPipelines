@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "app", "deployment", "generate-thread-dump")]
+[CliSubCommand("spring", "app", "deployment", "generate-thread-dump")]
 public record AzSpringAppDeploymentGenerateThreadDumpOptions(
 [property: CliOption("--app")] string App,
 [property: CliOption("--app-instance")] string AppInstance,

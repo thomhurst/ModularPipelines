@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "refresh-external-governance-status")]
+[CliSubCommand("sql", "server", "refresh-external-governance-status")]
 public record AzSqlServerRefreshExternalGovernanceStatusOptions : AzOptions
 {
     [CliOption("--ids")]

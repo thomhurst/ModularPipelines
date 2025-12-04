@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("new-relic", "monitor", "show")]
+[CliSubCommand("new-relic", "monitor", "show")]
 public record AzNewRelicMonitorShowOptions : AzOptions
 {
     [CliOption("--ids")]

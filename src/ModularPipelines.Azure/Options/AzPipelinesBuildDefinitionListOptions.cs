@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "build", "definition", "list")]
+[CliSubCommand("pipelines", "build", "definition", "list")]
 public record AzPipelinesBuildDefinitionListOptions : AzOptions
 {
     [CliFlag("--detect")]

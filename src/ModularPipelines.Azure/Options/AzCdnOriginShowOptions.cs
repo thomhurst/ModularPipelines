@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cdn", "origin", "show")]
+[CliSubCommand("cdn", "origin", "show")]
 public record AzCdnOriginShowOptions : AzOptions
 {
     [CliOption("--endpoint-name")]

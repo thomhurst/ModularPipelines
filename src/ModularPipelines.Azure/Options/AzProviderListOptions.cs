@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("provider", "list")]
+[CliSubCommand("provider", "list")]
 public record AzProviderListOptions : AzOptions
 {
     [CliOption("--expand")]

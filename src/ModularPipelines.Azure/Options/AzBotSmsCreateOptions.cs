@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("bot", "sms", "create")]
+[CliSubCommand("bot", "sms", "create")]
 public record AzBotSmsCreateOptions(
 [property: CliOption("--account-sid")] int AccountSid,
 [property: CliOption("--auth-token")] string AuthToken,

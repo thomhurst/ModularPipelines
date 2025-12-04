@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aksarc", "nodepool", "scale")]
+[CliSubCommand("aksarc", "nodepool", "scale")]
 public record AzAksarcNodepoolScaleOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--name")] string Name,

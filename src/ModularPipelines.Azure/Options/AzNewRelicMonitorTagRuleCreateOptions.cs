@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("new-relic", "monitor", "tag-rule", "create")]
+[CliSubCommand("new-relic", "monitor", "tag-rule", "create")]
 public record AzNewRelicMonitorTagRuleCreateOptions(
 [property: CliOption("--monitor-name")] string MonitorName,
 [property: CliOption("--name")] string Name,

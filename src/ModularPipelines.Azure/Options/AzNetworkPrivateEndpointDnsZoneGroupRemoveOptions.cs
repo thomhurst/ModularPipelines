@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-endpoint", "dns-zone-group", "remove")]
+[CliSubCommand("network", "private-endpoint", "dns-zone-group", "remove")]
 public record AzNetworkPrivateEndpointDnsZoneGroupRemoveOptions(
 [property: CliOption("--endpoint-name")] string EndpointName,
 [property: CliOption("--name")] string Name,

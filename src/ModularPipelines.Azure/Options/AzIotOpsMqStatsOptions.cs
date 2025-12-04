@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "ops", "mq", "stats")]
+[CliSubCommand("iot", "ops", "mq", "stats")]
 public record AzIotOpsMqStatsOptions : AzOptions
 {
     [CliOption("--context")]

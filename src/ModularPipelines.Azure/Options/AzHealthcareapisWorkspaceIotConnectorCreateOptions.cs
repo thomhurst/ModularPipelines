@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("healthcareapis", "workspace", "iot-connector", "create")]
+[CliSubCommand("healthcareapis", "workspace", "iot-connector", "create")]
 public record AzHealthcareapisWorkspaceIotConnectorCreateOptions(
 [property: CliOption("--iot-connector-name")] string IotConnectorName,
 [property: CliOption("--resource-group")] string ResourceGroup,

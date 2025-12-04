@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("lab", "custom-image", "create")]
+[CliSubCommand("lab", "custom-image", "create")]
 public record AzLabCustomImageCreateOptions(
 [property: CliOption("--lab-name")] string LabName,
 [property: CliOption("--name")] string Name,

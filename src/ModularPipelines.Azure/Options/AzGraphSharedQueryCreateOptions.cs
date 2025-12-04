@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("graph", "shared-query", "create")]
+[CliSubCommand("graph", "shared-query", "create")]
 public record AzGraphSharedQueryCreateOptions(
 [property: CliOption("--description")] string Description,
 [property: CliOption("--graph-query")] string GraphQuery,

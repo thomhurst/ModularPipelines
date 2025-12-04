@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "front-door", "show")]
+[CliSubCommand("network", "front-door", "show")]
 public record AzNetworkFrontDoorShowOptions : AzOptions
 {
     [CliOption("--ids")]

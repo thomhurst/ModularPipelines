@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "tde-key", "revalidate")]
+[CliSubCommand("sql", "server", "tde-key", "revalidate")]
 public record AzSqlServerTdeKeyRevalidateOptions : AzOptions
 {
     [CliOption("--ids")]

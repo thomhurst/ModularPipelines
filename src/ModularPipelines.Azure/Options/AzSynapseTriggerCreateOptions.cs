@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "trigger", "create")]
+[CliSubCommand("synapse", "trigger", "create")]
 public record AzSynapseTriggerCreateOptions(
 [property: CliOption("--file")] string File,
 [property: CliOption("--name")] string Name,

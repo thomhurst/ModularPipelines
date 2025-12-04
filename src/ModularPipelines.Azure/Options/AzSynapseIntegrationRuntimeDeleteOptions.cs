@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "integration-runtime", "delete")]
+[CliSubCommand("synapse", "integration-runtime", "delete")]
 public record AzSynapseIntegrationRuntimeDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

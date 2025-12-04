@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "server-logs", "download")]
+[CliSubCommand("mariadb", "server-logs", "download")]
 public record AzMariadbServerLogsDownloadOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

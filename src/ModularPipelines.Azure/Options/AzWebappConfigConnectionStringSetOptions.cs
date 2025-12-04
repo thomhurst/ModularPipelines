@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "connection-string", "set")]
+[CliSubCommand("webapp", "config", "connection-string", "set")]
 public record AzWebappConfigConnectionStringSetOptions : AzOptions
 {
     [CliOption("--connection-string-type")]

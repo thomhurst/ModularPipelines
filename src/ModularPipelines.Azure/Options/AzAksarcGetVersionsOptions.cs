@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aksarc", "get-versions")]
+[CliSubCommand("aksarc", "get-versions")]
 public record AzAksarcGetVersionsOptions(
 [property: CliOption("--custom-location")] string CustomLocation
 ) : AzOptions

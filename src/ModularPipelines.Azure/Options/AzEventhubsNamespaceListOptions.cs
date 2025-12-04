@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "list")]
+[CliSubCommand("eventhubs", "namespace", "list")]
 public record AzEventhubsNamespaceListOptions : AzOptions
 {
     [CliOption("--max-items")]

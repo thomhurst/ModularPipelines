@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "ops", "support", "create-bundle")]
+[CliSubCommand("iot", "ops", "support", "create-bundle")]
 public record AzIotOpsSupportCreateBundleOptions : AzOptions
 {
     [CliOption("--bundle-dir")]

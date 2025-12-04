@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("workloads", "sap-application-server-instance", "start")]
+[CliSubCommand("workloads", "sap-application-server-instance", "start")]
 public record AzWorkloadsSapApplicationServerInstanceStartOptions : AzOptions
 {
     [CliOption("--application-instance-name")]

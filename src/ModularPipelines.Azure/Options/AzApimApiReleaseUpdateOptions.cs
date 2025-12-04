@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "api", "release", "update")]
+[CliSubCommand("apim", "api", "release", "update")]
 public record AzApimApiReleaseUpdateOptions(
 [property: CliOption("--api-id")] string ApiId,
 [property: CliOption("--release-id")] string ReleaseId,

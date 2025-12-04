@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "account", "network-rule", "update")]
+[CliSubCommand("dls", "account", "network-rule", "update")]
 public record AzDlsAccountNetworkRuleUpdateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--subnet")] string Subnet

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "env", "workload-profile", "delete")]
+[CliSubCommand("containerapp", "env", "workload-profile", "delete")]
 public record AzContainerappEnvWorkloadProfileDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

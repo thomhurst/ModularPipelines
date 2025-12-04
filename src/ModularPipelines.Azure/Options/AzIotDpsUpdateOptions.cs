@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "dps", "update")]
+[CliSubCommand("iot", "dps", "update")]
 public record AzIotDpsUpdateOptions : AzOptions
 {
     [CliOption("--add")]

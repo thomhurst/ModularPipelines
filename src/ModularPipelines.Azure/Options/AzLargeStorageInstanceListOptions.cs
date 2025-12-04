@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("large-storage-instance", "list")]
+[CliSubCommand("large-storage-instance", "list")]
 public record AzLargeStorageInstanceListOptions : AzOptions
 {
     [CliOption("--max-items")]

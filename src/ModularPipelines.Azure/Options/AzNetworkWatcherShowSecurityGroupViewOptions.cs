@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "watcher", "show-security-group-view")]
+[CliSubCommand("network", "watcher", "show-security-group-view")]
 public record AzNetworkWatcherShowSecurityGroupViewOptions(
 [property: CliOption("--vm")] string Vm
 ) : AzOptions

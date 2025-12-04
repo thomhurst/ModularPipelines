@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "container", "restore")]
+[CliSubCommand("storage", "container", "restore")]
 public record AzStorageContainerRestoreOptions(
 [property: CliOption("--deleted-version")] string DeletedVersion,
 [property: CliOption("--name")] string Name

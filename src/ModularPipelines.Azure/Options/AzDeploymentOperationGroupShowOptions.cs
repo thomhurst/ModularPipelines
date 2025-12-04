@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("deployment", "operation", "group", "show")]
+[CliSubCommand("deployment", "operation", "group", "show")]
 public record AzDeploymentOperationGroupShowOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--operation-ids")] string OperationIds,

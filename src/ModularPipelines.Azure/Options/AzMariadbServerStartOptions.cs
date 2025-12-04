@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "server", "start")]
+[CliSubCommand("mariadb", "server", "start")]
 public record AzMariadbServerStartOptions : AzOptions
 {
     [CliOption("--ids")]

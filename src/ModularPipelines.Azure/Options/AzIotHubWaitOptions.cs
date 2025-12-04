@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "wait")]
+[CliSubCommand("iot", "hub", "wait")]
 public record AzIotHubWaitOptions : AzOptions
 {
     [CliFlag("--created")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databricks", "workspace", "vnet-peering", "wait")]
+[CliSubCommand("databricks", "workspace", "vnet-peering", "wait")]
 public record AzDatabricksWorkspaceVnetPeeringWaitOptions : AzOptions
 {
     [CliFlag("--created")]

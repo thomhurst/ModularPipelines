@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("image", "builder", "trigger", "delete")]
+[CliSubCommand("image", "builder", "trigger", "delete")]
 public record AzImageBuilderTriggerDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

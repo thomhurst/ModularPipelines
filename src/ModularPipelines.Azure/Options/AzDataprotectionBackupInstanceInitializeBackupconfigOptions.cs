@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "backup-instance", "initialize-backupconfig")]
+[CliSubCommand("dataprotection", "backup-instance", "initialize-backupconfig")]
 public record AzDataprotectionBackupInstanceInitializeBackupconfigOptions(
 [property: CliOption("--datasource-type")] string DatasourceType
 ) : AzOptions

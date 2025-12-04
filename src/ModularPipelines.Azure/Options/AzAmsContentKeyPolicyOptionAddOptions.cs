@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "content-key-policy", "option", "add")]
+[CliSubCommand("ams", "content-key-policy", "option", "add")]
 public record AzAmsContentKeyPolicyOptionAddOptions(
 [property: CliOption("--policy-option-name")] string PolicyOptionName
 ) : AzOptions

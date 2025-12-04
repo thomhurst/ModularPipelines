@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "connection", "list-support-types")]
+[CliSubCommand("functionapp", "connection", "list-support-types")]
 public record AzFunctionappConnectionListSupportTypesOptions : AzOptions
 {
     [CliOption("--target-type")]

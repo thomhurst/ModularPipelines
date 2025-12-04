@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("workloads", "sap-application-server-instance", "show")]
+[CliSubCommand("workloads", "sap-application-server-instance", "show")]
 public record AzWorkloadsSapApplicationServerInstanceShowOptions : AzOptions
 {
     [CliOption("--application-instance-name")]

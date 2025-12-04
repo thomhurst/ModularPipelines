@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "blob", "delete")]
+[CliSubCommand("storage", "blob", "delete")]
 public record AzStorageBlobDeleteOptions : AzOptions
 {
     [CliOption("--account-key")]

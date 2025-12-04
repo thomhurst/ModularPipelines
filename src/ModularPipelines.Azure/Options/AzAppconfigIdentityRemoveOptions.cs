@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "identity", "remove")]
+[CliSubCommand("appconfig", "identity", "remove")]
 public record AzAppconfigIdentityRemoveOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

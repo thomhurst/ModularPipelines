@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "show-connection-string")]
+[CliSubCommand("mysql", "show-connection-string")]
 public record AzMysqlShowConnectionStringOptions : AzOptions
 {
     [CliOption("--admin-password")]

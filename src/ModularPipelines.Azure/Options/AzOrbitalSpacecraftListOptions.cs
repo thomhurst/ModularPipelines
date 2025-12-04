@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("orbital", "spacecraft", "list")]
+[CliSubCommand("orbital", "spacecraft", "list")]
 public record AzOrbitalSpacecraftListOptions : AzOptions
 {
     [CliOption("--resource-group")]

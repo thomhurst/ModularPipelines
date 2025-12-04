@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("account", "alias", "wait")]
+[CliSubCommand("account", "alias", "wait")]
 public record AzAccountAliasWaitOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

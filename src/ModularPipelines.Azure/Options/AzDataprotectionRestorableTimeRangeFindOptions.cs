@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "restorable-time-range", "find")]
+[CliSubCommand("dataprotection", "restorable-time-range", "find")]
 public record AzDataprotectionRestorableTimeRangeFindOptions(
 [property: CliOption("--source-data-store-type")] string SourceDataStoreType
 ) : AzOptions

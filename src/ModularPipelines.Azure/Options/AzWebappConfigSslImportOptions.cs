@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "ssl", "import")]
+[CliSubCommand("webapp", "config", "ssl", "import")]
 public record AzWebappConfigSslImportOptions(
 [property: CliOption("--key-vault")] string KeyVault,
 [property: CliOption("--key-vault-certificate-name")] string KeyVaultCertificateName

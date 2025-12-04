@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "blob", "set-legal-hold")]
+[CliSubCommand("storage", "blob", "set-legal-hold")]
 public record AzStorageBlobSetLegalHoldOptions(
 [property: CliOption("--container-name")] string ContainerName,
 [property: CliFlag("--legal-hold")] bool LegalHold,

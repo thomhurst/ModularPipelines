@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci-vm", "image", "update")]
+[CliSubCommand("stack-hci-vm", "image", "update")]
 public record AzStackHciVmImageUpdateOptions : AzOptions
 {
     [CliOption("--ids")]

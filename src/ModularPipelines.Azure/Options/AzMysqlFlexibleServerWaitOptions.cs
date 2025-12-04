@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "wait")]
+[CliSubCommand("mysql", "flexible-server", "wait")]
 public record AzMysqlFlexibleServerWaitOptions : AzOptions
 {
     [CliFlag("--created")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "alert-rule", "template", "list")]
+[CliSubCommand("sentinel", "alert-rule", "template", "list")]
 public record AzSentinelAlertRuleTemplateListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--workspace-name")] string WorkspaceName

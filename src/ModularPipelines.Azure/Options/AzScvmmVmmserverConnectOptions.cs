@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vmmserver", "connect")]
+[CliSubCommand("scvmm", "vmmserver", "connect")]
 public record AzScvmmVmmserverConnectOptions(
 [property: CliOption("--custom-location")] string CustomLocation,
 [property: CliOption("--location")] string Location

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "traffic-manager", "profile", "delete")]
+[CliSubCommand("network", "traffic-manager", "profile", "delete")]
 public record AzNetworkTrafficManagerProfileDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

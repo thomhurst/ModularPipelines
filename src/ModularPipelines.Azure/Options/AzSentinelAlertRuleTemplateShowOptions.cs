@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "alert-rule", "template", "show")]
+[CliSubCommand("sentinel", "alert-rule", "template", "show")]
 public record AzSentinelAlertRuleTemplateShowOptions : AzOptions
 {
     [CliOption("--alert-rule-template-id")]

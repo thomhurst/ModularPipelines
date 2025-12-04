@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databox", "job", "update")]
+[CliSubCommand("databox", "job", "update")]
 public record AzDataboxJobUpdateOptions : AzOptions
 {
     [CliOption("--city")]

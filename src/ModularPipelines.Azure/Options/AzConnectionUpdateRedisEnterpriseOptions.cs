@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "update", "redis-enterprise")]
+[CliSubCommand("connection", "update", "redis-enterprise")]
 public record AzConnectionUpdateRedisEnterpriseOptions : AzOptions
 {
     [CliOption("--client-type")]

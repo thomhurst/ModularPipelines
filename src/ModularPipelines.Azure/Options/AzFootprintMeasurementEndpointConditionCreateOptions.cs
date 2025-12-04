@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("footprint", "measurement-endpoint-condition", "create")]
+[CliSubCommand("footprint", "measurement-endpoint-condition", "create")]
 public record AzFootprintMeasurementEndpointConditionCreateOptions(
 [property: CliOption("--constant")] string Constant,
 [property: CliOption("--endpoint-name")] string EndpointName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("role", "assignment", "list-changelogs")]
+[CliSubCommand("role", "assignment", "list-changelogs")]
 public record AzRoleAssignmentListChangelogsOptions : AzOptions
 {
     [CliOption("--end-time")]

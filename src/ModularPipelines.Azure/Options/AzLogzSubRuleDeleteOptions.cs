@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logz", "sub-rule", "delete")]
+[CliSubCommand("logz", "sub-rule", "delete")]
 public record AzLogzSubRuleDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

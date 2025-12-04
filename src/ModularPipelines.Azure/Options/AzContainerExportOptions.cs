@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("container", "export")]
+[CliSubCommand("container", "export")]
 public record AzContainerExportOptions(
 [property: CliOption("--file")] string File
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dynatrace", "monitor", "tag-rule", "create")]
+[CliSubCommand("dynatrace", "monitor", "tag-rule", "create")]
 public record AzDynatraceMonitorTagRuleCreateOptions(
 [property: CliOption("--monitor-name")] string MonitorName,
 [property: CliOption("--name")] string Name,

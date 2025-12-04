@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "dns-zone", "show")]
+[CliSubCommand("vmware", "workload-network", "dns-zone", "show")]
 public record AzVmwareWorkloadNetworkDnsZoneShowOptions : AzOptions
 {
     [CliOption("--dns-zone")]

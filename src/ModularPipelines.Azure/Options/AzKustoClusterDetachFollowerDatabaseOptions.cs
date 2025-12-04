@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "cluster", "detach-follower-database")]
+[CliSubCommand("kusto", "cluster", "detach-follower-database")]
 public record AzKustoClusterDetachFollowerDatabaseOptions(
 [property: CliFlag("--attached-database-configuration-name")] bool AttachedDatabaseConfigurationName,
 [property: CliOption("--cluster-resource-id")] string ClusterResourceId

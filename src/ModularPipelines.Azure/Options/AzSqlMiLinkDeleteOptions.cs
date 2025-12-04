@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "link", "delete")]
+[CliSubCommand("sql", "mi", "link", "delete")]
 public record AzSqlMiLinkDeleteOptions : AzOptions
 {
     [CliOption("--distributed-availability-group-name")]

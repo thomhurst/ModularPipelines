@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "job", "cancel")]
+[CliSubCommand("dla", "job", "cancel")]
 public record AzDlaJobCancelOptions(
 [property: CliOption("--job-identity")] string JobIdentity
 ) : AzOptions

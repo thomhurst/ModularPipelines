@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "sql", "role", "definition", "wait")]
+[CliSubCommand("cosmosdb", "sql", "role", "definition", "wait")]
 public record AzCosmosdbSqlRoleDefinitionWaitOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--id")] string Id,

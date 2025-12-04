@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "parameter", "set-batch")]
+[CliSubCommand("mysql", "flexible-server", "parameter", "set-batch")]
 public record AzMysqlFlexibleServerParameterSetBatchOptions(
 [property: CliOption("--args")] string Args
 ) : AzOptions

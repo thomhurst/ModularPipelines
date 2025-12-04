@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "task", "create")]
+[CliSubCommand("acr", "task", "create")]
 public record AzAcrTaskCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--registry")] string Registry

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "application", "summary", "show")]
+[CliSubCommand("batch", "application", "summary", "show")]
 public record AzBatchApplicationSummaryShowOptions(
 [property: CliOption("--application-id")] string ApplicationId
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "cassandra", "table", "update")]
+[CliSubCommand("cosmosdb", "cassandra", "table", "update")]
 public record AzCosmosdbCassandraTableUpdateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--keyspace-name")] string KeyspaceName,

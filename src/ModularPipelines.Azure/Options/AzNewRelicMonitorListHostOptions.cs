@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("new-relic", "monitor", "list-host")]
+[CliSubCommand("new-relic", "monitor", "list-host")]
 public record AzNewRelicMonitorListHostOptions(
 [property: CliOption("--monitor-name")] string MonitorName,
 [property: CliOption("--resource-group")] string ResourceGroup,

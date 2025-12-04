@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("elastic", "monitor", "vm-ingestion-detail")]
+[CliSubCommand("elastic", "monitor", "vm-ingestion-detail")]
 public record AzElasticMonitorVmIngestionDetailOptions : AzOptions
 {
     [CliOption("--ids")]

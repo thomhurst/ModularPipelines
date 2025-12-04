@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "delete")]
+[CliSubCommand("cosmosdb", "delete")]
 public record AzCosmosdbDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

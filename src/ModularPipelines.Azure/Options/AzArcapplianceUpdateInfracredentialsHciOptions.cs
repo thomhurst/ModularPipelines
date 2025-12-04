@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcappliance", "update-infracredentials", "hci")]
+[CliSubCommand("arcappliance", "update-infracredentials", "hci")]
 public record AzArcapplianceUpdateInfracredentialsHciOptions(
 [property: CliOption("--kubeconfig")] string Kubeconfig
 ) : AzOptions

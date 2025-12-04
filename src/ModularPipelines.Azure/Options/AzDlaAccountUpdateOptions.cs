@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "account", "update")]
+[CliSubCommand("dla", "account", "update")]
 public record AzDlaAccountUpdateOptions : AzOptions
 {
     [CliOption("--account")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "start-stop-schedule", "create")]
+[CliSubCommand("sql", "mi", "start-stop-schedule", "create")]
 public record AzSqlMiStartStopScheduleCreateOptions(
 [property: CliOption("--managed-instance")] string ManagedInstance,
 [property: CliOption("--resource-group")] string ResourceGroup

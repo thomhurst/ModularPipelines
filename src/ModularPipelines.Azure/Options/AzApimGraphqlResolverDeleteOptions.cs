@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "graphql", "resolver", "delete")]
+[CliSubCommand("apim", "graphql", "resolver", "delete")]
 public record AzApimGraphqlResolverDeleteOptions(
 [property: CliOption("--api-id")] string ApiId,
 [property: CliOption("--resolver-id")] string ResolverId,

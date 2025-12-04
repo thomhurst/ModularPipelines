@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "check-name-exists")]
+[CliSubCommand("cosmosdb", "check-name-exists")]
 public record AzCosmosdbCheckNameExistsOptions : AzOptions
 {
     [CliOption("--ids")]

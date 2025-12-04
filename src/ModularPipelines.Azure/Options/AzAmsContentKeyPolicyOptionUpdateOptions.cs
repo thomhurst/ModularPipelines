@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "content-key-policy", "option", "update")]
+[CliSubCommand("ams", "content-key-policy", "option", "update")]
 public record AzAmsContentKeyPolicyOptionUpdateOptions(
 [property: CliOption("--policy-option-id")] string PolicyOptionId
 ) : AzOptions

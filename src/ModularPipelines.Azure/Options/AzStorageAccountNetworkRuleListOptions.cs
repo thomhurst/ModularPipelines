@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "network-rule", "list")]
+[CliSubCommand("storage", "account", "network-rule", "list")]
 public record AzStorageAccountNetworkRuleListOptions(
 [property: CliOption("--account-name")] int AccountName
 ) : AzOptions

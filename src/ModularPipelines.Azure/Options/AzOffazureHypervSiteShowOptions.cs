@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("offure", "hyperv", "site", "show")]
+[CliSubCommand("offure", "hyperv", "site", "show")]
 public record AzOffazureHypervSiteShowOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "catalog", "download-error-report")]
+[CliSubCommand("sphere", "catalog", "download-error-report")]
 public record AzSphereCatalogDownloadErrorReportOptions(
 [property: CliOption("--catalog")] string Catalog,
 [property: CliOption("--resource-group")] string ResourceGroup

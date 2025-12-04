@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("alerts-management", "prometheus-rule-group", "update")]
+[CliSubCommand("alerts-management", "prometheus-rule-group", "update")]
 public record AzAlertsManagementPrometheusRuleGroupUpdateOptions : AzOptions
 {
     [CliOption("--add")]

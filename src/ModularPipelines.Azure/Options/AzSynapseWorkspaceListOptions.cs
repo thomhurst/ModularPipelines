@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "workspace", "list")]
+[CliSubCommand("synapse", "workspace", "list")]
 public record AzSynapseWorkspaceListOptions : AzOptions
 {
     [CliOption("--resource-group")]

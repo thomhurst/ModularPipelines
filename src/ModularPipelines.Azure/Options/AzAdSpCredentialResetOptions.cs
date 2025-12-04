@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ad", "sp", "credential", "reset")]
+[CliSubCommand("ad", "sp", "credential", "reset")]
 public record AzAdSpCredentialResetOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions

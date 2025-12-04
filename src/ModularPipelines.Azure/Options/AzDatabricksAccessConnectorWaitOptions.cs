@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databricks", "access-connector", "wait")]
+[CliSubCommand("databricks", "access-connector", "wait")]
 public record AzDatabricksAccessConnectorWaitOptions : AzOptions
 {
     [CliFlag("--created")]

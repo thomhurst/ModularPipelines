@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "ingress", "access-restriction", "set")]
+[CliSubCommand("containerapp", "ingress", "access-restriction", "set")]
 public record AzContainerappIngressAccessRestrictionSetOptions(
 [property: CliOption("--action")] string Action,
 [property: CliOption("--ip-address")] string IpAddress,

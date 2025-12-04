@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "autoscale", "rule", "copy")]
+[CliSubCommand("monitor", "autoscale", "rule", "copy")]
 public record AzMonitorAutoscaleRuleCopyOptions(
 [property: CliOption("--autoscale-name")] string AutoscaleName,
 [property: CliOption("--dest-schedule")] string DestSchedule,

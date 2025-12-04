@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "build", "tag", "add")]
+[CliSubCommand("pipelines", "build", "tag", "add")]
 public record AzPipelinesBuildTagAddOptions(
 [property: CliOption("--build-id")] string BuildId,
 [property: CliOption("--tags")] string Tags

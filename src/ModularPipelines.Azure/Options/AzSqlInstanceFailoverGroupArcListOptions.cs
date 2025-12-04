@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "instance-failover-group-arc", "list")]
+[CliSubCommand("sql", "instance-failover-group-arc", "list")]
 public record AzSqlInstanceFailoverGroupArcListOptions : AzOptions
 {
     [CliOption("--k8s-namespace")]

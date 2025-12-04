@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "folder", "delete")]
+[CliSubCommand("pipelines", "folder", "delete")]
 public record AzPipelinesFolderDeleteOptions(
 [property: CliOption("--path")] string Path
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "vcenter", "connect")]
+[CliSubCommand("connectedvmware", "vcenter", "connect")]
 public record AzConnectedvmwareVcenterConnectOptions(
 [property: CliOption("--custom-location")] string CustomLocation,
 [property: CliOption("--location")] string Location

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi-arc", "list")]
+[CliSubCommand("sql", "mi-arc", "list")]
 public record AzSqlMiArcListOptions : AzOptions
 {
     [CliOption("--custom-location")]

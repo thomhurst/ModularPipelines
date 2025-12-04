@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "backup-policy", "retention-rule", "create-lifecycle")]
+[CliSubCommand("dataprotection", "backup-policy", "retention-rule", "create-lifecycle")]
 public record AzDataprotectionBackupPolicyRetentionRuleCreateLifecycleOptions(
 [property: CliOption("--count")] int Count,
 [property: CliOption("--retention-duration-type")] string RetentionDurationType,

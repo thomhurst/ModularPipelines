@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mesh", "gateway", "list")]
+[CliSubCommand("mesh", "gateway", "list")]
 public record AzMeshGatewayListOptions : AzOptions
 {
     [CliOption("--max-items")]

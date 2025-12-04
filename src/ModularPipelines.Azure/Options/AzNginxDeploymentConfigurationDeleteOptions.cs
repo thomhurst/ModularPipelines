@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("nginx", "deployment", "configuration", "delete")]
+[CliSubCommand("nginx", "deployment", "configuration", "delete")]
 public record AzNginxDeploymentConfigurationDeleteOptions : AzOptions
 {
     [CliOption("--configuration-name")]

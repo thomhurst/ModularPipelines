@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "ops", "asset", "event", "remove")]
+[CliSubCommand("iot", "ops", "asset", "event", "remove")]
 public record AzIotOpsAssetEventRemoveOptions(
 [property: CliOption("--asset")] string Asset,
 [property: CliOption("--resource-group")] string ResourceGroup

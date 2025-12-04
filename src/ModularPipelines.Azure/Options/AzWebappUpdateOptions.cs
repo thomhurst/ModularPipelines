@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "update")]
+[CliSubCommand("webapp", "update")]
 public record AzWebappUpdateOptions : AzOptions
 {
     [CliOption("--add")]

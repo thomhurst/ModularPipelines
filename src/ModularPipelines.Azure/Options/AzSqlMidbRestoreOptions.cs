@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "midb", "restore")]
+[CliSubCommand("sql", "midb", "restore")]
 public record AzSqlMidbRestoreOptions(
 [property: CliOption("--dest-name")] string DestName,
 [property: CliOption("--time")] string Time

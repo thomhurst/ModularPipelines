@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("attestation", "policy", "set")]
+[CliSubCommand("attestation", "policy", "set")]
 public record AzAttestationPolicySetOptions(
 [property: CliOption("--attestation-type")] string AttestationType
 ) : AzOptions

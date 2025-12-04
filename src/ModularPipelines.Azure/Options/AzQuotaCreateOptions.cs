@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("quota", "create")]
+[CliSubCommand("quota", "create")]
 public record AzQuotaCreateOptions(
 [property: CliOption("--resource-name")] string ResourceName,
 [property: CliOption("--scope")] string Scope

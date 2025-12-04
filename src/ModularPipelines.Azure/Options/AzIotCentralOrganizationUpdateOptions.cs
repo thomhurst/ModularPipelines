@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "organization", "update")]
+[CliSubCommand("iot", "central", "organization", "update")]
 public record AzIotCentralOrganizationUpdateOptions(
 [property: CliOption("--app-id")] string AppId,
 [property: CliOption("--org-id")] string OrgId

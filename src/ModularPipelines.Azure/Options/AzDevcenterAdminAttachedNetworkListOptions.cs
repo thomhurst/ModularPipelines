@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "attached-network", "list")]
+[CliSubCommand("devcenter", "admin", "attached-network", "list")]
 public record AzDevcenterAdminAttachedNetworkListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("baremetalinstance", "delete")]
+[CliSubCommand("baremetalinstance", "delete")]
 public record AzBaremetalinstanceDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

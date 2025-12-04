@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "addon", "vr", "update")]
+[CliSubCommand("vmware", "addon", "vr", "update")]
 public record AzVmwareAddonVrUpdateOptions(
 [property: CliOption("--vrs-count")] int VrsCount
 ) : AzOptions

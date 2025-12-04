@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "failover-priority-change")]
+[CliSubCommand("cosmosdb", "failover-priority-change")]
 public record AzCosmosdbFailoverPriorityChangeOptions(
 [property: CliOption("--failover-policies")] string FailoverPolicies
 ) : AzOptions

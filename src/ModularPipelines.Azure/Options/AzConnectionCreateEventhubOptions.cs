@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "create", "eventhub")]
+[CliSubCommand("connection", "create", "eventhub")]
 public record AzConnectionCreateEventhubOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

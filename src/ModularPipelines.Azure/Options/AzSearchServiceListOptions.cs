@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("search", "service", "list")]
+[CliSubCommand("search", "service", "list")]
 public record AzSearchServiceListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions;

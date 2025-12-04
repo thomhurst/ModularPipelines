@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "update")]
+[CliSubCommand("postgres", "flexible-server", "update")]
 public record AzPostgresFlexibleServerUpdateOptions : AzOptions
 {
     [CliOption("--active-directory-auth")]

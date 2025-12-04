@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "log-analytic", "metric", "list")]
+[CliSubCommand("afd", "log-analytic", "metric", "list")]
 public record AzAfdLogAnalyticMetricListOptions(
 [property: CliOption("--custom-domains")] string CustomDomains,
 [property: CliOption("--date-time-begin")] string DateTimeBegin,

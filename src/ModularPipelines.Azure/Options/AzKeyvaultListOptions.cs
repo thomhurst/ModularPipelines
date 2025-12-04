@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "list")]
+[CliSubCommand("keyvault", "list")]
 public record AzKeyvaultListOptions : AzOptions
 {
     [CliOption("--resource-group")]

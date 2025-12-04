@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "node", "user", "create")]
+[CliSubCommand("batch", "node", "user", "create")]
 public record AzBatchNodeUserCreateOptions(
 [property: CliOption("--node-id")] string NodeId,
 [property: CliOption("--pool-id")] string PoolId

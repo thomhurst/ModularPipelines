@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redis", "firewall-rules", "show")]
+[CliSubCommand("redis", "firewall-rules", "show")]
 public record AzRedisFirewallRulesShowOptions(
 [property: CliOption("--rule-name")] string RuleName
 ) : AzOptions

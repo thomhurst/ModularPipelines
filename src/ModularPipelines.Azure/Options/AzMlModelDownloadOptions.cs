@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "model", "download")]
+[CliSubCommand("ml", "model", "download")]
 public record AzMlModelDownloadOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--version")] string Version

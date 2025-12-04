@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dns-resolver", "forwarding-ruleset", "list-by-virtual-network")]
+[CliSubCommand("dns-resolver", "forwarding-ruleset", "list-by-virtual-network")]
 public record AzDnsResolverForwardingRulesetListByVirtualNetworkOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--virtual-network-name")] string VirtualNetworkName

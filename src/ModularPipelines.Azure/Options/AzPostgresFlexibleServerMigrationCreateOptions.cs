@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "migration", "create")]
+[CliSubCommand("postgres", "flexible-server", "migration", "create")]
 public record AzPostgresFlexibleServerMigrationCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--properties")] string Properties,

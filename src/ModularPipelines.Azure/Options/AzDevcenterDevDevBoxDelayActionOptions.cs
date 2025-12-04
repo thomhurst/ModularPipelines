@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "dev", "dev-box", "delay-action")]
+[CliSubCommand("devcenter", "dev", "dev-box", "delay-action")]
 public record AzDevcenterDevDevBoxDelayActionOptions(
 [property: CliOption("--action-name")] string ActionName,
 [property: CliOption("--delay-time")] string DelayTime,

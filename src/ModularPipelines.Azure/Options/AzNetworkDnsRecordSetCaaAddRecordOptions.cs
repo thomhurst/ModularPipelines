@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "dns", "record-set", "caa", "add-record")]
+[CliSubCommand("network", "dns", "record-set", "caa", "add-record")]
 public record AzNetworkDnsRecordSetCaaAddRecordOptions(
 [property: CliOption("--flags")] string Flags,
 [property: CliOption("--record-set-name")] string RecordSetName,

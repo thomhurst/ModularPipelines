@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("orbital", "spacecraft", "list-available-contact")]
+[CliSubCommand("orbital", "spacecraft", "list-available-contact")]
 public record AzOrbitalSpacecraftListAvailableContactOptions(
 [property: CliOption("--contact-profile")] string ContactProfile,
 [property: CliOption("--end-time")] string EndTime,

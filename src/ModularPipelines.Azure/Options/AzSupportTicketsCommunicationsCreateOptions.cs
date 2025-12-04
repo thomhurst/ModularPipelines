@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("support", "tickets", "communications", "create")]
+[CliSubCommand("support", "tickets", "communications", "create")]
 public record AzSupportTicketsCommunicationsCreateOptions(
 [property: CliOption("--communication-body")] string CommunicationBody,
 [property: CliOption("--communication-name")] string CommunicationName,

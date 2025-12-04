@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vpn-gateway", "connection", "vpn-site-link-conn", "ipsec-policy", "remove")]
+[CliSubCommand("network", "vpn-gateway", "connection", "vpn-site-link-conn", "ipsec-policy", "remove")]
 public record AzNetworkVpnGatewayConnectionVpnSiteLinkConnIpsecPolicyRemoveOptions(
 [property: CliOption("--index")] string Index
 ) : AzOptions

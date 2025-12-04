@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device-group", "delete")]
+[CliSubCommand("sphere", "device-group", "delete")]
 public record AzSphereDeviceGroupDeleteOptions(
 [property: CliOption("--catalog")] string Catalog,
 [property: CliOption("--device-group")] string DeviceGroup,

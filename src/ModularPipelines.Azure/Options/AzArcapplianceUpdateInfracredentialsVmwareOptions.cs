@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcappliance", "update-infracredentials", "vmware")]
+[CliSubCommand("arcappliance", "update-infracredentials", "vmware")]
 public record AzArcapplianceUpdateInfracredentialsVmwareOptions(
 [property: CliOption("--kubeconfig")] string Kubeconfig
 ) : AzOptions

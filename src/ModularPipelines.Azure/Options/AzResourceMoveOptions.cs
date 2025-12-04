@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resource", "move")]
+[CliSubCommand("resource", "move")]
 public record AzResourceMoveOptions(
 [property: CliOption("--destination-group")] string DestinationGroup,
 [property: CliOption("--ids")] string Ids

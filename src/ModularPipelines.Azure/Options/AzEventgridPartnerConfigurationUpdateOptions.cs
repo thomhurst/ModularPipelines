@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "partner", "configuration", "update")]
+[CliSubCommand("eventgrid", "partner", "configuration", "update")]
 public record AzEventgridPartnerConfigurationUpdateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

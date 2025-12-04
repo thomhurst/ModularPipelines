@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "show-os-version")]
+[CliSubCommand("sphere", "device", "show-os-version")]
 public record AzSphereDeviceShowOsVersionOptions : AzOptions
 {
     [CliOption("--device")]

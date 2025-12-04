@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication", "link-notification-hub")]
+[CliSubCommand("communication", "link-notification-hub")]
 public record AzCommunicationLinkNotificationHubOptions : AzOptions
 {
     [CliOption("--connection-string")]

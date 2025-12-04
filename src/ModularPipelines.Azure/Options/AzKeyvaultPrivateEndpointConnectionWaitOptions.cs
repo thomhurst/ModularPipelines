@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "private-endpoint-connection", "wait")]
+[CliSubCommand("keyvault", "private-endpoint-connection", "wait")]
 public record AzKeyvaultPrivateEndpointConnectionWaitOptions : AzOptions
 {
     [CliFlag("--created")]

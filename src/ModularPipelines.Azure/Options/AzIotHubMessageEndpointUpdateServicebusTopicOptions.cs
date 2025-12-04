@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "message-endpoint", "update", "servicebus-topic")]
+[CliSubCommand("iot", "hub", "message-endpoint", "update", "servicebus-topic")]
 public record AzIotHubMessageEndpointUpdateServicebusTopicOptions(
 [property: CliOption("--en")] string En,
 [property: CliOption("--hub-name")] string HubName

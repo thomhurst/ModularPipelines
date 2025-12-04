@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("staticwebapp", "list")]
+[CliSubCommand("staticwebapp", "list")]
 public record AzStaticwebappListOptions : AzOptions
 {
     [CliOption("--resource-group")]

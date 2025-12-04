@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "app", "start")]
+[CliSubCommand("sphere", "device", "app", "start")]
 public record AzSphereDeviceAppStartOptions : AzOptions
 {
     [CliOption("--component-id")]

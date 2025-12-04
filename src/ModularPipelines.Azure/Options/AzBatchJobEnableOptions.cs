@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "job", "enable")]
+[CliSubCommand("batch", "job", "enable")]
 public record AzBatchJobEnableOptions(
 [property: CliOption("--job-id")] string JobId
 ) : AzOptions

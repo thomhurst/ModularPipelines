@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stream-analytics", "function", "show")]
+[CliSubCommand("stream-analytics", "function", "show")]
 public record AzStreamAnalyticsFunctionShowOptions(
 [property: CliOption("--function-name")] string FunctionName,
 [property: CliOption("--job-name")] string JobName,

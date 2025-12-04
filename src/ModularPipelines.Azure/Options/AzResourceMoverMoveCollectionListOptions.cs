@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resource-mover", "move-collection", "list")]
+[CliSubCommand("resource-mover", "move-collection", "list")]
 public record AzResourceMoverMoveCollectionListOptions : AzOptions
 {
     [CliOption("--max-items")]

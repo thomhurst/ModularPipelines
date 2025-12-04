@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "manager", "group", "static-member", "delete")]
+[CliSubCommand("network", "manager", "group", "static-member", "delete")]
 public record AzNetworkManagerGroupStaticMemberDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

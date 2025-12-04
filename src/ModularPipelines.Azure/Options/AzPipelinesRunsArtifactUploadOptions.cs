@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "runs", "artifact", "upload")]
+[CliSubCommand("pipelines", "runs", "artifact", "upload")]
 public record AzPipelinesRunsArtifactUploadOptions(
 [property: CliOption("--artifact-name")] string ArtifactName,
 [property: CliOption("--path")] string Path,

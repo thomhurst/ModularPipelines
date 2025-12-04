@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "manager", "connection", "management-group", "list")]
+[CliSubCommand("network", "manager", "connection", "management-group", "list")]
 public record AzNetworkManagerConnectionManagementGroupListOptions(
 [property: CliOption("--management-group-id")] string ManagementGroupId
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "run-command", "invoke")]
+[CliSubCommand("vm", "run-command", "invoke")]
 public record AzVmRunCommandInvokeOptions(
 [property: CliOption("--command-id")] string CommandId
 ) : AzOptions

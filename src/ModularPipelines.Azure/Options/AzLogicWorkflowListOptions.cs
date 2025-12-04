@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logic", "workflow", "list")]
+[CliSubCommand("logic", "workflow", "list")]
 public record AzLogicWorkflowListOptions : AzOptions
 {
     [CliOption("--filter")]

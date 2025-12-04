@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "kv", "lock")]
+[CliSubCommand("appconfig", "kv", "lock")]
 public record AzAppconfigKvLockOptions(
 [property: CliOption("--key")] string Key
 ) : AzOptions

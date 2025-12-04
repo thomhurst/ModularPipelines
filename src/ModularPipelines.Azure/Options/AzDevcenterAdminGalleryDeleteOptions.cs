@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "gallery", "delete")]
+[CliSubCommand("devcenter", "admin", "gallery", "delete")]
 public record AzDevcenterAdminGalleryDeleteOptions : AzOptions
 {
     [CliOption("--dev-center")]

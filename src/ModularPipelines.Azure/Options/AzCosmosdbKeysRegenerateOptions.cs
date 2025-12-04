@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "keys", "regenerate")]
+[CliSubCommand("cosmosdb", "keys", "regenerate")]
 public record AzCosmosdbKeysRegenerateOptions(
 [property: CliOption("--key-kind")] string KeyKind
 ) : AzOptions

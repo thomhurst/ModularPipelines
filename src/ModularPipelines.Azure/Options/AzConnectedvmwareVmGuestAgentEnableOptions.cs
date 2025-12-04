@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "vm", "guest-agent", "enable")]
+[CliSubCommand("connectedvmware", "vm", "guest-agent", "enable")]
 public record AzConnectedvmwareVmGuestAgentEnableOptions(
 [property: CliOption("--password")] string Password,
 [property: CliOption("--resource-group")] string ResourceGroup,

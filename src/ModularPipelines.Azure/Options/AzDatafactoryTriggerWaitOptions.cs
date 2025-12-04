@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "trigger", "wait")]
+[CliSubCommand("datafactory", "trigger", "wait")]
 public record AzDatafactoryTriggerWaitOptions : AzOptions
 {
     [CliFlag("--created")]

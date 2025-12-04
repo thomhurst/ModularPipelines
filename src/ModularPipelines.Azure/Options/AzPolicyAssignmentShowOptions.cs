@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("policy", "assignment", "show")]
+[CliSubCommand("policy", "assignment", "show")]
 public record AzPolicyAssignmentShowOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

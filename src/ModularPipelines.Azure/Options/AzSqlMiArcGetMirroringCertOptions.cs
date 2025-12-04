@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi-arc", "get-mirroring-cert")]
+[CliSubCommand("sql", "mi-arc", "get-mirroring-cert")]
 public record AzSqlMiArcGetMirroringCertOptions(
 [property: CliOption("--cert-file")] string CertFile,
 [property: CliOption("--name")] string Name

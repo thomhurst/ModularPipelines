@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databricks", "workspace", "private-link-resource", "list")]
+[CliSubCommand("databricks", "workspace", "private-link-resource", "list")]
 public record AzDatabricksWorkspacePrivateLinkResourceListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--workspace-name")] string WorkspaceName

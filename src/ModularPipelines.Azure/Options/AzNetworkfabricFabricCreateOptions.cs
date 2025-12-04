@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "fabric", "create")]
+[CliSubCommand("networkfabric", "fabric", "create")]
 public record AzNetworkfabricFabricCreateOptions(
 [property: CliOption("--fabric-asn")] string FabricAsn,
 [property: CliOption("--ipv4-prefix")] string Ipv4Prefix,

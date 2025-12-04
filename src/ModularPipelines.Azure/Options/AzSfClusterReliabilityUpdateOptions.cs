@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "cluster", "reliability", "update")]
+[CliSubCommand("sf", "cluster", "reliability", "update")]
 public record AzSfClusterReliabilityUpdateOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--reliability-level")] string ReliabilityLevel,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "postgres", "role", "show")]
+[CliSubCommand("cosmosdb", "postgres", "role", "show")]
 public record AzCosmosdbPostgresRoleShowOptions : AzOptions
 {
     [CliOption("--cluster-name")]

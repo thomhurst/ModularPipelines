@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "user", "list")]
+[CliSubCommand("iot", "central", "user", "list")]
 public record AzIotCentralUserListOptions(
 [property: CliOption("--app-id")] string AppId
 ) : AzOptions

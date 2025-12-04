@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("confluent", "organization", "wait")]
+[CliSubCommand("confluent", "organization", "wait")]
 public record AzConfluentOrganizationWaitOptions : AzOptions
 {
     [CliFlag("--created")]

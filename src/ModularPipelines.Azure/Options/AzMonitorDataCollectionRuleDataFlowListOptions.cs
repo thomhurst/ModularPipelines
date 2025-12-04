@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "data-collection", "rule", "data-flow", "list")]
+[CliSubCommand("monitor", "data-collection", "rule", "data-flow", "list")]
 public record AzMonitorDataCollectionRuleDataFlowListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--rule-name")] string RuleName

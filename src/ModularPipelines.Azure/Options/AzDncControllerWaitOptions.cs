@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dnc", "controller", "wait")]
+[CliSubCommand("dnc", "controller", "wait")]
 public record AzDncControllerWaitOptions : AzOptions
 {
     [CliFlag("--created")]

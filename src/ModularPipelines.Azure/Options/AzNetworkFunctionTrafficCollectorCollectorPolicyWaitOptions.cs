@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network-function", "traffic-collector", "collector-policy", "wait")]
+[CliSubCommand("network-function", "traffic-collector", "collector-policy", "wait")]
 public record AzNetworkFunctionTrafficCollectorCollectorPolicyWaitOptions : AzOptions
 {
     [CliOption("--collector-policy-name")]

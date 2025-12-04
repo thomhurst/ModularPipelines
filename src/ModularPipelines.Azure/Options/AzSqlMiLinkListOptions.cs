@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "link", "list")]
+[CliSubCommand("sql", "mi", "link", "list")]
 public record AzSqlMiLinkListOptions(
 [property: CliOption("--instance-name")] string InstanceName,
 [property: CliOption("--resource-group")] string ResourceGroup

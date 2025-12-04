@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tsi", "environment", "gen2", "create")]
+[CliSubCommand("tsi", "environment", "gen2", "create")]
 public record AzTsiEnvironmentGen2CreateOptions(
 [property: CliOption("--environment-name")] string EnvironmentName,
 [property: CliOption("--id-properties")] string IdProperties,

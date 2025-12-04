@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication", "delete")]
+[CliSubCommand("communication", "delete")]
 public record AzCommunicationDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

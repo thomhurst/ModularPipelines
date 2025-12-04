@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "host", "group", "get-instance-view")]
+[CliSubCommand("vm", "host", "group", "get-instance-view")]
 public record AzVmHostGroupGetInstanceViewOptions : AzOptions
 {
     [CliOption("--ids")]

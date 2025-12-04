@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("capacity", "reservation", "group", "delete")]
+[CliSubCommand("capacity", "reservation", "group", "delete")]
 public record AzCapacityReservationGroupDeleteOptions : AzOptions
 {
     [CliOption("--capacity-reservation-group")]

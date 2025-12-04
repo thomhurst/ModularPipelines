@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "kv", "export")]
+[CliSubCommand("appconfig", "kv", "export")]
 public record AzAppconfigKvExportOptions(
 [property: CliOption("--destination")] string Destination
 ) : AzOptions

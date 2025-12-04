@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "integration-runtime", "show")]
+[CliSubCommand("synapse", "integration-runtime", "show")]
 public record AzSynapseIntegrationRuntimeShowOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "key", "show")]
+[CliSubCommand("sql", "server", "key", "show")]
 public record AzSqlServerKeyShowOptions(
 [property: CliOption("--kid")] string Kid
 ) : AzOptions

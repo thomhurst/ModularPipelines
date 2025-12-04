@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "show")]
+[CliSubCommand("keyvault", "show")]
 public record AzKeyvaultShowOptions : AzOptions
 {
     [CliOption("--hsm-name")]

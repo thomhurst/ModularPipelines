@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "front-door", "update")]
+[CliSubCommand("network", "front-door", "update")]
 public record AzNetworkFrontDoorUpdateOptions : AzOptions
 {
     [CliOption("--add")]

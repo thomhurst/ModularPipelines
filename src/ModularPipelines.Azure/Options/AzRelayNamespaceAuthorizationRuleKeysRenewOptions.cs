@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("relay", "namespace", "authorization-rule", "keys", "renew")]
+[CliSubCommand("relay", "namespace", "authorization-rule", "keys", "renew")]
 public record AzRelayNamespaceAuthorizationRuleKeysRenewOptions(
 [property: CliOption("--key")] string Key
 ) : AzOptions

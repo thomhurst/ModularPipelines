@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "vm", "show")]
+[CliSubCommand("vmware", "vm", "show")]
 public record AzVmwareVmShowOptions : AzOptions
 {
     [CliOption("--cluster-name")]

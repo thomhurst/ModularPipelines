@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cdn", "endpoint", "validate-custom-domain")]
+[CliSubCommand("cdn", "endpoint", "validate-custom-domain")]
 public record AzCdnEndpointValidateCustomDomainOptions(
 [property: CliOption("--host-name")] string HostName
 ) : AzOptions

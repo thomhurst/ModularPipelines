@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "connection", "update", "cosmos-gremlin")]
+[CliSubCommand("spring", "connection", "update", "cosmos-gremlin")]
 public record AzSpringConnectionUpdateCosmosGremlinOptions : AzOptions
 {
     [CliOption("--app")]

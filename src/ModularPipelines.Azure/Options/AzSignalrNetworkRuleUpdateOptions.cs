@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("signalr", "network-rule", "update")]
+[CliSubCommand("signalr", "network-rule", "update")]
 public record AzSignalrNetworkRuleUpdateOptions : AzOptions
 {
     [CliFlag("--allow")]

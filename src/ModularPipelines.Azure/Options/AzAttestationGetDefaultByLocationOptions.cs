@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("attestation", "get-default-by-location")]
+[CliSubCommand("attestation", "get-default-by-location")]
 public record AzAttestationGetDefaultByLocationOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication", "user-identity", "token", "revoke")]
+[CliSubCommand("communication", "user-identity", "token", "revoke")]
 public record AzCommunicationUserIdentityTokenRevokeOptions(
 [property: CliOption("--user")] string User
 ) : AzOptions

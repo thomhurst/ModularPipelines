@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcdata", "dc", "debug", "copy-logs")]
+[CliSubCommand("arcdata", "dc", "debug", "copy-logs")]
 public record AzArcdataDcDebugCopyLogsOptions(
 [property: CliOption("--k8s-namespace")] string K8sNamespace
 ) : AzOptions

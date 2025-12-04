@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "eventhub", "consumer-group", "delete")]
+[CliSubCommand("eventhubs", "eventhub", "consumer-group", "delete")]
 public record AzEventhubsEventhubConsumerGroupDeleteOptions : AzOptions
 {
     [CliOption("--consumer-group-name")]

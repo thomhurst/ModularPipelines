@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apic", "service", "list")]
+[CliSubCommand("apic", "service", "list")]
 public record AzApicServiceListOptions : AzOptions
 {
     [CliOption("--max-items")]

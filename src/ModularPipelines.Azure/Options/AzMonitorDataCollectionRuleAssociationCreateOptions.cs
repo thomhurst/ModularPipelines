@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "data-collection", "rule", "association", "create")]
+[CliSubCommand("monitor", "data-collection", "rule", "association", "create")]
 public record AzMonitorDataCollectionRuleAssociationCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource")] string Resource

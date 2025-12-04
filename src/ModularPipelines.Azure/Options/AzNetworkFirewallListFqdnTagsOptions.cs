@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "firewall", "list-fqdn-tags")]
+[CliSubCommand("network", "firewall", "list-fqdn-tags")]
 public record AzNetworkFirewallListFqdnTagsOptions : AzOptions
 {
     [CliOption("--max-items")]

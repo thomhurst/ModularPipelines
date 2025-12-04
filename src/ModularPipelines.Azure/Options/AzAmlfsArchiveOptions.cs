@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("amlfs", "archive")]
+[CliSubCommand("amlfs", "archive")]
 public record AzAmlfsArchiveOptions : AzOptions
 {
     [CliOption("--amlfs-name")]

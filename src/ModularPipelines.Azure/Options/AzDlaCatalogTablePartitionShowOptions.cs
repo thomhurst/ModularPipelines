@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "catalog", "table-partition", "show")]
+[CliSubCommand("dla", "catalog", "table-partition", "show")]
 public record AzDlaCatalogTablePartitionShowOptions(
 [property: CliOption("--database-name")] string DatabaseName,
 [property: CliOption("--partition-name")] string PartitionName,

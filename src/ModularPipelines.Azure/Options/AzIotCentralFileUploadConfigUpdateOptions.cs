@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "file-upload-config", "update")]
+[CliSubCommand("iot", "central", "file-upload-config", "update")]
 public record AzIotCentralFileUploadConfigUpdateOptions(
 [property: CliOption("--app-id")] string AppId
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("new-relic", "monitor", "switch-billing")]
+[CliSubCommand("new-relic", "monitor", "switch-billing")]
 public record AzNewRelicMonitorSwitchBillingOptions(
 [property: CliOption("--user-email")] string UserEmail
 ) : AzOptions

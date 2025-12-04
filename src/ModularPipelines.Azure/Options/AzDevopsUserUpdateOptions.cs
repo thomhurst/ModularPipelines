@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "user", "update")]
+[CliSubCommand("devops", "user", "update")]
 public record AzDevopsUserUpdateOptions(
 [property: CliOption("--license-type")] string LicenseType,
 [property: CliOption("--user")] string User

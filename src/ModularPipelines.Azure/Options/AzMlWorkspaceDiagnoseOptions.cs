@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "workspace", "diagnose")]
+[CliSubCommand("ml", "workspace", "diagnose")]
 public record AzMlWorkspaceDiagnoseOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

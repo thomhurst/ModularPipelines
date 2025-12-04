@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "routeserver", "peering", "wait")]
+[CliSubCommand("network", "routeserver", "peering", "wait")]
 public record AzNetworkRouteserverPeeringWaitOptions : AzOptions
 {
     [CliFlag("--created")]

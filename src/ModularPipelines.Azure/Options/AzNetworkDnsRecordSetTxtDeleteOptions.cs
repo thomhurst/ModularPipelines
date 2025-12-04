@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "dns", "record-set", "txt", "delete")]
+[CliSubCommand("network", "dns", "record-set", "txt", "delete")]
 public record AzNetworkDnsRecordSetTxtDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

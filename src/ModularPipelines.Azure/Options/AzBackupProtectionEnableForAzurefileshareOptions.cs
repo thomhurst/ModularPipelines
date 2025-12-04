@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "protection", "enable-for-urefileshare")]
+[CliSubCommand("backup", "protection", "enable-for-urefileshare")]
 public record AzBackupProtectionEnableForAzurefileshareOptions(
 [property: CliOption("--azure-file-share")] string AzureFileShare,
 [property: CliOption("--policy-name")] string PolicyName,

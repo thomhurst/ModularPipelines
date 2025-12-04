@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "replication", "list")]
+[CliSubCommand("acr", "replication", "list")]
 public record AzAcrReplicationListOptions(
 [property: CliOption("--registry")] string Registry
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "mongocluster", "firewall", "rule", "update")]
+[CliSubCommand("cosmosdb", "mongocluster", "firewall", "rule", "update")]
 public record AzCosmosdbMongoclusterFirewallRuleUpdateOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--end-ip-address")] string EndIpAddress,

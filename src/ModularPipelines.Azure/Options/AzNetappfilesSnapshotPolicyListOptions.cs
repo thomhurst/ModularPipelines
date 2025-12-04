@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "snapshot", "policy", "list")]
+[CliSubCommand("netappfiles", "snapshot", "policy", "list")]
 public record AzNetappfilesSnapshotPolicyListOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--resource-group")] string ResourceGroup

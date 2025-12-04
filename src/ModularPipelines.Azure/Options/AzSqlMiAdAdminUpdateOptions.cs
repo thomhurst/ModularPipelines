@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "ad-admin", "update")]
+[CliSubCommand("sql", "mi", "ad-admin", "update")]
 public record AzSqlMiAdAdminUpdateOptions(
 [property: CliOption("--display-name")] string DisplayName,
 [property: CliOption("--object-id")] string ObjectId

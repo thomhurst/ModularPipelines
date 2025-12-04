@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "configuration", "show-metric")]
+[CliSubCommand("iot", "hub", "configuration", "show-metric")]
 public record AzIotHubConfigurationShowMetricOptions(
 [property: CliOption("--config-id")] string ConfigId,
 [property: CliOption("--metric-id")] string MetricId

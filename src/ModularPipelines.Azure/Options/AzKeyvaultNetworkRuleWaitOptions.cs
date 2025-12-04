@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "network-rule", "wait")]
+[CliSubCommand("keyvault", "network-rule", "wait")]
 public record AzKeyvaultNetworkRuleWaitOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

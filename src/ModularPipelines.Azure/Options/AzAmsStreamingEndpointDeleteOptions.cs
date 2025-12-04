@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "streaming-endpoint", "delete")]
+[CliSubCommand("ams", "streaming-endpoint", "delete")]
 public record AzAmsStreamingEndpointDeleteOptions : AzOptions
 {
     [CliOption("--account-name")]

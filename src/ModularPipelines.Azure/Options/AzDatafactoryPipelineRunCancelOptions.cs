@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "pipeline-run", "cancel")]
+[CliSubCommand("datafactory", "pipeline-run", "cancel")]
 public record AzDatafactoryPipelineRunCancelOptions : AzOptions
 {
     [CliOption("--factory-name")]

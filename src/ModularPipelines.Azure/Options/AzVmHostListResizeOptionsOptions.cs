@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "host", "list-resize-options")]
+[CliSubCommand("vm", "host", "list-resize-options")]
 public record AzVmHostListResizeOptionsOptions : AzOptions
 {
     [CliOption("--host-group")]

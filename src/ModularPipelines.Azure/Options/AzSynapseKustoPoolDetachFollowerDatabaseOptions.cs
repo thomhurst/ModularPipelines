@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kusto", "pool", "detach-follower-database")]
+[CliSubCommand("synapse", "kusto", "pool", "detach-follower-database")]
 public record AzSynapseKustoPoolDetachFollowerDatabaseOptions(
 [property: CliOption("--adcn")] string Adcn,
 [property: CliOption("--kusto-pool-resource-id")] string KustoPoolResourceId

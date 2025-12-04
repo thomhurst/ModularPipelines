@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vhub", "route-table", "route", "remove")]
+[CliSubCommand("network", "vhub", "route-table", "route", "remove")]
 public record AzNetworkVhubRouteTableRouteRemoveOptions(
 [property: CliOption("--index")] string Index,
 [property: CliOption("--name")] string Name,

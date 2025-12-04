@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tsi", "environment", "delete")]
+[CliSubCommand("tsi", "environment", "delete")]
 public record AzTsiEnvironmentDeleteOptions : AzOptions
 {
     [CliOption("--environment-name")]

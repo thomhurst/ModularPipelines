@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "artifact-streaming", "update")]
+[CliSubCommand("acr", "artifact-streaming", "update")]
 public record AzAcrArtifactStreamingUpdateOptions(
 [property: CliFlag("--enable-streaming")] bool EnableStreaming,
 [property: CliOption("--name")] string Name,

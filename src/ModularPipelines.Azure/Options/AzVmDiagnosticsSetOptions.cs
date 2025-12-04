@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "diagnostics", "set")]
+[CliSubCommand("vm", "diagnostics", "set")]
 public record AzVmDiagnosticsSetOptions(
 [property: CliOption("--settings")] string Settings
 ) : AzOptions

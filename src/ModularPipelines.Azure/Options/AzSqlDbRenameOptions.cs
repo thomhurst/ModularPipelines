@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "rename")]
+[CliSubCommand("sql", "db", "rename")]
 public record AzSqlDbRenameOptions(
 [property: CliOption("--new-name")] string NewName
 ) : AzOptions

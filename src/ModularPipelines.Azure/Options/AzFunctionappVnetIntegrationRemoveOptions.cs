@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "vnet-integration", "remove")]
+[CliSubCommand("functionapp", "vnet-integration", "remove")]
 public record AzFunctionappVnetIntegrationRemoveOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

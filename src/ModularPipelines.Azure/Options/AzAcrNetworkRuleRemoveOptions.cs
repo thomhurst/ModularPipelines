@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "network-rule", "remove")]
+[CliSubCommand("acr", "network-rule", "remove")]
 public record AzAcrNetworkRuleRemoveOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

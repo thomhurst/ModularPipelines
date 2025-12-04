@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "edge", "export-modules")]
+[CliSubCommand("iot", "edge", "export-modules")]
 public record AzIotEdgeExportModulesOptions(
 [property: CliOption("--device-id")] string DeviceId
 ) : AzOptions

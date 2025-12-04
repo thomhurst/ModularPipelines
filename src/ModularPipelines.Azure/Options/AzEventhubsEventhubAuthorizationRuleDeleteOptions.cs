@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "eventhub", "authorization-rule", "delete")]
+[CliSubCommand("eventhubs", "eventhub", "authorization-rule", "delete")]
 public record AzEventhubsEventhubAuthorizationRuleDeleteOptions : AzOptions
 {
     [CliOption("--authorization-rule-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server-arc", "list")]
+[CliSubCommand("postgres", "server-arc", "list")]
 public record AzPostgresServerArcListOptions : AzOptions
 {
     [CliOption("--k8s-namespace")]

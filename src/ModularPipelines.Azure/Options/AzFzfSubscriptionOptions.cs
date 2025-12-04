@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("fzf", "subscription")]
+[CliSubCommand("fzf", "subscription")]
 public record AzFzfSubscriptionOptions : AzOptions
 {
     [CliOption("--filter")]

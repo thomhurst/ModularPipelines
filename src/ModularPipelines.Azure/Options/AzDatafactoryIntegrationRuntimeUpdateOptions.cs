@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "integration-runtime", "update")]
+[CliSubCommand("datafactory", "integration-runtime", "update")]
 public record AzDatafactoryIntegrationRuntimeUpdateOptions : AzOptions
 {
     [CliOption("--auto-update")]

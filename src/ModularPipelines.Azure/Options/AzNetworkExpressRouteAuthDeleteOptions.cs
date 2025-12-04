@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "express-route", "auth", "delete")]
+[CliSubCommand("network", "express-route", "auth", "delete")]
 public record AzNetworkExpressRouteAuthDeleteOptions : AzOptions
 {
     [CliOption("--circuit-name")]

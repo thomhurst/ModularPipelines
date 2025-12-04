@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "sql", "pool", "tde", "show")]
+[CliSubCommand("synapse", "sql", "pool", "tde", "show")]
 public record AzSynapseSqlPoolTdeShowOptions(
 [property: CliOption("--transparent-data-encryption-name")] string TransparentDataEncryptionName
 ) : AzOptions

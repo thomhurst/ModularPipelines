@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "asset", "get-encryption-key")]
+[CliSubCommand("ams", "asset", "get-encryption-key")]
 public record AzAmsAssetGetEncryptionKeyOptions : AzOptions
 {
     [CliOption("--account-name")]

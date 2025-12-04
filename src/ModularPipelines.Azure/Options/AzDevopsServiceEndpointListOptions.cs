@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "service-endpoint", "list")]
+[CliSubCommand("devops", "service-endpoint", "list")]
 public record AzDevopsServiceEndpointListOptions : AzOptions
 {
     [CliFlag("--detect")]

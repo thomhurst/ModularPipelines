@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "connection", "update", "redis-enterprise")]
+[CliSubCommand("spring", "connection", "update", "redis-enterprise")]
 public record AzSpringConnectionUpdateRedisEnterpriseOptions : AzOptions
 {
     [CliOption("--app")]

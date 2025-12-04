@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "gateway", "route-config", "update")]
+[CliSubCommand("spring", "gateway", "route-config", "update")]
 public record AzSpringGatewayRouteConfigUpdateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

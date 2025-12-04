@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "key", "import")]
+[CliSubCommand("keyvault", "key", "import")]
 public record AzKeyvaultKeyImportOptions : AzOptions
 {
     [CliOption("--byok-file")]

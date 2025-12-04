@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "online-deployment", "list")]
+[CliSubCommand("ml", "online-deployment", "list")]
 public record AzMlOnlineDeploymentListOptions(
 [property: CliOption("--endpoint-name")] string EndpointName,
 [property: CliOption("--resource-group")] string ResourceGroup,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "firewall", "learned-ip-prefix")]
+[CliSubCommand("network", "firewall", "learned-ip-prefix")]
 public record AzNetworkFirewallLearnedIpPrefixOptions : AzOptions
 {
     [CliOption("--ids")]

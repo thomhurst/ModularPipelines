@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("managedservices", "definition", "show")]
+[CliSubCommand("managedservices", "definition", "show")]
 public record AzManagedservicesDefinitionShowOptions(
 [property: CliOption("--definition")] string Definition
 ) : AzOptions;

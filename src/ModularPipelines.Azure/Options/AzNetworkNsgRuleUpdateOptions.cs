@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "nsg", "rule", "update")]
+[CliSubCommand("network", "nsg", "rule", "update")]
 public record AzNetworkNsgRuleUpdateOptions : AzOptions
 {
     [CliOption("--access")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dynatrace", "monitor", "sso-config", "create")]
+[CliSubCommand("dynatrace", "monitor", "sso-config", "create")]
 public record AzDynatraceMonitorSsoConfigCreateOptions(
 [property: CliOption("--configuration-name")] string ConfigurationName,
 [property: CliOption("--monitor-name")] string MonitorName,

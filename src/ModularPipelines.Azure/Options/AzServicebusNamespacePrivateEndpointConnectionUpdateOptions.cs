@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "namespace", "private-endpoint-connection", "update")]
+[CliSubCommand("servicebus", "namespace", "private-endpoint-connection", "update")]
 public record AzServicebusNamespacePrivateEndpointConnectionUpdateOptions : AzOptions
 {
     [CliOption("--add")]

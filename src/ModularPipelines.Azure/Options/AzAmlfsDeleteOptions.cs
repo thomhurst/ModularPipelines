@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("amlfs", "delete")]
+[CliSubCommand("amlfs", "delete")]
 public record AzAmlfsDeleteOptions : AzOptions
 {
     [CliOption("--aml-filesystem-name")]

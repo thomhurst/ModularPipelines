@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "data-collection", "rule", "performance-counter", "list")]
+[CliSubCommand("monitor", "data-collection", "rule", "performance-counter", "list")]
 public record AzMonitorDataCollectionRulePerformanceCounterListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--rule-name")] string RuleName

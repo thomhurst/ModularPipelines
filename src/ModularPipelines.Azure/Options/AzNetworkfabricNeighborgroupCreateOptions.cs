@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "neighborgroup", "create")]
+[CliSubCommand("networkfabric", "neighborgroup", "create")]
 public record AzNetworkfabricNeighborgroupCreateOptions(
 [property: CliOption("--destination")] string Destination,
 [property: CliOption("--resource-group")] string ResourceGroup,

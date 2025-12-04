@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "ingress", "access-restriction", "list")]
+[CliSubCommand("containerapp", "ingress", "access-restriction", "list")]
 public record AzContainerappIngressAccessRestrictionListOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "aem", "verify")]
+[CliSubCommand("vm", "aem", "verify")]
 public record AzVmAemVerifyOptions : AzOptions
 {
     [CliOption("--ids")]

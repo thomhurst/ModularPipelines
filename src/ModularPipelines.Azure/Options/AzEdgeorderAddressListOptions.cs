@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("edgeorder", "address", "list")]
+[CliSubCommand("edgeorder", "address", "list")]
 public record AzEdgeorderAddressListOptions : AzOptions
 {
     [CliOption("--filter")]

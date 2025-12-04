@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "invoke-device-method")]
+[CliSubCommand("iot", "hub", "invoke-device-method")]
 public record AzIotHubInvokeDeviceMethodOptions(
 [property: CliOption("--device-id")] string DeviceId,
 [property: CliOption("--method-name")] string MethodName

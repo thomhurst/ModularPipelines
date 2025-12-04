@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("grafana", "restore")]
+[CliSubCommand("grafana", "restore")]
 public record AzGrafanaRestoreOptions(
 [property: CliOption("--archive-file")] string ArchiveFile,
 [property: CliOption("--name")] string Name

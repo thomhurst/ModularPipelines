@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("image", "builder", "validator", "add")]
+[CliSubCommand("image", "builder", "validator", "add")]
 public record AzImageBuilderValidatorAddOptions : AzOptions
 {
     [CliFlag("--continue-distribute-on-failure")]

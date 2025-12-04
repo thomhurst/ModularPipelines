@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "attached-network", "wait")]
+[CliSubCommand("devcenter", "admin", "attached-network", "wait")]
 public record AzDevcenterAdminAttachedNetworkWaitOptions : AzOptions
 {
     [CliFlag("--attached-network-connection-name")]

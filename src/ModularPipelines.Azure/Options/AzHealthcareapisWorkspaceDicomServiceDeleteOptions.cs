@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("healthcareapis", "workspace", "dicom-service", "delete")]
+[CliSubCommand("healthcareapis", "workspace", "dicom-service", "delete")]
 public record AzHealthcareapisWorkspaceDicomServiceDeleteOptions : AzOptions
 {
     [CliOption("--dicom-service-name")]

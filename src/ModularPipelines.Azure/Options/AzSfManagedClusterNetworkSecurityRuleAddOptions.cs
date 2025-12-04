@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "managed-cluster", "network-security-rule", "add")]
+[CliSubCommand("sf", "managed-cluster", "network-security-rule", "add")]
 public record AzSfManagedClusterNetworkSecurityRuleAddOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--resource-group")] string ResourceGroup

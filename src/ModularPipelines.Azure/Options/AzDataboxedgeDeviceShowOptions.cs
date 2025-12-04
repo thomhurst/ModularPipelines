@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databoxedge", "device", "show")]
+[CliSubCommand("databoxedge", "device", "show")]
 public record AzDataboxedgeDeviceShowOptions : AzOptions
 {
     [CliOption("--device-name")]

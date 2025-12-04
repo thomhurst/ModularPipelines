@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "classification", "recommendation", "enable")]
+[CliSubCommand("sql", "db", "classification", "recommendation", "enable")]
 public record AzSqlDbClassificationRecommendationEnableOptions(
 [property: CliOption("--column")] string Column,
 [property: CliOption("--schema")] string Schema,

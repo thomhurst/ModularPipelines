@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("alerts-management", "prometheus-rule-group", "show")]
+[CliSubCommand("alerts-management", "prometheus-rule-group", "show")]
 public record AzAlertsManagementPrometheusRuleGroupShowOptions : AzOptions
 {
     [CliOption("--ids")]

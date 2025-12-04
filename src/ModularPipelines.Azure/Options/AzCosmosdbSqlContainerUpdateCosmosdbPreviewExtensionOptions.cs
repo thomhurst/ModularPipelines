@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "sql", "container", "update", "(cosmosdb-preview", "extension)")]
+[CliSubCommand("cosmosdb", "sql", "container", "update", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbSqlContainerUpdateCosmosdbPreviewExtensionOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--database-name")] string DatabaseName,

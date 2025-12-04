@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "cluster", "node", "add")]
+[CliSubCommand("sf", "cluster", "node", "add")]
 public record AzSfClusterNodeAddOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--node-type")] string NodeType,

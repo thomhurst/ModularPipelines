@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "incident", "run-playbook")]
+[CliSubCommand("sentinel", "incident", "run-playbook")]
 public record AzSentinelIncidentRunPlaybookOptions(
 [property: CliOption("--incident-identifier")] string IncidentIdentifier,
 [property: CliOption("--resource-group")] string ResourceGroup,

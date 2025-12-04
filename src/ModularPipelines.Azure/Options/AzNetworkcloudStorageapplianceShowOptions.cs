@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "storageappliance", "show")]
+[CliSubCommand("networkcloud", "storageappliance", "show")]
 public record AzNetworkcloudStorageapplianceShowOptions : AzOptions
 {
     [CliOption("--ids")]

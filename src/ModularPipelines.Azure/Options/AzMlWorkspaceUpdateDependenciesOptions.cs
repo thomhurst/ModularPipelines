@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "workspace", "update-dependencies")]
+[CliSubCommand("ml", "workspace", "update-dependencies")]
 public record AzMlWorkspaceUpdateDependenciesOptions : AzOptions
 {
     [CliOption("--acr")]

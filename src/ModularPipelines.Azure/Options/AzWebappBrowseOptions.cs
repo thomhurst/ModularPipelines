@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "browse")]
+[CliSubCommand("webapp", "browse")]
 public record AzWebappBrowseOptions : AzOptions
 {
     [CliOption("--ids")]

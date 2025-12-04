@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "container", "lease", "change")]
+[CliSubCommand("storage", "container", "lease", "change")]
 public record AzStorageContainerLeaseChangeOptions(
 [property: CliOption("--container-name")] string ContainerName,
 [property: CliOption("--lease-id")] string LeaseId,

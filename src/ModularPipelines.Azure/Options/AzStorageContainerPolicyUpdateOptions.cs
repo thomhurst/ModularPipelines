@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "container", "policy", "update")]
+[CliSubCommand("storage", "container", "policy", "update")]
 public record AzStorageContainerPolicyUpdateOptions(
 [property: CliOption("--container-name")] string ContainerName,
 [property: CliOption("--name")] string Name

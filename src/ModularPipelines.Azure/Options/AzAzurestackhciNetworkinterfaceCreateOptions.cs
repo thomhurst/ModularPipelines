@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("urestackhci", "networkinterface", "create")]
+[CliSubCommand("urestackhci", "networkinterface", "create")]
 public record AzAzurestackhciNetworkinterfaceCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("orbital", "contact-profile", "create")]
+[CliSubCommand("orbital", "contact-profile", "create")]
 public record AzOrbitalContactProfileCreateOptions(
 [property: CliOption("--contact-profile-name")] string ContactProfileName,
 [property: CliOption("--resource-group")] string ResourceGroup

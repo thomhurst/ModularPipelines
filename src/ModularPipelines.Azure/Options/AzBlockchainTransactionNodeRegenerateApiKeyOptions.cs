@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("blockchain", "transaction-node", "regenerate-api-key")]
+[CliSubCommand("blockchain", "transaction-node", "regenerate-api-key")]
 public record AzBlockchainTransactionNodeRegenerateApiKeyOptions(
 [property: CliOption("--member-name")] string MemberName,
 [property: CliOption("--name")] string Name,

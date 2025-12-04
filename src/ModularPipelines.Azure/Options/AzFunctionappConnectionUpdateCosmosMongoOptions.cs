@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "connection", "update", "cosmos-mongo")]
+[CliSubCommand("functionapp", "connection", "update", "cosmos-mongo")]
 public record AzFunctionappConnectionUpdateCosmosMongoOptions : AzOptions
 {
     [CliOption("--client-type")]

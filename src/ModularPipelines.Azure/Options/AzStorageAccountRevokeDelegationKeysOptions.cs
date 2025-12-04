@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "revoke-delegation-keys")]
+[CliSubCommand("storage", "account", "revoke-delegation-keys")]
 public record AzStorageAccountRevokeDelegationKeysOptions : AzOptions
 {
     [CliOption("--ids")]

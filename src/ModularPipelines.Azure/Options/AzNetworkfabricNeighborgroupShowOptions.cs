@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "neighborgroup", "show")]
+[CliSubCommand("networkfabric", "neighborgroup", "show")]
 public record AzNetworkfabricNeighborgroupShowOptions : AzOptions
 {
     [CliOption("--ids")]

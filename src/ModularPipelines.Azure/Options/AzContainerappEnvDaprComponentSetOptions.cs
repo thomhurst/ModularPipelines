@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "env", "dapr-component", "set")]
+[CliSubCommand("containerapp", "env", "dapr-component", "set")]
 public record AzContainerappEnvDaprComponentSetOptions(
 [property: CliOption("--dapr-component-name")] string DaprComponentName,
 [property: CliOption("--name")] string Name,

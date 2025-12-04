@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cognitiveservices", "account", "delete")]
+[CliSubCommand("cognitiveservices", "account", "delete")]
 public record AzCognitiveservicesAccountDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network-analytics", "data-product", "list")]
+[CliSubCommand("network-analytics", "data-product", "list")]
 public record AzNetworkAnalyticsDataProductListOptions : AzOptions
 {
     [CliOption("--max-items")]

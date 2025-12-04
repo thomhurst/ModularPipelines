@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("staticwebapp", "secrets", "reset-api-key")]
+[CliSubCommand("staticwebapp", "secrets", "reset-api-key")]
 public record AzStaticwebappSecretsResetApiKeyOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("restore-point", "wait")]
+[CliSubCommand("restore-point", "wait")]
 public record AzRestorePointWaitOptions(
 [property: CliOption("--collection-name")] string CollectionName,
 [property: CliOption("--name")] string Name,

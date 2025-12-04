@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("footprint", "measurement-endpoint-condition", "update")]
+[CliSubCommand("footprint", "measurement-endpoint-condition", "update")]
 public record AzFootprintMeasurementEndpointConditionUpdateOptions(
 [property: CliOption("--constant")] string Constant,
 [property: CliOption("--operator")] string Operator,

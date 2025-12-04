@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("desktopvirtualization", "hostpool", "delete")]
+[CliSubCommand("desktopvirtualization", "hostpool", "delete")]
 public record AzDesktopvirtualizationHostpoolDeleteOptions : AzOptions
 {
     [CliFlag("--force")]

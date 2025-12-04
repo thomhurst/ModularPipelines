@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logic", "integration-account", "delete")]
+[CliSubCommand("logic", "integration-account", "delete")]
 public record AzLogicIntegrationAccountDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

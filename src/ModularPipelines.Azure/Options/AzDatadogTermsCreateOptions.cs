@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datadog", "terms", "create")]
+[CliSubCommand("datadog", "terms", "create")]
 public record AzDatadogTermsCreateOptions : AzOptions
 {
     [CliOption("--properties")]

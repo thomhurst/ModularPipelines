@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("managed-cassandra", "cluster", "create", "(cosmosdb-preview", "extension)")]
+[CliSubCommand("managed-cassandra", "cluster", "create", "(cosmosdb-preview", "extension)")]
 public record AzManagedCassandraClusterCreateCosmosdbPreviewExtensionOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--delegated-management-subnet-id")] string DelegatedManagementSubnetId,

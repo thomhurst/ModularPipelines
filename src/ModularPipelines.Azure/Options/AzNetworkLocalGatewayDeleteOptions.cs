@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "local-gateway", "delete")]
+[CliSubCommand("network", "local-gateway", "delete")]
 public record AzNetworkLocalGatewayDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

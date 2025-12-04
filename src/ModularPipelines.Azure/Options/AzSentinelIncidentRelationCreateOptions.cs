@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "incident", "relation", "create")]
+[CliSubCommand("sentinel", "incident", "relation", "create")]
 public record AzSentinelIncidentRelationCreateOptions(
 [property: CliOption("--incident-id")] string IncidentId,
 [property: CliOption("--name")] string Name,

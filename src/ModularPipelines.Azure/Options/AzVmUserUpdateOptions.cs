@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "user", "update")]
+[CliSubCommand("vm", "user", "update")]
 public record AzVmUserUpdateOptions(
 [property: CliOption("--username")] string Username
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "share-rm", "show")]
+[CliSubCommand("storage", "share-rm", "show")]
 public record AzStorageShareRmShowOptions : AzOptions
 {
     [CliOption("--expand")]

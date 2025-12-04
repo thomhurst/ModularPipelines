@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "action-group", "test-notifications", "create")]
+[CliSubCommand("monitor", "action-group", "test-notifications", "create")]
 public record AzMonitorActionGroupTestNotificationsCreateOptions(
 [property: CliOption("--action-group")] string ActionGroup,
 [property: CliOption("--alert-type")] string AlertType,

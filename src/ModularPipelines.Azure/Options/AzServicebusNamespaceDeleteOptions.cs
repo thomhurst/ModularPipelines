@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "namespace", "delete")]
+[CliSubCommand("servicebus", "namespace", "delete")]
 public record AzServicebusNamespaceDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

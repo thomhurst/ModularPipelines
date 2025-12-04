@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cognitiveservices", "model", "list")]
+[CliSubCommand("cognitiveservices", "model", "list")]
 public record AzCognitiveservicesModelListOptions(
 [property: CliOption("--location")] string Location
 ) : AzOptions;

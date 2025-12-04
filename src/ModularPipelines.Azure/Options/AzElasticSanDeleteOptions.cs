@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("elastic-san", "delete")]
+[CliSubCommand("elastic-san", "delete")]
 public record AzElasticSanDeleteOptions : AzOptions
 {
     [CliOption("--elastic-san-name")]

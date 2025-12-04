@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mesh", "volume", "create")]
+[CliSubCommand("mesh", "volume", "create")]
 public record AzMeshVolumeCreateOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--name")] string Name,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("notification-hub", "credential", "baidu", "update")]
+[CliSubCommand("notification-hub", "credential", "baidu", "update")]
 public record AzNotificationHubCredentialBaiduUpdateOptions(
 [property: CliOption("--api-key")] string ApiKey,
 [property: CliOption("--name")] string Name,

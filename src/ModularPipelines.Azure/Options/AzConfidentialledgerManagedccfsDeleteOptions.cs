@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("confidentialledger", "managedccfs", "delete")]
+[CliSubCommand("confidentialledger", "managedccfs", "delete")]
 public record AzConfidentialledgerManagedccfsDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

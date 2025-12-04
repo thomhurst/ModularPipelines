@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("account", "management-group", "subscription", "show")]
+[CliSubCommand("account", "management-group", "subscription", "show")]
 public record AzAccountManagementGroupSubscriptionShowOptions : AzOptions
 {
     public AzAccountManagementGroupSubscriptionShowOptions(

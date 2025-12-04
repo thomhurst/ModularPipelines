@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "run", "list")]
+[CliSubCommand("ml", "run", "list")]
 public record AzMlRunListOptions : AzOptions
 {
     [CliOption("--compute-target-name")]

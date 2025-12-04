@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "mesh", "enable-egress-gateway")]
+[CliSubCommand("aks", "mesh", "enable-egress-gateway")]
 public record AzAksMeshEnableEgressGatewayOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

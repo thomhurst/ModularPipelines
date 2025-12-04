@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logz", "sso", "wait")]
+[CliSubCommand("logz", "sso", "wait")]
 public record AzLogzSsoWaitOptions : AzOptions
 {
     [CliOption("--configuration-name")]

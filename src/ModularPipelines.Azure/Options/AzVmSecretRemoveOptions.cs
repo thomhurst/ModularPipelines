@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "secret", "remove")]
+[CliSubCommand("vm", "secret", "remove")]
 public record AzVmSecretRemoveOptions(
 [property: CliOption("--keyvault")] string Keyvault
 ) : AzOptions

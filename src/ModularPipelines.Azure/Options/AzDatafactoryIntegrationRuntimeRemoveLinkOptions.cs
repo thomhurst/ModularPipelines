@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "integration-runtime", "remove-link")]
+[CliSubCommand("datafactory", "integration-runtime", "remove-link")]
 public record AzDatafactoryIntegrationRuntimeRemoveLinkOptions(
 [property: CliOption("--linked-factory-name")] string LinkedFactoryName
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "pr", "list")]
+[CliSubCommand("repos", "pr", "list")]
 public record AzReposPrListOptions : AzOptions
 {
     [CliOption("--creator")]

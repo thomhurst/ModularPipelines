@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "du", "account", "wait")]
+[CliSubCommand("iot", "du", "account", "wait")]
 public record AzIotDuAccountWaitOptions(
 [property: CliOption("--account")] int Account
 ) : AzOptions

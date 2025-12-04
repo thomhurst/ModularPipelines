@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("palo-alto", "cloudngfw", "firewall", "show-log-profile")]
+[CliSubCommand("palo-alto", "cloudngfw", "firewall", "show-log-profile")]
 public record AzPaloAltoCloudngfwFirewallShowLogProfileOptions : AzOptions
 {
     [CliOption("--firewall-name")]

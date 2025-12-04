@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apic", "service", "delete")]
+[CliSubCommand("apic", "service", "delete")]
 public record AzApicServiceDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

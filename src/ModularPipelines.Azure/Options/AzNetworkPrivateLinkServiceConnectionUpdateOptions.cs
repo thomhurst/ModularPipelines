@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-link-service", "connection", "update")]
+[CliSubCommand("network", "private-link-service", "connection", "update")]
 public record AzNetworkPrivateLinkServiceConnectionUpdateOptions(
 [property: CliOption("--connection-status")] string ConnectionStatus
 ) : AzOptions

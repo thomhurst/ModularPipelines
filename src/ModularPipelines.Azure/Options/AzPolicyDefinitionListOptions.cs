@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("policy", "definition", "list")]
+[CliSubCommand("policy", "definition", "list")]
 public record AzPolicyDefinitionListOptions : AzOptions
 {
     [CliOption("--management-group")]

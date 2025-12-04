@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "attached-network", "create")]
+[CliSubCommand("devcenter", "admin", "attached-network", "create")]
 public record AzDevcenterAdminAttachedNetworkCreateOptions(
 [property: CliFlag("--attached-network-connection-name")] bool AttachedNetworkConnectionName,
 [property: CliOption("--dev-center")] string DevCenter,

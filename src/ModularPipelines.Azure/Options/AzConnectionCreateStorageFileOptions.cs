@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "create", "storage-file")]
+[CliSubCommand("connection", "create", "storage-file")]
 public record AzConnectionCreateStorageFileOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

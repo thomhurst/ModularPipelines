@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server", "private-link-resource", "list")]
+[CliSubCommand("postgres", "server", "private-link-resource", "list")]
 public record AzPostgresServerPrivateLinkResourceListOptions : AzOptions
 {
     [CliOption("--ids")]

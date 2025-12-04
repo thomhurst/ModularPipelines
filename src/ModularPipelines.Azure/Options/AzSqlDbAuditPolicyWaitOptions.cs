@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "audit-policy", "wait")]
+[CliSubCommand("sql", "db", "audit-policy", "wait")]
 public record AzSqlDbAuditPolicyWaitOptions : AzOptions
 {
     [CliFlag("--created")]

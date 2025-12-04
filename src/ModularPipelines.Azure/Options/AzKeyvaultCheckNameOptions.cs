@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "check-name")]
+[CliSubCommand("keyvault", "check-name")]
 public record AzKeyvaultCheckNameOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

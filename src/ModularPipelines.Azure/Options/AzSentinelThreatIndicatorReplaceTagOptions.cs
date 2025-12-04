@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "threat-indicator", "replace-tag")]
+[CliSubCommand("sentinel", "threat-indicator", "replace-tag")]
 public record AzSentinelThreatIndicatorReplaceTagOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

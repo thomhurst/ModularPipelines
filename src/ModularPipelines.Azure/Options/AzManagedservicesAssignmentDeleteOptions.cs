@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("managedservices", "assignment", "delete")]
+[CliSubCommand("managedservices", "assignment", "delete")]
 public record AzManagedservicesAssignmentDeleteOptions(
 [property: CliOption("--assignment")] string Assignment
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "queue", "stats")]
+[CliSubCommand("storage", "queue", "stats")]
 public record AzStorageQueueStatsOptions : AzOptions
 {
     [CliOption("--account-key")]

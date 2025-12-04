@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "share-rm", "update")]
+[CliSubCommand("storage", "share-rm", "update")]
 public record AzStorageShareRmUpdateOptions : AzOptions
 {
     [CliOption("--access-tier")]

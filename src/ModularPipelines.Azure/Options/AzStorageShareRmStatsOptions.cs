@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "share-rm", "stats")]
+[CliSubCommand("storage", "share-rm", "stats")]
 public record AzStorageShareRmStatsOptions : AzOptions
 {
     [CliOption("--ids")]

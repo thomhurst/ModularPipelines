@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "delete-policy")]
+[CliSubCommand("keyvault", "delete-policy")]
 public record AzKeyvaultDeletePolicyOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

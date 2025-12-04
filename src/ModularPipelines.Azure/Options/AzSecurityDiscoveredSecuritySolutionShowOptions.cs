@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "discovered-security-solution", "show")]
+[CliSubCommand("security", "discovered-security-solution", "show")]
 public record AzSecurityDiscoveredSecuritySolutionShowOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

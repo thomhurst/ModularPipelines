@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "start-stop-schedule", "update")]
+[CliSubCommand("sql", "mi", "start-stop-schedule", "update")]
 public record AzSqlMiStartStopScheduleUpdateOptions : AzOptions
 {
     [CliOption("--add")]

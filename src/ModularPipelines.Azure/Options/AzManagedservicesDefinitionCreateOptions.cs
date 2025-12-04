@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("managedservices", "definition", "create")]
+[CliSubCommand("managedservices", "definition", "create")]
 public record AzManagedservicesDefinitionCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--principal-id")] string PrincipalId,

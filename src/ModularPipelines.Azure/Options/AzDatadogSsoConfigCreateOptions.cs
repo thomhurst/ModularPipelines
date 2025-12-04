@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datadog", "sso-config", "create")]
+[CliSubCommand("datadog", "sso-config", "create")]
 public record AzDatadogSsoConfigCreateOptions(
 [property: CliOption("--configuration-name")] string ConfigurationName,
 [property: CliOption("--monitor-name")] string MonitorName,

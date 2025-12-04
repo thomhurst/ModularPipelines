@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci", "arc-setting", "initialize-disable-proces")]
+[CliSubCommand("stack-hci", "arc-setting", "initialize-disable-proces")]
 public record AzStackHciArcSettingInitializeDisableProcesOptions : AzOptions
 {
     [CliOption("--arc-setting-name")]

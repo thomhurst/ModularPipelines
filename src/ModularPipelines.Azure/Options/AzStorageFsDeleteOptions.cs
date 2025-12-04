@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "fs", "delete")]
+[CliSubCommand("storage", "fs", "delete")]
 public record AzStorageFsDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

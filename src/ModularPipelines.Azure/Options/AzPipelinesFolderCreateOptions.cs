@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "folder", "create")]
+[CliSubCommand("pipelines", "folder", "create")]
 public record AzPipelinesFolderCreateOptions(
 [property: CliOption("--path")] string Path
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sapmonitor", "provider-instance", "delete")]
+[CliSubCommand("sapmonitor", "provider-instance", "delete")]
 public record AzSapmonitorProviderInstanceDeleteOptions(
 [property: CliOption("--monitor-name")] string MonitorName,
 [property: CliOption("--provider-instance-name")] string ProviderInstanceName,

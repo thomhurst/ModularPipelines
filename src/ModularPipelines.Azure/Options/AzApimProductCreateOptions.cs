@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "product", "create")]
+[CliSubCommand("apim", "product", "create")]
 public record AzApimProductCreateOptions(
 [property: CliOption("--product-name")] string ProductName,
 [property: CliOption("--resource-group")] string ResourceGroup,

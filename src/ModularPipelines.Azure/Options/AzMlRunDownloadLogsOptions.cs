@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "run", "download-logs")]
+[CliSubCommand("ml", "run", "download-logs")]
 public record AzMlRunDownloadLogsOptions(
 [property: CliOption("--output-dir")] string OutputDir,
 [property: CliOption("--run")] string Run

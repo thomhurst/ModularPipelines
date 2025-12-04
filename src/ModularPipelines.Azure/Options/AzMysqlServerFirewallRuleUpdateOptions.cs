@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "firewall-rule", "update")]
+[CliSubCommand("mysql", "server", "firewall-rule", "update")]
 public record AzMysqlServerFirewallRuleUpdateOptions : AzOptions
 {
     [CliOption("--add")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "repair", "repair-and-restore")]
+[CliSubCommand("vm", "repair", "repair-and-restore")]
 public record AzVmRepairRepairAndRestoreOptions : AzOptions
 {
     [CliOption("--copy-disk-name")]

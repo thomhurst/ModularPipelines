@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("remote-rendering-account", "show")]
+[CliSubCommand("remote-rendering-account", "show")]
 public record AzRemoteRenderingAccountShowOptions : AzOptions
 {
     [CliOption("--ids")]

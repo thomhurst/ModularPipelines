@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "elastic-pool", "delete")]
+[CliSubCommand("sql", "elastic-pool", "delete")]
 public record AzSqlElasticPoolDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

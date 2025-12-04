@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "cloud-link", "show")]
+[CliSubCommand("vmware", "cloud-link", "show")]
 public record AzVmwareCloudLinkShowOptions : AzOptions
 {
     [CliOption("--cloud-link-name")]

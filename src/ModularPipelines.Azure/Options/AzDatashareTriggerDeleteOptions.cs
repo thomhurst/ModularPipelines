@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datashare", "trigger", "delete")]
+[CliSubCommand("datashare", "trigger", "delete")]
 public record AzDatashareTriggerDeleteOptions : AzOptions
 {
     [CliOption("--account-name")]

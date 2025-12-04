@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "runs", "artifact", "download")]
+[CliSubCommand("pipelines", "runs", "artifact", "download")]
 public record AzPipelinesRunsArtifactDownloadOptions(
 [property: CliOption("--artifact-name")] string ArtifactName,
 [property: CliOption("--path")] string Path,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("urestackhci", "networkinterface", "update")]
+[CliSubCommand("urestackhci", "networkinterface", "update")]
 public record AzAzurestackhciNetworkinterfaceUpdateOptions : AzOptions
 {
     [CliOption("--ids")]

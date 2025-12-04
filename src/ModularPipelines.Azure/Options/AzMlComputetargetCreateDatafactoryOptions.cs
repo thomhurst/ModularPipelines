@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "computetarget", "create", "datafactory")]
+[CliSubCommand("ml", "computetarget", "create", "datafactory")]
 public record AzMlComputetargetCreateDatafactoryOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

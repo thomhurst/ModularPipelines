@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server", "restart")]
+[CliSubCommand("postgres", "server", "restart")]
 public record AzPostgresServerRestartOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("qumulo", "storage", "file-system", "show")]
+[CliSubCommand("qumulo", "storage", "file-system", "show")]
 public record AzQumuloStorageFileSystemShowOptions : AzOptions
 {
     [CliOption("--file-system-name")]

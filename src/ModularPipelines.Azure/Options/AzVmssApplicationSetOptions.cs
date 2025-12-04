@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "application", "set")]
+[CliSubCommand("vmss", "application", "set")]
 public record AzVmssApplicationSetOptions(
 [property: CliOption("--app-version-ids")] string AppVersionIds
 ) : AzOptions

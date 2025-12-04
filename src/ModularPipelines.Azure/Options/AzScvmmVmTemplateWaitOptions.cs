@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vm-template", "wait")]
+[CliSubCommand("scvmm", "vm-template", "wait")]
 public record AzScvmmVmTemplateWaitOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--vm-template-name")] string VmTemplateName

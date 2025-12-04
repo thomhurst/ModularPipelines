@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("load", "test-run", "stop")]
+[CliSubCommand("load", "test-run", "stop")]
 public record AzLoadTestRunStopOptions(
 [property: CliOption("--load-test-resource")] string LoadTestResource,
 [property: CliOption("--test-run-id")] string TestRunId

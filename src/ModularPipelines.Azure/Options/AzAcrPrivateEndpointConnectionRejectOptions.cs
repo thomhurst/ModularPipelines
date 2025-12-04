@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "private-endpoint-connection", "reject")]
+[CliSubCommand("acr", "private-endpoint-connection", "reject")]
 public record AzAcrPrivateEndpointConnectionRejectOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--registry-name")] string RegistryName

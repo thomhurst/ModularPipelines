@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "encryption", "add")]
+[CliSubCommand("eventhubs", "namespace", "encryption", "add")]
 public record AzEventhubsNamespaceEncryptionAddOptions(
 [property: CliOption("--encryption-config")] string EncryptionConfig,
 [property: CliOption("--namespace-name")] string NamespaceName,

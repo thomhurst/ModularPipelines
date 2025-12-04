@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "connection", "create", "eventhub")]
+[CliSubCommand("webapp", "connection", "create", "eventhub")]
 public record AzWebappConnectionCreateEventhubOptions : AzOptions
 {
     [CliOption("--client-type")]

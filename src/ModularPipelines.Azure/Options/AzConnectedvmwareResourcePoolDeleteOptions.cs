@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "resource-pool", "delete")]
+[CliSubCommand("connectedvmware", "resource-pool", "delete")]
 public record AzConnectedvmwareResourcePoolDeleteOptions : AzOptions
 {
     [CliFlag("--force")]

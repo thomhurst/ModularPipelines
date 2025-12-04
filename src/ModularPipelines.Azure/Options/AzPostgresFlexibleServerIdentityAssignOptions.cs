@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "identity", "assign")]
+[CliSubCommand("postgres", "flexible-server", "identity", "assign")]
 public record AzPostgresFlexibleServerIdentityAssignOptions(
 [property: CliOption("--identity")] string Identity,
 [property: CliOption("--resource-group")] string ResourceGroup,

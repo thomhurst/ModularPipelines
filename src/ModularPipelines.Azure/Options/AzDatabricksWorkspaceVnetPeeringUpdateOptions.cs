@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databricks", "workspace", "vnet-peering", "update")]
+[CliSubCommand("databricks", "workspace", "vnet-peering", "update")]
 public record AzDatabricksWorkspaceVnetPeeringUpdateOptions : AzOptions
 {
     [CliOption("--add")]

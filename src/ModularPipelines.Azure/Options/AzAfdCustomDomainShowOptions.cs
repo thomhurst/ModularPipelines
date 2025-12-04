@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "custom-domain", "show")]
+[CliSubCommand("afd", "custom-domain", "show")]
 public record AzAfdCustomDomainShowOptions : AzOptions
 {
     [CliOption("--custom-domain-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet-gateway", "revoked-cert", "wait")]
+[CliSubCommand("network", "vnet-gateway", "revoked-cert", "wait")]
 public record AzNetworkVnetGatewayRevokedCertWaitOptions : AzOptions
 {
     [CliFlag("--created")]

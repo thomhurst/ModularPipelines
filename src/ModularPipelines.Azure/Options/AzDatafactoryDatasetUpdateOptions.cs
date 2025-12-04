@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "dataset", "update")]
+[CliSubCommand("datafactory", "dataset", "update")]
 public record AzDatafactoryDatasetUpdateOptions(
 [property: CliOption("--linked-service-name")] string LinkedServiceName
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "cluster", "wait")]
+[CliSubCommand("vmware", "cluster", "wait")]
 public record AzVmwareClusterWaitOptions : AzOptions
 {
     [CliOption("--cluster-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "recovery-services-provider", "list")]
+[CliSubCommand("site-recovery", "recovery-services-provider", "list")]
 public record AzSiteRecoveryRecoveryServicesProviderListOptions(
 [property: CliOption("--fabric-name")] string FabricName,
 [property: CliOption("--resource-group")] string ResourceGroup,

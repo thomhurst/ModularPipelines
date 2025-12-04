@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hdinsight", "autoscale", "condition", "create")]
+[CliSubCommand("hdinsight", "autoscale", "condition", "create")]
 public record AzHdinsightAutoscaleConditionCreateOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--days")] int Days,

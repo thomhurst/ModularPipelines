@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "ipv6-firewall-rule", "update")]
+[CliSubCommand("sql", "server", "ipv6-firewall-rule", "update")]
 public record AzSqlServerIpv6FirewallRuleUpdateOptions : AzOptions
 {
     [CliOption("--end-ipv6-address")]

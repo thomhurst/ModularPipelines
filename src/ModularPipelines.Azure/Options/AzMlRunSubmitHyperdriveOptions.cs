@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "run", "submit-hyperdrive")]
+[CliSubCommand("ml", "run", "submit-hyperdrive")]
 public record AzMlRunSubmitHyperdriveOptions(
 [property: CliOption("--hyperdrive-configuration-name")] string HyperdriveConfigurationName
 ) : AzOptions

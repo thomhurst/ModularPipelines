@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redis", "update")]
+[CliSubCommand("redis", "update")]
 public record AzRedisUpdateOptions : AzOptions
 {
     [CliOption("--add")]

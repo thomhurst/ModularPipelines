@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "reimage")]
+[CliSubCommand("vmss", "reimage")]
 public record AzVmssReimageOptions : AzOptions
 {
     [CliOption("--ids")]

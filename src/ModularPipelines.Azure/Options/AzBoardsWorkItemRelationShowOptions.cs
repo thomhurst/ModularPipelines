@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("boards", "work-item", "relation", "show")]
+[CliSubCommand("boards", "work-item", "relation", "show")]
 public record AzBoardsWorkItemRelationShowOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions

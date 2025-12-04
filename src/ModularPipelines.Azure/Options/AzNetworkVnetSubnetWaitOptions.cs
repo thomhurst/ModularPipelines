@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet", "subnet", "wait")]
+[CliSubCommand("network", "vnet", "subnet", "wait")]
 public record AzNetworkVnetSubnetWaitOptions : AzOptions
 {
     [CliFlag("--created")]

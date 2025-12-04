@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "racksku", "show")]
+[CliSubCommand("networkcloud", "racksku", "show")]
 public record AzNetworkcloudRackskuShowOptions : AzOptions
 {
     [CliOption("--ids")]

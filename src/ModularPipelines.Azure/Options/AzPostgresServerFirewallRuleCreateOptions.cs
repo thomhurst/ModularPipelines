@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server", "firewall-rule", "create")]
+[CliSubCommand("postgres", "server", "firewall-rule", "create")]
 public record AzPostgresServerFirewallRuleCreateOptions(
 [property: CliOption("--end-ip-address")] string EndIpAddress,
 [property: CliOption("--name")] string Name,

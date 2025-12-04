@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("managed-cassandra", "datacenter", "create")]
+[CliSubCommand("managed-cassandra", "datacenter", "create")]
 public record AzManagedCassandraDatacenterCreateOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--data-center-location")] string DataCenterLocation,

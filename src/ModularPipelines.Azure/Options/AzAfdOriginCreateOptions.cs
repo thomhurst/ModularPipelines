@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "origin", "create")]
+[CliSubCommand("afd", "origin", "create")]
 public record AzAfdOriginCreateOptions(
 [property: CliFlag("--enabled-state")] bool EnabledState,
 [property: CliOption("--host-name")] string HostName,

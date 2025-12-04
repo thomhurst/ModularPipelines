@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "endpoint", "update")]
+[CliSubCommand("afd", "endpoint", "update")]
 public record AzAfdEndpointUpdateOptions : AzOptions
 {
     [CliFlag("--enabled-state")]

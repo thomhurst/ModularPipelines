@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redisenterprise", "wait")]
+[CliSubCommand("redisenterprise", "wait")]
 public record AzRedisenterpriseWaitOptions : AzOptions
 {
     [CliOption("--cluster-name")]

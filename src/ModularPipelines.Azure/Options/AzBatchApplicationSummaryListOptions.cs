@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "application", "summary", "list")]
+[CliSubCommand("batch", "application", "summary", "list")]
 public record AzBatchApplicationSummaryListOptions : AzOptions
 {
     [CliOption("--account-endpoint")]

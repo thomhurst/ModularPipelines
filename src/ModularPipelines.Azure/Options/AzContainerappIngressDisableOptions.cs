@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "ingress", "disable")]
+[CliSubCommand("containerapp", "ingress", "disable")]
 public record AzContainerappIngressDisableOptions : AzOptions
 {
     [CliOption("--ids")]

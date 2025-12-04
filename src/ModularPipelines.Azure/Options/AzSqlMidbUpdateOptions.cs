@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "midb", "update")]
+[CliSubCommand("sql", "midb", "update")]
 public record AzSqlMidbUpdateOptions : AzOptions
 {
     [CliOption("--add")]

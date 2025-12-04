@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "scale", "(aks-preview", "extension)")]
+[CliSubCommand("aks", "scale", "(aks-preview", "extension)")]
 public record AzAksScaleAksPreviewExtensionOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--node-count")] int NodeCount,

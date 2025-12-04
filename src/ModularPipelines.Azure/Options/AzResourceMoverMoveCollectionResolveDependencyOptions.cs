@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resource-mover", "move-collection", "resolve-dependency")]
+[CliSubCommand("resource-mover", "move-collection", "resolve-dependency")]
 public record AzResourceMoverMoveCollectionResolveDependencyOptions : AzOptions
 {
     [CliOption("--ids")]

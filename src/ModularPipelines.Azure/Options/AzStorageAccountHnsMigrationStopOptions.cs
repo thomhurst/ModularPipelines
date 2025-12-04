@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "hns-migration", "stop")]
+[CliSubCommand("storage", "account", "hns-migration", "stop")]
 public record AzStorageAccountHnsMigrationStopOptions : AzOptions
 {
     [CliOption("--ids")]

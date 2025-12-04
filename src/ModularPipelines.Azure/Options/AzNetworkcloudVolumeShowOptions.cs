@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "volume", "show")]
+[CliSubCommand("networkcloud", "volume", "show")]
 public record AzNetworkcloudVolumeShowOptions : AzOptions
 {
     [CliOption("--ids")]

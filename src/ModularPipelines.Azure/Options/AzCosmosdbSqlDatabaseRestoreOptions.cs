@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "sql", "database", "restore")]
+[CliSubCommand("cosmosdb", "sql", "database", "restore")]
 public record AzCosmosdbSqlDatabaseRestoreOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--name")] string Name,

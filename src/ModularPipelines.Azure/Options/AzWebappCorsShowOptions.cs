@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "cors", "show")]
+[CliSubCommand("webapp", "cors", "show")]
 public record AzWebappCorsShowOptions : AzOptions
 {
     [CliOption("--ids")]

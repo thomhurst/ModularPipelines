@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "alerts-suppression-rule", "upsert_scope")]
+[CliSubCommand("security", "alerts-suppression-rule", "upsert_scope")]
 public record AzSecurityAlertsSuppressionRuleUpsert_scopeOptions(
 [property: CliOption("--field")] string Field,
 [property: CliOption("--rule-name")] string RuleName

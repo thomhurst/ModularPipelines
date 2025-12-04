@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcappliance", "notice")]
+[CliSubCommand("arcappliance", "notice")]
 public record AzArcapplianceNoticeOptions : AzOptions;

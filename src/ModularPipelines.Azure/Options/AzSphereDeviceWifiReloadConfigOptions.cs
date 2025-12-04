@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "wifi", "reload-config")]
+[CliSubCommand("sphere", "device", "wifi", "reload-config")]
 public record AzSphereDeviceWifiReloadConfigOptions : AzOptions
 {
     [CliOption("--device")]

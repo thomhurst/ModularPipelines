@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "namespace", "permission-binding", "create")]
+[CliSubCommand("eventgrid", "namespace", "permission-binding", "create")]
 public record AzEventgridNamespacePermissionBindingCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--namespace-name")] string NamespaceName,

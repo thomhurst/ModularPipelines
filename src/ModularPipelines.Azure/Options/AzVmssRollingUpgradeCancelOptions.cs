@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "rolling-upgrade", "cancel")]
+[CliSubCommand("vmss", "rolling-upgrade", "cancel")]
 public record AzVmssRollingUpgradeCancelOptions : AzOptions
 {
     [CliOption("--ids")]

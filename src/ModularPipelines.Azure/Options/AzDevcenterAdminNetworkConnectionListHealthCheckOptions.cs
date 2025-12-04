@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "network-connection", "list-health-check")]
+[CliSubCommand("devcenter", "admin", "network-connection", "list-health-check")]
 public record AzDevcenterAdminNetworkConnectionListHealthCheckOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "app", "deployment", "start-jfr")]
+[CliSubCommand("spring", "app", "deployment", "start-jfr")]
 public record AzSpringAppDeploymentStartJfrOptions(
 [property: CliOption("--app")] string App,
 [property: CliOption("--app-instance")] string AppInstance,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "create", "(cosmosdb-preview", "extension)")]
+[CliSubCommand("cosmosdb", "create", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbCreateCosmosdbPreviewExtensionOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

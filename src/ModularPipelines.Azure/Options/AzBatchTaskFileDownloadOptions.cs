@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "task", "file", "download")]
+[CliSubCommand("batch", "task", "file", "download")]
 public record AzBatchTaskFileDownloadOptions(
 [property: CliOption("--destination")] string Destination,
 [property: CliOption("--file-path")] string FilePath,

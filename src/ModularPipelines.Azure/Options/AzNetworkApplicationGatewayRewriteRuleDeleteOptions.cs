@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "rewrite-rule", "delete")]
+[CliSubCommand("network", "application-gateway", "rewrite-rule", "delete")]
 public record AzNetworkApplicationGatewayRewriteRuleDeleteOptions(
 [property: CliOption("--gateway-name")] string GatewayName,
 [property: CliOption("--name")] string Name,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "asset", "get-sas-urls")]
+[CliSubCommand("ams", "asset", "get-sas-urls")]
 public record AzAmsAssetGetSasUrlsOptions : AzOptions
 {
     [CliOption("--account-name")]

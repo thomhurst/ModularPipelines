@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet", "show")]
+[CliSubCommand("network", "vnet", "show")]
 public record AzNetworkVnetShowOptions : AzOptions
 {
     [CliOption("--expand")]

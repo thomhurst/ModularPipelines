@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "authorization-rule", "keys", "list")]
+[CliSubCommand("eventhubs", "namespace", "authorization-rule", "keys", "list")]
 public record AzEventhubsNamespaceAuthorizationRuleKeysListOptions(
 [property: CliOption("--authorization-rule-name")] string AuthorizationRuleName,
 [property: CliOption("--namespace-name")] string NamespaceName,

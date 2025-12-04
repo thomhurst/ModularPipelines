@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("urestackhci", "galleryimage", "show")]
+[CliSubCommand("urestackhci", "galleryimage", "show")]
 public record AzAzurestackhciGalleryimageShowOptions : AzOptions
 {
     [CliOption("--ids")]

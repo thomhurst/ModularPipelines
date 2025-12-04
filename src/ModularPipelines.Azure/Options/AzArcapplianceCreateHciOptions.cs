@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcappliance", "create", "hci")]
+[CliSubCommand("arcappliance", "create", "hci")]
 public record AzArcapplianceCreateHciOptions(
 [property: CliOption("--config-file")] string ConfigFile,
 [property: CliOption("--kubeconfig")] string Kubeconfig

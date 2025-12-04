@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("workloads", "sap-virtual-instance", "delete")]
+[CliSubCommand("workloads", "sap-virtual-instance", "delete")]
 public record AzWorkloadsSapVirtualInstanceDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

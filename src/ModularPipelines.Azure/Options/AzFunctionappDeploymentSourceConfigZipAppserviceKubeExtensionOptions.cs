@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "deployment", "source", "config-zip", "(appservice-kube", "extension)")]
+[CliSubCommand("functionapp", "deployment", "source", "config-zip", "(appservice-kube", "extension)")]
 public record AzFunctionappDeploymentSourceConfigZipAppserviceKubeExtensionOptions(
 [property: CliOption("--src")] string Src
 ) : AzOptions

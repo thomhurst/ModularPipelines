@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "backup-instance", "restore", "trigger")]
+[CliSubCommand("dataprotection", "backup-instance", "restore", "trigger")]
 public record AzDataprotectionBackupInstanceRestoreTriggerOptions(
 [property: CliOption("--restore-request-object")] string RestoreRequestObject
 ) : AzOptions

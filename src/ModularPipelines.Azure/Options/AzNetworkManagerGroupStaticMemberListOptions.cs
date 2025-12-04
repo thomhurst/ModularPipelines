@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "manager", "group", "static-member", "list")]
+[CliSubCommand("network", "manager", "group", "static-member", "list")]
 public record AzNetworkManagerGroupStaticMemberListOptions(
 [property: CliOption("--network-group")] string NetworkGroup,
 [property: CliOption("--network-manager")] string NetworkManager,

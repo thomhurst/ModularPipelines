@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cloud-service", "update")]
+[CliSubCommand("cloud-service", "update")]
 public record AzCloudServiceUpdateOptions : AzOptions
 {
     [CliOption("--cloud-service-name")]

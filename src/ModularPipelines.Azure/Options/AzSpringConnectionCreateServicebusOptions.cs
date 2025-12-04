@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "connection", "create", "servicebus")]
+[CliSubCommand("spring", "connection", "create", "servicebus")]
 public record AzSpringConnectionCreateServicebusOptions : AzOptions
 {
     [CliOption("--app")]

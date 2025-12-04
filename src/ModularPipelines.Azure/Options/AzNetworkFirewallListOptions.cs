@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "firewall", "list")]
+[CliSubCommand("network", "firewall", "list")]
 public record AzNetworkFirewallListOptions : AzOptions
 {
     [CliOption("--max-items")]

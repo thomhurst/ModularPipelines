@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "workspace-hub", "list")]
+[CliSubCommand("ml", "workspace-hub", "list")]
 public record AzMlWorkspaceHubListOptions : AzOptions
 {
     [CliOption("--max-results")]

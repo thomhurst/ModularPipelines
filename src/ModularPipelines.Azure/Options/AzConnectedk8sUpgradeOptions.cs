@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedk8s", "upgrade")]
+[CliSubCommand("connectedk8s", "upgrade")]
 public record AzConnectedk8sUpgradeOptions : AzOptions
 {
     [CliOption("--agent-version")]

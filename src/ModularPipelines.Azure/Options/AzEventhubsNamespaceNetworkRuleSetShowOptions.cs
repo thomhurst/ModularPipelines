@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "network-rule-set", "show")]
+[CliSubCommand("eventhubs", "namespace", "network-rule-set", "show")]
 public record AzEventhubsNamespaceNetworkRuleSetShowOptions : AzOptions
 {
     [CliOption("--ids")]

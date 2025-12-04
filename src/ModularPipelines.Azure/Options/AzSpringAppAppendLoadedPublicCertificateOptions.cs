@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "app", "append-loaded-public-certificate")]
+[CliSubCommand("spring", "app", "append-loaded-public-certificate")]
 public record AzSpringAppAppendLoadedPublicCertificateOptions(
 [property: CliOption("--certificate-name")] string CertificateName,
 [property: CliFlag("--load-trust-store")] bool LoadTrustStore,

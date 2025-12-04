@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "dev", "pool", "show")]
+[CliSubCommand("devcenter", "dev", "pool", "show")]
 public record AzDevcenterDevPoolShowOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--project")] string Project

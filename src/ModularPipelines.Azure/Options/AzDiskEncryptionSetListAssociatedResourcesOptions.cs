@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-encryption-set", "list-associated-resources")]
+[CliSubCommand("disk-encryption-set", "list-associated-resources")]
 public record AzDiskEncryptionSetListAssociatedResourcesOptions(
 [property: CliOption("--disk-encryption-set-name")] string DiskEncryptionSetName,
 [property: CliOption("--resource-group")] string ResourceGroup

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "device", "list-components")]
+[CliSubCommand("iot", "central", "device", "list-components")]
 public record AzIotCentralDeviceListComponentsOptions(
 [property: CliOption("--app-id")] string AppId,
 [property: CliOption("--device-id")] string DeviceId

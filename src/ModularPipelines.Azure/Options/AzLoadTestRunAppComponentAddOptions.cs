@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("load", "test-run", "app-component", "add")]
+[CliSubCommand("load", "test-run", "app-component", "add")]
 public record AzLoadTestRunAppComponentAddOptions(
 [property: CliOption("--app-component-id")] string AppComponentId,
 [property: CliOption("--app-component-name")] string AppComponentName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "twin", "telemetry", "send")]
+[CliSubCommand("dt", "twin", "telemetry", "send")]
 public record AzDtTwinTelemetrySendOptions(
 [property: CliOption("--dt-name")] string DtName,
 [property: CliOption("--twin-id")] string TwinId

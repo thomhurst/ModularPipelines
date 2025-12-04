@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "dps", "linked-hub", "list")]
+[CliSubCommand("iot", "dps", "linked-hub", "list")]
 public record AzIotDpsLinkedHubListOptions(
 [property: CliOption("--dps-name")] string DpsName
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "vm", "start")]
+[CliSubCommand("connectedvmware", "vm", "start")]
 public record AzConnectedvmwareVmStartOptions : AzOptions
 {
     [CliOption("--ids")]

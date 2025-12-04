@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "frontend-ip", "delete")]
+[CliSubCommand("network", "application-gateway", "frontend-ip", "delete")]
 public record AzNetworkApplicationGatewayFrontendIpDeleteOptions(
 [property: CliOption("--gateway-name")] string GatewayName,
 [property: CliOption("--name")] string Name,

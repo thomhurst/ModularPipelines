@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "list-editions")]
+[CliSubCommand("sql", "db", "list-editions")]
 public record AzSqlDbListEditionsOptions(
 [property: CliOption("--location")] string Location
 ) : AzOptions

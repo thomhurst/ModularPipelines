@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datamigration", "sql-service", "wait")]
+[CliSubCommand("datamigration", "sql-service", "wait")]
 public record AzDatamigrationSqlServiceWaitOptions : AzOptions
 {
     [CliFlag("--created")]

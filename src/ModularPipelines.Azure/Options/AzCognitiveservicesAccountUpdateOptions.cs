@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cognitiveservices", "account", "update")]
+[CliSubCommand("cognitiveservices", "account", "update")]
 public record AzCognitiveservicesAccountUpdateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

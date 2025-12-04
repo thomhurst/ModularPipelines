@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "iot-solution", "update")]
+[CliSubCommand("security", "iot-solution", "update")]
 public record AzSecurityIotSolutionUpdateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--solution-name")] string SolutionName

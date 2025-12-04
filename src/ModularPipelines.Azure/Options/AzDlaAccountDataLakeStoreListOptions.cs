@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "account", "data-lake-store", "list")]
+[CliSubCommand("dla", "account", "data-lake-store", "list")]
 public record AzDlaAccountDataLakeStoreListOptions : AzOptions
 {
     [CliOption("--account")]

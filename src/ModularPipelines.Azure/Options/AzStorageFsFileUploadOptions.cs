@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "fs", "file", "upload")]
+[CliSubCommand("storage", "fs", "file", "upload")]
 public record AzStorageFsFileUploadOptions(
 [property: CliOption("--file-system")] string FileSystem,
 [property: CliOption("--path")] string Path,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "vault", "list")]
+[CliSubCommand("backup", "vault", "list")]
 public record AzBackupVaultListOptions : AzOptions
 {
     [CliOption("--resource-group")]

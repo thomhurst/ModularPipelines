@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "cache", "create")]
+[CliSubCommand("acr", "cache", "create")]
 public record AzAcrCacheCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--registry")] string Registry,

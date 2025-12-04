@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "routeserver", "peering", "delete")]
+[CliSubCommand("network", "routeserver", "peering", "delete")]
 public record AzNetworkRouteserverPeeringDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

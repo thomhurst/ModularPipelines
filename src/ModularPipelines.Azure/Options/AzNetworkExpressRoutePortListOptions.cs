@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "express-route", "port", "list")]
+[CliSubCommand("network", "express-route", "port", "list")]
 public record AzNetworkExpressRoutePortListOptions : AzOptions
 {
     [CliOption("--max-items")]

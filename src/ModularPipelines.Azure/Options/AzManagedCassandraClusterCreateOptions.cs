@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("managed-cassandra", "cluster", "create")]
+[CliSubCommand("managed-cassandra", "cluster", "create")]
 public record AzManagedCassandraClusterCreateOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--delegated-management-subnet-id")] string DelegatedManagementSubnetId,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "dataset", "list")]
+[CliSubCommand("ml", "dataset", "list")]
 public record AzMlDatasetListOptions : AzOptions
 {
     [CliOption("--output-metadata-file")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "variable-group", "variable", "delete")]
+[CliSubCommand("pipelines", "variable-group", "variable", "delete")]
 public record AzPipelinesVariableGroupVariableDeleteOptions(
 [property: CliOption("--group-id")] string GroupId,
 [property: CliOption("--name")] string Name

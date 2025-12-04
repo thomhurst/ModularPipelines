@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "install-patches")]
+[CliSubCommand("vm", "install-patches")]
 public record AzVmInstallPatchesOptions(
 [property: CliOption("--maximum-duration")] string MaximumDuration,
 [property: CliOption("--reboot-setting")] string RebootSetting

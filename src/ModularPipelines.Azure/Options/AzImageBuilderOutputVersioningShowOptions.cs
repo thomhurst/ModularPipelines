@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("image", "builder", "output", "versioning", "show")]
+[CliSubCommand("image", "builder", "output", "versioning", "show")]
 public record AzImageBuilderOutputVersioningShowOptions(
 [property: CliOption("--output-name")] string OutputName
 ) : AzOptions

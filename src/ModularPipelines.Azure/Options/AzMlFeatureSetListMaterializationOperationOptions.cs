@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "feature-set", "list-materialization-operation")]
+[CliSubCommand("ml", "feature-set", "list-materialization-operation")]
 public record AzMlFeatureSetListMaterializationOperationOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--version")] string Version

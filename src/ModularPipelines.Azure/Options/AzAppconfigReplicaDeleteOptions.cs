@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "replica", "delete")]
+[CliSubCommand("appconfig", "replica", "delete")]
 public record AzAppconfigReplicaDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--store-name")] string StoreName

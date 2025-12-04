@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vpn-connection", "show-device-config-script")]
+[CliSubCommand("network", "vpn-connection", "show-device-config-script")]
 public record AzNetworkVpnConnectionShowDeviceConfigScriptOptions(
 [property: CliOption("--device-family")] string DeviceFamily,
 [property: CliOption("--firmware-version")] string FirmwareVersion,

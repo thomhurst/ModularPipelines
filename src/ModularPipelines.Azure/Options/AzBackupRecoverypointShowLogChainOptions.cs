@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "recoverypoint", "show-log-chain")]
+[CliSubCommand("backup", "recoverypoint", "show-log-chain")]
 public record AzBackupRecoverypointShowLogChainOptions(
 [property: CliOption("--container-name")] string ContainerName,
 [property: CliOption("--item-name")] string ItemName,

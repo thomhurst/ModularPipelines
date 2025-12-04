@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "private-cloud", "identity-source", "update")]
+[CliSubCommand("vmware", "private-cloud", "identity-source", "update")]
 public record AzVmwarePrivateCloudIdentitySourceUpdateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--private-cloud")] string PrivateCloud,

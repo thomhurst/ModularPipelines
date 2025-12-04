@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "certificate", "delete")]
+[CliSubCommand("sphere", "device", "certificate", "delete")]
 public record AzSphereDeviceCertificateDeleteOptions(
 [property: CliOption("--certificate")] string Certificate
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "avset", "update")]
+[CliSubCommand("scvmm", "avset", "update")]
 public record AzScvmmAvsetUpdateOptions : AzOptions
 {
     [CliOption("--ids")]

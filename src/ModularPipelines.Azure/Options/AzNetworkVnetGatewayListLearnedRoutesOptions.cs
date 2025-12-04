@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet-gateway", "list-learned-routes")]
+[CliSubCommand("network", "vnet-gateway", "list-learned-routes")]
 public record AzNetworkVnetGatewayListLearnedRoutesOptions : AzOptions
 {
     [CliOption("--ids")]

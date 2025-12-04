@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "private-cloud", "list")]
+[CliSubCommand("vmware", "private-cloud", "list")]
 public record AzVmwarePrivateCloudListOptions : AzOptions
 {
     [CliOption("--max-items")]

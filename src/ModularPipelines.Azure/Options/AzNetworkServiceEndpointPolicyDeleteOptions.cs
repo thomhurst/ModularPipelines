@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "service-endpoint", "policy", "delete")]
+[CliSubCommand("network", "service-endpoint", "policy", "delete")]
 public record AzNetworkServiceEndpointPolicyDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

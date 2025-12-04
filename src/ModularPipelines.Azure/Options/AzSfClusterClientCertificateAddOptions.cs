@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "cluster", "client-certificate", "add")]
+[CliSubCommand("sf", "cluster", "client-certificate", "add")]
 public record AzSfClusterClientCertificateAddOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--resource-group")] string ResourceGroup

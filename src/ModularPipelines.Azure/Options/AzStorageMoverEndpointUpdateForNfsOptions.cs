@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage-mover", "endpoint", "update-for-nfs")]
+[CliSubCommand("storage-mover", "endpoint", "update-for-nfs")]
 public record AzStorageMoverEndpointUpdateForNfsOptions(
 [property: CliOption("--endpoint-name")] string EndpointName,
 [property: CliOption("--resource-group")] string ResourceGroup,

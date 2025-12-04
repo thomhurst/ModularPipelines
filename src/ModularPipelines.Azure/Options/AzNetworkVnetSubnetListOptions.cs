@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet", "subnet", "list")]
+[CliSubCommand("network", "vnet", "subnet", "list")]
 public record AzNetworkVnetSubnetListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--vnet-name")] string VnetName

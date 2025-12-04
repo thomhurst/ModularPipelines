@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci", "cluster", "update")]
+[CliSubCommand("stack-hci", "cluster", "update")]
 public record AzStackHciClusterUpdateOptions : AzOptions
 {
     [CliOption("--aad-client-id")]

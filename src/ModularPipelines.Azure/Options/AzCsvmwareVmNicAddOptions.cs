@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("csvmware", "vm", "nic", "add")]
+[CliSubCommand("csvmware", "vm", "nic", "add")]
 public record AzCsvmwareVmNicAddOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--virtual-network")] string VirtualNetwork,

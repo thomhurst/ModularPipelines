@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "host", "delete")]
+[CliSubCommand("connectedvmware", "host", "delete")]
 public record AzConnectedvmwareHostDeleteOptions : AzOptions
 {
     [CliFlag("--force")]

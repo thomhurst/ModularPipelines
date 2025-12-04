@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redisenterprise", "update")]
+[CliSubCommand("redisenterprise", "update")]
 public record AzRedisenterpriseUpdateOptions : AzOptions
 {
     [CliOption("--add")]

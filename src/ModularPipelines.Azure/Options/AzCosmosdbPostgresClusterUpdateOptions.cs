@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "postgres", "cluster", "update")]
+[CliSubCommand("cosmosdb", "postgres", "cluster", "update")]
 public record AzCosmosdbPostgresClusterUpdateOptions : AzOptions
 {
     [CliOption("--administrator-login-password")]

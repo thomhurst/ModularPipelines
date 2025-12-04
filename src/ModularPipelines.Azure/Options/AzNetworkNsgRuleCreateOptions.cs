@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "nsg", "rule", "create")]
+[CliSubCommand("network", "nsg", "rule", "create")]
 public record AzNetworkNsgRuleCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--nsg-name")] string NsgName,

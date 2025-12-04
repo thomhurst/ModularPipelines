@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "fs", "join")]
+[CliSubCommand("dls", "fs", "join")]
 public record AzDlsFsJoinOptions(
 [property: CliOption("--destination-path")] string DestinationPath,
 [property: CliOption("--source-paths")] string SourcePaths

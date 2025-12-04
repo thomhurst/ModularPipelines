@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cluster", "metricsconfiguration", "create")]
+[CliSubCommand("networkcloud", "cluster", "metricsconfiguration", "create")]
 public record AzNetworkcloudClusterMetricsconfigurationCreateOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--collection-interval")] string CollectionInterval,

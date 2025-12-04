@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "run-command", "show")]
+[CliSubCommand("vmss", "run-command", "show")]
 public record AzVmssRunCommandShowOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "manager", "connect-config", "show")]
+[CliSubCommand("network", "manager", "connect-config", "show")]
 public record AzNetworkManagerConnectConfigShowOptions : AzOptions
 {
     [CliOption("--configuration-name")]

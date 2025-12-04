@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "computetarget", "attach", "aks")]
+[CliSubCommand("ml", "computetarget", "attach", "aks")]
 public record AzMlComputetargetAttachAksOptions(
 [property: CliOption("--compute-resource-id")] string ComputeResourceId,
 [property: CliOption("--name")] string Name

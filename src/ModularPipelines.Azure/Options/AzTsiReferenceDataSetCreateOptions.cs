@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tsi", "reference-data-set", "create")]
+[CliSubCommand("tsi", "reference-data-set", "create")]
 public record AzTsiReferenceDataSetCreateOptions(
 [property: CliOption("--environment-name")] string EnvironmentName,
 [property: CliOption("--key-properties")] string KeyProperties,

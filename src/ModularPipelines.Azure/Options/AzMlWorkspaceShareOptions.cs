@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "workspace", "share")]
+[CliSubCommand("ml", "workspace", "share")]
 public record AzMlWorkspaceShareOptions(
 [property: CliOption("--role")] string Role,
 [property: CliOption("--user")] string User

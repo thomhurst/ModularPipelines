@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "team", "create")]
+[CliSubCommand("devops", "team", "create")]
 public record AzDevopsTeamCreateOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

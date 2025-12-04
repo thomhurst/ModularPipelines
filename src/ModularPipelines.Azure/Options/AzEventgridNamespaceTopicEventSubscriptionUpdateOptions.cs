@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "namespace", "topic", "event-subscription", "update")]
+[CliSubCommand("eventgrid", "namespace", "topic", "event-subscription", "update")]
 public record AzEventgridNamespaceTopicEventSubscriptionUpdateOptions : AzOptions
 {
     [CliOption("--add")]

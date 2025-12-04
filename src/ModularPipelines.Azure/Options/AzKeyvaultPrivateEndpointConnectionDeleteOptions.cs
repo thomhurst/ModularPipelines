@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "private-endpoint-connection", "delete")]
+[CliSubCommand("keyvault", "private-endpoint-connection", "delete")]
 public record AzKeyvaultPrivateEndpointConnectionDeleteOptions : AzOptions
 {
     [CliOption("--hsm-name")]

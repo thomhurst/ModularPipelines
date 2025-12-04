@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "authorization", "create")]
+[CliSubCommand("vmware", "authorization", "create")]
 public record AzVmwareAuthorizationCreateOptions(
 [property: CliOption("--authorization-name")] string AuthorizationName,
 [property: CliOption("--private-cloud")] string PrivateCloud,

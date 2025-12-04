@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci-vm", "disk", "detach")]
+[CliSubCommand("stack-hci-vm", "disk", "detach")]
 public record AzStackHciVmDiskDetachOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--vm-name")] string VmName

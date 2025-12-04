@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "application", "package", "list")]
+[CliSubCommand("batch", "application", "package", "list")]
 public record AzBatchApplicationPackageListOptions(
 [property: CliOption("--application-name")] string ApplicationName,
 [property: CliOption("--name")] string Name,

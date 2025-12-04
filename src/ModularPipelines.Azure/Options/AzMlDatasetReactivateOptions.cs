@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "dataset", "reactivate")]
+[CliSubCommand("ml", "dataset", "reactivate")]
 public record AzMlDatasetReactivateOptions : AzOptions
 {
     [CliOption("--id")]

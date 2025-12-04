@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "security-domain", "upload")]
+[CliSubCommand("keyvault", "security-domain", "upload")]
 public record AzKeyvaultSecurityDomainUploadOptions(
 [property: CliOption("--sd-file")] string SdFile
 ) : AzOptions

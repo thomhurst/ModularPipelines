@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "job", "resume")]
+[CliSubCommand("site-recovery", "job", "resume")]
 public record AzSiteRecoveryJobResumeOptions : AzOptions
 {
     [CliOption("--comments")]

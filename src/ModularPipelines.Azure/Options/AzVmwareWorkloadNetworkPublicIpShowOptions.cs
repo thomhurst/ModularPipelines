@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "public-ip", "show")]
+[CliSubCommand("vmware", "workload-network", "public-ip", "show")]
 public record AzVmwareWorkloadNetworkPublicIpShowOptions : AzOptions
 {
     [CliOption("--ids")]

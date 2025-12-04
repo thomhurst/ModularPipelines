@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vm", "disk", "update")]
+[CliSubCommand("scvmm", "vm", "disk", "update")]
 public record AzScvmmVmDiskUpdateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--vm-name")] string VmName

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "integration-runtime", "list-auth-key")]
+[CliSubCommand("datafactory", "integration-runtime", "list-auth-key")]
 public record AzDatafactoryIntegrationRuntimeListAuthKeyOptions(
 [property: CliOption("--factory-name")] string FactoryName,
 [property: CliOption("--integration-runtime-name")] string IntegrationRuntimeName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sig", "image-definition", "show")]
+[CliSubCommand("sig", "image-definition", "show")]
 public record AzSigImageDefinitionShowOptions : AzOptions
 {
     [CliOption("--gallery-image-definition")]

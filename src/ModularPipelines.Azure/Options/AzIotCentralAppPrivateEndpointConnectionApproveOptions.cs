@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "app", "private-endpoint-connection", "approve")]
+[CliSubCommand("iot", "central", "app", "private-endpoint-connection", "approve")]
 public record AzIotCentralAppPrivateEndpointConnectionApproveOptions : AzOptions
 {
     [CliOption("--account-name")]

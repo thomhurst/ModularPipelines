@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "webjob", "triggered", "log")]
+[CliSubCommand("webapp", "webjob", "triggered", "log")]
 public record AzWebappWebjobTriggeredLogOptions(
 [property: CliOption("--webjob-name")] string WebjobName
 ) : AzOptions

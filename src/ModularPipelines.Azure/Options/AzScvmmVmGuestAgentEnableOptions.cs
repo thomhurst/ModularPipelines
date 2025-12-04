@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vm", "guest-agent", "enable")]
+[CliSubCommand("scvmm", "vm", "guest-agent", "enable")]
 public record AzScvmmVmGuestAgentEnableOptions(
 [property: CliOption("--password")] string Password,
 [property: CliOption("--resource-group")] string ResourceGroup,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "get-git-hub-access-token")]
+[CliSubCommand("datafactory", "get-git-hub-access-token")]
 public record AzDatafactoryGetGitHubAccessTokenOptions(
 [property: CliOption("--git-hub-access-code")] string GitHubAccessCode,
 [property: CliOption("--git-hub-access-token-base-url")] string GitHubAccessTokenBaseUrl

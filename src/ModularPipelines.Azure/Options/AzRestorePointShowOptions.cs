@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("restore-point", "show")]
+[CliSubCommand("restore-point", "show")]
 public record AzRestorePointShowOptions(
 [property: CliOption("--collection-name")] string CollectionName,
 [property: CliOption("--name")] string Name,

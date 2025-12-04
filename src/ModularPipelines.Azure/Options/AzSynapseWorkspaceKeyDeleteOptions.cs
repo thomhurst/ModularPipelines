@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "workspace", "key", "delete")]
+[CliSubCommand("synapse", "workspace", "key", "delete")]
 public record AzSynapseWorkspaceKeyDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "classification", "show")]
+[CliSubCommand("sql", "db", "classification", "show")]
 public record AzSqlDbClassificationShowOptions(
 [property: CliOption("--column")] string Column,
 [property: CliOption("--schema")] string Schema,

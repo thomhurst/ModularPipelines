@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "account", "blob-storage", "delete")]
+[CliSubCommand("dla", "account", "blob-storage", "delete")]
 public record AzDlaAccountBlobStorageDeleteOptions(
 [property: CliOption("--storage-account-name")] int StorageAccountName
 ) : AzOptions

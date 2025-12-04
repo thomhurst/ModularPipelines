@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databricks", "workspace", "private-endpoint-connection", "delete")]
+[CliSubCommand("databricks", "workspace", "private-endpoint-connection", "delete")]
 public record AzDatabricksWorkspacePrivateEndpointConnectionDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

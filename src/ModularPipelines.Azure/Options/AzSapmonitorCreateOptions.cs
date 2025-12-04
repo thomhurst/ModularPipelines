@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sapmonitor", "create")]
+[CliSubCommand("sapmonitor", "create")]
 public record AzSapmonitorCreateOptions(
 [property: CliOption("--hana-subnet")] string HanaSubnet,
 [property: CliOption("--monitor-name")] string MonitorName,

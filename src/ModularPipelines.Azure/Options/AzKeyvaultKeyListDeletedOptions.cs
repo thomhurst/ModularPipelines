@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "key", "list-deleted")]
+[CliSubCommand("keyvault", "key", "list-deleted")]
 public record AzKeyvaultKeyListDeletedOptions : AzOptions
 {
     [CliOption("--hsm-name")]

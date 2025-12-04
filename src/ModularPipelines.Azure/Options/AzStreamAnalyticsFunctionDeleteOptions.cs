@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stream-analytics", "function", "delete")]
+[CliSubCommand("stream-analytics", "function", "delete")]
 public record AzStreamAnalyticsFunctionDeleteOptions(
 [property: CliOption("--function-name")] string FunctionName,
 [property: CliOption("--job-name")] string JobName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "app-insights", "component", "continues-export", "delete")]
+[CliSubCommand("monitor", "app-insights", "component", "continues-export", "delete")]
 public record AzMonitorAppInsightsComponentContinuesExportDeleteOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions

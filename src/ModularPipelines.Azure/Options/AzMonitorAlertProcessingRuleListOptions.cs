@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "alert-processing-rule", "list")]
+[CliSubCommand("monitor", "alert-processing-rule", "list")]
 public record AzMonitorAlertProcessingRuleListOptions : AzOptions
 {
     [CliOption("--resource-group")]

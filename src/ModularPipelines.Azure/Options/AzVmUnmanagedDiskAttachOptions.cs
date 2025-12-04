@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "unmanaged-disk", "attach")]
+[CliSubCommand("vm", "unmanaged-disk", "attach")]
 public record AzVmUnmanagedDiskAttachOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--vm-name")] string VmName

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tsi", "event-source", "show")]
+[CliSubCommand("tsi", "event-source", "show")]
 public record AzTsiEventSourceShowOptions : AzOptions
 {
     [CliOption("--environment-name")]

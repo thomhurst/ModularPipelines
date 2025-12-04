@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "public-ip", "list")]
+[CliSubCommand("network", "public-ip", "list")]
 public record AzNetworkPublicIpListOptions : AzOptions
 {
     [CliOption("--max-items")]

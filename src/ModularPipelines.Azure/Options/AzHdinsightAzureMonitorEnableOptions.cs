@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hdinsight", "ure-monitor", "enable")]
+[CliSubCommand("hdinsight", "ure-monitor", "enable")]
 public record AzHdinsightAzureMonitorEnableOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sshkey", "list")]
+[CliSubCommand("sshkey", "list")]
 public record AzSshkeyListOptions : AzOptions
 {
     [CliOption("--resource-group")]

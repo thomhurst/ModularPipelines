@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi-arc", "update")]
+[CliSubCommand("sql", "mi-arc", "update")]
 public record AzSqlMiArcUpdateOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

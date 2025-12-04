@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "asset-track", "delete")]
+[CliSubCommand("ams", "asset-track", "delete")]
 public record AzAmsAssetTrackDeleteOptions(
 [property: CliOption("--asset-name")] string AssetName,
 [property: CliOption("--track-name")] string TrackName

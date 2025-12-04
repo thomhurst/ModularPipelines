@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "mesh", "disable-ingress-gateway")]
+[CliSubCommand("aks", "mesh", "disable-ingress-gateway")]
 public record AzAksMeshDisableIngressGatewayOptions(
 [property: CliOption("--ingress-gateway-type")] string IngressGatewayType,
 [property: CliOption("--name")] string Name,

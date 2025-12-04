@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("confidentialledger", "update")]
+[CliSubCommand("confidentialledger", "update")]
 public record AzConfidentialledgerUpdateOptions : AzOptions
 {
     [CliOption("--aad-based-security-principals")]

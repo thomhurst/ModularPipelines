@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "client-cert", "add")]
+[CliSubCommand("network", "application-gateway", "client-cert", "add")]
 public record AzNetworkApplicationGatewayClientCertAddOptions(
 [property: CliOption("--data")] string Data,
 [property: CliOption("--gateway-name")] string GatewayName,

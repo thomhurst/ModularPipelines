@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "wiki", "page", "create")]
+[CliSubCommand("devops", "wiki", "page", "create")]
 public record AzDevopsWikiPageCreateOptions(
 [property: CliOption("--path")] string Path,
 [property: CliOption("--wiki")] string Wiki

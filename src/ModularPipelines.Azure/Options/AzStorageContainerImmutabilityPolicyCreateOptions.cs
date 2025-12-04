@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "container", "immutability-policy", "create")]
+[CliSubCommand("storage", "container", "immutability-policy", "create")]
 public record AzStorageContainerImmutabilityPolicyCreateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--container-name")] string ContainerName

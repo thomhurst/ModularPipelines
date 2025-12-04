@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "private-link-resource", "show")]
+[CliSubCommand("eventhubs", "namespace", "private-link-resource", "show")]
 public record AzEventhubsNamespacePrivateLinkResourceShowOptions(
 [property: CliOption("--namespace-name")] string NamespaceName,
 [property: CliOption("--resource-group")] string ResourceGroup

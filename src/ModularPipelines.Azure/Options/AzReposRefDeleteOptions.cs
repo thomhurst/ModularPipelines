@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "ref", "delete")]
+[CliSubCommand("repos", "ref", "delete")]
 public record AzReposRefDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

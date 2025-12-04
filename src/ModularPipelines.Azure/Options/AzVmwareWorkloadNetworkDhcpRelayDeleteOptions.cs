@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "dhcp", "relay", "delete")]
+[CliSubCommand("vmware", "workload-network", "dhcp", "relay", "delete")]
 public record AzVmwareWorkloadNetworkDhcpRelayDeleteOptions : AzOptions
 {
     [CliOption("--dhcp")]

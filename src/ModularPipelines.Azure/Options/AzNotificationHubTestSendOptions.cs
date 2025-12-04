@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("notification-hub", "test-send")]
+[CliSubCommand("notification-hub", "test-send")]
 public record AzNotificationHubTestSendOptions(
 [property: CliOption("--namespace-name")] string NamespaceName,
 [property: CliOption("--notification-format")] string NotificationFormat,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hanainstance", "create")]
+[CliSubCommand("hanainstance", "create")]
 public record AzHanainstanceCreateOptions(
 [property: CliOption("--instance-name")] string InstanceName,
 [property: CliOption("--ip-address")] string IpAddress,

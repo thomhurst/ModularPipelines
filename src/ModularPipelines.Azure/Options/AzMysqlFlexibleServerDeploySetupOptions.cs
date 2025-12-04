@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "deploy", "setup")]
+[CliSubCommand("mysql", "flexible-server", "deploy", "setup")]
 public record AzMysqlFlexibleServerDeploySetupOptions(
 [property: CliOption("--admin-password")] string AdminPassword,
 [property: CliOption("--admin-user")] string AdminUser,

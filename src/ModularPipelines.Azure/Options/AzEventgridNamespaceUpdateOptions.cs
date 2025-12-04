@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "namespace", "update")]
+[CliSubCommand("eventgrid", "namespace", "update")]
 public record AzEventgridNamespaceUpdateOptions : AzOptions
 {
     [CliOption("--identity")]

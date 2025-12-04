@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "preview-configuration", "storage-table")]
+[CliSubCommand("connection", "preview-configuration", "storage-table")]
 public record AzConnectionPreviewConfigurationStorageTableOptions : AzOptions
 {
     [CliOption("--client-type")]

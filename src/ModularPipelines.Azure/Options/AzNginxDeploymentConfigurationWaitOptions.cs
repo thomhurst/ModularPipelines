@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("nginx", "deployment", "configuration", "wait")]
+[CliSubCommand("nginx", "deployment", "configuration", "wait")]
 public record AzNginxDeploymentConfigurationWaitOptions : AzOptions
 {
     [CliOption("--configuration-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "credential-set", "show")]
+[CliSubCommand("acr", "credential-set", "show")]
 public record AzAcrCredentialSetShowOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--registry")] string Registry

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "georecovery-alias", "break-pair")]
+[CliSubCommand("servicebus", "georecovery-alias", "break-pair")]
 public record AzServicebusGeorecoveryAliasBreakPairOptions : AzOptions
 {
     [CliOption("--alias")]

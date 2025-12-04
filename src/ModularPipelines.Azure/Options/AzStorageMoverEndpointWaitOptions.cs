@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage-mover", "endpoint", "wait")]
+[CliSubCommand("storage-mover", "endpoint", "wait")]
 public record AzStorageMoverEndpointWaitOptions : AzOptions
 {
     [CliFlag("--created")]

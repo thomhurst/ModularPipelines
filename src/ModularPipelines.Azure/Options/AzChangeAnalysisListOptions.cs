@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("change-analysis", "list")]
+[CliSubCommand("change-analysis", "list")]
 public record AzChangeAnalysisListOptions(
 [property: CliOption("--end-time")] string EndTime,
 [property: CliOption("--start-time")] string StartTime

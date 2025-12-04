@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("blueprint", "list")]
+[CliSubCommand("blueprint", "list")]
 public record AzBlueprintListOptions : AzOptions
 {
     [CliOption("--management-group")]

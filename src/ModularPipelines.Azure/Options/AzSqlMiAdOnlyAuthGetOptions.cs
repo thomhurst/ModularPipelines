@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "ad-only-auth", "get")]
+[CliSubCommand("sql", "mi", "ad-only-auth", "get")]
 public record AzSqlMiAdOnlyAuthGetOptions : AzOptions
 {
     [CliOption("--ids")]

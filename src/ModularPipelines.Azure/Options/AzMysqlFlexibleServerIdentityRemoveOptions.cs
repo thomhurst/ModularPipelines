@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "identity", "remove")]
+[CliSubCommand("mysql", "flexible-server", "identity", "remove")]
 public record AzMysqlFlexibleServerIdentityRemoveOptions(
 [property: CliOption("--identity")] string Identity,
 [property: CliOption("--resource-group")] string ResourceGroup,

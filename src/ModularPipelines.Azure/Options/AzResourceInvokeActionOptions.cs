@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resource", "invoke-action")]
+[CliSubCommand("resource", "invoke-action")]
 public record AzResourceInvokeActionOptions(
 [property: CliOption("--action")] string Action
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcdata", "ad-connector", "create")]
+[CliSubCommand("arcdata", "ad-connector", "create")]
 public record AzArcdataAdConnectorCreateOptions(
 [property: CliOption("--account-provisioning")] int AccountProvisioning,
 [property: CliOption("--name")] string Name,

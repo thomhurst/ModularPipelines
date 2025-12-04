@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "approuting", "zone", "update")]
+[CliSubCommand("aks", "approuting", "zone", "update")]
 public record AzAksApproutingZoneUpdateOptions(
 [property: CliOption("--ids")] string Ids,
 [property: CliOption("--name")] string Name,

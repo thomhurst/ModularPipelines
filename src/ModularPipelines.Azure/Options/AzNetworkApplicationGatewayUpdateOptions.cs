@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "update")]
+[CliSubCommand("network", "application-gateway", "update")]
 public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
 {
     [CliOption("--add")]

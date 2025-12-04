@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("quantum", "workspace", "clear")]
+[CliSubCommand("quantum", "workspace", "clear")]
 public record AzQuantumWorkspaceClearOptions : AzOptions;

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "du", "device", "group", "delete")]
+[CliSubCommand("iot", "du", "device", "group", "delete")]
 public record AzIotDuDeviceGroupDeleteOptions(
 [property: CliOption("--account")] int Account,
 [property: CliOption("--gid")] string Gid,

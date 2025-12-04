@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "job", "recurrence", "list")]
+[CliSubCommand("dla", "job", "recurrence", "list")]
 public record AzDlaJobRecurrenceListOptions : AzOptions
 {
     [CliOption("--account")]

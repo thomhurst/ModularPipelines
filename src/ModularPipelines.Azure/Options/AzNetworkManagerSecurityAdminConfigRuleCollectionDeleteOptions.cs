@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "manager", "security-admin-config", "rule-collection", "delete")]
+[CliSubCommand("network", "manager", "security-admin-config", "rule-collection", "delete")]
 public record AzNetworkManagerSecurityAdminConfigRuleCollectionDeleteOptions : AzOptions
 {
     [CliOption("--configuration-name")]

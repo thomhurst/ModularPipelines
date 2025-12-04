@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "webjob", "continuous", "list")]
+[CliSubCommand("webapp", "webjob", "continuous", "list")]
 public record AzWebappWebjobContinuousListOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

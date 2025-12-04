@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("elastic", "monitor", "create-and-associate-ip-filter")]
+[CliSubCommand("elastic", "monitor", "create-and-associate-ip-filter")]
 public record AzElasticMonitorCreateAndAssociateIpFilterOptions : AzOptions
 {
     [CliOption("--ids")]

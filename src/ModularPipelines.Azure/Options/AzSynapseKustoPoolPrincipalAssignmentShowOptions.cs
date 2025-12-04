@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kusto", "pool-principal-assignment", "show")]
+[CliSubCommand("synapse", "kusto", "pool-principal-assignment", "show")]
 public record AzSynapseKustoPoolPrincipalAssignmentShowOptions : AzOptions
 {
     [CliOption("--ids")]

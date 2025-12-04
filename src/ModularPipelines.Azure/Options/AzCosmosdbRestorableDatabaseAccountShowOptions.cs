@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "restorable-database-account", "show")]
+[CliSubCommand("cosmosdb", "restorable-database-account", "show")]
 public record AzCosmosdbRestorableDatabaseAccountShowOptions : AzOptions
 {
     [CliOption("--instance-id")]

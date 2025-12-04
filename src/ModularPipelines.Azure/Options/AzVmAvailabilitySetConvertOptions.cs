@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "availability-set", "convert")]
+[CliSubCommand("vm", "availability-set", "convert")]
 public record AzVmAvailabilitySetConvertOptions : AzOptions
 {
     [CliOption("--ids")]

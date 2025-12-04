@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "endpoint", "create")]
+[CliSubCommand("afd", "endpoint", "create")]
 public record AzAfdEndpointCreateOptions(
 [property: CliOption("--endpoint-name")] string EndpointName,
 [property: CliOption("--profile-name")] string ProfileName,

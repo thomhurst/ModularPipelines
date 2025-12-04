@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "ops", "asset", "create")]
+[CliSubCommand("iot", "ops", "asset", "create")]
 public record AzIotOpsAssetCreateOptions(
 [property: CliOption("--endpoint")] string Endpoint,
 [property: CliOption("--name")] string Name,

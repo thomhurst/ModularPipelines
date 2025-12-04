@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "create", "webpubsub")]
+[CliSubCommand("connection", "create", "webpubsub")]
 public record AzConnectionCreateWebpubsubOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

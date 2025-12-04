@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "custom-domain", "create")]
+[CliSubCommand("afd", "custom-domain", "create")]
 public record AzAfdCustomDomainCreateOptions(
 [property: CliOption("--certificate-type")] string CertificateType,
 [property: CliOption("--custom-domain-name")] string CustomDomainName,

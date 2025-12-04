@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tsi", "environment", "gen1", "create")]
+[CliSubCommand("tsi", "environment", "gen1", "create")]
 public record AzTsiEnvironmentGen1CreateOptions(
 [property: CliOption("--data-retention-time")] string DataRetentionTime,
 [property: CliOption("--environment-name")] string EnvironmentName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "datastore", "delete")]
+[CliSubCommand("connectedvmware", "datastore", "delete")]
 public record AzConnectedvmwareDatastoreDeleteOptions : AzOptions
 {
     [CliFlag("--force")]

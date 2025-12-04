@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "baremetalmachine", "run-read-command")]
+[CliSubCommand("networkcloud", "baremetalmachine", "run-read-command")]
 public record AzNetworkcloudBaremetalmachineRunReadCommandOptions(
 [property: CliOption("--commands")] string Commands,
 [property: CliOption("--limit-time-seconds")] string LimitTimeSeconds

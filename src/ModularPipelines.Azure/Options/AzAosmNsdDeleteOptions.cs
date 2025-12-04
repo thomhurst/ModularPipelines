@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aosm", "nsd", "delete")]
+[CliSubCommand("aosm", "nsd", "delete")]
 public record AzAosmNsdDeleteOptions(
 [property: CliOption("--config-file")] string ConfigFile
 ) : AzOptions

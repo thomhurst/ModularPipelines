@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network-analytics", "data-product", "wait")]
+[CliSubCommand("network-analytics", "data-product", "wait")]
 public record AzNetworkAnalyticsDataProductWaitOptions : AzOptions
 {
     [CliFlag("--created")]

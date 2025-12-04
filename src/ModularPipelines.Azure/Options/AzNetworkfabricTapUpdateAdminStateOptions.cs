@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "tap", "update-admin-state")]
+[CliSubCommand("networkfabric", "tap", "update-admin-state")]
 public record AzNetworkfabricTapUpdateAdminStateOptions : AzOptions
 {
     [CliOption("--ids")]

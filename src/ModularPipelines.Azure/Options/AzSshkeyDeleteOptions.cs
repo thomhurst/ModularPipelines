@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sshkey", "delete")]
+[CliSubCommand("sshkey", "delete")]
 public record AzSshkeyDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

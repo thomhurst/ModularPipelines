@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "fs", "create")]
+[CliSubCommand("dls", "fs", "create")]
 public record AzDlsFsCreateOptions(
 [property: CliOption("--account")] int Account,
 [property: CliOption("--path")] string Path

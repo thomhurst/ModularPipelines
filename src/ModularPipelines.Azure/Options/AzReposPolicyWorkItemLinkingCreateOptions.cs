@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "policy", "work-item-linking", "create")]
+[CliSubCommand("repos", "policy", "work-item-linking", "create")]
 public record AzReposPolicyWorkItemLinkingCreateOptions(
 [property: CliFlag("--blocking")] bool Blocking,
 [property: CliOption("--branch")] string Branch,

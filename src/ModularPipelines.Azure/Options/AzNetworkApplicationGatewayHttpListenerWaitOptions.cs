@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "http-listener", "wait")]
+[CliSubCommand("network", "application-gateway", "http-listener", "wait")]
 public record AzNetworkApplicationGatewayHttpListenerWaitOptions : AzOptions
 {
     [CliFlag("--created")]

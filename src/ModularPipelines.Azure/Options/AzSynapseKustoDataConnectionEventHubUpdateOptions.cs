@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kusto", "data-connection", "event-hub", "update")]
+[CliSubCommand("synapse", "kusto", "data-connection", "event-hub", "update")]
 public record AzSynapseKustoDataConnectionEventHubUpdateOptions : AzOptions
 {
     [CliOption("--compression")]

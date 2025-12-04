@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("config", "param-persist", "show")]
+[CliSubCommand("config", "param-persist", "show")]
 public record AzConfigParamPersistShowOptions : AzOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]

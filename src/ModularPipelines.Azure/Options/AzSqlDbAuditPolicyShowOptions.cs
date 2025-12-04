@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "audit-policy", "show")]
+[CliSubCommand("sql", "db", "audit-policy", "show")]
 public record AzSqlDbAuditPolicyShowOptions : AzOptions
 {
     [CliOption("--ids")]

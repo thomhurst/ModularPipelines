@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "list-sizes")]
+[CliSubCommand("vm", "list-sizes")]
 public record AzVmListSizesOptions : AzOptions
 {
     [CliOption("--ids")]

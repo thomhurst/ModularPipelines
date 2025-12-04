@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "tde", "key", "revert")]
+[CliSubCommand("sql", "db", "tde", "key", "revert")]
 public record AzSqlDbTdeKeyRevertOptions : AzOptions
 {
     [CliOption("--database")]

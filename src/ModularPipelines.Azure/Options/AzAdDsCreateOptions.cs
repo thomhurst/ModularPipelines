@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ad", "ds", "create")]
+[CliSubCommand("ad", "ds", "create")]
 public record AzAdDsCreateOptions(
 [property: CliOption("--domain")] string Domain,
 [property: CliOption("--name")] string Name,

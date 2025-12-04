@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "sku", "list")]
+[CliSubCommand("devcenter", "admin", "sku", "list")]
 public record AzDevcenterAdminSkuListOptions : AzOptions
 {
     [CliOption("--max-items")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "log-analytics", "workspace", "recover")]
+[CliSubCommand("monitor", "log-analytics", "workspace", "recover")]
 public record AzMonitorLogAnalyticsWorkspaceRecoverOptions(
 [property: CliOption("--workspace-name")] string WorkspaceName
 ) : AzOptions

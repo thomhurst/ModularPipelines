@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "github-action", "add")]
+[CliSubCommand("containerapp", "github-action", "add")]
 public record AzContainerappGithubActionAddOptions(
 [property: CliOption("--repo-url")] string RepoUrl
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "watcher", "flow-log", "delete")]
+[CliSubCommand("network", "watcher", "flow-log", "delete")]
 public record AzNetworkWatcherFlowLogDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

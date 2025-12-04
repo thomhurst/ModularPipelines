@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "job", "prep-release-status", "list")]
+[CliSubCommand("batch", "job", "prep-release-status", "list")]
 public record AzBatchJobPrepReleaseStatusListOptions(
 [property: CliOption("--job-id")] string JobId
 ) : AzOptions

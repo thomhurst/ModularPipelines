@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("baremetalinstance", "show")]
+[CliSubCommand("baremetalinstance", "show")]
 public record AzBaremetalinstanceShowOptions : AzOptions
 {
     [CliOption("--ids")]

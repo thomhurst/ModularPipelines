@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "app", "deployment", "generate-heap-dump")]
+[CliSubCommand("spring", "app", "deployment", "generate-heap-dump")]
 public record AzSpringAppDeploymentGenerateHeapDumpOptions(
 [property: CliOption("--app")] string App,
 [property: CliOption("--app-instance")] string AppInstance,

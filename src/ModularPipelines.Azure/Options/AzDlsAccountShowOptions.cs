@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "account", "show")]
+[CliSubCommand("dls", "account", "show")]
 public record AzDlsAccountShowOptions : AzOptions
 {
     [CliOption("--account")]

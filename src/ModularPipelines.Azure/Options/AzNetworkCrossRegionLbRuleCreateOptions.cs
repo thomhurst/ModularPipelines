@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "cross-region-lb", "rule", "create")]
+[CliSubCommand("network", "cross-region-lb", "rule", "create")]
 public record AzNetworkCrossRegionLbRuleCreateOptions(
 [property: CliOption("--backend-port")] string BackendPort,
 [property: CliOption("--frontend-port")] string FrontendPort,

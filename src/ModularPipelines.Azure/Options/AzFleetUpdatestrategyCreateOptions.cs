@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("fleet", "updatestrategy", "create")]
+[CliSubCommand("fleet", "updatestrategy", "create")]
 public record AzFleetUpdatestrategyCreateOptions(
 [property: CliOption("--fleet-name")] string FleetName,
 [property: CliOption("--name")] string Name,

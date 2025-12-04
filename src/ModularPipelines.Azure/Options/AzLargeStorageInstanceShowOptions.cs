@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("large-storage-instance", "show")]
+[CliSubCommand("large-storage-instance", "show")]
 public record AzLargeStorageInstanceShowOptions : AzOptions
 {
     [CliOption("--ids")]

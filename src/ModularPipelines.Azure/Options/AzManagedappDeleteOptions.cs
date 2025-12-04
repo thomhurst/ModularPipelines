@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("managedapp", "delete")]
+[CliSubCommand("managedapp", "delete")]
 public record AzManagedappDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

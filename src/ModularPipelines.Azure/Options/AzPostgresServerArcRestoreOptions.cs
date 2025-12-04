@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server-arc", "restore")]
+[CliSubCommand("postgres", "server-arc", "restore")]
 public record AzPostgresServerArcRestoreOptions(
 [property: CliOption("--k8s-namespace")] string K8sNamespace,
 [property: CliOption("--name")] string Name,

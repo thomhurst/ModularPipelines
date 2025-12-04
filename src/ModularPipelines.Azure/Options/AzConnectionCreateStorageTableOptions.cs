@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "create", "storage-table")]
+[CliSubCommand("connection", "create", "storage-table")]
 public record AzConnectionCreateStorageTableOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

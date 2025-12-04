@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "managed-service", "load-metrics", "delete")]
+[CliSubCommand("sf", "managed-service", "load-metrics", "delete")]
 public record AzSfManagedServiceLoadMetricsDeleteOptions(
 [property: CliOption("--application")] string Application,
 [property: CliOption("--cluster-name")] string ClusterName,

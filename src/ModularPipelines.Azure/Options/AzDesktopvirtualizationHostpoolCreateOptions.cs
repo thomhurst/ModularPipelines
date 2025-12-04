@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("desktopvirtualization", "hostpool", "create")]
+[CliSubCommand("desktopvirtualization", "hostpool", "create")]
 public record AzDesktopvirtualizationHostpoolCreateOptions(
 [property: CliOption("--host-pool-type")] string HostPoolType,
 [property: CliOption("--load-balancer-type")] string LoadBalancerType,

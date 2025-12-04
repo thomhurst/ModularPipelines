@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ad", "app", "create")]
+[CliSubCommand("ad", "app", "create")]
 public record AzAdAppCreateOptions(
 [property: CliOption("--display-name")] string DisplayName
 ) : AzOptions

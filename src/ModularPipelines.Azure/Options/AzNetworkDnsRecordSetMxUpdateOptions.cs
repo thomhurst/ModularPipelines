@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "dns", "record-set", "mx", "update")]
+[CliSubCommand("network", "dns", "record-set", "mx", "update")]
 public record AzNetworkDnsRecordSetMxUpdateOptions : AzOptions
 {
     [CliOption("--add")]

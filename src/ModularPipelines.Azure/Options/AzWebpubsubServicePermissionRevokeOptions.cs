@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webpubsub", "service", "permission", "revoke")]
+[CliSubCommand("webpubsub", "service", "permission", "revoke")]
 public record AzWebpubsubServicePermissionRevokeOptions(
 [property: CliOption("--connection-id")] string ConnectionId,
 [property: CliOption("--group-name")] string GroupName,

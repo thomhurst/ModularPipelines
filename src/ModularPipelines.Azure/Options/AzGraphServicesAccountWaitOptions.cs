@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("graph-services", "account", "wait")]
+[CliSubCommand("graph-services", "account", "wait")]
 public record AzGraphServicesAccountWaitOptions : AzOptions
 {
     [CliFlag("--created")]

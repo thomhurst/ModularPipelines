@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "private-endpoint-connection", "approve")]
+[CliSubCommand("mysql", "server", "private-endpoint-connection", "approve")]
 public record AzMysqlServerPrivateEndpointConnectionApproveOptions : AzOptions
 {
     [CliOption("--description")]

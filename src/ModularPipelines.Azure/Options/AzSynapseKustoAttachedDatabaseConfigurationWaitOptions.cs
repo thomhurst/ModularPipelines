@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kusto", "attached-database-configuration", "wait")]
+[CliSubCommand("synapse", "kusto", "attached-database-configuration", "wait")]
 public record AzSynapseKustoAttachedDatabaseConfigurationWaitOptions : AzOptions
 {
     [CliFlag("--attached-database-configuration-name")]

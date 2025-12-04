@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hanainstance", "delete")]
+[CliSubCommand("hanainstance", "delete")]
 public record AzHanainstanceDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

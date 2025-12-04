@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "front-door", "check-custom-domain")]
+[CliSubCommand("network", "front-door", "check-custom-domain")]
 public record AzNetworkFrontDoorCheckCustomDomainOptions(
 [property: CliOption("--host-name")] string HostName
 ) : AzOptions

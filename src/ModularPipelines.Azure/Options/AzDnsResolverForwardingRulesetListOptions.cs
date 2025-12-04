@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dns-resolver", "forwarding-ruleset", "list")]
+[CliSubCommand("dns-resolver", "forwarding-ruleset", "list")]
 public record AzDnsResolverForwardingRulesetListOptions : AzOptions
 {
     [CliOption("--resource-group")]

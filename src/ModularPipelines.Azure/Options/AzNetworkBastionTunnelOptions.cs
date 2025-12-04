@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "bastion", "tunnel")]
+[CliSubCommand("network", "bastion", "tunnel")]
 public record AzNetworkBastionTunnelOptions(
 [property: CliOption("--port")] int Port,
 [property: CliOption("--resource-port")] string ResourcePort

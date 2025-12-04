@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "ms-support", "audit-policy", "show")]
+[CliSubCommand("sql", "server", "ms-support", "audit-policy", "show")]
 public record AzSqlServerMsSupportAuditPolicyShowOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "backup-instance", "list-from-resourcegraph")]
+[CliSubCommand("dataprotection", "backup-instance", "list-from-resourcegraph")]
 public record AzDataprotectionBackupInstanceListFromResourcegraphOptions(
 [property: CliOption("--datasource-type")] string DatasourceType
 ) : AzOptions

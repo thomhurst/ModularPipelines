@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "traffic-manager", "profile", "update")]
+[CliSubCommand("network", "traffic-manager", "profile", "update")]
 public record AzNetworkTrafficManagerProfileUpdateOptions : AzOptions
 {
     [CliOption("--custom-headers")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "custom-ip", "prefix", "show")]
+[CliSubCommand("network", "custom-ip", "prefix", "show")]
 public record AzNetworkCustomIpPrefixShowOptions : AzOptions
 {
     [CliOption("--expand")]

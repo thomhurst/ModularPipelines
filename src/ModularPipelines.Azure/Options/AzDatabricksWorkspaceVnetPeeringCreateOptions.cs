@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databricks", "workspace", "vnet-peering", "create")]
+[CliSubCommand("databricks", "workspace", "vnet-peering", "create")]
 public record AzDatabricksWorkspaceVnetPeeringCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

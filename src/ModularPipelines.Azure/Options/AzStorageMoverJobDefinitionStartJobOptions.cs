@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage-mover", "job-definition", "start-job")]
+[CliSubCommand("storage-mover", "job-definition", "start-job")]
 public record AzStorageMoverJobDefinitionStartJobOptions : AzOptions
 {
     [CliOption("--ids")]

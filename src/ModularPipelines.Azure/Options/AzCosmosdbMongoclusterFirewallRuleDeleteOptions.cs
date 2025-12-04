@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "mongocluster", "firewall", "rule", "delete")]
+[CliSubCommand("cosmosdb", "mongocluster", "firewall", "rule", "delete")]
 public record AzCosmosdbMongoclusterFirewallRuleDeleteOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--resource-group")] string ResourceGroup,

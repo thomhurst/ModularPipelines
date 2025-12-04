@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("extension", "list-available")]
+[CliSubCommand("extension", "list-available")]
 public record AzExtensionListAvailableOptions : AzOptions
 {
     [CliFlag("--show-details")]

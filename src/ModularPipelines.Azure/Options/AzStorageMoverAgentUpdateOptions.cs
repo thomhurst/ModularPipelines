@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage-mover", "agent", "update")]
+[CliSubCommand("storage-mover", "agent", "update")]
 public record AzStorageMoverAgentUpdateOptions : AzOptions
 {
     [CliOption("--add")]

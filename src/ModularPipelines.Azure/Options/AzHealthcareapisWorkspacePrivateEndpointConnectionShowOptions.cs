@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("healthcareapis", "workspace", "private-endpoint-connection", "show")]
+[CliSubCommand("healthcareapis", "workspace", "private-endpoint-connection", "show")]
 public record AzHealthcareapisWorkspacePrivateEndpointConnectionShowOptions : AzOptions
 {
     [CliOption("--ids")]

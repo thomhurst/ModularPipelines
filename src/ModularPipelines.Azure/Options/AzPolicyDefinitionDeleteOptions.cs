@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("policy", "definition", "delete")]
+[CliSubCommand("policy", "definition", "delete")]
 public record AzPolicyDefinitionDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("signalr", "upstream", "update")]
+[CliSubCommand("signalr", "upstream", "update")]
 public record AzSignalrUpstreamUpdateOptions(
 [property: CliOption("--template")] string Template
 ) : AzOptions

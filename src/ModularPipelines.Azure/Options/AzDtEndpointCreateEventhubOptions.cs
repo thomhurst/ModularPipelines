@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "endpoint", "create", "eventhub")]
+[CliSubCommand("dt", "endpoint", "create", "eventhub")]
 public record AzDtEndpointCreateEventhubOptions(
 [property: CliOption("--dt-name")] string DtName,
 [property: CliOption("--eh")] string Eh,

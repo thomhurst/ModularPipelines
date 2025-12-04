@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation", "runbook", "start")]
+[CliSubCommand("automation", "runbook", "start")]
 public record AzAutomationRunbookStartOptions : AzOptions
 {
     [CliOption("--automation-account-name")]

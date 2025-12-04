@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage-mover", "endpoint", "create-for-smb")]
+[CliSubCommand("storage-mover", "endpoint", "create-for-smb")]
 public record AzStorageMoverEndpointCreateForSmbOptions(
 [property: CliOption("--endpoint-name")] string EndpointName,
 [property: CliOption("--host")] string Host,

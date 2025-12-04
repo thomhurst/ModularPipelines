@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "endpoint", "delete")]
+[CliSubCommand("afd", "endpoint", "delete")]
 public record AzAfdEndpointDeleteOptions : AzOptions
 {
     [CliOption("--endpoint-name")]

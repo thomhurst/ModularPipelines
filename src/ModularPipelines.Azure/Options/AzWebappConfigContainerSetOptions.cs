@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "container", "set")]
+[CliSubCommand("webapp", "config", "container", "set")]
 public record AzWebappConfigContainerSetOptions : AzOptions
 {
     [CliOption("--docker-custom-image-name")]

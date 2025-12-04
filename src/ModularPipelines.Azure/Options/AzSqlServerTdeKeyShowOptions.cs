@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "tde-key", "show")]
+[CliSubCommand("sql", "server", "tde-key", "show")]
 public record AzSqlServerTdeKeyShowOptions : AzOptions
 {
     [CliOption("--ids")]

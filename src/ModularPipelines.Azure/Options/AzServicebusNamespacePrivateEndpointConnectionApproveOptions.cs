@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "namespace", "private-endpoint-connection", "approve")]
+[CliSubCommand("servicebus", "namespace", "private-endpoint-connection", "approve")]
 public record AzServicebusNamespacePrivateEndpointConnectionApproveOptions : AzOptions
 {
     [CliOption("--description")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "monitor", "metrics", "tail")]
+[CliSubCommand("vm", "monitor", "metrics", "tail")]
 public record AzVmMonitorMetricsTailOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

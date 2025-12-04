@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "job", "export")]
+[CliSubCommand("site-recovery", "job", "export")]
 public record AzSiteRecoveryJobExportOptions : AzOptions
 {
     [CliOption("--affected-object-types")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "cloud", "delete")]
+[CliSubCommand("scvmm", "cloud", "delete")]
 public record AzScvmmCloudDeleteOptions : AzOptions
 {
     [CliFlag("--force")]

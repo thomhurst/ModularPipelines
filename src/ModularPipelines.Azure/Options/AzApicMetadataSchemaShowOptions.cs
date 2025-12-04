@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apic", "metadata-schema", "show")]
+[CliSubCommand("apic", "metadata-schema", "show")]
 public record AzApicMetadataSchemaShowOptions : AzOptions
 {
     [CliOption("--ids")]

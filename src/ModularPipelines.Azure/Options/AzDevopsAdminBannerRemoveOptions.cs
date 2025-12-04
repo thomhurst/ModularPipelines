@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "admin", "banner", "remove")]
+[CliSubCommand("devops", "admin", "banner", "remove")]
 public record AzDevopsAdminBannerRemoveOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions

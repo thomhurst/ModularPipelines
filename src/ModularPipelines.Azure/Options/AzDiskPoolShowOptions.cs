@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-pool", "show")]
+[CliSubCommand("disk-pool", "show")]
 public record AzDiskPoolShowOptions : AzOptions
 {
     [CliOption("--disk-pool-name")]

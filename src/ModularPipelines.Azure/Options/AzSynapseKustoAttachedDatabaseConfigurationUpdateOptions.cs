@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kusto", "attached-database-configuration", "update")]
+[CliSubCommand("synapse", "kusto", "attached-database-configuration", "update")]
 public record AzSynapseKustoAttachedDatabaseConfigurationUpdateOptions : AzOptions
 {
     [CliOption("--add")]

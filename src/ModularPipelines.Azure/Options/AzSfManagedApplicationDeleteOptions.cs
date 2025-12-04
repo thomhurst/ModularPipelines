@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "managed-application", "delete")]
+[CliSubCommand("sf", "managed-application", "delete")]
 public record AzSfManagedApplicationDeleteOptions(
 [property: CliOption("--application-name")] string ApplicationName,
 [property: CliOption("--cluster-name")] string ClusterName,

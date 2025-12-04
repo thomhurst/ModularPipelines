@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci-vm", "disk", "show")]
+[CliSubCommand("stack-hci-vm", "disk", "show")]
 public record AzStackHciVmDiskShowOptions : AzOptions
 {
     [CliOption("--ids")]

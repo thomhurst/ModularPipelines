@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "credential-set", "create")]
+[CliSubCommand("acr", "credential-set", "create")]
 public record AzAcrCredentialSetCreateOptions(
 [property: CliOption("--login-server")] string LoginServer,
 [property: CliOption("--name")] string Name,

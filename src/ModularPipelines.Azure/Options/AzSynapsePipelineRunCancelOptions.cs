@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "pipeline-run", "cancel")]
+[CliSubCommand("synapse", "pipeline-run", "cancel")]
 public record AzSynapsePipelineRunCancelOptions(
 [property: CliOption("--run-id")] string RunId,
 [property: CliOption("--workspace-name")] string WorkspaceName

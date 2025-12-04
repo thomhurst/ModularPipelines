@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("bot", "slack", "create")]
+[CliSubCommand("bot", "slack", "create")]
 public record AzBotSlackCreateOptions(
 [property: CliOption("--client-id")] string ClientId,
 [property: CliOption("--client-secret")] string ClientSecret,

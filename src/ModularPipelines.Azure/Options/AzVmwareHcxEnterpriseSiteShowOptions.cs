@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "hcx-enterprise-site", "show")]
+[CliSubCommand("vmware", "hcx-enterprise-site", "show")]
 public record AzVmwareHcxEnterpriseSiteShowOptions : AzOptions
 {
     [CliOption("--hcx-enterprise-site-name")]

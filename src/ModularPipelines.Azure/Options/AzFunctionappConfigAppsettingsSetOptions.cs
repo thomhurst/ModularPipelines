@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "config", "appsettings", "set")]
+[CliSubCommand("functionapp", "config", "appsettings", "set")]
 public record AzFunctionappConfigAppsettingsSetOptions : AzOptions
 {
     [CliOption("--ids")]

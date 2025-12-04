@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "policy", "create")]
+[CliSubCommand("repos", "policy", "create")]
 public record AzReposPolicyCreateOptions(
 [property: CliOption("--config")] string Config
 ) : AzOptions

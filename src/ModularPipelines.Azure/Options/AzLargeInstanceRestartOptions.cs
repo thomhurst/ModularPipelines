@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("large-instance", "restart")]
+[CliSubCommand("large-instance", "restart")]
 public record AzLargeInstanceRestartOptions : AzOptions
 {
     [CliFlag("--force-state")]

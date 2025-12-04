@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "manager", "list-active-security-admin-rule")]
+[CliSubCommand("network", "manager", "list-active-security-admin-rule")]
 public record AzNetworkManagerListActiveSecurityAdminRuleOptions : AzOptions
 {
     [CliOption("--ids")]

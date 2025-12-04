@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datashare", "share-subscription", "show")]
+[CliSubCommand("datashare", "share-subscription", "show")]
 public record AzDatashareShareSubscriptionShowOptions : AzOptions
 {
     [CliOption("--account-name")]

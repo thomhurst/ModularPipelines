@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "job", "rerun")]
+[CliSubCommand("iot", "central", "job", "rerun")]
 public record AzIotCentralJobRerunOptions(
 [property: CliOption("--app-id")] string AppId,
 [property: CliOption("--job-id")] string JobId,

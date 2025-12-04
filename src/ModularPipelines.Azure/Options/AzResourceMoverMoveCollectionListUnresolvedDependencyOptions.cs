@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resource-mover", "move-collection", "list-unresolved-dependency")]
+[CliSubCommand("resource-mover", "move-collection", "list-unresolved-dependency")]
 public record AzResourceMoverMoveCollectionListUnresolvedDependencyOptions(
 [property: CliOption("--move-collection-name")] string MoveCollectionName,
 [property: CliOption("--resource-group")] string ResourceGroup

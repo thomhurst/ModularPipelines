@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "dps", "enrollment-group", "list")]
+[CliSubCommand("iot", "dps", "enrollment-group", "list")]
 public record AzIotDpsEnrollmentGroupListOptions : AzOptions
 {
     [CliOption("--auth-type")]

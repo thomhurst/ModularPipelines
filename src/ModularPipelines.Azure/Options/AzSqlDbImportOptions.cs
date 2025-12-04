@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "import")]
+[CliSubCommand("sql", "db", "import")]
 public record AzSqlDbImportOptions(
 [property: CliOption("--admin-password")] string AdminPassword,
 [property: CliOption("--admin-user")] string AdminUser,

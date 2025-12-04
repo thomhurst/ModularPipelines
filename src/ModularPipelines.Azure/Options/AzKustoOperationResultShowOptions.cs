@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "operation-result", "show")]
+[CliSubCommand("kusto", "operation-result", "show")]
 public record AzKustoOperationResultShowOptions : AzOptions
 {
     [CliOption("--ids")]

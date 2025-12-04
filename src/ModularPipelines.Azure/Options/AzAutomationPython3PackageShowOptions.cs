@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation", "python3-package", "show")]
+[CliSubCommand("automation", "python3-package", "show")]
 public record AzAutomationPython3PackageShowOptions : AzOptions
 {
     [CliOption("--automation-account-name")]

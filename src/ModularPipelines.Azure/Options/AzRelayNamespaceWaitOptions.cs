@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("relay", "namespace", "wait")]
+[CliSubCommand("relay", "namespace", "wait")]
 public record AzRelayNamespaceWaitOptions : AzOptions
 {
     [CliFlag("--created")]

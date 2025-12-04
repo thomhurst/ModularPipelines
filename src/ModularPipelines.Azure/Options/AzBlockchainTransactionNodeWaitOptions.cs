@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("blockchain", "transaction-node", "wait")]
+[CliSubCommand("blockchain", "transaction-node", "wait")]
 public record AzBlockchainTransactionNodeWaitOptions(
 [property: CliOption("--member-name")] string MemberName,
 [property: CliOption("--name")] string Name,

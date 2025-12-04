@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "folder", "attach")]
+[CliSubCommand("ml", "folder", "attach")]
 public record AzMlFolderAttachOptions : AzOptions
 {
     [CliOption("--experiment-name")]

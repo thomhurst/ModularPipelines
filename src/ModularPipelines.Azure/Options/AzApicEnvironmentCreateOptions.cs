@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apic", "environment", "create")]
+[CliSubCommand("apic", "environment", "create")]
 public record AzApicEnvironmentCreateOptions(
 [property: CliOption("--environment")] string Environment,
 [property: CliOption("--resource-group")] string ResourceGroup,

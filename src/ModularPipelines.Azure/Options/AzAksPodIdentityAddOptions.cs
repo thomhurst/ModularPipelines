@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "pod-identity", "add")]
+[CliSubCommand("aks", "pod-identity", "add")]
 public record AzAksPodIdentityAddOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--identity-resource-id")] string IdentityResourceId,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcdata", "dc", "create")]
+[CliSubCommand("arcdata", "dc", "create")]
 public record AzArcdataDcCreateOptions(
 [property: CliOption("--connectivity-mode")] string ConnectivityMode,
 [property: CliOption("--name")] string Name,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "device", "twin", "replace")]
+[CliSubCommand("iot", "central", "device", "twin", "replace")]
 public record AzIotCentralDeviceTwinReplaceOptions(
 [property: CliOption("--app-id")] string AppId,
 [property: CliOption("--content")] string Content,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "data-collection", "endpoint", "create")]
+[CliSubCommand("monitor", "data-collection", "endpoint", "create")]
 public record AzMonitorDataCollectionEndpointCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--public-network-access")] string PublicNetworkAccess,

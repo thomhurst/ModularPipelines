@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "namespace", "list")]
+[CliSubCommand("eventgrid", "namespace", "list")]
 public record AzEventgridNamespaceListOptions : AzOptions
 {
     [CliOption("--filter")]

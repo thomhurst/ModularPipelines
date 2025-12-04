@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "batch-endpoint", "invoke")]
+[CliSubCommand("ml", "batch-endpoint", "invoke")]
 public record AzMlBatchEndpointInvokeOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

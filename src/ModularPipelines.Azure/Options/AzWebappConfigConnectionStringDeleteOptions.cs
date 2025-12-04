@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "connection-string", "delete")]
+[CliSubCommand("webapp", "config", "connection-string", "delete")]
 public record AzWebappConfigConnectionStringDeleteOptions(
 [property: CliOption("--setting-names")] string SettingNames
 ) : AzOptions

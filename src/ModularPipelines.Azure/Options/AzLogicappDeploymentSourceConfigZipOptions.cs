@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logicapp", "deployment", "source", "config-zip")]
+[CliSubCommand("logicapp", "deployment", "source", "config-zip")]
 public record AzLogicappDeploymentSourceConfigZipOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

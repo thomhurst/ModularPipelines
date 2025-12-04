@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("account", "management-group", "update")]
+[CliSubCommand("account", "management-group", "update")]
 public record AzAccountManagementGroupUpdateOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "scheduled-query", "delete")]
+[CliSubCommand("monitor", "scheduled-query", "delete")]
 public record AzMonitorScheduledQueryDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "postgres", "firewall-rule", "show")]
+[CliSubCommand("cosmosdb", "postgres", "firewall-rule", "show")]
 public record AzCosmosdbPostgresFirewallRuleShowOptions : AzOptions
 {
     [CliOption("--cluster-name")]

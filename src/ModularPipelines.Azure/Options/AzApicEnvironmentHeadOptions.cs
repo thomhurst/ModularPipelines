@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apic", "environment", "head")]
+[CliSubCommand("apic", "environment", "head")]
 public record AzApicEnvironmentHeadOptions : AzOptions
 {
     [CliOption("--environment")]

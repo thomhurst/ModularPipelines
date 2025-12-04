@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "plan", "list")]
+[CliSubCommand("functionapp", "plan", "list")]
 public record AzFunctionappPlanListOptions : AzOptions
 {
     [CliOption("--resource-group")]

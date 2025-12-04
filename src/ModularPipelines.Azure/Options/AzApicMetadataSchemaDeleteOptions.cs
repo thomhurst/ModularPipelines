@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apic", "metadata-schema", "delete")]
+[CliSubCommand("apic", "metadata-schema", "delete")]
 public record AzApicMetadataSchemaDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

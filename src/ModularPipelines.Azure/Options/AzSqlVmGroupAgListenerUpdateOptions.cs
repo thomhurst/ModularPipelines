@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "vm", "group", "ag-listener", "update")]
+[CliSubCommand("sql", "vm", "group", "ag-listener", "update")]
 public record AzSqlVmGroupAgListenerUpdateOptions(
 [property: CliOption("--group-name")] string GroupName
 ) : AzOptions

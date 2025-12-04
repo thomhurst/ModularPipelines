@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk", "delete")]
+[CliSubCommand("disk", "delete")]
 public record AzDiskDeleteOptions : AzOptions
 {
     [CliOption("--disk-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "gallery", "create")]
+[CliSubCommand("devcenter", "admin", "gallery", "create")]
 public record AzDevcenterAdminGalleryCreateOptions(
 [property: CliOption("--dev-center")] string DevCenter,
 [property: CliOption("--gallery-name")] string GalleryName,

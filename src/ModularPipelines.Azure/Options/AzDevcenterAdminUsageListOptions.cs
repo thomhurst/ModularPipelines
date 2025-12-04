@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "usage", "list")]
+[CliSubCommand("devcenter", "admin", "usage", "list")]
 public record AzDevcenterAdminUsageListOptions(
 [property: CliOption("--location")] string Location
 ) : AzOptions

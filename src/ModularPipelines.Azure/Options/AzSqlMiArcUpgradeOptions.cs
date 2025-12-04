@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi-arc", "upgrade")]
+[CliSubCommand("sql", "mi-arc", "upgrade")]
 public record AzSqlMiArcUpgradeOptions : AzOptions
 {
     [CliOption("--desired-version")]

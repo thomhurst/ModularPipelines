@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("deployment", "mg", "what-if")]
+[CliSubCommand("deployment", "mg", "what-if")]
 public record AzDeploymentMgWhatIfOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--management-group-id")] string ManagementGroupId

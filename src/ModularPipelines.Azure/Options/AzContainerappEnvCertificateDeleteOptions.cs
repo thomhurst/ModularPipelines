@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "env", "certificate", "delete")]
+[CliSubCommand("containerapp", "env", "certificate", "delete")]
 public record AzContainerappEnvCertificateDeleteOptions : AzOptions
 {
     [CliOption("--certificate")]

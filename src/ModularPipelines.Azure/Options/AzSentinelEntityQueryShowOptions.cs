@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "entity-query", "show")]
+[CliSubCommand("sentinel", "entity-query", "show")]
 public record AzSentinelEntityQueryShowOptions : AzOptions
 {
     [CliOption("--entity-query-id")]

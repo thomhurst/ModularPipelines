@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "snapshot", "list", "(aks-preview", "extension)")]
+[CliSubCommand("aks", "snapshot", "list", "(aks-preview", "extension)")]
 public record AzAksSnapshotListAksPreviewExtensionOptions : AzOptions
 {
     [CliOption("--resource-group")]

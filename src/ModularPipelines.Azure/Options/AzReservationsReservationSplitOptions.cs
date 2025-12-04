@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("reservations", "reservation", "split")]
+[CliSubCommand("reservations", "reservation", "split")]
 public record AzReservationsReservationSplitOptions(
 [property: CliOption("--reservation-order-id")] string ReservationOrderId
 ) : AzOptions

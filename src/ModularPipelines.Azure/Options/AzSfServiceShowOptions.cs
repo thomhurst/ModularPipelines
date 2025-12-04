@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "service", "show")]
+[CliSubCommand("sf", "service", "show")]
 public record AzSfServiceShowOptions(
 [property: CliOption("--application-name")] string ApplicationName,
 [property: CliOption("--cluster-name")] string ClusterName,

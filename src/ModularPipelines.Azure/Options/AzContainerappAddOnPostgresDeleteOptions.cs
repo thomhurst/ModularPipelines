@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "add-on", "postgres", "delete")]
+[CliSubCommand("containerapp", "add-on", "postgres", "delete")]
 public record AzContainerappAddOnPostgresDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

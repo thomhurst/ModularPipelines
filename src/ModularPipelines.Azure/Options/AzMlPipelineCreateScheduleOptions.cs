@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "pipeline", "create-schedule")]
+[CliSubCommand("ml", "pipeline", "create-schedule")]
 public record AzMlPipelineCreateScheduleOptions(
 [property: CliOption("--experiment-name")] string ExperimentName,
 [property: CliOption("--name")] string Name,

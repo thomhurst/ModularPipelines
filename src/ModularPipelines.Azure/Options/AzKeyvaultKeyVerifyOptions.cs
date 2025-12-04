@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "key", "verify")]
+[CliSubCommand("keyvault", "key", "verify")]
 public record AzKeyvaultKeyVerifyOptions(
 [property: CliOption("--algorithm")] string Algorithm,
 [property: CliOption("--digest")] string Digest,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "host", "group", "list")]
+[CliSubCommand("vm", "host", "group", "list")]
 public record AzVmHostGroupListOptions : AzOptions
 {
     [CliOption("--max-items")]

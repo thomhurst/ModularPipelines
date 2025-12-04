@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "create", "confluent-cloud")]
+[CliSubCommand("connection", "create", "confluent-cloud")]
 public record AzConnectionCreateConfluentCloudOptions(
 [property: CliOption("--bootstrap-server")] string BootstrapServer,
 [property: CliOption("--kafka-key")] string KafkaKey,

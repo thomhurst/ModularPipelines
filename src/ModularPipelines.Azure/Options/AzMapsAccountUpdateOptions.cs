@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("maps", "account", "update")]
+[CliSubCommand("maps", "account", "update")]
 public record AzMapsAccountUpdateOptions(
 [property: CliOption("--sku")] string Sku
 ) : AzOptions

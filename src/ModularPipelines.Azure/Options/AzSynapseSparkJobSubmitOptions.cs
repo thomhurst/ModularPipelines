@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "spark", "job", "submit")]
+[CliSubCommand("synapse", "spark", "job", "submit")]
 public record AzSynapseSparkJobSubmitOptions(
 [property: CliOption("--executor-size")] string ExecutorSize,
 [property: CliOption("--executors")] string Executors,

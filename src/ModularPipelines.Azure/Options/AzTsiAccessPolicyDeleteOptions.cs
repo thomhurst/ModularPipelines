@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tsi", "access-policy", "delete")]
+[CliSubCommand("tsi", "access-policy", "delete")]
 public record AzTsiAccessPolicyDeleteOptions : AzOptions
 {
     [CliOption("--access-policy-name")]

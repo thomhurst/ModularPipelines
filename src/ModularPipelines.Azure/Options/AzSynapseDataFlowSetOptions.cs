@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "data-flow", "set")]
+[CliSubCommand("synapse", "data-flow", "set")]
 public record AzSynapseDataFlowSetOptions(
 [property: CliOption("--file")] string File,
 [property: CliOption("--name")] string Name,

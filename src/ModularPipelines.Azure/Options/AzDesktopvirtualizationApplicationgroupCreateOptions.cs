@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("desktopvirtualization", "applicationgroup", "create")]
+[CliSubCommand("desktopvirtualization", "applicationgroup", "create")]
 public record AzDesktopvirtualizationApplicationgroupCreateOptions(
 [property: CliOption("--application-group-type")] string ApplicationGroupType,
 [property: CliOption("--host-pool-arm-path")] string HostPoolArmPath,

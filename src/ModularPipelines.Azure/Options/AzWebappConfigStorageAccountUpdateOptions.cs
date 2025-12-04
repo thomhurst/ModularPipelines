@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "storage-account", "update")]
+[CliSubCommand("webapp", "config", "storage-account", "update")]
 public record AzWebappConfigStorageAccountUpdateOptions(
 [property: CliOption("--custom-id")] string CustomId
 ) : AzOptions

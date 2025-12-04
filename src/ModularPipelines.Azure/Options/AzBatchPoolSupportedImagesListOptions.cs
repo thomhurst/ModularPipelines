@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "pool", "supported-images", "list")]
+[CliSubCommand("batch", "pool", "supported-images", "list")]
 public record AzBatchPoolSupportedImagesListOptions : AzOptions
 {
     [CliOption("--account-endpoint")]

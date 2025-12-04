@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "watcher", "packet-capture", "show-status")]
+[CliSubCommand("network", "watcher", "packet-capture", "show-status")]
 public record AzNetworkWatcherPacketCaptureShowStatusOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--name")] string Name

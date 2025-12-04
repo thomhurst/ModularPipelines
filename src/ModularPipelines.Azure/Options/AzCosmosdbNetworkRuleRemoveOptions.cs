@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "network-rule", "remove")]
+[CliSubCommand("cosmosdb", "network-rule", "remove")]
 public record AzCosmosdbNetworkRuleRemoveOptions(
 [property: CliOption("--subnet")] string Subnet
 ) : AzOptions

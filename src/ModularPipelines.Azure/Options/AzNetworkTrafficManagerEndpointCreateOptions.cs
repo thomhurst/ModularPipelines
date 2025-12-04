@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "traffic-manager", "endpoint", "create")]
+[CliSubCommand("network", "traffic-manager", "endpoint", "create")]
 public record AzNetworkTrafficManagerEndpointCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--profile-name")] string ProfileName,

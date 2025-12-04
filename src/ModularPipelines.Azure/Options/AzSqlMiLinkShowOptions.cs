@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "link", "show")]
+[CliSubCommand("sql", "mi", "link", "show")]
 public record AzSqlMiLinkShowOptions : AzOptions
 {
     [CliOption("--distributed-availability-group-name")]

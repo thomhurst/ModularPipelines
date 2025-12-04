@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "share-rm", "exists")]
+[CliSubCommand("storage", "share-rm", "exists")]
 public record AzStorageShareRmExistsOptions : AzOptions
 {
     [CliOption("--ids")]

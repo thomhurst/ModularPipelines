@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "api", "schema", "show")]
+[CliSubCommand("apim", "api", "schema", "show")]
 public record AzApimApiSchemaShowOptions(
 [property: CliOption("--api-id")] string ApiId,
 [property: CliOption("--resource-group")] string ResourceGroup,

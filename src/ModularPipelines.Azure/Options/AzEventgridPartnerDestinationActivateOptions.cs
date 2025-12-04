@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "partner", "destination", "activate")]
+[CliSubCommand("eventgrid", "partner", "destination", "activate")]
 public record AzEventgridPartnerDestinationActivateOptions : AzOptions
 {
     [CliOption("--ids")]

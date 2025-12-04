@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resource", "list")]
+[CliSubCommand("resource", "list")]
 public record AzResourceListOptions : AzOptions
 {
     [CliOption("--location")]

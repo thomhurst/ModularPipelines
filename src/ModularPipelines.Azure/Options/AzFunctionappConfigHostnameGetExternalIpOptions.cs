@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "config", "hostname", "get-external-ip")]
+[CliSubCommand("functionapp", "config", "hostname", "get-external-ip")]
 public record AzFunctionappConfigHostnameGetExternalIpOptions : AzOptions
 {
     [CliOption("--ids")]

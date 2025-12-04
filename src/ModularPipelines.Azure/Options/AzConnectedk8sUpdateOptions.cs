@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedk8s", "update")]
+[CliSubCommand("connectedk8s", "update")]
 public record AzConnectedk8sUpdateOptions : AzOptions
 {
     [CliFlag("--auto-upgrade")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redis", "firewall-rules", "update")]
+[CliSubCommand("redis", "firewall-rules", "update")]
 public record AzRedisFirewallRulesUpdateOptions(
 [property: CliOption("--end-ip")] string EndIp,
 [property: CliOption("--rule-name")] string RuleName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "manager", "scope-connection", "update")]
+[CliSubCommand("network", "manager", "scope-connection", "update")]
 public record AzNetworkManagerScopeConnectionUpdateOptions : AzOptions
 {
     [CliOption("--add")]

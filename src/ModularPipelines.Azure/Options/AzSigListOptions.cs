@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sig", "list")]
+[CliSubCommand("sig", "list")]
 public record AzSigListOptions : AzOptions
 {
     [CliOption("--resource-group")]

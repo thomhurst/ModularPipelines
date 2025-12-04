@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("container", "attach")]
+[CliSubCommand("container", "attach")]
 public record AzContainerAttachOptions : AzOptions
 {
     [CliOption("--container-name")]

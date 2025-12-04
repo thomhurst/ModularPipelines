@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "service-endpoint", "policy", "list")]
+[CliSubCommand("network", "service-endpoint", "policy", "list")]
 public record AzNetworkServiceEndpointPolicyListOptions : AzOptions
 {
     [CliOption("--resource-group")]

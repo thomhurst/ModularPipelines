@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "dns-zone", "wait")]
+[CliSubCommand("vmware", "workload-network", "dns-zone", "wait")]
 public record AzVmwareWorkloadNetworkDnsZoneWaitOptions : AzOptions
 {
     [CliFlag("--created")]

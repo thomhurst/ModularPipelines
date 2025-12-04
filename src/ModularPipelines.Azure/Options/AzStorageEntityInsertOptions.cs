@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "entity", "insert")]
+[CliSubCommand("storage", "entity", "insert")]
 public record AzStorageEntityInsertOptions(
 [property: CliOption("--entity")] string Entity,
 [property: CliOption("--table-name")] string TableName

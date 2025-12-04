@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "firewall", "application-rule", "create")]
+[CliSubCommand("network", "firewall", "application-rule", "create")]
 public record AzNetworkFirewallApplicationRuleCreateOptions(
 [property: CliOption("--collection-name")] string CollectionName,
 [property: CliOption("--firewall-name")] string FirewallName,

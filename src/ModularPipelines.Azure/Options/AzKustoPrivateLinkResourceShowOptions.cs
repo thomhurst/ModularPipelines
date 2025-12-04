@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "private-link-resource", "show")]
+[CliSubCommand("kusto", "private-link-resource", "show")]
 public record AzKustoPrivateLinkResourceShowOptions : AzOptions
 {
     [CliOption("--cluster-name")]

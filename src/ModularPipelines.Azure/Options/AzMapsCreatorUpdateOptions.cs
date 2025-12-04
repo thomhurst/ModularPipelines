@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("maps", "creator", "update")]
+[CliSubCommand("maps", "creator", "update")]
 public record AzMapsCreatorUpdateOptions : AzOptions
 {
     [CliOption("--account-name")]

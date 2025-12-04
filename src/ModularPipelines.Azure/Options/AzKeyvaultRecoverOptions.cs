@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "recover")]
+[CliSubCommand("keyvault", "recover")]
 public record AzKeyvaultRecoverOptions : AzOptions
 {
     [CliOption("--hsm-name")]

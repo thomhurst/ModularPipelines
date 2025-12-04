@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "fs", "directory", "generate-sas")]
+[CliSubCommand("storage", "fs", "directory", "generate-sas")]
 public record AzStorageFsDirectoryGenerateSasOptions(
 [property: CliOption("--file-system")] string FileSystem,
 [property: CliOption("--name")] string Name

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("policy", "exemption", "show")]
+[CliSubCommand("policy", "exemption", "show")]
 public record AzPolicyExemptionShowOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

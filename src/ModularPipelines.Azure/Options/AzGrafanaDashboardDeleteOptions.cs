@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("grafana", "dashboard", "delete")]
+[CliSubCommand("grafana", "dashboard", "delete")]
 public record AzGrafanaDashboardDeleteOptions(
 [property: CliOption("--dashboard")] string Dashboard,
 [property: CliOption("--name")] string Name

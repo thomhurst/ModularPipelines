@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "account", "compute-policy", "delete")]
+[CliSubCommand("dla", "account", "compute-policy", "delete")]
 public record AzDlaAccountComputePolicyDeleteOptions(
 [property: CliOption("--compute-policy-name")] string ComputePolicyName
 ) : AzOptions

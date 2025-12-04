@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "folder", "list")]
+[CliSubCommand("pipelines", "folder", "list")]
 public record AzPipelinesFolderListOptions : AzOptions
 {
     [CliFlag("--detect")]

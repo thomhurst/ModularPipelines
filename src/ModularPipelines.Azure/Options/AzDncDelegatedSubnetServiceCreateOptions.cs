@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dnc", "delegated-subnet-service", "create")]
+[CliSubCommand("dnc", "delegated-subnet-service", "create")]
 public record AzDncDelegatedSubnetServiceCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

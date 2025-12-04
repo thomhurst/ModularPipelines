@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedk8s", "troubleshoot")]
+[CliSubCommand("connectedk8s", "troubleshoot")]
 public record AzConnectedk8sTroubleshootOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

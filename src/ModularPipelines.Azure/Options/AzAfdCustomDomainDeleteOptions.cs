@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "custom-domain", "delete")]
+[CliSubCommand("afd", "custom-domain", "delete")]
 public record AzAfdCustomDomainDeleteOptions : AzOptions
 {
     [CliOption("--custom-domain-name")]

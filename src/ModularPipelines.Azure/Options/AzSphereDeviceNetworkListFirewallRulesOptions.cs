@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "network", "list-firewall-rules")]
+[CliSubCommand("sphere", "device", "network", "list-firewall-rules")]
 public record AzSphereDeviceNetworkListFirewallRulesOptions : AzOptions
 {
     [CliOption("--device")]

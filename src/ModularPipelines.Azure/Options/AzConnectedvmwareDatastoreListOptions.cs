@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "datastore", "list")]
+[CliSubCommand("connectedvmware", "datastore", "list")]
 public record AzConnectedvmwareDatastoreListOptions : AzOptions
 {
     [CliOption("--resource-group")]

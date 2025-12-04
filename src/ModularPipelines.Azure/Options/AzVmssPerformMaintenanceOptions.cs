@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "perform-maintenance")]
+[CliSubCommand("vmss", "perform-maintenance")]
 public record AzVmssPerformMaintenanceOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mesh", "network", "show")]
+[CliSubCommand("mesh", "network", "show")]
 public record AzMeshNetworkShowOptions : AzOptions
 {
     [CliOption("--ids")]

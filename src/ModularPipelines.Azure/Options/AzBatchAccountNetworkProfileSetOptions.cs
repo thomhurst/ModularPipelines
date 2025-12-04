@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "account", "network-profile", "set")]
+[CliSubCommand("batch", "account", "network-profile", "set")]
 public record AzBatchAccountNetworkProfileSetOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

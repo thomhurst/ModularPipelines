@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("account", "management-group", "hierarchy-settings", "create")]
+[CliSubCommand("account", "management-group", "hierarchy-settings", "create")]
 public record AzAccountManagementGroupHierarchySettingsCreateOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

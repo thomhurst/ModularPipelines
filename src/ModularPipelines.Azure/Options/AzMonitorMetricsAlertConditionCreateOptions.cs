@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "metrics", "alert", "condition", "create")]
+[CliSubCommand("monitor", "metrics", "alert", "condition", "create")]
 public record AzMonitorMetricsAlertConditionCreateOptions(
 [property: CliOption("--aggregation")] string Aggregation,
 [property: CliOption("--metric")] string Metric,

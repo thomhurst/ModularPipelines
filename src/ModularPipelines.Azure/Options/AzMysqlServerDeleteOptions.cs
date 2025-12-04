@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "delete")]
+[CliSubCommand("mysql", "server", "delete")]
 public record AzMysqlServerDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

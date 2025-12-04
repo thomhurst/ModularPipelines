@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "datastore", "create")]
+[CliSubCommand("connectedvmware", "datastore", "create")]
 public record AzConnectedvmwareDatastoreCreateOptions(
 [property: CliOption("--custom-location")] string CustomLocation,
 [property: CliOption("--inventory-item")] string InventoryItem,

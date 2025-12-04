@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("capacity", "reservation", "group", "create")]
+[CliSubCommand("capacity", "reservation", "group", "create")]
 public record AzCapacityReservationGroupCreateOptions(
 [property: CliOption("--capacity-reservation-group")] string CapacityReservationGroup,
 [property: CliOption("--resource-group")] string ResourceGroup

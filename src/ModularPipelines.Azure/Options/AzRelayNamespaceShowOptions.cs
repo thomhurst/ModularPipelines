@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("relay", "namespace", "show")]
+[CliSubCommand("relay", "namespace", "show")]
 public record AzRelayNamespaceShowOptions : AzOptions
 {
     [CliOption("--ids")]

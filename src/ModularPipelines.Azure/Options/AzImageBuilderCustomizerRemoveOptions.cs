@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("image", "builder", "customizer", "remove")]
+[CliSubCommand("image", "builder", "customizer", "remove")]
 public record AzImageBuilderCustomizerRemoveOptions(
 [property: CliOption("--customizer-name")] string CustomizerName
 ) : AzOptions

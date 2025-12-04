@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "kv", "restore")]
+[CliSubCommand("appconfig", "kv", "restore")]
 public record AzAppconfigKvRestoreOptions(
 [property: CliOption("--datetime")] string Datetime
 ) : AzOptions

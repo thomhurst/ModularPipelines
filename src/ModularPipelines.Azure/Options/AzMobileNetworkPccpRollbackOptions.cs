@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mobile-network", "pccp", "rollback")]
+[CliSubCommand("mobile-network", "pccp", "rollback")]
 public record AzMobileNetworkPccpRollbackOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "run-command", "list")]
+[CliSubCommand("vm", "run-command", "list")]
 public record AzVmRunCommandListOptions : AzOptions
 {
     [CliOption("--expand")]

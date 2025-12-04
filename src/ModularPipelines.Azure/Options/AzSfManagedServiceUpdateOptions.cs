@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "managed-service", "update")]
+[CliSubCommand("sf", "managed-service", "update")]
 public record AzSfManagedServiceUpdateOptions(
 [property: CliOption("--application")] string Application,
 [property: CliOption("--cluster-name")] string ClusterName,

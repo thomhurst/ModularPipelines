@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "alb", "association", "delete")]
+[CliSubCommand("network", "alb", "association", "delete")]
 public record AzNetworkAlbAssociationDeleteOptions : AzOptions
 {
     [CliOption("--alb-name")]

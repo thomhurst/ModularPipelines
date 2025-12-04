@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("serial-console", "send", "sysrq")]
+[CliSubCommand("serial-console", "send", "sysrq")]
 public record AzSerialConsoleSendSysrqOptions(
 [property: CliOption("--input")] string Input,
 [property: CliOption("--name")] string Name,

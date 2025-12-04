@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "outbound-firewall-rule", "delete")]
+[CliSubCommand("sql", "server", "outbound-firewall-rule", "delete")]
 public record AzSqlServerOutboundFirewallRuleDeleteOptions(
 [property: CliOption("--outbound-rule-fqdn")] string OutboundRuleFqdn
 ) : AzOptions

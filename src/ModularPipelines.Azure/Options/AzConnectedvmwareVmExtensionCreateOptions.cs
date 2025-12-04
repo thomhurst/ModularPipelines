@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "vm", "extension", "create")]
+[CliSubCommand("connectedvmware", "vm", "extension", "create")]
 public record AzConnectedvmwareVmExtensionCreateOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--name")] string Name,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "private-endpoint-connection", "update")]
+[CliSubCommand("eventhubs", "namespace", "private-endpoint-connection", "update")]
 public record AzEventhubsNamespacePrivateEndpointConnectionUpdateOptions : AzOptions
 {
     [CliOption("--add")]

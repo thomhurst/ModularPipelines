@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datadog", "monitor", "wait")]
+[CliSubCommand("datadog", "monitor", "wait")]
 public record AzDatadogMonitorWaitOptions : AzOptions
 {
     [CliFlag("--created")]

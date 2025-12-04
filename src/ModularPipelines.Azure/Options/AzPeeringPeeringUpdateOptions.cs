@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("peering", "peering", "update")]
+[CliSubCommand("peering", "peering", "update")]
 public record AzPeeringPeeringUpdateOptions(
 [property: CliOption("--peering-name")] string PeeringName,
 [property: CliOption("--resource-group")] string ResourceGroup

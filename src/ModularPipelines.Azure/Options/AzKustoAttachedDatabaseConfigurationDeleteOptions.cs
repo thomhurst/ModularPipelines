@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "attached-database-configuration", "delete")]
+[CliSubCommand("kusto", "attached-database-configuration", "delete")]
 public record AzKustoAttachedDatabaseConfigurationDeleteOptions : AzOptions
 {
     [CliFlag("--attached-database-configuration-name")]

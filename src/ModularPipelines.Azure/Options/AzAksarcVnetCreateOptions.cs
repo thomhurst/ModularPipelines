@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aksarc", "vnet", "create")]
+[CliSubCommand("aksarc", "vnet", "create")]
 public record AzAksarcVnetCreateOptions(
 [property: CliOption("--custom-location")] string CustomLocation,
 [property: CliOption("--name")] string Name,

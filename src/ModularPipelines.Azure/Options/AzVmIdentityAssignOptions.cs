@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "identity", "assign")]
+[CliSubCommand("vm", "identity", "assign")]
 public record AzVmIdentityAssignOptions : AzOptions
 {
     [CliOption("--identities")]

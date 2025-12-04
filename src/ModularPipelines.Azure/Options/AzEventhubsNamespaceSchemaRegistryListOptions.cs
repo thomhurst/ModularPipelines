@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "schema-registry", "list")]
+[CliSubCommand("eventhubs", "namespace", "schema-registry", "list")]
 public record AzEventhubsNamespaceSchemaRegistryListOptions(
 [property: CliOption("--namespace-name")] string NamespaceName,
 [property: CliOption("--resource-group")] string ResourceGroup

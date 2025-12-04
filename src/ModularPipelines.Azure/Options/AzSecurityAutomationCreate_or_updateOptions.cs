@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "automation", "create_or_update")]
+[CliSubCommand("security", "automation", "create_or_update")]
 public record AzSecurityAutomationCreate_or_updateOptions(
 [property: CliOption("--actions")] string Actions,
 [property: CliOption("--name")] string Name,

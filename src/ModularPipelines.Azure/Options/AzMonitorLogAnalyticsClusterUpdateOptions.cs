@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "log-analytics", "cluster", "update")]
+[CliSubCommand("monitor", "log-analytics", "cluster", "update")]
 public record AzMonitorLogAnalyticsClusterUpdateOptions : AzOptions
 {
     [CliOption("--add")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "protected-item", "unplanned-failover")]
+[CliSubCommand("site-recovery", "protected-item", "unplanned-failover")]
 public record AzSiteRecoveryProtectedItemUnplannedFailoverOptions : AzOptions
 {
     [CliOption("--fabric-name")]

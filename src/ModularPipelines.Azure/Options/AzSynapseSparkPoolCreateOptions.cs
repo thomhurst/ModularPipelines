@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "spark", "pool", "create")]
+[CliSubCommand("synapse", "spark", "pool", "create")]
 public record AzSynapseSparkPoolCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--node-count")] int NodeCount,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logz", "sso", "update")]
+[CliSubCommand("logz", "sso", "update")]
 public record AzLogzSsoUpdateOptions : AzOptions
 {
     [CliOption("--add")]

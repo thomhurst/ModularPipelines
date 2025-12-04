@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "account", "network-rule", "delete")]
+[CliSubCommand("dls", "account", "network-rule", "delete")]
 public record AzDlsAccountNetworkRuleDeleteOptions(
 [property: CliOption("--account-name")] int AccountName
 ) : AzOptions

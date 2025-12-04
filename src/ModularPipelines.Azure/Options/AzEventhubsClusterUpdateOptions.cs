@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "cluster", "update")]
+[CliSubCommand("eventhubs", "cluster", "update")]
 public record AzEventhubsClusterUpdateOptions : AzOptions
 {
     [CliOption("--add")]

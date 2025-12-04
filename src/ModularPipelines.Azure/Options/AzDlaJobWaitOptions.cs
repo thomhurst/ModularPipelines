@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "job", "wait")]
+[CliSubCommand("dla", "job", "wait")]
 public record AzDlaJobWaitOptions(
 [property: CliOption("--job-id")] string JobId
 ) : AzOptions

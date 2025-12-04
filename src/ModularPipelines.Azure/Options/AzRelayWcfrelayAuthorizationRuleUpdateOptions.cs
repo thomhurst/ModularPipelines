@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("relay", "wcfrelay", "authorization-rule", "update")]
+[CliSubCommand("relay", "wcfrelay", "authorization-rule", "update")]
 public record AzRelayWcfrelayAuthorizationRuleUpdateOptions(
 [property: CliOption("--rights")] string Rights
 ) : AzOptions

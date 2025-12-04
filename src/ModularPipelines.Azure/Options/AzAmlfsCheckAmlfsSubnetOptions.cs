@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("amlfs", "check-amlfs-subnet")]
+[CliSubCommand("amlfs", "check-amlfs-subnet")]
 public record AzAmlfsCheckAmlfsSubnetOptions : AzOptions
 {
     [CliOption("--filesystem-subnet")]

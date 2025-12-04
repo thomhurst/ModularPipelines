@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "volume-group", "create")]
+[CliSubCommand("netappfiles", "volume-group", "create")]
 public record AzNetappfilesVolumeGroupCreateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--group-name")] string GroupName,

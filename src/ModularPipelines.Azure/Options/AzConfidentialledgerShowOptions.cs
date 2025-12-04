@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("confidentialledger", "show")]
+[CliSubCommand("confidentialledger", "show")]
 public record AzConfidentialledgerShowOptions : AzOptions
 {
     [CliOption("--ids")]

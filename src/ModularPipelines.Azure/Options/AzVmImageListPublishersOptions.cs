@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "image", "list-publishers")]
+[CliSubCommand("vm", "image", "list-publishers")]
 public record AzVmImageListPublishersOptions(
 [property: CliOption("--location")] string Location
 ) : AzOptions

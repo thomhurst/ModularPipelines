@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "du", "update", "init", "v5")]
+[CliSubCommand("iot", "du", "update", "init", "v5")]
 public record AzIotDuUpdateInitV5Options(
 [property: CliOption("--compat")] string Compat,
 [property: CliOption("--step")] string Step,

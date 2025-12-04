@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resourcemanagement", "private-link", "list")]
+[CliSubCommand("resourcemanagement", "private-link", "list")]
 public record AzResourcemanagementPrivateLinkListOptions : AzOptions
 {
     [CliOption("--resource-group")]

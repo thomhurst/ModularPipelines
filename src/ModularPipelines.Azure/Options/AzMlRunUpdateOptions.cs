@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "run", "update")]
+[CliSubCommand("ml", "run", "update")]
 public record AzMlRunUpdateOptions(
 [property: CliOption("--run")] string Run
 ) : AzOptions

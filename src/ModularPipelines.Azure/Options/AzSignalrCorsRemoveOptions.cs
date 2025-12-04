@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("signalr", "cors", "remove")]
+[CliSubCommand("signalr", "cors", "remove")]
 public record AzSignalrCorsRemoveOptions(
 [property: CliFlag("--allowed-origins")] bool AllowedOrigins
 ) : AzOptions

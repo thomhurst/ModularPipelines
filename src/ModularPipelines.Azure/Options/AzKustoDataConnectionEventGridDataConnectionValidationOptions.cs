@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "data-connection", "event-grid", "data-connection-validation")]
+[CliSubCommand("kusto", "data-connection", "event-grid", "data-connection-validation")]
 public record AzKustoDataConnectionEventGridDataConnectionValidationOptions : AzOptions
 {
     [CliOption("--blob-storage-event-type")]

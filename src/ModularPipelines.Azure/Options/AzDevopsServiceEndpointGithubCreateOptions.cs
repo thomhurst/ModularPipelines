@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "service-endpoint", "github", "create")]
+[CliSubCommand("devops", "service-endpoint", "github", "create")]
 public record AzDevopsServiceEndpointGithubCreateOptions(
 [property: CliOption("--github-url")] string GithubUrl,
 [property: CliOption("--name")] string Name

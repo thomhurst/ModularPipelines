@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "avset", "create")]
+[CliSubCommand("scvmm", "avset", "create")]
 public record AzScvmmAvsetCreateOptions(
 [property: CliOption("--avset-name")] string AvsetName,
 [property: CliOption("--custom-location")] string CustomLocation,

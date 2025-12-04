@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "restart")]
+[CliSubCommand("postgres", "flexible-server", "restart")]
 public record AzPostgresFlexibleServerRestartOptions : AzOptions
 {
     [CliOption("--failover")]

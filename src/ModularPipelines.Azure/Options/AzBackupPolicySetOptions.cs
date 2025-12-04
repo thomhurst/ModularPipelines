@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "policy", "set")]
+[CliSubCommand("backup", "policy", "set")]
 public record AzBackupPolicySetOptions : AzOptions
 {
     [CliOption("--backup-management-type")]

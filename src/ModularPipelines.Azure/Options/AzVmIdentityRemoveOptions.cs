@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "identity", "remove")]
+[CliSubCommand("vm", "identity", "remove")]
 public record AzVmIdentityRemoveOptions : AzOptions
 {
     [CliOption("--identities")]

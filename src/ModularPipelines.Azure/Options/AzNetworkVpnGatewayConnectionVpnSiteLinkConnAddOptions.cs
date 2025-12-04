@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vpn-gateway", "connection", "vpn-site-link-conn", "add")]
+[CliSubCommand("network", "vpn-gateway", "connection", "vpn-site-link-conn", "add")]
 public record AzNetworkVpnGatewayConnectionVpnSiteLinkConnAddOptions(
 [property: CliOption("--vpn-site-link")] string VpnSiteLink
 ) : AzOptions

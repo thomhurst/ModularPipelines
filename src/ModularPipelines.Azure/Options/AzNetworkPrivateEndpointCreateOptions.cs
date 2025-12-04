@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-endpoint", "create")]
+[CliSubCommand("network", "private-endpoint", "create")]
 public record AzNetworkPrivateEndpointCreateOptions(
 [property: CliOption("--connection-name")] string ConnectionName,
 [property: CliOption("--name")] string Name,

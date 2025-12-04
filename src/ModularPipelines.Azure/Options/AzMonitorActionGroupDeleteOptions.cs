@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "action-group", "delete")]
+[CliSubCommand("monitor", "action-group", "delete")]
 public record AzMonitorActionGroupDeleteOptions : AzOptions
 {
     [CliOption("--action-group-name")]

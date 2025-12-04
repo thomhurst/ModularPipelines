@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "watcher", "flow-log", "wait")]
+[CliSubCommand("network", "watcher", "flow-log", "wait")]
 public record AzNetworkWatcherFlowLogWaitOptions : AzOptions
 {
     [CliFlag("--created")]

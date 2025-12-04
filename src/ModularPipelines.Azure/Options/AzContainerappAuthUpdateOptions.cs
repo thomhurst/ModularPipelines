@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "auth", "update")]
+[CliSubCommand("containerapp", "auth", "update")]
 public record AzContainerappAuthUpdateOptions : AzOptions
 {
     [CliOption("--action")]

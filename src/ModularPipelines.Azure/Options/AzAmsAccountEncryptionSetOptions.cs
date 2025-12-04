@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "account", "encryption", "set")]
+[CliSubCommand("ams", "account", "encryption", "set")]
 public record AzAmsAccountEncryptionSetOptions(
 [property: CliOption("--key-type")] string KeyType
 ) : AzOptions

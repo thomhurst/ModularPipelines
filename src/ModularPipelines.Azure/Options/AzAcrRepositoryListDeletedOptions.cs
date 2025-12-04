@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "repository", "list-deleted")]
+[CliSubCommand("acr", "repository", "list-deleted")]
 public record AzAcrRepositoryListDeletedOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("fzf", "location")]
+[CliSubCommand("fzf", "location")]
 public record AzFzfLocationOptions : AzOptions
 {
     [CliOption("--filter")]

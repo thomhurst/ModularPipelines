@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "scale")]
+[CliSubCommand("webapp", "scale")]
 public record AzWebappScaleOptions(
 [property: CliOption("--instance-count")] int InstanceCount
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "express-route", "gateway", "list")]
+[CliSubCommand("network", "express-route", "gateway", "list")]
 public record AzNetworkExpressRouteGatewayListOptions : AzOptions
 {
     [CliOption("--resource-group")]

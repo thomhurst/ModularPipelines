@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "va", "sql", "baseline", "set")]
+[CliSubCommand("security", "va", "sql", "baseline", "set")]
 public record AzSecurityVaSqlBaselineSetOptions(
 [property: CliOption("--database-name")] string DatabaseName,
 [property: CliOption("--server-name")] string ServerName,

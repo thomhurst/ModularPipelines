@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "identity", "remove")]
+[CliSubCommand("containerapp", "identity", "remove")]
 public record AzContainerappIdentityRemoveOptions : AzOptions
 {
     [CliOption("--ids")]

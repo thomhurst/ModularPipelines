@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "job", "start")]
+[CliSubCommand("ams", "job", "start")]
 public record AzAmsJobStartOptions(
 [property: CliOption("--output-assets")] string OutputAssets
 ) : AzOptions

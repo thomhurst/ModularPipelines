@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "policy", "renew-key")]
+[CliSubCommand("iot", "hub", "policy", "renew-key")]
 public record AzIotHubPolicyRenewKeyOptions(
 [property: CliOption("--renew-key")] string RenewKey
 ) : AzOptions

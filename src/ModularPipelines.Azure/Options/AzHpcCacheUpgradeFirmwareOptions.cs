@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hpc-cache", "upgrade-firmware")]
+[CliSubCommand("hpc-cache", "upgrade-firmware")]
 public record AzHpcCacheUpgradeFirmwareOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

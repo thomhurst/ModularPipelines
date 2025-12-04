@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "endpoint", "realtime", "update-version")]
+[CliSubCommand("ml", "endpoint", "realtime", "update-version")]
 public record AzMlEndpointRealtimeUpdateVersionOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--version-name")] string VersionName

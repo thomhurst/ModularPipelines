@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "key", "set-attributes")]
+[CliSubCommand("keyvault", "key", "set-attributes")]
 public record AzKeyvaultKeySetAttributesOptions : AzOptions
 {
     [CliFlag("--enabled")]

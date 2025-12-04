@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "connection", "create", "mysql-flexible")]
+[CliSubCommand("webapp", "connection", "create", "mysql-flexible")]
 public record AzWebappConnectionCreateMysqlFlexibleOptions : AzOptions
 {
     [CliOption("--client-type")]

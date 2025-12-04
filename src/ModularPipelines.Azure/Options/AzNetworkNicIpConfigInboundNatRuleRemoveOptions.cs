@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "nic", "ip-config", "inbound-nat-rule", "remove")]
+[CliSubCommand("network", "nic", "ip-config", "inbound-nat-rule", "remove")]
 public record AzNetworkNicIpConfigInboundNatRuleRemoveOptions(
 [property: CliOption("--inbound-nat-rule")] string InboundNatRule,
 [property: CliOption("--ip-config-name")] string IpConfigName,

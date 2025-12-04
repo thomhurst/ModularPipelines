@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage-mover", "endpoint", "delete")]
+[CliSubCommand("storage-mover", "endpoint", "delete")]
 public record AzStorageMoverEndpointDeleteOptions : AzOptions
 {
     [CliOption("--endpoint-name")]

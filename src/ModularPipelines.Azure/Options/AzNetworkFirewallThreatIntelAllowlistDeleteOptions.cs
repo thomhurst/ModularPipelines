@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "firewall", "threat-intel-allowlist", "delete")]
+[CliSubCommand("network", "firewall", "threat-intel-allowlist", "delete")]
 public record AzNetworkFirewallThreatIntelAllowlistDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "origin-group", "delete")]
+[CliSubCommand("afd", "origin-group", "delete")]
 public record AzAfdOriginGroupDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "manifest", "show")]
+[CliSubCommand("acr", "manifest", "show")]
 public record AzAcrManifestShowOptions : AzOptions
 {
     [CliOption("--name")]

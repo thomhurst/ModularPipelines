@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("managed-cassandra", "cluster", "list")]
+[CliSubCommand("managed-cassandra", "cluster", "list")]
 public record AzManagedCassandraClusterListOptions : AzOptions
 {
     [CliOption("--resource-group")]

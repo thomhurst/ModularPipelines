@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedmachine", "private-link-resource", "show")]
+[CliSubCommand("connectedmachine", "private-link-resource", "show")]
 public record AzConnectedmachinePrivateLinkResourceShowOptions : AzOptions
 {
     [CliOption("--group-name")]

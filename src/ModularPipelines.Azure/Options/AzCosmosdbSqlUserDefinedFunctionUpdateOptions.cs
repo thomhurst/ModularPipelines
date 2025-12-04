@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "sql", "user-defined-function", "update")]
+[CliSubCommand("cosmosdb", "sql", "user-defined-function", "update")]
 public record AzCosmosdbSqlUserDefinedFunctionUpdateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--body")] string Body,

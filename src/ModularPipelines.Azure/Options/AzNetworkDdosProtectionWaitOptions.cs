@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "ddos-protection", "wait")]
+[CliSubCommand("network", "ddos-protection", "wait")]
 public record AzNetworkDdosProtectionWaitOptions : AzOptions
 {
     [CliFlag("--created")]

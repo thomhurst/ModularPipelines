@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "log-analytics", "cluster", "delete")]
+[CliSubCommand("monitor", "log-analytics", "cluster", "delete")]
 public record AzMonitorLogAnalyticsClusterDeleteOptions : AzOptions
 {
     [CliOption("--cluster-name")]

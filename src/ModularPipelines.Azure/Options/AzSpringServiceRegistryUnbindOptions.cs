@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "service-registry", "unbind")]
+[CliSubCommand("spring", "service-registry", "unbind")]
 public record AzSpringServiceRegistryUnbindOptions(
 [property: CliOption("--app")] string App,
 [property: CliOption("--resource-group")] string ResourceGroup,

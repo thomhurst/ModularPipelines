@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "mesh", "get-revisions")]
+[CliSubCommand("aks", "mesh", "get-revisions")]
 public record AzAksMeshGetRevisionsOptions(
 [property: CliOption("--location")] string Location
 ) : AzOptions;

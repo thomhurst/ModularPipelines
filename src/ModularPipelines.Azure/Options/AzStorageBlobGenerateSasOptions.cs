@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "blob", "generate-sas")]
+[CliSubCommand("storage", "blob", "generate-sas")]
 public record AzStorageBlobGenerateSasOptions : AzOptions
 {
     [CliOption("--account-key")]

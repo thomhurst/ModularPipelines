@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scenario", "guide")]
+[CliSubCommand("scenario", "guide")]
 public record AzScenarioGuideOptions : AzOptions
 {
     [CliOption("--match-rule")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "data-connection", "event-grid", "create")]
+[CliSubCommand("kusto", "data-connection", "event-grid", "create")]
 public record AzKustoDataConnectionEventGridCreateOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--data-connection-name")] string DataConnectionName,

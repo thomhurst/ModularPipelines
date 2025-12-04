@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "network", "proxy", "apply")]
+[CliSubCommand("sphere", "device", "network", "proxy", "apply")]
 public record AzSphereDeviceNetworkProxyApplyOptions(
 [property: CliOption("--address")] string Address,
 [property: CliOption("--authentication")] string Authentication,

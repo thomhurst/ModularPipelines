@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("rest")]
+[CliSubCommand("rest")]
 public record AzRestOptions(
 [property: CliOption("--uri")] string Uri
 ) : AzOptions

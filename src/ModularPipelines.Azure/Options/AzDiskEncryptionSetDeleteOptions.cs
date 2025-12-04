@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-encryption-set", "delete")]
+[CliSubCommand("disk-encryption-set", "delete")]
 public record AzDiskEncryptionSetDeleteOptions : AzOptions
 {
     [CliOption("--disk-encryption-set-name")]

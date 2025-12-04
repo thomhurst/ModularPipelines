@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logicapp", "config", "appsettings", "delete")]
+[CliSubCommand("logicapp", "config", "appsettings", "delete")]
 public record AzLogicappConfigAppsettingsDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

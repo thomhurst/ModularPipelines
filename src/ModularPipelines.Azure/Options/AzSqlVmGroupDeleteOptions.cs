@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "vm", "group", "delete")]
+[CliSubCommand("sql", "vm", "group", "delete")]
 public record AzSqlVmGroupDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

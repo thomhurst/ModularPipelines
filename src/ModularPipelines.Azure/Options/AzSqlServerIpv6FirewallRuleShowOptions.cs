@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "ipv6-firewall-rule", "show")]
+[CliSubCommand("sql", "server", "ipv6-firewall-rule", "show")]
 public record AzSqlServerIpv6FirewallRuleShowOptions : AzOptions
 {
     [CliOption("--ids")]

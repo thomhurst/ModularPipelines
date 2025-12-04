@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("workloads", "sap-database-instance", "stop")]
+[CliSubCommand("workloads", "sap-database-instance", "stop")]
 public record AzWorkloadsSapDatabaseInstanceStopOptions : AzOptions
 {
     [CliOption("--database-instance-name")]

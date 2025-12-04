@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("bicep", "upgrade")]
+[CliSubCommand("bicep", "upgrade")]
 public record AzBicepUpgradeOptions : AzOptions
 {
     [CliOption("--target-platform")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "attached-database-configuration", "show")]
+[CliSubCommand("kusto", "attached-database-configuration", "show")]
 public record AzKustoAttachedDatabaseConfigurationShowOptions : AzOptions
 {
     [CliFlag("--attached-database-configuration-name")]

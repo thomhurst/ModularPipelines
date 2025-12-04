@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "waf-log-analytic", "metric", "list")]
+[CliSubCommand("afd", "waf-log-analytic", "metric", "list")]
 public record AzAfdWafLogAnalyticMetricListOptions(
 [property: CliOption("--date-time-begin")] string DateTimeBegin,
 [property: CliOption("--date-time-end")] string DateTimeEnd,

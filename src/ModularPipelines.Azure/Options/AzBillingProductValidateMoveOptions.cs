@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("billing", "product", "validate-move")]
+[CliSubCommand("billing", "product", "validate-move")]
 public record AzBillingProductValidateMoveOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--name")] string Name

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("load", "test-run", "server-metric", "add")]
+[CliSubCommand("load", "test-run", "server-metric", "add")]
 public record AzLoadTestRunServerMetricAddOptions(
 [property: CliOption("--aggregation")] string Aggregation,
 [property: CliOption("--app-component-id")] string AppComponentId,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "ad-admin", "create")]
+[CliSubCommand("mysql", "flexible-server", "ad-admin", "create")]
 public record AzMysqlFlexibleServerAdAdminCreateOptions(
 [property: CliOption("--display-name")] string DisplayName,
 [property: CliOption("--identity")] string Identity,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "endpoint", "list")]
+[CliSubCommand("afd", "endpoint", "list")]
 public record AzAfdEndpointListOptions(
 [property: CliOption("--profile-name")] string ProfileName,
 [property: CliOption("--resource-group")] string ResourceGroup

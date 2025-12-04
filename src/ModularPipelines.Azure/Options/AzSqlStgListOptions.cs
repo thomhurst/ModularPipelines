@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "stg", "list")]
+[CliSubCommand("sql", "stg", "list")]
 public record AzSqlStgListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

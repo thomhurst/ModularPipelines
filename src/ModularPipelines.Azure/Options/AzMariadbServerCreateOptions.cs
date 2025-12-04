@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "server", "create")]
+[CliSubCommand("mariadb", "server", "create")]
 public record AzMariadbServerCreateOptions : AzOptions
 {
     [CliOption("--admin-password")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "network", "private-endpoint", "connection", "wait")]
+[CliSubCommand("dt", "network", "private-endpoint", "connection", "wait")]
 public record AzDtNetworkPrivateEndpointConnectionWaitOptions(
 [property: CliOption("--cn")] string Cn,
 [property: CliOption("--dt-name")] string DtName

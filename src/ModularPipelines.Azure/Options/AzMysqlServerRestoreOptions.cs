@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "restore")]
+[CliSubCommand("mysql", "server", "restore")]
 public record AzMysqlServerRestoreOptions(
 [property: CliOption("--pitr-time")] string PitrTime,
 [property: CliOption("--source-server")] string SourceServer

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("signalr", "update")]
+[CliSubCommand("signalr", "update")]
 public record AzSignalrUpdateOptions : AzOptions
 {
     [CliOption("--add")]

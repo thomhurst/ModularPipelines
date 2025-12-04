@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sig", "image-definition", "wait")]
+[CliSubCommand("sig", "image-definition", "wait")]
 public record AzSigImageDefinitionWaitOptions : AzOptions
 {
     [CliFlag("--created")]

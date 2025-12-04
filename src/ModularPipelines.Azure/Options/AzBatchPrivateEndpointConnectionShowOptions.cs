@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "private-endpoint-connection", "show")]
+[CliSubCommand("batch", "private-endpoint-connection", "show")]
 public record AzBatchPrivateEndpointConnectionShowOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--name")] string Name,

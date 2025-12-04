@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "dns", "record-set", "ds", "show")]
+[CliSubCommand("network", "dns", "record-set", "ds", "show")]
 public record AzNetworkDnsRecordSetDsShowOptions : AzOptions
 {
     [CliOption("--ids")]

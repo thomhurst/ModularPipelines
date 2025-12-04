@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ad", "sp", "create-for-rbac")]
+[CliSubCommand("ad", "sp", "create-for-rbac")]
 public record AzAdSpCreateForRbacOptions : AzOptions
 {
     [CliOption("--cert")]

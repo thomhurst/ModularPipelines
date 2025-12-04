@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cluster", "create")]
+[CliSubCommand("networkcloud", "cluster", "create")]
 public record AzNetworkcloudClusterCreateOptions(
 [property: CliOption("--aggregator-or-single-rack-definition")] string AggregatorOrSingleRackDefinition,
 [property: CliOption("--cluster-name")] string ClusterName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vm-template", "create")]
+[CliSubCommand("scvmm", "vm-template", "create")]
 public record AzScvmmVmTemplateCreateOptions(
 [property: CliOption("--custom-location")] string CustomLocation,
 [property: CliOption("--location")] string Location,

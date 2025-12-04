@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "front-door", "backend-pool", "create")]
+[CliSubCommand("network", "front-door", "backend-pool", "create")]
 public record AzNetworkFrontDoorBackendPoolCreateOptions(
 [property: CliOption("--address")] string Address,
 [property: CliOption("--front-door-name")] string FrontDoorName,

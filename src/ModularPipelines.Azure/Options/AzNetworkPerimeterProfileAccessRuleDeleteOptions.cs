@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "perimeter", "profile", "access-rule", "delete")]
+[CliSubCommand("network", "perimeter", "profile", "access-rule", "delete")]
 public record AzNetworkPerimeterProfileAccessRuleDeleteOptions : AzOptions
 {
     [CliOption("--access-rule-name")]

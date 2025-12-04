@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("deployment", "sub", "delete")]
+[CliSubCommand("deployment", "sub", "delete")]
 public record AzDeploymentSubDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "managed-application-type", "version", "show")]
+[CliSubCommand("sf", "managed-application-type", "version", "show")]
 public record AzSfManagedApplicationTypeVersionShowOptions(
 [property: CliOption("--application-type-name")] string ApplicationTypeName,
 [property: CliOption("--application-type-version")] string ApplicationTypeVersion,

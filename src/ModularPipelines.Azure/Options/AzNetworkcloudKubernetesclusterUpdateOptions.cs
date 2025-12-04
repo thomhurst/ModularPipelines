@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "kubernetescluster", "update")]
+[CliSubCommand("networkcloud", "kubernetescluster", "update")]
 public record AzNetworkcloudKubernetesclusterUpdateOptions : AzOptions
 {
     [CliOption("--control-plane-node-configuration")]

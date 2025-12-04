@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "namespace", "topic", "list-key")]
+[CliSubCommand("eventgrid", "namespace", "topic", "list-key")]
 public record AzEventgridNamespaceTopicListKeyOptions : AzOptions
 {
     [CliOption("--ids")]

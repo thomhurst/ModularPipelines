@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tsi", "reference-data-set", "delete")]
+[CliSubCommand("tsi", "reference-data-set", "delete")]
 public record AzTsiReferenceDataSetDeleteOptions : AzOptions
 {
     [CliOption("--environment-name")]

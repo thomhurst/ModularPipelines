@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "scale")]
+[CliSubCommand("aks", "scale")]
 public record AzAksScaleOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--node-count")] int NodeCount,

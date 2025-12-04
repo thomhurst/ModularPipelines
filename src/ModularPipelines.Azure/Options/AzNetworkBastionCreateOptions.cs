@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "bastion", "create")]
+[CliSubCommand("network", "bastion", "create")]
 public record AzNetworkBastionCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--public-ip-address")] string PublicIpAddress,

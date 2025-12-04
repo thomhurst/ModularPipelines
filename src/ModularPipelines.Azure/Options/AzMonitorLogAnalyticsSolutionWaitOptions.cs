@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "log-analytics", "solution", "wait")]
+[CliSubCommand("monitor", "log-analytics", "solution", "wait")]
 public record AzMonitorLogAnalyticsSolutionWaitOptions : AzOptions
 {
     [CliFlag("--created")]

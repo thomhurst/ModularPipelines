@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "l3network", "delete")]
+[CliSubCommand("networkcloud", "l3network", "delete")]
 public record AzNetworkcloudL3networkDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

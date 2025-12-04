@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "generate-sas-token")]
+[CliSubCommand("iot", "hub", "generate-sas-token")]
 public record AzIotHubGenerateSasTokenOptions : AzOptions
 {
     [CliOption("--auth-type")]

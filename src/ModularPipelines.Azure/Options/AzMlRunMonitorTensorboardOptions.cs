@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "run", "monitor-tensorboard")]
+[CliSubCommand("ml", "run", "monitor-tensorboard")]
 public record AzMlRunMonitorTensorboardOptions(
 [property: CliOption("--run")] string Run
 ) : AzOptions

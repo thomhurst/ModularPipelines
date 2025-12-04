@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "task", "reset")]
+[CliSubCommand("batch", "task", "reset")]
 public record AzBatchTaskResetOptions(
 [property: CliOption("--job-id")] string JobId,
 [property: CliOption("--task-id")] string TaskId

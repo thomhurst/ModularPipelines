@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "watcher", "show-topology")]
+[CliSubCommand("network", "watcher", "show-topology")]
 public record AzNetworkWatcherShowTopologyOptions : AzOptions
 {
     [CliOption("--location")]

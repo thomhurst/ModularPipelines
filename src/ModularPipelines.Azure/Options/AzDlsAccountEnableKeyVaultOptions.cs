@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "account", "enable-key-vault")]
+[CliSubCommand("dls", "account", "enable-key-vault")]
 public record AzDlsAccountEnableKeyVaultOptions : AzOptions
 {
     [CliOption("--account")]

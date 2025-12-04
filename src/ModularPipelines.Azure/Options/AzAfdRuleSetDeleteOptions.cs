@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "rule-set", "delete")]
+[CliSubCommand("afd", "rule-set", "delete")]
 public record AzAfdRuleSetDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

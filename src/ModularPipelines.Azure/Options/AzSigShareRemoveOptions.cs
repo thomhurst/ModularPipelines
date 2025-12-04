@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sig", "share", "remove")]
+[CliSubCommand("sig", "share", "remove")]
 public record AzSigShareRemoveOptions : AzOptions
 {
     [CliOption("--gallery-name")]

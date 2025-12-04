@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "simulate-eviction")]
+[CliSubCommand("vmss", "simulate-eviction")]
 public record AzVmssSimulateEvictionOptions : AzOptions
 {
     [CliOption("--ids")]

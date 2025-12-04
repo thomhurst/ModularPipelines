@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "front-door", "purge-endpoint")]
+[CliSubCommand("network", "front-door", "purge-endpoint")]
 public record AzNetworkFrontDoorPurgeEndpointOptions(
 [property: CliOption("--content-paths")] string ContentPaths
 ) : AzOptions

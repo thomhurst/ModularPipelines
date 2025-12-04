@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "public-ip", "prefix", "delete")]
+[CliSubCommand("network", "public-ip", "prefix", "delete")]
 public record AzNetworkPublicIpPrefixDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

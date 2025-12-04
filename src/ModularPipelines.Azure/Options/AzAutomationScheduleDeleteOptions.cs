@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation", "schedule", "delete")]
+[CliSubCommand("automation", "schedule", "delete")]
 public record AzAutomationScheduleDeleteOptions(
 [property: CliOption("--automation-account-name")] int AutomationAccountName,
 [property: CliOption("--name")] string Name,

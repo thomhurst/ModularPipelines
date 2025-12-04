@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "ingress", "sticky-sessions", "set")]
+[CliSubCommand("containerapp", "ingress", "sticky-sessions", "set")]
 public record AzContainerappIngressStickySessionsSetOptions(
 [property: CliOption("--affinity")] string Affinity
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "extension", "disable")]
+[CliSubCommand("devops", "extension", "disable")]
 public record AzDevopsExtensionDisableOptions(
 [property: CliOption("--extension-id")] string ExtensionId,
 [property: CliOption("--publisher-id")] string PublisherId

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "vm", "group", "update")]
+[CliSubCommand("sql", "vm", "group", "update")]
 public record AzSqlVmGroupUpdateOptions : AzOptions
 {
     [CliOption("--add")]

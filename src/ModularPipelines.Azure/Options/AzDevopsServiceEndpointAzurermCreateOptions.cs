@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "service-endpoint", "urerm", "create")]
+[CliSubCommand("devops", "service-endpoint", "urerm", "create")]
 public record AzDevopsServiceEndpointAzurermCreateOptions(
 [property: CliOption("--azure-rm-service-principal-id")] string AzureRmServicePrincipalId,
 [property: CliOption("--azure-rm-subscription-id")] string AzureRmSubscriptionId,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "auth", "update", "(authV2", "extension)")]
+[CliSubCommand("webapp", "auth", "update", "(authV2", "extension)")]
 public record AzWebappAuthUpdateAuthV2ExtensionOptions : AzOptions
 {
     [CliOption("--action")]

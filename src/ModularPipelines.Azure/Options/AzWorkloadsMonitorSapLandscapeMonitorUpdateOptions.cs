@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("workloads", "monitor", "sap-landscape-monitor", "update")]
+[CliSubCommand("workloads", "monitor", "sap-landscape-monitor", "update")]
 public record AzWorkloadsMonitorSapLandscapeMonitorUpdateOptions : AzOptions
 {
     [CliOption("--add")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "role-assignment", "list")]
+[CliSubCommand("dt", "role-assignment", "list")]
 public record AzDtRoleAssignmentListOptions(
 [property: CliOption("--dt-name")] string DtName
 ) : AzOptions

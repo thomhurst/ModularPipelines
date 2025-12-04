@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "namespace", "authorization-rule", "keys", "renew")]
+[CliSubCommand("servicebus", "namespace", "authorization-rule", "keys", "renew")]
 public record AzServicebusNamespaceAuthorizationRuleKeysRenewOptions(
 [property: CliOption("--key")] string Key
 ) : AzOptions

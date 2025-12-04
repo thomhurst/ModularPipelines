@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "test-endpoint", "renew-key")]
+[CliSubCommand("spring", "test-endpoint", "renew-key")]
 public record AzSpringTestEndpointRenewKeyOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

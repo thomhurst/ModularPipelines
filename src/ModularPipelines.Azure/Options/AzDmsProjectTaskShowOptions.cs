@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dms", "project", "task", "show")]
+[CliSubCommand("dms", "project", "task", "show")]
 public record AzDmsProjectTaskShowOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--project-name")] string ProjectName,

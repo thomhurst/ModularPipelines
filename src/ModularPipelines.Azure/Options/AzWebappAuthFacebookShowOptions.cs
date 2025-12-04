@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "auth", "facebook", "show")]
+[CliSubCommand("webapp", "auth", "facebook", "show")]
 public record AzWebappAuthFacebookShowOptions : AzOptions
 {
     [CliOption("--ids")]

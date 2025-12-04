@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "ad-admin", "create")]
+[CliSubCommand("mysql", "server", "ad-admin", "create")]
 public record AzMysqlServerAdAdminCreateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--server-name")] string ServerName

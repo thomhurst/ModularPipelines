@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "cors", "remove")]
+[CliSubCommand("functionapp", "cors", "remove")]
 public record AzFunctionappCorsRemoveOptions(
 [property: CliFlag("--allowed-origins")] bool AllowedOrigins
 ) : AzOptions

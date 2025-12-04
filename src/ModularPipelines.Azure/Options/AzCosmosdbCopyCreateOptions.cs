@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "copy", "create")]
+[CliSubCommand("cosmosdb", "copy", "create")]
 public record AzCosmosdbCopyCreateOptions(
 [property: CliOption("--dest-account")] int DestAccount,
 [property: CliOption("--resource-group")] string ResourceGroup,

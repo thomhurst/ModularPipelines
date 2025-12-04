@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redis", "server-link", "create")]
+[CliSubCommand("redis", "server-link", "create")]
 public record AzRedisServerLinkCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--replication-role")] string ReplicationRole,

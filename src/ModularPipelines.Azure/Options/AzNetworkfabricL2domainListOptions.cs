@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "l2domain", "list")]
+[CliSubCommand("networkfabric", "l2domain", "list")]
 public record AzNetworkfabricL2domainListOptions : AzOptions
 {
     [CliOption("--resource-group")]

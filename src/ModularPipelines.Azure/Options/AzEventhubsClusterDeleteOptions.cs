@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "cluster", "delete")]
+[CliSubCommand("eventhubs", "cluster", "delete")]
 public record AzEventhubsClusterDeleteOptions : AzOptions
 {
     [CliOption("--cluster-name")]

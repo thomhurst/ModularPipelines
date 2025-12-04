@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "show")]
+[CliSubCommand("pipelines", "show")]
 public record AzPipelinesShowOptions : AzOptions
 {
     [CliFlag("--detect")]

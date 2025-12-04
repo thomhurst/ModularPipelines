@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "baremetalmachine", "run-data-extract")]
+[CliSubCommand("networkcloud", "baremetalmachine", "run-data-extract")]
 public record AzNetworkcloudBaremetalmachineRunDataExtractOptions(
 [property: CliOption("--commands")] string Commands,
 [property: CliOption("--limit-time-seconds")] string LimitTimeSeconds

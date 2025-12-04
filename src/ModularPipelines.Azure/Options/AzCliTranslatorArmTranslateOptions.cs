@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cli-translator", "arm", "translate")]
+[CliSubCommand("cli-translator", "arm", "translate")]
 public record AzCliTranslatorArmTranslateOptions(
 [property: CliOption("--parameters")] string[] Parameters,
 [property: CliOption("--resource-group")] string ResourceGroup,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("guestconfig", "guest-configuration-assignment-report", "list")]
+[CliSubCommand("guestconfig", "guest-configuration-assignment-report", "list")]
 public record AzGuestconfigGuestConfigurationAssignmentReportListOptions(
 [property: CliOption("--guest-configuration-assignment-name")] string GuestConfigurationAssignmentName,
 [property: CliOption("--resource-group")] string ResourceGroup,

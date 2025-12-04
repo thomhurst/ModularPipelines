@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "protection", "update-for-vm")]
+[CliSubCommand("backup", "protection", "update-for-vm")]
 public record AzBackupProtectionUpdateForVmOptions : AzOptions
 {
     [CliOption("--container-name")]

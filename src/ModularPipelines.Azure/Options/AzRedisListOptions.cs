@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redis", "list")]
+[CliSubCommand("redis", "list")]
 public record AzRedisListOptions : AzOptions
 {
     [CliOption("--resource-group")]

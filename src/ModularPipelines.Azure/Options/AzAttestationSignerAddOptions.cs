@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("attestation", "signer", "add")]
+[CliSubCommand("attestation", "signer", "add")]
 public record AzAttestationSignerAddOptions : AzOptions
 {
     [CliOption("--id")]

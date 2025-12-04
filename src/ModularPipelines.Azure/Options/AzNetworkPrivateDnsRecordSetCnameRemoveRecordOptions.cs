@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-dns", "record-set", "cname", "remove-record")]
+[CliSubCommand("network", "private-dns", "record-set", "cname", "remove-record")]
 public record AzNetworkPrivateDnsRecordSetCnameRemoveRecordOptions(
 [property: CliOption("--cname")] string Cname,
 [property: CliOption("--record-set-name")] string RecordSetName,

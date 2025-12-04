@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "conn-policy", "show")]
+[CliSubCommand("sql", "server", "conn-policy", "show")]
 public record AzSqlServerConnPolicyShowOptions : AzOptions
 {
     [CliOption("--ids")]

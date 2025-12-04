@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "env", "dapr-component", "resiliency", "update")]
+[CliSubCommand("containerapp", "env", "dapr-component", "resiliency", "update")]
 public record AzContainerappEnvDaprComponentResiliencyUpdateOptions(
 [property: CliOption("--dapr-component-name")] string DaprComponentName,
 [property: CliOption("--environment")] string Environment,

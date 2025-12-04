@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redis", "force-reboot")]
+[CliSubCommand("redis", "force-reboot")]
 public record AzRedisForceRebootOptions(
 [property: CliOption("--reboot-type")] string RebootType
 ) : AzOptions

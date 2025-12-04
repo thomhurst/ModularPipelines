@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcdata", "dc", "debug", "controldb-cdc")]
+[CliSubCommand("arcdata", "dc", "debug", "controldb-cdc")]
 public record AzArcdataDcDebugControldbCdcOptions(
 [property: CliOption("--k8s-namespace")] string K8sNamespace
 ) : AzOptions

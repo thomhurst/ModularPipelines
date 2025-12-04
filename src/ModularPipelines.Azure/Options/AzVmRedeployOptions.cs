@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "redeploy")]
+[CliSubCommand("vm", "redeploy")]
 public record AzVmRedeployOptions : AzOptions
 {
     [CliOption("--ids")]

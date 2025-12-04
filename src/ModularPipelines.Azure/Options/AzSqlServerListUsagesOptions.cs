@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "list-usages")]
+[CliSubCommand("sql", "server", "list-usages")]
 public record AzSqlServerListUsagesOptions : AzOptions
 {
     [CliOption("--ids")]

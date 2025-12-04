@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "managed-private-endpoint", "delete")]
+[CliSubCommand("kusto", "managed-private-endpoint", "delete")]
 public record AzKustoManagedPrivateEndpointDeleteOptions : AzOptions
 {
     [CliOption("--cluster-name")]

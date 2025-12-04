@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "job", "pipeline", "show")]
+[CliSubCommand("dla", "job", "pipeline", "show")]
 public record AzDlaJobPipelineShowOptions(
 [property: CliOption("--pipeline-identity")] string PipelineIdentity
 ) : AzOptions

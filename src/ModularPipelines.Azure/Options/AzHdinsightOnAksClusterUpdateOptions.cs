@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hdinsight-on-aks", "cluster", "update")]
+[CliSubCommand("hdinsight-on-aks", "cluster", "update")]
 public record AzHdinsightOnAksClusterUpdateOptions : AzOptions
 {
     [CliOption("--add")]

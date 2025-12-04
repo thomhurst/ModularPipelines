@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "vm", "start-assessment")]
+[CliSubCommand("sql", "vm", "start-assessment")]
 public record AzSqlVmStartAssessmentOptions : AzOptions
 {
     [CliOption("--ids")]

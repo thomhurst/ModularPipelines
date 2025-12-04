@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("staticwebapp", "show")]
+[CliSubCommand("staticwebapp", "show")]
 public record AzStaticwebappShowOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

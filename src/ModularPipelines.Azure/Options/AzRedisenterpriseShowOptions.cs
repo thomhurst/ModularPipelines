@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redisenterprise", "show")]
+[CliSubCommand("redisenterprise", "show")]
 public record AzRedisenterpriseShowOptions : AzOptions
 {
     [CliOption("--cluster-name")]

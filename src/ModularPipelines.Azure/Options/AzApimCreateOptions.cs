@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "create")]
+[CliSubCommand("apim", "create")]
 public record AzApimCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--publisher-email")] string PublisherEmail,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "managed-application", "create")]
+[CliSubCommand("sf", "managed-application", "create")]
 public record AzSfManagedApplicationCreateOptions(
 [property: CliOption("--application-name")] string ApplicationName,
 [property: CliOption("--application-type-name")] string ApplicationTypeName,

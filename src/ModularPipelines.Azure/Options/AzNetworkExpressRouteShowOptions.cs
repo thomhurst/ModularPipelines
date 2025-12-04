@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "express-route", "show")]
+[CliSubCommand("network", "express-route", "show")]
 public record AzNetworkExpressRouteShowOptions : AzOptions
 {
     [CliOption("--ids")]

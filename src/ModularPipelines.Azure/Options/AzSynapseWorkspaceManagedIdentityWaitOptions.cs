@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "workspace", "managed-identity", "wait")]
+[CliSubCommand("synapse", "workspace", "managed-identity", "wait")]
 public record AzSynapseWorkspaceManagedIdentityWaitOptions : AzOptions
 {
     [CliFlag("--created")]

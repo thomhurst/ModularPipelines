@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "fs", "access", "set-recursive")]
+[CliSubCommand("storage", "fs", "access", "set-recursive")]
 public record AzStorageFsAccessSetRecursiveOptions(
 [property: CliOption("--acl")] string Acl,
 [property: CliOption("--file-system")] string FileSystem,

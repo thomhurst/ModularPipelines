@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("providerhub", "resource-type-registration", "delete")]
+[CliSubCommand("providerhub", "resource-type-registration", "delete")]
 public record AzProviderhubResourceTypeRegistrationDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

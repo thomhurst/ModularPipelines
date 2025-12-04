@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "firewall-rule", "create")]
+[CliSubCommand("mysql", "server", "firewall-rule", "create")]
 public record AzMysqlServerFirewallRuleCreateOptions(
 [property: CliOption("--end-ip-address")] string EndIpAddress,
 [property: CliOption("--name")] string Name,

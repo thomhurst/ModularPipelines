@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cognitiveservices", "account", "create")]
+[CliSubCommand("cognitiveservices", "account", "create")]
 public record AzCognitiveservicesAccountCreateOptions(
 [property: CliOption("--kind")] string Kind,
 [property: CliOption("--location")] string Location,

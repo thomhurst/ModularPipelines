@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "midb", "copy", "complete")]
+[CliSubCommand("sql", "midb", "copy", "complete")]
 public record AzSqlMidbCopyCompleteOptions(
 [property: CliOption("--dest-mi")] string DestMi
 ) : AzOptions

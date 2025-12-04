@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "unmanaged-disk", "list")]
+[CliSubCommand("vm", "unmanaged-disk", "list")]
 public record AzVmUnmanagedDiskListOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

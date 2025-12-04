@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "addon", "enable")]
+[CliSubCommand("aks", "addon", "enable")]
 public record AzAksAddonEnableOptions(
 [property: CliOption("--addon")] string Addon,
 [property: CliOption("--name")] string Name,

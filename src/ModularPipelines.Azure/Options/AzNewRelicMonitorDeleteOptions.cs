@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("new-relic", "monitor", "delete")]
+[CliSubCommand("new-relic", "monitor", "delete")]
 public record AzNewRelicMonitorDeleteOptions(
 [property: CliOption("--user-email")] string UserEmail
 ) : AzOptions

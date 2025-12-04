@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("snapshot", "grant-access")]
+[CliSubCommand("snapshot", "grant-access")]
 public record AzSnapshotGrantAccessOptions(
 [property: CliOption("--duration-in-seconds")] string DurationInSeconds
 ) : AzOptions

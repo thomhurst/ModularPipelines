@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "firewall-rule", "create")]
+[CliSubCommand("postgres", "flexible-server", "firewall-rule", "create")]
 public record AzPostgresFlexibleServerFirewallRuleCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

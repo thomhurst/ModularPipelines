@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "file", "delete")]
+[CliSubCommand("storage", "file", "delete")]
 public record AzStorageFileDeleteOptions(
 [property: CliOption("--path")] string Path,
 [property: CliOption("--share-name")] string ShareName

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "api-token", "show")]
+[CliSubCommand("iot", "central", "api-token", "show")]
 public record AzIotCentralApiTokenShowOptions(
 [property: CliOption("--app-id")] string AppId,
 [property: CliOption("--tkid")] string Tkid

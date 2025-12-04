@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "virtualmachine", "console", "list")]
+[CliSubCommand("networkcloud", "virtualmachine", "console", "list")]
 public record AzNetworkcloudVirtualmachineConsoleListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--virtual-machine-name")] string VirtualMachineName

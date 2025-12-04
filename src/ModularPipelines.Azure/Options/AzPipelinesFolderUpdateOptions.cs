@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "folder", "update")]
+[CliSubCommand("pipelines", "folder", "update")]
 public record AzPipelinesFolderUpdateOptions(
 [property: CliOption("--path")] string Path
 ) : AzOptions

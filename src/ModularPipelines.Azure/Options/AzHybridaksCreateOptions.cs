@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hybridaks", "create")]
+[CliSubCommand("hybridaks", "create")]
 public record AzHybridaksCreateOptions(
 [property: CliOption("--custom-location")] string CustomLocation,
 [property: CliOption("--name")] string Name,

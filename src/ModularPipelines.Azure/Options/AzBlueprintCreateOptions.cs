@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("blueprint", "create")]
+[CliSubCommand("blueprint", "create")]
 public record AzBlueprintCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--target-scope")] string TargetScope

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("guestconfig", "guest-configuration-hcrp-assignment", "delete")]
+[CliSubCommand("guestconfig", "guest-configuration-hcrp-assignment", "delete")]
 public record AzGuestconfigGuestConfigurationHcrpAssignmentDeleteOptions : AzOptions
 {
     [CliOption("--guest-configuration-assignment-name")]

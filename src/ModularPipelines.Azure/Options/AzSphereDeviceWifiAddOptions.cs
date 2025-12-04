@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "wifi", "add")]
+[CliSubCommand("sphere", "device", "wifi", "add")]
 public record AzSphereDeviceWifiAddOptions(
 [property: CliOption("--ssid")] string Ssid
 ) : AzOptions

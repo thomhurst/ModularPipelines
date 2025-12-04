@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "sql", "stored-procedure", "delete")]
+[CliSubCommand("cosmosdb", "sql", "stored-procedure", "delete")]
 public record AzCosmosdbSqlStoredProcedureDeleteOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--container-name")] string ContainerName,

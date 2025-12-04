@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cognitiveservices", "account", "list-skus")]
+[CliSubCommand("cognitiveservices", "account", "list-skus")]
 public record AzCognitiveservicesAccountListSkusOptions : AzOptions
 {
     [CliOption("--kind")]

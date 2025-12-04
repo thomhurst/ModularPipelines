@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation", "schedule", "create")]
+[CliSubCommand("automation", "schedule", "create")]
 public record AzAutomationScheduleCreateOptions(
 [property: CliOption("--automation-account-name")] int AutomationAccountName,
 [property: CliOption("--frequency")] string Frequency,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-encryption-set", "wait")]
+[CliSubCommand("disk-encryption-set", "wait")]
 public record AzDiskEncryptionSetWaitOptions : AzOptions
 {
     [CliFlag("--created")]

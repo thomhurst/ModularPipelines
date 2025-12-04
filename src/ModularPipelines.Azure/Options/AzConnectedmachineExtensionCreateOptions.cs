@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedmachine", "extension", "create")]
+[CliSubCommand("connectedmachine", "extension", "create")]
 public record AzConnectedmachineExtensionCreateOptions(
 [property: CliOption("--extension-name")] string ExtensionName,
 [property: CliOption("--machine-name")] string MachineName,

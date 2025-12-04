@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("healthcareapis", "workspace", "private-link-resource", "list")]
+[CliSubCommand("healthcareapis", "workspace", "private-link-resource", "list")]
 public record AzHealthcareapisWorkspacePrivateLinkResourceListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--workspace-name")] string WorkspaceName

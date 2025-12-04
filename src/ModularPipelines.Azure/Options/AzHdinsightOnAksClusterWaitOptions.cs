@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hdinsight-on-aks", "cluster", "wait")]
+[CliSubCommand("hdinsight-on-aks", "cluster", "wait")]
 public record AzHdinsightOnAksClusterWaitOptions : AzOptions
 {
     [CliOption("--cluster-name")]

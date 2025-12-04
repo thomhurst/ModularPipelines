@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "server", "update")]
+[CliSubCommand("mariadb", "server", "update")]
 public record AzMariadbServerUpdateOptions : AzOptions
 {
     [CliOption("--add")]

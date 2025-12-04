@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "vnet-rule", "list")]
+[CliSubCommand("mysql", "server", "vnet-rule", "list")]
 public record AzMysqlServerVnetRuleListOptions : AzOptions
 {
     [CliOption("--ids")]

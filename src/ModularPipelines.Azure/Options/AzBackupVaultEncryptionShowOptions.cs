@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "vault", "encryption", "show")]
+[CliSubCommand("backup", "vault", "encryption", "show")]
 public record AzBackupVaultEncryptionShowOptions : AzOptions
 {
     [CliOption("--ids")]

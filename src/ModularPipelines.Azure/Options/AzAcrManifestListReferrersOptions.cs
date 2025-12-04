@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "manifest", "list-referrers")]
+[CliSubCommand("acr", "manifest", "list-referrers")]
 public record AzAcrManifestListReferrersOptions : AzOptions
 {
     [CliOption("--artifact-type")]

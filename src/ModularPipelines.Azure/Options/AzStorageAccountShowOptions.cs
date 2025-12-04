@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "show")]
+[CliSubCommand("storage", "account", "show")]
 public record AzStorageAccountShowOptions : AzOptions
 {
     [CliOption("--expand")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "profile", "show")]
+[CliSubCommand("afd", "profile", "show")]
 public record AzAfdProfileShowOptions : AzOptions
 {
     [CliOption("--ids")]

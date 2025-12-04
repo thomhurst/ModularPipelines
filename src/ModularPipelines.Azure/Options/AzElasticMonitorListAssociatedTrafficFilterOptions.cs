@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("elastic", "monitor", "list-associated-traffic-filter")]
+[CliSubCommand("elastic", "monitor", "list-associated-traffic-filter")]
 public record AzElasticMonitorListAssociatedTrafficFilterOptions : AzOptions
 {
     [CliOption("--ids")]

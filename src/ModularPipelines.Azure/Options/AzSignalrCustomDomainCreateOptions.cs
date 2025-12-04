@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("signalr", "custom-domain", "create")]
+[CliSubCommand("signalr", "custom-domain", "create")]
 public record AzSignalrCustomDomainCreateOptions(
 [property: CliOption("--certificate-resource-id")] string CertificateResourceId,
 [property: CliOption("--domain-name")] string DomainName,

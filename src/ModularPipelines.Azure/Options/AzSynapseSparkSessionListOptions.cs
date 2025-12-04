@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "spark", "session", "list")]
+[CliSubCommand("synapse", "spark", "session", "list")]
 public record AzSynapseSparkSessionListOptions(
 [property: CliOption("--spark-pool-name")] string SparkPoolName,
 [property: CliOption("--workspace-name")] string WorkspaceName

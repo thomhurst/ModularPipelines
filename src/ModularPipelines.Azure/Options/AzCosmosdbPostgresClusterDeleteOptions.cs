@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "postgres", "cluster", "delete")]
+[CliSubCommand("cosmosdb", "postgres", "cluster", "delete")]
 public record AzCosmosdbPostgresClusterDeleteOptions : AzOptions
 {
     [CliOption("--cluster-name")]

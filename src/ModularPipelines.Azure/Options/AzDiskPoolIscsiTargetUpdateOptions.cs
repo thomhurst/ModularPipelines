@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-pool", "iscsi-target", "update")]
+[CliSubCommand("disk-pool", "iscsi-target", "update")]
 public record AzDiskPoolIscsiTargetUpdateOptions : AzOptions
 {
     [CliOption("--disk-pool-name")]

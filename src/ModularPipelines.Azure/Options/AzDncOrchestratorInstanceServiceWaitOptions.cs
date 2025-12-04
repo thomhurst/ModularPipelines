@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dnc", "orchestrator-instance-service", "wait")]
+[CliSubCommand("dnc", "orchestrator-instance-service", "wait")]
 public record AzDncOrchestratorInstanceServiceWaitOptions : AzOptions
 {
     [CliFlag("--created")]

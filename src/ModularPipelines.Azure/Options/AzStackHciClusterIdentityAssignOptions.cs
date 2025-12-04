@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci", "cluster", "identity", "assign")]
+[CliSubCommand("stack-hci", "cluster", "identity", "assign")]
 public record AzStackHciClusterIdentityAssignOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--resource-group")] string ResourceGroup

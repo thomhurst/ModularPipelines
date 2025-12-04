@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "data-collection", "rule", "association", "list")]
+[CliSubCommand("monitor", "data-collection", "rule", "association", "list")]
 public record AzMonitorDataCollectionRuleAssociationListOptions : AzOptions
 {
     [CliOption("--endpoint-name")]

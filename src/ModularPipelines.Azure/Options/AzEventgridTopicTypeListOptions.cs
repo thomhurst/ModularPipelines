@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "topic-type", "list")]
+[CliSubCommand("eventgrid", "topic-type", "list")]
 public record AzEventgridTopicTypeListOptions : AzOptions;

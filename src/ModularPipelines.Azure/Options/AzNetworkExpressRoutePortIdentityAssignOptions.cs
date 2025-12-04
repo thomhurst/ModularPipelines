@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "express-route", "port", "identity", "assign")]
+[CliSubCommand("network", "express-route", "port", "identity", "assign")]
 public record AzNetworkExpressRoutePortIdentityAssignOptions(
 [property: CliOption("--identity")] string Identity,
 [property: CliOption("--name")] string Name,

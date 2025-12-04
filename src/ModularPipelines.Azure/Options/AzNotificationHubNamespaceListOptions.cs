@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("notification-hub", "namespace", "list")]
+[CliSubCommand("notification-hub", "namespace", "list")]
 public record AzNotificationHubNamespaceListOptions : AzOptions
 {
     [CliOption("--max-items")]

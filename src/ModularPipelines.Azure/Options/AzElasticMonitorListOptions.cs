@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("elastic", "monitor", "list")]
+[CliSubCommand("elastic", "monitor", "list")]
 public record AzElasticMonitorListOptions : AzOptions
 {
     [CliOption("--max-items")]

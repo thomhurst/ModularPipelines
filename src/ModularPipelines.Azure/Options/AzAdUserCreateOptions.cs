@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ad", "user", "create")]
+[CliSubCommand("ad", "user", "create")]
 public record AzAdUserCreateOptions(
 [property: CliOption("--display-name")] string DisplayName,
 [property: CliOption("--password")] string Password,

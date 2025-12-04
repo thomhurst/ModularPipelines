@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "online-deployment", "create")]
+[CliSubCommand("ml", "online-deployment", "create")]
 public record AzMlOnlineDeploymentCreateOptions(
 [property: CliOption("--file")] string File,
 [property: CliOption("--resource-group")] string ResourceGroup,

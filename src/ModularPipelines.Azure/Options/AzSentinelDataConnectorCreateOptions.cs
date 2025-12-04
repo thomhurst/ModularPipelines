@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "data-connector", "create")]
+[CliSubCommand("sentinel", "data-connector", "create")]
 public record AzSentinelDataConnectorCreateOptions(
 [property: CliOption("--data-connector-id")] string DataConnectorId,
 [property: CliOption("--resource-group")] string ResourceGroup,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("baremetalinstance", "shutdown")]
+[CliSubCommand("baremetalinstance", "shutdown")]
 public record AzBaremetalinstanceShutdownOptions : AzOptions
 {
     [CliOption("--ids")]

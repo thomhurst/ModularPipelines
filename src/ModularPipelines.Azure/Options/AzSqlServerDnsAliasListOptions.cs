@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "dns-alias", "list")]
+[CliSubCommand("sql", "server", "dns-alias", "list")]
 public record AzSqlServerDnsAliasListOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "deployment", "source", "config-local-git")]
+[CliSubCommand("webapp", "deployment", "source", "config-local-git")]
 public record AzWebappDeploymentSourceConfigLocalGitOptions : AzOptions
 {
     [CliOption("--ids")]

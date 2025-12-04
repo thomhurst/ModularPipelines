@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "service", "get-keys")]
+[CliSubCommand("ml", "service", "get-keys")]
 public record AzMlServiceGetKeysOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

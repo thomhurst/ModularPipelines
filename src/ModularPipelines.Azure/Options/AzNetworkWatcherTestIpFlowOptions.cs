@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "watcher", "test-ip-flow")]
+[CliSubCommand("network", "watcher", "test-ip-flow")]
 public record AzNetworkWatcherTestIpFlowOptions(
 [property: CliOption("--direction")] string Direction,
 [property: CliOption("--local")] string Local,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "listener", "create")]
+[CliSubCommand("network", "application-gateway", "listener", "create")]
 public record AzNetworkApplicationGatewayListenerCreateOptions(
 [property: CliOption("--frontend-port")] string FrontendPort,
 [property: CliOption("--gateway-name")] string GatewayName,

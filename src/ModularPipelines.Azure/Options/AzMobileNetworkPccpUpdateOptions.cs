@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mobile-network", "pccp", "update")]
+[CliSubCommand("mobile-network", "pccp", "update")]
 public record AzMobileNetworkPccpUpdateOptions : AzOptions
 {
     [CliOption("--access-interface")]

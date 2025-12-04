@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server", "vnet-rule", "delete")]
+[CliSubCommand("postgres", "server", "vnet-rule", "delete")]
 public record AzPostgresServerVnetRuleDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

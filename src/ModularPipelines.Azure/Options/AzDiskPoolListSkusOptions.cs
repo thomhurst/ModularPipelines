@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-pool", "list-skus")]
+[CliSubCommand("disk-pool", "list-skus")]
 public record AzDiskPoolListSkusOptions(
 [property: CliOption("--location")] string Location
 ) : AzOptions;

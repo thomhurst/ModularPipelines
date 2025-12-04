@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("workloads", "monitor", "sap-landscape-monitor", "create")]
+[CliSubCommand("workloads", "monitor", "sap-landscape-monitor", "create")]
 public record AzWorkloadsMonitorSapLandscapeMonitorCreateOptions(
 [property: CliOption("--monitor-name")] string MonitorName,
 [property: CliOption("--resource-group")] string ResourceGroup

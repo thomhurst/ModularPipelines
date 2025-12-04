@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "container-rm", "exists")]
+[CliSubCommand("storage", "container-rm", "exists")]
 public record AzStorageContainerRmExistsOptions : AzOptions
 {
     [CliOption("--ids")]

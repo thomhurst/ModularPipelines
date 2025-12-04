@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("notification-hub", "delete")]
+[CliSubCommand("notification-hub", "delete")]
 public record AzNotificationHubDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

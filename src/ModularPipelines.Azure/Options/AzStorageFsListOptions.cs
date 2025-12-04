@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "fs", "list")]
+[CliSubCommand("storage", "fs", "list")]
 public record AzStorageFsListOptions : AzOptions
 {
     [CliOption("--account-key")]

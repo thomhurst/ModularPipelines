@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "log-analytics", "workspace", "delete")]
+[CliSubCommand("monitor", "log-analytics", "workspace", "delete")]
 public record AzMonitorLogAnalyticsWorkspaceDeleteOptions : AzOptions
 {
     [CliFlag("--force")]

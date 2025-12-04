@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "du", "account", "create")]
+[CliSubCommand("iot", "du", "account", "create")]
 public record AzIotDuAccountCreateOptions(
 [property: CliOption("--account")] int Account,
 [property: CliOption("--resource-group")] string ResourceGroup

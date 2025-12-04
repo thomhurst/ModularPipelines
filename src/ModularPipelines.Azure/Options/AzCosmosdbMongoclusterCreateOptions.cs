@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "mongocluster", "create")]
+[CliSubCommand("cosmosdb", "mongocluster", "create")]
 public record AzCosmosdbMongoclusterCreateOptions(
 [property: CliOption("--administrator-login")] string AdministratorLogin,
 [property: CliOption("--administrator-login-password")] string AdministratorLoginPassword,

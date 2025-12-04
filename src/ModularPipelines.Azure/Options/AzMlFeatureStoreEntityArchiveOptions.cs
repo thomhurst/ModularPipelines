@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "feature-store-entity", "archive")]
+[CliSubCommand("ml", "feature-store-entity", "archive")]
 public record AzMlFeatureStoreEntityArchiveOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--version")] string Version

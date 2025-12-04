@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dns-resolver", "forwarding-ruleset", "create")]
+[CliSubCommand("dns-resolver", "forwarding-ruleset", "create")]
 public record AzDnsResolverForwardingRulesetCreateOptions(
 [property: CliOption("--dns-forwarding-ruleset-name")] string DnsForwardingRulesetName,
 [property: CliOption("--outbound-endpoints")] string OutboundEndpoints,

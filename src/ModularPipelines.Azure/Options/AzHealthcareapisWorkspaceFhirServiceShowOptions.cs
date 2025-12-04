@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("healthcareapis", "workspace", "fhir-service", "show")]
+[CliSubCommand("healthcareapis", "workspace", "fhir-service", "show")]
 public record AzHealthcareapisWorkspaceFhirServiceShowOptions : AzOptions
 {
     [CliOption("--fhir-service-name")]

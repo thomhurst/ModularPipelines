@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "endpoint", "realtime", "delete")]
+[CliSubCommand("ml", "endpoint", "realtime", "delete")]
 public record AzMlEndpointRealtimeDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

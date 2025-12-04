@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "manifest", "update-metadata")]
+[CliSubCommand("acr", "manifest", "update-metadata")]
 public record AzAcrManifestUpdateMetadataOptions : AzOptions
 {
     [CliFlag("--delete-enabled")]

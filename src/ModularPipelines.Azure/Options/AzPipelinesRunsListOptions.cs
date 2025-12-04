@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "runs", "list")]
+[CliSubCommand("pipelines", "runs", "list")]
 public record AzPipelinesRunsListOptions : AzOptions
 {
     [CliOption("--branch")]

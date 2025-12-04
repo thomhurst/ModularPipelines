@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "backup-policy", "update")]
+[CliSubCommand("dataprotection", "backup-policy", "update")]
 public record AzDataprotectionBackupPolicyUpdateOptions : AzOptions
 {
     [CliOption("--add")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "computetarget", "create", "aks")]
+[CliSubCommand("ml", "computetarget", "create", "aks")]
 public record AzMlComputetargetCreateAksOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

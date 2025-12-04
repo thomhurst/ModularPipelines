@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-access", "wait")]
+[CliSubCommand("disk-access", "wait")]
 public record AzDiskAccessWaitOptions : AzOptions
 {
     [CliFlag("--created")]

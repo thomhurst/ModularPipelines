@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "spark", "statement", "cancel")]
+[CliSubCommand("synapse", "spark", "statement", "cancel")]
 public record AzSynapseSparkStatementCancelOptions(
 [property: CliOption("--livy-id")] string LivyId,
 [property: CliOption("--session-id")] string SessionId,

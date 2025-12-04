@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "key", "rotation-policy", "update")]
+[CliSubCommand("keyvault", "key", "rotation-policy", "update")]
 public record AzKeyvaultKeyRotationPolicyUpdateOptions(
 [property: CliOption("--value")] string Value
 ) : AzOptions

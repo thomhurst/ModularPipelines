@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "import")]
+[CliSubCommand("acr", "import")]
 public record AzAcrImportOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--source")] string Source

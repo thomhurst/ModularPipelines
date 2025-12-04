@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("find")]
+[CliSubCommand("find")]
 public record AzFindOptions : AzOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]

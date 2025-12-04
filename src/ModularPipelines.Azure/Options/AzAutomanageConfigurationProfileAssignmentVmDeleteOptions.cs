@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automanage", "configuration-profile-assignment", "vm", "delete")]
+[CliSubCommand("automanage", "configuration-profile-assignment", "vm", "delete")]
 public record AzAutomanageConfigurationProfileAssignmentVmDeleteOptions : AzOptions
 {
     [CliOption("--configuration-profile-assignment-name")]

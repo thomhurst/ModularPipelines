@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "pipeline", "pipeline-runs-list")]
+[CliSubCommand("ml", "pipeline", "pipeline-runs-list")]
 public record AzMlPipelinePipelineRunsListOptions(
 [property: CliOption("--schedule-id")] string ScheduleId
 ) : AzOptions

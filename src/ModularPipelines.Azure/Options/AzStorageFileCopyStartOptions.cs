@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "file", "copy", "start")]
+[CliSubCommand("storage", "file", "copy", "start")]
 public record AzStorageFileCopyStartOptions(
 [property: CliOption("--destination-path")] string DestinationPath,
 [property: CliOption("--destination-share")] string DestinationShare

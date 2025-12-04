@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "identity", "assign")]
+[CliSubCommand("cosmosdb", "identity", "assign")]
 public record AzCosmosdbIdentityAssignOptions : AzOptions
 {
     [CliOption("--identities")]

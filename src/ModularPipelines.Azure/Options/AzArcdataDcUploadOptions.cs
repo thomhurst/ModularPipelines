@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcdata", "dc", "upload")]
+[CliSubCommand("arcdata", "dc", "upload")]
 public record AzArcdataDcUploadOptions(
 [property: CliOption("--path")] string Path
 ) : AzOptions;

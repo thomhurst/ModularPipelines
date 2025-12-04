@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "application-accelerator", "predefined-accelerator", "list")]
+[CliSubCommand("spring", "application-accelerator", "predefined-accelerator", "list")]
 public record AzSpringApplicationAcceleratorPredefinedAcceleratorListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--service")] string Service

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("search", "private-endpoint-connection", "delete")]
+[CliSubCommand("search", "private-endpoint-connection", "delete")]
 public record AzSearchPrivateEndpointConnectionDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation", "runbook", "revert-to-published")]
+[CliSubCommand("automation", "runbook", "revert-to-published")]
 public record AzAutomationRunbookRevertToPublishedOptions : AzOptions
 {
     [CliOption("--automation-account-name")]

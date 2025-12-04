@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ad", "app", "list")]
+[CliSubCommand("ad", "app", "list")]
 public record AzAdAppListOptions : AzOptions
 {
     [CliOption("--all")]

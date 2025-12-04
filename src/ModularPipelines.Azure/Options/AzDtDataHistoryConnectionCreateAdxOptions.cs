@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "data-history", "connection", "create", "adx")]
+[CliSubCommand("dt", "data-history", "connection", "create", "adx")]
 public record AzDtDataHistoryConnectionCreateAdxOptions(
 [property: CliOption("--adx-cluster-name")] string AdxClusterName,
 [property: CliOption("--adx-database-name")] string AdxDatabaseName,

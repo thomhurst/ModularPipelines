@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network-function", "traffic-collector", "update")]
+[CliSubCommand("network-function", "traffic-collector", "update")]
 public record AzNetworkFunctionTrafficCollectorUpdateOptions : AzOptions
 {
     [CliOption("--add")]

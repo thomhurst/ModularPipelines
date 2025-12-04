@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "dw", "show")]
+[CliSubCommand("sql", "dw", "show")]
 public record AzSqlDwShowOptions : AzOptions
 {
     [CliOption("--filter")]

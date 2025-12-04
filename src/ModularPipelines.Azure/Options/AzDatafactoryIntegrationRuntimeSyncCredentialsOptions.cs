@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "integration-runtime", "sync-credentials")]
+[CliSubCommand("datafactory", "integration-runtime", "sync-credentials")]
 public record AzDatafactoryIntegrationRuntimeSyncCredentialsOptions : AzOptions
 {
     [CliOption("--factory-name")]

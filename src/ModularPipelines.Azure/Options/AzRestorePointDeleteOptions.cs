@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("restore-point", "delete")]
+[CliSubCommand("restore-point", "delete")]
 public record AzRestorePointDeleteOptions : AzOptions
 {
     [CliOption("--collection-name")]

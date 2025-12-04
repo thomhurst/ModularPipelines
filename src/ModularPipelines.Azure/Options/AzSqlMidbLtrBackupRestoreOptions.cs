@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "midb", "ltr-backup", "restore")]
+[CliSubCommand("sql", "midb", "ltr-backup", "restore")]
 public record AzSqlMidbLtrBackupRestoreOptions(
 [property: CliOption("--backup-id")] string BackupId,
 [property: CliOption("--dest-database")] string DestDatabase,

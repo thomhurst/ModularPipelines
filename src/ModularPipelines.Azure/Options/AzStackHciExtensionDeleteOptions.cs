@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci", "extension", "delete")]
+[CliSubCommand("stack-hci", "extension", "delete")]
 public record AzStackHciExtensionDeleteOptions : AzOptions
 {
     [CliOption("--arc-setting-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "backup-policy", "create")]
+[CliSubCommand("dataprotection", "backup-policy", "create")]
 public record AzDataprotectionBackupPolicyCreateOptions(
 [property: CliOption("--backup-policy-name")] string BackupPolicyName,
 [property: CliOption("--policy")] string Policy,

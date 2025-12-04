@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "dns", "record-set", "tlsa", "create")]
+[CliSubCommand("network", "dns", "record-set", "tlsa", "create")]
 public record AzNetworkDnsRecordSetTlsaCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

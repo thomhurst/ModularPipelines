@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datamigration", "sql-service", "delete-node")]
+[CliSubCommand("datamigration", "sql-service", "delete-node")]
 public record AzDatamigrationSqlServiceDeleteNodeOptions : AzOptions
 {
     [CliOption("--ids")]

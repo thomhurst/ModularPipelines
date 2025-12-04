@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "artifact-streaming", "create")]
+[CliSubCommand("acr", "artifact-streaming", "create")]
 public record AzAcrArtifactStreamingCreateOptions(
 [property: CliOption("--image")] string Image,
 [property: CliOption("--name")] string Name

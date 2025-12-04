@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("interactive")]
+[CliSubCommand("interactive")]
 public record AzInteractiveOptions : AzOptions
 {
     [CliOption("--style")]

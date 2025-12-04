@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "pipeline", "update-draft")]
+[CliSubCommand("ml", "pipeline", "update-draft")]
 public record AzMlPipelineUpdateDraftOptions : AzOptions
 {
     [CliOption("--continue")]

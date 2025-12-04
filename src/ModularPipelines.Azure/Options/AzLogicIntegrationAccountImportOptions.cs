@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logic", "integration-account", "import")]
+[CliSubCommand("logic", "integration-account", "import")]
 public record AzLogicIntegrationAccountImportOptions(
 [property: CliOption("--input-path")] string InputPath,
 [property: CliOption("--name")] string Name,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "catalog", "credential", "delete")]
+[CliSubCommand("dla", "catalog", "credential", "delete")]
 public record AzDlaCatalogCredentialDeleteOptions(
 [property: CliOption("--credential-name")] string CredentialName,
 [property: CliOption("--database-name")] string DatabaseName

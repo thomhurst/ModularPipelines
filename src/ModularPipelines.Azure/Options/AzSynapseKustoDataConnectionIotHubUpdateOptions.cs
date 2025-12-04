@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kusto", "data-connection", "iot-hub", "update")]
+[CliSubCommand("synapse", "kusto", "data-connection", "iot-hub", "update")]
 public record AzSynapseKustoDataConnectionIotHubUpdateOptions : AzOptions
 {
     [CliOption("--consumer-group")]

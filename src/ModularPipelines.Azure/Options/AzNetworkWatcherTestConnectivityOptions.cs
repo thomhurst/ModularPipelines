@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "watcher", "test-connectivity")]
+[CliSubCommand("network", "watcher", "test-connectivity")]
 public record AzNetworkWatcherTestConnectivityOptions(
 [property: CliOption("--source-resource")] string SourceResource
 ) : AzOptions

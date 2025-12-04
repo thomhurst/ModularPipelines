@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedmachine", "run-command", "create")]
+[CliSubCommand("connectedmachine", "run-command", "create")]
 public record AzConnectedmachineRunCommandCreateOptions(
 [property: CliOption("--machine-name")] string MachineName,
 [property: CliOption("--name")] string Name,

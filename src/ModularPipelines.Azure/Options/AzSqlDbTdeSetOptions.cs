@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "tde", "set")]
+[CliSubCommand("sql", "db", "tde", "set")]
 public record AzSqlDbTdeSetOptions(
 [property: CliOption("--status")] string Status
 ) : AzOptions

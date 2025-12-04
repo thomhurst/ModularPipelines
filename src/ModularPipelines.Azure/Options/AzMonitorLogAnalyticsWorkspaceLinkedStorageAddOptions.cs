@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "log-analytics", "workspace", "linked-storage", "add")]
+[CliSubCommand("monitor", "log-analytics", "workspace", "linked-storage", "add")]
 public record AzMonitorLogAnalyticsWorkspaceLinkedStorageAddOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--storage-accounts")] int StorageAccounts,

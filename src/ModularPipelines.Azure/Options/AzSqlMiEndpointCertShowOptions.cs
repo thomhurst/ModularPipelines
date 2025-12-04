@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "endpoint-cert", "show")]
+[CliSubCommand("sql", "mi", "endpoint-cert", "show")]
 public record AzSqlMiEndpointCertShowOptions : AzOptions
 {
     [CliOption("--endpoint-type")]

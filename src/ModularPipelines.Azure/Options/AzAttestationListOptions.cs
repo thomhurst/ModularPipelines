@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("attestation", "list")]
+[CliSubCommand("attestation", "list")]
 public record AzAttestationListOptions : AzOptions
 {
     [CliOption("--resource-group")]

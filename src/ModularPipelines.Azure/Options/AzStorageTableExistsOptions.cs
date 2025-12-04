@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "table", "exists")]
+[CliSubCommand("storage", "table", "exists")]
 public record AzStorageTableExistsOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

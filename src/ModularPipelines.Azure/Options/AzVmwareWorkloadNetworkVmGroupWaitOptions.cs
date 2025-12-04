@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "vm-group", "wait")]
+[CliSubCommand("vmware", "workload-network", "vm-group", "wait")]
 public record AzVmwareWorkloadNetworkVmGroupWaitOptions : AzOptions
 {
     [CliFlag("--created")]

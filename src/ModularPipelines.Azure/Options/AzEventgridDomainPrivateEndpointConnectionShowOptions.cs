@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "domain", "private-endpoint-connection", "show")]
+[CliSubCommand("eventgrid", "domain", "private-endpoint-connection", "show")]
 public record AzEventgridDomainPrivateEndpointConnectionShowOptions : AzOptions
 {
     [CliOption("--domain-name")]

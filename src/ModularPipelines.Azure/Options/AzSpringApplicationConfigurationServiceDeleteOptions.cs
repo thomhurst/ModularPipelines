@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "application-configuration-service", "delete")]
+[CliSubCommand("spring", "application-configuration-service", "delete")]
 public record AzSpringApplicationConfigurationServiceDeleteOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--service")] string Service

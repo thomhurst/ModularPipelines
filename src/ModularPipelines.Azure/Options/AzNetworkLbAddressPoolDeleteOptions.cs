@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "lb", "address-pool", "delete")]
+[CliSubCommand("network", "lb", "address-pool", "delete")]
 public record AzNetworkLbAddressPoolDeleteOptions(
 [property: CliOption("--address-pool-name")] string AddressPoolName,
 [property: CliOption("--lb-name")] string LbName,

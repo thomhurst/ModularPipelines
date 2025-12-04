@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("confluent", "organization", "create")]
+[CliSubCommand("confluent", "organization", "create")]
 public record AzConfluentOrganizationCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--plan-id")] string PlanId,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "app-insights", "component", "billing", "update")]
+[CliSubCommand("monitor", "app-insights", "component", "billing", "update")]
 public record AzMonitorAppInsightsComponentBillingUpdateOptions : AzOptions
 {
     [CliOption("--add")]

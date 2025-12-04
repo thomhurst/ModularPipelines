@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "data-connection", "delete")]
+[CliSubCommand("kusto", "data-connection", "delete")]
 public record AzKustoDataConnectionDeleteOptions : AzOptions
 {
     [CliOption("--cluster-name")]

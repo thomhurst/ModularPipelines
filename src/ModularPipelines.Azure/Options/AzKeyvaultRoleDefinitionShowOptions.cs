@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "role", "definition", "show")]
+[CliSubCommand("keyvault", "role", "definition", "show")]
 public record AzKeyvaultRoleDefinitionShowOptions(
 [property: CliOption("--hsm-name")] string HsmName
 ) : AzOptions

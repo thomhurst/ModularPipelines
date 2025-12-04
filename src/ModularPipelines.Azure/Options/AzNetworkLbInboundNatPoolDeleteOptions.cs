@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "lb", "inbound-nat-pool", "delete")]
+[CliSubCommand("network", "lb", "inbound-nat-pool", "delete")]
 public record AzNetworkLbInboundNatPoolDeleteOptions(
 [property: CliOption("--lb-name")] string LbName,
 [property: CliOption("--name")] string Name,

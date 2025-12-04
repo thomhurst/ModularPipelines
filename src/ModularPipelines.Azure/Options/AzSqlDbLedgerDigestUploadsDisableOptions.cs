@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "ledger-digest-uploads", "disable")]
+[CliSubCommand("sql", "db", "ledger-digest-uploads", "disable")]
 public record AzSqlDbLedgerDigestUploadsDisableOptions : AzOptions
 {
     [CliOption("--ids")]

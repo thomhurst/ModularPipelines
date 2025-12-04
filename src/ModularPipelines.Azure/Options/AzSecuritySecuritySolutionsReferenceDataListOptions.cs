@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "security-solutions-reference-data", "list")]
+[CliSubCommand("security", "security-solutions-reference-data", "list")]
 public record AzSecuritySecuritySolutionsReferenceDataListOptions : AzOptions;

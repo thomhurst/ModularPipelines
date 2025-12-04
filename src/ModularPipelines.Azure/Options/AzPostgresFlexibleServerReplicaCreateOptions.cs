@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "replica", "create")]
+[CliSubCommand("postgres", "flexible-server", "replica", "create")]
 public record AzPostgresFlexibleServerReplicaCreateOptions(
 [property: CliOption("--replica-name")] string ReplicaName,
 [property: CliOption("--resource-group")] string ResourceGroup,

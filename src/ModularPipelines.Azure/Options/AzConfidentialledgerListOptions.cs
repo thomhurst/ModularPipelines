@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("confidentialledger", "list")]
+[CliSubCommand("confidentialledger", "list")]
 public record AzConfidentialledgerListOptions : AzOptions
 {
     [CliOption("--filter")]

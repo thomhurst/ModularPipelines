@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "cluster", "wait")]
+[CliSubCommand("eventhubs", "cluster", "wait")]
 public record AzEventhubsClusterWaitOptions : AzOptions
 {
     [CliOption("--cluster-name")]

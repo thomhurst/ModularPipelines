@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "ad-admin", "create")]
+[CliSubCommand("sql", "server", "ad-admin", "create")]
 public record AzSqlServerAdAdminCreateOptions(
 [property: CliOption("--display-name")] string DisplayName,
 [property: CliOption("--object-id")] string ObjectId,

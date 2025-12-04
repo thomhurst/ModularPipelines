@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("quantum", "workspace", "show")]
+[CliSubCommand("quantum", "workspace", "show")]
 public record AzQuantumWorkspaceShowOptions : AzOptions
 {
     [CliOption("--resource-group")]

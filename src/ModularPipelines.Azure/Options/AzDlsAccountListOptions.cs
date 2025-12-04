@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "account", "list")]
+[CliSubCommand("dls", "account", "list")]
 public record AzDlsAccountListOptions : AzOptions
 {
     [CliOption("--resource-group")]

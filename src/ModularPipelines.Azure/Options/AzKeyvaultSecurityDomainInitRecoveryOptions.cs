@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "security-domain", "init-recovery")]
+[CliSubCommand("keyvault", "security-domain", "init-recovery")]
 public record AzKeyvaultSecurityDomainInitRecoveryOptions(
 [property: CliOption("--sd-exchange-key")] string SdExchangeKey
 ) : AzOptions

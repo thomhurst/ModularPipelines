@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "patch", "interactive")]
+[CliSubCommand("containerapp", "patch", "interactive")]
 public record AzContainerappPatchInteractiveOptions : AzOptions
 {
     [CliOption("--environment")]

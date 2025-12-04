@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "notebook", "create")]
+[CliSubCommand("synapse", "notebook", "create")]
 public record AzSynapseNotebookCreateOptions(
 [property: CliOption("--file")] string File,
 [property: CliOption("--name")] string Name,

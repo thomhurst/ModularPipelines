@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "front-door", "waf-policy", "rule", "delete")]
+[CliSubCommand("network", "front-door", "waf-policy", "rule", "delete")]
 public record AzNetworkFrontDoorWafPolicyRuleDeleteOptions : AzOptions
 {
     [CliOption("--defer")]

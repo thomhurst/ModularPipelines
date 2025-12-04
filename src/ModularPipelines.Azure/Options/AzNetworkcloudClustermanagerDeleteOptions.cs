@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "clustermanager", "delete")]
+[CliSubCommand("networkcloud", "clustermanager", "delete")]
 public record AzNetworkcloudClustermanagerDeleteOptions : AzOptions
 {
     [CliOption("--cluster-manager-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "vault", "delete")]
+[CliSubCommand("backup", "vault", "delete")]
 public record AzBackupVaultDeleteOptions : AzOptions
 {
     [CliFlag("--force")]

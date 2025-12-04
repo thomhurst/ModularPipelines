@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "global-reach-connection", "show")]
+[CliSubCommand("vmware", "global-reach-connection", "show")]
 public record AzVmwareGlobalReachConnectionShowOptions : AzOptions
 {
     [CliOption("--global-reach-connection-name")]

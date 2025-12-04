@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "key", "create")]
+[CliSubCommand("sql", "mi", "key", "create")]
 public record AzSqlMiKeyCreateOptions(
 [property: CliOption("--kid")] string Kid,
 [property: CliOption("--managed-instance")] string ManagedInstance,

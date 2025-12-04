@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedk8s", "delete")]
+[CliSubCommand("connectedk8s", "delete")]
 public record AzConnectedk8sDeleteOptions : AzOptions
 {
     [CliFlag("--force")]

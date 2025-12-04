@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "custom-domain", "wait")]
+[CliSubCommand("afd", "custom-domain", "wait")]
 public record AzAfdCustomDomainWaitOptions : AzOptions
 {
     [CliFlag("--created")]

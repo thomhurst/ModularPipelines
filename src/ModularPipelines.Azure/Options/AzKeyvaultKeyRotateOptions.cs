@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "key", "rotate")]
+[CliSubCommand("keyvault", "key", "rotate")]
 public record AzKeyvaultKeyRotateOptions : AzOptions
 {
     [CliOption("--hsm-name")]

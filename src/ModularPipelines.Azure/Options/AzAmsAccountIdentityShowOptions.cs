@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "account", "identity", "show")]
+[CliSubCommand("ams", "account", "identity", "show")]
 public record AzAmsAccountIdentityShowOptions : AzOptions
 {
     [CliOption("--ids")]

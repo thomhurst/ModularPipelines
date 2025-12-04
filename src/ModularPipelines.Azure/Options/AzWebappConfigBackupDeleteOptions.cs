@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "backup", "delete")]
+[CliSubCommand("webapp", "config", "backup", "delete")]
 public record AzWebappConfigBackupDeleteOptions(
 [property: CliOption("--backup-id")] string BackupId,
 [property: CliOption("--resource-group")] string ResourceGroup,

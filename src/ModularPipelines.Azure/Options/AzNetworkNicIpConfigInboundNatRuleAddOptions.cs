@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "nic", "ip-config", "inbound-nat-rule", "add")]
+[CliSubCommand("network", "nic", "ip-config", "inbound-nat-rule", "add")]
 public record AzNetworkNicIpConfigInboundNatRuleAddOptions(
 [property: CliOption("--inbound-nat-rule")] string InboundNatRule,
 [property: CliOption("--ip-config-name")] string IpConfigName,

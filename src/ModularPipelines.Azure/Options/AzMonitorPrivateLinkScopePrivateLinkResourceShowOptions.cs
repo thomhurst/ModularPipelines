@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "private-link-scope", "private-link-resource", "show")]
+[CliSubCommand("monitor", "private-link-scope", "private-link-resource", "show")]
 public record AzMonitorPrivateLinkScopePrivateLinkResourceShowOptions : AzOptions
 {
     [CliOption("--ids")]

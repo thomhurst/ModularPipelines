@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "preview-configuration", "keyvault")]
+[CliSubCommand("connection", "preview-configuration", "keyvault")]
 public record AzConnectionPreviewConfigurationKeyvaultOptions : AzOptions
 {
     [CliOption("--client-type")]

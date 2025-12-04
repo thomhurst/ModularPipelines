@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "account", "wait")]
+[CliSubCommand("monitor", "account", "wait")]
 public record AzMonitorAccountWaitOptions : AzOptions
 {
     [CliOption("--azure-monitor-workspace-name")]

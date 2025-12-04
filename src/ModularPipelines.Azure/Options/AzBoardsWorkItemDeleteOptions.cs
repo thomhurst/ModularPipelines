@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("boards", "work-item", "delete")]
+[CliSubCommand("boards", "work-item", "delete")]
 public record AzBoardsWorkItemDeleteOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions

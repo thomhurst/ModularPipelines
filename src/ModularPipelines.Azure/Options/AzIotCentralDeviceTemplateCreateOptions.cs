@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "device-template", "create")]
+[CliSubCommand("iot", "central", "device-template", "create")]
 public record AzIotCentralDeviceTemplateCreateOptions(
 [property: CliOption("--app-id")] string AppId,
 [property: CliOption("--content")] string Content,

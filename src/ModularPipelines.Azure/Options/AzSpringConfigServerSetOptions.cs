@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "config-server", "set")]
+[CliSubCommand("spring", "config-server", "set")]
 public record AzSpringConfigServerSetOptions(
 [property: CliOption("--config-file")] string ConfigFile,
 [property: CliOption("--name")] string Name,

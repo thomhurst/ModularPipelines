@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("akshybrid", "get-credentials")]
+[CliSubCommand("akshybrid", "get-credentials")]
 public record AzAkshybridGetCredentialsOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

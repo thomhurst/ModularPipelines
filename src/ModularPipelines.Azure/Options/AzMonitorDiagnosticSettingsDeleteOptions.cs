@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "diagnostic-settings", "delete")]
+[CliSubCommand("monitor", "diagnostic-settings", "delete")]
 public record AzMonitorDiagnosticSettingsDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource")] string Resource

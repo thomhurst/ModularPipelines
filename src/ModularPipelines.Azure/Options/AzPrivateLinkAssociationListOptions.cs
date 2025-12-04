@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("private-link", "association", "list")]
+[CliSubCommand("private-link", "association", "list")]
 public record AzPrivateLinkAssociationListOptions(
 [property: CliOption("--management-group-id")] string ManagementGroupId
 ) : AzOptions;

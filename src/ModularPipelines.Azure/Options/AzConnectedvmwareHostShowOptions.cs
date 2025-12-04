@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "host", "show")]
+[CliSubCommand("connectedvmware", "host", "show")]
 public record AzConnectedvmwareHostShowOptions : AzOptions
 {
     [CliOption("--ids")]

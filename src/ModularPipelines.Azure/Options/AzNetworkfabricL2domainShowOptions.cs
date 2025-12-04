@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "l2domain", "show")]
+[CliSubCommand("networkfabric", "l2domain", "show")]
 public record AzNetworkfabricL2domainShowOptions : AzOptions
 {
     [CliOption("--ids")]

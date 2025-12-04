@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vpn-site", "link", "add")]
+[CliSubCommand("network", "vpn-site", "link", "add")]
 public record AzNetworkVpnSiteLinkAddOptions(
 [property: CliOption("--ip-address")] string IpAddress,
 [property: CliOption("--name")] string Name

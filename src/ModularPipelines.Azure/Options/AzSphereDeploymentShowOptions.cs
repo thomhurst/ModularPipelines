@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "deployment", "show")]
+[CliSubCommand("sphere", "deployment", "show")]
 public record AzSphereDeploymentShowOptions(
 [property: CliOption("--catalog")] string Catalog,
 [property: CliOption("--deployment-id")] string DeploymentId,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "cross-connection", "list-route-tables")]
+[CliSubCommand("network", "cross-connection", "list-route-tables")]
 public record AzNetworkCrossConnectionListRouteTablesOptions(
 [property: CliOption("--path")] string Path,
 [property: CliOption("--peering-name")] string PeeringName

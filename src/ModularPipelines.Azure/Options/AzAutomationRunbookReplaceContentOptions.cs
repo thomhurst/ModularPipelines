@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation", "runbook", "replace-content")]
+[CliSubCommand("automation", "runbook", "replace-content")]
 public record AzAutomationRunbookReplaceContentOptions(
 [property: CliOption("--content")] string Content
 ) : AzOptions

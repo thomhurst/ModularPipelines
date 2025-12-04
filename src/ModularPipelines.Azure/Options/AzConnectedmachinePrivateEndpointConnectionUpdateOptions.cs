@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedmachine", "private-endpoint-connection", "update")]
+[CliSubCommand("connectedmachine", "private-endpoint-connection", "update")]
 public record AzConnectedmachinePrivateEndpointConnectionUpdateOptions : AzOptions
 {
     [CliOption("--add")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "cluster", "list")]
+[CliSubCommand("sf", "cluster", "list")]
 public record AzSfClusterListOptions : AzOptions
 {
     [CliOption("--resource-group")]

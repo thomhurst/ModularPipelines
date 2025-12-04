@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("relay", "hyco", "show")]
+[CliSubCommand("relay", "hyco", "show")]
 public record AzRelayHycoShowOptions : AzOptions
 {
     [CliOption("--ids")]

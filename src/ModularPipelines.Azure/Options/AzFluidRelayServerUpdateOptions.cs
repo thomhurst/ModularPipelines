@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("fluid-relay", "server", "update")]
+[CliSubCommand("fluid-relay", "server", "update")]
 public record AzFluidRelayServerUpdateOptions : AzOptions
 {
     [CliOption("--identity")]

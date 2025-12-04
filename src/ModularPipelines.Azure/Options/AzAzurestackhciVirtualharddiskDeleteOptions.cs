@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("urestackhci", "virtualharddisk", "delete")]
+[CliSubCommand("urestackhci", "virtualharddisk", "delete")]
 public record AzAzurestackhciVirtualharddiskDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

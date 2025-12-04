@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "delete")]
+[CliSubCommand("dt", "delete")]
 public record AzDtDeleteOptions(
 [property: CliOption("--dt-name")] string DtName
 ) : AzOptions

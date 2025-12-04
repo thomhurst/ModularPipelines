@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("attestation", "list-default")]
+[CliSubCommand("attestation", "list-default")]
 public record AzAttestationListDefaultOptions : AzOptions;

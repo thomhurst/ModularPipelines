@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cloud-service", "role-instance", "show-remote-desktop-file")]
+[CliSubCommand("cloud-service", "role-instance", "show-remote-desktop-file")]
 public record AzCloudServiceRoleInstanceShowRemoteDesktopFileOptions : AzOptions
 {
     [CliOption("--cloud-service-name")]

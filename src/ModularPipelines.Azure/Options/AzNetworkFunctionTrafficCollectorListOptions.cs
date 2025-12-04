@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network-function", "traffic-collector", "list")]
+[CliSubCommand("network-function", "traffic-collector", "list")]
 public record AzNetworkFunctionTrafficCollectorListOptions : AzOptions
 {
     [CliOption("--resource-group")]

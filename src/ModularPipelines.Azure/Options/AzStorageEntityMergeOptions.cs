@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "entity", "merge")]
+[CliSubCommand("storage", "entity", "merge")]
 public record AzStorageEntityMergeOptions(
 [property: CliOption("--entity")] string Entity,
 [property: CliOption("--table-name")] string TableName

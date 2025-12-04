@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("consumption", "pricesheet", "show")]
+[CliSubCommand("consumption", "pricesheet", "show")]
 public record AzConsumptionPricesheetShowOptions : AzOptions
 {
     [CliOption("--billing-period-name")]

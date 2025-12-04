@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "feature-set", "backfill")]
+[CliSubCommand("ml", "feature-set", "backfill")]
 public record AzMlFeatureSetBackfillOptions : AzOptions
 {
     [CliOption("--by-data-status")]

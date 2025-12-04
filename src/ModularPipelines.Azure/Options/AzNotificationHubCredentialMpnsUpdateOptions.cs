@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("notification-hub", "credential", "mpns", "update")]
+[CliSubCommand("notification-hub", "credential", "mpns", "update")]
 public record AzNotificationHubCredentialMpnsUpdateOptions(
 [property: CliOption("--certificate-key")] string CertificateKey,
 [property: CliOption("--mpns-certificate")] string MpnsCertificate,

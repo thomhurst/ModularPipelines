@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "hcx-enterprise-site", "list")]
+[CliSubCommand("vmware", "hcx-enterprise-site", "list")]
 public record AzVmwareHcxEnterpriseSiteListOptions(
 [property: CliOption("--private-cloud")] string PrivateCloud,
 [property: CliOption("--resource-group")] string ResourceGroup

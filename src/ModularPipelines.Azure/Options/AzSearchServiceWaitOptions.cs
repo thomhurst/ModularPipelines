@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("search", "service", "wait")]
+[CliSubCommand("search", "service", "wait")]
 public record AzSearchServiceWaitOptions : AzOptions
 {
     [CliFlag("--created")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apic", "metadata-schema", "update")]
+[CliSubCommand("apic", "metadata-schema", "update")]
 public record AzApicMetadataSchemaUpdateOptions : AzOptions
 {
     [CliOption("--add")]

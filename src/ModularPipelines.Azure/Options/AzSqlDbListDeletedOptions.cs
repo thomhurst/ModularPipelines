@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "list-deleted")]
+[CliSubCommand("sql", "db", "list-deleted")]
 public record AzSqlDbListDeletedOptions : AzOptions
 {
     [CliOption("--ids")]

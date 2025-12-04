@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "account", "mru", "set")]
+[CliSubCommand("ams", "account", "mru", "set")]
 public record AzAmsAccountMruSetOptions : AzOptions
 {
     [CliOption("--count")]

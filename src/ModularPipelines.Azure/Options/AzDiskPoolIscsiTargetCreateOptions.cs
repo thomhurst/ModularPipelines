@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-pool", "iscsi-target", "create")]
+[CliSubCommand("disk-pool", "iscsi-target", "create")]
 public record AzDiskPoolIscsiTargetCreateOptions(
 [property: CliOption("--acl-mode")] string AclMode,
 [property: CliOption("--disk-pool-name")] string DiskPoolName,

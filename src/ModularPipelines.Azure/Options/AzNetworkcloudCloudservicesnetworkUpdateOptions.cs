@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cloudservicesnetwork", "update")]
+[CliSubCommand("networkcloud", "cloudservicesnetwork", "update")]
 public record AzNetworkcloudCloudservicesnetworkUpdateOptions : AzOptions
 {
     [CliOption("--additional-egress-endpoints")]

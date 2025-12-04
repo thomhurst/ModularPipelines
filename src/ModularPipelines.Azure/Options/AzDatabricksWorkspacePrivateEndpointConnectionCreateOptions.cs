@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databricks", "workspace", "private-endpoint-connection", "create")]
+[CliSubCommand("databricks", "workspace", "private-endpoint-connection", "create")]
 public record AzDatabricksWorkspacePrivateEndpointConnectionCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

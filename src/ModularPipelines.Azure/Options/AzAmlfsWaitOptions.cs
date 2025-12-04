@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("amlfs", "wait")]
+[CliSubCommand("amlfs", "wait")]
 public record AzAmlfsWaitOptions : AzOptions
 {
     [CliOption("--aml-filesystem-name")]

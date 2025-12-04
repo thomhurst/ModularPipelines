@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "classification", "delete")]
+[CliSubCommand("sql", "db", "classification", "delete")]
 public record AzSqlDbClassificationDeleteOptions(
 [property: CliOption("--column")] string Column,
 [property: CliOption("--schema")] string Schema,

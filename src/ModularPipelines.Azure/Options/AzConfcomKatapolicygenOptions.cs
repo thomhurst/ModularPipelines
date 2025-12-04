@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("confcom", "katapolicygen")]
+[CliSubCommand("confcom", "katapolicygen")]
 public record AzConfcomKatapolicygenOptions(
 [property: CliOption("--yaml")] string Yaml
 ) : AzOptions

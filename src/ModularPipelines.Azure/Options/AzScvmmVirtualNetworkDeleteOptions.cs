@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "virtual-network", "delete")]
+[CliSubCommand("scvmm", "virtual-network", "delete")]
 public record AzScvmmVirtualNetworkDeleteOptions : AzOptions
 {
     [CliFlag("--force")]

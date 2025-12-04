@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "migration", "show")]
+[CliSubCommand("storage", "account", "migration", "show")]
 public record AzStorageAccountMigrationShowOptions : AzOptions
 {
     [CliOption("--account-name")]

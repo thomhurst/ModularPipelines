@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "avset", "wait")]
+[CliSubCommand("scvmm", "avset", "wait")]
 public record AzScvmmAvsetWaitOptions(
 [property: CliOption("--availability-set-name")] string AvailabilitySetName,
 [property: CliOption("--resource-group")] string ResourceGroup

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "config", "retention", "update")]
+[CliSubCommand("acr", "config", "retention", "update")]
 public record AzAcrConfigRetentionUpdateOptions(
 [property: CliOption("--registry")] string Registry,
 [property: CliOption("--type")] string Type

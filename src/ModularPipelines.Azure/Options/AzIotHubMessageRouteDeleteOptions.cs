@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "message-route", "delete")]
+[CliSubCommand("iot", "hub", "message-route", "delete")]
 public record AzIotHubMessageRouteDeleteOptions(
 [property: CliOption("--hub-name")] string HubName
 ) : AzOptions

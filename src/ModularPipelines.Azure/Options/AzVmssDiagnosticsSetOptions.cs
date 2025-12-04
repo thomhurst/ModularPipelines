@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "diagnostics", "set")]
+[CliSubCommand("vmss", "diagnostics", "set")]
 public record AzVmssDiagnosticsSetOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--settings")] string Settings,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "instance-failover-group", "delete")]
+[CliSubCommand("sql", "instance-failover-group", "delete")]
 public record AzSqlInstanceFailoverGroupDeleteOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--name")] string Name,

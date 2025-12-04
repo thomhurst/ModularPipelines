@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "placement-policy", "vm", "update")]
+[CliSubCommand("vmware", "placement-policy", "vm", "update")]
 public record AzVmwarePlacementPolicyVmUpdateOptions : AzOptions
 {
     [CliOption("--add")]

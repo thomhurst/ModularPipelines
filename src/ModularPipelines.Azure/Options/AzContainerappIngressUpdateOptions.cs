@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "ingress", "update")]
+[CliSubCommand("containerapp", "ingress", "update")]
 public record AzContainerappIngressUpdateOptions : AzOptions
 {
     [CliFlag("--allow-insecure")]

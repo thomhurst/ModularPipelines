@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datamigration", "sql-service", "update")]
+[CliSubCommand("datamigration", "sql-service", "update")]
 public record AzDatamigrationSqlServiceUpdateOptions : AzOptions
 {
     [CliOption("--ids")]

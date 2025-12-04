@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("grafana", "user", "actual-user")]
+[CliSubCommand("grafana", "user", "actual-user")]
 public record AzGrafanaUserActualUserOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

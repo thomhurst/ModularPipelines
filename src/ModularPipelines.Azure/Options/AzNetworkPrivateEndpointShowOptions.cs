@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-endpoint", "show")]
+[CliSubCommand("network", "private-endpoint", "show")]
 public record AzNetworkPrivateEndpointShowOptions : AzOptions
 {
     [CliOption("--expand")]

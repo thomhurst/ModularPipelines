@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "trigger", "subscribe-to-event")]
+[CliSubCommand("datafactory", "trigger", "subscribe-to-event")]
 public record AzDatafactoryTriggerSubscribeToEventOptions : AzOptions
 {
     [CliOption("--factory-name")]

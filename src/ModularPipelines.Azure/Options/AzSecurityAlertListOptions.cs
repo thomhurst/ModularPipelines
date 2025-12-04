@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "alert", "list")]
+[CliSubCommand("security", "alert", "list")]
 public record AzSecurityAlertListOptions : AzOptions
 {
     [CliOption("--location")]

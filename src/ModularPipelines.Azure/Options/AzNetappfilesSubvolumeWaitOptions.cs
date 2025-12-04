@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "subvolume", "wait")]
+[CliSubCommand("netappfiles", "subvolume", "wait")]
 public record AzNetappfilesSubvolumeWaitOptions : AzOptions
 {
     [CliOption("--account-name")]

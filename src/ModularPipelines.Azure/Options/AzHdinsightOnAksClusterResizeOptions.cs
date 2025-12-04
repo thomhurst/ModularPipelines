@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hdinsight-on-aks", "cluster", "resize")]
+[CliSubCommand("hdinsight-on-aks", "cluster", "resize")]
 public record AzHdinsightOnAksClusterResizeOptions : AzOptions
 {
     [CliOption("--cluster-name")]

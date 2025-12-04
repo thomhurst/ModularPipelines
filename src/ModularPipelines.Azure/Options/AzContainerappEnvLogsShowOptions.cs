@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "env", "logs", "show")]
+[CliSubCommand("containerapp", "env", "logs", "show")]
 public record AzContainerappEnvLogsShowOptions : AzOptions
 {
     [CliFlag("--follow")]

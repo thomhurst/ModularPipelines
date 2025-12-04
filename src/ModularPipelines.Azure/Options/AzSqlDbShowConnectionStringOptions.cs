@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "show-connection-string")]
+[CliSubCommand("sql", "db", "show-connection-string")]
 public record AzSqlDbShowConnectionStringOptions(
 [property: CliOption("--client")] string Client
 ) : AzOptions

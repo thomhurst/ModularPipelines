@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("account", "management-group", "hierarchy-settings", "delete")]
+[CliSubCommand("account", "management-group", "hierarchy-settings", "delete")]
 public record AzAccountManagementGroupHierarchySettingsDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

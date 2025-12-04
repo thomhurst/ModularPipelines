@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("edgeorder", "order-item", "delete")]
+[CliSubCommand("edgeorder", "order-item", "delete")]
 public record AzEdgeorderOrderItemDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

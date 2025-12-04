@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databoxedge", "order", "update")]
+[CliSubCommand("databoxedge", "order", "update")]
 public record AzDataboxedgeOrderUpdateOptions : AzOptions
 {
     [CliOption("--add")]

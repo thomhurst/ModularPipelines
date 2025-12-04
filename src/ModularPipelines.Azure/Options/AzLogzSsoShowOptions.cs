@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logz", "sso", "show")]
+[CliSubCommand("logz", "sso", "show")]
 public record AzLogzSsoShowOptions : AzOptions
 {
     [CliOption("--configuration-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "sql", "ad-admin", "delete")]
+[CliSubCommand("synapse", "sql", "ad-admin", "delete")]
 public record AzSynapseSqlAdAdminDeleteOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--workspace-name")] string WorkspaceName

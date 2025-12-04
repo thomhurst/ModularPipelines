@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "acl", "wait")]
+[CliSubCommand("networkfabric", "acl", "wait")]
 public record AzNetworkfabricAclWaitOptions : AzOptions
 {
     [CliFlag("--created")]

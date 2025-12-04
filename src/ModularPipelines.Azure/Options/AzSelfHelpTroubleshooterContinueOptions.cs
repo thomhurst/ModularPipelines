@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("self-help", "troubleshooter", "continue")]
+[CliSubCommand("self-help", "troubleshooter", "continue")]
 public record AzSelfHelpTroubleshooterContinueOptions(
 [property: CliOption("--scope")] string Scope,
 [property: CliOption("--troubleshooter-name")] string TroubleshooterName

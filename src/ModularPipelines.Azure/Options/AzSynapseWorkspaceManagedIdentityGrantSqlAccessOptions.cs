@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "workspace", "managed-identity", "grant-sql-access")]
+[CliSubCommand("synapse", "workspace", "managed-identity", "grant-sql-access")]
 public record AzSynapseWorkspaceManagedIdentityGrantSqlAccessOptions : AzOptions
 {
     [CliOption("--ids")]

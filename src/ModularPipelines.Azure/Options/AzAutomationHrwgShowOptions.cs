@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation", "hrwg", "show")]
+[CliSubCommand("automation", "hrwg", "show")]
 public record AzAutomationHrwgShowOptions : AzOptions
 {
     [CliOption("--automation-account-name")]

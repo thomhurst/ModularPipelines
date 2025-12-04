@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "sql", "pool", "audit-policy", "show")]
+[CliSubCommand("synapse", "sql", "pool", "audit-policy", "show")]
 public record AzSynapseSqlPoolAuditPolicyShowOptions : AzOptions
 {
     [CliOption("--ids")]

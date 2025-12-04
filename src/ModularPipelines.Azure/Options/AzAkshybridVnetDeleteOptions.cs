@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("akshybrid", "vnet", "delete")]
+[CliSubCommand("akshybrid", "vnet", "delete")]
 public record AzAkshybridVnetDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("urestackhci", "virtualmachine", "stop")]
+[CliSubCommand("urestackhci", "virtualmachine", "stop")]
 public record AzAzurestackhciVirtualmachineStopOptions : AzOptions
 {
     [CliOption("--ids")]

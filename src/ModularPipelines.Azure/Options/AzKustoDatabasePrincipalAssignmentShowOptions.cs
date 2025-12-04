@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "database-principal-assignment", "show")]
+[CliSubCommand("kusto", "database-principal-assignment", "show")]
 public record AzKustoDatabasePrincipalAssignmentShowOptions : AzOptions
 {
     [CliOption("--cluster-name")]

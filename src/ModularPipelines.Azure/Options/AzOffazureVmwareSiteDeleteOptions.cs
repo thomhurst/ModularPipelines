@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("offure", "vmware", "site", "delete")]
+[CliSubCommand("offure", "vmware", "site", "delete")]
 public record AzOffazureVmwareSiteDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

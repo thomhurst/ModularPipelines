@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "token", "credential", "delete")]
+[CliSubCommand("acr", "token", "credential", "delete")]
 public record AzAcrTokenCredentialDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--registry")] string Registry

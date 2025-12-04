@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("confidentialledger", "managedccfs", "create")]
+[CliSubCommand("confidentialledger", "managedccfs", "create")]
 public record AzConfidentialledgerManagedccfsCreateOptions(
 [property: CliOption("--members")] string Members,
 [property: CliOption("--name")] string Name,

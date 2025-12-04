@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vpn-gateway", "show")]
+[CliSubCommand("network", "vpn-gateway", "show")]
 public record AzNetworkVpnGatewayShowOptions : AzOptions
 {
     [CliOption("--ids")]

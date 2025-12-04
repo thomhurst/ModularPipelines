@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "mongodb", "restorable-collection", "list")]
+[CliSubCommand("cosmosdb", "mongodb", "restorable-collection", "list")]
 public record AzCosmosdbMongodbRestorableCollectionListOptions(
 [property: CliOption("--database-rid")] string DatabaseRid,
 [property: CliOption("--instance-id")] string InstanceId,

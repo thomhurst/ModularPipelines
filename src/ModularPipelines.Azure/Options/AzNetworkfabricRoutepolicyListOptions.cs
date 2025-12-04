@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "routepolicy", "list")]
+[CliSubCommand("networkfabric", "routepolicy", "list")]
 public record AzNetworkfabricRoutepolicyListOptions : AzOptions
 {
     [CliOption("--resource-group")]

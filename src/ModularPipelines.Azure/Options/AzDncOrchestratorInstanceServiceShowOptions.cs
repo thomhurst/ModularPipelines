@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dnc", "orchestrator-instance-service", "show")]
+[CliSubCommand("dnc", "orchestrator-instance-service", "show")]
 public record AzDncOrchestratorInstanceServiceShowOptions : AzOptions
 {
     [CliOption("--ids")]

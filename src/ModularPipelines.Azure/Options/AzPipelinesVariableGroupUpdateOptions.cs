@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "variable-group", "update")]
+[CliSubCommand("pipelines", "variable-group", "update")]
 public record AzPipelinesVariableGroupUpdateOptions(
 [property: CliOption("--group-id")] string GroupId
 ) : AzOptions

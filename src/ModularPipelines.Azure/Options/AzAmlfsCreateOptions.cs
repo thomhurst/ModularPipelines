@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("amlfs", "create")]
+[CliSubCommand("amlfs", "create")]
 public record AzAmlfsCreateOptions(
 [property: CliOption("--aml-filesystem-name")] string AmlFilesystemName,
 [property: CliOption("--resource-group")] string ResourceGroup

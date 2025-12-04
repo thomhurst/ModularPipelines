@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "security-policy", "show")]
+[CliSubCommand("afd", "security-policy", "show")]
 public record AzAfdSecurityPolicyShowOptions : AzOptions
 {
     [CliOption("--ids")]

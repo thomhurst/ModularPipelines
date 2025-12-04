@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "schema-registry", "show")]
+[CliSubCommand("eventhubs", "namespace", "schema-registry", "show")]
 public record AzEventhubsNamespaceSchemaRegistryShowOptions : AzOptions
 {
     [CliOption("--ids")]

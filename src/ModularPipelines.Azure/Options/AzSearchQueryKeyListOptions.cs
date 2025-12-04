@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("search", "query-key", "list")]
+[CliSubCommand("search", "query-key", "list")]
 public record AzSearchQueryKeyListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--service-name")] string ServiceName

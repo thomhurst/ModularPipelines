@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("config", "set")]
+[CliSubCommand("config", "set")]
 public record AzConfigSetOptions : AzOptions
 {
     [CliFlag("--local")]

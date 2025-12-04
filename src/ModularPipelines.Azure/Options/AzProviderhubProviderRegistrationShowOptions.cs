@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("providerhub", "provider-registration", "show")]
+[CliSubCommand("providerhub", "provider-registration", "show")]
 public record AzProviderhubProviderRegistrationShowOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "metadata", "create")]
+[CliSubCommand("sentinel", "metadata", "create")]
 public record AzSentinelMetadataCreateOptions(
 [property: CliOption("--metadata-name")] string MetadataName,
 [property: CliOption("--resource-group")] string ResourceGroup,

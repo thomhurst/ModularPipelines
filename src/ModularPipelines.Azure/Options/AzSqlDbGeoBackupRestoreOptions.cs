@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "geo-backup", "restore")]
+[CliSubCommand("sql", "db", "geo-backup", "restore")]
 public record AzSqlDbGeoBackupRestoreOptions(
 [property: CliOption("--dest-database")] string DestDatabase,
 [property: CliOption("--dest-server")] string DestServer,

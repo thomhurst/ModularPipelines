@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "access-restriction", "set")]
+[CliSubCommand("webapp", "config", "access-restriction", "set")]
 public record AzWebappConfigAccessRestrictionSetOptions(
 [property: CliFlag("--use-same-restrictions-for-scm-site")] bool UseSameRestrictionsForScmSite
 ) : AzOptions

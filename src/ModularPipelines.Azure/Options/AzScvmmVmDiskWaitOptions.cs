@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vm", "disk", "wait")]
+[CliSubCommand("scvmm", "vm", "disk", "wait")]
 public record AzScvmmVmDiskWaitOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--virtual-machine-name")] string VirtualMachineName

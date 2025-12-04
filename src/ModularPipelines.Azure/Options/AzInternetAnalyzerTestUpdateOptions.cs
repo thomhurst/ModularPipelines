@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("internet-analyzer", "test", "update")]
+[CliSubCommand("internet-analyzer", "test", "update")]
 public record AzInternetAnalyzerTestUpdateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--profile-name")] string ProfileName,

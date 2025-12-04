@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vm", "extension", "list")]
+[CliSubCommand("scvmm", "vm", "extension", "list")]
 public record AzScvmmVmExtensionListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--vm-name")] string VmName

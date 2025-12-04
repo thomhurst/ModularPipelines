@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "run-command", "create")]
+[CliSubCommand("vmss", "run-command", "create")]
 public record AzVmssRunCommandCreateOptions(
 [property: CliOption("--instance-id")] string InstanceId,
 [property: CliOption("--name")] string Name,

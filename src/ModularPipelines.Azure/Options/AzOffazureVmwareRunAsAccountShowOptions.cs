@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("offure", "vmware", "run-as-account", "show")]
+[CliSubCommand("offure", "vmware", "run-as-account", "show")]
 public record AzOffazureVmwareRunAsAccountShowOptions : AzOptions
 {
     [CliOption("--account-name")]

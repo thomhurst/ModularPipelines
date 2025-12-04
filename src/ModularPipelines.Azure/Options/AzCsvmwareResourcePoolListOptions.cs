@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("csvmware", "resource-pool", "list")]
+[CliSubCommand("csvmware", "resource-pool", "list")]
 public record AzCsvmwareResourcePoolListOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--private-cloud")] string PrivateCloud

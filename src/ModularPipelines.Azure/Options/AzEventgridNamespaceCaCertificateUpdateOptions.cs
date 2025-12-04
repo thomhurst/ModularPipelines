@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "namespace", "ca-certificate", "update")]
+[CliSubCommand("eventgrid", "namespace", "ca-certificate", "update")]
 public record AzEventgridNamespaceCaCertificateUpdateOptions : AzOptions
 {
     [CliOption("--add")]

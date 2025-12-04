@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("snapshot", "list")]
+[CliSubCommand("snapshot", "list")]
 public record AzSnapshotListOptions : AzOptions
 {
     [CliOption("--max-items")]

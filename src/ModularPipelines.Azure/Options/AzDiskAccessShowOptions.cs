@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-access", "show")]
+[CliSubCommand("disk-access", "show")]
 public record AzDiskAccessShowOptions : AzOptions
 {
     [CliOption("--disk-access-name")]

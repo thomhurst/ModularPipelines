@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appservice", "hybrid-connection", "set-key")]
+[CliSubCommand("appservice", "hybrid-connection", "set-key")]
 public record AzAppserviceHybridConnectionSetKeyOptions(
 [property: CliOption("--hybrid-connection")] string HybridConnection,
 [property: CliOption("--key-type")] string KeyType,

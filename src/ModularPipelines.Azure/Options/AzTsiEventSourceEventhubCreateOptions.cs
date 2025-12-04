@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tsi", "event-source", "eventhub", "create")]
+[CliSubCommand("tsi", "event-source", "eventhub", "create")]
 public record AzTsiEventSourceEventhubCreateOptions(
 [property: CliOption("--consumer-group-name")] string ConsumerGroupName,
 [property: CliOption("--environment-name")] string EnvironmentName,

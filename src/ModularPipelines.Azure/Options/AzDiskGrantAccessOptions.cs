@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk", "grant-access")]
+[CliSubCommand("disk", "grant-access")]
 public record AzDiskGrantAccessOptions(
 [property: CliOption("--duration-in-seconds")] string DurationInSeconds
 ) : AzOptions

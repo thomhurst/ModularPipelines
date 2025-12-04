@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "task", "logs")]
+[CliSubCommand("acr", "task", "logs")]
 public record AzAcrTaskLogsOptions(
 [property: CliOption("--registry")] string Registry
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "nv", "show-secret")]
+[CliSubCommand("apim", "nv", "show-secret")]
 public record AzApimNvShowSecretOptions(
 [property: CliOption("--named-value-id")] string NamedValueId,
 [property: CliOption("--resource-group")] string ResourceGroup,

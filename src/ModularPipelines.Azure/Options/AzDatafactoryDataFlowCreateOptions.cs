@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "data-flow", "create")]
+[CliSubCommand("datafactory", "data-flow", "create")]
 public record AzDatafactoryDataFlowCreateOptions(
 [property: CliOption("--data-flow-name")] string DataFlowName,
 [property: CliOption("--factory-name")] string FactoryName,

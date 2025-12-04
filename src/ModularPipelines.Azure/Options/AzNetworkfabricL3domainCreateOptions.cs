@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "l3domain", "create")]
+[CliSubCommand("networkfabric", "l3domain", "create")]
 public record AzNetworkfabricL3domainCreateOptions(
 [property: CliOption("--nf-id")] string NfId,
 [property: CliOption("--resource-group")] string ResourceGroup,

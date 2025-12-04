@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-endpoint", "ip-config", "add")]
+[CliSubCommand("network", "private-endpoint", "ip-config", "add")]
 public record AzNetworkPrivateEndpointIpConfigAddOptions(
 [property: CliOption("--endpoint-name")] string EndpointName,
 [property: CliOption("--name")] string Name,

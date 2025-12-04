@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stream-analytics", "private-endpoint", "wait")]
+[CliSubCommand("stream-analytics", "private-endpoint", "wait")]
 public record AzStreamAnalyticsPrivateEndpointWaitOptions : AzOptions
 {
     [CliOption("--cluster-name")]

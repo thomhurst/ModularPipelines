@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "l3network", "create")]
+[CliSubCommand("networkcloud", "l3network", "create")]
 public record AzNetworkcloudL3networkCreateOptions(
 [property: CliOption("--extended-location")] string ExtendedLocation,
 [property: CliOption("--l3-isolation-domain-id")] string L3IsolationDomainId,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("offure", "hyperv", "host", "show")]
+[CliSubCommand("offure", "hyperv", "host", "show")]
 public record AzOffazureHypervHostShowOptions : AzOptions
 {
     [CliOption("--host-name")]

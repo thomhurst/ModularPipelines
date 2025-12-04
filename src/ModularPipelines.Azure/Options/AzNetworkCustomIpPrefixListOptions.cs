@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "custom-ip", "prefix", "list")]
+[CliSubCommand("network", "custom-ip", "prefix", "list")]
 public record AzNetworkCustomIpPrefixListOptions : AzOptions
 {
     [CliOption("--resource-group")]

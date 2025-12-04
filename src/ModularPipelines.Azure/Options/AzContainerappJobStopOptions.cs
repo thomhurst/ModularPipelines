@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "job", "stop")]
+[CliSubCommand("containerapp", "job", "stop")]
 public record AzContainerappJobStopOptions : AzOptions
 {
     [CliOption("--execution-name-list")]

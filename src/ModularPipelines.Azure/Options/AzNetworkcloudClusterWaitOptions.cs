@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cluster", "wait")]
+[CliSubCommand("networkcloud", "cluster", "wait")]
 public record AzNetworkcloudClusterWaitOptions : AzOptions
 {
     [CliOption("--cluster-name")]

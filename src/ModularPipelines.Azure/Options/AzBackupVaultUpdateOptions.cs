@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "vault", "update")]
+[CliSubCommand("backup", "vault", "update")]
 public record AzBackupVaultUpdateOptions : AzOptions
 {
     [CliOption("--classic-alerts")]

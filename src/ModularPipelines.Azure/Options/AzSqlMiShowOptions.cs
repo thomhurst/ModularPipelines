@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "show")]
+[CliSubCommand("sql", "mi", "show")]
 public record AzSqlMiShowOptions : AzOptions
 {
     [CliFlag("--expand-ad-admin")]

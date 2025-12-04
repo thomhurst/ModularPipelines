@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "component", "restore")]
+[CliSubCommand("ml", "component", "restore")]
 public record AzMlComponentRestoreOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

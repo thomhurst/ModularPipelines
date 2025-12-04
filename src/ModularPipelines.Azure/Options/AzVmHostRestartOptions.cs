@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "host", "restart")]
+[CliSubCommand("vm", "host", "restart")]
 public record AzVmHostRestartOptions : AzOptions
 {
     [CliOption("--host-group")]

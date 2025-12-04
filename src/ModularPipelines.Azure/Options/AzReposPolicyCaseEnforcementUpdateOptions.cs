@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "policy", "case-enforcement", "update")]
+[CliSubCommand("repos", "policy", "case-enforcement", "update")]
 public record AzReposPolicyCaseEnforcementUpdateOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions

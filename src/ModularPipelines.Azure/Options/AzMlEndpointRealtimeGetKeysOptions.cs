@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "endpoint", "realtime", "get-keys")]
+[CliSubCommand("ml", "endpoint", "realtime", "get-keys")]
 public record AzMlEndpointRealtimeGetKeysOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

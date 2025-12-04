@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "perimeter", "profile", "access-rule", "show")]
+[CliSubCommand("network", "perimeter", "profile", "access-rule", "show")]
 public record AzNetworkPerimeterProfileAccessRuleShowOptions : AzOptions
 {
     [CliOption("--access-rule-name")]

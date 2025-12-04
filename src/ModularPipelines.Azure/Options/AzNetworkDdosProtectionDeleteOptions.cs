@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "ddos-protection", "delete")]
+[CliSubCommand("network", "ddos-protection", "delete")]
 public record AzNetworkDdosProtectionDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

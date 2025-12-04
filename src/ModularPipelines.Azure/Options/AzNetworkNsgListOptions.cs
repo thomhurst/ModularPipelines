@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "nsg", "list")]
+[CliSubCommand("network", "nsg", "list")]
 public record AzNetworkNsgListOptions : AzOptions
 {
     [CliOption("--resource-group")]

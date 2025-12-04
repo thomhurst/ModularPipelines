@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("graph-services", "account", "list")]
+[CliSubCommand("graph-services", "account", "list")]
 public record AzGraphServicesAccountListOptions : AzOptions
 {
     [CliOption("--resource-group")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("blockchain", "transaction-node", "create")]
+[CliSubCommand("blockchain", "transaction-node", "create")]
 public record AzBlockchainTransactionNodeCreateOptions(
 [property: CliOption("--member-name")] string MemberName,
 [property: CliOption("--name")] string Name,

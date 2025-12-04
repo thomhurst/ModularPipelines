@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "policy", "required-reviewer", "update")]
+[CliSubCommand("repos", "policy", "required-reviewer", "update")]
 public record AzReposPolicyRequiredReviewerUpdateOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions

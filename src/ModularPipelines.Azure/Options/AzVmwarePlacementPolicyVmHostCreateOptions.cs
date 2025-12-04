@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "placement-policy", "vm-host", "create")]
+[CliSubCommand("vmware", "placement-policy", "vm-host", "create")]
 public record AzVmwarePlacementPolicyVmHostCreateOptions(
 [property: CliOption("--affinity-type")] string AffinityType,
 [property: CliOption("--cluster-name")] string ClusterName,

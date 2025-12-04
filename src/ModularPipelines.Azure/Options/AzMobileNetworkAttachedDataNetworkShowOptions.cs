@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mobile-network", "attached-data-network", "show")]
+[CliSubCommand("mobile-network", "attached-data-network", "show")]
 public record AzMobileNetworkAttachedDataNetworkShowOptions : AzOptions
 {
     [CliOption("--adn-name")]

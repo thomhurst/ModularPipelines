@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "disk", "attach")]
+[CliSubCommand("vmss", "disk", "attach")]
 public record AzVmssDiskAttachOptions : AzOptions
 {
     [CliOption("--caching")]

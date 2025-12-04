@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kusto", "data-connection", "event-grid", "update")]
+[CliSubCommand("synapse", "kusto", "data-connection", "event-grid", "update")]
 public record AzSynapseKustoDataConnectionEventGridUpdateOptions : AzOptions
 {
     [CliOption("--blob-storage-event-type")]

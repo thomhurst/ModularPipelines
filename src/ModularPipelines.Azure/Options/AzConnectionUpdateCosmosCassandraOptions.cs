@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "update", "cosmos-cassandra")]
+[CliSubCommand("connection", "update", "cosmos-cassandra")]
 public record AzConnectionUpdateCosmosCassandraOptions : AzOptions
 {
     [CliOption("--client-type")]

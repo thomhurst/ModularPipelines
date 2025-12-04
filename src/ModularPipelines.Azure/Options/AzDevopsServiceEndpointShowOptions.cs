@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "service-endpoint", "show")]
+[CliSubCommand("devops", "service-endpoint", "show")]
 public record AzDevopsServiceEndpointShowOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "virtual-cluster", "show")]
+[CliSubCommand("sql", "virtual-cluster", "show")]
 public record AzSqlVirtualClusterShowOptions : AzOptions
 {
     [CliOption("--ids")]

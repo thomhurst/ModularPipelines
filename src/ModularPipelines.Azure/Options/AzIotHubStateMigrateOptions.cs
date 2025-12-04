@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "state", "migrate")]
+[CliSubCommand("iot", "hub", "state", "migrate")]
 public record AzIotHubStateMigrateOptions : AzOptions
 {
     [CliOption("--aspects")]

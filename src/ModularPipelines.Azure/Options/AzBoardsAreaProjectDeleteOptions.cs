@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("boards", "area", "project", "delete")]
+[CliSubCommand("boards", "area", "project", "delete")]
 public record AzBoardsAreaProjectDeleteOptions(
 [property: CliOption("--path")] string Path
 ) : AzOptions

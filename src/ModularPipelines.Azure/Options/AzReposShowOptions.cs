@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "show")]
+[CliSubCommand("repos", "show")]
 public record AzReposShowOptions(
 [property: CliOption("--repository")] string Repository
 ) : AzOptions

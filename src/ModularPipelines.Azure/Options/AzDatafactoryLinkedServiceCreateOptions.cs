@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "linked-service", "create")]
+[CliSubCommand("datafactory", "linked-service", "create")]
 public record AzDatafactoryLinkedServiceCreateOptions(
 [property: CliOption("--factory-name")] string FactoryName,
 [property: CliOption("--linked-service-name")] string LinkedServiceName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "pool", "create")]
+[CliSubCommand("batch", "pool", "create")]
 public record AzBatchPoolCreateOptions : AzOptions
 {
     [CliFlag("--accelerated-networking")]

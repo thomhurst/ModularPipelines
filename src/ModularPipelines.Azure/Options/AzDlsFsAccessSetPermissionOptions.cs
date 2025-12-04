@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "fs", "access", "set-permission")]
+[CliSubCommand("dls", "fs", "access", "set-permission")]
 public record AzDlsFsAccessSetPermissionOptions(
 [property: CliOption("--path")] string Path,
 [property: CliOption("--permission")] string Permission

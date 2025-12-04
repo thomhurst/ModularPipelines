@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("bicep", "restore")]
+[CliSubCommand("bicep", "restore")]
 public record AzBicepRestoreOptions(
 [property: CliOption("--file")] string File
 ) : AzOptions

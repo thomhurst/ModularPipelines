@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cdn", "name-exists")]
+[CliSubCommand("cdn", "name-exists")]
 public record AzCdnNameExistsOptions : AzOptions
 {
     [CliOption("--ids")]

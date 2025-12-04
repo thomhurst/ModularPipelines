@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "sideload", "deploy")]
+[CliSubCommand("sphere", "device", "sideload", "deploy")]
 public record AzSphereDeviceSideloadDeployOptions(
 [property: CliOption("--image-package")] string ImagePackage
 ) : AzOptions

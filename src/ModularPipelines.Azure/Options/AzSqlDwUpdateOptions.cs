@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "dw", "update")]
+[CliSubCommand("sql", "dw", "update")]
 public record AzSqlDwUpdateOptions : AzOptions
 {
     [CliOption("--add")]

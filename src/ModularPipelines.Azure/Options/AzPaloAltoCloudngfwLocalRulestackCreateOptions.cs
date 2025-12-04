@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("palo-alto", "cloudngfw", "local-rulestack", "create")]
+[CliSubCommand("palo-alto", "cloudngfw", "local-rulestack", "create")]
 public record AzPaloAltoCloudngfwLocalRulestackCreateOptions(
 [property: CliOption("--local-rulestack-name")] string LocalRulestackName,
 [property: CliOption("--resource-group")] string ResourceGroup

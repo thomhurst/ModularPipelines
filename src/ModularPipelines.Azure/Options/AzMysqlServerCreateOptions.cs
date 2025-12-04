@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "create")]
+[CliSubCommand("mysql", "server", "create")]
 public record AzMysqlServerCreateOptions : AzOptions
 {
     [CliOption("--admin-password")]

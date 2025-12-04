@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("peering", "registered-asn", "update")]
+[CliSubCommand("peering", "registered-asn", "update")]
 public record AzPeeringRegisteredAsnUpdateOptions(
 [property: CliOption("--peering-name")] string PeeringName,
 [property: CliOption("--registered-asn-name")] string RegisteredAsnName,

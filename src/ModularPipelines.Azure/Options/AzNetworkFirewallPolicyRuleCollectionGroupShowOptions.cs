@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "firewall", "policy", "rule-collection-group", "show")]
+[CliSubCommand("network", "firewall", "policy", "rule-collection-group", "show")]
 public record AzNetworkFirewallPolicyRuleCollectionGroupShowOptions : AzOptions
 {
     [CliOption("--ids")]

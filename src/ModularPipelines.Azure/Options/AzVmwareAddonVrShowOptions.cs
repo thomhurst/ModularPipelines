@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "addon", "vr", "show")]
+[CliSubCommand("vmware", "addon", "vr", "show")]
 public record AzVmwareAddonVrShowOptions : AzOptions
 {
     [CliOption("--ids")]

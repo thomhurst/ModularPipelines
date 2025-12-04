@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "oidc-issuer", "rotate-signing-keys")]
+[CliSubCommand("aks", "oidc-issuer", "rotate-signing-keys")]
 public record AzAksOidcIssuerRotateSigningKeysOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

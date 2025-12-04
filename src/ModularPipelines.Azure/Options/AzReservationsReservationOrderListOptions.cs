@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("reservations", "reservation-order", "list")]
+[CliSubCommand("reservations", "reservation-order", "list")]
 public record AzReservationsReservationOrderListOptions : AzOptions
 {
     [CliOption("--max-items")]

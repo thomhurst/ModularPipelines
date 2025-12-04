@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automanage", "configuration-profile-assignment", "cluster", "delete")]
+[CliSubCommand("automanage", "configuration-profile-assignment", "cluster", "delete")]
 public record AzAutomanageConfigurationProfileAssignmentClusterDeleteOptions : AzOptions
 {
     [CliOption("--cluster-name")]

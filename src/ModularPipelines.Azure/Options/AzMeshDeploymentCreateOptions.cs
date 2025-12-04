@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mesh", "deployment", "create")]
+[CliSubCommand("mesh", "deployment", "create")]
 public record AzMeshDeploymentCreateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

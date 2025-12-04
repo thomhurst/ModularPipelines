@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "vault", "backup-properties", "set")]
+[CliSubCommand("backup", "vault", "backup-properties", "set")]
 public record AzBackupVaultBackupPropertiesSetOptions : AzOptions
 {
     [CliOption("--backup-storage-redundancy")]

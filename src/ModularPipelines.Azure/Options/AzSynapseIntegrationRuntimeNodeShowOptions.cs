@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "integration-runtime-node", "show")]
+[CliSubCommand("synapse", "integration-runtime-node", "show")]
 public record AzSynapseIntegrationRuntimeNodeShowOptions(
 [property: CliOption("--node-name")] string NodeName
 ) : AzOptions

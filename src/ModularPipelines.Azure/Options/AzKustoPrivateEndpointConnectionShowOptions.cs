@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "private-endpoint-connection", "show")]
+[CliSubCommand("kusto", "private-endpoint-connection", "show")]
 public record AzKustoPrivateEndpointConnectionShowOptions : AzOptions
 {
     [CliOption("--cluster-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mobile-network", "pccp", "list")]
+[CliSubCommand("mobile-network", "pccp", "list")]
 public record AzMobileNetworkPccpListOptions : AzOptions
 {
     [CliOption("--resource-group")]

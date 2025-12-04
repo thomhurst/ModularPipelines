@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "backup-vault", "wait")]
+[CliSubCommand("dataprotection", "backup-vault", "wait")]
 public record AzDataprotectionBackupVaultWaitOptions : AzOptions
 {
     [CliFlag("--created")]

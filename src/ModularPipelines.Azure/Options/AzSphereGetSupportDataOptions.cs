@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "get-support-data")]
+[CliSubCommand("sphere", "get-support-data")]
 public record AzSphereGetSupportDataOptions(
 [property: CliOption("--catalog")] string Catalog,
 [property: CliOption("--output-file")] string OutputFile,

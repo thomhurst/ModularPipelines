@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "route", "create")]
+[CliSubCommand("dt", "route", "create")]
 public record AzDtRouteCreateOptions(
 [property: CliOption("--dt-name")] string DtName,
 [property: CliOption("--en")] string En,

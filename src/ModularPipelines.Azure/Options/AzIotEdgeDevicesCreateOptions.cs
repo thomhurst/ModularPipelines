@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "edge", "devices", "create")]
+[CliSubCommand("iot", "edge", "devices", "create")]
 public record AzIotEdgeDevicesCreateOptions : AzOptions
 {
     [CliOption("--auth-type")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("relay", "namespace", "list")]
+[CliSubCommand("relay", "namespace", "list")]
 public record AzRelayNamespaceListOptions : AzOptions
 {
     [CliOption("--max-items")]

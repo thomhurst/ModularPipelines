@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "ipextendedcommunity", "create")]
+[CliSubCommand("networkfabric", "ipextendedcommunity", "create")]
 public record AzNetworkfabricIpextendedcommunityCreateOptions(
 [property: CliOption("--ip-extended-community-rules")] string IpExtendedCommunityRules,
 [property: CliOption("--resource-group")] string ResourceGroup,

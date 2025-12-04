@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "app", "append-persistent-storage")]
+[CliSubCommand("spring", "app", "append-persistent-storage")]
 public record AzSpringAppAppendPersistentStorageOptions(
 [property: CliOption("--mount-path")] string MountPath,
 [property: CliOption("--name")] string Name,

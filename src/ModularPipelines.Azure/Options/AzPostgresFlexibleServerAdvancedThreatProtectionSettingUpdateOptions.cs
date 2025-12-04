@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "advanced-threat-protection-setting", "update")]
+[CliSubCommand("postgres", "flexible-server", "advanced-threat-protection-setting", "update")]
 public record AzPostgresFlexibleServerAdvancedThreatProtectionSettingUpdateOptions(
 [property: CliOption("--state")] string State
 ) : AzOptions

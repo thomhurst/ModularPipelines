@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "activity-log", "alert", "update")]
+[CliSubCommand("monitor", "activity-log", "alert", "update")]
 public record AzMonitorActivityLogAlertUpdateOptions : AzOptions
 {
     [CliOption("--activity-log-alert-name")]

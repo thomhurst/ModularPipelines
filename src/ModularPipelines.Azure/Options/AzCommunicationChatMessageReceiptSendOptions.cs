@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication", "chat", "message", "receipt", "send")]
+[CliSubCommand("communication", "chat", "message", "receipt", "send")]
 public record AzCommunicationChatMessageReceiptSendOptions(
 [property: CliOption("--message-id")] string MessageId,
 [property: CliOption("--thread")] string Thread

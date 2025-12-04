@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("managedapp", "definition", "update")]
+[CliSubCommand("managedapp", "definition", "update")]
 public record AzManagedappDefinitionUpdateOptions(
 [property: CliOption("--authorizations")] string Authorizations,
 [property: CliOption("--description")] string Description,

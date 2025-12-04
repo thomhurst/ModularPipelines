@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "update")]
+[CliSubCommand("mysql", "flexible-server", "update")]
 public record AzMysqlFlexibleServerUpdateOptions : AzOptions
 {
     [CliOption("--add")]

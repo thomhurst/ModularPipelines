@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datamigration", "performance-data-collection")]
+[CliSubCommand("datamigration", "performance-data-collection")]
 public record AzDatamigrationPerformanceDataCollectionOptions : AzOptions
 {
     [CliOption("--config-file-path")]

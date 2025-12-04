@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet-gateway", "nat-rule", "add")]
+[CliSubCommand("network", "vnet-gateway", "nat-rule", "add")]
 public record AzNetworkVnetGatewayNatRuleAddOptions(
 [property: CliOption("--external-mappings")] string ExternalMappings,
 [property: CliOption("--gateway-name")] string GatewayName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("nginx", "deployment", "certificate", "wait")]
+[CliSubCommand("nginx", "deployment", "certificate", "wait")]
 public record AzNginxDeploymentCertificateWaitOptions : AzOptions
 {
     [CliOption("--certificate-name")]

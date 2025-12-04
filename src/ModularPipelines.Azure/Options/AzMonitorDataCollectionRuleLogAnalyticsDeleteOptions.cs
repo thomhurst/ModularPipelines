@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "data-collection", "rule", "log-analytics", "delete")]
+[CliSubCommand("monitor", "data-collection", "rule", "log-analytics", "delete")]
 public record AzMonitorDataCollectionRuleLogAnalyticsDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

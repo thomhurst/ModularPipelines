@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "watcher", "connection-monitor", "test-group", "add")]
+[CliSubCommand("network", "watcher", "connection-monitor", "test-group", "add")]
 public record AzNetworkWatcherConnectionMonitorTestGroupAddOptions(
 [property: CliOption("--connection-monitor")] string ConnectionMonitor,
 [property: CliOption("--endpoint-dest-name")] string EndpointDestName,

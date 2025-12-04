@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "policy", "work-item-linking", "update")]
+[CliSubCommand("repos", "policy", "work-item-linking", "update")]
 public record AzReposPolicyWorkItemLinkingUpdateOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "create", "mysql-flexible")]
+[CliSubCommand("connection", "create", "mysql-flexible")]
 public record AzConnectionCreateMysqlFlexibleOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

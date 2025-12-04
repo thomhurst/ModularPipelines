@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vhub", "bgpconnection", "show")]
+[CliSubCommand("network", "vhub", "bgpconnection", "show")]
 public record AzNetworkVhubBgpconnectionShowOptions : AzOptions
 {
     [CliOption("--ids")]

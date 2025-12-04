@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "devbox-definition", "list")]
+[CliSubCommand("devcenter", "admin", "devbox-definition", "list")]
 public record AzDevcenterAdminDevboxDefinitionListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

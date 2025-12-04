@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "compose", "create")]
+[CliSubCommand("containerapp", "compose", "create")]
 public record AzContainerappComposeCreateOptions(
 [property: CliOption("--environment")] string Environment,
 [property: CliOption("--resource-group")] string ResourceGroup

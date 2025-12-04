@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "namespace", "permission-binding", "update")]
+[CliSubCommand("eventgrid", "namespace", "permission-binding", "update")]
 public record AzEventgridNamespacePermissionBindingUpdateOptions : AzOptions
 {
     [CliOption("--add")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "cors", "add")]
+[CliSubCommand("storage", "cors", "add")]
 public record AzStorageCorsAddOptions(
 [property: CliOption("--methods")] string Methods,
 [property: CliOption("--origins")] string Origins,

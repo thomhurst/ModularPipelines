@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "list")]
+[CliSubCommand("vmss", "list")]
 public record AzVmssListOptions : AzOptions
 {
     [CliOption("--max-items")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "managed-private-endpoint", "delete")]
+[CliSubCommand("datafactory", "managed-private-endpoint", "delete")]
 public record AzDatafactoryManagedPrivateEndpointDeleteOptions : AzOptions
 {
     [CliOption("--factory-name")]

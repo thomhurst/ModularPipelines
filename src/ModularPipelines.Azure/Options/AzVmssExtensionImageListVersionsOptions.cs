@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "extension", "image", "list-versions")]
+[CliSubCommand("vmss", "extension", "image", "list-versions")]
 public record AzVmssExtensionImageListVersionsOptions : AzOptions
 {
     [CliOption("--filter")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "security-domain", "wait")]
+[CliSubCommand("keyvault", "security-domain", "wait")]
 public record AzKeyvaultSecurityDomainWaitOptions : AzOptions
 {
     [CliOption("--hsm-name")]

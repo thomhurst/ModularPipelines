@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "classification", "recommendation", "list")]
+[CliSubCommand("sql", "db", "classification", "recommendation", "list")]
 public record AzSqlDbClassificationRecommendationListOptions : AzOptions
 {
     [CliOption("--filter")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "du", "account", "private-endpoint-connection", "show")]
+[CliSubCommand("iot", "du", "account", "private-endpoint-connection", "show")]
 public record AzIotDuAccountPrivateEndpointConnectionShowOptions(
 [property: CliOption("--account")] int Account,
 [property: CliOption("--cn")] string Cn

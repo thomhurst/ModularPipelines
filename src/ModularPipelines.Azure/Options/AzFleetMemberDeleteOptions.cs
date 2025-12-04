@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("fleet", "member", "delete")]
+[CliSubCommand("fleet", "member", "delete")]
 public record AzFleetMemberDeleteOptions(
 [property: CliOption("--fleet-name")] string FleetName,
 [property: CliOption("--name")] string Name,

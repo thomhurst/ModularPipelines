@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "express-route", "peering", "delete")]
+[CliSubCommand("network", "express-route", "peering", "delete")]
 public record AzNetworkExpressRoutePeeringDeleteOptions : AzOptions
 {
     [CliOption("--circuit-name")]

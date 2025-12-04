@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "job", "recurrence", "show")]
+[CliSubCommand("dla", "job", "recurrence", "show")]
 public record AzDlaJobRecurrenceShowOptions(
 [property: CliOption("--recurrence-identity")] string RecurrenceIdentity
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server", "show-connection-string")]
+[CliSubCommand("postgres", "server", "show-connection-string")]
 public record AzPostgresServerShowConnectionStringOptions : AzOptions
 {
     [CliOption("--admin-password")]

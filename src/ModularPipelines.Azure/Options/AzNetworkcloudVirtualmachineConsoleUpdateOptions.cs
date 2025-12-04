@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "virtualmachine", "console", "update")]
+[CliSubCommand("networkcloud", "virtualmachine", "console", "update")]
 public record AzNetworkcloudVirtualmachineConsoleUpdateOptions : AzOptions
 {
     [CliFlag("--enabled")]

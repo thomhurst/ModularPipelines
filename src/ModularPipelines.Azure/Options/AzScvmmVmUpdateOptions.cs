@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vm", "update")]
+[CliSubCommand("scvmm", "vm", "update")]
 public record AzScvmmVmUpdateOptions : AzOptions
 {
     [CliOption("--availability-sets")]

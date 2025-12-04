@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "instance-pool", "create")]
+[CliSubCommand("sql", "instance-pool", "create")]
 public record AzSqlInstancePoolCreateOptions(
 [property: CliOption("--capacity")] string Capacity,
 [property: CliOption("--edition")] string Edition,

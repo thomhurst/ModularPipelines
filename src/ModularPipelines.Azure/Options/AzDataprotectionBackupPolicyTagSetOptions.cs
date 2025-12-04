@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "backup-policy", "tag", "set")]
+[CliSubCommand("dataprotection", "backup-policy", "tag", "set")]
 public record AzDataprotectionBackupPolicyTagSetOptions(
 [property: CliOption("--criteria")] string Criteria,
 [property: CliOption("--name")] string Name,

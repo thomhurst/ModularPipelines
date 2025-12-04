@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("powerbi", "embedded-capacity", "wait")]
+[CliSubCommand("powerbi", "embedded-capacity", "wait")]
 public record AzPowerbiEmbeddedCapacityWaitOptions : AzOptions
 {
     [CliFlag("--created")]

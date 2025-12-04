@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "manager", "security-admin-config", "wait")]
+[CliSubCommand("network", "manager", "security-admin-config", "wait")]
 public record AzNetworkManagerSecurityAdminConfigWaitOptions : AzOptions
 {
     [CliOption("--configuration-name")]

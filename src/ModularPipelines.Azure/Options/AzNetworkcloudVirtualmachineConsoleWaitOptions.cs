@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "virtualmachine", "console", "wait")]
+[CliSubCommand("networkcloud", "virtualmachine", "console", "wait")]
 public record AzNetworkcloudVirtualmachineConsoleWaitOptions : AzOptions
 {
     [CliOption("--console-name")]

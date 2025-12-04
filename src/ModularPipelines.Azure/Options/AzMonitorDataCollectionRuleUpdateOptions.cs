@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "data-collection", "rule", "update")]
+[CliSubCommand("monitor", "data-collection", "rule", "update")]
 public record AzMonitorDataCollectionRuleUpdateOptions : AzOptions
 {
     [CliOption("--data-flows")]

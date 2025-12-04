@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("peering", "registered-prefix", "create")]
+[CliSubCommand("peering", "registered-prefix", "create")]
 public record AzPeeringRegisteredPrefixCreateOptions(
 [property: CliOption("--peering-name")] string PeeringName,
 [property: CliOption("--registered-prefix-name")] string RegisteredPrefixName,

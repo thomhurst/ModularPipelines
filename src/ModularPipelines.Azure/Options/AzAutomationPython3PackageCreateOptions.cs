@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation", "python3-package", "create")]
+[CliSubCommand("automation", "python3-package", "create")]
 public record AzAutomationPython3PackageCreateOptions(
 [property: CliOption("--automation-account-name")] int AutomationAccountName,
 [property: CliOption("--content-link")] string ContentLink,

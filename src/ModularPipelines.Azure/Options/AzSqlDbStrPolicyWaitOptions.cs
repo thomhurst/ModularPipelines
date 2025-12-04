@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "str-policy", "wait")]
+[CliSubCommand("sql", "db", "str-policy", "wait")]
 public record AzSqlDbStrPolicyWaitOptions(
 [property: CliOption("--policy-name")] string PolicyName
 ) : AzOptions

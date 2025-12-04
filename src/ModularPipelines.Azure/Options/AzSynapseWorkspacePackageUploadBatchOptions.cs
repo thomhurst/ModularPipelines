@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "workspace-package", "upload-batch")]
+[CliSubCommand("synapse", "workspace-package", "upload-batch")]
 public record AzSynapseWorkspacePackageUploadBatchOptions(
 [property: CliOption("--source")] string Source,
 [property: CliOption("--workspace-name")] string WorkspaceName

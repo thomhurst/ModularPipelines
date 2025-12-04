@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "pool", "delete")]
+[CliSubCommand("batch", "pool", "delete")]
 public record AzBatchPoolDeleteOptions(
 [property: CliOption("--pool-id")] string PoolId
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "data-collection", "rule", "log-analytics", "add")]
+[CliSubCommand("monitor", "data-collection", "rule", "log-analytics", "add")]
 public record AzMonitorDataCollectionRuleLogAnalyticsAddOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-id")] string ResourceId

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "instance-failover-group", "create")]
+[CliSubCommand("sql", "instance-failover-group", "create")]
 public record AzSqlInstanceFailoverGroupCreateOptions(
 [property: CliOption("--mi")] string Mi,
 [property: CliOption("--name")] string Name,

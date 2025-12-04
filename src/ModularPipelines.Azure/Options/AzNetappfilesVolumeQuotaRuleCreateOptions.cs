@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "volume", "quota-rule", "create")]
+[CliSubCommand("netappfiles", "volume", "quota-rule", "create")]
 public record AzNetappfilesVolumeQuotaRuleCreateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--pool-name")] string PoolName,

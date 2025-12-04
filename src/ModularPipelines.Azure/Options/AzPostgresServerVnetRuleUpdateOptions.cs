@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server", "vnet-rule", "update")]
+[CliSubCommand("postgres", "server", "vnet-rule", "update")]
 public record AzPostgresServerVnetRuleUpdateOptions(
 [property: CliOption("--subnet")] string Subnet
 ) : AzOptions

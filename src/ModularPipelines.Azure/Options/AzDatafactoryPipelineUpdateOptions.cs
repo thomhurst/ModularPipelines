@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "pipeline", "update")]
+[CliSubCommand("datafactory", "pipeline", "update")]
 public record AzDatafactoryPipelineUpdateOptions : AzOptions
 {
     [CliOption("--activities")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "show")]
+[CliSubCommand("cosmosdb", "show")]
 public record AzCosmosdbShowOptions : AzOptions
 {
     [CliOption("--ids")]

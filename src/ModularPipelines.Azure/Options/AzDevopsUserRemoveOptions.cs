@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "user", "remove")]
+[CliSubCommand("devops", "user", "remove")]
 public record AzDevopsUserRemoveOptions(
 [property: CliOption("--user")] string User
 ) : AzOptions

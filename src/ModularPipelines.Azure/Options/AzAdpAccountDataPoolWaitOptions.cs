@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("adp", "account", "data-pool", "wait")]
+[CliSubCommand("adp", "account", "data-pool", "wait")]
 public record AzAdpAccountDataPoolWaitOptions : AzOptions
 {
     [CliOption("--account-name")]

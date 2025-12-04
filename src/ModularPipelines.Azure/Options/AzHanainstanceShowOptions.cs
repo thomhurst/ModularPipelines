@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hanainstance", "show")]
+[CliSubCommand("hanainstance", "show")]
 public record AzHanainstanceShowOptions : AzOptions
 {
     [CliOption("--ids")]

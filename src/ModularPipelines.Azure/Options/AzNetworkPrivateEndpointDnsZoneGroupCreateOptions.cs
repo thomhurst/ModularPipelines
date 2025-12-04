@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-endpoint", "dns-zone-group", "create")]
+[CliSubCommand("network", "private-endpoint", "dns-zone-group", "create")]
 public record AzNetworkPrivateEndpointDnsZoneGroupCreateOptions(
 [property: CliOption("--endpoint-name")] string EndpointName,
 [property: CliOption("--name")] string Name,

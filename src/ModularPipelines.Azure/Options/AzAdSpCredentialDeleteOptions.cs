@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ad", "sp", "credential", "delete")]
+[CliSubCommand("ad", "sp", "credential", "delete")]
 public record AzAdSpCredentialDeleteOptions(
 [property: CliOption("--id")] string Id,
 [property: CliOption("--key-id")] string KeyId

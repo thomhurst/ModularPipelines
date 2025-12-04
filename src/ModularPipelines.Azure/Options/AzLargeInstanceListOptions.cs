@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("large-instance", "list")]
+[CliSubCommand("large-instance", "list")]
 public record AzLargeInstanceListOptions : AzOptions
 {
     [CliOption("--max-items")]

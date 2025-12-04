@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "instance-failover-group", "update")]
+[CliSubCommand("sql", "instance-failover-group", "update")]
 public record AzSqlInstanceFailoverGroupUpdateOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--name")] string Name,

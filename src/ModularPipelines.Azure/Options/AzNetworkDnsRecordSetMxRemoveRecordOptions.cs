@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "dns", "record-set", "mx", "remove-record")]
+[CliSubCommand("network", "dns", "record-set", "mx", "remove-record")]
 public record AzNetworkDnsRecordSetMxRemoveRecordOptions(
 [property: CliOption("--exchange")] string Exchange,
 [property: CliOption("--preference")] string Preference,

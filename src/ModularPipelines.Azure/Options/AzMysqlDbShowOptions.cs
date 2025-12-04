@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "db", "show")]
+[CliSubCommand("mysql", "db", "show")]
 public record AzMysqlDbShowOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

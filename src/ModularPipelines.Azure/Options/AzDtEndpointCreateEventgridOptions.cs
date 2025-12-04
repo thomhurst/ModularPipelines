@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "endpoint", "create", "eventgrid")]
+[CliSubCommand("dt", "endpoint", "create", "eventgrid")]
 public record AzDtEndpointCreateEventgridOptions(
 [property: CliOption("--dt-name")] string DtName,
 [property: CliOption("--egt")] string Egt,

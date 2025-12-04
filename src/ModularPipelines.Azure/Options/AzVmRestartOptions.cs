@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "restart")]
+[CliSubCommand("vm", "restart")]
 public record AzVmRestartOptions : AzOptions
 {
     [CliFlag("--force")]

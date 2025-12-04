@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "connection", "validate")]
+[CliSubCommand("functionapp", "connection", "validate")]
 public record AzFunctionappConnectionValidateOptions : AzOptions
 {
     [CliOption("--connection")]

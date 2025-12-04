@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "network-rule-set", "list")]
+[CliSubCommand("eventhubs", "namespace", "network-rule-set", "list")]
 public record AzEventhubsNamespaceNetworkRuleSetListOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

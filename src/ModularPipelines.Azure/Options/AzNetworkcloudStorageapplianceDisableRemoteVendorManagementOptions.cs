@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "storageappliance", "disable-remote-vendor-management")]
+[CliSubCommand("networkcloud", "storageappliance", "disable-remote-vendor-management")]
 public record AzNetworkcloudStorageapplianceDisableRemoteVendorManagementOptions : AzOptions
 {
     [CliOption("--ids")]

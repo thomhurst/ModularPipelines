@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "replica", "create")]
+[CliSubCommand("mysql", "flexible-server", "replica", "create")]
 public record AzMysqlFlexibleServerReplicaCreateOptions(
 [property: CliOption("--replica-name")] string ReplicaName,
 [property: CliOption("--resource-group")] string ResourceGroup,

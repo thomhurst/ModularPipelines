@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("powerbi", "embedded-capacity", "show")]
+[CliSubCommand("powerbi", "embedded-capacity", "show")]
 public record AzPowerbiEmbeddedCapacityShowOptions : AzOptions
 {
     [CliOption("--ids")]

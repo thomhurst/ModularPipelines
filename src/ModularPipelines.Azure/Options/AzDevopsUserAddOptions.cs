@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "user", "add")]
+[CliSubCommand("devops", "user", "add")]
 public record AzDevopsUserAddOptions(
 [property: CliOption("--email-id")] string EmailId,
 [property: CliOption("--license-type")] string LicenseType

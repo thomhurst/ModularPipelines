@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "data", "show")]
+[CliSubCommand("ml", "data", "show")]
 public record AzMlDataShowOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

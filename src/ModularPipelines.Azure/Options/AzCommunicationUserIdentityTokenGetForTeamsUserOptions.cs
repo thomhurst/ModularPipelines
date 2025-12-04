@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication", "user-identity", "token", "get-for-teams-user")]
+[CliSubCommand("communication", "user-identity", "token", "get-for-teams-user")]
 public record AzCommunicationUserIdentityTokenGetForTeamsUserOptions(
 [property: CliOption("--aad-token")] string AadToken,
 [property: CliOption("--aad-user")] string AadUser,

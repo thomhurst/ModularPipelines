@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sshkey", "show")]
+[CliSubCommand("sshkey", "show")]
 public record AzSshkeyShowOptions : AzOptions
 {
     [CliOption("--ids")]

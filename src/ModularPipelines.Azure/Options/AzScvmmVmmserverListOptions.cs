@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vmmserver", "list")]
+[CliSubCommand("scvmm", "vmmserver", "list")]
 public record AzScvmmVmmserverListOptions : AzOptions
 {
     [CliOption("--resource-group")]

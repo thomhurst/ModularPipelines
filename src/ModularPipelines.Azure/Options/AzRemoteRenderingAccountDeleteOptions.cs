@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("remote-rendering-account", "delete")]
+[CliSubCommand("remote-rendering-account", "delete")]
 public record AzRemoteRenderingAccountDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

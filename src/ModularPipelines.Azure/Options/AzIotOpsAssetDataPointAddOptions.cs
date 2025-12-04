@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "ops", "asset", "data-point", "add")]
+[CliSubCommand("iot", "ops", "asset", "data-point", "add")]
 public record AzIotOpsAssetDataPointAddOptions(
 [property: CliOption("--asset")] string Asset,
 [property: CliOption("--data-source")] string DataSource,

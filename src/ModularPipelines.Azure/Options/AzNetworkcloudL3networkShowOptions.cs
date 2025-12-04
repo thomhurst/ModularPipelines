@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "l3network", "show")]
+[CliSubCommand("networkcloud", "l3network", "show")]
 public record AzNetworkcloudL3networkShowOptions : AzOptions
 {
     [CliOption("--ids")]

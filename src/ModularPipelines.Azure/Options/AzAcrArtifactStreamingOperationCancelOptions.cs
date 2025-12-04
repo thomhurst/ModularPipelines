@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "artifact-streaming", "operation", "cancel")]
+[CliSubCommand("acr", "artifact-streaming", "operation", "cancel")]
 public record AzAcrArtifactStreamingOperationCancelOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

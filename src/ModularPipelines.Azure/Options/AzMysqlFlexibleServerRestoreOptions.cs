@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "restore")]
+[CliSubCommand("mysql", "flexible-server", "restore")]
 public record AzMysqlFlexibleServerRestoreOptions(
 [property: CliOption("--source-server")] string SourceServer
 ) : AzOptions

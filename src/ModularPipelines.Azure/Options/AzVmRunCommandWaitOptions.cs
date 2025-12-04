@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "run-command", "wait")]
+[CliSubCommand("vm", "run-command", "wait")]
 public record AzVmRunCommandWaitOptions : AzOptions
 {
     [CliOption("--command-id")]

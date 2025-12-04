@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "segment", "create")]
+[CliSubCommand("vmware", "workload-network", "segment", "create")]
 public record AzVmwareWorkloadNetworkSegmentCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--private-cloud")] string PrivateCloud,

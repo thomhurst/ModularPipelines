@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("quota", "operation", "list")]
+[CliSubCommand("quota", "operation", "list")]
 public record AzQuotaOperationListOptions : AzOptions;

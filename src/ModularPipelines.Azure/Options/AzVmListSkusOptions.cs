@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "list-skus")]
+[CliSubCommand("vm", "list-skus")]
 public record AzVmListSkusOptions : AzOptions
 {
     [CliFlag("--all")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "manifest", "restore")]
+[CliSubCommand("acr", "manifest", "restore")]
 public record AzAcrManifestRestoreOptions : AzOptions
 {
     [CliOption("--digest")]

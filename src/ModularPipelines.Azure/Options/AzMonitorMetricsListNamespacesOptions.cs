@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "metrics", "list-namespaces")]
+[CliSubCommand("monitor", "metrics", "list-namespaces")]
 public record AzMonitorMetricsListNamespacesOptions(
 [property: CliOption("--resource-uri")] string ResourceUri
 ) : AzOptions

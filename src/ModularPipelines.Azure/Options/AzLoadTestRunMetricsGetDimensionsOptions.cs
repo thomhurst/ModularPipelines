@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("load", "test-run", "metrics", "get-dimensions")]
+[CliSubCommand("load", "test-run", "metrics", "get-dimensions")]
 public record AzLoadTestRunMetricsGetDimensionsOptions(
 [property: CliOption("--load-test-resource")] string LoadTestResource,
 [property: CliOption("--metric-definition-name")] string MetricDefinitionName,

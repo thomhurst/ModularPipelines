@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vm", "restore-checkpoint")]
+[CliSubCommand("scvmm", "vm", "restore-checkpoint")]
 public record AzScvmmVmRestoreCheckpointOptions(
 [property: CliOption("--checkpoint-id")] string CheckpointId
 ) : AzOptions

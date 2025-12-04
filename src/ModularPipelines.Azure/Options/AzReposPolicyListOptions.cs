@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "policy", "list")]
+[CliSubCommand("repos", "policy", "list")]
 public record AzReposPolicyListOptions : AzOptions
 {
     [CliOption("--branch")]

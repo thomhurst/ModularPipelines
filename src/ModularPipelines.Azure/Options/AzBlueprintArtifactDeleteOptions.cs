@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("blueprint", "artifact", "delete")]
+[CliSubCommand("blueprint", "artifact", "delete")]
 public record AzBlueprintArtifactDeleteOptions(
 [property: CliOption("--blueprint-name")] string BlueprintName,
 [property: CliOption("--name")] string Name

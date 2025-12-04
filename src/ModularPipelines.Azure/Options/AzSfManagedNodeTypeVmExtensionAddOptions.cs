@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "managed-node-type", "vm-extension", "add")]
+[CliSubCommand("sf", "managed-node-type", "vm-extension", "add")]
 public record AzSfManagedNodeTypeVmExtensionAddOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--extension-name")] string ExtensionName,

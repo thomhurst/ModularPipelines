@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "app", "disable-remote-debugging")]
+[CliSubCommand("spring", "app", "disable-remote-debugging")]
 public record AzSpringAppDisableRemoteDebuggingOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

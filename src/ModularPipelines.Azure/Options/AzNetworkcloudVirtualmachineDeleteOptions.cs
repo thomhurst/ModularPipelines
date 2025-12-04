@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "virtualmachine", "delete")]
+[CliSubCommand("networkcloud", "virtualmachine", "delete")]
 public record AzNetworkcloudVirtualmachineDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

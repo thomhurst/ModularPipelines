@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "vnet-rule", "update")]
+[CliSubCommand("mysql", "server", "vnet-rule", "update")]
 public record AzMysqlServerVnetRuleUpdateOptions(
 [property: CliOption("--subnet")] string Subnet
 ) : AzOptions

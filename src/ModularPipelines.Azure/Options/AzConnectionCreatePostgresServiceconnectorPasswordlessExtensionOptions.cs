@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "create", "postgres", "(serviceconnector-passwordless", "extension)")]
+[CliSubCommand("connection", "create", "postgres", "(serviceconnector-passwordless", "extension)")]
 public record AzConnectionCreatePostgresServiceconnectorPasswordlessExtensionOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

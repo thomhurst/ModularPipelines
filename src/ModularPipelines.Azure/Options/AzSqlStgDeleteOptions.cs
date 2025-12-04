@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "stg", "delete")]
+[CliSubCommand("sql", "stg", "delete")]
 public record AzSqlStgDeleteOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--name")] string Name,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation", "software-update-configuration", "delete")]
+[CliSubCommand("automation", "software-update-configuration", "delete")]
 public record AzAutomationSoftwareUpdateConfigurationDeleteOptions(
 [property: CliOption("--automation-account-name")] int AutomationAccountName,
 [property: CliOption("--configuration-name")] string ConfigurationName,

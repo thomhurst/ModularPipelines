@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hpc-cache", "create")]
+[CliSubCommand("hpc-cache", "create")]
 public record AzHpcCacheCreateOptions(
 [property: CliOption("--cache-size-gb")] string CacheSizeGb,
 [property: CliOption("--location")] string Location,

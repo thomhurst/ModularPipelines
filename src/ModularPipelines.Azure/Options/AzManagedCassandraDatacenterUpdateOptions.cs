@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("managed-cassandra", "datacenter", "update")]
+[CliSubCommand("managed-cassandra", "datacenter", "update")]
 public record AzManagedCassandraDatacenterUpdateOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--data-center-name")] string DataCenterName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "environment", "download")]
+[CliSubCommand("ml", "environment", "download")]
 public record AzMlEnvironmentDownloadOptions(
 [property: CliOption("--directory")] string Directory,
 [property: CliOption("--name")] string Name

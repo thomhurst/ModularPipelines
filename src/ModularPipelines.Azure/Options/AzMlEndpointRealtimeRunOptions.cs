@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "endpoint", "realtime", "run")]
+[CliSubCommand("ml", "endpoint", "realtime", "run")]
 public record AzMlEndpointRealtimeRunOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

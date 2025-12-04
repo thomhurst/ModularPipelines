@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "sql", "stored-procedure", "update")]
+[CliSubCommand("cosmosdb", "sql", "stored-procedure", "update")]
 public record AzCosmosdbSqlStoredProcedureUpdateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--body")] string Body,

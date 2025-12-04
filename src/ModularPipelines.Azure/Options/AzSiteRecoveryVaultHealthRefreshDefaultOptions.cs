@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "vault", "health", "refresh-default")]
+[CliSubCommand("site-recovery", "vault", "health", "refresh-default")]
 public record AzSiteRecoveryVaultHealthRefreshDefaultOptions : AzOptions
 {
     [CliOption("--ids")]

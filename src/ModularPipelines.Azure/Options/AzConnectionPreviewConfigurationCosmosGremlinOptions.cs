@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "preview-configuration", "cosmos-gremlin")]
+[CliSubCommand("connection", "preview-configuration", "cosmos-gremlin")]
 public record AzConnectionPreviewConfigurationCosmosGremlinOptions : AzOptions
 {
     [CliOption("--client-type")]

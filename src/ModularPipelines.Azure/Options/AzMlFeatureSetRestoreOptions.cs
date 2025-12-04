@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "feature-set", "restore")]
+[CliSubCommand("ml", "feature-set", "restore")]
 public record AzMlFeatureSetRestoreOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--version")] string Version

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "topic", "subscription", "rule", "list")]
+[CliSubCommand("servicebus", "topic", "subscription", "rule", "list")]
 public record AzServicebusTopicSubscriptionRuleListOptions(
 [property: CliOption("--namespace-name")] string NamespaceName,
 [property: CliOption("--resource-group")] string ResourceGroup,

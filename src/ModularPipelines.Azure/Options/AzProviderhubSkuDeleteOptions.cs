@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("providerhub", "sku", "delete")]
+[CliSubCommand("providerhub", "sku", "delete")]
 public record AzProviderhubSkuDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

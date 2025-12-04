@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resource-mover", "move-collection", "list-required-for")]
+[CliSubCommand("resource-mover", "move-collection", "list-required-for")]
 public record AzResourceMoverMoveCollectionListRequiredForOptions(
 [property: CliOption("--source-id")] string SourceId
 ) : AzOptions

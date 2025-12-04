@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "unmanaged-disk", "detach")]
+[CliSubCommand("vm", "unmanaged-disk", "detach")]
 public record AzVmUnmanagedDiskDetachOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

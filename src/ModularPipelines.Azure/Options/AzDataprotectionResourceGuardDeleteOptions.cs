@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "resource-guard", "delete")]
+[CliSubCommand("dataprotection", "resource-guard", "delete")]
 public record AzDataprotectionResourceGuardDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

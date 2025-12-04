@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "identity", "assign")]
+[CliSubCommand("appconfig", "identity", "assign")]
 public record AzAppconfigIdentityAssignOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

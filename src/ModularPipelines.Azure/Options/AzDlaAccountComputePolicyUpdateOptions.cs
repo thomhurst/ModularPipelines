@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "account", "compute-policy", "update")]
+[CliSubCommand("dla", "account", "compute-policy", "update")]
 public record AzDlaAccountComputePolicyUpdateOptions(
 [property: CliOption("--compute-policy-name")] string ComputePolicyName
 ) : AzOptions

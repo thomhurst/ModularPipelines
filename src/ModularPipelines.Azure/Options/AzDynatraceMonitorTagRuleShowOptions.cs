@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dynatrace", "monitor", "tag-rule", "show")]
+[CliSubCommand("dynatrace", "monitor", "tag-rule", "show")]
 public record AzDynatraceMonitorTagRuleShowOptions : AzOptions
 {
     [CliOption("--ids")]

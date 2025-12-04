@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "partner", "configuration", "unauthorize")]
+[CliSubCommand("eventgrid", "partner", "configuration", "unauthorize")]
 public record AzEventgridPartnerConfigurationUnauthorizeOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

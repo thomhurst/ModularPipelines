@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("amlfs", "cancel-archive")]
+[CliSubCommand("amlfs", "cancel-archive")]
 public record AzAmlfsCancelArchiveOptions : AzOptions
 {
     [CliOption("--amlfs-name")]

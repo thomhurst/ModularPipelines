@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "scan", "track")]
+[CliSubCommand("webapp", "scan", "track")]
 public record AzWebappScanTrackOptions(
 [property: CliOption("--scan-id")] string ScanId
 ) : AzOptions

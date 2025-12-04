@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "role", "definition", "list")]
+[CliSubCommand("keyvault", "role", "definition", "list")]
 public record AzKeyvaultRoleDefinitionListOptions : AzOptions
 {
     [CliFlag("--custom-role-only")]

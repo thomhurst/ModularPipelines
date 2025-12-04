@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "sql", "pool", "resume")]
+[CliSubCommand("synapse", "sql", "pool", "resume")]
 public record AzSynapseSqlPoolResumeOptions : AzOptions
 {
     [CliOption("--ids")]

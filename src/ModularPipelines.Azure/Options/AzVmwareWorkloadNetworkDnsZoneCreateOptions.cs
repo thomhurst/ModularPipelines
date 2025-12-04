@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "dns-zone", "create")]
+[CliSubCommand("vmware", "workload-network", "dns-zone", "create")]
 public record AzVmwareWorkloadNetworkDnsZoneCreateOptions(
 [property: CliOption("--dns-zone")] string DnsZone,
 [property: CliOption("--private-cloud")] string PrivateCloud,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "data-collection", "endpoint", "delete")]
+[CliSubCommand("monitor", "data-collection", "endpoint", "delete")]
 public record AzMonitorDataCollectionEndpointDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

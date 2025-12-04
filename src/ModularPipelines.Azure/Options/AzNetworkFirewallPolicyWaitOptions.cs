@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "firewall", "policy", "wait")]
+[CliSubCommand("network", "firewall", "policy", "wait")]
 public record AzNetworkFirewallPolicyWaitOptions : AzOptions
 {
     [CliFlag("--created")]

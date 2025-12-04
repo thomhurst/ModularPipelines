@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "sql", "ad-admin", "wait")]
+[CliSubCommand("synapse", "sql", "ad-admin", "wait")]
 public record AzSynapseSqlAdAdminWaitOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--workspace-name")] string WorkspaceName

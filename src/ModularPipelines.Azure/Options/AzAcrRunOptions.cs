@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "run")]
+[CliSubCommand("acr", "run")]
 public record AzAcrRunOptions(
 [property: CliOption("--registry")] string Registry
 ) : AzOptions

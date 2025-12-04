@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datadog", "monitor", "set-default-key")]
+[CliSubCommand("datadog", "monitor", "set-default-key")]
 public record AzDatadogMonitorSetDefaultKeyOptions : AzOptions
 {
     [CliOption("--created")]

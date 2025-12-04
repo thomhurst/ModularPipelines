@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("healthcareapis", "workspace", "iot-connector", "fhir-destination", "update")]
+[CliSubCommand("healthcareapis", "workspace", "iot-connector", "fhir-destination", "update")]
 public record AzHealthcareapisWorkspaceIotConnectorFhirDestinationUpdateOptions(
 [property: CliOption("--fhir-service-resource-id")] string FhirServiceResourceId,
 [property: CliOption("--resource-identity-resolution-type")] string ResourceIdentityResolutionType

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "api", "schema", "get-etag")]
+[CliSubCommand("apim", "api", "schema", "get-etag")]
 public record AzApimApiSchemaGetEtagOptions(
 [property: CliOption("--api-id")] string ApiId,
 [property: CliOption("--resource-group")] string ResourceGroup,

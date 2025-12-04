@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "storageappliance", "wait")]
+[CliSubCommand("networkcloud", "storageappliance", "wait")]
 public record AzNetworkcloudStorageapplianceWaitOptions : AzOptions
 {
     [CliFlag("--created")]

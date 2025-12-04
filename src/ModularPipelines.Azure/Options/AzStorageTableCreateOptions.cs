@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "table", "create")]
+[CliSubCommand("storage", "table", "create")]
 public record AzStorageTableCreateOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cdn", "origin-group", "update")]
+[CliSubCommand("cdn", "origin-group", "update")]
 public record AzCdnOriginGroupUpdateOptions : AzOptions
 {
     [CliOption("--endpoint-name")]

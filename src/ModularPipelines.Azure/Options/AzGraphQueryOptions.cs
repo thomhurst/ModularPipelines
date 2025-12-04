@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("graph", "query")]
+[CliSubCommand("graph", "query")]
 public record AzGraphQueryOptions(
 [property: CliOption("--graph-query")] string GraphQuery
 ) : AzOptions

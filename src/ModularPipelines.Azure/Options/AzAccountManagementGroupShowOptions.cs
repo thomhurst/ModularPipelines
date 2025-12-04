@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("account", "management-group", "show")]
+[CliSubCommand("account", "management-group", "show")]
 public record AzAccountManagementGroupShowOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

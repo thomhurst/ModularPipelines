@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "device-identity", "import")]
+[CliSubCommand("iot", "hub", "device-identity", "import")]
 public record AzIotHubDeviceIdentityImportOptions : AzOptions
 {
     [CliOption("--auth-type")]

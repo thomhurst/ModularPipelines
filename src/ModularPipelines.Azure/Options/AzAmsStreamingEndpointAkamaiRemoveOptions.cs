@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "streaming-endpoint", "akamai", "remove")]
+[CliSubCommand("ams", "streaming-endpoint", "akamai", "remove")]
 public record AzAmsStreamingEndpointAkamaiRemoveOptions(
 [property: CliOption("--identifier")] string Identifier
 ) : AzOptions

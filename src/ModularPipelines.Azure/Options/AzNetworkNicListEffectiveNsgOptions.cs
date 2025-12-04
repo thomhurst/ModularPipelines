@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "nic", "list-effective-nsg")]
+[CliSubCommand("network", "nic", "list-effective-nsg")]
 public record AzNetworkNicListEffectiveNsgOptions : AzOptions
 {
     [CliOption("--ids")]

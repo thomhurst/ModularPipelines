@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "job", "update")]
+[CliSubCommand("containerapp", "job", "update")]
 public record AzContainerappJobUpdateOptions : AzOptions
 {
     [CliOption("--args")]

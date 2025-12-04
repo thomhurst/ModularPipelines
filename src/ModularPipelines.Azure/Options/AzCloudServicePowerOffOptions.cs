@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cloud-service", "power-off")]
+[CliSubCommand("cloud-service", "power-off")]
 public record AzCloudServicePowerOffOptions : AzOptions
 {
     [CliOption("--cloud-service-name")]

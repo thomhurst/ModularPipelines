@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "segment", "delete")]
+[CliSubCommand("vmware", "workload-network", "segment", "delete")]
 public record AzVmwareWorkloadNetworkSegmentDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

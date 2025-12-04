@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "pipeline", "show-draft")]
+[CliSubCommand("ml", "pipeline", "show-draft")]
 public record AzMlPipelineShowDraftOptions(
 [property: CliOption("--pipeline-draft-id")] string PipelineDraftId
 ) : AzOptions

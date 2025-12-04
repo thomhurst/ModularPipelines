@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "hostname", "delete")]
+[CliSubCommand("webapp", "config", "hostname", "delete")]
 public record AzWebappConfigHostnameDeleteOptions : AzOptions
 {
     [CliOption("--hostname")]

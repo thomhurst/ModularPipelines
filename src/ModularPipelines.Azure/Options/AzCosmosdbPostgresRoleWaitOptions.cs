@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "postgres", "role", "wait")]
+[CliSubCommand("cosmosdb", "postgres", "role", "wait")]
 public record AzCosmosdbPostgresRoleWaitOptions : AzOptions
 {
     [CliOption("--cluster-name")]

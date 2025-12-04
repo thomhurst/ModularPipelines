@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "check-health")]
+[CliSubCommand("acr", "check-health")]
 public record AzAcrCheckHealthOptions : AzOptions
 {
     [CliFlag("--ignore-errors")]

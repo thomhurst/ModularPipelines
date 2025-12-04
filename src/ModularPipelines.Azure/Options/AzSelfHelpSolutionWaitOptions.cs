@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("self-help", "solution", "wait")]
+[CliSubCommand("self-help", "solution", "wait")]
 public record AzSelfHelpSolutionWaitOptions(
 [property: CliOption("--scope")] string Scope,
 [property: CliOption("--solution-name")] string SolutionName

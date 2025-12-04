@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databricks", "workspace", "private-endpoint-connection", "update")]
+[CliSubCommand("databricks", "workspace", "private-endpoint-connection", "update")]
 public record AzDatabricksWorkspacePrivateEndpointConnectionUpdateOptions : AzOptions
 {
     [CliOption("--actions-required")]

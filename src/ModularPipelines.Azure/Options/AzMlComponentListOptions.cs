@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "component", "list")]
+[CliSubCommand("ml", "component", "list")]
 public record AzMlComponentListOptions : AzOptions
 {
     [CliFlag("--archived-only")]

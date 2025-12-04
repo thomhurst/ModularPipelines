@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datamigration", "sql-service", "list")]
+[CliSubCommand("datamigration", "sql-service", "list")]
 public record AzDatamigrationSqlServiceListOptions : AzOptions
 {
     [CliOption("--resource-group")]

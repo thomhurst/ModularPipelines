@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "env", "update")]
+[CliSubCommand("containerapp", "env", "update")]
 public record AzContainerappEnvUpdateOptions : AzOptions
 {
     [CliOption("--certificate-file")]

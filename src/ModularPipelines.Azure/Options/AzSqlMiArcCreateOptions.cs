@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi-arc", "create")]
+[CliSubCommand("sql", "mi-arc", "create")]
 public record AzSqlMiArcCreateOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

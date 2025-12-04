@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resource", "create")]
+[CliSubCommand("resource", "create")]
 public record AzResourceCreateOptions(
 [property: CliOption("--properties")] string Properties
 ) : AzOptions

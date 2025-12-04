@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "devcenter", "delete")]
+[CliSubCommand("devcenter", "admin", "devcenter", "delete")]
 public record AzDevcenterAdminDevcenterDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

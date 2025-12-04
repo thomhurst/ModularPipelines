@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "scheduled-query", "update")]
+[CliSubCommand("monitor", "scheduled-query", "update")]
 public record AzMonitorScheduledQueryUpdateOptions : AzOptions
 {
     [CliOption("--action-groups")]

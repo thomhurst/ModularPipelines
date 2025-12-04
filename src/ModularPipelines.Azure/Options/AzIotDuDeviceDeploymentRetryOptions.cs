@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "du", "device", "deployment", "retry")]
+[CliSubCommand("iot", "du", "device", "deployment", "retry")]
 public record AzIotDuDeviceDeploymentRetryOptions(
 [property: CliOption("--account")] int Account,
 [property: CliOption("--cid")] string Cid,

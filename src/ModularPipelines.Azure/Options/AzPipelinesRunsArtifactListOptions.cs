@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "runs", "artifact", "list")]
+[CliSubCommand("pipelines", "runs", "artifact", "list")]
 public record AzPipelinesRunsArtifactListOptions(
 [property: CliOption("--run-id")] string RunId
 ) : AzOptions

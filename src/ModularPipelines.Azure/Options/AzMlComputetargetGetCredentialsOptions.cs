@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "computetarget", "get-credentials")]
+[CliSubCommand("ml", "computetarget", "get-credentials")]
 public record AzMlComputetargetGetCredentialsOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webpubsub", "delete")]
+[CliSubCommand("webpubsub", "delete")]
 public record AzWebpubsubDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

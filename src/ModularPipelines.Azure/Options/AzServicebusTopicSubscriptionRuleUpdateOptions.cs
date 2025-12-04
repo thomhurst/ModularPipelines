@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "topic", "subscription", "rule", "update")]
+[CliSubCommand("servicebus", "topic", "subscription", "rule", "update")]
 public record AzServicebusTopicSubscriptionRuleUpdateOptions : AzOptions
 {
     [CliOption("--action-compatibility-level")]

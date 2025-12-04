@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "log-analytics", "query-pack", "query", "list")]
+[CliSubCommand("monitor", "log-analytics", "query-pack", "query", "list")]
 public record AzMonitorLogAnalyticsQueryPackQueryListOptions(
 [property: CliOption("--query-pack-name")] string QueryPackName,
 [property: CliOption("--resource-group")] string ResourceGroup

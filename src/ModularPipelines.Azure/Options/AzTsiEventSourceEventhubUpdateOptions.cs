@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tsi", "event-source", "eventhub", "update")]
+[CliSubCommand("tsi", "event-source", "eventhub", "update")]
 public record AzTsiEventSourceEventhubUpdateOptions : AzOptions
 {
     [CliOption("--environment-name")]

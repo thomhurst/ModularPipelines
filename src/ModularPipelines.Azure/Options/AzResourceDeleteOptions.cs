@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resource", "delete")]
+[CliSubCommand("resource", "delete")]
 public record AzResourceDeleteOptions : AzOptions
 {
     [CliOption("--api-version")]

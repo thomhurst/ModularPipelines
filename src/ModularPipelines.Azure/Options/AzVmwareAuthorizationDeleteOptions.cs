@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "authorization", "delete")]
+[CliSubCommand("vmware", "authorization", "delete")]
 public record AzVmwareAuthorizationDeleteOptions : AzOptions
 {
     [CliOption("--authorization-name")]

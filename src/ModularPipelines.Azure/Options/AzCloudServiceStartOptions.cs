@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cloud-service", "start")]
+[CliSubCommand("cloud-service", "start")]
 public record AzCloudServiceStartOptions : AzOptions
 {
     [CliOption("--cloud-service-name")]

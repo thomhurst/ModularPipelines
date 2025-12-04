@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "nic", "show")]
+[CliSubCommand("vmss", "nic", "show")]
 public record AzVmssNicShowOptions : AzOptions
 {
     [CliOption("--expand")]

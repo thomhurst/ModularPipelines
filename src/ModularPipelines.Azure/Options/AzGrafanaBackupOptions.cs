@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("grafana", "backup")]
+[CliSubCommand("grafana", "backup")]
 public record AzGrafanaBackupOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

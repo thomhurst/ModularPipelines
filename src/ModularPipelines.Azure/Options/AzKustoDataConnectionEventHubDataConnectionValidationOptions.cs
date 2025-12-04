@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "data-connection", "event-hub", "data-connection-validation")]
+[CliSubCommand("kusto", "data-connection", "event-hub", "data-connection-validation")]
 public record AzKustoDataConnectionEventHubDataConnectionValidationOptions : AzOptions
 {
     [CliOption("--cluster-name")]

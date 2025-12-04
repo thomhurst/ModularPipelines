@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedk8s", "show")]
+[CliSubCommand("connectedk8s", "show")]
 public record AzConnectedk8sShowOptions : AzOptions
 {
     [CliOption("--ids")]

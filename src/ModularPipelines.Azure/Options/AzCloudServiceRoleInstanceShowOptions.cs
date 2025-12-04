@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cloud-service", "role-instance", "show")]
+[CliSubCommand("cloud-service", "role-instance", "show")]
 public record AzCloudServiceRoleInstanceShowOptions : AzOptions
 {
     [CliOption("--cloud-service-name")]

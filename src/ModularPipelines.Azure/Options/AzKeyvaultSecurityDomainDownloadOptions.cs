@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "security-domain", "download")]
+[CliSubCommand("keyvault", "security-domain", "download")]
 public record AzKeyvaultSecurityDomainDownloadOptions(
 [property: CliOption("--sd-quorum")] string SdQuorum,
 [property: CliOption("--sd-wrapping-keys")] string SdWrappingKeys,

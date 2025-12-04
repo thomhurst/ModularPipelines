@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "integration-runtime", "upgrade")]
+[CliSubCommand("datafactory", "integration-runtime", "upgrade")]
 public record AzDatafactoryIntegrationRuntimeUpgradeOptions : AzOptions
 {
     [CliOption("--factory-name")]

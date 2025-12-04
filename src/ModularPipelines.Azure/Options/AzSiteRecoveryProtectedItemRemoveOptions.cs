@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "protected-item", "remove")]
+[CliSubCommand("site-recovery", "protected-item", "remove")]
 public record AzSiteRecoveryProtectedItemRemoveOptions : AzOptions
 {
     [CliFlag("--disable-protection-reason")]

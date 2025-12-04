@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "nic", "show-effective-route-table")]
+[CliSubCommand("network", "nic", "show-effective-route-table")]
 public record AzNetworkNicShowEffectiveRouteTableOptions : AzOptions
 {
     [CliOption("--ids")]

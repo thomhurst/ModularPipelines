@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "virtual-network", "create")]
+[CliSubCommand("connectedvmware", "virtual-network", "create")]
 public record AzConnectedvmwareVirtualNetworkCreateOptions(
 [property: CliOption("--custom-location")] string CustomLocation,
 [property: CliOption("--inventory-item")] string InventoryItem,

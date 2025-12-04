@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "disk", "attach")]
+[CliSubCommand("vm", "disk", "attach")]
 public record AzVmDiskAttachOptions(
 [property: CliOption("--vm-name")] string VmName
 ) : AzOptions

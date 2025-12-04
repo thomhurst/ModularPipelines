@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "nni", "show")]
+[CliSubCommand("networkfabric", "nni", "show")]
 public record AzNetworkfabricNniShowOptions : AzOptions
 {
     [CliOption("--fabric")]

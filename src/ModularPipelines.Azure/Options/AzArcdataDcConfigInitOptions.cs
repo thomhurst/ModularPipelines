@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcdata", "dc", "config", "init")]
+[CliSubCommand("arcdata", "dc", "config", "init")]
 public record AzArcdataDcConfigInitOptions : AzOptions
 {
     [CliFlag("--force")]

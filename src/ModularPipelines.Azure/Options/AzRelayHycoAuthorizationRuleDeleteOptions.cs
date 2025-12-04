@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("relay", "hyco", "authorization-rule", "delete")]
+[CliSubCommand("relay", "hyco", "authorization-rule", "delete")]
 public record AzRelayHycoAuthorizationRuleDeleteOptions : AzOptions
 {
     [CliOption("--hybrid-connection-name")]

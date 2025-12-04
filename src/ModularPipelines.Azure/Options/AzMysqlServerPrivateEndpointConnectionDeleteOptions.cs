@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "private-endpoint-connection", "delete")]
+[CliSubCommand("mysql", "server", "private-endpoint-connection", "delete")]
 public record AzMysqlServerPrivateEndpointConnectionDeleteOptions : AzOptions
 {
     [CliOption("--id")]

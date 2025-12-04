@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "managed-virtual-network", "update")]
+[CliSubCommand("datafactory", "managed-virtual-network", "update")]
 public record AzDatafactoryManagedVirtualNetworkUpdateOptions : AzOptions
 {
     [CliOption("--add")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("image", "builder", "validator", "show")]
+[CliSubCommand("image", "builder", "validator", "show")]
 public record AzImageBuilderValidatorShowOptions : AzOptions
 {
     [CliOption("--defer")]

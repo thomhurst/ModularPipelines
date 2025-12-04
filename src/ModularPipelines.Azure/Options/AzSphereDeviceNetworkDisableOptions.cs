@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "network", "disable")]
+[CliSubCommand("sphere", "device", "network", "disable")]
 public record AzSphereDeviceNetworkDisableOptions(
 [property: CliOption("--interface")] string Interface
 ) : AzOptions

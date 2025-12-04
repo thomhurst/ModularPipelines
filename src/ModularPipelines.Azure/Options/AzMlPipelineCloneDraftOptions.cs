@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "pipeline", "clone-draft")]
+[CliSubCommand("ml", "pipeline", "clone-draft")]
 public record AzMlPipelineCloneDraftOptions : AzOptions
 {
     [CliOption("--experiment-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "diagnostics", "registration-summary")]
+[CliSubCommand("iot", "central", "diagnostics", "registration-summary")]
 public record AzIotCentralDiagnosticsRegistrationSummaryOptions(
 [property: CliOption("--app-id")] string AppId
 ) : AzOptions

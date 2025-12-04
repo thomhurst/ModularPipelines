@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "up")]
+[CliSubCommand("postgres", "up")]
 public record AzPostgresUpOptions : AzOptions
 {
     [CliOption("--admin-password")]

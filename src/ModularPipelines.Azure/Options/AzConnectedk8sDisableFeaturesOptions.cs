@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedk8s", "disable-features")]
+[CliSubCommand("connectedk8s", "disable-features")]
 public record AzConnectedk8sDisableFeaturesOptions(
 [property: CliOption("--features")] string Features
 ) : AzOptions

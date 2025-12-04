@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "watcher", "configure")]
+[CliSubCommand("network", "watcher", "configure")]
 public record AzNetworkWatcherConfigureOptions(
 [property: CliOption("--locations")] string Locations
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("providerhub", "operation", "list")]
+[CliSubCommand("providerhub", "operation", "list")]
 public record AzProviderhubOperationListOptions(
 [property: CliOption("--provider-namespace")] string ProviderNamespace
 ) : AzOptions;

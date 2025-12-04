@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "assessment-metadata", "create")]
+[CliSubCommand("security", "assessment-metadata", "create")]
 public record AzSecurityAssessmentMetadataCreateOptions(
 [property: CliOption("--description")] string Description,
 [property: CliOption("--display-name")] string DisplayName,

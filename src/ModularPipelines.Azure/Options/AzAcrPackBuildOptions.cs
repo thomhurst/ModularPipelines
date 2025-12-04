@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "pack", "build")]
+[CliSubCommand("acr", "pack", "build")]
 public record AzAcrPackBuildOptions(
 [property: CliOption("--builder")] string Builder,
 [property: CliOption("--image")] string Image,

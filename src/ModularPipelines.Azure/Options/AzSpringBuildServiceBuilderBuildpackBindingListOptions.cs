@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "build-service", "builder", "buildpack-binding", "list")]
+[CliSubCommand("spring", "build-service", "builder", "buildpack-binding", "list")]
 public record AzSpringBuildServiceBuilderBuildpackBindingListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--service")] string Service

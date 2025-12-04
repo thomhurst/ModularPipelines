@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cloud-service", "reimage")]
+[CliSubCommand("cloud-service", "reimage")]
 public record AzCloudServiceReimageOptions : AzOptions
 {
     [CliOption("--cloud-service-name")]

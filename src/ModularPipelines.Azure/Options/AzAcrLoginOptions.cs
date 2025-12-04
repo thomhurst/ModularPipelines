@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "login")]
+[CliSubCommand("acr", "login")]
 public record AzAcrLoginOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

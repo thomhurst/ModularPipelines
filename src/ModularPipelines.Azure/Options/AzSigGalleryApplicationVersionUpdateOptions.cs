@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sig", "gallery-application", "version", "update")]
+[CliSubCommand("sig", "gallery-application", "version", "update")]
 public record AzSigGalleryApplicationVersionUpdateOptions(
 [property: CliOption("--application-name")] string ApplicationName,
 [property: CliOption("--gallery-name")] string GalleryName,

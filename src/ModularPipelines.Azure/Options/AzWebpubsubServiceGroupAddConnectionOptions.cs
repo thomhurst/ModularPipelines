@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webpubsub", "service", "group", "add-connection")]
+[CliSubCommand("webpubsub", "service", "group", "add-connection")]
 public record AzWebpubsubServiceGroupAddConnectionOptions(
 [property: CliOption("--connection-id")] string ConnectionId,
 [property: CliOption("--group-name")] string GroupName,

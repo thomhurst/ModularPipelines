@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "workspace", "private-endpoint", "delete")]
+[CliSubCommand("ml", "workspace", "private-endpoint", "delete")]
 public record AzMlWorkspacePrivateEndpointDeleteOptions : AzOptions
 {
     [CliOption("--output-metadata-file")]

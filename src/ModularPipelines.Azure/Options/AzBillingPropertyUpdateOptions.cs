@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("billing", "property", "update")]
+[CliSubCommand("billing", "property", "update")]
 public record AzBillingPropertyUpdateOptions : AzOptions
 {
     [CliOption("--cost-center")]

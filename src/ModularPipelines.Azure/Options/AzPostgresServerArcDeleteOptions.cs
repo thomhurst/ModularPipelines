@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server-arc", "delete")]
+[CliSubCommand("postgres", "server-arc", "delete")]
 public record AzPostgresServerArcDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

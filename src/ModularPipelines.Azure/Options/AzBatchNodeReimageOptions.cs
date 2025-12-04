@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "node", "reimage")]
+[CliSubCommand("batch", "node", "reimage")]
 public record AzBatchNodeReimageOptions(
 [property: CliOption("--node-id")] string NodeId,
 [property: CliOption("--pool-id")] string PoolId

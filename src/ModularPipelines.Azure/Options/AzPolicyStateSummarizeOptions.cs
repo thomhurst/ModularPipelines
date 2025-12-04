@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("policy", "state", "summarize")]
+[CliSubCommand("policy", "state", "summarize")]
 public record AzPolicyStateSummarizeOptions : AzOptions
 {
     [CliOption("--filter")]

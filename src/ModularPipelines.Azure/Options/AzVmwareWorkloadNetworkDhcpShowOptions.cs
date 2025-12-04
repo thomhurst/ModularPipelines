@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "dhcp", "show")]
+[CliSubCommand("vmware", "workload-network", "dhcp", "show")]
 public record AzVmwareWorkloadNetworkDhcpShowOptions : AzOptions
 {
     [CliOption("--dhcp")]

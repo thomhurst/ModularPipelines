@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("edgeorder", "list-family")]
+[CliSubCommand("edgeorder", "list-family")]
 public record AzEdgeorderListFamilyOptions(
 [property: CliOption("--filterable-properties")] string FilterableProperties
 ) : AzOptions

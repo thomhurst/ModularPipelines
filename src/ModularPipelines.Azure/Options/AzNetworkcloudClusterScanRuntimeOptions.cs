@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cluster", "scan-runtime")]
+[CliSubCommand("networkcloud", "cluster", "scan-runtime")]
 public record AzNetworkcloudClusterScanRuntimeOptions : AzOptions
 {
     [CliOption("--cluster-name")]

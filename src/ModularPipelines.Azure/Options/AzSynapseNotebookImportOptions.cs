@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "notebook", "import")]
+[CliSubCommand("synapse", "notebook", "import")]
 public record AzSynapseNotebookImportOptions(
 [property: CliOption("--file")] string File,
 [property: CliOption("--name")] string Name,

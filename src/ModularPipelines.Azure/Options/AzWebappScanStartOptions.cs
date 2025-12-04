@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "scan", "start")]
+[CliSubCommand("webapp", "scan", "start")]
 public record AzWebappScanStartOptions : AzOptions
 {
     [CliOption("--ids")]

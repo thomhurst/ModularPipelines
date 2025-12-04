@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "spark", "pool", "wait")]
+[CliSubCommand("synapse", "spark", "pool", "wait")]
 public record AzSynapseSparkPoolWaitOptions(
 [property: CliOption("--big-data-pool-name")] string BigDataPoolName
 ) : AzOptions

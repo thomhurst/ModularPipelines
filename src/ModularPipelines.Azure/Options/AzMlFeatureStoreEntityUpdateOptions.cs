@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "feature-store-entity", "update")]
+[CliSubCommand("ml", "feature-store-entity", "update")]
 public record AzMlFeatureStoreEntityUpdateOptions(
 [property: CliOption("--feature-store-name")] string FeatureStoreName,
 [property: CliOption("--name")] string Name,

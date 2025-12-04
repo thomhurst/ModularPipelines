@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "fs", "directory", "move")]
+[CliSubCommand("storage", "fs", "directory", "move")]
 public record AzStorageFsDirectoryMoveOptions(
 [property: CliOption("--file-system")] string FileSystem,
 [property: CliOption("--name")] string Name,

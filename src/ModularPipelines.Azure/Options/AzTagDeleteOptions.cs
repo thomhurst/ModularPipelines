@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tag", "delete")]
+[CliSubCommand("tag", "delete")]
 public record AzTagDeleteOptions : AzOptions
 {
     [CliOption("--name")]

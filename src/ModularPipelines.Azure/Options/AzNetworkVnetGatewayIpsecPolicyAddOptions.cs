@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet-gateway", "ipsec-policy", "add")]
+[CliSubCommand("network", "vnet-gateway", "ipsec-policy", "add")]
 public record AzNetworkVnetGatewayIpsecPolicyAddOptions(
 [property: CliOption("--dh-group")] string DhGroup,
 [property: CliOption("--gateway-name")] string GatewayName,

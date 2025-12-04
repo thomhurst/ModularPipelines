@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "webhook", "list")]
+[CliSubCommand("acr", "webhook", "list")]
 public record AzAcrWebhookListOptions(
 [property: CliOption("--registry")] string Registry
 ) : AzOptions

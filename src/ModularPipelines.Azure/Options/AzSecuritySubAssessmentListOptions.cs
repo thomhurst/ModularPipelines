@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "sub-assessment", "list")]
+[CliSubCommand("security", "sub-assessment", "list")]
 public record AzSecuritySubAssessmentListOptions : AzOptions
 {
     [CliOption("--assessed-resource-id")]

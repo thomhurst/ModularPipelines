@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcappliance", "createconfig", "hci")]
+[CliSubCommand("arcappliance", "createconfig", "hci")]
 public record AzArcapplianceCreateconfigHciOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--name")] string Name,

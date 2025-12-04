@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "kubernetescluster", "wait")]
+[CliSubCommand("networkcloud", "kubernetescluster", "wait")]
 public record AzNetworkcloudKubernetesclusterWaitOptions : AzOptions
 {
     [CliFlag("--created")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "manager", "group", "wait")]
+[CliSubCommand("network", "manager", "group", "wait")]
 public record AzNetworkManagerGroupWaitOptions : AzOptions
 {
     [CliFlag("--created")]

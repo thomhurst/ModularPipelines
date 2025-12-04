@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "fs", "access", "remove-all")]
+[CliSubCommand("dls", "fs", "access", "remove-all")]
 public record AzDlsFsAccessRemoveAllOptions(
 [property: CliOption("--path")] string Path
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("internet-analyzer", "show-scorecard")]
+[CliSubCommand("internet-analyzer", "show-scorecard")]
 public record AzInternetAnalyzerShowScorecardOptions(
 [property: CliOption("--aggregation-interval")] string AggregationInterval,
 [property: CliOption("--profile-name")] string ProfileName,

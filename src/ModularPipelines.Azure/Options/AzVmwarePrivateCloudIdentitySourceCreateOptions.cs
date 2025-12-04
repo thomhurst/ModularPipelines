@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "private-cloud", "identity-source", "create")]
+[CliSubCommand("vmware", "private-cloud", "identity-source", "create")]
 public record AzVmwarePrivateCloudIdentitySourceCreateOptions(
 [property: CliOption("--alias")] string Alias,
 [property: CliOption("--base-group-dn")] string BaseGroupDn,

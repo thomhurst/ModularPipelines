@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "revision", "set-mode")]
+[CliSubCommand("containerapp", "revision", "set-mode")]
 public record AzContainerappRevisionSetModeOptions(
 [property: CliOption("--mode")] string Mode
 ) : AzOptions

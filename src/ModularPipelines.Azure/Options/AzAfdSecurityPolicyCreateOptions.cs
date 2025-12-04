@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "security-policy", "create")]
+[CliSubCommand("afd", "security-policy", "create")]
 public record AzAfdSecurityPolicyCreateOptions(
 [property: CliOption("--domains")] string Domains,
 [property: CliOption("--profile-name")] string ProfileName,

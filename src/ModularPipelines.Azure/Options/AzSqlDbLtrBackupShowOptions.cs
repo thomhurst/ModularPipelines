@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "ltr-backup", "show")]
+[CliSubCommand("sql", "db", "ltr-backup", "show")]
 public record AzSqlDbLtrBackupShowOptions(
 [property: CliOption("--database")] string Database,
 [property: CliOption("--location")] string Location,

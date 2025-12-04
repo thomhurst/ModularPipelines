@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "account", "storage", "remove")]
+[CliSubCommand("ams", "account", "storage", "remove")]
 public record AzAmsAccountStorageRemoveOptions : AzOptions
 {
     [CliOption("--account-name")]

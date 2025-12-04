@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "namespace", "schema-registry", "update")]
+[CliSubCommand("eventhubs", "namespace", "schema-registry", "update")]
 public record AzEventhubsNamespaceSchemaRegistryUpdateOptions : AzOptions
 {
     [CliOption("--add")]

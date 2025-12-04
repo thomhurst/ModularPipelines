@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kusto", "pool", "stop")]
+[CliSubCommand("synapse", "kusto", "pool", "stop")]
 public record AzSynapseKustoPoolStopOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "config", "ssl", "create")]
+[CliSubCommand("functionapp", "config", "ssl", "create")]
 public record AzFunctionappConfigSslCreateOptions(
 [property: CliOption("--hostname")] string Hostname,
 [property: CliOption("--name")] string Name,

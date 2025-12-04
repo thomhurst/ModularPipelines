@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "logging", "off")]
+[CliSubCommand("storage", "logging", "off")]
 public record AzStorageLoggingOffOptions : AzOptions
 {
     [CliOption("--account-key")]

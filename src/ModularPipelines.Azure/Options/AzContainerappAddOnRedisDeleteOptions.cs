@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "add-on", "redis", "delete")]
+[CliSubCommand("containerapp", "add-on", "redis", "delete")]
 public record AzContainerappAddOnRedisDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

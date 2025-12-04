@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "managed-service", "correlation-scheme", "update")]
+[CliSubCommand("sf", "managed-service", "correlation-scheme", "update")]
 public record AzSfManagedServiceCorrelationSchemeUpdateOptions(
 [property: CliOption("--application")] string Application,
 [property: CliOption("--cluster-name")] string ClusterName,

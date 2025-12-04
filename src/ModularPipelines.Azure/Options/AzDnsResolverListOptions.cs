@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dns-resolver", "list")]
+[CliSubCommand("dns-resolver", "list")]
 public record AzDnsResolverListOptions : AzOptions
 {
     [CliOption("--resource-group")]

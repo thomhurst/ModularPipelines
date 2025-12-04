@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "lb", "frontend-ip", "create")]
+[CliSubCommand("network", "lb", "frontend-ip", "create")]
 public record AzNetworkLbFrontendIpCreateOptions(
 [property: CliOption("--lb-name")] string LbName,
 [property: CliOption("--name")] string Name,

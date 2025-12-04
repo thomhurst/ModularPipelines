@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("fleet", "updaterun", "wait")]
+[CliSubCommand("fleet", "updaterun", "wait")]
 public record AzFleetUpdaterunWaitOptions(
 [property: CliOption("--fleet-name")] string FleetName,
 [property: CliOption("--resource-group")] string ResourceGroup,

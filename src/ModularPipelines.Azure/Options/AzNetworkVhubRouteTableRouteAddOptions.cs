@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vhub", "route-table", "route", "add")]
+[CliSubCommand("network", "vhub", "route-table", "route", "add")]
 public record AzNetworkVhubRouteTableRouteAddOptions(
 [property: CliOption("--destination-type")] string DestinationType,
 [property: CliOption("--destinations")] string Destinations,

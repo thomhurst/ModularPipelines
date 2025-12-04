@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("urestackhci", "virtualnetwork", "list")]
+[CliSubCommand("urestackhci", "virtualnetwork", "list")]
 public record AzAzurestackhciVirtualnetworkListOptions : AzOptions
 {
     [CliOption("--resource-group")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "purge")]
+[CliSubCommand("appconfig", "purge")]
 public record AzAppconfigPurgeOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

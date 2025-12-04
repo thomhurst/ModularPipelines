@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "connection", "create", "storage-blob")]
+[CliSubCommand("spring", "connection", "create", "storage-blob")]
 public record AzSpringConnectionCreateStorageBlobOptions : AzOptions
 {
     [CliOption("--account")]

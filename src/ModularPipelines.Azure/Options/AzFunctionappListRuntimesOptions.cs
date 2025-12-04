@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "list-runtimes")]
+[CliSubCommand("functionapp", "list-runtimes")]
 public record AzFunctionappListRuntimesOptions : AzOptions
 {
     [CliOption("--os")]

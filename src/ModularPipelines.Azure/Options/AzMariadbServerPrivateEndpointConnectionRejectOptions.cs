@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "server", "private-endpoint-connection", "reject")]
+[CliSubCommand("mariadb", "server", "private-endpoint-connection", "reject")]
 public record AzMariadbServerPrivateEndpointConnectionRejectOptions : AzOptions
 {
     [CliOption("--description")]

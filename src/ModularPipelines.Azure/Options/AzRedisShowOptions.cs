@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redis", "show")]
+[CliSubCommand("redis", "show")]
 public record AzRedisShowOptions : AzOptions
 {
     [CliOption("--ids")]

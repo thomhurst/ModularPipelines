@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tag", "update")]
+[CliSubCommand("tag", "update")]
 public record AzTagUpdateOptions(
 [property: CliOption("--operation")] string Operation,
 [property: CliOption("--resource-id")] string ResourceId,

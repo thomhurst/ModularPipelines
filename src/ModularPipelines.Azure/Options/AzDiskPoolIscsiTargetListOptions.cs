@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-pool", "iscsi-target", "list")]
+[CliSubCommand("disk-pool", "iscsi-target", "list")]
 public record AzDiskPoolIscsiTargetListOptions(
 [property: CliOption("--disk-pool-name")] string DiskPoolName,
 [property: CliOption("--resource-group")] string ResourceGroup

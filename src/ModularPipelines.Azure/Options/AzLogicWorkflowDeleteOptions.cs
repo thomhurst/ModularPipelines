@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logic", "workflow", "delete")]
+[CliSubCommand("logic", "workflow", "delete")]
 public record AzLogicWorkflowDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

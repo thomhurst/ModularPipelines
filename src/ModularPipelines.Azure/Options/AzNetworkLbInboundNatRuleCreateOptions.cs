@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "lb", "inbound-nat-rule", "create")]
+[CliSubCommand("network", "lb", "inbound-nat-rule", "create")]
 public record AzNetworkLbInboundNatRuleCreateOptions(
 [property: CliOption("--backend-port")] string BackendPort,
 [property: CliOption("--lb-name")] string LbName,

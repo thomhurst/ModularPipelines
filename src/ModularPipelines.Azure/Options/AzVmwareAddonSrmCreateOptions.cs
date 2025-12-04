@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "addon", "srm", "create")]
+[CliSubCommand("vmware", "addon", "srm", "create")]
 public record AzVmwareAddonSrmCreateOptions(
 [property: CliOption("--license-key")] string LicenseKey,
 [property: CliOption("--private-cloud")] string PrivateCloud,

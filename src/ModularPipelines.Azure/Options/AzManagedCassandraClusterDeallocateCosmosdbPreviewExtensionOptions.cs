@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("managed-cassandra", "cluster", "deallocate", "(cosmosdb-preview", "extension)")]
+[CliSubCommand("managed-cassandra", "cluster", "deallocate", "(cosmosdb-preview", "extension)")]
 public record AzManagedCassandraClusterDeallocateCosmosdbPreviewExtensionOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--resource-group")] string ResourceGroup

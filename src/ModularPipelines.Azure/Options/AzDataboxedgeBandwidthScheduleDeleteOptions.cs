@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databoxedge", "bandwidth-schedule", "delete")]
+[CliSubCommand("databoxedge", "bandwidth-schedule", "delete")]
 public record AzDataboxedgeBandwidthScheduleDeleteOptions : AzOptions
 {
     [CliOption("--device-name")]

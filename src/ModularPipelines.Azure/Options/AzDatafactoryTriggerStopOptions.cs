@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "trigger", "stop")]
+[CliSubCommand("datafactory", "trigger", "stop")]
 public record AzDatafactoryTriggerStopOptions : AzOptions
 {
     [CliOption("--factory-name")]

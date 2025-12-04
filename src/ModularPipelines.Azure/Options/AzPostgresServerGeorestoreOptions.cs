@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server", "georestore")]
+[CliSubCommand("postgres", "server", "georestore")]
 public record AzPostgresServerGeorestoreOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--source-server")] string SourceServer

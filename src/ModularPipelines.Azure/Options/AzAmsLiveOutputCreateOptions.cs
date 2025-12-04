@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "live-output", "create")]
+[CliSubCommand("ams", "live-output", "create")]
 public record AzAmsLiveOutputCreateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--archive-window-length")] string ArchiveWindowLength,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "kubernetescluster", "create")]
+[CliSubCommand("networkcloud", "kubernetescluster", "create")]
 public record AzNetworkcloudKubernetesclusterCreateOptions(
 [property: CliOption("--control-plane-node-configuration")] string ControlPlaneNodeConfiguration,
 [property: CliOption("--extended-location")] string ExtendedLocation,

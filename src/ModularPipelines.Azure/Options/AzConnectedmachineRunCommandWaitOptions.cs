@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedmachine", "run-command", "wait")]
+[CliSubCommand("connectedmachine", "run-command", "wait")]
 public record AzConnectedmachineRunCommandWaitOptions : AzOptions
 {
     [CliFlag("--created")]

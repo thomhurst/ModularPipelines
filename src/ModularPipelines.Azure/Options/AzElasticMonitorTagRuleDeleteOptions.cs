@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("elastic", "monitor", "tag-rule", "delete")]
+[CliSubCommand("elastic", "monitor", "tag-rule", "delete")]
 public record AzElasticMonitorTagRuleDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

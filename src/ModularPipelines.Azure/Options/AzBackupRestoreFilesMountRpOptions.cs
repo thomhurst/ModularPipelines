@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "restore", "files", "mount-rp")]
+[CliSubCommand("backup", "restore", "files", "mount-rp")]
 public record AzBackupRestoreFilesMountRpOptions : AzOptions
 {
     [CliOption("--container-name")]

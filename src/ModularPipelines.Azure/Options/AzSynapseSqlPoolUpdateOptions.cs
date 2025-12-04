@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "sql", "pool", "update")]
+[CliSubCommand("synapse", "sql", "pool", "update")]
 public record AzSynapseSqlPoolUpdateOptions : AzOptions
 {
     [CliOption("--ids")]

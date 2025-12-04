@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("policy", "set-definition", "create")]
+[CliSubCommand("policy", "set-definition", "create")]
 public record AzPolicySetDefinitionCreateOptions(
 [property: CliOption("--definitions")] string Definitions,
 [property: CliOption("--name")] string Name

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "service", "update")]
+[CliSubCommand("cosmosdb", "service", "update")]
 public record AzCosmosdbServiceUpdateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--count")] int Count,

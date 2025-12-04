@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "blob", "query")]
+[CliSubCommand("storage", "blob", "query")]
 public record AzStorageBlobQueryOptions(
 [property: CliOption("--query-expression")] string QueryExpression
 ) : AzOptions

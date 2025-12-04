@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "webjob", "continuous", "stop")]
+[CliSubCommand("webapp", "webjob", "continuous", "stop")]
 public record AzWebappWebjobContinuousStopOptions(
 [property: CliOption("--webjob-name")] string WebjobName
 ) : AzOptions

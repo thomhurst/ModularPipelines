@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci-vm", "update")]
+[CliSubCommand("stack-hci-vm", "update")]
 public record AzStackHciVmUpdateOptions : AzOptions
 {
     [CliOption("--add")]

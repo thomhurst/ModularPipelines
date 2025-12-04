@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("quantum", "run")]
+[CliSubCommand("quantum", "run")]
 public record AzQuantumRunOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--resource-group")] string ResourceGroup,

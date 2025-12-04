@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dns-resolver", "outbound-endpoint", "wait")]
+[CliSubCommand("dns-resolver", "outbound-endpoint", "wait")]
 public record AzDnsResolverOutboundEndpointWaitOptions : AzOptions
 {
     [CliFlag("--created")]

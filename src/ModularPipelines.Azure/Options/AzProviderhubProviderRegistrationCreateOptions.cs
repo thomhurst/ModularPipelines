@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("providerhub", "provider-registration", "create")]
+[CliSubCommand("providerhub", "provider-registration", "create")]
 public record AzProviderhubProviderRegistrationCreateOptions(
 [property: CliOption("--provider-namespace")] string ProviderNamespace
 ) : AzOptions

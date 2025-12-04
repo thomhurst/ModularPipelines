@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "custom-ip", "prefix", "wait")]
+[CliSubCommand("network", "custom-ip", "prefix", "wait")]
 public record AzNetworkCustomIpPrefixWaitOptions : AzOptions
 {
     [CliFlag("--created")]

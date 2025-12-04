@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "firewall", "threat-intel-allowlist", "show")]
+[CliSubCommand("network", "firewall", "threat-intel-allowlist", "show")]
 public record AzNetworkFirewallThreatIntelAllowlistShowOptions : AzOptions
 {
     [CliOption("--ids")]

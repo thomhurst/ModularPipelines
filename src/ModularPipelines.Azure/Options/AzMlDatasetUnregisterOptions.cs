@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "dataset", "unregister")]
+[CliSubCommand("ml", "dataset", "unregister")]
 public record AzMlDatasetUnregisterOptions : AzOptions
 {
     [CliOption("--name")]

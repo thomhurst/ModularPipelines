@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "pipeline", "delete-draft")]
+[CliSubCommand("ml", "pipeline", "delete-draft")]
 public record AzMlPipelineDeleteDraftOptions(
 [property: CliOption("--pipeline-draft-id")] string PipelineDraftId
 ) : AzOptions

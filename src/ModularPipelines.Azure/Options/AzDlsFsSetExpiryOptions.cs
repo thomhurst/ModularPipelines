@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "fs", "set-expiry")]
+[CliSubCommand("dls", "fs", "set-expiry")]
 public record AzDlsFsSetExpiryOptions(
 [property: CliOption("--expiration-time")] string ExpirationTime,
 [property: CliOption("--path")] string Path

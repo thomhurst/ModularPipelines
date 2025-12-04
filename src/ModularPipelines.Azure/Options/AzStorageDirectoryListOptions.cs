@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "directory", "list")]
+[CliSubCommand("storage", "directory", "list")]
 public record AzStorageDirectoryListOptions(
 [property: CliOption("--share-name")] string ShareName
 ) : AzOptions

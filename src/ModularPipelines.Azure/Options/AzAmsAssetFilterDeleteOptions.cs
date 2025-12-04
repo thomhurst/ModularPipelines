@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "asset-filter", "delete")]
+[CliSubCommand("ams", "asset-filter", "delete")]
 public record AzAmsAssetFilterDeleteOptions : AzOptions
 {
     [CliOption("--account-name")]

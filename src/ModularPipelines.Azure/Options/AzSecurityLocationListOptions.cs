@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "location", "list")]
+[CliSubCommand("security", "location", "list")]
 public record AzSecurityLocationListOptions : AzOptions;

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "virtualmachine", "console", "create")]
+[CliSubCommand("networkcloud", "virtualmachine", "console", "create")]
 public record AzNetworkcloudVirtualmachineConsoleCreateOptions(
 [property: CliFlag("--enabled")] bool Enabled,
 [property: CliOption("--extended-location")] string ExtendedLocation,

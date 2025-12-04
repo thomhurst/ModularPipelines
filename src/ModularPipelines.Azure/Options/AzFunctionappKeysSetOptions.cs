@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "keys", "set")]
+[CliSubCommand("functionapp", "keys", "set")]
 public record AzFunctionappKeysSetOptions(
 [property: CliOption("--key-name")] string KeyName,
 [property: CliOption("--key-type")] string KeyType,

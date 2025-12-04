@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "project", "wait")]
+[CliSubCommand("devcenter", "admin", "project", "wait")]
 public record AzDevcenterAdminProjectWaitOptions : AzOptions
 {
     [CliFlag("--created")]

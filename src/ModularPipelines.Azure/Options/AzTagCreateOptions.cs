@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tag", "create")]
+[CliSubCommand("tag", "create")]
 public record AzTagCreateOptions : AzOptions
 {
     [CliOption("--name")]

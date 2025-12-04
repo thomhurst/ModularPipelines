@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-dns", "zone", "show")]
+[CliSubCommand("network", "private-dns", "zone", "show")]
 public record AzNetworkPrivateDnsZoneShowOptions : AzOptions
 {
     [CliOption("--ids")]

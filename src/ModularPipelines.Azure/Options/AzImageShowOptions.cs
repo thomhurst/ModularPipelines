@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("image", "show")]
+[CliSubCommand("image", "show")]
 public record AzImageShowOptions : AzOptions
 {
     [CliOption("--expand")]

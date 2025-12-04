@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "midb", "delete")]
+[CliSubCommand("sql", "midb", "delete")]
 public record AzSqlMidbDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

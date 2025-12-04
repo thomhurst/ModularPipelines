@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("desktopvirtualization", "workspace", "update")]
+[CliSubCommand("desktopvirtualization", "workspace", "update")]
 public record AzDesktopvirtualizationWorkspaceUpdateOptions : AzOptions
 {
     [CliOption("--application-group-references")]

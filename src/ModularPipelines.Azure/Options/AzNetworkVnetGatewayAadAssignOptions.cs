@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet-gateway", "aad", "assign")]
+[CliSubCommand("network", "vnet-gateway", "aad", "assign")]
 public record AzNetworkVnetGatewayAadAssignOptions(
 [property: CliOption("--audience")] string Audience,
 [property: CliOption("--gateway-name")] string GatewayName,

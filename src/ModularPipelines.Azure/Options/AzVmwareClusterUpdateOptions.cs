@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "cluster", "update")]
+[CliSubCommand("vmware", "cluster", "update")]
 public record AzVmwareClusterUpdateOptions : AzOptions
 {
     [CliOption("--add")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "create", "storage-queue")]
+[CliSubCommand("connection", "create", "storage-queue")]
 public record AzConnectionCreateStorageQueueOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

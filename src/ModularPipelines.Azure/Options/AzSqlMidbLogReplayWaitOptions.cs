@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "midb", "log-replay", "wait")]
+[CliSubCommand("sql", "midb", "log-replay", "wait")]
 public record AzSqlMidbLogReplayWaitOptions : AzOptions
 {
     [CliFlag("--created")]

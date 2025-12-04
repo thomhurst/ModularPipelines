@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "registry", "delete")]
+[CliSubCommand("ml", "registry", "delete")]
 public record AzMlRegistryDeleteOptions : AzOptions
 {
     [CliOption("--name")]

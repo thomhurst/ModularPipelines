@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webpubsub", "service", "group", "remove-user")]
+[CliSubCommand("webpubsub", "service", "group", "remove-user")]
 public record AzWebpubsubServiceGroupRemoveUserOptions(
 [property: CliOption("--hub-name")] string HubName,
 [property: CliOption("--user-id")] string UserId

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("adp", "workspace", "update")]
+[CliSubCommand("adp", "workspace", "update")]
 public record AzAdpWorkspaceUpdateOptions : AzOptions
 {
     [CliOption("--add")]

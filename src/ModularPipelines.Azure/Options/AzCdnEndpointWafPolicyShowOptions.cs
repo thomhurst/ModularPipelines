@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cdn", "endpoint", "waf", "policy", "show")]
+[CliSubCommand("cdn", "endpoint", "waf", "policy", "show")]
 public record AzCdnEndpointWafPolicyShowOptions : AzOptions
 {
     [CliOption("--endpoint-name")]

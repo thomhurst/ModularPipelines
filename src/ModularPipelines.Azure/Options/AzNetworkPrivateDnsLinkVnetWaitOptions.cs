@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-dns", "link", "vnet", "wait")]
+[CliSubCommand("network", "private-dns", "link", "vnet", "wait")]
 public record AzNetworkPrivateDnsLinkVnetWaitOptions : AzOptions
 {
     [CliFlag("--created")]

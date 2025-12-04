@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appservice", "ase", "create-inbound-services")]
+[CliSubCommand("appservice", "ase", "create-inbound-services")]
 public record AzAppserviceAseCreateInboundServicesOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

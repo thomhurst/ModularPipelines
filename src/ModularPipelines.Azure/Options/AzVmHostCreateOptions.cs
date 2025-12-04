@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "host", "create")]
+[CliSubCommand("vm", "host", "create")]
 public record AzVmHostCreateOptions(
 [property: CliOption("--host-group")] string HostGroup,
 [property: CliOption("--name")] string Name,

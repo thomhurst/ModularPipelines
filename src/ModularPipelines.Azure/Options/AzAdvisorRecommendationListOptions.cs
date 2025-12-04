@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("advisor", "recommendation", "list")]
+[CliSubCommand("advisor", "recommendation", "list")]
 public record AzAdvisorRecommendationListOptions : AzOptions
 {
     [CliOption("--category")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci-vm", "start")]
+[CliSubCommand("stack-hci-vm", "start")]
 public record AzStackHciVmStartOptions : AzOptions
 {
     [CliOption("--ids")]

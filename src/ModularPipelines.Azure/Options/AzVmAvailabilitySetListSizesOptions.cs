@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "availability-set", "list-sizes")]
+[CliSubCommand("vm", "availability-set", "list-sizes")]
 public record AzVmAvailabilitySetListSizesOptions : AzOptions
 {
     [CliOption("--availability-set-name")]

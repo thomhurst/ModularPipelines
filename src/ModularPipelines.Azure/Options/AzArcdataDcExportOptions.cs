@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcdata", "dc", "export")]
+[CliSubCommand("arcdata", "dc", "export")]
 public record AzArcdataDcExportOptions(
 [property: CliOption("--k8s-namespace")] string K8sNamespace,
 [property: CliOption("--path")] string Path,

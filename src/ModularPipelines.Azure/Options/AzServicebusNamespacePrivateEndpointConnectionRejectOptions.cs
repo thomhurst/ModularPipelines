@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "namespace", "private-endpoint-connection", "reject")]
+[CliSubCommand("servicebus", "namespace", "private-endpoint-connection", "reject")]
 public record AzServicebusNamespacePrivateEndpointConnectionRejectOptions : AzOptions
 {
     [CliOption("--description")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("policy", "remediation", "list")]
+[CliSubCommand("policy", "remediation", "list")]
 public record AzPolicyRemediationListOptions : AzOptions
 {
     [CliOption("--management-group")]

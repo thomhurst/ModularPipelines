@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automanage", "configuration-profile-assignment", "cluster", "show")]
+[CliSubCommand("automanage", "configuration-profile-assignment", "cluster", "show")]
 public record AzAutomanageConfigurationProfileAssignmentClusterShowOptions : AzOptions
 {
     [CliOption("--cluster-name")]

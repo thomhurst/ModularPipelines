@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "preview-configuration", "redis")]
+[CliSubCommand("connection", "preview-configuration", "redis")]
 public record AzConnectionPreviewConfigurationRedisOptions : AzOptions
 {
     [CliOption("--client-type")]

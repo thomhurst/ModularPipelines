@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "function", "keys", "list")]
+[CliSubCommand("functionapp", "function", "keys", "list")]
 public record AzFunctionappFunctionKeysListOptions(
 [property: CliOption("--function-name")] string FunctionName,
 [property: CliOption("--name")] string Name,

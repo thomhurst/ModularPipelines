@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "ltr-policy", "set")]
+[CliSubCommand("sql", "db", "ltr-policy", "set")]
 public record AzSqlDbLtrPolicySetOptions : AzOptions
 {
     [CliOption("--ids")]

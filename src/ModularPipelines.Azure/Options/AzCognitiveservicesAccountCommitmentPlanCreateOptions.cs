@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cognitiveservices", "account", "commitment-plan", "create")]
+[CliSubCommand("cognitiveservices", "account", "commitment-plan", "create")]
 public record AzCognitiveservicesAccountCommitmentPlanCreateOptions(
 [property: CliFlag("--auto-renew")] bool AutoRenew,
 [property: CliOption("--commitment-plan-name")] string CommitmentPlanName,

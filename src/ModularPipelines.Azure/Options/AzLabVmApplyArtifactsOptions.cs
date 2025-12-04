@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("lab", "vm", "apply-artifacts")]
+[CliSubCommand("lab", "vm", "apply-artifacts")]
 public record AzLabVmApplyArtifactsOptions(
 [property: CliOption("--lab-name")] string LabName,
 [property: CliOption("--name")] string Name,

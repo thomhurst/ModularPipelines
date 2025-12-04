@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "endpoint", "wait")]
+[CliSubCommand("dt", "endpoint", "wait")]
 public record AzDtEndpointWaitOptions(
 [property: CliOption("--dt-name")] string DtName,
 [property: CliOption("--en")] string En

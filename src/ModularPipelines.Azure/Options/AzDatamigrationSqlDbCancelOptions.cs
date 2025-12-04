@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datamigration", "sql-db", "cancel")]
+[CliSubCommand("datamigration", "sql-db", "cancel")]
 public record AzDatamigrationSqlDbCancelOptions(
 [property: CliOption("--migration-operation-id")] string MigrationOperationId
 ) : AzOptions

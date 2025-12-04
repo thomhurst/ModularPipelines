@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "virtualmachine", "create")]
+[CliSubCommand("networkcloud", "virtualmachine", "create")]
 public record AzNetworkcloudVirtualmachineCreateOptions(
 [property: CliOption("--admin-username")] string AdminUsername,
 [property: CliOption("--cloud-services-network-attachment")] string CloudServicesNetworkAttachment,

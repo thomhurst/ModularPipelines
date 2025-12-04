@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "environment-type", "update")]
+[CliSubCommand("devcenter", "admin", "environment-type", "update")]
 public record AzDevcenterAdminEnvironmentTypeUpdateOptions : AzOptions
 {
     [CliOption("--add")]

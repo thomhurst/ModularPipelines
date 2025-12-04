@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "ad-admin", "show")]
+[CliSubCommand("mysql", "server", "ad-admin", "show")]
 public record AzMysqlServerAdAdminShowOptions : AzOptions
 {
     [CliOption("--ids")]

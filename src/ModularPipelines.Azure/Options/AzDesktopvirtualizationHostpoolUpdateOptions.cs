@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("desktopvirtualization", "hostpool", "update")]
+[CliSubCommand("desktopvirtualization", "hostpool", "update")]
 public record AzDesktopvirtualizationHostpoolUpdateOptions : AzOptions
 {
     [CliOption("--custom-rdp-property")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "dps", "list")]
+[CliSubCommand("iot", "dps", "list")]
 public record AzIotDpsListOptions : AzOptions
 {
     [CliOption("--resource-group")]

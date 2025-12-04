@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "message-endpoint", "create", "storage-container")]
+[CliSubCommand("iot", "hub", "message-endpoint", "create", "storage-container")]
 public record AzIotHubMessageEndpointCreateStorageContainerOptions(
 [property: CliOption("--container")] string Container,
 [property: CliOption("--en")] string En,

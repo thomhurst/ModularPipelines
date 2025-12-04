@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "list-instance-connection-info")]
+[CliSubCommand("vmss", "list-instance-connection-info")]
 public record AzVmssListInstanceConnectionInfoOptions : AzOptions
 {
     [CliOption("--ids")]

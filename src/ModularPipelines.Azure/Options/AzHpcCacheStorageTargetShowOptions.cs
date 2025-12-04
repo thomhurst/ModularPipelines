@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hpc-cache", "storage-target", "show")]
+[CliSubCommand("hpc-cache", "storage-target", "show")]
 public record AzHpcCacheStorageTargetShowOptions(
 [property: CliOption("--cache-name")] string CacheName,
 [property: CliOption("--name")] string Name,

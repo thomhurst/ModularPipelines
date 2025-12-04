@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "vm", "group", "ag-listener", "delete")]
+[CliSubCommand("sql", "vm", "group", "ag-listener", "delete")]
 public record AzSqlVmGroupAgListenerDeleteOptions(
 [property: CliOption("--group-name")] string GroupName
 ) : AzOptions

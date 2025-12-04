@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vpn-connection", "shared-key", "reset")]
+[CliSubCommand("network", "vpn-connection", "shared-key", "reset")]
 public record AzNetworkVpnConnectionSharedKeyResetOptions(
 [property: CliOption("--key-length")] string KeyLength
 ) : AzOptions

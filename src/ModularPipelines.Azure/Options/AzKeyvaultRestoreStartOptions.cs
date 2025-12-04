@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "restore", "start")]
+[CliSubCommand("keyvault", "restore", "start")]
 public record AzKeyvaultRestoreStartOptions(
 [property: CliOption("--backup-folder")] string BackupFolder
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "failover-group", "list")]
+[CliSubCommand("sql", "failover-group", "list")]
 public record AzSqlFailoverGroupListOptions : AzOptions
 {
     [CliOption("--ids")]

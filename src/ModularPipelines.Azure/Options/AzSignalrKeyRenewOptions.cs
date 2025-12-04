@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("signalr", "key", "renew")]
+[CliSubCommand("signalr", "key", "renew")]
 public record AzSignalrKeyRenewOptions(
 [property: CliOption("--key-type")] string KeyType
 ) : AzOptions

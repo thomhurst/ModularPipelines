@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "server", "list")]
+[CliSubCommand("mariadb", "server", "list")]
 public record AzMariadbServerListOptions : AzOptions
 {
     [CliOption("--resource-group")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "account", "encryption", "show")]
+[CliSubCommand("ams", "account", "encryption", "show")]
 public record AzAmsAccountEncryptionShowOptions : AzOptions
 {
     [CliOption("--account-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "dev", "environment", "show-operation")]
+[CliSubCommand("devcenter", "dev", "environment", "show-operation")]
 public record AzDevcenterDevEnvironmentShowOperationOptions(
 [property: CliOption("--environment-name")] string EnvironmentName,
 [property: CliOption("--operation-id")] string OperationId,

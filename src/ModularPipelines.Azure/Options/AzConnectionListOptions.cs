@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "list")]
+[CliSubCommand("connection", "list")]
 public record AzConnectionListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

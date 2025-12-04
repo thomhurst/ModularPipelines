@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "wait")]
+[CliSubCommand("mysql", "server", "wait")]
 public record AzMysqlServerWaitOptions : AzOptions
 {
     [CliOption("--custom")]

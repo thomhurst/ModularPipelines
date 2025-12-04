@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("edgeorder", "order-item", "wait")]
+[CliSubCommand("edgeorder", "order-item", "wait")]
 public record AzEdgeorderOrderItemWaitOptions(
 [property: CliOption("--order-item-name")] string OrderItemName,
 [property: CliOption("--resource-group")] string ResourceGroup

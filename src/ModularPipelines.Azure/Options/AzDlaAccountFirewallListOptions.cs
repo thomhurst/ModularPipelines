@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "account", "firewall", "list")]
+[CliSubCommand("dla", "account", "firewall", "list")]
 public record AzDlaAccountFirewallListOptions : AzOptions
 {
     [CliOption("--account")]

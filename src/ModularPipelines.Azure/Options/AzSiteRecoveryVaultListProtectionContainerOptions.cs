@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "vault", "list-protection-container")]
+[CliSubCommand("site-recovery", "vault", "list-protection-container")]
 public record AzSiteRecoveryVaultListProtectionContainerOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--vault-name")] string VaultName

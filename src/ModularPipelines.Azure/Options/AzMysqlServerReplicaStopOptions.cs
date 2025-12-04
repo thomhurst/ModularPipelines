@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "replica", "stop")]
+[CliSubCommand("mysql", "server", "replica", "stop")]
 public record AzMysqlServerReplicaStopOptions : AzOptions
 {
     [CliOption("--ids")]

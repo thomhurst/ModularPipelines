@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "availability-set", "delete")]
+[CliSubCommand("vm", "availability-set", "delete")]
 public record AzVmAvailabilitySetDeleteOptions : AzOptions
 {
     [CliOption("--availability-set-name")]

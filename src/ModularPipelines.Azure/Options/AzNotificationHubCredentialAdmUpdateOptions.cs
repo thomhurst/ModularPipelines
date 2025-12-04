@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("notification-hub", "credential", "adm", "update")]
+[CliSubCommand("notification-hub", "credential", "adm", "update")]
 public record AzNotificationHubCredentialAdmUpdateOptions(
 [property: CliOption("--client-id")] string ClientId,
 [property: CliOption("--client-secret")] string ClientSecret,

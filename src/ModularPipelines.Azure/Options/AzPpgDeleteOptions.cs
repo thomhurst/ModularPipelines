@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ppg", "delete")]
+[CliSubCommand("ppg", "delete")]
 public record AzPpgDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

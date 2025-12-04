@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "file", "resize", "(storage-preview", "extension)")]
+[CliSubCommand("storage", "file", "resize", "(storage-preview", "extension)")]
 public record AzStorageFileResizeStoragePreviewExtensionOptions(
 [property: CliOption("--path")] string Path,
 [property: CliOption("--share-name")] string ShareName,

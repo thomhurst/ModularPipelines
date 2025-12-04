@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("reservations", "reservation-order", "calculate")]
+[CliSubCommand("reservations", "reservation-order", "calculate")]
 public record AzReservationsReservationOrderCalculateOptions : AzOptions
 {
     [CliOption("--applied-scope")]

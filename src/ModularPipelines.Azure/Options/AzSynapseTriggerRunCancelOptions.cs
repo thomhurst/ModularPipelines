@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "trigger-run", "cancel")]
+[CliSubCommand("synapse", "trigger-run", "cancel")]
 public record AzSynapseTriggerRunCancelOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--run-id")] string RunId,

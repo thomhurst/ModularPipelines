@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "op", "cancel")]
+[CliSubCommand("sql", "mi", "op", "cancel")]
 public record AzSqlMiOpCancelOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "runs", "tag", "add")]
+[CliSubCommand("pipelines", "runs", "tag", "add")]
 public record AzPipelinesRunsTagAddOptions(
 [property: CliOption("--run-id")] string RunId,
 [property: CliOption("--tags")] string Tags

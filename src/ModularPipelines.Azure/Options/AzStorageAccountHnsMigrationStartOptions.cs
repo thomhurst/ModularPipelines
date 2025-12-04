@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "hns-migration", "start")]
+[CliSubCommand("storage", "account", "hns-migration", "start")]
 public record AzStorageAccountHnsMigrationStartOptions(
 [property: CliOption("--request-type")] string RequestType
 ) : AzOptions

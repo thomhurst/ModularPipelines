@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "blob", "filter")]
+[CliSubCommand("storage", "blob", "filter")]
 public record AzStorageBlobFilterOptions(
 [property: CliOption("--tag-filter")] string TagFilter
 ) : AzOptions

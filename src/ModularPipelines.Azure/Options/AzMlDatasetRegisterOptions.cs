@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "dataset", "register")]
+[CliSubCommand("ml", "dataset", "register")]
 public record AzMlDatasetRegisterOptions : AzOptions
 {
     [CliOption("--file")]

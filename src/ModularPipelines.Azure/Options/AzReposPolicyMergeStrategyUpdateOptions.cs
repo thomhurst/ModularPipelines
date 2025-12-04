@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "policy", "merge-strategy", "update")]
+[CliSubCommand("repos", "policy", "merge-strategy", "update")]
 public record AzReposPolicyMergeStrategyUpdateOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions

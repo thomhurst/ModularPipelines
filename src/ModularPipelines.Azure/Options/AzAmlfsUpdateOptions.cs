@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("amlfs", "update")]
+[CliSubCommand("amlfs", "update")]
 public record AzAmlfsUpdateOptions : AzOptions
 {
     [CliOption("--add")]

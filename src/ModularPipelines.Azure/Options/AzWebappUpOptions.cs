@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "up")]
+[CliSubCommand("webapp", "up")]
 public record AzWebappUpOptions : AzOptions
 {
     [CliOption("--app-service-environment")]

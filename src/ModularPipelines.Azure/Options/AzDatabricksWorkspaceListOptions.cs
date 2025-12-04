@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databricks", "workspace", "list")]
+[CliSubCommand("databricks", "workspace", "list")]
 public record AzDatabricksWorkspaceListOptions : AzOptions
 {
     [CliOption("--resource-group")]

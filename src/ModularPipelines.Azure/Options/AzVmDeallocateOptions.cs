@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "deallocate")]
+[CliSubCommand("vm", "deallocate")]
 public record AzVmDeallocateOptions : AzOptions
 {
     [CliFlag("--hibernate")]

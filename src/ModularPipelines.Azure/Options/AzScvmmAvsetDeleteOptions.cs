@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "avset", "delete")]
+[CliSubCommand("scvmm", "avset", "delete")]
 public record AzScvmmAvsetDeleteOptions : AzOptions
 {
     [CliFlag("--force")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "volume", "quota-rule", "delete")]
+[CliSubCommand("netappfiles", "volume", "quota-rule", "delete")]
 public record AzNetappfilesVolumeQuotaRuleDeleteOptions(
 [property: CliOption("--quota-rule-name")] string QuotaRuleName
 ) : AzOptions

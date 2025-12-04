@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("purview", "account", "list")]
+[CliSubCommand("purview", "account", "list")]
 public record AzPurviewAccountListOptions : AzOptions
 {
     [CliOption("--resource-group")]

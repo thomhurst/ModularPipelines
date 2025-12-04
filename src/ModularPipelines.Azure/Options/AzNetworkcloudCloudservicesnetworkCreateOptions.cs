@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cloudservicesnetwork", "create")]
+[CliSubCommand("networkcloud", "cloudservicesnetwork", "create")]
 public record AzNetworkcloudCloudservicesnetworkCreateOptions(
 [property: CliOption("--cloud-services-network-name")] string CloudServicesNetworkName,
 [property: CliOption("--extended-location")] string ExtendedLocation,

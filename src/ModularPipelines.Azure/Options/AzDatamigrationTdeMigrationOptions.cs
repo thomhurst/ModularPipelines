@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datamigration", "tde-migration")]
+[CliSubCommand("datamigration", "tde-migration")]
 public record AzDatamigrationTdeMigrationOptions : AzOptions
 {
     [CliOption("--database-name")]

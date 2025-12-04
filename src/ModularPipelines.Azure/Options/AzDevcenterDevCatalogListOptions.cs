@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "dev", "catalog", "list")]
+[CliSubCommand("devcenter", "dev", "catalog", "list")]
 public record AzDevcenterDevCatalogListOptions(
 [property: CliOption("--project")] string Project
 ) : AzOptions

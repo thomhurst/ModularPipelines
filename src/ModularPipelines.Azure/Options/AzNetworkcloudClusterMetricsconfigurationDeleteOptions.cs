@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cluster", "metricsconfiguration", "delete")]
+[CliSubCommand("networkcloud", "cluster", "metricsconfiguration", "delete")]
 public record AzNetworkcloudClusterMetricsconfigurationDeleteOptions : AzOptions
 {
     [CliOption("--cluster-name")]

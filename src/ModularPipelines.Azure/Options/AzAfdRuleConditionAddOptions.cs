@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "rule", "condition", "add")]
+[CliSubCommand("afd", "rule", "condition", "add")]
 public record AzAfdRuleConditionAddOptions(
 [property: CliOption("--match-variable")] string MatchVariable,
 [property: CliOption("--operator")] string Operator

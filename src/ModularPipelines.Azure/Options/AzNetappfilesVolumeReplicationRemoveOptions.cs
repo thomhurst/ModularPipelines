@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "volume", "replication", "remove")]
+[CliSubCommand("netappfiles", "volume", "replication", "remove")]
 public record AzNetappfilesVolumeReplicationRemoveOptions : AzOptions
 {
     [CliOption("--account-name")]

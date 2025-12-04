@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "namespace", "network-rule-set", "show")]
+[CliSubCommand("servicebus", "namespace", "network-rule-set", "show")]
 public record AzServicebusNamespaceNetworkRuleSetShowOptions : AzOptions
 {
     [CliOption("--ids")]

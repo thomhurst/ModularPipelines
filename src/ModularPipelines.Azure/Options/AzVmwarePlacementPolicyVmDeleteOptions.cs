@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "placement-policy", "vm", "delete")]
+[CliSubCommand("vmware", "placement-policy", "vm", "delete")]
 public record AzVmwarePlacementPolicyVmDeleteOptions : AzOptions
 {
     [CliOption("--cluster-name")]

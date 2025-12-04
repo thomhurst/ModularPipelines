@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "ref", "list")]
+[CliSubCommand("repos", "ref", "list")]
 public record AzReposRefListOptions : AzOptions
 {
     [CliFlag("--detect")]

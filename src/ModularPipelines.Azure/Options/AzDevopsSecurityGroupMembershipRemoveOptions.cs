@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "security", "group", "membership", "remove")]
+[CliSubCommand("devops", "security", "group", "membership", "remove")]
 public record AzDevopsSecurityGroupMembershipRemoveOptions(
 [property: CliOption("--group-id")] string GroupId,
 [property: CliOption("--member-id")] string MemberId

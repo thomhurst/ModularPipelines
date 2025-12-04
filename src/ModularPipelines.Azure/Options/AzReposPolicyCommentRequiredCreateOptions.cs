@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "policy", "comment-required", "create")]
+[CliSubCommand("repos", "policy", "comment-required", "create")]
 public record AzReposPolicyCommentRequiredCreateOptions(
 [property: CliFlag("--blocking")] bool Blocking,
 [property: CliOption("--branch")] string Branch,

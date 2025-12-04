@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dynatrace", "monitor", "tag-rule", "wait")]
+[CliSubCommand("dynatrace", "monitor", "tag-rule", "wait")]
 public record AzDynatraceMonitorTagRuleWaitOptions : AzOptions
 {
     [CliFlag("--created")]

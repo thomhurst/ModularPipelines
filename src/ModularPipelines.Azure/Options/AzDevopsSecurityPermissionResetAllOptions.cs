@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "security", "permission", "reset-all")]
+[CliSubCommand("devops", "security", "permission", "reset-all")]
 public record AzDevopsSecurityPermissionResetAllOptions(
 [property: CliOption("--id")] string Id,
 [property: CliOption("--subject")] string Subject,

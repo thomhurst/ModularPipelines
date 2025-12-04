@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "vm", "validate-ure-ad-auth")]
+[CliSubCommand("sql", "vm", "validate-ure-ad-auth")]
 public record AzSqlVmValidateAzureAdAuthOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mobile-network", "pccp", "collect-diagnostics-package")]
+[CliSubCommand("mobile-network", "pccp", "collect-diagnostics-package")]
 public record AzMobileNetworkPccpCollectDiagnosticsPackageOptions(
 [property: CliOption("--blob-url")] string BlobUrl
 ) : AzOptions

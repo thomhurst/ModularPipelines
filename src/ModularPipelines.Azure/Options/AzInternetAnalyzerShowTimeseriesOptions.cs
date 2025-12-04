@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("internet-analyzer", "show-timeseries")]
+[CliSubCommand("internet-analyzer", "show-timeseries")]
 public record AzInternetAnalyzerShowTimeseriesOptions(
 [property: CliOption("--aggregation-interval")] string AggregationInterval,
 [property: CliOption("--end-date-time-utc")] string EndDateTimeUtc,

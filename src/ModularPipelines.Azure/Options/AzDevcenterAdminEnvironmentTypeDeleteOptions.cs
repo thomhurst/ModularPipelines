@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "environment-type", "delete")]
+[CliSubCommand("devcenter", "admin", "environment-type", "delete")]
 public record AzDevcenterAdminEnvironmentTypeDeleteOptions : AzOptions
 {
     [CliOption("--dev-center")]

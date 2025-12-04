@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "lb", "list-mapping")]
+[CliSubCommand("network", "lb", "list-mapping")]
 public record AzNetworkLbListMappingOptions(
 [property: CliOption("--backend-pool-name")] string BackendPoolName,
 [property: CliOption("--request")] string Request

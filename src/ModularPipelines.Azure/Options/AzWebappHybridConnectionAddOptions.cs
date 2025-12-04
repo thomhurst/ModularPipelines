@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "hybrid-connection", "add")]
+[CliSubCommand("webapp", "hybrid-connection", "add")]
 public record AzWebappHybridConnectionAddOptions(
 [property: CliOption("--hybrid-connection")] string HybridConnection,
 [property: CliOption("--name")] string Name,

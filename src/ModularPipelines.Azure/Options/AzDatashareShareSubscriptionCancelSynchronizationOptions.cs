@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datashare", "share-subscription", "cancel-synchronization")]
+[CliSubCommand("datashare", "share-subscription", "cancel-synchronization")]
 public record AzDatashareShareSubscriptionCancelSynchronizationOptions(
 [property: CliOption("--synchronization-id")] string SynchronizationId
 ) : AzOptions

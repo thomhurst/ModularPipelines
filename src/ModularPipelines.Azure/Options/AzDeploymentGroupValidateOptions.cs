@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("deployment", "group", "validate")]
+[CliSubCommand("deployment", "group", "validate")]
 public record AzDeploymentGroupValidateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

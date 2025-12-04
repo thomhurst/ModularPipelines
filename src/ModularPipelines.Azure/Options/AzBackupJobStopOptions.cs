@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "job", "stop")]
+[CliSubCommand("backup", "job", "stop")]
 public record AzBackupJobStopOptions : AzOptions
 {
     [CliOption("--ids")]

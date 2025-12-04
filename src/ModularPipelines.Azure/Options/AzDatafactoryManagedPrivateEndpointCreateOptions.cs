@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "managed-private-endpoint", "create")]
+[CliSubCommand("datafactory", "managed-private-endpoint", "create")]
 public record AzDatafactoryManagedPrivateEndpointCreateOptions(
 [property: CliOption("--factory-name")] string FactoryName,
 [property: CliOption("--managed-private-endpoint-name")] string ManagedPrivateEndpointName,

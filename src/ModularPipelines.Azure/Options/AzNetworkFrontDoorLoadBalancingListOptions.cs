@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "front-door", "load-balancing", "list")]
+[CliSubCommand("network", "front-door", "load-balancing", "list")]
 public record AzNetworkFrontDoorLoadBalancingListOptions(
 [property: CliOption("--front-door-name")] string FrontDoorName,
 [property: CliOption("--resource-group")] string ResourceGroup

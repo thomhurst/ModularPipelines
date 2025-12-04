@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("account", "subscription", "rename")]
+[CliSubCommand("account", "subscription", "rename")]
 public record AzAccountSubscriptionRenameOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions

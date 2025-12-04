@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "lb", "inbound-nat-pool", "create")]
+[CliSubCommand("network", "lb", "inbound-nat-pool", "create")]
 public record AzNetworkLbInboundNatPoolCreateOptions(
 [property: CliOption("--backend-port")] string BackendPort,
 [property: CliOption("--frontend-port-range-end")] string FrontendPortRangeEnd,

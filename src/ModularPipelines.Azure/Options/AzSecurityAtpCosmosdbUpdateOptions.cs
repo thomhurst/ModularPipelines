@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "atp", "cosmosdb", "update")]
+[CliSubCommand("security", "atp", "cosmosdb", "update")]
 public record AzSecurityAtpCosmosdbUpdateOptions(
 [property: CliOption("--cosmosdb-account")] int CosmosdbAccount,
 [property: CliFlag("--is-enabled")] bool IsEnabled,

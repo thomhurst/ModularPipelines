@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "lb", "inbound-nat-rule", "wait")]
+[CliSubCommand("network", "lb", "inbound-nat-rule", "wait")]
 public record AzNetworkLbInboundNatRuleWaitOptions : AzOptions
 {
     [CliFlag("--created")]

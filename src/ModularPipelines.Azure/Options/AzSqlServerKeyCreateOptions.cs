@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "key", "create")]
+[CliSubCommand("sql", "server", "key", "create")]
 public record AzSqlServerKeyCreateOptions(
 [property: CliOption("--kid")] string Kid,
 [property: CliOption("--resource-group")] string ResourceGroup,

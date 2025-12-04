@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "device", "edge", "module", "restart")]
+[CliSubCommand("iot", "central", "device", "edge", "module", "restart")]
 public record AzIotCentralDeviceEdgeModuleRestartOptions(
 [property: CliOption("--app-id")] string AppId,
 [property: CliOption("--device-id")] string DeviceId,

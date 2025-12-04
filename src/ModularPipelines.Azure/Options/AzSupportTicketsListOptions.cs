@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("support", "tickets", "list")]
+[CliSubCommand("support", "tickets", "list")]
 public record AzSupportTicketsListOptions : AzOptions
 {
     [CliOption("--filters")]

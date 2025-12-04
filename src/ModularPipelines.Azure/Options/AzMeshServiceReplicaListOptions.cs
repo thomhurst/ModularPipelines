@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mesh", "service-replica", "list")]
+[CliSubCommand("mesh", "service-replica", "list")]
 public record AzMeshServiceReplicaListOptions(
 [property: CliOption("--app-name")] string AppName,
 [property: CliOption("--resource-group")] string ResourceGroup,

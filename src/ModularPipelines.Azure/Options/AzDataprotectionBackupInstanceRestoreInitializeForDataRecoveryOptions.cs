@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "backup-instance", "restore", "initialize-for-data-recovery")]
+[CliSubCommand("dataprotection", "backup-instance", "restore", "initialize-for-data-recovery")]
 public record AzDataprotectionBackupInstanceRestoreInitializeForDataRecoveryOptions(
 [property: CliOption("--datasource-type")] string DatasourceType,
 [property: CliOption("--restore-location")] string RestoreLocation,

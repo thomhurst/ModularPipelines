@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "namespace", "client-group", "create")]
+[CliSubCommand("eventgrid", "namespace", "client-group", "create")]
 public record AzEventgridNamespaceClientGroupCreateOptions(
 [property: CliOption("--client-group-name")] string ClientGroupName,
 [property: CliOption("--namespace-name")] string NamespaceName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("consumption", "budget", "delete")]
+[CliSubCommand("consumption", "budget", "delete")]
 public record AzConsumptionBudgetDeleteOptions(
 [property: CliOption("--budget-name")] string BudgetName
 ) : AzOptions

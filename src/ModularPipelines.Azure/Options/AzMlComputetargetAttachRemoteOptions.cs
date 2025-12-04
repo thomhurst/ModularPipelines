@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "computetarget", "attach", "remote")]
+[CliSubCommand("ml", "computetarget", "attach", "remote")]
 public record AzMlComputetargetAttachRemoteOptions(
 [property: CliOption("--address")] string Address,
 [property: CliOption("--name")] string Name,

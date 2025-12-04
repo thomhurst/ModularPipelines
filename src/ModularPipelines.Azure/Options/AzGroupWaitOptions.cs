@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("group", "wait")]
+[CliSubCommand("group", "wait")]
 public record AzGroupWaitOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

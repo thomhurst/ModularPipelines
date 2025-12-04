@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "l3domain", "update-admin-state")]
+[CliSubCommand("networkfabric", "l3domain", "update-admin-state")]
 public record AzNetworkfabricL3domainUpdateAdminStateOptions : AzOptions
 {
     [CliOption("--ids")]

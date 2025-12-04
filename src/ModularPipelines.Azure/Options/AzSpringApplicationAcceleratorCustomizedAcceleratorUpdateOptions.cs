@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "application-accelerator", "customized-accelerator", "update")]
+[CliSubCommand("spring", "application-accelerator", "customized-accelerator", "update")]
 public record AzSpringApplicationAcceleratorCustomizedAcceleratorUpdateOptions(
 [property: CliOption("--display-name")] string DisplayName,
 [property: CliOption("--git-url")] string GitUrl,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "datastore", "upload")]
+[CliSubCommand("ml", "datastore", "upload")]
 public record AzMlDatastoreUploadOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--src-path")] string SrcPath

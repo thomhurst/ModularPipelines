@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "authorization", "show")]
+[CliSubCommand("vmware", "authorization", "show")]
 public record AzVmwareAuthorizationShowOptions : AzOptions
 {
     [CliOption("--authorization-name")]

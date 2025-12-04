@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "aem", "set")]
+[CliSubCommand("vm", "aem", "set")]
 public record AzVmAemSetOptions : AzOptions
 {
     [CliFlag("--debug-extension")]

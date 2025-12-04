@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "action-group", "create")]
+[CliSubCommand("monitor", "action-group", "create")]
 public record AzMonitorActionGroupCreateOptions(
 [property: CliOption("--action-group-name")] string ActionGroupName,
 [property: CliOption("--resource-group")] string ResourceGroup

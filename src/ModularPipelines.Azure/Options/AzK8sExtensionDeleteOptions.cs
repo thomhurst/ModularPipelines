@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("k8s-extension", "delete")]
+[CliSubCommand("k8s-extension", "delete")]
 public record AzK8sExtensionDeleteOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--cluster-type")] string ClusterType,

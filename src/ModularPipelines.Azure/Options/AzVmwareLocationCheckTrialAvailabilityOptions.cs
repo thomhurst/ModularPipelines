@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "location", "check-trial-availability")]
+[CliSubCommand("vmware", "location", "check-trial-availability")]
 public record AzVmwareLocationCheckTrialAvailabilityOptions : AzOptions
 {
     [CliOption("--ids")]

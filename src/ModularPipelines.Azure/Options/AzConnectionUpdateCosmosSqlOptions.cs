@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "update", "cosmos-sql")]
+[CliSubCommand("connection", "update", "cosmos-sql")]
 public record AzConnectionUpdateCosmosSqlOptions : AzOptions
 {
     [CliOption("--client-type")]

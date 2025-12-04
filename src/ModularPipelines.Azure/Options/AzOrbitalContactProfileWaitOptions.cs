@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("orbital", "contact-profile", "wait")]
+[CliSubCommand("orbital", "contact-profile", "wait")]
 public record AzOrbitalContactProfileWaitOptions : AzOptions
 {
     [CliOption("--contact-profile-name")]

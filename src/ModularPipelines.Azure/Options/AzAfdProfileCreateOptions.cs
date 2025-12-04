@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "profile", "create")]
+[CliSubCommand("afd", "profile", "create")]
 public record AzAfdProfileCreateOptions(
 [property: CliOption("--profile-name")] string ProfileName,
 [property: CliOption("--resource-group")] string ResourceGroup,

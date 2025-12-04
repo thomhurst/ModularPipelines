@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dms", "project", "task", "delete")]
+[CliSubCommand("dms", "project", "task", "delete")]
 public record AzDmsProjectTaskDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--project-name")] string ProjectName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "nni", "create")]
+[CliSubCommand("networkfabric", "nni", "create")]
 public record AzNetworkfabricNniCreateOptions(
 [property: CliOption("--fabric")] string Fabric,
 [property: CliOption("--resource-group")] string ResourceGroup,

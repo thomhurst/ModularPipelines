@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "live-event", "start")]
+[CliSubCommand("ams", "live-event", "start")]
 public record AzAmsLiveEventStartOptions : AzOptions
 {
     [CliOption("--account-name")]

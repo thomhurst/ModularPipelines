@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "sql", "pool", "classification", "delete")]
+[CliSubCommand("synapse", "sql", "pool", "classification", "delete")]
 public record AzSynapseSqlPoolClassificationDeleteOptions(
 [property: CliOption("--column")] string Column,
 [property: CliOption("--schema")] string Schema,

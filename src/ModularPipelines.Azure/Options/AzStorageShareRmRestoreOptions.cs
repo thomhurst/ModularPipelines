@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "share-rm", "restore")]
+[CliSubCommand("storage", "share-rm", "restore")]
 public record AzStorageShareRmRestoreOptions(
 [property: CliOption("--deleted-version")] string DeletedVersion
 ) : AzOptions

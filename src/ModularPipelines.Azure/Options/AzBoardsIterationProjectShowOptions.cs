@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("boards", "iteration", "project", "show")]
+[CliSubCommand("boards", "iteration", "project", "show")]
 public record AzBoardsIterationProjectShowOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions

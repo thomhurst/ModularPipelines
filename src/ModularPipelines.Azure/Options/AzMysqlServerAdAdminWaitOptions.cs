@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "ad-admin", "wait")]
+[CliSubCommand("mysql", "server", "ad-admin", "wait")]
 public record AzMysqlServerAdAdminWaitOptions : AzOptions
 {
     [CliFlag("--created")]

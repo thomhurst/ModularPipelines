@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "list-ip-addresses")]
+[CliSubCommand("vm", "list-ip-addresses")]
 public record AzVmListIpAddressesOptions : AzOptions
 {
     [CliOption("--ids")]

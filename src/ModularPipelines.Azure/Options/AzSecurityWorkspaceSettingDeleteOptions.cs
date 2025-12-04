@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "workspace-setting", "delete")]
+[CliSubCommand("security", "workspace-setting", "delete")]
 public record AzSecurityWorkspaceSettingDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions;

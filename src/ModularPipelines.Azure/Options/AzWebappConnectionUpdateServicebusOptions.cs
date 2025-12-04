@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "connection", "update", "servicebus")]
+[CliSubCommand("webapp", "connection", "update", "servicebus")]
 public record AzWebappConnectionUpdateServicebusOptions : AzOptions
 {
     [CliOption("--client-type")]

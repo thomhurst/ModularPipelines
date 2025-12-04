@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("elastic", "monitor", "update-vm-collection")]
+[CliSubCommand("elastic", "monitor", "update-vm-collection")]
 public record AzElasticMonitorUpdateVmCollectionOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "rewrite-rule", "condition", "show")]
+[CliSubCommand("network", "application-gateway", "rewrite-rule", "condition", "show")]
 public record AzNetworkApplicationGatewayRewriteRuleConditionShowOptions(
 [property: CliOption("--gateway-name")] string GatewayName,
 [property: CliOption("--resource-group")] string ResourceGroup,

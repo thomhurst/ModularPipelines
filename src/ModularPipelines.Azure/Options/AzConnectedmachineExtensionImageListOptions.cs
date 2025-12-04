@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedmachine", "extension", "image", "list")]
+[CliSubCommand("connectedmachine", "extension", "image", "list")]
 public record AzConnectedmachineExtensionImageListOptions(
 [property: CliOption("--extension-type")] string ExtensionType,
 [property: CliOption("--location")] string Location,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "queue", "update")]
+[CliSubCommand("servicebus", "queue", "update")]
 public record AzServicebusQueueUpdateOptions : AzOptions
 {
     [CliOption("--add")]

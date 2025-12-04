@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("peering", "received-route", "list")]
+[CliSubCommand("peering", "received-route", "list")]
 public record AzPeeringReceivedRouteListOptions(
 [property: CliOption("--peering-name")] string PeeringName,
 [property: CliOption("--resource-group")] string ResourceGroup

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "route-table", "route", "delete")]
+[CliSubCommand("network", "route-table", "route", "delete")]
 public record AzNetworkRouteTableRouteDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("image", "builder", "customizer", "add")]
+[CliSubCommand("image", "builder", "customizer", "add")]
 public record AzImageBuilderCustomizerAddOptions(
 [property: CliOption("--customizer-name")] string CustomizerName,
 [property: CliOption("--type")] string Type

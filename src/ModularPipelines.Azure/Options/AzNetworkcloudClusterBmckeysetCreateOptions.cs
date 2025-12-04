@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cluster", "bmckeyset", "create")]
+[CliSubCommand("networkcloud", "cluster", "bmckeyset", "create")]
 public record AzNetworkcloudClusterBmckeysetCreateOptions(
 [property: CliOption("--azure-group-id")] string AzureGroupId,
 [property: CliOption("--bmc-key-set-name")] string BmcKeySetName,

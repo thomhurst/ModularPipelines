@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resource", "link", "list")]
+[CliSubCommand("resource", "link", "list")]
 public record AzResourceLinkListOptions : AzOptions
 {
     [CliOption("--filter")]

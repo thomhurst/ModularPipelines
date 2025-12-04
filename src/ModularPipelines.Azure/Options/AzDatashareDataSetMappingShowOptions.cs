@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datashare", "data-set-mapping", "show")]
+[CliSubCommand("datashare", "data-set-mapping", "show")]
 public record AzDatashareDataSetMappingShowOptions : AzOptions
 {
     [CliOption("--account-name")]

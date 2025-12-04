@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "show")]
+[CliSubCommand("postgres", "flexible-server", "show")]
 public record AzPostgresFlexibleServerShowOptions : AzOptions
 {
     [CliOption("--ids")]

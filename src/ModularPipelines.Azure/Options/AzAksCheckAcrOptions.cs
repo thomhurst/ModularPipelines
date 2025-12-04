@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "check-acr")]
+[CliSubCommand("aks", "check-acr")]
 public record AzAksCheckAcrOptions(
 [property: CliOption("--acr")] string Acr,
 [property: CliOption("--name")] string Name,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "pool", "autoscale", "evaluate")]
+[CliSubCommand("batch", "pool", "autoscale", "evaluate")]
 public record AzBatchPoolAutoscaleEvaluateOptions(
 [property: CliOption("--auto-scale-formula")] string AutoScaleFormula,
 [property: CliOption("--pool-id")] string PoolId

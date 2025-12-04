@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "config", "authentication-as-arm", "show")]
+[CliSubCommand("acr", "config", "authentication-as-arm", "show")]
 public record AzAcrConfigAuthenticationAsArmShowOptions(
 [property: CliOption("--registry")] string Registry
 ) : AzOptions

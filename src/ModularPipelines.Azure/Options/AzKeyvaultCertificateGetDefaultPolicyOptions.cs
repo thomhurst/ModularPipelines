@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "certificate", "get-default-policy")]
+[CliSubCommand("keyvault", "certificate", "get-default-policy")]
 public record AzKeyvaultCertificateGetDefaultPolicyOptions : AzOptions
 {
     [CliFlag("--scaffold")]

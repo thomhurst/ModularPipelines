@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "env", "certificate", "create")]
+[CliSubCommand("containerapp", "env", "certificate", "create")]
 public record AzContainerappEnvCertificateCreateOptions(
 [property: CliOption("--hostname")] string Hostname,
 [property: CliOption("--name")] string Name,

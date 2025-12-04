@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datamigration", "sql-managed-instance", "create")]
+[CliSubCommand("datamigration", "sql-managed-instance", "create")]
 public record AzDatamigrationSqlManagedInstanceCreateOptions(
 [property: CliOption("--managed-instance-name")] string ManagedInstanceName,
 [property: CliOption("--resource-group")] string ResourceGroup,

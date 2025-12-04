@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server", "restore")]
+[CliSubCommand("postgres", "server", "restore")]
 public record AzPostgresServerRestoreOptions(
 [property: CliOption("--pitr-time")] string PitrTime,
 [property: CliOption("--source-server")] string SourceServer

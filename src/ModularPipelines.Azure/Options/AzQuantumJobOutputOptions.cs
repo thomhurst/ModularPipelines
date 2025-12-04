@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("quantum", "job", "output")]
+[CliSubCommand("quantum", "job", "output")]
 public record AzQuantumJobOutputOptions(
 [property: CliOption("--job-id")] string JobId,
 [property: CliOption("--location")] string Location,

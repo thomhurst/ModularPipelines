@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "key", "delete")]
+[CliSubCommand("sql", "mi", "key", "delete")]
 public record AzSqlMiKeyDeleteOptions(
 [property: CliOption("--kid")] string Kid
 ) : AzOptions

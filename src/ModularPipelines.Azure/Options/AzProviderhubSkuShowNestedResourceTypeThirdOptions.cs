@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("providerhub", "sku", "show-nested-resource-type-third")]
+[CliSubCommand("providerhub", "sku", "show-nested-resource-type-third")]
 public record AzProviderhubSkuShowNestedResourceTypeThirdOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "task", "file", "show")]
+[CliSubCommand("batch", "task", "file", "show")]
 public record AzBatchTaskFileShowOptions(
 [property: CliOption("--file-path")] string FilePath,
 [property: CliOption("--job-id")] string JobId,

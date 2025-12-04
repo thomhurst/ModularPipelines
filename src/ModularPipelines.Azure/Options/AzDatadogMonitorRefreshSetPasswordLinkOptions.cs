@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datadog", "monitor", "refresh-set-password-link")]
+[CliSubCommand("datadog", "monitor", "refresh-set-password-link")]
 public record AzDatadogMonitorRefreshSetPasswordLinkOptions : AzOptions
 {
     [CliOption("--ids")]

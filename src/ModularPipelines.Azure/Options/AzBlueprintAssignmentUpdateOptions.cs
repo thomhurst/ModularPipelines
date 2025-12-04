@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("blueprint", "assignment", "update")]
+[CliSubCommand("blueprint", "assignment", "update")]
 public record AzBlueprintAssignmentUpdateOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

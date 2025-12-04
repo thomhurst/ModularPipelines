@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "dps", "enrollment", "registration", "show")]
+[CliSubCommand("iot", "dps", "enrollment", "registration", "show")]
 public record AzIotDpsEnrollmentRegistrationShowOptions(
 [property: CliOption("--eid")] string Eid
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "blob", "tag", "set")]
+[CliSubCommand("storage", "blob", "tag", "set")]
 public record AzStorageBlobTagSetOptions(
 [property: CliOption("--tags")] string Tags
 ) : AzOptions

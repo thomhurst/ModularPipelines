@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "live-event", "wait")]
+[CliSubCommand("ams", "live-event", "wait")]
 public record AzAmsLiveEventWaitOptions : AzOptions
 {
     [CliOption("--account-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "p2s-vpn-gateway", "connection", "show")]
+[CliSubCommand("network", "p2s-vpn-gateway", "connection", "show")]
 public record AzNetworkP2sVpnGatewayConnectionShowOptions : AzOptions
 {
     [CliOption("--gateway-name")]

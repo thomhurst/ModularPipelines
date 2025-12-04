@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "online-endpoint", "invoke")]
+[CliSubCommand("ml", "online-endpoint", "invoke")]
 public record AzMlOnlineEndpointInvokeOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

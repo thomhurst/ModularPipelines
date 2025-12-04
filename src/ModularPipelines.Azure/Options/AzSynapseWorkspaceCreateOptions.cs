@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "workspace", "create")]
+[CliSubCommand("synapse", "workspace", "create")]
 public record AzSynapseWorkspaceCreateOptions(
 [property: CliOption("--file-system")] string FileSystem,
 [property: CliOption("--name")] string Name,

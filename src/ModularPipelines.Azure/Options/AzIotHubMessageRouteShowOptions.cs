@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "message-route", "show")]
+[CliSubCommand("iot", "hub", "message-route", "show")]
 public record AzIotHubMessageRouteShowOptions(
 [property: CliOption("--hub-name")] string HubName,
 [property: CliOption("--rn")] string Rn

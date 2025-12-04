@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "security-partner-provider", "create")]
+[CliSubCommand("network", "security-partner-provider", "create")]
 public record AzNetworkSecurityPartnerProviderCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

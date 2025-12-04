@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cluster", "update-version")]
+[CliSubCommand("networkcloud", "cluster", "update-version")]
 public record AzNetworkcloudClusterUpdateVersionOptions(
 [property: CliOption("--target-cluster-version")] string TargetClusterVersion
 ) : AzOptions

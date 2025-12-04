@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "streaming-endpoint", "wait")]
+[CliSubCommand("ams", "streaming-endpoint", "wait")]
 public record AzAmsStreamingEndpointWaitOptions : AzOptions
 {
     [CliOption("--account-name")]

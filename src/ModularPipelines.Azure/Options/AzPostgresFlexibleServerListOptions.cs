@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "list")]
+[CliSubCommand("postgres", "flexible-server", "list")]
 public record AzPostgresFlexibleServerListOptions : AzOptions
 {
     [CliOption("--resource-group")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi-arc", "reprovision-replica")]
+[CliSubCommand("sql", "mi-arc", "reprovision-replica")]
 public record AzSqlMiArcReprovisionReplicaOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

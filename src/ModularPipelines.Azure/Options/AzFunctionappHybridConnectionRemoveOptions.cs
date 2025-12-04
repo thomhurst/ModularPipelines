@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "hybrid-connection", "remove")]
+[CliSubCommand("functionapp", "hybrid-connection", "remove")]
 public record AzFunctionappHybridConnectionRemoveOptions(
 [property: CliOption("--hybrid-connection")] string HybridConnection,
 [property: CliOption("--name")] string Name,

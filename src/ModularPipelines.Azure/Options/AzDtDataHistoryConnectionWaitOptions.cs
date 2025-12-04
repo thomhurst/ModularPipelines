@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "data-history", "connection", "wait")]
+[CliSubCommand("dt", "data-history", "connection", "wait")]
 public record AzDtDataHistoryConnectionWaitOptions(
 [property: CliOption("--cn")] string Cn,
 [property: CliOption("--dt-name")] string DtName

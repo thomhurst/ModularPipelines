@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("new-relic", "monitor", "get-metric-statu")]
+[CliSubCommand("new-relic", "monitor", "get-metric-statu")]
 public record AzNewRelicMonitorGetMetricStatuOptions(
 [property: CliOption("--user-email")] string UserEmail
 ) : AzOptions

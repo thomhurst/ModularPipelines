@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "datastore", "download")]
+[CliSubCommand("ml", "datastore", "download")]
 public record AzMlDatastoreDownloadOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--target-path")] string TargetPath

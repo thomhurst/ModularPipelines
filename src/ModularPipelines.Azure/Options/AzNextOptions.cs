@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("next")]
+[CliSubCommand("next")]
 public record AzNextOptions : AzOptions
 {
     [CliFlag("--command")]

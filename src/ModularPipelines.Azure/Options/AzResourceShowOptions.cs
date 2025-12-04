@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resource", "show")]
+[CliSubCommand("resource", "show")]
 public record AzResourceShowOptions : AzOptions
 {
     [CliOption("--api-version")]

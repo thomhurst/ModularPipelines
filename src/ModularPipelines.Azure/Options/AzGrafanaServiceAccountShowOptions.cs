@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("grafana", "service-account", "show")]
+[CliSubCommand("grafana", "service-account", "show")]
 public record AzGrafanaServiceAccountShowOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--service-account")] int ServiceAccount

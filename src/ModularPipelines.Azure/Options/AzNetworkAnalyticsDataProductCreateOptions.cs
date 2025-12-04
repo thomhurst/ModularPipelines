@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network-analytics", "data-product", "create")]
+[CliSubCommand("network-analytics", "data-product", "create")]
 public record AzNetworkAnalyticsDataProductCreateOptions(
 [property: CliOption("--data-product-name")] string DataProductName,
 [property: CliOption("--resource-group")] string ResourceGroup

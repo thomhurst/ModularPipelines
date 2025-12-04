@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "copy", "blob", "sync")]
+[CliSubCommand("storage", "copy", "blob", "sync")]
 public record AzStorageAzcopyBlobSyncOptions(
 [property: CliOption("--container")] string Container,
 [property: CliOption("--source")] string Source

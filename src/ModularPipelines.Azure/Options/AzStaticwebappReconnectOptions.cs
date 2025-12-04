@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("staticwebapp", "reconnect")]
+[CliSubCommand("staticwebapp", "reconnect")]
 public record AzStaticwebappReconnectOptions(
 [property: CliOption("--branch")] string Branch,
 [property: CliOption("--name")] string Name,

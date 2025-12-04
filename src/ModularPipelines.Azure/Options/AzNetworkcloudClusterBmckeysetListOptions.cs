@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cluster", "bmckeyset", "list")]
+[CliSubCommand("networkcloud", "cluster", "bmckeyset", "list")]
 public record AzNetworkcloudClusterBmckeysetListOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--resource-group")] string ResourceGroup

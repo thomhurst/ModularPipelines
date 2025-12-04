@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "endpoint", "realtime", "get-access-token")]
+[CliSubCommand("ml", "endpoint", "realtime", "get-access-token")]
 public record AzMlEndpointRealtimeGetAccessTokenOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

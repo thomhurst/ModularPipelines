@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "restore", "restore-urewl")]
+[CliSubCommand("backup", "restore", "restore-urewl")]
 public record AzBackupRestoreRestoreAzurewlOptions(
 [property: CliOption("--recovery-config")] string RecoveryConfig,
 [property: CliOption("--resource-group")] string ResourceGroup,

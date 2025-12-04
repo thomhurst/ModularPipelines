@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aksarc", "notice")]
+[CliSubCommand("aksarc", "notice")]
 public record AzAksarcNoticeOptions(
 [property: CliOption("--output-filepath")] string OutputFilepath
 ) : AzOptions;

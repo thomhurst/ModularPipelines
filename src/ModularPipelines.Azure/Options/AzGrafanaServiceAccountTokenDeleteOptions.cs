@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("grafana", "service-account", "token", "delete")]
+[CliSubCommand("grafana", "service-account", "token", "delete")]
 public record AzGrafanaServiceAccountTokenDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--service-account")] int ServiceAccount,

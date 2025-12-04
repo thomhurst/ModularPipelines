@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "dns-alias", "show")]
+[CliSubCommand("sql", "server", "dns-alias", "show")]
 public record AzSqlServerDnsAliasShowOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

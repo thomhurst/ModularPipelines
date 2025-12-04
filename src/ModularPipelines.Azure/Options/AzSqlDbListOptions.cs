@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "list")]
+[CliSubCommand("sql", "db", "list")]
 public record AzSqlDbListOptions : AzOptions
 {
     [CliOption("--elastic-pool")]

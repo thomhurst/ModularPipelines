@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedmachine", "run-command", "show")]
+[CliSubCommand("connectedmachine", "run-command", "show")]
 public record AzConnectedmachineRunCommandShowOptions : AzOptions
 {
     [CliOption("--ids")]

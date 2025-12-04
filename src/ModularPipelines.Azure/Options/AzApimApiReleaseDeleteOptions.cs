@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "api", "release", "delete")]
+[CliSubCommand("apim", "api", "release", "delete")]
 public record AzApimApiReleaseDeleteOptions(
 [property: CliOption("--api-id")] string ApiId,
 [property: CliOption("--release-id")] string ReleaseId,

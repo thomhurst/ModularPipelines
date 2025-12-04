@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "certificate", "verify")]
+[CliSubCommand("iot", "hub", "certificate", "verify")]
 public record AzIotHubCertificateVerifyOptions(
 [property: CliOption("--etag")] string Etag,
 [property: CliOption("--name")] string Name,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "device-identity", "update")]
+[CliSubCommand("iot", "hub", "device-identity", "update")]
 public record AzIotHubDeviceIdentityUpdateOptions(
 [property: CliOption("--device-id")] string DeviceId
 ) : AzOptions

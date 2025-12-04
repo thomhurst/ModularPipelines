@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "log-analytics", "workspace", "linked-service", "show")]
+[CliSubCommand("monitor", "log-analytics", "workspace", "linked-service", "show")]
 public record AzMonitorLogAnalyticsWorkspaceLinkedServiceShowOptions : AzOptions
 {
     [CliOption("--ids")]

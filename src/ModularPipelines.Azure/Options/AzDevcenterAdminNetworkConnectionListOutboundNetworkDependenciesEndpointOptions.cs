@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "network-connection", "list-outbound-network-dependencies-endpoint")]
+[CliSubCommand("devcenter", "admin", "network-connection", "list-outbound-network-dependencies-endpoint")]
 public record AzDevcenterAdminNetworkConnectionListOutboundNetworkDependenciesEndpointOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

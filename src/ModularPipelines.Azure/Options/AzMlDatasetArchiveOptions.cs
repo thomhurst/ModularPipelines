@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "dataset", "archive")]
+[CliSubCommand("ml", "dataset", "archive")]
 public record AzMlDatasetArchiveOptions : AzOptions
 {
     [CliOption("--id")]

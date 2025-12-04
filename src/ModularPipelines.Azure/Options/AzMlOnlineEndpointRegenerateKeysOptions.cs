@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "online-endpoint", "regenerate-keys")]
+[CliSubCommand("ml", "online-endpoint", "regenerate-keys")]
 public record AzMlOnlineEndpointRegenerateKeysOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("staticwebapp", "functions", "link")]
+[CliSubCommand("staticwebapp", "functions", "link")]
 public record AzStaticwebappFunctionsLinkOptions(
 [property: CliOption("--function-resource-id")] string FunctionResourceId,
 [property: CliOption("--name")] string Name,

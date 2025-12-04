@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "backup", "show")]
+[CliSubCommand("mysql", "flexible-server", "backup", "show")]
 public record AzMysqlFlexibleServerBackupShowOptions : AzOptions
 {
     [CliOption("--backup-name")]

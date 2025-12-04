@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "file", "url")]
+[CliSubCommand("storage", "file", "url")]
 public record AzStorageFileUrlOptions(
 [property: CliOption("--path")] string Path,
 [property: CliOption("--share-name")] string ShareName

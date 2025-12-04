@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("snapshot", "wait")]
+[CliSubCommand("snapshot", "wait")]
 public record AzSnapshotWaitOptions : AzOptions
 {
     [CliFlag("--created")]

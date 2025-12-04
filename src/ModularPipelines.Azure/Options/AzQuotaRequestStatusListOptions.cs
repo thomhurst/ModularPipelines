@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("quota", "request", "status", "list")]
+[CliSubCommand("quota", "request", "status", "list")]
 public record AzQuotaRequestStatusListOptions(
 [property: CliOption("--scope")] string Scope
 ) : AzOptions

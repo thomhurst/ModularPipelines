@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "edge", "deployment", "list")]
+[CliSubCommand("iot", "edge", "deployment", "list")]
 public record AzIotEdgeDeploymentListOptions : AzOptions
 {
     [CliOption("--auth-type")]

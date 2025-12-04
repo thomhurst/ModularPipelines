@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "vault", "show-supported-operating-system")]
+[CliSubCommand("site-recovery", "vault", "show-supported-operating-system")]
 public record AzSiteRecoveryVaultShowSupportedOperatingSystemOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "backup-policy", "trigger", "create-schedule")]
+[CliSubCommand("dataprotection", "backup-policy", "trigger", "create-schedule")]
 public record AzDataprotectionBackupPolicyTriggerCreateScheduleOptions(
 [property: CliOption("--interval-count")] int IntervalCount,
 [property: CliOption("--interval-type")] int IntervalType,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vpn-connection", "ipsec-policy", "clear")]
+[CliSubCommand("network", "vpn-connection", "ipsec-policy", "clear")]
 public record AzNetworkVpnConnectionIpsecPolicyClearOptions(
 [property: CliOption("--connection-name")] string ConnectionName,
 [property: CliOption("--resource-group")] string ResourceGroup

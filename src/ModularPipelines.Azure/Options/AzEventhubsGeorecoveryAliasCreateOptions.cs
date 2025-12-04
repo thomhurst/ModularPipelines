@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "georecovery-alias", "create")]
+[CliSubCommand("eventhubs", "georecovery-alias", "create")]
 public record AzEventhubsGeorecoveryAliasCreateOptions(
 [property: CliOption("--alias")] string Alias,
 [property: CliOption("--namespace-name")] string NamespaceName,

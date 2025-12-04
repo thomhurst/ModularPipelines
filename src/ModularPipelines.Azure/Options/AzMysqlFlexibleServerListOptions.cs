@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "list")]
+[CliSubCommand("mysql", "flexible-server", "list")]
 public record AzMysqlFlexibleServerListOptions : AzOptions
 {
     [CliOption("--resource-group")]

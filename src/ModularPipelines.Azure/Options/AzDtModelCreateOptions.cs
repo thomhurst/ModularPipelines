@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "model", "create")]
+[CliSubCommand("dt", "model", "create")]
 public record AzDtModelCreateOptions(
 [property: CliOption("--dt-name")] string DtName
 ) : AzOptions

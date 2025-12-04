@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "action-group", "show")]
+[CliSubCommand("monitor", "action-group", "show")]
 public record AzMonitorActionGroupShowOptions : AzOptions
 {
     [CliOption("--action-group-name")]

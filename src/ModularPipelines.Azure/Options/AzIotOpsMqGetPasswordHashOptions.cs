@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "ops", "mq", "get-password-hash")]
+[CliSubCommand("iot", "ops", "mq", "get-password-hash")]
 public record AzIotOpsMqGetPasswordHashOptions(
 [property: CliOption("--phrase")] string Phrase
 ) : AzOptions

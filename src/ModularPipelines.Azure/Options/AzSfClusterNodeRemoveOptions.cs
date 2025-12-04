@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "cluster", "node", "remove")]
+[CliSubCommand("sf", "cluster", "node", "remove")]
 public record AzSfClusterNodeRemoveOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--node-type")] string NodeType,

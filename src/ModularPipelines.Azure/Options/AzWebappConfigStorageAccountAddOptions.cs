@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "storage-account", "add")]
+[CliSubCommand("webapp", "config", "storage-account", "add")]
 public record AzWebappConfigStorageAccountAddOptions(
 [property: CliOption("--access-key")] string AccessKey,
 [property: CliOption("--account-name")] int AccountName,

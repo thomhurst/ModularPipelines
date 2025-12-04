@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("reservations", "reservation", "list-history")]
+[CliSubCommand("reservations", "reservation", "list-history")]
 public record AzReservationsReservationListHistoryOptions(
 [property: CliOption("--reservation-id")] string ReservationId,
 [property: CliOption("--reservation-order-id")] string ReservationOrderId

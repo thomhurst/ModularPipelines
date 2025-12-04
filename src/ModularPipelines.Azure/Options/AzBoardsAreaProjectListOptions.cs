@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("boards", "area", "project", "list")]
+[CliSubCommand("boards", "area", "project", "list")]
 public record AzBoardsAreaProjectListOptions : AzOptions
 {
     [CliOption("--depth")]

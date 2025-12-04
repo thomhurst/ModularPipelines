@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("urestackhci", "virtualmachine", "vnic", "remove")]
+[CliSubCommand("urestackhci", "virtualmachine", "vnic", "remove")]
 public record AzAzurestackhciVirtualmachineVnicRemoveOptions(
 [property: CliOption("--vnic-names")] string VnicNames
 ) : AzOptions

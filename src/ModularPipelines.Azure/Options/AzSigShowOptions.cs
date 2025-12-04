@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sig", "show")]
+[CliSubCommand("sig", "show")]
 public record AzSigShowOptions : AzOptions
 {
     [CliOption("--gallery-name")]

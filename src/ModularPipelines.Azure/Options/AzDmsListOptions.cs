@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dms", "list")]
+[CliSubCommand("dms", "list")]
 public record AzDmsListOptions : AzOptions
 {
     [CliOption("--resource-group")]

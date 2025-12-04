@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "batch-deployment", "create")]
+[CliSubCommand("ml", "batch-deployment", "create")]
 public record AzMlBatchDeploymentCreateOptions(
 [property: CliOption("--file")] string File,
 [property: CliOption("--resource-group")] string ResourceGroup,

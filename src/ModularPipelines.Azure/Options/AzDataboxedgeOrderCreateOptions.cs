@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databoxedge", "order", "create")]
+[CliSubCommand("databoxedge", "order", "create")]
 public record AzDataboxedgeOrderCreateOptions(
 [property: CliOption("--address-line1")] string AddressLine1,
 [property: CliOption("--city")] string City,

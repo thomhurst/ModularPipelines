@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "fs", "file", "exists")]
+[CliSubCommand("storage", "fs", "file", "exists")]
 public record AzStorageFsFileExistsOptions(
 [property: CliOption("--file-system")] string FileSystem,
 [property: CliOption("--path")] string Path

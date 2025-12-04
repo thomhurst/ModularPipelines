@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("version")]
+[CliSubCommand("version")]
 public record AzVersionOptions : AzOptions;

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "message", "peek")]
+[CliSubCommand("storage", "message", "peek")]
 public record AzStorageMessagePeekOptions(
 [property: CliOption("--queue-name")] string QueueName
 ) : AzOptions

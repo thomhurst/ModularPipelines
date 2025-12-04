@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation", "hrwg", "hrw", "delete")]
+[CliSubCommand("automation", "hrwg", "hrw", "delete")]
 public record AzAutomationHrwgHrwDeleteOptions : AzOptions
 {
     [CliOption("--automation-account-name")]

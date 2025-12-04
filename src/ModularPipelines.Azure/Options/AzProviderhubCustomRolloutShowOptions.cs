@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("providerhub", "custom-rollout", "show")]
+[CliSubCommand("providerhub", "custom-rollout", "show")]
 public record AzProviderhubCustomRolloutShowOptions : AzOptions
 {
     [CliOption("--ids")]

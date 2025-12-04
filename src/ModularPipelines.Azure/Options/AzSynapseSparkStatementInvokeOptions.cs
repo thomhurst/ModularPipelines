@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "spark", "statement", "invoke")]
+[CliSubCommand("synapse", "spark", "statement", "invoke")]
 public record AzSynapseSparkStatementInvokeOptions(
 [property: CliOption("--code")] string Code,
 [property: CliOption("--language")] string Language,

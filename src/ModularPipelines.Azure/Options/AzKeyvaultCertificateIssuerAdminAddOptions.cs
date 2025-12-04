@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "certificate", "issuer", "admin", "add")]
+[CliSubCommand("keyvault", "certificate", "issuer", "admin", "add")]
 public record AzKeyvaultCertificateIssuerAdminAddOptions(
 [property: CliOption("--email")] string Email,
 [property: CliOption("--issuer-name")] string IssuerName,

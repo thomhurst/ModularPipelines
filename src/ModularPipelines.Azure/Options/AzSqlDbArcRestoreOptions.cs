@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db-arc", "restore")]
+[CliSubCommand("sql", "db-arc", "restore")]
 public record AzSqlDbArcRestoreOptions(
 [property: CliOption("--dest-name")] string DestName,
 [property: CliOption("--name")] string Name,

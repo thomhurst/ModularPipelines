@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage-mover", "job-run", "list")]
+[CliSubCommand("storage-mover", "job-run", "list")]
 public record AzStorageMoverJobRunListOptions(
 [property: CliOption("--job-definition-name")] string JobDefinitionName,
 [property: CliOption("--project-name")] string ProjectName,

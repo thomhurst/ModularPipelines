@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datadog", "monitor", "list")]
+[CliSubCommand("datadog", "monitor", "list")]
 public record AzDatadogMonitorListOptions : AzOptions
 {
     [CliOption("--resource-group")]

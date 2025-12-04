@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "attached-database-configuration", "create")]
+[CliSubCommand("kusto", "attached-database-configuration", "create")]
 public record AzKustoAttachedDatabaseConfigurationCreateOptions(
 [property: CliFlag("--attached-database-configuration-name")] bool AttachedDatabaseConfigurationName,
 [property: CliOption("--cluster-name")] string ClusterName,

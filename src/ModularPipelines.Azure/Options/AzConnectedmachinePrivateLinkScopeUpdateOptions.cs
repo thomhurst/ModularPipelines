@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedmachine", "private-link-scope", "update")]
+[CliSubCommand("connectedmachine", "private-link-scope", "update")]
 public record AzConnectedmachinePrivateLinkScopeUpdateOptions : AzOptions
 {
     [CliOption("--add")]

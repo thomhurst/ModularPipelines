@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "threat-indicator", "update")]
+[CliSubCommand("sentinel", "threat-indicator", "update")]
 public record AzSentinelThreatIndicatorUpdateOptions : AzOptions
 {
     [CliOption("--confidence")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "scheduled-query", "show")]
+[CliSubCommand("monitor", "scheduled-query", "show")]
 public record AzMonitorScheduledQueryShowOptions : AzOptions
 {
     [CliOption("--ids")]

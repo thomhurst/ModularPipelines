@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "workspace", "private-endpoint", "list")]
+[CliSubCommand("ml", "workspace", "private-endpoint", "list")]
 public record AzMlWorkspacePrivateEndpointListOptions : AzOptions
 {
     [CliOption("--output-metadata-file")]

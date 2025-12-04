@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "copy", "run-command")]
+[CliSubCommand("storage", "copy", "run-command")]
 public record AzStorageAzcopyRunCommandOptions : AzOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]

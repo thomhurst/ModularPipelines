@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "app-insights", "component", "show")]
+[CliSubCommand("monitor", "app-insights", "component", "show")]
 public record AzMonitorAppInsightsComponentShowOptions : AzOptions
 {
     [CliOption("--app")]

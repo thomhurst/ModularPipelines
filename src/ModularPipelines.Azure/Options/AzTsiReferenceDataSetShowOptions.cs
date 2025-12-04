@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("tsi", "reference-data-set", "show")]
+[CliSubCommand("tsi", "reference-data-set", "show")]
 public record AzTsiReferenceDataSetShowOptions : AzOptions
 {
     [CliOption("--environment-name")]

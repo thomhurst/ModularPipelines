@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stream-analytics", "output", "test")]
+[CliSubCommand("stream-analytics", "output", "test")]
 public record AzStreamAnalyticsOutputTestOptions(
 [property: CliOption("--job-name")] string JobName,
 [property: CliOption("--name")] string Name,

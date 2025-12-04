@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcdata", "dc", "upgrade")]
+[CliSubCommand("arcdata", "dc", "upgrade")]
 public record AzArcdataDcUpgradeOptions : AzOptions
 {
     [CliOption("--desired-version")]

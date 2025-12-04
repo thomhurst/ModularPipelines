@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "data", "create")]
+[CliSubCommand("ml", "data", "create")]
 public record AzMlDataCreateOptions : AzOptions
 {
     [CliOption("--datastore")]

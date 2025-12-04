@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "feature", "unlock")]
+[CliSubCommand("appconfig", "feature", "unlock")]
 public record AzAppconfigFeatureUnlockOptions : AzOptions
 {
     [CliOption("--auth-mode")]

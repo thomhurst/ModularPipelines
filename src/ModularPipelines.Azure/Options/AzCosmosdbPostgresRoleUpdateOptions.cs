@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "postgres", "role", "update")]
+[CliSubCommand("cosmosdb", "postgres", "role", "update")]
 public record AzCosmosdbPostgresRoleUpdateOptions : AzOptions
 {
     [CliOption("--add")]

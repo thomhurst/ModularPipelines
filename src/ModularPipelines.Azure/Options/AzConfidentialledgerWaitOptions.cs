@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("confidentialledger", "wait")]
+[CliSubCommand("confidentialledger", "wait")]
 public record AzConfidentialledgerWaitOptions : AzOptions
 {
     [CliFlag("--created")]

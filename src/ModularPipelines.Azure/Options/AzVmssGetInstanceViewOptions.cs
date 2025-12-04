@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "get-instance-view")]
+[CliSubCommand("vmss", "get-instance-view")]
 public record AzVmssGetInstanceViewOptions : AzOptions
 {
     [CliOption("--ids")]

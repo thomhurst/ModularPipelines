@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "service-endpoint", "policy-definition", "wait")]
+[CliSubCommand("network", "service-endpoint", "policy-definition", "wait")]
 public record AzNetworkServiceEndpointPolicyDefinitionWaitOptions : AzOptions
 {
     [CliFlag("--created")]

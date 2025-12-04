@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "auth", "config-version", "revert")]
+[CliSubCommand("webapp", "auth", "config-version", "revert")]
 public record AzWebappAuthConfigVersionRevertOptions : AzOptions
 {
     [CliOption("--ids")]

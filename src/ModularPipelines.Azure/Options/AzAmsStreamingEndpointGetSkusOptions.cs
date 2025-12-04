@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "streaming-endpoint", "get-skus")]
+[CliSubCommand("ams", "streaming-endpoint", "get-skus")]
 public record AzAmsStreamingEndpointGetSkusOptions : AzOptions
 {
     [CliOption("--account-name")]

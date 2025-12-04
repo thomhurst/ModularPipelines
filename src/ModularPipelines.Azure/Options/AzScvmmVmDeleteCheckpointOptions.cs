@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vm", "delete-checkpoint")]
+[CliSubCommand("scvmm", "vm", "delete-checkpoint")]
 public record AzScvmmVmDeleteCheckpointOptions(
 [property: CliOption("--checkpoint-id")] string CheckpointId
 ) : AzOptions

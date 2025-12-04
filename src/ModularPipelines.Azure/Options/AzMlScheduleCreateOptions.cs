@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "schedule", "create")]
+[CliSubCommand("ml", "schedule", "create")]
 public record AzMlScheduleCreateOptions(
 [property: CliOption("--file")] string File,
 [property: CliOption("--resource-group")] string ResourceGroup

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "account", "list")]
+[CliSubCommand("netappfiles", "account", "list")]
 public record AzNetappfilesAccountListOptions : AzOptions
 {
     [CliOption("--resource-group")]

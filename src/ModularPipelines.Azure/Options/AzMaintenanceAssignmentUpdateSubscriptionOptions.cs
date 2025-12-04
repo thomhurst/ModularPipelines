@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("maintenance", "assignment", "update-subscription")]
+[CliSubCommand("maintenance", "assignment", "update-subscription")]
 public record AzMaintenanceAssignmentUpdateSubscriptionOptions : AzOptions
 {
     [CliOption("--config-id")]

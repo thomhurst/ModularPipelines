@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "log", "tail")]
+[CliSubCommand("webapp", "log", "tail")]
 public record AzWebappLogTailOptions : AzOptions
 {
     [CliOption("--ids")]

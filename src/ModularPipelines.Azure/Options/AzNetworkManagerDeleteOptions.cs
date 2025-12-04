@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "manager", "delete")]
+[CliSubCommand("network", "manager", "delete")]
 public record AzNetworkManagerDeleteOptions : AzOptions
 {
     [CliFlag("--force")]

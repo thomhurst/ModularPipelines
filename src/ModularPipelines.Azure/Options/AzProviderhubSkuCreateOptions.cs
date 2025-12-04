@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("providerhub", "sku", "create")]
+[CliSubCommand("providerhub", "sku", "create")]
 public record AzProviderhubSkuCreateOptions(
 [property: CliOption("--provider-namespace")] string ProviderNamespace,
 [property: CliOption("--resource-type")] string ResourceType,

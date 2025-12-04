@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "app-insights", "api-key", "delete")]
+[CliSubCommand("monitor", "app-insights", "api-key", "delete")]
 public record AzMonitorAppInsightsApiKeyDeleteOptions : AzOptions
 {
     [CliOption("--api-key")]

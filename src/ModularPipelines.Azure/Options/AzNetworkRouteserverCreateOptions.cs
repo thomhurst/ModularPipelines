@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "routeserver", "create")]
+[CliSubCommand("network", "routeserver", "create")]
 public record AzNetworkRouteserverCreateOptions(
 [property: CliOption("--hosted-subnet")] string HostedSubnet,
 [property: CliOption("--name")] string Name,

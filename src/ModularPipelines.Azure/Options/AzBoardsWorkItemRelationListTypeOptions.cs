@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("boards", "work-item", "relation", "list-type")]
+[CliSubCommand("boards", "work-item", "relation", "list-type")]
 public record AzBoardsWorkItemRelationListTypeOptions : AzOptions
 {
     [CliFlag("--detect")]

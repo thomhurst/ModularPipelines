@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "rack", "list")]
+[CliSubCommand("networkcloud", "rack", "list")]
 public record AzNetworkcloudRackListOptions : AzOptions
 {
     [CliOption("--max-items")]

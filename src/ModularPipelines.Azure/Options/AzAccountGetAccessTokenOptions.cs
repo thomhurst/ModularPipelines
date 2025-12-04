@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("account", "get-access-token")]
+[CliSubCommand("account", "get-access-token")]
 public record AzAccountGetAccessTokenOptions : AzOptions
 {
     [CliOption("--name")]

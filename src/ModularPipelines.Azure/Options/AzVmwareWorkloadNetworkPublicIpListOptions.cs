@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "public-ip", "list")]
+[CliSubCommand("vmware", "workload-network", "public-ip", "list")]
 public record AzVmwareWorkloadNetworkPublicIpListOptions(
 [property: CliOption("--private-cloud")] string PrivateCloud,
 [property: CliOption("--resource-group")] string ResourceGroup

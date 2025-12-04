@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("bot", "prepare-deploy")]
+[CliSubCommand("bot", "prepare-deploy")]
 public record AzBotPrepareDeployOptions(
 [property: CliOption("--lang")] string Lang
 ) : AzOptions

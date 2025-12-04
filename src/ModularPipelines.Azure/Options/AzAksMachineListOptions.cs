@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "machine", "list")]
+[CliSubCommand("aks", "machine", "list")]
 public record AzAksMachineListOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--nodepool-name")] string NodepoolName,

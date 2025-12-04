@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "create", "signalr")]
+[CliSubCommand("connection", "create", "signalr")]
 public record AzConnectionCreateSignalrOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

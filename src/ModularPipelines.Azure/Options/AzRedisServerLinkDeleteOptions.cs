@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redis", "server-link", "delete")]
+[CliSubCommand("redis", "server-link", "delete")]
 public record AzRedisServerLinkDeleteOptions(
 [property: CliOption("--linked-server-name")] string LinkedServerName,
 [property: CliOption("--name")] string Name,

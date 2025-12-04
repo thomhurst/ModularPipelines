@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "pipeline", "list")]
+[CliSubCommand("ml", "pipeline", "list")]
 public record AzMlPipelineListOptions : AzOptions
 {
     [CliOption("--output-file")]

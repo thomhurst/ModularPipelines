@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "protectable-item", "initialize")]
+[CliSubCommand("backup", "protectable-item", "initialize")]
 public record AzBackupProtectableItemInitializeOptions(
 [property: CliOption("--container-name")] string ContainerName,
 [property: CliOption("--resource-group")] string ResourceGroup,

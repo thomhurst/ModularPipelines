@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "datastore", "show")]
+[CliSubCommand("vmware", "datastore", "show")]
 public record AzVmwareDatastoreShowOptions : AzOptions
 {
     [CliOption("--cluster")]

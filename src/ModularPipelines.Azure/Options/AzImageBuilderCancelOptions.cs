@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("image", "builder", "cancel")]
+[CliSubCommand("image", "builder", "cancel")]
 public record AzImageBuilderCancelOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "container", "unregister")]
+[CliSubCommand("backup", "container", "unregister")]
 public record AzBackupContainerUnregisterOptions : AzOptions
 {
     [CliOption("--backup-management-type")]

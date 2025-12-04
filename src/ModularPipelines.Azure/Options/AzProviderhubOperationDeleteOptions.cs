@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("providerhub", "operation", "delete")]
+[CliSubCommand("providerhub", "operation", "delete")]
 public record AzProviderhubOperationDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

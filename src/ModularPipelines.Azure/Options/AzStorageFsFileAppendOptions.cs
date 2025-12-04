@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "fs", "file", "append")]
+[CliSubCommand("storage", "fs", "file", "append")]
 public record AzStorageFsFileAppendOptions(
 [property: CliOption("--content")] string Content,
 [property: CliOption("--file-system")] string FileSystem,

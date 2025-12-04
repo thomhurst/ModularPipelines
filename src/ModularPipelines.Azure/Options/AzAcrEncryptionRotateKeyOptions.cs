@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "encryption", "rotate-key")]
+[CliSubCommand("acr", "encryption", "rotate-key")]
 public record AzAcrEncryptionRotateKeyOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "import", "create")]
+[CliSubCommand("repos", "import", "create")]
 public record AzReposImportCreateOptions(
 [property: CliOption("--git-source-url")] string GitSourceUrl
 ) : AzOptions

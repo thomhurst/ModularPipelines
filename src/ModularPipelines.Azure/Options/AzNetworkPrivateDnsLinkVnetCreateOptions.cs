@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-dns", "link", "vnet", "create")]
+[CliSubCommand("network", "private-dns", "link", "vnet", "create")]
 public record AzNetworkPrivateDnsLinkVnetCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliFlag("--registration-enabled")] bool RegistrationEnabled,

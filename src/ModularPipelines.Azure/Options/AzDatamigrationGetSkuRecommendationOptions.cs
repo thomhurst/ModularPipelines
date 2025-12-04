@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datamigration", "get-sku-recommendation")]
+[CliSubCommand("datamigration", "get-sku-recommendation")]
 public record AzDatamigrationGetSkuRecommendationOptions : AzOptions
 {
     [CliOption("--config-file-path")]

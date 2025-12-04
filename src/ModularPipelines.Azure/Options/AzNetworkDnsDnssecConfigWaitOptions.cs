@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "dns", "dnssec-config", "wait")]
+[CliSubCommand("network", "dns", "dnssec-config", "wait")]
 public record AzNetworkDnsDnssecConfigWaitOptions : AzOptions
 {
     [CliFlag("--created")]

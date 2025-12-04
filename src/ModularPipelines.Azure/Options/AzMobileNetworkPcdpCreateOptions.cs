@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mobile-network", "pcdp", "create")]
+[CliSubCommand("mobile-network", "pcdp", "create")]
 public record AzMobileNetworkPcdpCreateOptions(
 [property: CliOption("--access-interface")] string AccessInterface,
 [property: CliOption("--name")] string Name,

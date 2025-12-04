@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("new-relic", "monitor", "vm-host-payload")]
+[CliSubCommand("new-relic", "monitor", "vm-host-payload")]
 public record AzNewRelicMonitorVmHostPayloadOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "wait")]
+[CliSubCommand("postgres", "flexible-server", "wait")]
 public record AzPostgresFlexibleServerWaitOptions : AzOptions
 {
     [CliFlag("--created")]

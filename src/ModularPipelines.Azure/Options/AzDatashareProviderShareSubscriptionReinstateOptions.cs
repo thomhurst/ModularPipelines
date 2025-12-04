@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datashare", "provider-share-subscription", "reinstate")]
+[CliSubCommand("datashare", "provider-share-subscription", "reinstate")]
 public record AzDatashareProviderShareSubscriptionReinstateOptions : AzOptions
 {
     [CliOption("--account-name")]

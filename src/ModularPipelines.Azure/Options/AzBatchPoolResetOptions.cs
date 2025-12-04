@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "pool", "reset")]
+[CliSubCommand("batch", "pool", "reset")]
 public record AzBatchPoolResetOptions(
 [property: CliOption("--pool-id")] string PoolId
 ) : AzOptions

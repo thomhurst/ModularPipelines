@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("notification-hub", "authorization-rule", "create")]
+[CliSubCommand("notification-hub", "authorization-rule", "create")]
 public record AzNotificationHubAuthorizationRuleCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--namespace-name")] string NamespaceName,

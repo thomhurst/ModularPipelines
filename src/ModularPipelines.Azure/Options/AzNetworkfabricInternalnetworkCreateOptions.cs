@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "internalnetwork", "create")]
+[CliSubCommand("networkfabric", "internalnetwork", "create")]
 public record AzNetworkfabricInternalnetworkCreateOptions(
 [property: CliOption("--l3-isolation-domain-name")] string L3IsolationDomainName,
 [property: CliOption("--resource-group")] string ResourceGroup,

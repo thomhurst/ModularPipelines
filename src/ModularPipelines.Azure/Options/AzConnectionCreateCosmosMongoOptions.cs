@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "create", "cosmos-mongo")]
+[CliSubCommand("connection", "create", "cosmos-mongo")]
 public record AzConnectionCreateCosmosMongoOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

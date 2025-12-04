@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "sql", "pool", "show-connection-string")]
+[CliSubCommand("synapse", "sql", "pool", "show-connection-string")]
 public record AzSynapseSqlPoolShowConnectionStringOptions(
 [property: CliOption("--client")] string Client
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "region", "remove")]
+[CliSubCommand("keyvault", "region", "remove")]
 public record AzKeyvaultRegionRemoveOptions(
 [property: CliOption("--hsm-name")] string HsmName,
 [property: CliOption("--region")] string Region

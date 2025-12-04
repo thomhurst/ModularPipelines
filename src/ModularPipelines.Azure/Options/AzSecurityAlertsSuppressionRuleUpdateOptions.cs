@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "alerts-suppression-rule", "update")]
+[CliSubCommand("security", "alerts-suppression-rule", "update")]
 public record AzSecurityAlertsSuppressionRuleUpdateOptions(
 [property: CliOption("--alert-type")] string AlertType,
 [property: CliOption("--reason")] string Reason,

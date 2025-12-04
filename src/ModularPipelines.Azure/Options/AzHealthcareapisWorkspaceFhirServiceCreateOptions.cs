@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("healthcareapis", "workspace", "fhir-service", "create")]
+[CliSubCommand("healthcareapis", "workspace", "fhir-service", "create")]
 public record AzHealthcareapisWorkspaceFhirServiceCreateOptions(
 [property: CliOption("--fhir-service-name")] string FhirServiceName,
 [property: CliOption("--resource-group")] string ResourceGroup,

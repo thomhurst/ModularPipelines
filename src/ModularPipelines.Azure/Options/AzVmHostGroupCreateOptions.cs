@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "host", "group", "create")]
+[CliSubCommand("vm", "host", "group", "create")]
 public record AzVmHostGroupCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--platform-fault-domain-count")] int PlatformFaultDomainCount,

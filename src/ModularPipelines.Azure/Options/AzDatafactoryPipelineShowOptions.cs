@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "pipeline", "show")]
+[CliSubCommand("datafactory", "pipeline", "show")]
 public record AzDatafactoryPipelineShowOptions : AzOptions
 {
     [CliOption("--factory-name")]

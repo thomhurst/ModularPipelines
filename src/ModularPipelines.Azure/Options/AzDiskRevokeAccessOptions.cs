@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk", "revoke-access")]
+[CliSubCommand("disk", "revoke-access")]
 public record AzDiskRevokeAccessOptions : AzOptions
 {
     [CliOption("--disk-name")]

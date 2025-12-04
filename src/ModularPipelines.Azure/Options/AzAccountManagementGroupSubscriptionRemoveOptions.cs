@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("account", "management-group", "subscription", "remove")]
+[CliSubCommand("account", "management-group", "subscription", "remove")]
 public record AzAccountManagementGroupSubscriptionRemoveOptions : AzOptions
 {
     public AzAccountManagementGroupSubscriptionRemoveOptions(

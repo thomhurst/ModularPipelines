@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "dtc", "show")]
+[CliSubCommand("sql", "mi", "dtc", "show")]
 public record AzSqlMiDtcShowOptions : AzOptions
 {
     [CliOption("--ids")]

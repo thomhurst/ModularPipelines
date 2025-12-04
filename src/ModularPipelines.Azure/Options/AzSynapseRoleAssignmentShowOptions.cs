@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "role", "assignment", "show")]
+[CliSubCommand("synapse", "role", "assignment", "show")]
 public record AzSynapseRoleAssignmentShowOptions(
 [property: CliOption("--id")] string Id,
 [property: CliOption("--workspace-name")] string WorkspaceName

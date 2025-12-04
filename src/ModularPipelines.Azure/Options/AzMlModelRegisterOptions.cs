@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "model", "register")]
+[CliSubCommand("ml", "model", "register")]
 public record AzMlModelRegisterOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

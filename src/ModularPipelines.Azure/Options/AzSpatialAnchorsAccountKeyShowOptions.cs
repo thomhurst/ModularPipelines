@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spatial-anchors-account", "key", "show")]
+[CliSubCommand("spatial-anchors-account", "key", "show")]
 public record AzSpatialAnchorsAccountKeyShowOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication", "chat", "thread", "list")]
+[CliSubCommand("communication", "chat", "thread", "list")]
 public record AzCommunicationChatThreadListOptions : AzOptions
 {
     [CliOption("--access-token")]

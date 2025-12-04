@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server", "create")]
+[CliSubCommand("postgres", "server", "create")]
 public record AzPostgresServerCreateOptions : AzOptions
 {
     [CliOption("--admin-password")]

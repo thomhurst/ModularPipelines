@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("csvmware", "vm", "create")]
+[CliSubCommand("csvmware", "vm", "create")]
 public record AzCsvmwareVmCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--private-cloud")] string PrivateCloud,

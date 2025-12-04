@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "workspace", "firewall-rule", "delete")]
+[CliSubCommand("synapse", "workspace", "firewall-rule", "delete")]
 public record AzSynapseWorkspaceFirewallRuleDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

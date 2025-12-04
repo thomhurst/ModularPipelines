@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "show-attached")]
+[CliSubCommand("sphere", "device", "show-attached")]
 public record AzSphereDeviceShowAttachedOptions : AzOptions
 {
     [CliOption("--device")]

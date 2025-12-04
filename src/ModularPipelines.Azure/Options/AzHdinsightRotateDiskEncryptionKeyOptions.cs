@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hdinsight", "rotate-disk-encryption-key")]
+[CliSubCommand("hdinsight", "rotate-disk-encryption-key")]
 public record AzHdinsightRotateDiskEncryptionKeyOptions(
 [property: CliOption("--encryption-key-name")] string EncryptionKeyName,
 [property: CliOption("--encryption-key-version")] string EncryptionKeyVersion,

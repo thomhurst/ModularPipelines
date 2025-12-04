@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "pipeline-run", "create")]
+[CliSubCommand("acr", "pipeline-run", "create")]
 public record AzAcrPipelineRunCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--pipeline")] string Pipeline,

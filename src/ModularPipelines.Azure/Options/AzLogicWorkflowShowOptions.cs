@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logic", "workflow", "show")]
+[CliSubCommand("logic", "workflow", "show")]
 public record AzLogicWorkflowShowOptions : AzOptions
 {
     [CliOption("--ids")]

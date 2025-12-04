@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "list")]
+[CliSubCommand("spring", "list")]
 public record AzSpringListOptions : AzOptions
 {
     [CliOption("--resource-group")]

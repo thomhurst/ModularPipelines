@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dnc", "controller", "show")]
+[CliSubCommand("dnc", "controller", "show")]
 public record AzDncControllerShowOptions : AzOptions
 {
     [CliOption("--ids")]

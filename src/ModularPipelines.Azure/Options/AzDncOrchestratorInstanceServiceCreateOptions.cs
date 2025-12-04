@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dnc", "orchestrator-instance-service", "create")]
+[CliSubCommand("dnc", "orchestrator-instance-service", "create")]
 public record AzDncOrchestratorInstanceServiceCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

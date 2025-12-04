@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "deployment", "github-actions", "remove")]
+[CliSubCommand("functionapp", "deployment", "github-actions", "remove")]
 public record AzFunctionappDeploymentGithubActionsRemoveOptions(
 [property: CliOption("--repo")] string Repo
 ) : AzOptions

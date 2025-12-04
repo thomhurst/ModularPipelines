@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "secret", "download")]
+[CliSubCommand("keyvault", "secret", "download")]
 public record AzKeyvaultSecretDownloadOptions(
 [property: CliOption("--file")] string File
 ) : AzOptions

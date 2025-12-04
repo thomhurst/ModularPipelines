@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "certificate", "add")]
+[CliSubCommand("sphere", "device", "certificate", "add")]
 public record AzSphereDeviceCertificateAddOptions(
 [property: CliOption("--cert-type")] string CertType,
 [property: CliOption("--certificate")] string Certificate,

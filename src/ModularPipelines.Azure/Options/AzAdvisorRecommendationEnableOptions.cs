@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("advisor", "recommendation", "enable")]
+[CliSubCommand("advisor", "recommendation", "enable")]
 public record AzAdvisorRecommendationEnableOptions : AzOptions
 {
     [CliOption("--ids")]

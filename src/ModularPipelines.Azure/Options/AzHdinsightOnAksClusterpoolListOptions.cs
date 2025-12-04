@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hdinsight-on-aks", "clusterpool", "list")]
+[CliSubCommand("hdinsight-on-aks", "clusterpool", "list")]
 public record AzHdinsightOnAksClusterpoolListOptions : AzOptions
 {
     [CliOption("--max-items")]

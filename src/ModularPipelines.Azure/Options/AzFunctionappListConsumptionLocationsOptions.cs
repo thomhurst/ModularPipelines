@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "list-consumption-locations")]
+[CliSubCommand("functionapp", "list-consumption-locations")]
 public record AzFunctionappListConsumptionLocationsOptions : AzOptions;

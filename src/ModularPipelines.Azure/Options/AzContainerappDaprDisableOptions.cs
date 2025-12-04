@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "dapr", "disable")]
+[CliSubCommand("containerapp", "dapr", "disable")]
 public record AzContainerappDaprDisableOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("remote-rendering-account", "update")]
+[CliSubCommand("remote-rendering-account", "update")]
 public record AzRemoteRenderingAccountUpdateOptions : AzOptions
 {
     [CliOption("--identity")]

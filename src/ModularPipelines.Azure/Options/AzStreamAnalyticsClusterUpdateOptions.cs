@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stream-analytics", "cluster", "update")]
+[CliSubCommand("stream-analytics", "cluster", "update")]
 public record AzStreamAnalyticsClusterUpdateOptions : AzOptions
 {
     [CliOption("--cluster-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("relay", "wcfrelay", "delete")]
+[CliSubCommand("relay", "wcfrelay", "delete")]
 public record AzRelayWcfrelayDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

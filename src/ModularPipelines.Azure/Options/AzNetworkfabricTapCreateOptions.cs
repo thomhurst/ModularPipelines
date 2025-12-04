@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "tap", "create")]
+[CliSubCommand("networkfabric", "tap", "create")]
 public record AzNetworkfabricTapCreateOptions(
 [property: CliOption("--destinations")] string Destinations,
 [property: CliOption("--network-packet-broker-id")] string NetworkPacketBrokerId,

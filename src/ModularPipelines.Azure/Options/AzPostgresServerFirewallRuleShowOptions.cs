@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server", "firewall-rule", "show")]
+[CliSubCommand("postgres", "server", "firewall-rule", "show")]
 public record AzPostgresServerFirewallRuleShowOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("peering", "asn", "create")]
+[CliSubCommand("peering", "asn", "create")]
 public record AzPeeringAsnCreateOptions(
 [property: CliOption("--peer-asn-name")] string PeerAsnName
 ) : AzOptions

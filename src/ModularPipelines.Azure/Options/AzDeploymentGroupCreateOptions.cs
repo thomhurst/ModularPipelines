@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("deployment", "group", "create")]
+[CliSubCommand("deployment", "group", "create")]
 public record AzDeploymentGroupCreateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

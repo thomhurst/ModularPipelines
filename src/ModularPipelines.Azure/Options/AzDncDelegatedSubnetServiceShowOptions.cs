@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dnc", "delegated-subnet-service", "show")]
+[CliSubCommand("dnc", "delegated-subnet-service", "show")]
 public record AzDncDelegatedSubnetServiceShowOptions : AzOptions
 {
     [CliOption("--ids")]

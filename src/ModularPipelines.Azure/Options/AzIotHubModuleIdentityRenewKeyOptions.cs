@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "module-identity", "renew-key")]
+[CliSubCommand("iot", "hub", "module-identity", "renew-key")]
 public record AzIotHubModuleIdentityRenewKeyOptions(
 [property: CliOption("--device-id")] string DeviceId,
 [property: CliOption("--hub-name")] string HubName,

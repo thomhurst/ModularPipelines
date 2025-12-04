@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "server", "configuration", "show")]
+[CliSubCommand("mariadb", "server", "configuration", "show")]
 public record AzMariadbServerConfigurationShowOptions : AzOptions
 {
     [CliOption("--ids")]

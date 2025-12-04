@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dms", "list-skus")]
+[CliSubCommand("dms", "list-skus")]
 public record AzDmsListSkusOptions : AzOptions;

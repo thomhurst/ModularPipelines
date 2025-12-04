@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mobile-network", "sim", "group", "bulk-delete-sims")]
+[CliSubCommand("mobile-network", "sim", "group", "bulk-delete-sims")]
 public record AzMobileNetworkSimGroupBulkDeleteSimsOptions(
 [property: CliOption("--sims")] string Sims
 ) : AzOptions

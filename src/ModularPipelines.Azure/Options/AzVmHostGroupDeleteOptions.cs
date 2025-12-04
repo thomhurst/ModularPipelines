@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "host", "group", "delete")]
+[CliSubCommand("vm", "host", "group", "delete")]
 public record AzVmHostGroupDeleteOptions : AzOptions
 {
     [CliOption("--host-group-name")]

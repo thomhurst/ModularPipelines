@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hdinsight", "autoscale", "condition", "update")]
+[CliSubCommand("hdinsight", "autoscale", "condition", "update")]
 public record AzHdinsightAutoscaleConditionUpdateOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--index")] string Index,

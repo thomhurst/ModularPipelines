@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datashare", "data-set-mapping", "create")]
+[CliSubCommand("datashare", "data-set-mapping", "create")]
 public record AzDatashareDataSetMappingCreateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--data-set-mapping-name")] string DataSetMappingName,

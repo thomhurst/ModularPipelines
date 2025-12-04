@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "message-enrichment", "update")]
+[CliSubCommand("iot", "hub", "message-enrichment", "update")]
 public record AzIotHubMessageEnrichmentUpdateOptions(
 [property: CliOption("--endpoints")] string Endpoints,
 [property: CliOption("--key")] string Key,

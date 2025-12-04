@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet-gateway", "update")]
+[CliSubCommand("network", "vnet-gateway", "update")]
 public record AzNetworkVnetGatewayUpdateOptions : AzOptions
 {
     [CliOption("--aad-audience")]

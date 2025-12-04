@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kusto", "database", "show")]
+[CliSubCommand("synapse", "kusto", "database", "show")]
 public record AzSynapseKustoDatabaseShowOptions : AzOptions
 {
     [CliOption("--database-name")]

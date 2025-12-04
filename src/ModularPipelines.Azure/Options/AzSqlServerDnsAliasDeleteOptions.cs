@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "dns-alias", "delete")]
+[CliSubCommand("sql", "server", "dns-alias", "delete")]
 public record AzSqlServerDnsAliasDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

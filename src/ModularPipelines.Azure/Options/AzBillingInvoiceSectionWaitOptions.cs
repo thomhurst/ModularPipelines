@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("billing", "invoice", "section", "wait")]
+[CliSubCommand("billing", "invoice", "section", "wait")]
 public record AzBillingInvoiceSectionWaitOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--invoice-section-name")] string InvoiceSectionName,

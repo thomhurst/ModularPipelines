@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication", "list-key")]
+[CliSubCommand("communication", "list-key")]
 public record AzCommunicationListKeyOptions : AzOptions
 {
     [CliOption("--ids")]

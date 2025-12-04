@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "ad-only-auth", "get")]
+[CliSubCommand("synapse", "ad-only-auth", "get")]
 public record AzSynapseAdOnlyAuthGetOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--workspace-name")] string WorkspaceName

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcdata", "dc", "debug", "restore-controldb-snapshot")]
+[CliSubCommand("arcdata", "dc", "debug", "restore-controldb-snapshot")]
 public record AzArcdataDcDebugRestoreControldbSnapshotOptions(
 [property: CliOption("--backup-file")] string BackupFile,
 [property: CliOption("--k8s-namespace")] string K8sNamespace

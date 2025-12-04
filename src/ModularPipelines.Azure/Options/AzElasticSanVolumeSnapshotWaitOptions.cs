@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("elastic-san", "volume", "snapshot", "wait")]
+[CliSubCommand("elastic-san", "volume", "snapshot", "wait")]
 public record AzElasticSanVolumeSnapshotWaitOptions : AzOptions
 {
     [CliFlag("--created")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dns-resolver", "show")]
+[CliSubCommand("dns-resolver", "show")]
 public record AzDnsResolverShowOptions : AzOptions
 {
     [CliOption("--dns-resolver-name")]

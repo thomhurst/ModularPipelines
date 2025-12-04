@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "topic", "private-endpoint-connection", "delete")]
+[CliSubCommand("eventgrid", "topic", "private-endpoint-connection", "delete")]
 public record AzEventgridTopicPrivateEndpointConnectionDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

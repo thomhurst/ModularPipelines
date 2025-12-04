@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "configuration", "delete")]
+[CliSubCommand("iot", "hub", "configuration", "delete")]
 public record AzIotHubConfigurationDeleteOptions(
 [property: CliOption("--config-id")] string ConfigId
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "streaming-endpoint", "show")]
+[CliSubCommand("ams", "streaming-endpoint", "show")]
 public record AzAmsStreamingEndpointShowOptions : AzOptions
 {
     [CliOption("--account-name")]

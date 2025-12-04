@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("powerbi", "embedded-capacity", "list")]
+[CliSubCommand("powerbi", "embedded-capacity", "list")]
 public record AzPowerbiEmbeddedCapacityListOptions : AzOptions
 {
     [CliOption("--resource-group")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "live-output", "show")]
+[CliSubCommand("ams", "live-output", "show")]
 public record AzAmsLiveOutputShowOptions : AzOptions
 {
     [CliOption("--account-name")]

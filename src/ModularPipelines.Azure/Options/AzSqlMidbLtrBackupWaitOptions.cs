@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "midb", "ltr-backup", "wait")]
+[CliSubCommand("sql", "midb", "ltr-backup", "wait")]
 public record AzSqlMidbLtrBackupWaitOptions(
 [property: CliOption("--database")] string Database,
 [property: CliOption("--managed-instance")] string ManagedInstance,

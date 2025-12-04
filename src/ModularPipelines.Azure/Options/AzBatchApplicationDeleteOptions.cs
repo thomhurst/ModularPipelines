@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "application", "delete")]
+[CliSubCommand("batch", "application", "delete")]
 public record AzBatchApplicationDeleteOptions(
 [property: CliOption("--application-name")] string ApplicationName,
 [property: CliOption("--name")] string Name,

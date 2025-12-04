@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "show-backend-health")]
+[CliSubCommand("network", "application-gateway", "show-backend-health")]
 public record AzNetworkApplicationGatewayShowBackendHealthOptions : AzOptions
 {
     [CliOption("--address-pool")]

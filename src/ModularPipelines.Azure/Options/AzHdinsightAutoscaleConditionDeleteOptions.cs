@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hdinsight", "autoscale", "condition", "delete")]
+[CliSubCommand("hdinsight", "autoscale", "condition", "delete")]
 public record AzHdinsightAutoscaleConditionDeleteOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--index")] string Index,

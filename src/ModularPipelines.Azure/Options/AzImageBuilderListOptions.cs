@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("image", "builder", "list")]
+[CliSubCommand("image", "builder", "list")]
 public record AzImageBuilderListOptions : AzOptions
 {
     [CliOption("--resource-group")]

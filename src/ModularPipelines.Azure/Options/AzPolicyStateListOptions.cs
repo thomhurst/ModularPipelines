@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("policy", "state", "list")]
+[CliSubCommand("policy", "state", "list")]
 public record AzPolicyStateListOptions : AzOptions
 {
     [CliFlag("--all")]

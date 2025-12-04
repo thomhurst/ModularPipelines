@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "github-action", "delete")]
+[CliSubCommand("containerapp", "github-action", "delete")]
 public record AzContainerappGithubActionDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

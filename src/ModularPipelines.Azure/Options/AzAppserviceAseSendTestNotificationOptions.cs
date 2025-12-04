@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appservice", "ase", "send-test-notification")]
+[CliSubCommand("appservice", "ase", "send-test-notification")]
 public record AzAppserviceAseSendTestNotificationOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

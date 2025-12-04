@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "environment", "register")]
+[CliSubCommand("ml", "environment", "register")]
 public record AzMlEnvironmentRegisterOptions(
 [property: CliOption("--directory")] string Directory
 ) : AzOptions

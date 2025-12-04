@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "server", "restore")]
+[CliSubCommand("mariadb", "server", "restore")]
 public record AzMariadbServerRestoreOptions(
 [property: CliOption("--pitr-time")] string PitrTime,
 [property: CliOption("--source-server")] string SourceServer

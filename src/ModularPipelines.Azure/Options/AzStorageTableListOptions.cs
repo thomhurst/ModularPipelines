@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "table", "list")]
+[CliSubCommand("storage", "table", "list")]
 public record AzStorageTableListOptions : AzOptions
 {
     [CliOption("--account-key")]

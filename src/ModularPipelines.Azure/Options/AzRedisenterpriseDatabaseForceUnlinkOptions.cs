@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redisenterprise", "database", "force-unlink")]
+[CliSubCommand("redisenterprise", "database", "force-unlink")]
 public record AzRedisenterpriseDatabaseForceUnlinkOptions(
 [property: CliOption("--unlink-ids")] string UnlinkIds
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("billing", "role-assignment", "list")]
+[CliSubCommand("billing", "role-assignment", "list")]
 public record AzBillingRoleAssignmentListOptions(
 [property: CliOption("--account-name")] int AccountName
 ) : AzOptions

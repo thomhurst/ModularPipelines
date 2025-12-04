@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "update-instances")]
+[CliSubCommand("vmss", "update-instances")]
 public record AzVmssUpdateInstancesOptions(
 [property: CliOption("--instance-ids")] string InstanceIds,
 [property: CliOption("--name")] string Name,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "product", "api", "check")]
+[CliSubCommand("apim", "product", "api", "check")]
 public record AzApimProductApiCheckOptions(
 [property: CliOption("--api-id")] string ApiId,
 [property: CliOption("--product-id")] string ProductId,

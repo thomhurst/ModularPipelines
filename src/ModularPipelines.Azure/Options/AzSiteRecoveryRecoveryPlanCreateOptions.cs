@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "recovery-plan", "create")]
+[CliSubCommand("site-recovery", "recovery-plan", "create")]
 public record AzSiteRecoveryRecoveryPlanCreateOptions(
 [property: CliOption("--groups")] string Groups,
 [property: CliOption("--name")] string Name,

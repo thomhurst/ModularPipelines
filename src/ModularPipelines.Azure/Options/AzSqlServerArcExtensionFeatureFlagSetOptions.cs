@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server-arc", "extension", "feature-flag", "set")]
+[CliSubCommand("sql", "server-arc", "extension", "feature-flag", "set")]
 public record AzSqlServerArcExtensionFeatureFlagSetOptions(
 [property: CliOption("--machine-name")] string MachineName,
 [property: CliOption("--name")] string Name,

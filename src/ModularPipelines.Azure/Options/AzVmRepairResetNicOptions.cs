@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "repair", "reset-nic")]
+[CliSubCommand("vm", "repair", "reset-nic")]
 public record AzVmRepairResetNicOptions : AzOptions
 {
     [CliOption("--ids")]

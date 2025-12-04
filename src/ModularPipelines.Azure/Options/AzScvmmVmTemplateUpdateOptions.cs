@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vm-template", "update")]
+[CliSubCommand("scvmm", "vm-template", "update")]
 public record AzScvmmVmTemplateUpdateOptions : AzOptions
 {
     [CliOption("--ids")]

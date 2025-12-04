@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("workloads", "sap-sizing-recommendation")]
+[CliSubCommand("workloads", "sap-sizing-recommendation")]
 public record AzWorkloadsSapSizingRecommendationOptions : AzOptions
 {
     [CliOption("--app-location")]

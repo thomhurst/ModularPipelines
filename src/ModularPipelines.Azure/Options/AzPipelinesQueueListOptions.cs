@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "queue", "list")]
+[CliSubCommand("pipelines", "queue", "list")]
 public record AzPipelinesQueueListOptions : AzOptions
 {
     [CliOption("--action")]

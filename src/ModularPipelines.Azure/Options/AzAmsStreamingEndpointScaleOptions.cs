@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "streaming-endpoint", "scale")]
+[CliSubCommand("ams", "streaming-endpoint", "scale")]
 public record AzAmsStreamingEndpointScaleOptions(
 [property: CliOption("--scale-units")] string ScaleUnits
 ) : AzOptions

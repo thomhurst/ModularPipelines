@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedmachine", "upgrade-extension")]
+[CliSubCommand("connectedmachine", "upgrade-extension")]
 public record AzConnectedmachineUpgradeExtensionOptions : AzOptions
 {
     [CliOption("--extension-targets")]

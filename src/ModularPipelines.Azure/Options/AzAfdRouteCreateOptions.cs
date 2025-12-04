@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "route", "create")]
+[CliSubCommand("afd", "route", "create")]
 public record AzAfdRouteCreateOptions(
 [property: CliOption("--endpoint-name")] string EndpointName,
 [property: CliOption("--forwarding-protocol")] string ForwardingProtocol,

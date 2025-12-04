@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("partnercenter", "marketplace", "offer", "delete")]
+[CliSubCommand("partnercenter", "marketplace", "offer", "delete")]
 public record AzPartnercenterMarketplaceOfferDeleteOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions

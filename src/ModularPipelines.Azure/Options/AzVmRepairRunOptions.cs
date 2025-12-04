@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "repair", "run")]
+[CliSubCommand("vm", "repair", "run")]
 public record AzVmRepairRunOptions : AzOptions
 {
     [CliOption("--custom-script-file")]

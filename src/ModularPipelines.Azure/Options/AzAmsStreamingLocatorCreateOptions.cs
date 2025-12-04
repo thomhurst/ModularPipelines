@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "streaming-locator", "create")]
+[CliSubCommand("ams", "streaming-locator", "create")]
 public record AzAmsStreamingLocatorCreateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--asset-name")] string AssetName,

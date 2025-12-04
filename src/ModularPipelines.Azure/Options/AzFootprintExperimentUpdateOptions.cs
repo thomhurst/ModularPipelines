@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("footprint", "experiment", "update")]
+[CliSubCommand("footprint", "experiment", "update")]
 public record AzFootprintExperimentUpdateOptions : AzOptions
 {
     [CliOption("--description")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "vm", "group", "create")]
+[CliSubCommand("sql", "vm", "group", "create")]
 public record AzSqlVmGroupCreateOptions(
 [property: CliOption("--domain-fqdn")] string DomainFqdn,
 [property: CliOption("--image-offer")] string ImageOffer,

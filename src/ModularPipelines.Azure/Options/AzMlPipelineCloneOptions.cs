@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "pipeline", "clone")]
+[CliSubCommand("ml", "pipeline", "clone")]
 public record AzMlPipelineCloneOptions(
 [property: CliOption("--path")] string Path,
 [property: CliOption("--pipeline-run-id")] string PipelineRunId

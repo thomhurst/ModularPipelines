@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "ops", "init")]
+[CliSubCommand("iot", "ops", "init")]
 public record AzIotOpsInitOptions(
 [property: CliOption("--cluster")] string Cluster,
 [property: CliOption("--resource-group")] string ResourceGroup

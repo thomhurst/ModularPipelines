@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-encryption-set", "create")]
+[CliSubCommand("disk-encryption-set", "create")]
 public record AzDiskEncryptionSetCreateOptions(
 [property: CliOption("--key-url")] string KeyUrl,
 [property: CliOption("--name")] string Name,

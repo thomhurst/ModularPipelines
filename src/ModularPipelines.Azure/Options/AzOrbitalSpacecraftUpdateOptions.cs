@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("orbital", "spacecraft", "update")]
+[CliSubCommand("orbital", "spacecraft", "update")]
 public record AzOrbitalSpacecraftUpdateOptions : AzOptions
 {
     [CliOption("--add")]

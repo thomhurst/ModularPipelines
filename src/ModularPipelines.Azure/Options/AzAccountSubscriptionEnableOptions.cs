@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("account", "subscription", "enable")]
+[CliSubCommand("account", "subscription", "enable")]
 public record AzAccountSubscriptionEnableOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions;

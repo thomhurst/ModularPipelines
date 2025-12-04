@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "waf-config", "set")]
+[CliSubCommand("network", "application-gateway", "waf-config", "set")]
 public record AzNetworkApplicationGatewayWafConfigSetOptions(
 [property: CliFlag("--enabled")] bool Enabled
 ) : AzOptions

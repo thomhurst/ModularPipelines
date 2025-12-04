@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "placement-policy", "list")]
+[CliSubCommand("vmware", "placement-policy", "list")]
 public record AzVmwarePlacementPolicyListOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--private-cloud")] string PrivateCloud,

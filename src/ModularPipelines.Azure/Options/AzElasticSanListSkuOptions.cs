@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("elastic-san", "list-sku")]
+[CliSubCommand("elastic-san", "list-sku")]
 public record AzElasticSanListSkuOptions : AzOptions
 {
     [CliOption("--filter")]

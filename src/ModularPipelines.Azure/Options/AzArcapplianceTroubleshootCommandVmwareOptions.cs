@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcappliance", "troubleshoot", "command", "vmware")]
+[CliSubCommand("arcappliance", "troubleshoot", "command", "vmware")]
 public record AzArcapplianceTroubleshootCommandVmwareOptions : AzOptions
 {
     [CliOption("--address")]

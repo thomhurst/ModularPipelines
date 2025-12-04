@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "account", "firewall", "update")]
+[CliSubCommand("dls", "account", "firewall", "update")]
 public record AzDlsAccountFirewallUpdateOptions(
 [property: CliOption("--firewall-rule-name")] string FirewallRuleName
 ) : AzOptions

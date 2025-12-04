@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "app", "private-link-resource", "list")]
+[CliSubCommand("iot", "central", "app", "private-link-resource", "list")]
 public record AzIotCentralAppPrivateLinkResourceListOptions : AzOptions
 {
     [CliOption("--id")]

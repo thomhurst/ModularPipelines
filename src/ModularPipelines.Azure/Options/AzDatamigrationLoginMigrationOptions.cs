@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datamigration", "login-migration")]
+[CliSubCommand("datamigration", "login-migration")]
 public record AzDatamigrationLoginMigrationOptions : AzOptions
 {
     [CliOption("--aad-domain-name")]

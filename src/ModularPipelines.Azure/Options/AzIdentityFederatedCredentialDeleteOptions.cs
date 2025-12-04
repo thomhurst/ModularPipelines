@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("identity", "federated-credential", "delete")]
+[CliSubCommand("identity", "federated-credential", "delete")]
 public record AzIdentityFederatedCredentialDeleteOptions(
 [property: CliOption("--identity-name")] string IdentityName,
 [property: CliOption("--name")] string Name,

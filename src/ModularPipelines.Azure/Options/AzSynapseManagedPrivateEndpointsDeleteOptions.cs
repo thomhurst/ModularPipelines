@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "managed-private-endpoints", "delete")]
+[CliSubCommand("synapse", "managed-private-endpoints", "delete")]
 public record AzSynapseManagedPrivateEndpointsDeleteOptions(
 [property: CliOption("--pe-name")] string PeName
 ) : AzOptions

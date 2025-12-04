@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "add-on", "mariadb", "create")]
+[CliSubCommand("containerapp", "add-on", "mariadb", "create")]
 public record AzContainerappAddOnMariadbCreateOptions(
 [property: CliOption("--environment")] string Environment,
 [property: CliOption("--name")] string Name,

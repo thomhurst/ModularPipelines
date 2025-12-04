@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cluster", "bmckeyset", "delete")]
+[CliSubCommand("networkcloud", "cluster", "bmckeyset", "delete")]
 public record AzNetworkcloudClusterBmckeysetDeleteOptions : AzOptions
 {
     [CliOption("--bmc-key-set-name")]

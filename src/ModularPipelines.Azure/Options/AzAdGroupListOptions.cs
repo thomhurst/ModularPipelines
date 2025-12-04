@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ad", "group", "list")]
+[CliSubCommand("ad", "group", "list")]
 public record AzAdGroupListOptions : AzOptions
 {
     [CliOption("--display-name")]

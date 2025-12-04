@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "recovery-point", "list")]
+[CliSubCommand("dataprotection", "recovery-point", "list")]
 public record AzDataprotectionRecoveryPointListOptions(
 [property: CliOption("--backup-instance-name")] string BackupInstanceName,
 [property: CliOption("--resource-group")] string ResourceGroup,

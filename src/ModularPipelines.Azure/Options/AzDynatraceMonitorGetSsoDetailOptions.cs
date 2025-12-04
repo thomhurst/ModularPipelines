@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dynatrace", "monitor", "get-sso-detail")]
+[CliSubCommand("dynatrace", "monitor", "get-sso-detail")]
 public record AzDynatraceMonitorGetSsoDetailOptions(
 [property: CliOption("--monitor-name")] string MonitorName,
 [property: CliOption("--resource-group")] string ResourceGroup

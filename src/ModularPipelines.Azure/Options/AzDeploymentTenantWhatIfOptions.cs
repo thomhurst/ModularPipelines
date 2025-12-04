@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("deployment", "tenant", "what-if")]
+[CliSubCommand("deployment", "tenant", "what-if")]
 public record AzDeploymentTenantWhatIfOptions(
 [property: CliOption("--location")] string Location
 ) : AzOptions

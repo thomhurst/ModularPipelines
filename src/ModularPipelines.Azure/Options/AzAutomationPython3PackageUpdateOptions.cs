@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation", "python3-package", "update")]
+[CliSubCommand("automation", "python3-package", "update")]
 public record AzAutomationPython3PackageUpdateOptions : AzOptions
 {
     [CliOption("--add")]

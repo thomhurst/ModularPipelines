@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "mongodb", "collection", "retrieve-partition-throughput")]
+[CliSubCommand("cosmosdb", "mongodb", "collection", "retrieve-partition-throughput")]
 public record AzCosmosdbMongodbCollectionRetrievePartitionThroughputOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--database-name")] string DatabaseName,

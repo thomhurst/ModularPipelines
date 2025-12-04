@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "account", "create")]
+[CliSubCommand("dla", "account", "create")]
 public record AzDlaAccountCreateOptions(
 [property: CliOption("--account")] int Account,
 [property: CliOption("--default-data-lake-store")] string DefaultDataLakeStore

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "copy", "resume")]
+[CliSubCommand("cosmosdb", "copy", "resume")]
 public record AzCosmosdbCopyResumeOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--job-name")] string JobName,

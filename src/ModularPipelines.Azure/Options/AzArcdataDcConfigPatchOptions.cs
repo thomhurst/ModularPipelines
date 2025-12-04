@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcdata", "dc", "config", "patch")]
+[CliSubCommand("arcdata", "dc", "config", "patch")]
 public record AzArcdataDcConfigPatchOptions(
 [property: CliOption("--patch-file")] string PatchFile,
 [property: CliOption("--path")] string Path

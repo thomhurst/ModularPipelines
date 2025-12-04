@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "computetarget", "amlcompute", "identity", "remove")]
+[CliSubCommand("ml", "computetarget", "amlcompute", "identity", "remove")]
 public record AzMlComputetargetAmlcomputeIdentityRemoveOptions(
 [property: CliOption("--identities")] string Identities,
 [property: CliOption("--name")] string Name

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cdn", "endpoint", "rule", "condition", "remove")]
+[CliSubCommand("cdn", "endpoint", "rule", "condition", "remove")]
 public record AzCdnEndpointRuleConditionRemoveOptions(
 [property: CliOption("--index")] string Index,
 [property: CliOption("--rule-name")] string RuleName

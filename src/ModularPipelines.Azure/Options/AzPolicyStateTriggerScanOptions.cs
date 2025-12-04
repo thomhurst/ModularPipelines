@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("policy", "state", "trigger-scan")]
+[CliSubCommand("policy", "state", "trigger-scan")]
 public record AzPolicyStateTriggerScanOptions : AzOptions
 {
     [CliFlag("--no-wait")]

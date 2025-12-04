@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "network-connection", "create")]
+[CliSubCommand("devcenter", "admin", "network-connection", "create")]
 public record AzDevcenterAdminNetworkConnectionCreateOptions(
 [property: CliOption("--domain-join-type")] string DomainJoinType,
 [property: CliOption("--name")] string Name,

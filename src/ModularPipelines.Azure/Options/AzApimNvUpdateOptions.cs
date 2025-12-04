@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "nv", "update")]
+[CliSubCommand("apim", "nv", "update")]
 public record AzApimNvUpdateOptions(
 [property: CliOption("--named-value-id")] string NamedValueId,
 [property: CliOption("--resource-group")] string ResourceGroup,

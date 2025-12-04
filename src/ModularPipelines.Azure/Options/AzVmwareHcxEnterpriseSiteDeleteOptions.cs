@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "hcx-enterprise-site", "delete")]
+[CliSubCommand("vmware", "hcx-enterprise-site", "delete")]
 public record AzVmwareHcxEnterpriseSiteDeleteOptions : AzOptions
 {
     [CliOption("--hcx-enterprise-site-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("snapshot", "revoke-access")]
+[CliSubCommand("snapshot", "revoke-access")]
 public record AzSnapshotRevokeAccessOptions : AzOptions
 {
     [CliOption("--ids")]

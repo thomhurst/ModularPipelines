@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("csvmware", "vm", "stop")]
+[CliSubCommand("csvmware", "vm", "stop")]
 public record AzCsvmwareVmStopOptions(
 [property: CliOption("--mode")] string Mode,
 [property: CliOption("--name")] string Name,

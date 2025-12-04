@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "mesh", "upgrade", "rollback")]
+[CliSubCommand("aks", "mesh", "upgrade", "rollback")]
 public record AzAksMeshUpgradeRollbackOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

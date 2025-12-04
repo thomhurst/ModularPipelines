@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("bot", "telegram", "create")]
+[CliSubCommand("bot", "telegram", "create")]
 public record AzBotTelegramCreateOptions(
 [property: CliOption("--access-token")] string AccessToken,
 [property: CliOption("--name")] string Name,

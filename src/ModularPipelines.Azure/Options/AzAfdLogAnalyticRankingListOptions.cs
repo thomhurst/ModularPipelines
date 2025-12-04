@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "log-analytic", "ranking", "list")]
+[CliSubCommand("afd", "log-analytic", "ranking", "list")]
 public record AzAfdLogAnalyticRankingListOptions(
 [property: CliOption("--date-time-begin")] string DateTimeBegin,
 [property: CliOption("--date-time-end")] string DateTimeEnd,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cdn", "origin", "create")]
+[CliSubCommand("cdn", "origin", "create")]
 public record AzCdnOriginCreateOptions(
 [property: CliOption("--endpoint-name")] string EndpointName,
 [property: CliOption("--host-name")] string HostName,

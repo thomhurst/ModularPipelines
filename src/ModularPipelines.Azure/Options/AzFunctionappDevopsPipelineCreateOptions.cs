@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "devops-pipeline", "create")]
+[CliSubCommand("functionapp", "devops-pipeline", "create")]
 public record AzFunctionappDevopsPipelineCreateOptions : AzOptions
 {
     [CliFlag("--allow-force-push")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sig", "gallery-application", "create")]
+[CliSubCommand("sig", "gallery-application", "create")]
 public record AzSigGalleryApplicationCreateOptions(
 [property: CliOption("--application-name")] string ApplicationName,
 [property: CliOption("--gallery-name")] string GalleryName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "gremlin", "retrieve-latest-backup-time", "(cosmosdb-preview", "extension)")]
+[CliSubCommand("cosmosdb", "gremlin", "retrieve-latest-backup-time", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbGremlinRetrieveLatestBackupTimeCosmosdbPreviewExtensionOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--database-name")] string DatabaseName,

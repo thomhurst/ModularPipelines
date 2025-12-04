@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcappliance", "delete", "vmware")]
+[CliSubCommand("arcappliance", "delete", "vmware")]
 public record AzArcapplianceDeleteVmwareOptions(
 [property: CliOption("--config-file")] string ConfigFile
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "vm-group", "update")]
+[CliSubCommand("vmware", "workload-network", "vm-group", "update")]
 public record AzVmwareWorkloadNetworkVmGroupUpdateOptions : AzOptions
 {
     [CliOption("--add")]

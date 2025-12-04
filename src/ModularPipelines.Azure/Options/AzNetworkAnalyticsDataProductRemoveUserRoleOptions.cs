@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network-analytics", "data-product", "remove-user-role")]
+[CliSubCommand("network-analytics", "data-product", "remove-user-role")]
 public record AzNetworkAnalyticsDataProductRemoveUserRoleOptions(
 [property: CliOption("--data-type-scope")] string DataTypeScope,
 [property: CliOption("--principal-id")] string PrincipalId,

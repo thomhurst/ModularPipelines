@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "routeserver", "peering", "list-learned-routes")]
+[CliSubCommand("network", "routeserver", "peering", "list-learned-routes")]
 public record AzNetworkRouteserverPeeringListLearnedRoutesOptions : AzOptions
 {
     [CliOption("--ids")]

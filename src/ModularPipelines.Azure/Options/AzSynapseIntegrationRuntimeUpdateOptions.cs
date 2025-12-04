@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "integration-runtime", "update")]
+[CliSubCommand("synapse", "integration-runtime", "update")]
 public record AzSynapseIntegrationRuntimeUpdateOptions(
 [property: CliOption("--auto-update")] string AutoUpdate,
 [property: CliOption("--update-delay-offset")] string UpdateDelayOffset

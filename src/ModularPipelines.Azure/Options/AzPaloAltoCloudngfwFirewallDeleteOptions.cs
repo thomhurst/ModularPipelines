@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("palo-alto", "cloudngfw", "firewall", "delete")]
+[CliSubCommand("palo-alto", "cloudngfw", "firewall", "delete")]
 public record AzPaloAltoCloudngfwFirewallDeleteOptions : AzOptions
 {
     [CliOption("--firewall-name")]

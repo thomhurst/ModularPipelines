@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk", "wait")]
+[CliSubCommand("disk", "wait")]
 public record AzDiskWaitOptions : AzOptions
 {
     [CliFlag("--created")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "workspace", "outbound-rule", "show")]
+[CliSubCommand("ml", "workspace", "outbound-rule", "show")]
 public record AzMlWorkspaceOutboundRuleShowOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--rule")] string Rule,

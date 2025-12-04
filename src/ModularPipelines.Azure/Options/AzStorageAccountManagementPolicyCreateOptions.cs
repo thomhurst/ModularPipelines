@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "management-policy", "create")]
+[CliSubCommand("storage", "account", "management-policy", "create")]
 public record AzStorageAccountManagementPolicyCreateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--policy")] string Policy,

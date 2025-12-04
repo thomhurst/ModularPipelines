@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("search", "private-endpoint-connection", "list")]
+[CliSubCommand("search", "private-endpoint-connection", "list")]
 public record AzSearchPrivateEndpointConnectionListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--service-name")] string ServiceName

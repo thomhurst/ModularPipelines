@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "hostname", "add")]
+[CliSubCommand("webapp", "config", "hostname", "add")]
 public record AzWebappConfigHostnameAddOptions : AzOptions
 {
     [CliOption("--hostname")]

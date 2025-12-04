@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "build", "cancel")]
+[CliSubCommand("pipelines", "build", "cancel")]
 public record AzPipelinesBuildCancelOptions(
 [property: CliOption("--build-id")] string BuildId
 ) : AzOptions

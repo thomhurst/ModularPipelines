@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "spark-job-definition", "create")]
+[CliSubCommand("synapse", "spark-job-definition", "create")]
 public record AzSynapseSparkJobDefinitionCreateOptions(
 [property: CliOption("--file")] string File,
 [property: CliOption("--name")] string Name,

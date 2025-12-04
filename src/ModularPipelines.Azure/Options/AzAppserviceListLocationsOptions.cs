@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appservice", "list-locations")]
+[CliSubCommand("appservice", "list-locations")]
 public record AzAppserviceListLocationsOptions(
 [property: CliOption("--sku")] string Sku
 ) : AzOptions

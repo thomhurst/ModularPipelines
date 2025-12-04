@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appservice", "plan", "update", "(appservice-kube", "extension)")]
+[CliSubCommand("appservice", "plan", "update", "(appservice-kube", "extension)")]
 public record AzAppservicePlanUpdateAppserviceKubeExtensionOptions : AzOptions
 {
     [CliOption("--ids")]

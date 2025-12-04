@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci", "cluster", "delete")]
+[CliSubCommand("stack-hci", "cluster", "delete")]
 public record AzStackHciClusterDeleteOptions : AzOptions
 {
     [CliOption("--cluster-name")]

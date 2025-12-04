@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("customlocation", "create")]
+[CliSubCommand("customlocation", "create")]
 public record AzCustomlocationCreateOptions(
 [property: CliOption("--cluster-extension-ids")] string ClusterExtensionIds,
 [property: CliOption("--host-resource-id")] string HostResourceId,

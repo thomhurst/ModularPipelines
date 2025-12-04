@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "ad-admin", "create")]
+[CliSubCommand("postgres", "flexible-server", "ad-admin", "create")]
 public record AzPostgresFlexibleServerAdAdminCreateOptions(
 [property: CliOption("--display-name")] string DisplayName,
 [property: CliOption("--object-id")] string ObjectId,

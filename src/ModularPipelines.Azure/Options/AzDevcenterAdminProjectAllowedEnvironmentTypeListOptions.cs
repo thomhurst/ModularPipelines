@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "project-allowed-environment-type", "list")]
+[CliSubCommand("devcenter", "admin", "project-allowed-environment-type", "list")]
 public record AzDevcenterAdminProjectAllowedEnvironmentTypeListOptions(
 [property: CliOption("--project")] string Project,
 [property: CliOption("--resource-group")] string ResourceGroup

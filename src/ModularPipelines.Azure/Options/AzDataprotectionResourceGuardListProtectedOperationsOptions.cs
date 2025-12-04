@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dataprotection", "resource-guard", "list-protected-operations")]
+[CliSubCommand("dataprotection", "resource-guard", "list-protected-operations")]
 public record AzDataprotectionResourceGuardListProtectedOperationsOptions(
 [property: CliOption("--resource-type")] string ResourceType
 ) : AzOptions

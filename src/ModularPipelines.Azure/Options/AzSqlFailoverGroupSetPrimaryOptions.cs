@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "failover-group", "set-primary")]
+[CliSubCommand("sql", "failover-group", "set-primary")]
 public record AzSqlFailoverGroupSetPrimaryOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "controller", "create")]
+[CliSubCommand("networkfabric", "controller", "create")]
 public record AzNetworkfabricControllerCreateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--resource-name")] string ResourceName

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "event-subscription", "delete")]
+[CliSubCommand("eventgrid", "event-subscription", "delete")]
 public record AzEventgridEventSubscriptionDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "private-link-resource", "list")]
+[CliSubCommand("keyvault", "private-link-resource", "list")]
 public record AzKeyvaultPrivateLinkResourceListOptions : AzOptions
 {
     [CliOption("--hsm-name")]

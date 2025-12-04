@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sapmonitor", "provider-instance", "show")]
+[CliSubCommand("sapmonitor", "provider-instance", "show")]
 public record AzSapmonitorProviderInstanceShowOptions(
 [property: CliOption("--monitor-name")] string MonitorName,
 [property: CliOption("--provider-instance-name")] string ProviderInstanceName,

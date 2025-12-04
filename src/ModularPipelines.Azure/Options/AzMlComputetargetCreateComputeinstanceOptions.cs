@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "computetarget", "create", "computeinstance")]
+[CliSubCommand("ml", "computetarget", "create", "computeinstance")]
 public record AzMlComputetargetCreateComputeinstanceOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--vm-size")] string VmSize

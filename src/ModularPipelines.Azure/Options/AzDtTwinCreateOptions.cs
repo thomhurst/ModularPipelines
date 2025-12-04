@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "twin", "create")]
+[CliSubCommand("dt", "twin", "create")]
 public record AzDtTwinCreateOptions(
 [property: CliOption("--dt-name")] string DtName,
 [property: CliOption("--dtmi")] string Dtmi,

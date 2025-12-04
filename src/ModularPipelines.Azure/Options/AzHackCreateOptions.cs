@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hack", "create")]
+[CliSubCommand("hack", "create")]
 public record AzHackCreateOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--name")] string Name,

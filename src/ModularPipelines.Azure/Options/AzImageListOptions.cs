@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("image", "list")]
+[CliSubCommand("image", "list")]
 public record AzImageListOptions : AzOptions
 {
     [CliOption("--max-items")]

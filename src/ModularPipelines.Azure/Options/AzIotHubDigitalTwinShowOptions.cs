@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "digital-twin", "show")]
+[CliSubCommand("iot", "hub", "digital-twin", "show")]
 public record AzIotHubDigitalTwinShowOptions(
 [property: CliOption("--device-id")] string DeviceId
 ) : AzOptions

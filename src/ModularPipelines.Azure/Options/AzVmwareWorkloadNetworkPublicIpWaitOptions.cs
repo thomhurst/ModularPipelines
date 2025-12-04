@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "public-ip", "wait")]
+[CliSubCommand("vmware", "workload-network", "public-ip", "wait")]
 public record AzVmwareWorkloadNetworkPublicIpWaitOptions : AzOptions
 {
     [CliFlag("--created")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("elastic", "monitor", "show")]
+[CliSubCommand("elastic", "monitor", "show")]
 public record AzElasticMonitorShowOptions : AzOptions
 {
     [CliOption("--ids")]

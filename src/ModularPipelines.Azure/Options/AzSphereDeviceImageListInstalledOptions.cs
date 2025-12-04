@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "image", "list-installed")]
+[CliSubCommand("sphere", "device", "image", "list-installed")]
 public record AzSphereDeviceImageListInstalledOptions : AzOptions
 {
     [CliOption("--device")]

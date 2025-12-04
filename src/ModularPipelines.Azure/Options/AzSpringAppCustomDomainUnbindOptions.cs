@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "app", "custom-domain", "unbind")]
+[CliSubCommand("spring", "app", "custom-domain", "unbind")]
 public record AzSpringAppCustomDomainUnbindOptions(
 [property: CliOption("--app")] string App,
 [property: CliOption("--domain-name")] string DomainName,

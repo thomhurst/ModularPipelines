@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "fabric", "update")]
+[CliSubCommand("site-recovery", "fabric", "update")]
 public record AzSiteRecoveryFabricUpdateOptions : AzOptions
 {
     [CliOption("--add")]

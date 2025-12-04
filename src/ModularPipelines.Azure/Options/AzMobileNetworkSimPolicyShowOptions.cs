@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mobile-network", "sim", "policy", "show")]
+[CliSubCommand("mobile-network", "sim", "policy", "show")]
 public record AzMobileNetworkSimPolicyShowOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("urestackhci", "virtualmachine", "update")]
+[CliSubCommand("urestackhci", "virtualmachine", "update")]
 public record AzAzurestackhciVirtualmachineUpdateOptions : AzOptions
 {
     [CliOption("--cpu-count")]

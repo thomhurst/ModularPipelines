@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "key", "create")]
+[CliSubCommand("keyvault", "key", "create")]
 public record AzKeyvaultKeyCreateOptions : AzOptions
 {
     [CliOption("--curve")]

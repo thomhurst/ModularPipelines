@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "auth", "microsoft", "update")]
+[CliSubCommand("containerapp", "auth", "microsoft", "update")]
 public record AzContainerappAuthMicrosoftUpdateOptions : AzOptions
 {
     [CliFlag("--allowed-audiences")]

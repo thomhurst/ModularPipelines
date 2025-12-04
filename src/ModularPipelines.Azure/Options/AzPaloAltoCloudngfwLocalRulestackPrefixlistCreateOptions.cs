@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("palo-alto", "cloudngfw", "local-rulestack", "prefixlist", "create")]
+[CliSubCommand("palo-alto", "cloudngfw", "local-rulestack", "prefixlist", "create")]
 public record AzPaloAltoCloudngfwLocalRulestackPrefixlistCreateOptions(
 [property: CliOption("--local-rulestack-name")] string LocalRulestackName,
 [property: CliOption("--name")] string Name,

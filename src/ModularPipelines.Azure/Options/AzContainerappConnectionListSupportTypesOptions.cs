@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "connection", "list-support-types")]
+[CliSubCommand("containerapp", "connection", "list-support-types")]
 public record AzContainerappConnectionListSupportTypesOptions : AzOptions
 {
     [CliOption("--target-type")]

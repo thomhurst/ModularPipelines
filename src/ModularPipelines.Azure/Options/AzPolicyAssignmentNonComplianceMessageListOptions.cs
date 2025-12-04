@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("policy", "assignment", "non-compliance-message", "list")]
+[CliSubCommand("policy", "assignment", "non-compliance-message", "list")]
 public record AzPolicyAssignmentNonComplianceMessageListOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("bot", "prepare-publish")]
+[CliSubCommand("bot", "prepare-publish")]
 public record AzBotPreparePublishOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--proj-file-path")] string ProjFilePath,

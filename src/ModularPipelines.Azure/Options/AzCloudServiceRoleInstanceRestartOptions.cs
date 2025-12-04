@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cloud-service", "role-instance", "restart")]
+[CliSubCommand("cloud-service", "role-instance", "restart")]
 public record AzCloudServiceRoleInstanceRestartOptions : AzOptions
 {
     [CliOption("--cloud-service-name")]

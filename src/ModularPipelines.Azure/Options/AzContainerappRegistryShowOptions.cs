@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "registry", "show")]
+[CliSubCommand("containerapp", "registry", "show")]
 public record AzContainerappRegistryShowOptions(
 [property: CliOption("--server")] string Server
 ) : AzOptions

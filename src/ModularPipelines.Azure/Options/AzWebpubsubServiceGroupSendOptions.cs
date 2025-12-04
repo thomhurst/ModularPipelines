@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webpubsub", "service", "group", "send")]
+[CliSubCommand("webpubsub", "service", "group", "send")]
 public record AzWebpubsubServiceGroupSendOptions(
 [property: CliOption("--group-name")] string GroupName,
 [property: CliOption("--hub-name")] string HubName,

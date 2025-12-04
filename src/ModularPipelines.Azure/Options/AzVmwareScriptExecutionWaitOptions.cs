@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "script-execution", "wait")]
+[CliSubCommand("vmware", "script-execution", "wait")]
 public record AzVmwareScriptExecutionWaitOptions : AzOptions
 {
     [CliFlag("--created")]

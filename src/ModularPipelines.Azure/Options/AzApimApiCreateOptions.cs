@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "api", "create")]
+[CliSubCommand("apim", "api", "create")]
 public record AzApimApiCreateOptions(
 [property: CliOption("--api-id")] string ApiId,
 [property: CliOption("--display-name")] string DisplayName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "copy")]
+[CliSubCommand("sql", "db", "copy")]
 public record AzSqlDbCopyOptions(
 [property: CliOption("--dest-name")] string DestName
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "resource-pool", "create")]
+[CliSubCommand("connectedvmware", "resource-pool", "create")]
 public record AzConnectedvmwareResourcePoolCreateOptions(
 [property: CliOption("--custom-location")] string CustomLocation,
 [property: CliOption("--inventory-item")] string InventoryItem,

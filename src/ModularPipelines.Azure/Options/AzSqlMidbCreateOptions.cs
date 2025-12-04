@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "midb", "create")]
+[CliSubCommand("sql", "midb", "create")]
 public record AzSqlMidbCreateOptions(
 [property: CliOption("--managed-instance")] string ManagedInstance,
 [property: CliOption("--name")] string Name,

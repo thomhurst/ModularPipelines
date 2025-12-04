@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("footprint", "profile", "create")]
+[CliSubCommand("footprint", "profile", "create")]
 public record AzFootprintProfileCreateOptions(
 [property: CliOption("--measurement-count")] int MeasurementCount,
 [property: CliOption("--name")] string Name,

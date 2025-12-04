@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automanage", "configuration-profile", "version", "show")]
+[CliSubCommand("automanage", "configuration-profile", "version", "show")]
 public record AzAutomanageConfigurationProfileVersionShowOptions : AzOptions
 {
     [CliOption("--configuration-profile-name")]

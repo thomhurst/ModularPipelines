@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "du", "device", "group", "list")]
+[CliSubCommand("iot", "du", "device", "group", "list")]
 public record AzIotDuDeviceGroupListOptions(
 [property: CliOption("--account")] int Account,
 [property: CliOption("--instance")] string Instance

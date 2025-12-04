@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "create", "mysql-flexible", "(serviceconnector-passwordless", "extension)")]
+[CliSubCommand("connection", "create", "mysql-flexible", "(serviceconnector-passwordless", "extension)")]
 public record AzConnectionCreateMysqlFlexibleServiceconnectorPasswordlessExtensionOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

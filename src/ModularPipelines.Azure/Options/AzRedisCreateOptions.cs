@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redis", "create")]
+[CliSubCommand("redis", "create")]
 public record AzRedisCreateOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--name")] string Name,

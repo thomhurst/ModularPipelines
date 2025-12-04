@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "vm", "list")]
+[CliSubCommand("sql", "vm", "list")]
 public record AzSqlVmListOptions : AzOptions
 {
     [CliOption("--resource-group")]

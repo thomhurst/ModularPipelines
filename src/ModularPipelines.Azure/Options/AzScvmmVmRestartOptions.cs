@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vm", "restart")]
+[CliSubCommand("scvmm", "vm", "restart")]
 public record AzScvmmVmRestartOptions : AzOptions
 {
     [CliOption("--ids")]

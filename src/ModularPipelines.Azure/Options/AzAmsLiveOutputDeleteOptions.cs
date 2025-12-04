@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "live-output", "delete")]
+[CliSubCommand("ams", "live-output", "delete")]
 public record AzAmsLiveOutputDeleteOptions : AzOptions
 {
     [CliOption("--account-name")]

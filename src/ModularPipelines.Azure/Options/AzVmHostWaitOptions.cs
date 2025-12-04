@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "host", "wait")]
+[CliSubCommand("vm", "host", "wait")]
 public record AzVmHostWaitOptions : AzOptions
 {
     [CliFlag("--created")]

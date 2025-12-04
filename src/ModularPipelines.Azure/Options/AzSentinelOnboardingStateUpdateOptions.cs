@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "onboarding-state", "update")]
+[CliSubCommand("sentinel", "onboarding-state", "update")]
 public record AzSentinelOnboardingStateUpdateOptions : AzOptions
 {
     [CliOption("--add")]

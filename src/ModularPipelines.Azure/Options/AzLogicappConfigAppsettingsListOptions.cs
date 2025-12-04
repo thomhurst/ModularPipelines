@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logicapp", "config", "appsettings", "list")]
+[CliSubCommand("logicapp", "config", "appsettings", "list")]
 public record AzLogicappConfigAppsettingsListOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

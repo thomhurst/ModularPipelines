@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "policy", "case-enforcement", "create")]
+[CliSubCommand("repos", "policy", "case-enforcement", "create")]
 public record AzReposPolicyCaseEnforcementCreateOptions(
 [property: CliFlag("--blocking")] bool Blocking,
 [property: CliFlag("--enabled")] bool Enabled,

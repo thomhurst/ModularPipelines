@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("grafana", "dashboard", "sync")]
+[CliSubCommand("grafana", "dashboard", "sync")]
 public record AzGrafanaDashboardSyncOptions(
 [property: CliOption("--destination")] string Destination,
 [property: CliOption("--source")] string Source

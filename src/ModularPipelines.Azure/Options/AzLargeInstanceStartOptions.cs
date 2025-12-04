@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("large-instance", "start")]
+[CliSubCommand("large-instance", "start")]
 public record AzLargeInstanceStartOptions : AzOptions
 {
     [CliOption("--ids")]

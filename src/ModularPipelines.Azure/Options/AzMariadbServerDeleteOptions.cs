@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "server", "delete")]
+[CliSubCommand("mariadb", "server", "delete")]
 public record AzMariadbServerDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

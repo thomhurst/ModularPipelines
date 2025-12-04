@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("alerts-management", "prometheus-rule-group", "create")]
+[CliSubCommand("alerts-management", "prometheus-rule-group", "create")]
 public record AzAlertsManagementPrometheusRuleGroupCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

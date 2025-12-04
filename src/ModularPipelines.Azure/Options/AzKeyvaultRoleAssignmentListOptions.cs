@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "role", "assignment", "list")]
+[CliSubCommand("keyvault", "role", "assignment", "list")]
 public record AzKeyvaultRoleAssignmentListOptions : AzOptions
 {
     [CliOption("--assignee")]

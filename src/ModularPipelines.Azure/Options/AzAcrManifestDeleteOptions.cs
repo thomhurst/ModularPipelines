@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "manifest", "delete")]
+[CliSubCommand("acr", "manifest", "delete")]
 public record AzAcrManifestDeleteOptions : AzOptions
 {
     [CliOption("--name")]

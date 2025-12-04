@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "externalnetwork", "update")]
+[CliSubCommand("networkfabric", "externalnetwork", "update")]
 public record AzNetworkfabricExternalnetworkUpdateOptions : AzOptions
 {
     [CliOption("--annotation")]

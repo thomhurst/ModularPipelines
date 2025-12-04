@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databoxedge", "device", "create")]
+[CliSubCommand("databoxedge", "device", "create")]
 public record AzDataboxedgeDeviceCreateOptions(
 [property: CliOption("--device-name")] string DeviceName,
 [property: CliOption("--resource-group")] string ResourceGroup

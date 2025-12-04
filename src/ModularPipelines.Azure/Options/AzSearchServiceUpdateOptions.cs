@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("search", "service", "update")]
+[CliSubCommand("search", "service", "update")]
 public record AzSearchServiceUpdateOptions : AzOptions
 {
     [CliOption("--aad-auth-failure-mode")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "log-profiles", "delete")]
+[CliSubCommand("monitor", "log-profiles", "delete")]
 public record AzMonitorLogProfilesDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

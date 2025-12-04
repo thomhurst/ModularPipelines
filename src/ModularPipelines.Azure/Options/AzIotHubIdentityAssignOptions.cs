@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "identity", "assign")]
+[CliSubCommand("iot", "hub", "identity", "assign")]
 public record AzIotHubIdentityAssignOptions : AzOptions
 {
     [CliOption("--ids")]

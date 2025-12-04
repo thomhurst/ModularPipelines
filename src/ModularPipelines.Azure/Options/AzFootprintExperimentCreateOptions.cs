@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("footprint", "experiment", "create")]
+[CliSubCommand("footprint", "experiment", "create")]
 public record AzFootprintExperimentCreateOptions(
 [property: CliOption("--experiment-name")] string ExperimentName,
 [property: CliOption("--profile-name")] string ProfileName,

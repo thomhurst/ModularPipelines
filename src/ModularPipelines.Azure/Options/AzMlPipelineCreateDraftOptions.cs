@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "pipeline", "create-draft")]
+[CliSubCommand("ml", "pipeline", "create-draft")]
 public record AzMlPipelineCreateDraftOptions(
 [property: CliOption("--experiment_name")] string ExperimentName,
 [property: CliOption("--name")] string Name,

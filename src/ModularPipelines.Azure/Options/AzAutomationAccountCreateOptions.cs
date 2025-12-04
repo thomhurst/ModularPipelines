@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation", "account", "create")]
+[CliSubCommand("automation", "account", "create")]
 public record AzAutomationAccountCreateOptions(
 [property: CliOption("--automation-account-name")] int AutomationAccountName,
 [property: CliOption("--resource-group")] string ResourceGroup

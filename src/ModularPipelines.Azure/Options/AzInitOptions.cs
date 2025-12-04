@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("init")]
+[CliSubCommand("init")]
 public record AzInitOptions : AzOptions;

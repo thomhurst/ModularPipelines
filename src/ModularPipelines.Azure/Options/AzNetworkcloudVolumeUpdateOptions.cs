@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "volume", "update")]
+[CliSubCommand("networkcloud", "volume", "update")]
 public record AzNetworkcloudVolumeUpdateOptions : AzOptions
 {
     [CliOption("--ids")]

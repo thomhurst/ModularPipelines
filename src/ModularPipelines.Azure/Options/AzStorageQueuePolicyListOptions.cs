@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "queue", "policy", "list")]
+[CliSubCommand("storage", "queue", "policy", "list")]
 public record AzStorageQueuePolicyListOptions(
 [property: CliOption("--queue-name")] string QueueName
 ) : AzOptions

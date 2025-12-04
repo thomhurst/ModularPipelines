@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcappliance", "get-credentials")]
+[CliSubCommand("arcappliance", "get-credentials")]
 public record AzArcapplianceGetCredentialsOptions : AzOptions
 {
     [CliOption("--config-file")]

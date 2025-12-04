@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "catalog", "tvf", "list")]
+[CliSubCommand("dla", "catalog", "tvf", "list")]
 public record AzDlaCatalogTvfListOptions(
 [property: CliOption("--database-name")] string DatabaseName
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "message", "update")]
+[CliSubCommand("storage", "message", "update")]
 public record AzStorageMessageUpdateOptions(
 [property: CliOption("--id")] string Id,
 [property: CliOption("--pop-receipt")] string PopReceipt,

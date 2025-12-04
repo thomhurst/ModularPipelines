@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "connection", "update", "mysql-flexible")]
+[CliSubCommand("containerapp", "connection", "update", "mysql-flexible")]
 public record AzContainerappConnectionUpdateMysqlFlexibleOptions : AzOptions
 {
     [CliOption("--client-type")]

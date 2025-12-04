@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "container", "show")]
+[CliSubCommand("backup", "container", "show")]
 public record AzBackupContainerShowOptions : AzOptions
 {
     [CliOption("--backup-management-type")]

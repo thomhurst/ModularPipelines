@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "transform", "output", "add")]
+[CliSubCommand("ams", "transform", "output", "add")]
 public record AzAmsTransformOutputAddOptions(
 [property: CliOption("--preset")] string Preset
 ) : AzOptions

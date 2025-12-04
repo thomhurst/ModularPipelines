@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "cluster-principal-assignment", "create")]
+[CliSubCommand("kusto", "cluster-principal-assignment", "create")]
 public record AzKustoClusterPrincipalAssignmentCreateOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--principal-assignment-name")] string PrincipalAssignmentName,

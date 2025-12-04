@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "server-arc", "create")]
+[CliSubCommand("postgres", "server-arc", "create")]
 public record AzPostgresServerArcCreateOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "sql", "pool", "create")]
+[CliSubCommand("synapse", "sql", "pool", "create")]
 public record AzSynapseSqlPoolCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--performance-level")] string PerformanceLevel,

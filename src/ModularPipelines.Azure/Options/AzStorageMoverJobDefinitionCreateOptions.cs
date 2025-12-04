@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage-mover", "job-definition", "create")]
+[CliSubCommand("storage-mover", "job-definition", "create")]
 public record AzStorageMoverJobDefinitionCreateOptions(
 [property: CliOption("--copy-mode")] string CopyMode,
 [property: CliOption("--job-definition-name")] string JobDefinitionName,

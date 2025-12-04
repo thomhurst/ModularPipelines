@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "invoke")]
+[CliSubCommand("devops", "invoke")]
 public record AzDevopsInvokeOptions : AzOptions
 {
     [CliOption("--accept-media-type")]

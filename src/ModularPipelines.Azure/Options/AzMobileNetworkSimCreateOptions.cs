@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mobile-network", "sim", "create")]
+[CliSubCommand("mobile-network", "sim", "create")]
 public record AzMobileNetworkSimCreateOptions(
 [property: CliOption("--international-msi")] string InternationalMsi,
 [property: CliOption("--name")] string Name,

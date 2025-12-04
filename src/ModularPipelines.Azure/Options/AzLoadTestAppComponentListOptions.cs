@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("load", "test", "app-component", "list")]
+[CliSubCommand("load", "test", "app-component", "list")]
 public record AzLoadTestAppComponentListOptions(
 [property: CliOption("--load-test-resource")] string LoadTestResource,
 [property: CliOption("--test-id")] string TestId

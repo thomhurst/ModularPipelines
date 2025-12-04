@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hdinsight-on-aks", "cluster", "show-instance-view")]
+[CliSubCommand("hdinsight-on-aks", "cluster", "show-instance-view")]
 public record AzHdinsightOnAksClusterShowInstanceViewOptions : AzOptions
 {
     [CliOption("--cluster-name")]

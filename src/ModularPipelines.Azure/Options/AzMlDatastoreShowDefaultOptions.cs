@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "datastore", "show-default")]
+[CliSubCommand("ml", "datastore", "show-default")]
 public record AzMlDatastoreShowDefaultOptions : AzOptions
 {
     [CliOption("--include-secret")]

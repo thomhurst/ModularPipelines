@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "region", "add")]
+[CliSubCommand("keyvault", "region", "add")]
 public record AzKeyvaultRegionAddOptions(
 [property: CliOption("--hsm-name")] string HsmName,
 [property: CliOption("--region")] string Region

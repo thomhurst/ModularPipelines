@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "security", "permission", "show")]
+[CliSubCommand("devops", "security", "permission", "show")]
 public record AzDevopsSecurityPermissionShowOptions(
 [property: CliOption("--id")] string Id,
 [property: CliOption("--subject")] string Subject,

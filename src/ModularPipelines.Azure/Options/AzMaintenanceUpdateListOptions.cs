@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("maintenance", "update", "list")]
+[CliSubCommand("maintenance", "update", "list")]
 public record AzMaintenanceUpdateListOptions(
 [property: CliOption("--provider-name")] string ProviderName,
 [property: CliOption("--resource-group")] string ResourceGroup,

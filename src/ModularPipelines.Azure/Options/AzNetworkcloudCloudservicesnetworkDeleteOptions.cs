@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cloudservicesnetwork", "delete")]
+[CliSubCommand("networkcloud", "cloudservicesnetwork", "delete")]
 public record AzNetworkcloudCloudservicesnetworkDeleteOptions : AzOptions
 {
     [CliOption("--cloud-services-network-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "gremlin", "restorable-resource", "list", "(cosmosdb-preview", "extension)")]
+[CliSubCommand("cosmosdb", "gremlin", "restorable-resource", "list", "(cosmosdb-preview", "extension)")]
 public record AzCosmosdbGremlinRestorableResourceListCosmosdbPreviewExtensionOptions(
 [property: CliOption("--instance-id")] string InstanceId,
 [property: CliOption("--location")] string Location,

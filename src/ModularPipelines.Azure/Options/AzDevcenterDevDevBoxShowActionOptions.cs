@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "dev", "dev-box", "show-action")]
+[CliSubCommand("devcenter", "dev", "dev-box", "show-action")]
 public record AzDevcenterDevDevBoxShowActionOptions(
 [property: CliOption("--action-name")] string ActionName,
 [property: CliOption("--dev-box-name")] string DevBoxName,

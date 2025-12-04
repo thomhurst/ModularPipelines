@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "fabric", "commit-configuration")]
+[CliSubCommand("networkfabric", "fabric", "commit-configuration")]
 public record AzNetworkfabricFabricCommitConfigurationOptions : AzOptions
 {
     [CliOption("--ids")]

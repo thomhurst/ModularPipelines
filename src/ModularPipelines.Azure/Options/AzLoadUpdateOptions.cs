@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("load", "update")]
+[CliSubCommand("load", "update")]
 public record AzLoadUpdateOptions : AzOptions
 {
     [CliOption("--encryption-identity")]

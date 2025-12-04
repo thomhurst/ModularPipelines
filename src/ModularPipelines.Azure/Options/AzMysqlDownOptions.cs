@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "down")]
+[CliSubCommand("mysql", "down")]
 public record AzMysqlDownOptions : AzOptions
 {
     [CliOption("--delete-group")]

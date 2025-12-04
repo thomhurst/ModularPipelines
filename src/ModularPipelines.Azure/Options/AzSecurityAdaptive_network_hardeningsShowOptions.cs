@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "adaptive_network_hardenings", "show")]
+[CliSubCommand("security", "adaptive_network_hardenings", "show")]
 public record AzSecurityAdaptive_network_hardeningsShowOptions(
 [property: CliOption("--adaptive-network-hardenings-resource-name")] string AdaptiveNetworkHardeningsResourceName,
 [property: CliOption("--resource-group")] string ResourceGroup,

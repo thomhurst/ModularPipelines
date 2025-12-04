@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ad", "ds", "update")]
+[CliSubCommand("ad", "ds", "update")]
 public record AzAdDsUpdateOptions : AzOptions
 {
     [CliOption("--domain-config-type")]

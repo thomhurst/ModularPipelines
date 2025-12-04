@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logz", "sub-account", "update-vm")]
+[CliSubCommand("logz", "sub-account", "update-vm")]
 public record AzLogzSubAccountUpdateVmOptions : AzOptions
 {
     [CliOption("--ids")]

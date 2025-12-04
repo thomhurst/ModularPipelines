@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "list")]
+[CliSubCommand("cosmosdb", "list")]
 public record AzCosmosdbListOptions : AzOptions
 {
     [CliOption("--resource-group")]

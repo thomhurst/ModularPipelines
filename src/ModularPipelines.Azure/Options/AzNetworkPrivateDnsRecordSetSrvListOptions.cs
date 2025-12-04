@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-dns", "record-set", "srv", "list")]
+[CliSubCommand("network", "private-dns", "record-set", "srv", "list")]
 public record AzNetworkPrivateDnsRecordSetSrvListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--zone-name")] string ZoneName

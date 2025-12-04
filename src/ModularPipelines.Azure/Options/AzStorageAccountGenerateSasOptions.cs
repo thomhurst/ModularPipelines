@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "account", "generate-sas")]
+[CliSubCommand("storage", "account", "generate-sas")]
 public record AzStorageAccountGenerateSasOptions(
 [property: CliOption("--expiry")] string Expiry,
 [property: CliOption("--permissions")] string Permissions,

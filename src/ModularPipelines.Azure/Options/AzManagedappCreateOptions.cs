@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("managedapp", "create")]
+[CliSubCommand("managedapp", "create")]
 public record AzManagedappCreateOptions(
 [property: CliOption("--kind")] string Kind,
 [property: CliOption("--managed-rg-id")] string ManagedRgId,

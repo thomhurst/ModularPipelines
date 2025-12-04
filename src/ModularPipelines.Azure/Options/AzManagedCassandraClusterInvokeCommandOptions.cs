@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("managed-cassandra", "cluster", "invoke-command")]
+[CliSubCommand("managed-cassandra", "cluster", "invoke-command")]
 public record AzManagedCassandraClusterInvokeCommandOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--command-name")] string CommandName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci", "arc-setting", "wait")]
+[CliSubCommand("stack-hci", "arc-setting", "wait")]
 public record AzStackHciArcSettingWaitOptions : AzOptions
 {
     [CliOption("--arc-setting-name")]

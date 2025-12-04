@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "storage", "add")]
+[CliSubCommand("spring", "storage", "add")]
 public record AzSpringStorageAddOptions(
 [property: CliOption("--account-key")] int AccountKey,
 [property: CliOption("--account-name")] int AccountName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "ssh")]
+[CliSubCommand("webapp", "ssh")]
 public record AzWebappSshOptions : AzOptions
 {
     [CliOption("--ids")]

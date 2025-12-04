@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "task", "identity", "remove")]
+[CliSubCommand("acr", "task", "identity", "remove")]
 public record AzAcrTaskIdentityRemoveOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--registry")] string Registry

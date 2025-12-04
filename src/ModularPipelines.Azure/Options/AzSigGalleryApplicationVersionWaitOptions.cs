@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sig", "gallery-application", "version", "wait")]
+[CliSubCommand("sig", "gallery-application", "version", "wait")]
 public record AzSigGalleryApplicationVersionWaitOptions : AzOptions
 {
     [CliOption("--application-name")]

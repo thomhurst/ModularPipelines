@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "route-filter", "rule", "wait")]
+[CliSubCommand("network", "route-filter", "rule", "wait")]
 public record AzNetworkRouteFilterRuleWaitOptions : AzOptions
 {
     [CliFlag("--created")]

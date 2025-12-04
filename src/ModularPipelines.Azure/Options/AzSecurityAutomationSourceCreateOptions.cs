@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "automation-source", "create")]
+[CliSubCommand("security", "automation-source", "create")]
 public record AzSecurityAutomationSourceCreateOptions(
 [property: CliOption("--event-source")] string EventSource
 ) : AzOptions

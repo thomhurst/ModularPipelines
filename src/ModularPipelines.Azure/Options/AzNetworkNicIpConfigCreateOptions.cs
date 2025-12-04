@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "nic", "ip-config", "create")]
+[CliSubCommand("network", "nic", "ip-config", "create")]
 public record AzNetworkNicIpConfigCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--nic-name")] string NicName,

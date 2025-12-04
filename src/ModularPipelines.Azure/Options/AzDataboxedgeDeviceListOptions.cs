@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databoxedge", "device", "list")]
+[CliSubCommand("databoxedge", "device", "list")]
 public record AzDataboxedgeDeviceListOptions : AzOptions
 {
     [CliOption("--expand")]

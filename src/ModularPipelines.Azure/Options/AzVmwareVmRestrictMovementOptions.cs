@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "vm", "restrict-movement")]
+[CliSubCommand("vmware", "vm", "restrict-movement")]
 public record AzVmwareVmRestrictMovementOptions : AzOptions
 {
     [CliOption("--cluster-name")]

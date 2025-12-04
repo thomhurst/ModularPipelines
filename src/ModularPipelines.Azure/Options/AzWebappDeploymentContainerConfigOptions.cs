@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "deployment", "container", "config")]
+[CliSubCommand("webapp", "deployment", "container", "config")]
 public record AzWebappDeploymentContainerConfigOptions(
 [property: CliFlag("--enable-cd")] bool EnableCd
 ) : AzOptions

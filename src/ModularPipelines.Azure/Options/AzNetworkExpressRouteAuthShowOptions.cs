@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "express-route", "auth", "show")]
+[CliSubCommand("network", "express-route", "auth", "show")]
 public record AzNetworkExpressRouteAuthShowOptions : AzOptions
 {
     [CliOption("--circuit-name")]

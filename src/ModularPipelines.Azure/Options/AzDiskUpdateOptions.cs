@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk", "update")]
+[CliSubCommand("disk", "update")]
 public record AzDiskUpdateOptions : AzOptions
 {
     [CliFlag("--accelerated-network")]

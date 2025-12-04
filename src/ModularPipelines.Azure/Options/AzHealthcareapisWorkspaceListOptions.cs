@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("healthcareapis", "workspace", "list")]
+[CliSubCommand("healthcareapis", "workspace", "list")]
 public record AzHealthcareapisWorkspaceListOptions : AzOptions
 {
     [CliOption("--resource-group")]

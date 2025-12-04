@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "connect")]
+[CliSubCommand("mysql", "flexible-server", "connect")]
 public record AzMysqlFlexibleServerConnectOptions(
 [property: CliOption("--admin-user")] string AdminUser,
 [property: CliOption("--name")] string Name

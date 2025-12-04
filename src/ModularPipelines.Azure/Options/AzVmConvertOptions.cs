@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "convert")]
+[CliSubCommand("vm", "convert")]
 public record AzVmConvertOptions : AzOptions
 {
     [CliOption("--ids")]

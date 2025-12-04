@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("palo-alto", "cloudngfw", "firewall", "show-support-info")]
+[CliSubCommand("palo-alto", "cloudngfw", "firewall", "show-support-info")]
 public record AzPaloAltoCloudngfwFirewallShowSupportInfoOptions : AzOptions
 {
     [CliOption("--email")]

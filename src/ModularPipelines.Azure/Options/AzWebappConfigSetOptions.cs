@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "set")]
+[CliSubCommand("webapp", "config", "set")]
 public record AzWebappConfigSetOptions : AzOptions
 {
     [CliFlag("--always-on")]

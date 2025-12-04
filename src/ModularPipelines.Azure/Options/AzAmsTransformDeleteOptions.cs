@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "transform", "delete")]
+[CliSubCommand("ams", "transform", "delete")]
 public record AzAmsTransformDeleteOptions : AzOptions
 {
     [CliOption("--account-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "app-insights", "component", "continues-export", "create")]
+[CliSubCommand("monitor", "app-insights", "component", "continues-export", "create")]
 public record AzMonitorAppInsightsComponentContinuesExportCreateOptions(
 [property: CliOption("--app")] string App,
 [property: CliOption("--dest-account")] int DestAccount,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("footprint", "measurement-endpoint-condition", "show")]
+[CliSubCommand("footprint", "measurement-endpoint-condition", "show")]
 public record AzFootprintMeasurementEndpointConditionShowOptions : AzOptions
 {
     [CliOption("--endpoint-name")]

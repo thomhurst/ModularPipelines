@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("csvmware", "virtual-network", "list")]
+[CliSubCommand("csvmware", "virtual-network", "list")]
 public record AzCsvmwareVirtualNetworkListOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--private-cloud")] string PrivateCloud,

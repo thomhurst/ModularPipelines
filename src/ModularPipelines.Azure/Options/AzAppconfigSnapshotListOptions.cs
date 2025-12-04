@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "snapshot", "list")]
+[CliSubCommand("appconfig", "snapshot", "list")]
 public record AzAppconfigSnapshotListOptions : AzOptions
 {
     [CliOption("--all")]

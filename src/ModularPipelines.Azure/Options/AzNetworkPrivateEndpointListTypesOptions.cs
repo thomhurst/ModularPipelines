@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-endpoint", "list-types")]
+[CliSubCommand("network", "private-endpoint", "list-types")]
 public record AzNetworkPrivateEndpointListTypesOptions : AzOptions
 {
     [CliOption("--location")]

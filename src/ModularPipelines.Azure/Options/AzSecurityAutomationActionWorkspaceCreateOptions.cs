@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "automation-action-workspace", "create")]
+[CliSubCommand("security", "automation-action-workspace", "create")]
 public record AzSecurityAutomationActionWorkspaceCreateOptions(
 [property: CliOption("--workspace-resource-id")] string WorkspaceResourceId
 ) : AzOptions;

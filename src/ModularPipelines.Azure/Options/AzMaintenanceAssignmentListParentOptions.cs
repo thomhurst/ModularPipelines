@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("maintenance", "assignment", "list-parent")]
+[CliSubCommand("maintenance", "assignment", "list-parent")]
 public record AzMaintenanceAssignmentListParentOptions : AzOptions
 {
     [CliOption("--ids")]

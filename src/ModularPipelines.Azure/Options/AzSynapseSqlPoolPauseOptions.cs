@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "sql", "pool", "pause")]
+[CliSubCommand("synapse", "sql", "pool", "pause")]
 public record AzSynapseSqlPoolPauseOptions : AzOptions
 {
     [CliOption("--ids")]

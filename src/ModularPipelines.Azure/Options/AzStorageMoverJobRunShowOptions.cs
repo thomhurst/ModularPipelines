@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage-mover", "job-run", "show")]
+[CliSubCommand("storage-mover", "job-run", "show")]
 public record AzStorageMoverJobRunShowOptions : AzOptions
 {
     [CliOption("--ids")]

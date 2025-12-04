@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "perimeter", "association", "show")]
+[CliSubCommand("network", "perimeter", "association", "show")]
 public record AzNetworkPerimeterAssociationShowOptions : AzOptions
 {
     [CliOption("--association-name")]

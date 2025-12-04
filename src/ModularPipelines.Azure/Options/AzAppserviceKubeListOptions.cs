@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appservice", "kube", "list")]
+[CliSubCommand("appservice", "kube", "list")]
 public record AzAppserviceKubeListOptions : AzOptions
 {
     [CliOption("--resource-group")]

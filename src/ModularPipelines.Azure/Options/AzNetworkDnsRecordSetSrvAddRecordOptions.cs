@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "dns", "record-set", "srv", "add-record")]
+[CliSubCommand("network", "dns", "record-set", "srv", "add-record")]
 public record AzNetworkDnsRecordSetSrvAddRecordOptions(
 [property: CliOption("--port")] int Port,
 [property: CliOption("--priority")] string Priority,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("healthcareapis", "service", "wait")]
+[CliSubCommand("healthcareapis", "service", "wait")]
 public record AzHealthcareapisServiceWaitOptions : AzOptions
 {
     [CliFlag("--created")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "device", "c2d-message", "receive")]
+[CliSubCommand("iot", "device", "c2d-message", "receive")]
 public record AzIotDeviceC2dMessageReceiveOptions(
 [property: CliOption("--device-id")] string DeviceId
 ) : AzOptions

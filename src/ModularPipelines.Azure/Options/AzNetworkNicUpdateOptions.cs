@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "nic", "update")]
+[CliSubCommand("network", "nic", "update")]
 public record AzNetworkNicUpdateOptions : AzOptions
 {
     [CliFlag("--accelerated-networking")]

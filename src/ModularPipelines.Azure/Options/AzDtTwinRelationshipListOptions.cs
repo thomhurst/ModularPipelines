@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "twin", "relationship", "list")]
+[CliSubCommand("dt", "twin", "relationship", "list")]
 public record AzDtTwinRelationshipListOptions(
 [property: CliOption("--dt-name")] string DtName,
 [property: CliOption("--source")] string Source

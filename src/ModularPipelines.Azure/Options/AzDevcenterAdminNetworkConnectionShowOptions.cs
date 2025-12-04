@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "network-connection", "show")]
+[CliSubCommand("devcenter", "admin", "network-connection", "show")]
 public record AzDevcenterAdminNetworkConnectionShowOptions : AzOptions
 {
     [CliOption("--ids")]

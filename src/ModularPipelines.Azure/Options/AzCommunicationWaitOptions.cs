@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication", "wait")]
+[CliSubCommand("communication", "wait")]
 public record AzCommunicationWaitOptions : AzOptions
 {
     [CliFlag("--created")]

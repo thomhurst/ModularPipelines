@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "server", "private-link-resource", "list")]
+[CliSubCommand("mariadb", "server", "private-link-resource", "list")]
 public record AzMariadbServerPrivateLinkResourceListOptions : AzOptions
 {
     [CliOption("--ids")]

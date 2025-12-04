@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "manager", "security-admin-config", "rule-collection", "rule", "create")]
+[CliSubCommand("network", "manager", "security-admin-config", "rule-collection", "rule", "create")]
 public record AzNetworkManagerSecurityAdminConfigRuleCollectionRuleCreateOptions(
 [property: CliOption("--access")] string Access,
 [property: CliOption("--configuration-name")] string ConfigurationName,

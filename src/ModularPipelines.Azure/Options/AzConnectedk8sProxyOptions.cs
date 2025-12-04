@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedk8s", "proxy")]
+[CliSubCommand("connectedk8s", "proxy")]
 public record AzConnectedk8sProxyOptions : AzOptions
 {
     [CliOption("--file")]

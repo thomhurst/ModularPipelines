@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("new-relic", "monitor", "tag-rule", "delete")]
+[CliSubCommand("new-relic", "monitor", "tag-rule", "delete")]
 public record AzNewRelicMonitorTagRuleDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

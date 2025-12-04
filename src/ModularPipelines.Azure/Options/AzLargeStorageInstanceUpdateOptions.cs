@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("large-storage-instance", "update")]
+[CliSubCommand("large-storage-instance", "update")]
 public record AzLargeStorageInstanceUpdateOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication", "user-identity", "user", "delete")]
+[CliSubCommand("communication", "user-identity", "user", "delete")]
 public record AzCommunicationUserIdentityUserDeleteOptions(
 [property: CliOption("--user")] string User
 ) : AzOptions

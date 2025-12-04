@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "auth", "twitter", "update")]
+[CliSubCommand("containerapp", "auth", "twitter", "update")]
 public record AzContainerappAuthTwitterUpdateOptions : AzOptions
 {
     [CliOption("--consumer-key")]

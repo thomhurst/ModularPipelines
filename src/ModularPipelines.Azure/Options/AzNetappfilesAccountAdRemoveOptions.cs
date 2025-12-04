@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "account", "ad", "remove")]
+[CliSubCommand("netappfiles", "account", "ad", "remove")]
 public record AzNetappfilesAccountAdRemoveOptions(
 [property: CliOption("--active-directory")] string ActiveDirectory
 ) : AzOptions

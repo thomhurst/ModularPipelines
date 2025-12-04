@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("config", "get")]
+[CliSubCommand("config", "get")]
 public record AzConfigGetOptions : AzOptions
 {
     [CliFlag("--local")]

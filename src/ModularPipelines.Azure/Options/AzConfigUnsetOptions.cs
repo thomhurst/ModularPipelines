@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("config", "unset")]
+[CliSubCommand("config", "unset")]
 public record AzConfigUnsetOptions : AzOptions
 {
     [CliFlag("--local")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "georecovery-alias", "fail-over")]
+[CliSubCommand("eventhubs", "georecovery-alias", "fail-over")]
 public record AzEventhubsGeorecoveryAliasFailOverOptions : AzOptions
 {
     [CliOption("--alias")]

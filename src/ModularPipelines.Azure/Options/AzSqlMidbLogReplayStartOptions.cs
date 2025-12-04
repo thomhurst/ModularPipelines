@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "midb", "log-replay", "start")]
+[CliSubCommand("sql", "midb", "log-replay", "start")]
 public record AzSqlMidbLogReplayStartOptions(
 [property: CliOption("--ss")] string Ss,
 [property: CliOption("--storage-uri")] string StorageUri

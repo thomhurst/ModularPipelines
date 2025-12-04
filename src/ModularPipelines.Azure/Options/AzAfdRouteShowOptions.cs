@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "route", "show")]
+[CliSubCommand("afd", "route", "show")]
 public record AzAfdRouteShowOptions : AzOptions
 {
     [CliOption("--endpoint-name")]

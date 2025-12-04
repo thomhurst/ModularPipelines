@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("policy", "metadata", "list")]
+[CliSubCommand("policy", "metadata", "list")]
 public record AzPolicyMetadataListOptions : AzOptions
 {
     [CliOption("--top")]

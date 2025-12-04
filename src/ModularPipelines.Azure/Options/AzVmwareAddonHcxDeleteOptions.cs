@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "addon", "hcx", "delete")]
+[CliSubCommand("vmware", "addon", "hcx", "delete")]
 public record AzVmwareAddonHcxDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

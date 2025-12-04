@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "sql", "audit-policy", "wait")]
+[CliSubCommand("synapse", "sql", "audit-policy", "wait")]
 public record AzSynapseSqlAuditPolicyWaitOptions(
 [property: CliOption("--blob-auditing-policy-name")] string BlobAuditingPolicyName,
 [property: CliOption("--resource-group")] string ResourceGroup,

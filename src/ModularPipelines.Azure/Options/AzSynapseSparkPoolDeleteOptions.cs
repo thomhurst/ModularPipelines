@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "spark", "pool", "delete")]
+[CliSubCommand("synapse", "spark", "pool", "delete")]
 public record AzSynapseSparkPoolDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

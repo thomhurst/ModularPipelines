@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "vnet-rule", "show")]
+[CliSubCommand("sql", "server", "vnet-rule", "show")]
 public record AzSqlServerVnetRuleShowOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

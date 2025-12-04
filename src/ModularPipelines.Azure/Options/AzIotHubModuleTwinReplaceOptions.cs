@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "module-twin", "replace")]
+[CliSubCommand("iot", "hub", "module-twin", "replace")]
 public record AzIotHubModuleTwinReplaceOptions(
 [property: CliOption("--device-id")] string DeviceId,
 [property: CliOption("--json")] string Json,

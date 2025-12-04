@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "pr", "policy", "queue")]
+[CliSubCommand("repos", "pr", "policy", "queue")]
 public record AzReposPrPolicyQueueOptions(
 [property: CliOption("--evaluation-id")] string EvaluationId,
 [property: CliOption("--id")] string Id

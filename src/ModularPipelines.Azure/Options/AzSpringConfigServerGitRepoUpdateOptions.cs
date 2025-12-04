@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "config-server", "git", "repo", "update")]
+[CliSubCommand("spring", "config-server", "git", "repo", "update")]
 public record AzSpringConfigServerGitRepoUpdateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--repo-name")] string RepoName,

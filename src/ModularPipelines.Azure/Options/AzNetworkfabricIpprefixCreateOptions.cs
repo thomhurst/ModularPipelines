@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "ipprefix", "create")]
+[CliSubCommand("networkfabric", "ipprefix", "create")]
 public record AzNetworkfabricIpprefixCreateOptions(
 [property: CliOption("--ip-prefix-rules")] string IpPrefixRules,
 [property: CliOption("--resource-group")] string ResourceGroup,

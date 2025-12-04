@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("advisor", "configuration", "show")]
+[CliSubCommand("advisor", "configuration", "show")]
 public record AzAdvisorConfigurationShowOptions : AzOptions
 {
     [CliOption("--resource-group")]

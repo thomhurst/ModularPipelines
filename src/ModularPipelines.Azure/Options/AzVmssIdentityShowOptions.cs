@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "identity", "show")]
+[CliSubCommand("vmss", "identity", "show")]
 public record AzVmssIdentityShowOptions : AzOptions
 {
     [CliOption("--ids")]

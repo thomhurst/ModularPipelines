@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webpubsub", "replica", "create")]
+[CliSubCommand("webpubsub", "replica", "create")]
 public record AzWebpubsubReplicaCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--replica-name")] string ReplicaName,

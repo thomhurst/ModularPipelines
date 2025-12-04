@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "instance-failover-group-arc", "show")]
+[CliSubCommand("sql", "instance-failover-group-arc", "show")]
 public record AzSqlInstanceFailoverGroupArcShowOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

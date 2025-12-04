@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("notification-hub", "namespace", "wait")]
+[CliSubCommand("notification-hub", "namespace", "wait")]
 public record AzNotificationHubNamespaceWaitOptions : AzOptions
 {
     [CliFlag("--created")]

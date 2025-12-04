@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "hostname", "delete")]
+[CliSubCommand("containerapp", "hostname", "delete")]
 public record AzContainerappHostnameDeleteOptions(
 [property: CliOption("--hostname")] string Hostname
 ) : AzOptions

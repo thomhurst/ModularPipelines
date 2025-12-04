@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("guestconfig", "guest-configuration-assignment", "wait")]
+[CliSubCommand("guestconfig", "guest-configuration-assignment", "wait")]
 public record AzGuestconfigGuestConfigurationAssignmentWaitOptions : AzOptions
 {
     [CliFlag("--created")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sig", "list-community")]
+[CliSubCommand("sig", "list-community")]
 public record AzSigListCommunityOptions : AzOptions
 {
     [CliOption("--location")]

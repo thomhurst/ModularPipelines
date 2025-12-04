@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "show-deleted")]
+[CliSubCommand("sql", "db", "show-deleted")]
 public record AzSqlDbShowDeletedOptions(
 [property: CliOption("--restorable-dropped-database-id")] string RestorableDroppedDatabaseId
 ) : AzOptions

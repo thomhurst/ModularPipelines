@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "vm", "nic", "add")]
+[CliSubCommand("connectedvmware", "vm", "nic", "add")]
 public record AzConnectedvmwareVmNicAddOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--network")] string Network,

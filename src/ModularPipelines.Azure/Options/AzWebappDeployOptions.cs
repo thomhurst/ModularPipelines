@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "deploy")]
+[CliSubCommand("webapp", "deploy")]
 public record AzWebappDeployOptions : AzOptions
 {
     [CliFlag("--async")]

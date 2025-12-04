@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dedicated-hsm", "delete")]
+[CliSubCommand("dedicated-hsm", "delete")]
 public record AzDedicatedHsmDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

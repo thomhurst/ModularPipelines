@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "central", "query")]
+[CliSubCommand("iot", "central", "query")]
 public record AzIotCentralQueryOptions(
 [property: CliOption("--app-id")] string AppId,
 [property: CliOption("--qs")] string Qs

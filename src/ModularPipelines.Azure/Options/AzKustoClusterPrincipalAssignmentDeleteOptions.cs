@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "cluster-principal-assignment", "delete")]
+[CliSubCommand("kusto", "cluster-principal-assignment", "delete")]
 public record AzKustoClusterPrincipalAssignmentDeleteOptions : AzOptions
 {
     [CliOption("--cluster-name")]

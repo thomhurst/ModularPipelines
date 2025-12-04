@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("signalr", "identity", "assign")]
+[CliSubCommand("signalr", "identity", "assign")]
 public record AzSignalrIdentityAssignOptions(
 [property: CliOption("--identity")] string Identity
 ) : AzOptions

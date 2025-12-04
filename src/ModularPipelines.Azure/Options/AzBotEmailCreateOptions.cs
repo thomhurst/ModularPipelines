@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("bot", "email", "create")]
+[CliSubCommand("bot", "email", "create")]
 public record AzBotEmailCreateOptions(
 [property: CliOption("--email-address")] string EmailAddress,
 [property: CliOption("--name")] string Name,

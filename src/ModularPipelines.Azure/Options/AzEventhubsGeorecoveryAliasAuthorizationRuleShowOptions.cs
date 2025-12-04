@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "georecovery-alias", "authorization-rule", "show")]
+[CliSubCommand("eventhubs", "georecovery-alias", "authorization-rule", "show")]
 public record AzEventhubsGeorecoveryAliasAuthorizationRuleShowOptions : AzOptions
 {
     [CliOption("--alias")]

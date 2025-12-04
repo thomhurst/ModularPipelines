@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "datastore", "disk-pool-volume", "create")]
+[CliSubCommand("vmware", "datastore", "disk-pool-volume", "create")]
 public record AzVmwareDatastoreDiskPoolVolumeCreateOptions(
 [property: CliOption("--cluster")] string Cluster,
 [property: CliOption("--datastore-name")] string DatastoreName,

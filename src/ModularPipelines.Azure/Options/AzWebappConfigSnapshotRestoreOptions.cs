@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "snapshot", "restore")]
+[CliSubCommand("webapp", "config", "snapshot", "restore")]
 public record AzWebappConfigSnapshotRestoreOptions(
 [property: CliOption("--time")] string Time
 ) : AzOptions

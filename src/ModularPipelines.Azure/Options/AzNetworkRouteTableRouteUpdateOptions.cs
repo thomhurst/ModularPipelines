@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "route-table", "route", "update")]
+[CliSubCommand("network", "route-table", "route", "update")]
 public record AzNetworkRouteTableRouteUpdateOptions : AzOptions
 {
     [CliOption("--add")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dns-resolver", "vnet-link", "list")]
+[CliSubCommand("dns-resolver", "vnet-link", "list")]
 public record AzDnsResolverVnetLinkListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--ruleset-name")] string RulesetName

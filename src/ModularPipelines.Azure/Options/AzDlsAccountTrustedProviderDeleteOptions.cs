@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "account", "trusted-provider", "delete")]
+[CliSubCommand("dls", "account", "trusted-provider", "delete")]
 public record AzDlsAccountTrustedProviderDeleteOptions(
 [property: CliOption("--trusted-id-provider-name")] string TrustedIdProviderName
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databox", "job", "mark-devices-shipped")]
+[CliSubCommand("databox", "job", "mark-devices-shipped")]
 public record AzDataboxJobMarkDevicesShippedOptions(
 [property: CliOption("--deliver-package-details")] string DeliverPackageDetails
 ) : AzOptions

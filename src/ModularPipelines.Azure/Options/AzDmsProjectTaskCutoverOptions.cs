@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dms", "project", "task", "cutover")]
+[CliSubCommand("dms", "project", "task", "cutover")]
 public record AzDmsProjectTaskCutoverOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--object-name")] string ObjectName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("backup", "restore", "restore-disks")]
+[CliSubCommand("backup", "restore", "restore-disks")]
 public record AzBackupRestoreRestoreDisksOptions(
 [property: CliOption("--storage-account")] int StorageAccount
 ) : AzOptions

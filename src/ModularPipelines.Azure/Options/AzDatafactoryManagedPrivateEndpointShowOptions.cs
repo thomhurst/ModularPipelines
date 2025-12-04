@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "managed-private-endpoint", "show")]
+[CliSubCommand("datafactory", "managed-private-endpoint", "show")]
 public record AzDatafactoryManagedPrivateEndpointShowOptions : AzOptions
 {
     [CliOption("--factory-name")]

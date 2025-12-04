@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ad", "signed-in-user", "list-owned-objects")]
+[CliSubCommand("ad", "signed-in-user", "list-owned-objects")]
 public record AzAdSignedInUserListOwnedObjectsOptions : AzOptions
 {
     [CliOption("--type")]

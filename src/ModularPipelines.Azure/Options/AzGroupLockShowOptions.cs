@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("group", "lock", "show")]
+[CliSubCommand("group", "lock", "show")]
 public record AzGroupLockShowOptions : AzOptions
 {
     [CliOption("--ids")]

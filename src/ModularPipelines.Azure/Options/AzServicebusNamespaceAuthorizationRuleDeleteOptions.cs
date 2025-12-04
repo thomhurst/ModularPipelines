@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "namespace", "authorization-rule", "delete")]
+[CliSubCommand("servicebus", "namespace", "authorization-rule", "delete")]
 public record AzServicebusNamespaceAuthorizationRuleDeleteOptions : AzOptions
 {
     [CliOption("--authorization-rule-name")]

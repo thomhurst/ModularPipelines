@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "fs", "file", "set-expiry")]
+[CliSubCommand("storage", "fs", "file", "set-expiry")]
 public record AzStorageFsFileSetExpiryOptions(
 [property: CliOption("--expiry-options")] string ExpiryOptions,
 [property: CliOption("--file-system")] string FileSystem,

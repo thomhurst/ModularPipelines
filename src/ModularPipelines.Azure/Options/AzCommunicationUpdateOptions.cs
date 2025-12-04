@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication", "update")]
+[CliSubCommand("communication", "update")]
 public record AzCommunicationUpdateOptions : AzOptions
 {
     [CliOption("--add")]

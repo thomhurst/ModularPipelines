@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "db", "delete")]
+[CliSubCommand("postgres", "db", "delete")]
 public record AzPostgresDbDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

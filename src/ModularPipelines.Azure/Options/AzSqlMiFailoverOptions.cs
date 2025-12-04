@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "failover")]
+[CliSubCommand("sql", "mi", "failover")]
 public record AzSqlMiFailoverOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("resource-mover", "move-collection", "bulk-remove")]
+[CliSubCommand("resource-mover", "move-collection", "bulk-remove")]
 public record AzResourceMoverMoveCollectionBulkRemoveOptions : AzOptions
 {
     [CliOption("--ids")]

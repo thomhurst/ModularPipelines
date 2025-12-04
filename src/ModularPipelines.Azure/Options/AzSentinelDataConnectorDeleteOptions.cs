@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "data-connector", "delete")]
+[CliSubCommand("sentinel", "data-connector", "delete")]
 public record AzSentinelDataConnectorDeleteOptions : AzOptions
 {
     [CliOption("--data-connector-id")]

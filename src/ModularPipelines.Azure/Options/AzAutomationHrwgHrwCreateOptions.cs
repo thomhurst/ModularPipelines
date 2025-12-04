@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation", "hrwg", "hrw", "create")]
+[CliSubCommand("automation", "hrwg", "hrw", "create")]
 public record AzAutomationHrwgHrwCreateOptions(
 [property: CliOption("--automation-account-name")] int AutomationAccountName,
 [property: CliOption("--hybrid-runbook-worker-group-name")] string HybridRunbookWorkerGroupName,

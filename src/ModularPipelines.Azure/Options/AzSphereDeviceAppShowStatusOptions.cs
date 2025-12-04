@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "app", "show-status")]
+[CliSubCommand("sphere", "device", "app", "show-status")]
 public record AzSphereDeviceAppShowStatusOptions : AzOptions
 {
     [CliOption("--component-id")]

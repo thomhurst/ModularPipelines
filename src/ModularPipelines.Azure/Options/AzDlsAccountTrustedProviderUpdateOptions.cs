@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "account", "trusted-provider", "update")]
+[CliSubCommand("dls", "account", "trusted-provider", "update")]
 public record AzDlsAccountTrustedProviderUpdateOptions(
 [property: CliOption("--trusted-id-provider-name")] string TrustedIdProviderName
 ) : AzOptions

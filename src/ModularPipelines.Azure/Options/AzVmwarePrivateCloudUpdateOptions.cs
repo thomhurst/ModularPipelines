@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "private-cloud", "update")]
+[CliSubCommand("vmware", "private-cloud", "update")]
 public record AzVmwarePrivateCloudUpdateOptions : AzOptions
 {
     [CliOption("--add")]

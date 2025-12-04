@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "private-cloud", "delete")]
+[CliSubCommand("vmware", "private-cloud", "delete")]
 public record AzVmwarePrivateCloudDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

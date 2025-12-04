@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automation", "job", "resume")]
+[CliSubCommand("automation", "job", "resume")]
 public record AzAutomationJobResumeOptions : AzOptions
 {
     [CliOption("--automation-account-name")]

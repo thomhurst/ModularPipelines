@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "ip-group", "create")]
+[CliSubCommand("network", "ip-group", "create")]
 public record AzNetworkIpGroupCreateOptions(
 [property: CliOption("--ip-addresses")] string IpAddresses,
 [property: CliOption("--name")] string Name,

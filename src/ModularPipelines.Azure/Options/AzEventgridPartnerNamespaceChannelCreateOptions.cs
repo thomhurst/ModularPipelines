@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "partner", "namespace", "channel", "create")]
+[CliSubCommand("eventgrid", "partner", "namespace", "channel", "create")]
 public record AzEventgridPartnerNamespaceChannelCreateOptions(
 [property: CliOption("--channel-type")] string ChannelType,
 [property: CliOption("--destination-rg")] string DestinationRg,

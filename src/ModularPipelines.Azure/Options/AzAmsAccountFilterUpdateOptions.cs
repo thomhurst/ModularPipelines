@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ams", "account-filter", "update")]
+[CliSubCommand("ams", "account-filter", "update")]
 public record AzAmsAccountFilterUpdateOptions : AzOptions
 {
     [CliOption("--account-name")]

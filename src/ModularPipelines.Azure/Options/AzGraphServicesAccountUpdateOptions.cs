@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("graph-services", "account", "update")]
+[CliSubCommand("graph-services", "account", "update")]
 public record AzGraphServicesAccountUpdateOptions : AzOptions
 {
     [CliOption("--add")]

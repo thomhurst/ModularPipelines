@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "tde", "show")]
+[CliSubCommand("sql", "db", "tde", "show")]
 public record AzSqlDbTdeShowOptions : AzOptions
 {
     [CliOption("--database")]

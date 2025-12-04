@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedvmware", "vm", "disk", "add")]
+[CliSubCommand("connectedvmware", "vm", "disk", "add")]
 public record AzConnectedvmwareVmDiskAddOptions(
 [property: CliOption("--controller-key")] string ControllerKey,
 [property: CliOption("--disk-size")] string DiskSize,

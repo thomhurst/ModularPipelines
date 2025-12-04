@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("urestackhci", "galleryimage", "list")]
+[CliSubCommand("urestackhci", "galleryimage", "list")]
 public record AzAzurestackhciGalleryimageListOptions : AzOptions
 {
     [CliOption("--resource-group")]

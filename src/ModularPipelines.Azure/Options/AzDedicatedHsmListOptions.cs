@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dedicated-hsm", "list")]
+[CliSubCommand("dedicated-hsm", "list")]
 public record AzDedicatedHsmListOptions : AzOptions
 {
     [CliOption("--resource-group")]

@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "route-filter", "rule", "list-service-communities")]
+[CliSubCommand("network", "route-filter", "rule", "list-service-communities")]
 public record AzNetworkRouteFilterRuleListServiceCommunitiesOptions : AzOptions;

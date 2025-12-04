@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logic", "integration-account", "map", "update")]
+[CliSubCommand("logic", "integration-account", "map", "update")]
 public record AzLogicIntegrationAccountMapUpdateOptions : AzOptions
 {
     [CliOption("--add")]

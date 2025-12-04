@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("staticwebapp", "appsettings", "delete")]
+[CliSubCommand("staticwebapp", "appsettings", "delete")]
 public record AzStaticwebappAppsettingsDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--setting-names")] string SettingNames

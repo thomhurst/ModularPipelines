@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "configure-factory-repo")]
+[CliSubCommand("datafactory", "configure-factory-repo")]
 public record AzDatafactoryConfigureFactoryRepoOptions : AzOptions
 {
     [CliOption("--factory-git-hub-configuration")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "datastore", "set-default")]
+[CliSubCommand("ml", "datastore", "set-default")]
 public record AzMlDatastoreSetDefaultOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

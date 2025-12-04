@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "config", "access-restriction", "add")]
+[CliSubCommand("functionapp", "config", "access-restriction", "add")]
 public record AzFunctionappConfigAccessRestrictionAddOptions(
 [property: CliOption("--priority")] string Priority
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("elastic", "monitor", "tag-rule", "show")]
+[CliSubCommand("elastic", "monitor", "tag-rule", "show")]
 public record AzElasticMonitorTagRuleShowOptions : AzOptions
 {
     [CliOption("--ids")]

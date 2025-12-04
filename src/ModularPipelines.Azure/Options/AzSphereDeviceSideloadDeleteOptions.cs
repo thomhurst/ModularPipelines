@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "sideload", "delete")]
+[CliSubCommand("sphere", "device", "sideload", "delete")]
 public record AzSphereDeviceSideloadDeleteOptions : AzOptions
 {
     [CliOption("--component-id")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "job-schedule", "reset")]
+[CliSubCommand("batch", "job-schedule", "reset")]
 public record AzBatchJobScheduleResetOptions(
 [property: CliOption("--job-schedule-id")] string JobScheduleId
 ) : AzOptions

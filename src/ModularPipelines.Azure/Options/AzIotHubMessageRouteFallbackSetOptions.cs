@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "message-route", "fallback", "set")]
+[CliSubCommand("iot", "hub", "message-route", "fallback", "set")]
 public record AzIotHubMessageRouteFallbackSetOptions(
 [property: CliFlag("--enabled")] bool Enabled,
 [property: CliOption("--hub-name")] string HubName

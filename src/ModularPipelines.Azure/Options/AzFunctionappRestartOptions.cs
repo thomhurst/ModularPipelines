@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "restart")]
+[CliSubCommand("functionapp", "restart")]
 public record AzFunctionappRestartOptions : AzOptions
 {
     [CliOption("--ids")]

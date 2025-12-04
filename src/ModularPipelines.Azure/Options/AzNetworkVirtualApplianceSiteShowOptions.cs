@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "virtual-appliance", "site", "show")]
+[CliSubCommand("network", "virtual-appliance", "site", "show")]
 public record AzNetworkVirtualApplianceSiteShowOptions : AzOptions
 {
     [CliOption("--appliance-name")]

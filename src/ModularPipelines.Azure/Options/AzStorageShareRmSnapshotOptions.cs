@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "share-rm", "snapshot")]
+[CliSubCommand("storage", "share-rm", "snapshot")]
 public record AzStorageShareRmSnapshotOptions : AzOptions
 {
     [CliOption("--access-tier")]

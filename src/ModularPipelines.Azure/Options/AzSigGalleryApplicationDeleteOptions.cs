@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sig", "gallery-application", "delete")]
+[CliSubCommand("sig", "gallery-application", "delete")]
 public record AzSigGalleryApplicationDeleteOptions : AzOptions
 {
     [CliOption("--application-name")]

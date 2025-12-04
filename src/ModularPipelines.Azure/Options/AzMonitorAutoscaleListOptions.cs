@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "autoscale", "list")]
+[CliSubCommand("monitor", "autoscale", "list")]
 public record AzMonitorAutoscaleListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

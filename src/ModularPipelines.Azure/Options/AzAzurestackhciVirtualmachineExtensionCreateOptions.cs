@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("urestackhci", "virtualmachine", "extension", "create")]
+[CliSubCommand("urestackhci", "virtualmachine", "extension", "create")]
 public record AzAzurestackhciVirtualmachineExtensionCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

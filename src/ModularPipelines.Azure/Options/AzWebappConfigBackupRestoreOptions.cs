@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "backup", "restore")]
+[CliSubCommand("webapp", "config", "backup", "restore")]
 public record AzWebappConfigBackupRestoreOptions(
 [property: CliOption("--backup-name")] string BackupName,
 [property: CliOption("--container-url")] string ContainerUrl,

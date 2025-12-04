@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "key", "random")]
+[CliSubCommand("keyvault", "key", "random")]
 public record AzKeyvaultKeyRandomOptions(
 [property: CliOption("--count")] int Count
 ) : AzOptions

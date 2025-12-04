@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("palo-alto", "cloudngfw", "local-rulestack", "local-rule", "reset-counter")]
+[CliSubCommand("palo-alto", "cloudngfw", "local-rulestack", "local-rule", "reset-counter")]
 public record AzPaloAltoCloudngfwLocalRulestackLocalRuleResetCounterOptions : AzOptions
 {
     [CliOption("--firewall-name")]

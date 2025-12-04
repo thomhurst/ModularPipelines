@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "secret", "format")]
+[CliSubCommand("vm", "secret", "format")]
 public record AzVmSecretFormatOptions(
 [property: CliOption("--secrets")] string Secrets
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "private-link-scope", "delete")]
+[CliSubCommand("monitor", "private-link-scope", "delete")]
 public record AzMonitorPrivateLinkScopeDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "computetarget", "computeinstance", "start")]
+[CliSubCommand("ml", "computetarget", "computeinstance", "start")]
 public record AzMlComputetargetComputeinstanceStartOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

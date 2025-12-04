@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "task", "list")]
+[CliSubCommand("security", "task", "list")]
 public record AzSecurityTaskListOptions : AzOptions
 {
     [CliOption("--resource-group")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "credential", "regenerate")]
+[CliSubCommand("appconfig", "credential", "regenerate")]
 public record AzAppconfigCredentialRegenerateOptions(
 [property: CliOption("--id")] string Id,
 [property: CliOption("--name")] string Name

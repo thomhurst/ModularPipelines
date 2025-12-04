@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcappliance", "createconfig", "scvmm")]
+[CliSubCommand("arcappliance", "createconfig", "scvmm")]
 public record AzArcapplianceCreateconfigScvmmOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--name")] string Name,

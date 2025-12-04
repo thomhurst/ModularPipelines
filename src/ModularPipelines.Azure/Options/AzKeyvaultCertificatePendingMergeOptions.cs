@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "certificate", "pending", "merge")]
+[CliSubCommand("keyvault", "certificate", "pending", "merge")]
 public record AzKeyvaultCertificatePendingMergeOptions(
 [property: CliOption("--file")] string File,
 [property: CliOption("--name")] string Name,

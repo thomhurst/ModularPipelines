@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcdata", "dc", "config", "list")]
+[CliSubCommand("arcdata", "dc", "config", "list")]
 public record AzArcdataDcConfigListOptions : AzOptions
 {
     [CliOption("--config-profile")]

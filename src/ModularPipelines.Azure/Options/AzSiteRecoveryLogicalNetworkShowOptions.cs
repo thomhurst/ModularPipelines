@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "logical-network", "show")]
+[CliSubCommand("site-recovery", "logical-network", "show")]
 public record AzSiteRecoveryLogicalNetworkShowOptions : AzOptions
 {
     [CliOption("--fabric-name")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "manager", "list-deploy-status")]
+[CliSubCommand("network", "manager", "list-deploy-status")]
 public record AzNetworkManagerListDeployStatusOptions : AzOptions
 {
     [CliOption("--deployment-types")]

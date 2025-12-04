@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server", "upgrade")]
+[CliSubCommand("mysql", "server", "upgrade")]
 public record AzMysqlServerUpgradeOptions(
 [property: CliOption("--target-server-version")] string TargetServerVersion
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("stack-hci", "cluster", "show")]
+[CliSubCommand("stack-hci", "cluster", "show")]
 public record AzStackHciClusterShowOptions : AzOptions
 {
     [CliOption("--cluster-name")]

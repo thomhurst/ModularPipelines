@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webpubsub", "network-rule", "update")]
+[CliSubCommand("webpubsub", "network-rule", "update")]
 public record AzWebpubsubNetworkRuleUpdateOptions : AzOptions
 {
     [CliFlag("--allow")]

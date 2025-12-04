@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "hub", "consumer-group", "delete")]
+[CliSubCommand("iot", "hub", "consumer-group", "delete")]
 public record AzIotHubConsumerGroupDeleteOptions : AzOptions
 {
     [CliOption("--event-hub-name")]

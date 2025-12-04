@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logic", "integration-account", "map", "create")]
+[CliSubCommand("logic", "integration-account", "map", "create")]
 public record AzLogicIntegrationAccountMapCreateOptions(
 [property: CliOption("--integration-account")] int IntegrationAccount,
 [property: CliOption("--map-name")] string MapName,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "server-logs", "download")]
+[CliSubCommand("mysql", "server-logs", "download")]
 public record AzMysqlServerLogsDownloadOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

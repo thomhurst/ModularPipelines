@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "node", "remote-login-settings", "show")]
+[CliSubCommand("batch", "node", "remote-login-settings", "show")]
 public record AzBatchNodeRemoteLoginSettingsShowOptions(
 [property: CliOption("--node-id")] string NodeId,
 [property: CliOption("--pool-id")] string PoolId

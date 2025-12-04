@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "deployment", "source", "config")]
+[CliSubCommand("functionapp", "deployment", "source", "config")]
 public record AzFunctionappDeploymentSourceConfigOptions(
 [property: CliOption("--repo-url")] string RepoUrl
 ) : AzOptions

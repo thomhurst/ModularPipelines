@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vmmserver", "wait")]
+[CliSubCommand("scvmm", "vmmserver", "wait")]
 public record AzScvmmVmmserverWaitOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--vmm-server-name")] string VmmServerName

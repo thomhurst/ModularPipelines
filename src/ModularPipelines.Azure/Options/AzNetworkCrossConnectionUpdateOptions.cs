@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "cross-connection", "update")]
+[CliSubCommand("network", "cross-connection", "update")]
 public record AzNetworkCrossConnectionUpdateOptions : AzOptions
 {
     [CliOption("--add")]

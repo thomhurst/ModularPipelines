@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "perimeter", "link", "list")]
+[CliSubCommand("network", "perimeter", "link", "list")]
 public record AzNetworkPerimeterLinkListOptions(
 [property: CliOption("--perimeter-name")] string PerimeterName,
 [property: CliOption("--resource-group")] string ResourceGroup

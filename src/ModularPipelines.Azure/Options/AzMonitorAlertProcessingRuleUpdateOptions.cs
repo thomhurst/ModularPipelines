@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "alert-processing-rule", "update")]
+[CliSubCommand("monitor", "alert-processing-rule", "update")]
 public record AzMonitorAlertProcessingRuleUpdateOptions : AzOptions
 {
     [CliOption("--add")]

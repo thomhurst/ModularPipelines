@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "fs", "service-properties", "update")]
+[CliSubCommand("storage", "fs", "service-properties", "update")]
 public record AzStorageFsServicePropertiesUpdateOptions : AzOptions
 {
     [CliOption("--404-document")]

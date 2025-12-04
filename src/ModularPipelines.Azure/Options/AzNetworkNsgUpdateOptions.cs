@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "nsg", "update")]
+[CliSubCommand("network", "nsg", "update")]
 public record AzNetworkNsgUpdateOptions : AzOptions
 {
     [CliOption("--add")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "connection", "list-support-types")]
+[CliSubCommand("spring", "connection", "list-support-types")]
 public record AzSpringConnectionListSupportTypesOptions : AzOptions
 {
     [CliOption("--target-type")]

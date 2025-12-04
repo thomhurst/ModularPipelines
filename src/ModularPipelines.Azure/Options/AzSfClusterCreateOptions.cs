@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "cluster", "create")]
+[CliSubCommand("sf", "cluster", "create")]
 public record AzSfClusterCreateOptions(
 [property: CliOption("--resource-group")] string ResourceGroup
 ) : AzOptions

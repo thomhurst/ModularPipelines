@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventgrid", "domain", "create", "(eventgrid", "extension)")]
+[CliSubCommand("eventgrid", "domain", "create", "(eventgrid", "extension)")]
 public record AzEventgridDomainCreateEventgridExtensionOptions(
 [property: CliOption("--location")] string Location,
 [property: CliOption("--name")] string Name,

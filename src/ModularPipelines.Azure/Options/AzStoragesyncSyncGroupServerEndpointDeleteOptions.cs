@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storagesync", "sync-group", "server-endpoint", "delete")]
+[CliSubCommand("storagesync", "sync-group", "server-endpoint", "delete")]
 public record AzStoragesyncSyncGroupServerEndpointDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--storage-sync-service")] string StorageSyncService,

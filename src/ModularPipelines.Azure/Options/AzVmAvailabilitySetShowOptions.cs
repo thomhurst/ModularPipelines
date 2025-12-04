@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "availability-set", "show")]
+[CliSubCommand("vm", "availability-set", "show")]
 public record AzVmAvailabilitySetShowOptions : AzOptions
 {
     [CliOption("--availability-set-name")]

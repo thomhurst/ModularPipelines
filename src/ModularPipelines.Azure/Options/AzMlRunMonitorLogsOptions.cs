@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "run", "monitor-logs")]
+[CliSubCommand("ml", "run", "monitor-logs")]
 public record AzMlRunMonitorLogsOptions(
 [property: CliOption("--run")] string Run
 ) : AzOptions

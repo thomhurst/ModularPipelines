@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "script", "delete")]
+[CliSubCommand("kusto", "script", "delete")]
 public record AzKustoScriptDeleteOptions : AzOptions
 {
     [CliOption("--cluster-name")]

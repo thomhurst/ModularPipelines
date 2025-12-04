@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet-gateway", "packet-capture", "stop")]
+[CliSubCommand("network", "vnet-gateway", "packet-capture", "stop")]
 public record AzNetworkVnetGatewayPacketCaptureStopOptions : AzOptions
 {
     [CliOption("--ids")]

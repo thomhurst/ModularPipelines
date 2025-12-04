@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "express-route", "list-service-providers")]
+[CliSubCommand("network", "express-route", "list-service-providers")]
 public record AzNetworkExpressRouteListServiceProvidersOptions : AzOptions;

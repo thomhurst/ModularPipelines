@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet", "list-available-ips")]
+[CliSubCommand("network", "vnet", "list-available-ips")]
 public record AzNetworkVnetListAvailableIpsOptions : AzOptions
 {
     [CliOption("--ids")]

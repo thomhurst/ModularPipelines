@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "container", "set-permission")]
+[CliSubCommand("storage", "container", "set-permission")]
 public record AzStorageContainerSetPermissionOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

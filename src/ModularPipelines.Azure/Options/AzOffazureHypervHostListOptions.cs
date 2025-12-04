@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("offure", "hyperv", "host", "list")]
+[CliSubCommand("offure", "hyperv", "host", "list")]
 public record AzOffazureHypervHostListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--site-name")] string SiteName

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mobile-network", "pccp", "wait")]
+[CliSubCommand("mobile-network", "pccp", "wait")]
 public record AzMobileNetworkPccpWaitOptions : AzOptions
 {
     [CliFlag("--created")]

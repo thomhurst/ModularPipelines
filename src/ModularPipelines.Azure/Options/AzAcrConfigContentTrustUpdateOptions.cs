@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "config", "content-trust", "update")]
+[CliSubCommand("acr", "config", "content-trust", "update")]
 public record AzAcrConfigContentTrustUpdateOptions(
 [property: CliOption("--registry")] string Registry
 ) : AzOptions

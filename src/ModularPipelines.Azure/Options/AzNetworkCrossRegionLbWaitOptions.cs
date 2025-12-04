@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "cross-region-lb", "wait")]
+[CliSubCommand("network", "cross-region-lb", "wait")]
 public record AzNetworkCrossRegionLbWaitOptions : AzOptions
 {
     [CliFlag("--created")]

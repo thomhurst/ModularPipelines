@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "agent", "show")]
+[CliSubCommand("pipelines", "agent", "show")]
 public record AzPipelinesAgentShowOptions(
 [property: CliOption("--agent-id")] string AgentId,
 [property: CliOption("--pool-id")] string PoolId

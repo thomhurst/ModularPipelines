@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("internet-analyzer", "profile", "create")]
+[CliSubCommand("internet-analyzer", "profile", "create")]
 public record AzInternetAnalyzerProfileCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

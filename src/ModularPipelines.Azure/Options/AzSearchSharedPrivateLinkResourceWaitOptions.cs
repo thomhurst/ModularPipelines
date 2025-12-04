@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("search", "shared-private-link-resource", "wait")]
+[CliSubCommand("search", "shared-private-link-resource", "wait")]
 public record AzSearchSharedPrivateLinkResourceWaitOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

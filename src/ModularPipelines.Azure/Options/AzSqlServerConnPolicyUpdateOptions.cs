@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "conn-policy", "update")]
+[CliSubCommand("sql", "server", "conn-policy", "update")]
 public record AzSqlServerConnPolicyUpdateOptions(
 [property: CliOption("--connection-type")] string ConnectionType
 ) : AzOptions

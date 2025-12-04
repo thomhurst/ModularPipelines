@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("lab", "artifact", "list")]
+[CliSubCommand("lab", "artifact", "list")]
 public record AzLabArtifactListOptions(
 [property: CliOption("--artifact-source-name")] string ArtifactSourceName,
 [property: CliOption("--lab-name")] string LabName,

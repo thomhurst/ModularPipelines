@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("search", "private-endpoint-connection", "update")]
+[CliSubCommand("search", "private-endpoint-connection", "update")]
 public record AzSearchPrivateEndpointConnectionUpdateOptions(
 [property: CliOption("--actions-required")] string ActionsRequired,
 [property: CliOption("--description")] string Description,

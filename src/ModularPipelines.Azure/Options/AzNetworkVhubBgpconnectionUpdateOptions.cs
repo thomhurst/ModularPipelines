@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vhub", "bgpconnection", "update")]
+[CliSubCommand("network", "vhub", "bgpconnection", "update")]
 public record AzNetworkVhubBgpconnectionUpdateOptions : AzOptions
 {
     [CliOption("--add")]

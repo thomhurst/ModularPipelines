@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "devbox-definition", "create")]
+[CliSubCommand("devcenter", "admin", "devbox-definition", "create")]
 public record AzDevcenterAdminDevboxDefinitionCreateOptions(
 [property: CliOption("--dev-center")] string DevCenter,
 [property: CliOption("--devbox-definition-name")] string DevboxDefinitionName,

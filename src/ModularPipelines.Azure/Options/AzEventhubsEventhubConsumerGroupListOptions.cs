@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "eventhub", "consumer-group", "list")]
+[CliSubCommand("eventhubs", "eventhub", "consumer-group", "list")]
 public record AzEventhubsEventhubConsumerGroupListOptions(
 [property: CliOption("--eventhub-name")] string EventhubName,
 [property: CliOption("--namespace-name")] string NamespaceName,

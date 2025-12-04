@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "variable-group", "create")]
+[CliSubCommand("pipelines", "variable-group", "create")]
 public record AzPipelinesVariableGroupCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--variables")] string Variables

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "pipeline-run", "query-by-workspace")]
+[CliSubCommand("synapse", "pipeline-run", "query-by-workspace")]
 public record AzSynapsePipelineRunQueryByWorkspaceOptions(
 [property: CliOption("--last-updated-after")] string LastUpdatedAfter,
 [property: CliOption("--last-updated-before")] string LastUpdatedBefore,

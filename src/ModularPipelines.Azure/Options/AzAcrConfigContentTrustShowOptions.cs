@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "config", "content-trust", "show")]
+[CliSubCommand("acr", "config", "content-trust", "show")]
 public record AzAcrConfigContentTrustShowOptions(
 [property: CliOption("--registry")] string Registry
 ) : AzOptions

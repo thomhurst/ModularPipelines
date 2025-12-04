@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "image", "list")]
+[CliSubCommand("devcenter", "admin", "image", "list")]
 public record AzDevcenterAdminImageListOptions(
 [property: CliOption("--dev-center")] string DevCenter,
 [property: CliOption("--resource-group")] string ResourceGroup

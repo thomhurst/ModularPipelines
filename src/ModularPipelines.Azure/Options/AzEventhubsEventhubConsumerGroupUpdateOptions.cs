@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "eventhub", "consumer-group", "update")]
+[CliSubCommand("eventhubs", "eventhub", "consumer-group", "update")]
 public record AzEventhubsEventhubConsumerGroupUpdateOptions : AzOptions
 {
     [CliOption("--add")]

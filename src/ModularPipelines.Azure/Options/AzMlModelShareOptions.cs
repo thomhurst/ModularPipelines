@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "model", "share")]
+[CliSubCommand("ml", "model", "share")]
 public record AzMlModelShareOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--registry-name")] string RegistryName,

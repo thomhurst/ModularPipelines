@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kql-script", "import")]
+[CliSubCommand("synapse", "kql-script", "import")]
 public record AzSynapseKqlScriptImportOptions(
 [property: CliOption("--file")] string File,
 [property: CliOption("--name")] string Name,

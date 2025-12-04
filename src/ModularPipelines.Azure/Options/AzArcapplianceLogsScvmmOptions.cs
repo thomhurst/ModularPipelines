@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcappliance", "logs", "scvmm")]
+[CliSubCommand("arcappliance", "logs", "scvmm")]
 public record AzArcapplianceLogsScvmmOptions : AzOptions
 {
     [CliOption("--credentials-dir")]

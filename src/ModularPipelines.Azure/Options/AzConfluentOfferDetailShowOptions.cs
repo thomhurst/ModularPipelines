@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("confluent", "offer-detail", "show")]
+[CliSubCommand("confluent", "offer-detail", "show")]
 public record AzConfluentOfferDetailShowOptions : AzOptions
 {
     [CliOption("--offer-id")]

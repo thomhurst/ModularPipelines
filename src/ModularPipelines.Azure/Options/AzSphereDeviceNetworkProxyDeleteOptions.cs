@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sphere", "device", "network", "proxy", "delete")]
+[CliSubCommand("sphere", "device", "network", "proxy", "delete")]
 public record AzSphereDeviceNetworkProxyDeleteOptions : AzOptions
 {
     [CliOption("--device")]

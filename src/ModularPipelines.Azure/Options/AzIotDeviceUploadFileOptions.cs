@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "device", "upload-file")]
+[CliSubCommand("iot", "device", "upload-file")]
 public record AzIotDeviceUploadFileOptions(
 [property: CliOption("--content-type")] string ContentType,
 [property: CliOption("--device-id")] string DeviceId,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("providerhub", "resource-type-registration", "create")]
+[CliSubCommand("providerhub", "resource-type-registration", "create")]
 public record AzProviderhubResourceTypeRegistrationCreateOptions(
 [property: CliOption("--provider-namespace")] string ProviderNamespace,
 [property: CliOption("--resource-type")] string ResourceType

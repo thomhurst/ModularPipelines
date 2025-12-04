@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "lb", "outbound-rule", "create")]
+[CliSubCommand("network", "lb", "outbound-rule", "create")]
 public record AzNetworkLbOutboundRuleCreateOptions(
 [property: CliOption("--address-pool")] string AddressPool,
 [property: CliOption("--lb-name")] string LbName,

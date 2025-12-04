@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("purview", "default-account", "show")]
+[CliSubCommand("purview", "default-account", "show")]
 public record AzPurviewDefaultAccountShowOptions(
 [property: CliOption("--scope-tenant-id")] string ScopeTenantId,
 [property: CliOption("--scope-type")] string ScopeType

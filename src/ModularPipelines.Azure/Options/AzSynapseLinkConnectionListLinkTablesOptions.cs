@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "link-connection", "list-link-tables")]
+[CliSubCommand("synapse", "link-connection", "list-link-tables")]
 public record AzSynapseLinkConnectionListLinkTablesOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--workspace-name")] string WorkspaceName

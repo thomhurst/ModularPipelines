@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mysql", "flexible-server", "start")]
+[CliSubCommand("mysql", "flexible-server", "start")]
 public record AzMysqlFlexibleServerStartOptions : AzOptions
 {
     [CliOption("--ids")]

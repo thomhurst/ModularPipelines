@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "pipeline", "enable-schedule")]
+[CliSubCommand("ml", "pipeline", "enable-schedule")]
 public record AzMlPipelineEnableScheduleOptions(
 [property: CliOption("--schedule-id")] string ScheduleId
 ) : AzOptions

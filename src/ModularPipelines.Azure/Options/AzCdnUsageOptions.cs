@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cdn", "usage")]
+[CliSubCommand("cdn", "usage")]
 public record AzCdnUsageOptions : AzOptions;

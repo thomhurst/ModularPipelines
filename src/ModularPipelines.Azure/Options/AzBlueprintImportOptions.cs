@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("blueprint", "import")]
+[CliSubCommand("blueprint", "import")]
 public record AzBlueprintImportOptions(
 [property: CliOption("--input-path")] string InputPath,
 [property: CliOption("--name")] string Name

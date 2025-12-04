@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("nginx", "deployment", "configuration", "create")]
+[CliSubCommand("nginx", "deployment", "configuration", "create")]
 public record AzNginxDeploymentConfigurationCreateOptions(
 [property: CliOption("--configuration-name")] string ConfigurationName,
 [property: CliOption("--deployment-name")] string DeploymentName,

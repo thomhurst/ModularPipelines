@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "account", "create")]
+[CliSubCommand("dls", "account", "create")]
 public record AzDlsAccountCreateOptions(
 [property: CliOption("--account")] int Account
 ) : AzOptions

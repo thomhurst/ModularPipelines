@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "key", "encrypt")]
+[CliSubCommand("keyvault", "key", "encrypt")]
 public record AzKeyvaultKeyEncryptOptions(
 [property: CliOption("--algorithm")] string Algorithm,
 [property: CliOption("--value")] string Value

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "connected-env", "dapr-component", "list")]
+[CliSubCommand("containerapp", "connected-env", "dapr-component", "list")]
 public record AzContainerappConnectedEnvDaprComponentListOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

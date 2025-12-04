@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redis", "regenerate-keys")]
+[CliSubCommand("redis", "regenerate-keys")]
 public record AzRedisRegenerateKeysOptions(
 [property: CliOption("--key-type")] string KeyType
 ) : AzOptions

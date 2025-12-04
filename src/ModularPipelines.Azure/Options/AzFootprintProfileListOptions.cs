@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("footprint", "profile", "list")]
+[CliSubCommand("footprint", "profile", "list")]
 public record AzFootprintProfileListOptions : AzOptions
 {
     [CliOption("--resource-group")]

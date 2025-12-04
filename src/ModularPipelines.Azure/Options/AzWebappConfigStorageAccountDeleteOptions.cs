@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "config", "storage-account", "delete")]
+[CliSubCommand("webapp", "config", "storage-account", "delete")]
 public record AzWebappConfigStorageAccountDeleteOptions(
 [property: CliOption("--custom-id")] string CustomId
 ) : AzOptions

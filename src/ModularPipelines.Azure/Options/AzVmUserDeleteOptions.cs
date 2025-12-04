@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "user", "delete")]
+[CliSubCommand("vm", "user", "delete")]
 public record AzVmUserDeleteOptions(
 [property: CliOption("--username")] string Username
 ) : AzOptions

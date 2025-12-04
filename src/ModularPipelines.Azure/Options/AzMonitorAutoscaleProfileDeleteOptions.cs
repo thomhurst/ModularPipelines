@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "autoscale", "profile", "delete")]
+[CliSubCommand("monitor", "autoscale", "profile", "delete")]
 public record AzMonitorAutoscaleProfileDeleteOptions(
 [property: CliOption("--autoscale-name")] string AutoscaleName,
 [property: CliOption("--name")] string Name,

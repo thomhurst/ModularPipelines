@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "entity", "replace")]
+[CliSubCommand("storage", "entity", "replace")]
 public record AzStorageEntityReplaceOptions(
 [property: CliOption("--entity")] string Entity,
 [property: CliOption("--table-name")] string TableName

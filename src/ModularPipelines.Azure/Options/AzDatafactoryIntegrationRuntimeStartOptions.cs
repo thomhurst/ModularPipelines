@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "integration-runtime", "start")]
+[CliSubCommand("datafactory", "integration-runtime", "start")]
 public record AzDatafactoryIntegrationRuntimeStartOptions : AzOptions
 {
     [CliOption("--factory-name")]

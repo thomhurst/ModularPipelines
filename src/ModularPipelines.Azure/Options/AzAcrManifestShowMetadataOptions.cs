@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "manifest", "show-metadata")]
+[CliSubCommand("acr", "manifest", "show-metadata")]
 public record AzAcrManifestShowMetadataOptions : AzOptions
 {
     [CliOption("--name")]

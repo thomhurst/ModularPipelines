@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "down")]
+[CliSubCommand("postgres", "down")]
 public record AzPostgresDownOptions : AzOptions
 {
     [CliOption("--delete-group")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "perimeter", "link", "update")]
+[CliSubCommand("network", "perimeter", "link", "update")]
 public record AzNetworkPerimeterLinkUpdateOptions : AzOptions
 {
     [CliOption("--add")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "entity-query", "update")]
+[CliSubCommand("sentinel", "entity-query", "update")]
 public record AzSentinelEntityQueryUpdateOptions : AzOptions
 {
     [CliOption("--activity")]

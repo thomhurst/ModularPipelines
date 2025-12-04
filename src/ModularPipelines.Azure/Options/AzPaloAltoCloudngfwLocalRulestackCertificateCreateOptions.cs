@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("palo-alto", "cloudngfw", "local-rulestack", "certificate", "create")]
+[CliSubCommand("palo-alto", "cloudngfw", "local-rulestack", "certificate", "create")]
 public record AzPaloAltoCloudngfwLocalRulestackCertificateCreateOptions(
 [property: CliFlag("--certificate-self-signed")] bool CertificateSelfSigned,
 [property: CliOption("--local-rulestack-name")] string LocalRulestackName,

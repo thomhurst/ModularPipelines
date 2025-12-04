@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("identity", "federated-credential", "create")]
+[CliSubCommand("identity", "federated-credential", "create")]
 public record AzIdentityFederatedCredentialCreateOptions(
 [property: CliOption("--identity-name")] string IdentityName,
 [property: CliOption("--name")] string Name,

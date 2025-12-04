@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "volume", "create")]
+[CliSubCommand("netappfiles", "volume", "create")]
 public record AzNetappfilesVolumeCreateOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--file-path")] string FilePath,

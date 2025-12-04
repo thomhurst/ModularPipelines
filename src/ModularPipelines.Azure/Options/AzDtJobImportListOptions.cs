@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "job", "import", "list")]
+[CliSubCommand("dt", "job", "import", "list")]
 public record AzDtJobImportListOptions(
 [property: CliOption("--dt-name")] string DtName
 ) : AzOptions

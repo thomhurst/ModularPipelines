@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "logout")]
+[CliSubCommand("devops", "logout")]
 public record AzDevopsLogoutOptions : AzOptions
 {
     [CliOption("--org")]

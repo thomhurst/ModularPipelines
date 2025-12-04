@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "update-hsm")]
+[CliSubCommand("keyvault", "update-hsm")]
 public record AzKeyvaultUpdateHsmOptions(
 [property: CliOption("--hsm-name")] string HsmName
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "policy", "file-size", "update")]
+[CliSubCommand("repos", "policy", "file-size", "update")]
 public record AzReposPolicyFileSizeUpdateOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions

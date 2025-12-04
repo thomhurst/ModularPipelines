@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "audit-policy", "update")]
+[CliSubCommand("sql", "db", "audit-policy", "update")]
 public record AzSqlDbAuditPolicyUpdateOptions : AzOptions
 {
     [CliOption("--actions")]

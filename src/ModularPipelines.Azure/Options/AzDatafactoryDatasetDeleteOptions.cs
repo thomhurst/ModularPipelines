@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "dataset", "delete")]
+[CliSubCommand("datafactory", "dataset", "delete")]
 public record AzDatafactoryDatasetDeleteOptions : AzOptions
 {
     [CliOption("--dataset-name")]

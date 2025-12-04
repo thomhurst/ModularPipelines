@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "user", "reset-ssh")]
+[CliSubCommand("vm", "user", "reset-ssh")]
 public record AzVmUserResetSshOptions : AzOptions
 {
     [CliOption("--ids")]

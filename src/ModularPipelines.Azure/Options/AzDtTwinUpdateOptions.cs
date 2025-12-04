@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dt", "twin", "update")]
+[CliSubCommand("dt", "twin", "update")]
 public record AzDtTwinUpdateOptions(
 [property: CliOption("--dt-name")] string DtName,
 [property: CliOption("--json-patch")] string JsonPatch,

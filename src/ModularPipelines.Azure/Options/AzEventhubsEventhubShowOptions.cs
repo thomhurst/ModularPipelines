@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("eventhubs", "eventhub", "show")]
+[CliSubCommand("eventhubs", "eventhub", "show")]
 public record AzEventhubsEventhubShowOptions : AzOptions
 {
     [CliOption("--event-hub-name")]

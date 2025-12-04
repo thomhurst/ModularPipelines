@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "volume", "get-groupid-list-for-ldapuser")]
+[CliSubCommand("netappfiles", "volume", "get-groupid-list-for-ldapuser")]
 public record AzNetappfilesVolumeGetGroupidListForLdapuserOptions(
 [property: CliOption("--username")] string Username
 ) : AzOptions

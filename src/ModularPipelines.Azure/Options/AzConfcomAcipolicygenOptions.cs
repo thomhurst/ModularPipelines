@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("confcom", "acipolicygen")]
+[CliSubCommand("confcom", "acipolicygen")]
 public record AzConfcomAcipolicygenOptions : AzOptions
 {
     [CliFlag("--approve-wildcards")]

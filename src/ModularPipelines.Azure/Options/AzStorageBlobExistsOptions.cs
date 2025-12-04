@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "blob", "exists")]
+[CliSubCommand("storage", "blob", "exists")]
 public record AzStorageBlobExistsOptions : AzOptions
 {
     [CliOption("--account-key")]

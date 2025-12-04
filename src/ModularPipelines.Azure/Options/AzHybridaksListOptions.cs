@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hybridaks", "list")]
+[CliSubCommand("hybridaks", "list")]
 public record AzHybridaksListOptions : AzOptions
 {
     [CliOption("--resource-group")]

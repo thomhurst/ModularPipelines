@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "va", "sql", "results", "show")]
+[CliSubCommand("security", "va", "sql", "results", "show")]
 public record AzSecurityVaSqlResultsShowOptions(
 [property: CliOption("--database-name")] string DatabaseName,
 [property: CliOption("--rule-id")] string RuleId,

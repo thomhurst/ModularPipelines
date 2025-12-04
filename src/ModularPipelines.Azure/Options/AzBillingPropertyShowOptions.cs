@@ -4,5 +4,5 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("billing", "property", "show")]
+[CliSubCommand("billing", "property", "show")]
 public record AzBillingPropertyShowOptions : AzOptions;

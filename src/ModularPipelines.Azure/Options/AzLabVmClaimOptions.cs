@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("lab", "vm", "claim")]
+[CliSubCommand("lab", "vm", "claim")]
 public record AzLabVmClaimOptions : AzOptions
 {
     [CliOption("--ids")]

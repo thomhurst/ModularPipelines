@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "private-link-scope", "scoped-resource", "create")]
+[CliSubCommand("monitor", "private-link-scope", "scoped-resource", "create")]
 public record AzMonitorPrivateLinkScopeScopedResourceCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

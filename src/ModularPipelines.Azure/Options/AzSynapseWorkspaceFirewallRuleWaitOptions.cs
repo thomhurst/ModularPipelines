@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "workspace", "firewall-rule", "wait")]
+[CliSubCommand("synapse", "workspace", "firewall-rule", "wait")]
 public record AzSynapseWorkspaceFirewallRuleWaitOptions(
 [property: CliOption("--rule-name")] string RuleName
 ) : AzOptions

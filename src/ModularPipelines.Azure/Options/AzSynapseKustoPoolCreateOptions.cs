@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kusto", "pool", "create")]
+[CliSubCommand("synapse", "kusto", "pool", "create")]
 public record AzSynapseKustoPoolCreateOptions(
 [property: CliOption("--kusto-pool-name")] string KustoPoolName,
 [property: CliOption("--resource-group")] string ResourceGroup,

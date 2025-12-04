@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "recovery-plan", "show")]
+[CliSubCommand("site-recovery", "recovery-plan", "show")]
 public record AzSiteRecoveryRecoveryPlanShowOptions : AzOptions
 {
     [CliOption("--ids")]

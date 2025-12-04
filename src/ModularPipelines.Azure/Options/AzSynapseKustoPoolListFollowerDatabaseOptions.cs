@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kusto", "pool", "list-follower-database")]
+[CliSubCommand("synapse", "kusto", "pool", "list-follower-database")]
 public record AzSynapseKustoPoolListFollowerDatabaseOptions(
 [property: CliOption("--kusto-pool-name")] string KustoPoolName,
 [property: CliOption("--resource-group")] string ResourceGroup,

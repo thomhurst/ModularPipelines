@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "externalnetwork", "create")]
+[CliSubCommand("networkfabric", "externalnetwork", "create")]
 public record AzNetworkfabricExternalnetworkCreateOptions(
 [property: CliOption("--l3-isolation-domain-name")] string L3IsolationDomainName,
 [property: CliOption("--peering-option")] string PeeringOption,

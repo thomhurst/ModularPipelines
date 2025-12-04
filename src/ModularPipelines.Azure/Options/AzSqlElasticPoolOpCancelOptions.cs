@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "elastic-pool", "op", "cancel")]
+[CliSubCommand("sql", "elastic-pool", "op", "cancel")]
 public record AzSqlElasticPoolOpCancelOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

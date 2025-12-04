@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "app-insights", "component", "update-tags")]
+[CliSubCommand("monitor", "app-insights", "component", "update-tags")]
 public record AzMonitorAppInsightsComponentUpdateTagsOptions(
 [property: CliOption("--tags")] string Tags
 ) : AzOptions

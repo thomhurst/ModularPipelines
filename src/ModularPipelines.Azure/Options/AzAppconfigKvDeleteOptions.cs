@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appconfig", "kv", "delete")]
+[CliSubCommand("appconfig", "kv", "delete")]
 public record AzAppconfigKvDeleteOptions(
 [property: CliOption("--key")] string Key
 ) : AzOptions

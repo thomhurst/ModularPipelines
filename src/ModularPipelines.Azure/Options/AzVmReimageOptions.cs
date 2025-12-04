@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "reimage")]
+[CliSubCommand("vm", "reimage")]
 public record AzVmReimageOptions : AzOptions
 {
     [CliOption("--admin-password")]

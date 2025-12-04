@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cdn", "origin", "update")]
+[CliSubCommand("cdn", "origin", "update")]
 public record AzCdnOriginUpdateOptions : AzOptions
 {
     [CliFlag("--disabled")]

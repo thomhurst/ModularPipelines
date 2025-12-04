@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logz", "sub-account", "wait")]
+[CliSubCommand("logz", "sub-account", "wait")]
 public record AzLogzSubAccountWaitOptions : AzOptions
 {
     [CliFlag("--created")]

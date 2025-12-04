@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("site-recovery", "vmware-site", "run-as-account", "list")]
+[CliSubCommand("site-recovery", "vmware-site", "run-as-account", "list")]
 public record AzSiteRecoveryVmwareSiteRunAsAccountListOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--site-name")] string SiteName

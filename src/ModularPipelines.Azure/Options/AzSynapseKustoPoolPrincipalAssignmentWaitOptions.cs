@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kusto", "pool-principal-assignment", "wait")]
+[CliSubCommand("synapse", "kusto", "pool-principal-assignment", "wait")]
 public record AzSynapseKustoPoolPrincipalAssignmentWaitOptions : AzOptions
 {
     [CliFlag("--created")]

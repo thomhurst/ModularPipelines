@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("desktopvirtualization", "workspace", "show")]
+[CliSubCommand("desktopvirtualization", "workspace", "show")]
 public record AzDesktopvirtualizationWorkspaceShowOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("orbital", "spacecraft", "delete")]
+[CliSubCommand("orbital", "spacecraft", "delete")]
 public record AzOrbitalSpacecraftDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

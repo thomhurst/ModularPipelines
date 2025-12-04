@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mesh", "secretvalue", "show")]
+[CliSubCommand("mesh", "secretvalue", "show")]
 public record AzMeshSecretvalueShowOptions(
 [property: CliOption("--resource-group")] string ResourceGroup,
 [property: CliOption("--secret-name")] string SecretName,

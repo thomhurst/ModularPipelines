@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("acr", "encryption", "show")]
+[CliSubCommand("acr", "encryption", "show")]
 public record AzAcrEncryptionShowOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

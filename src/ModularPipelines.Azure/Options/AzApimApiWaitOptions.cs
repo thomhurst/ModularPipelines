@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apim", "api", "wait")]
+[CliSubCommand("apim", "api", "wait")]
 public record AzApimApiWaitOptions(
 [property: CliOption("--api-id")] string ApiId,
 [property: CliOption("--name")] string Name,

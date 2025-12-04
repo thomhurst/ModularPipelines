@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcdata", "ad-connector", "delete")]
+[CliSubCommand("arcdata", "ad-connector", "delete")]
 public record AzArcdataAdConnectorDeleteOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

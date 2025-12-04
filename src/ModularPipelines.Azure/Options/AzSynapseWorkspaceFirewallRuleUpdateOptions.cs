@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "workspace", "firewall-rule", "update")]
+[CliSubCommand("synapse", "workspace", "firewall-rule", "update")]
 public record AzSynapseWorkspaceFirewallRuleUpdateOptions : AzOptions
 {
     [CliOption("--end-ip-address")]

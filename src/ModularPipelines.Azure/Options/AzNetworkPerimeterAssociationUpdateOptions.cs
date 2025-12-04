@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "perimeter", "association", "update")]
+[CliSubCommand("network", "perimeter", "association", "update")]
 public record AzNetworkPerimeterAssociationUpdateOptions : AzOptions
 {
     [CliOption("--access-mode")]

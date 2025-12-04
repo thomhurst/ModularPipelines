@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storagesync", "sync-group", "server-endpoint", "create")]
+[CliSubCommand("storagesync", "sync-group", "server-endpoint", "create")]
 public record AzStoragesyncSyncGroupServerEndpointCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--registered-server-id")] string RegisteredServerId,

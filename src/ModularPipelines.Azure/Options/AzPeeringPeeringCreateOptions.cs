@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("peering", "peering", "create")]
+[CliSubCommand("peering", "peering", "create")]
 public record AzPeeringPeeringCreateOptions(
 [property: CliOption("--kind")] string Kind,
 [property: CliOption("--location")] string Location,

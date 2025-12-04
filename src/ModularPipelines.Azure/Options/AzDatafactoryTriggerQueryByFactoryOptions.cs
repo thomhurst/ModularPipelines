@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "trigger", "query-by-factory")]
+[CliSubCommand("datafactory", "trigger", "query-by-factory")]
 public record AzDatafactoryTriggerQueryByFactoryOptions : AzOptions
 {
     [CliOption("--continuation-token")]

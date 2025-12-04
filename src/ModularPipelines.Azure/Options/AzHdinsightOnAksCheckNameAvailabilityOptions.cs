@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hdinsight-on-aks", "check-name-availability")]
+[CliSubCommand("hdinsight-on-aks", "check-name-availability")]
 public record AzHdinsightOnAksCheckNameAvailabilityOptions : AzOptions
 {
     [CliOption("--ids")]

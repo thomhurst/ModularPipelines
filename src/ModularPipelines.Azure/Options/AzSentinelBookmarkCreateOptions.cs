@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "bookmark", "create")]
+[CliSubCommand("sentinel", "bookmark", "create")]
 public record AzSentinelBookmarkCreateOptions(
 [property: CliOption("--bookmark-id")] string BookmarkId,
 [property: CliOption("--resource-group")] string ResourceGroup,

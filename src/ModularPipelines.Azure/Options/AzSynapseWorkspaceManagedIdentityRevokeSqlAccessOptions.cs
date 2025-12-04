@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "workspace", "managed-identity", "revoke-sql-access")]
+[CliSubCommand("synapse", "workspace", "managed-identity", "revoke-sql-access")]
 public record AzSynapseWorkspaceManagedIdentityRevokeSqlAccessOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("servicebus", "topic", "show")]
+[CliSubCommand("servicebus", "topic", "show")]
 public record AzServicebusTopicShowOptions : AzOptions
 {
     [CliOption("--ids")]

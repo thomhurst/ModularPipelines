@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "pr", "create")]
+[CliSubCommand("repos", "pr", "create")]
 public record AzReposPrCreateOptions : AzOptions
 {
     [CliFlag("--auto-complete")]

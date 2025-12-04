@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("postgres", "flexible-server", "backup", "show")]
+[CliSubCommand("postgres", "flexible-server", "backup", "show")]
 public record AzPostgresFlexibleServerBackupShowOptions : AzOptions
 {
     [CliOption("--backup-name")]

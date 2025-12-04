@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "link", "create")]
+[CliSubCommand("sql", "mi", "link", "create")]
 public record AzSqlMiLinkCreateOptions(
 [property: CliOption("--distributed-availability-group-name")] string DistributedAvailabilityGroupName,
 [property: CliOption("--instance-name")] string InstanceName,

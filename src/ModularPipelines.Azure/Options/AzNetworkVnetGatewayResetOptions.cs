@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet-gateway", "reset")]
+[CliSubCommand("network", "vnet-gateway", "reset")]
 public record AzNetworkVnetGatewayResetOptions : AzOptions
 {
     [CliOption("--gateway-vip")]

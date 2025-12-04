@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "pipeline-run", "query-by-factory")]
+[CliSubCommand("datafactory", "pipeline-run", "query-by-factory")]
 public record AzDatafactoryPipelineRunQueryByFactoryOptions(
 [property: CliOption("--last-updated-after")] string LastUpdatedAfter,
 [property: CliOption("--last-updated-before")] string LastUpdatedBefore

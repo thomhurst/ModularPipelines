@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pipelines", "build", "show")]
+[CliSubCommand("pipelines", "build", "show")]
 public record AzPipelinesBuildShowOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("akshybrid", "get-versions")]
+[CliSubCommand("akshybrid", "get-versions")]
 public record AzAkshybridGetVersionsOptions(
 [property: CliOption("--custom-location")] string CustomLocation,
 [property: CliOption("--resource-group")] string ResourceGroup

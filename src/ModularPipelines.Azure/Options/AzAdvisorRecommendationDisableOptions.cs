@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("advisor", "recommendation", "disable")]
+[CliSubCommand("advisor", "recommendation", "disable")]
 public record AzAdvisorRecommendationDisableOptions : AzOptions
 {
     [CliOption("--days")]

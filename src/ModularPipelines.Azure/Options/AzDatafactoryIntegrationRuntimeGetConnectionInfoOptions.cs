@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datafactory", "integration-runtime", "get-connection-info")]
+[CliSubCommand("datafactory", "integration-runtime", "get-connection-info")]
 public record AzDatafactoryIntegrationRuntimeGetConnectionInfoOptions : AzOptions
 {
     [CliOption("--factory-name")]

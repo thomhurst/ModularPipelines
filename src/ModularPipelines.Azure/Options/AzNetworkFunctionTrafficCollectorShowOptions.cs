@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network-function", "traffic-collector", "show")]
+[CliSubCommand("network-function", "traffic-collector", "show")]
 public record AzNetworkFunctionTrafficCollectorShowOptions : AzOptions
 {
     [CliOption("--ids")]

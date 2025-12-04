@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "analytics-setting", "delete")]
+[CliSubCommand("sentinel", "analytics-setting", "delete")]
 public record AzSentinelAnalyticsSettingDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

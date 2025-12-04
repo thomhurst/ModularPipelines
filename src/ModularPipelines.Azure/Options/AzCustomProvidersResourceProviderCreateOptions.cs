@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("custom-providers", "resource-provider", "create")]
+[CliSubCommand("custom-providers", "resource-provider", "create")]
 public record AzCustomProvidersResourceProviderCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

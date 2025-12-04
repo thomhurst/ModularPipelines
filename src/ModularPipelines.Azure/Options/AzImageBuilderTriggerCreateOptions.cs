@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("image", "builder", "trigger", "create")]
+[CliSubCommand("image", "builder", "trigger", "create")]
 public record AzImageBuilderTriggerCreateOptions(
 [property: CliOption("--image-template-name")] string ImageTemplateName,
 [property: CliOption("--name")] string Name,

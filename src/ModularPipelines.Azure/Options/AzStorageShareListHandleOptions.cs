@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "share", "list-handle")]
+[CliSubCommand("storage", "share", "list-handle")]
 public record AzStorageShareListHandleOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

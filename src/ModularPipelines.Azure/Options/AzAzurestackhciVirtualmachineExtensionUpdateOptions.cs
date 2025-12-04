@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("urestackhci", "virtualmachine", "extension", "update")]
+[CliSubCommand("urestackhci", "virtualmachine", "extension", "update")]
 public record AzAzurestackhciVirtualmachineExtensionUpdateOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "maintenanceconfiguration", "list")]
+[CliSubCommand("aks", "maintenanceconfiguration", "list")]
 public record AzAksMaintenanceconfigurationListOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--resource-group")] string ResourceGroup

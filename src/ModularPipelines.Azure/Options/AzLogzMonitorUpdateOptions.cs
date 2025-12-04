@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logz", "monitor", "update")]
+[CliSubCommand("logz", "monitor", "update")]
 public record AzLogzMonitorUpdateOptions : AzOptions
 {
     [CliOption("--ids")]

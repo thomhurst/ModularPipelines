@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "directory", "exists", "(storage-preview", "extension)")]
+[CliSubCommand("storage", "directory", "exists", "(storage-preview", "extension)")]
 public record AzStorageDirectoryExistsStoragePreviewExtensionOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--share-name")] string ShareName

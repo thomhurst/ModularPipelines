@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "delete")]
+[CliSubCommand("vmss", "delete")]
 public record AzVmssDeleteOptions : AzOptions
 {
     [CliFlag("--force-deletion")]

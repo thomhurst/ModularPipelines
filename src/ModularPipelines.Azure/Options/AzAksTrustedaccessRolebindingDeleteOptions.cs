@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("aks", "trustedaccess", "rolebinding", "delete")]
+[CliSubCommand("aks", "trustedaccess", "rolebinding", "delete")]
 public record AzAksTrustedaccessRolebindingDeleteOptions(
 [property: CliOption("--cluster-name")] string ClusterName,
 [property: CliOption("--name")] string Name,

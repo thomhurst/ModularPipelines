@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "route-filter", "update")]
+[CliSubCommand("network", "route-filter", "update")]
 public record AzNetworkRouteFilterUpdateOptions : AzOptions
 {
     [CliOption("--add")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "ref", "lock")]
+[CliSubCommand("repos", "ref", "lock")]
 public record AzReposRefLockOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "rule", "create")]
+[CliSubCommand("afd", "rule", "create")]
 public record AzAfdRuleCreateOptions(
 [property: CliOption("--action-name")] string ActionName,
 [property: CliOption("--order")] string Order,

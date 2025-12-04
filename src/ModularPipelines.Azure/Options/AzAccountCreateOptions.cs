@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("account", "create")]
+[CliSubCommand("account", "create")]
 public record AzAccountCreateOptions(
 [property: CliOption("--enrollment-account-name")] int EnrollmentAccountName,
 [property: CliOption("--offer-type")] string OfferType

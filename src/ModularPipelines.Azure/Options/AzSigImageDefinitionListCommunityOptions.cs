@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sig", "image-definition", "list-community")]
+[CliSubCommand("sig", "image-definition", "list-community")]
 public record AzSigImageDefinitionListCommunityOptions : AzOptions
 {
     [CliOption("--ids")]

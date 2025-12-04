@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "vm", "delete")]
+[CliSubCommand("scvmm", "vm", "delete")]
 public record AzScvmmVmDeleteOptions : AzOptions
 {
     [CliOption("--delete-from-host")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "fs", "service-properties", "show")]
+[CliSubCommand("storage", "fs", "service-properties", "show")]
 public record AzStorageFsServicePropertiesShowOptions : AzOptions
 {
     [CliOption("--account-key")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "stg", "create")]
+[CliSubCommand("sql", "stg", "create")]
 public record AzSqlStgCreateOptions(
 [property: CliOption("--group-member")] string GroupMember,
 [property: CliOption("--location")] string Location,

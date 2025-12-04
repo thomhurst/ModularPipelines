@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "capture")]
+[CliSubCommand("vm", "capture")]
 public record AzVmCaptureOptions(
 [property: CliOption("--vhd-name-prefix")] string VhdNamePrefix
 ) : AzOptions

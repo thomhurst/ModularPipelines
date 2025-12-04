@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "bastion", "ssh")]
+[CliSubCommand("network", "bastion", "ssh")]
 public record AzNetworkBastionSshOptions(
 [property: CliOption("--auth-type")] string AuthType
 ) : AzOptions

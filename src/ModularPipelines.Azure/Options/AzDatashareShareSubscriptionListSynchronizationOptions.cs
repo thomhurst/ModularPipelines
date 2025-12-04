@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datashare", "share-subscription", "list-synchronization")]
+[CliSubCommand("datashare", "share-subscription", "list-synchronization")]
 public record AzDatashareShareSubscriptionListSynchronizationOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--name")] string Name,

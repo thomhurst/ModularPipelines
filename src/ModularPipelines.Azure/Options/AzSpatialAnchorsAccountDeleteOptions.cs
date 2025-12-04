@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spatial-anchors-account", "delete")]
+[CliSubCommand("spatial-anchors-account", "delete")]
 public record AzSpatialAnchorsAccountDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

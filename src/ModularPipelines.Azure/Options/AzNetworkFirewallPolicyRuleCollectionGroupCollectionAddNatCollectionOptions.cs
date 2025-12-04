@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "firewall", "policy", "rule-collection-group", "collection", "add-nat-collection")]
+[CliSubCommand("network", "firewall", "policy", "rule-collection-group", "collection", "add-nat-collection")]
 public record AzNetworkFirewallPolicyRuleCollectionGroupCollectionAddNatCollectionOptions(
 [property: CliOption("--collection-priority")] string CollectionPriority,
 [property: CliOption("--ip-protocols")] string IpProtocols,

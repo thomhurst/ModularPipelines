@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webpubsub", "hub", "delete")]
+[CliSubCommand("webpubsub", "hub", "delete")]
 public record AzWebpubsubHubDeleteOptions : AzOptions
 {
     [CliOption("--hub-name")]

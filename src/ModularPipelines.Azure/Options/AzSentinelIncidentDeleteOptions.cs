@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sentinel", "incident", "delete")]
+[CliSubCommand("sentinel", "incident", "delete")]
 public record AzSentinelIncidentDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

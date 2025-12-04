@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "virtual-appliance", "sku", "show")]
+[CliSubCommand("network", "virtual-appliance", "sku", "show")]
 public record AzNetworkVirtualApplianceSkuShowOptions : AzOptions
 {
     [CliOption("--ids")]

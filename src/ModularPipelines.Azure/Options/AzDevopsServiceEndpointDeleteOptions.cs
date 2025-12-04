@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devops", "service-endpoint", "delete")]
+[CliSubCommand("devops", "service-endpoint", "delete")]
 public record AzDevopsServiceEndpointDeleteOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions

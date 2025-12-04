@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "edge", "set-modules")]
+[CliSubCommand("iot", "edge", "set-modules")]
 public record AzIotEdgeSetModulesOptions(
 [property: CliOption("--content")] string Content,
 [property: CliOption("--device-id")] string DeviceId

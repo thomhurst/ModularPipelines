@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "service-endpoint", "policy-definition", "update")]
+[CliSubCommand("network", "service-endpoint", "policy-definition", "update")]
 public record AzNetworkServiceEndpointPolicyDefinitionUpdateOptions : AzOptions
 {
     [CliOption("--add")]

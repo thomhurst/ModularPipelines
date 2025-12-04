@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "lb", "inbound-nat-pool", "update")]
+[CliSubCommand("network", "lb", "inbound-nat-pool", "update")]
 public record AzNetworkLbInboundNatPoolUpdateOptions(
 [property: CliOption("--lb-name")] string LbName,
 [property: CliOption("--name")] string Name,

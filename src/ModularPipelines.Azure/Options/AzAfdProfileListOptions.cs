@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "profile", "list")]
+[CliSubCommand("afd", "profile", "list")]
 public record AzAfdProfileListOptions : AzOptions
 {
     [CliOption("--resource-group")]

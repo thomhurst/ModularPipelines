@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("blockchain", "member", "list")]
+[CliSubCommand("blockchain", "member", "list")]
 public record AzBlockchainMemberListOptions : AzOptions
 {
     [CliOption("--resource-group")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "managed-service", "load-metrics", "create")]
+[CliSubCommand("sf", "managed-service", "load-metrics", "create")]
 public record AzSfManagedServiceLoadMetricsCreateOptions(
 [property: CliOption("--application")] string Application,
 [property: CliOption("--cluster-name")] string ClusterName,

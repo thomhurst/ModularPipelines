@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "config", "ssl", "upload")]
+[CliSubCommand("functionapp", "config", "ssl", "upload")]
 public record AzFunctionappConfigSslUploadOptions(
 [property: CliOption("--certificate-file")] string CertificateFile,
 [property: CliOption("--certificate-password")] string CertificatePassword

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "stop")]
+[CliSubCommand("webapp", "stop")]
 public record AzWebappStopOptions : AzOptions
 {
     [CliOption("--ids")]

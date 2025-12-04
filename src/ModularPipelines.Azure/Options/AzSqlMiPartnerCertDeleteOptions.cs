@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "mi", "partner-cert", "delete")]
+[CliSubCommand("sql", "mi", "partner-cert", "delete")]
 public record AzSqlMiPartnerCertDeleteOptions : AzOptions
 {
     [CliOption("--certificate-name")]

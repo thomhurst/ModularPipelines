@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("arcdata", "dc", "endpoint", "list")]
+[CliSubCommand("arcdata", "dc", "endpoint", "list")]
 public record AzArcdataDcEndpointListOptions(
 [property: CliOption("--k8s-namespace")] string K8sNamespace
 ) : AzOptions

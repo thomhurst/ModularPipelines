@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "revision", "show")]
+[CliSubCommand("containerapp", "revision", "show")]
 public record AzContainerappRevisionShowOptions(
 [property: CliOption("--revision")] string Revision
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "entity", "delete")]
+[CliSubCommand("storage", "entity", "delete")]
 public record AzStorageEntityDeleteOptions(
 [property: CliOption("--partition-key")] string PartitionKey,
 [property: CliOption("--row-key")] string RowKey,

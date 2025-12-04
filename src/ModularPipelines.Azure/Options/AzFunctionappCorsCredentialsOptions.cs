@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "cors", "credentials")]
+[CliSubCommand("functionapp", "cors", "credentials")]
 public record AzFunctionappCorsCredentialsOptions(
 [property: CliFlag("--enable")] bool Enable
 ) : AzOptions

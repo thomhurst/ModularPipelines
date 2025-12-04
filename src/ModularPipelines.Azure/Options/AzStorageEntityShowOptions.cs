@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "entity", "show")]
+[CliSubCommand("storage", "entity", "show")]
 public record AzStorageEntityShowOptions(
 [property: CliOption("--partition-key")] string PartitionKey,
 [property: CliOption("--row-key")] string RowKey,

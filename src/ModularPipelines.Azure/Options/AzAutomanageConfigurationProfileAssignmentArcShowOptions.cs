@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automanage", "configuration-profile-assignment", "arc", "show")]
+[CliSubCommand("automanage", "configuration-profile-assignment", "arc", "show")]
 public record AzAutomanageConfigurationProfileAssignmentArcShowOptions : AzOptions
 {
     [CliOption("--configuration-profile-assignment-name")]

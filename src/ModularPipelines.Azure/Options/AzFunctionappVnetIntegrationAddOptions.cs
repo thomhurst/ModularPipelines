@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "vnet-integration", "add")]
+[CliSubCommand("functionapp", "vnet-integration", "add")]
 public record AzFunctionappVnetIntegrationAddOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup,

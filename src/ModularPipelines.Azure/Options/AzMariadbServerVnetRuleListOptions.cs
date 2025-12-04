@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("mariadb", "server", "vnet-rule", "list")]
+[CliSubCommand("mariadb", "server", "vnet-rule", "list")]
 public record AzMariadbServerVnetRuleListOptions : AzOptions
 {
     [CliOption("--ids")]

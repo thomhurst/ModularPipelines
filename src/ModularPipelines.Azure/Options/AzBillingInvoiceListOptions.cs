@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("billing", "invoice", "list")]
+[CliSubCommand("billing", "invoice", "list")]
 public record AzBillingInvoiceListOptions(
 [property: CliOption("--period-end-date")] string PeriodEndDate,
 [property: CliOption("--period-start-date")] string PeriodStartDate

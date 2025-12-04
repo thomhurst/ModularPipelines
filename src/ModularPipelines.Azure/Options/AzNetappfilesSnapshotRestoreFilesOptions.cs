@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "snapshot", "restore-files")]
+[CliSubCommand("netappfiles", "snapshot", "restore-files")]
 public record AzNetappfilesSnapshotRestoreFilesOptions(
 [property: CliOption("--file-paths")] string FilePaths
 ) : AzOptions

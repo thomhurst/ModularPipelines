@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("graph-services", "account", "create")]
+[CliSubCommand("graph-services", "account", "create")]
 public record AzGraphServicesAccountCreateOptions(
 [property: CliOption("--app-id")] string AppId,
 [property: CliOption("--name")] string Name,

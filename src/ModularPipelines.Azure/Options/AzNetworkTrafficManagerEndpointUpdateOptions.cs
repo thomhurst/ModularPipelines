@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "traffic-manager", "endpoint", "update")]
+[CliSubCommand("network", "traffic-manager", "endpoint", "update")]
 public record AzNetworkTrafficManagerEndpointUpdateOptions : AzOptions
 {
     [CliOption("--always-serve")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "dps", "connection-string", "show")]
+[CliSubCommand("iot", "dps", "connection-string", "show")]
 public record AzIotDpsConnectionStringShowOptions : AzOptions
 {
     [CliFlag("--all")]

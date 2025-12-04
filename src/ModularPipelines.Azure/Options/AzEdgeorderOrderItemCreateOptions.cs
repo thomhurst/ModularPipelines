@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("edgeorder", "order-item", "create")]
+[CliSubCommand("edgeorder", "order-item", "create")]
 public record AzEdgeorderOrderItemCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--order-item-resource")] string OrderItemResource,

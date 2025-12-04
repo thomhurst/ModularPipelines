@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmss", "encryption", "disable")]
+[CliSubCommand("vmss", "encryption", "disable")]
 public record AzVmssEncryptionDisableOptions : AzOptions
 {
     [CliFlag("--force")]

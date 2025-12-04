@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "cluster", "show")]
+[CliSubCommand("networkcloud", "cluster", "show")]
 public record AzNetworkcloudClusterShowOptions : AzOptions
 {
     [CliOption("--cluster-name")]

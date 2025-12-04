@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("bot", "create")]
+[CliSubCommand("bot", "create")]
 public record AzBotCreateOptions(
 [property: CliOption("--app-type")] string AppType,
 [property: CliOption("--appid")] string Appid,

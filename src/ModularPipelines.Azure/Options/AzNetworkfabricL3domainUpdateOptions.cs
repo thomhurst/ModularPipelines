@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "l3domain", "update")]
+[CliSubCommand("networkfabric", "l3domain", "update")]
 public record AzNetworkfabricL3domainUpdateOptions : AzOptions
 {
     [CliOption("--aggregate-route-configuration")]

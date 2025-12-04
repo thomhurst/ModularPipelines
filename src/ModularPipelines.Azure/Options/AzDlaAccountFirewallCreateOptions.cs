@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dla", "account", "firewall", "create")]
+[CliSubCommand("dla", "account", "firewall", "create")]
 public record AzDlaAccountFirewallCreateOptions(
 [property: CliOption("--account")] int Account,
 [property: CliOption("--end-ip-address")] string EndIpAddress,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cosmosdb", "sql", "user-defined-function", "show")]
+[CliSubCommand("cosmosdb", "sql", "user-defined-function", "show")]
 public record AzCosmosdbSqlUserDefinedFunctionShowOptions(
 [property: CliOption("--account-name")] int AccountName,
 [property: CliOption("--container-name")] string ContainerName,

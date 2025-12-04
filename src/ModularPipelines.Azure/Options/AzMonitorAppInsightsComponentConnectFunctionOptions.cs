@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "app-insights", "component", "connect-function")]
+[CliSubCommand("monitor", "app-insights", "component", "connect-function")]
 public record AzMonitorAppInsightsComponentConnectFunctionOptions(
 [property: CliOption("--function")] string Function
 ) : AzOptions

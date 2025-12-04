@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "show")]
+[CliSubCommand("containerapp", "show")]
 public record AzContainerappShowOptions : AzOptions
 {
     [CliOption("--ids")]

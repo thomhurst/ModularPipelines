@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dls", "fs", "delete")]
+[CliSubCommand("dls", "fs", "delete")]
 public record AzDlsFsDeleteOptions(
 [property: CliOption("--path")] string Path
 ) : AzOptions

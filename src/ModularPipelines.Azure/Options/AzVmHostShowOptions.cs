@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "host", "show")]
+[CliSubCommand("vm", "host", "show")]
 public record AzVmHostShowOptions : AzOptions
 {
     [CliOption("--expand")]

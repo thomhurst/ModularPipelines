@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webpubsub", "replica", "show")]
+[CliSubCommand("webpubsub", "replica", "show")]
 public record AzWebpubsubReplicaShowOptions : AzOptions
 {
     [CliOption("--ids")]

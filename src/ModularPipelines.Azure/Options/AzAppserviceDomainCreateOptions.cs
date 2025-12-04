@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("appservice", "domain", "create")]
+[CliSubCommand("appservice", "domain", "create")]
 public record AzAppserviceDomainCreateOptions(
 [property: CliOption("--contact-info")] string ContactInfo,
 [property: CliOption("--hostname")] string Hostname,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "endpoint", "realtime", "create-version")]
+[CliSubCommand("ml", "endpoint", "realtime", "create-version")]
 public record AzMlEndpointRealtimeCreateVersionOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--version-name")] string VersionName

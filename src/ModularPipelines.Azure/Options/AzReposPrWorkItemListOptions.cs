@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "pr", "work-item", "list")]
+[CliSubCommand("repos", "pr", "work-item", "list")]
 public record AzReposPrWorkItemListOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions

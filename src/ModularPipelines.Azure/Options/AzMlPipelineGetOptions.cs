@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "pipeline", "get")]
+[CliSubCommand("ml", "pipeline", "get")]
 public record AzMlPipelineGetOptions(
 [property: CliOption("--path")] string Path
 ) : AzOptions

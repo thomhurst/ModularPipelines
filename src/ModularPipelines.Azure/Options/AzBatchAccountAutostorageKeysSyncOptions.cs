@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("batch", "account", "autostorage-keys", "sync")]
+[CliSubCommand("batch", "account", "autostorage-keys", "sync")]
 public record AzBatchAccountAutostorageKeysSyncOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--resource-group")] string ResourceGroup

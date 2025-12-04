@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "dev", "environment", "update-expiration-date")]
+[CliSubCommand("devcenter", "dev", "environment", "update-expiration-date")]
 public record AzDevcenterDevEnvironmentUpdateExpirationDateOptions(
 [property: CliOption("--environment-name")] string EnvironmentName,
 [property: CliOption("--project")] string Project

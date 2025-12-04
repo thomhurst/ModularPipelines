@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "port-mirroring", "wait")]
+[CliSubCommand("vmware", "workload-network", "port-mirroring", "wait")]
 public record AzVmwareWorkloadNetworkPortMirroringWaitOptions : AzOptions
 {
     [CliFlag("--created")]

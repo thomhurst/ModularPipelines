@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vnet-gateway", "nat-rule", "remove")]
+[CliSubCommand("network", "vnet-gateway", "nat-rule", "remove")]
 public record AzNetworkVnetGatewayNatRuleRemoveOptions(
 [property: CliOption("--gateway-name")] string GatewayName,
 [property: CliOption("--name")] string Name,

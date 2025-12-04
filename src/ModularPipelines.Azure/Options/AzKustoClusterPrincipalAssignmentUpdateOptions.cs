@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("kusto", "cluster-principal-assignment", "update")]
+[CliSubCommand("kusto", "cluster-principal-assignment", "update")]
 public record AzKustoClusterPrincipalAssignmentUpdateOptions : AzOptions
 {
     [CliOption("--add")]

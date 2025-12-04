@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "application-gateway", "redirect-config", "delete")]
+[CliSubCommand("network", "application-gateway", "redirect-config", "delete")]
 public record AzNetworkApplicationGatewayRedirectConfigDeleteOptions(
 [property: CliOption("--gateway-name")] string GatewayName,
 [property: CliOption("--name")] string Name,

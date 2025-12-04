@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "nni", "update")]
+[CliSubCommand("networkfabric", "nni", "update")]
 public record AzNetworkfabricNniUpdateOptions : AzOptions
 {
     [CliOption("--egress-acl-id")]

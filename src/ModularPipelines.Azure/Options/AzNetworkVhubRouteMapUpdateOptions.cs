@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "vhub", "route-map", "update")]
+[CliSubCommand("network", "vhub", "route-map", "update")]
 public record AzNetworkVhubRouteMapUpdateOptions : AzOptions
 {
     [CliOption("--add")]

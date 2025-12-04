@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "server", "outbound-firewall-rule", "create")]
+[CliSubCommand("sql", "server", "outbound-firewall-rule", "create")]
 public record AzSqlServerOutboundFirewallRuleCreateOptions(
 [property: CliOption("--outbound-rule-fqdn")] string OutboundRuleFqdn,
 [property: CliOption("--resource-group")] string ResourceGroup,

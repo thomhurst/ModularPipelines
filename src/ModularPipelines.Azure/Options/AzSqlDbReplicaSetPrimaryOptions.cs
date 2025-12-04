@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "replica", "set-primary")]
+[CliSubCommand("sql", "db", "replica", "set-primary")]
 public record AzSqlDbReplicaSetPrimaryOptions : AzOptions
 {
     [CliFlag("--allow-data-loss")]

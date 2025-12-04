@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication", "user-identity", "token", "issue")]
+[CliSubCommand("communication", "user-identity", "token", "issue")]
 public record AzCommunicationUserIdentityTokenIssueOptions(
 [property: CliOption("--scope")] string Scope
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("blueprint", "assignment", "wait")]
+[CliSubCommand("blueprint", "assignment", "wait")]
 public record AzBlueprintAssignmentWaitOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

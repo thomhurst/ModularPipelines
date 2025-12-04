@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("providerhub", "default-rollout", "stop")]
+[CliSubCommand("providerhub", "default-rollout", "stop")]
 public record AzProviderhubDefaultRolloutStopOptions : AzOptions
 {
     [CliOption("--ids")]

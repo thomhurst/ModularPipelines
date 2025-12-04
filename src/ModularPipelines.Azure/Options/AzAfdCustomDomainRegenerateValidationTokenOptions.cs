@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "custom-domain", "regenerate-validation-token")]
+[CliSubCommand("afd", "custom-domain", "regenerate-validation-token")]
 public record AzAfdCustomDomainRegenerateValidationTokenOptions : AzOptions
 {
     [CliOption("--custom-domain-name")]

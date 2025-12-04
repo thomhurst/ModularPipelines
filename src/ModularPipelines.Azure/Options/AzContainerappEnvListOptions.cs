@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "env", "list")]
+[CliSubCommand("containerapp", "env", "list")]
 public record AzContainerappEnvListOptions : AzOptions
 {
     [CliOption("--resource-group")]

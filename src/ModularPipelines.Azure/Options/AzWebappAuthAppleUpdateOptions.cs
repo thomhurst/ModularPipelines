@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "auth", "apple", "update")]
+[CliSubCommand("webapp", "auth", "apple", "update")]
 public record AzWebappAuthAppleUpdateOptions : AzOptions
 {
     [CliOption("--client-id")]

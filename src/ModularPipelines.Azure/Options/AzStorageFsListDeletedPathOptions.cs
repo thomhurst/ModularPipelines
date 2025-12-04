@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "fs", "list-deleted-path")]
+[CliSubCommand("storage", "fs", "list-deleted-path")]
 public record AzStorageFsListDeletedPathOptions(
 [property: CliOption("--file-system")] string FileSystem
 ) : AzOptions

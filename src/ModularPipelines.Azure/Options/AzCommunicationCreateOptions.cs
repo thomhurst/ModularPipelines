@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication", "create")]
+[CliSubCommand("communication", "create")]
 public record AzCommunicationCreateOptions(
 [property: CliOption("--data-location")] string DataLocation,
 [property: CliOption("--name")] string Name,

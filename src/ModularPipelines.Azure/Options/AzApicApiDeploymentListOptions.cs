@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("apic", "api", "deployment", "list")]
+[CliSubCommand("apic", "api", "deployment", "list")]
 public record AzApicApiDeploymentListOptions(
 [property: CliOption("--api")] string Api,
 [property: CliOption("--resource-group")] string ResourceGroup,

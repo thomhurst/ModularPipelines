@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("monitor", "log-analytics", "query")]
+[CliSubCommand("monitor", "log-analytics", "query")]
 public record AzMonitorLogAnalyticsQueryOptions(
 [property: CliOption("--analytics-query")] string AnalyticsQuery,
 [property: CliOption("--workspace")] string Workspace

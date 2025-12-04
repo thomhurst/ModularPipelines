@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "rule", "action", "remove")]
+[CliSubCommand("afd", "rule", "action", "remove")]
 public record AzAfdRuleActionRemoveOptions(
 [property: CliOption("--index")] string Index
 ) : AzOptions

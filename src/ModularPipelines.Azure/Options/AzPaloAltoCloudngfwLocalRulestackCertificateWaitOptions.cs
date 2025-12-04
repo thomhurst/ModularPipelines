@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("palo-alto", "cloudngfw", "local-rulestack", "certificate", "wait")]
+[CliSubCommand("palo-alto", "cloudngfw", "local-rulestack", "certificate", "wait")]
 public record AzPaloAltoCloudngfwLocalRulestackCertificateWaitOptions : AzOptions
 {
     [CliFlag("--created")]

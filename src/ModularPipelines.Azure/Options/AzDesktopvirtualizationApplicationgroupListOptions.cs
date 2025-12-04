@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("desktopvirtualization", "applicationgroup", "list")]
+[CliSubCommand("desktopvirtualization", "applicationgroup", "list")]
 public record AzDesktopvirtualizationApplicationgroupListOptions : AzOptions
 {
     [CliOption("--filter")]

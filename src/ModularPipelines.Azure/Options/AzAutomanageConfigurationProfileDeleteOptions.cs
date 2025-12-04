@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("automanage", "configuration-profile", "delete")]
+[CliSubCommand("automanage", "configuration-profile", "delete")]
 public record AzAutomanageConfigurationProfileDeleteOptions : AzOptions
 {
     [CliOption("--configuration-profile-name")]

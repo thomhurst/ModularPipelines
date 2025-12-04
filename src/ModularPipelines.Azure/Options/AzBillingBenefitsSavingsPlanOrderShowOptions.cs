@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("billing-benefits", "savings-plan-order", "show")]
+[CliSubCommand("billing-benefits", "savings-plan-order", "show")]
 public record AzBillingBenefitsSavingsPlanOrderShowOptions(
 [property: CliOption("--savings-plan-order-id")] string SavingsPlanOrderId
 ) : AzOptions

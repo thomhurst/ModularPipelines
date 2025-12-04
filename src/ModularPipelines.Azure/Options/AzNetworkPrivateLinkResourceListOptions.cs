@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "private-link-resource", "list")]
+[CliSubCommand("network", "private-link-resource", "list")]
 public record AzNetworkPrivateLinkResourceListOptions : AzOptions
 {
     [CliOption("--id")]

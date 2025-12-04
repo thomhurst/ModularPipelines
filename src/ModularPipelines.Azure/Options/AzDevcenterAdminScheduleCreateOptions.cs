@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("devcenter", "admin", "schedule", "create")]
+[CliSubCommand("devcenter", "admin", "schedule", "create")]
 public record AzDevcenterAdminScheduleCreateOptions(
 [property: CliOption("--pool-name")] string PoolName,
 [property: CliOption("--project")] string Project,

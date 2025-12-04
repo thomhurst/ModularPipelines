@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("repos", "pr", "reviewer", "remove")]
+[CliSubCommand("repos", "pr", "reviewer", "remove")]
 public record AzReposPrReviewerRemoveOptions(
 [property: CliOption("--id")] string Id,
 [property: CliOption("--reviewers")] string Reviewers

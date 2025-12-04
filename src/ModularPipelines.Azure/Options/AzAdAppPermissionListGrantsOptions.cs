@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ad", "app", "permission", "list-grants")]
+[CliSubCommand("ad", "app", "permission", "list-grants")]
 public record AzAdAppPermissionListGrantsOptions : AzOptions
 {
     [CliOption("--filter")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "db", "replica", "delete-link")]
+[CliSubCommand("sql", "db", "replica", "delete-link")]
 public record AzSqlDbReplicaDeleteLinkOptions(
 [property: CliOption("--partner-server")] string PartnerServer
 ) : AzOptions

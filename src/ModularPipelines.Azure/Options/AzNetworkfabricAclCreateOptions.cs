@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkfabric", "acl", "create")]
+[CliSubCommand("networkfabric", "acl", "create")]
 public record AzNetworkfabricAclCreateOptions(
 [property: CliOption("--configuration-type")] string ConfigurationType,
 [property: CliOption("--resource-group")] string ResourceGroup,

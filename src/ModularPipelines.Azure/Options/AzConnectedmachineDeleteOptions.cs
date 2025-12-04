@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connectedmachine", "delete")]
+[CliSubCommand("connectedmachine", "delete")]
 public record AzConnectedmachineDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

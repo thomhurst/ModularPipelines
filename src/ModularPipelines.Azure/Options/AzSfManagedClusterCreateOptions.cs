@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sf", "managed-cluster", "create")]
+[CliSubCommand("sf", "managed-cluster", "create")]
 public record AzSfManagedClusterCreateOptions(
 [property: CliOption("--admin-password")] string AdminPassword,
 [property: CliOption("--cluster-name")] string ClusterName,

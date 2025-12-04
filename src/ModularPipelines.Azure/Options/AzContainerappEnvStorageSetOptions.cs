@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("containerapp", "env", "storage", "set")]
+[CliSubCommand("containerapp", "env", "storage", "set")]
 public record AzContainerappEnvStorageSetOptions(
 [property: CliOption("--access-mode")] string AccessMode,
 [property: CliOption("--account-name")] int AccountName,

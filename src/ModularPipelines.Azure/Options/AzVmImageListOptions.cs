@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vm", "image", "list")]
+[CliSubCommand("vm", "image", "list")]
 public record AzVmImageListOptions : AzOptions
 {
     [CliFlag("--all")]

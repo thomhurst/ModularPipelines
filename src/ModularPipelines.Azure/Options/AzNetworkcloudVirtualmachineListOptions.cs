@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("networkcloud", "virtualmachine", "list")]
+[CliSubCommand("networkcloud", "virtualmachine", "list")]
 public record AzNetworkcloudVirtualmachineListOptions : AzOptions
 {
     [CliOption("--max-items")]

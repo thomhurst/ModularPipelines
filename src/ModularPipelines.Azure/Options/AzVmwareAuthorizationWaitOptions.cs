@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "authorization", "wait")]
+[CliSubCommand("vmware", "authorization", "wait")]
 public record AzVmwareAuthorizationWaitOptions : AzOptions
 {
     [CliOption("--authorization-name")]

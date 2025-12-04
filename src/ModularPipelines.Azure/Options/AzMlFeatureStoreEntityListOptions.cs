@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "feature-store-entity", "list")]
+[CliSubCommand("ml", "feature-store-entity", "list")]
 public record AzMlFeatureStoreEntityListOptions : AzOptions
 {
     [CliFlag("--archived-only")]

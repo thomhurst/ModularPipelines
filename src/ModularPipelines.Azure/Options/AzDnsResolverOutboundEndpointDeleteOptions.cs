@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("dns-resolver", "outbound-endpoint", "delete")]
+[CliSubCommand("dns-resolver", "outbound-endpoint", "delete")]
 public record AzDnsResolverOutboundEndpointDeleteOptions : AzOptions
 {
     [CliOption("--dns-resolver-name")]

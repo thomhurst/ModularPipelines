@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("redisenterprise", "database", "delete")]
+[CliSubCommand("redisenterprise", "database", "delete")]
 public record AzRedisenterpriseDatabaseDeleteOptions : AzOptions
 {
     [CliOption("--cluster-name")]

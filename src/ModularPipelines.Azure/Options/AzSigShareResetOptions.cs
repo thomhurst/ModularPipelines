@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sig", "share", "reset")]
+[CliSubCommand("sig", "share", "reset")]
 public record AzSigShareResetOptions : AzOptions
 {
     [CliOption("--gallery-name")]

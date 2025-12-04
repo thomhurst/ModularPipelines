@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("logz", "sso", "create")]
+[CliSubCommand("logz", "sso", "create")]
 public record AzLogzSsoCreateOptions(
 [property: CliOption("--configuration-name")] string ConfigurationName,
 [property: CliOption("--monitor-name")] string MonitorName,

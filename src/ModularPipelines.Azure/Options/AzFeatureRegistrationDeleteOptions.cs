@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("feature", "registration", "delete")]
+[CliSubCommand("feature", "registration", "delete")]
 public record AzFeatureRegistrationDeleteOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--namespace")] string Namespace

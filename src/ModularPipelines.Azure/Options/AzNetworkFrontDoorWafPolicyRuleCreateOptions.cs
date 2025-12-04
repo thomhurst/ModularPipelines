@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "front-door", "waf-policy", "rule", "create")]
+[CliSubCommand("network", "front-door", "waf-policy", "rule", "create")]
 public record AzNetworkFrontDoorWafPolicyRuleCreateOptions(
 [property: CliOption("--action")] string Action,
 [property: CliOption("--name")] string Name,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("keyvault", "wait-hsm")]
+[CliSubCommand("keyvault", "wait-hsm")]
 public record AzKeyvaultWaitHsmOptions(
 [property: CliOption("--hsm-name")] string HsmName
 ) : AzOptions

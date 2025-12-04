@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "log", "config")]
+[CliSubCommand("webapp", "log", "config")]
 public record AzWebappLogConfigOptions : AzOptions
 {
     [CliOption("--application-logging")]

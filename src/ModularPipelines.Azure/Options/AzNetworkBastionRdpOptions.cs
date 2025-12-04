@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "bastion", "rdp")]
+[CliSubCommand("network", "bastion", "rdp")]
 public record AzNetworkBastionRdpOptions : AzOptions
 {
     [CliOption("--auth-type")]

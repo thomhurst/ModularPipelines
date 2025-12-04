@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("desktopvirtualization", "applicationgroup", "delete")]
+[CliSubCommand("desktopvirtualization", "applicationgroup", "delete")]
 public record AzDesktopvirtualizationApplicationgroupDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

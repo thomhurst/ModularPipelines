@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "midb", "move", "cancel")]
+[CliSubCommand("sql", "midb", "move", "cancel")]
 public record AzSqlMidbMoveCancelOptions(
 [property: CliOption("--dest-mi")] string DestMi
 ) : AzOptions

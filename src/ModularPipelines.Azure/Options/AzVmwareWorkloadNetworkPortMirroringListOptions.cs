@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "port-mirroring", "list")]
+[CliSubCommand("vmware", "workload-network", "port-mirroring", "list")]
 public record AzVmwareWorkloadNetworkPortMirroringListOptions(
 [property: CliOption("--private-cloud")] string PrivateCloud,
 [property: CliOption("--resource-group")] string ResourceGroup

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "integration-runtime", "sync-credentials")]
+[CliSubCommand("synapse", "integration-runtime", "sync-credentials")]
 public record AzSynapseIntegrationRuntimeSyncCredentialsOptions : AzOptions
 {
     [CliOption("--ids")]

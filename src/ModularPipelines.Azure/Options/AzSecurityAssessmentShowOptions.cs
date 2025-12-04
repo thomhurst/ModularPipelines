@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "assessment", "show")]
+[CliSubCommand("security", "assessment", "show")]
 public record AzSecurityAssessmentShowOptions(
 [property: CliOption("--name")] string Name
 ) : AzOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "front-door", "waf-policy", "managed-rules", "override", "remove")]
+[CliSubCommand("network", "front-door", "waf-policy", "managed-rules", "override", "remove")]
 public record AzNetworkFrontDoorWafPolicyManagedRulesOverrideRemoveOptions(
 [property: CliOption("--rule-group-id")] string RuleGroupId,
 [property: CliOption("--rule-id")] string RuleId,

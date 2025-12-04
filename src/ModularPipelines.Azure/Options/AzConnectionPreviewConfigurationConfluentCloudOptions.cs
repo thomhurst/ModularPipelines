@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("connection", "preview-configuration", "confluent-cloud")]
+[CliSubCommand("connection", "preview-configuration", "confluent-cloud")]
 public record AzConnectionPreviewConfigurationConfluentCloudOptions : AzOptions
 {
     [CliOption("--client-type")]

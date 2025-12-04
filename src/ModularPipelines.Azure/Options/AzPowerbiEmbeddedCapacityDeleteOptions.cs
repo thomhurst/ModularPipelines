@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("powerbi", "embedded-capacity", "delete")]
+[CliSubCommand("powerbi", "embedded-capacity", "delete")]
 public record AzPowerbiEmbeddedCapacityDeleteOptions : AzOptions
 {
     [CliOption("--ids")]

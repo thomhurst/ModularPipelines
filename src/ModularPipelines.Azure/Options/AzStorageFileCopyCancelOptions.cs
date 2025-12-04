@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("storage", "file", "copy", "cancel")]
+[CliSubCommand("storage", "file", "copy", "cancel")]
 public record AzStorageFileCopyCancelOptions(
 [property: CliOption("--copy-id")] string CopyId,
 [property: CliOption("--destination-path")] string DestinationPath,

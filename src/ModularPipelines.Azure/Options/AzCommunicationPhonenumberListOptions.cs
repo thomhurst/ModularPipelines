@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("communication", "phonenumber", "list")]
+[CliSubCommand("communication", "phonenumber", "list")]
 public record AzCommunicationPhonenumberListOptions : AzOptions
 {
     [CliOption("--connection-string")]

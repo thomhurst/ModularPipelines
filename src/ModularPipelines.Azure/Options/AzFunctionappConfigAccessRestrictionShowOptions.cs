@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("functionapp", "config", "access-restriction", "show")]
+[CliSubCommand("functionapp", "config", "access-restriction", "show")]
 public record AzFunctionappConfigAccessRestrictionShowOptions : AzOptions
 {
     [CliOption("--ids")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webapp", "traffic-routing", "clear")]
+[CliSubCommand("webapp", "traffic-routing", "clear")]
 public record AzWebappTrafficRoutingClearOptions : AzOptions
 {
     [CliOption("--ids")]

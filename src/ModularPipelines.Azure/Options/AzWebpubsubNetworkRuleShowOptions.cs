@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("webpubsub", "network-rule", "show")]
+[CliSubCommand("webpubsub", "network-rule", "show")]
 public record AzWebpubsubNetworkRuleShowOptions : AzOptions
 {
     [CliOption("--ids")]

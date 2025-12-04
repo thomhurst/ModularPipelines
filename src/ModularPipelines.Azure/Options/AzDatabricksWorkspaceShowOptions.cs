@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("databricks", "workspace", "show")]
+[CliSubCommand("databricks", "workspace", "show")]
 public record AzDatabricksWorkspaceShowOptions : AzOptions
 {
     [CliOption("--ids")]

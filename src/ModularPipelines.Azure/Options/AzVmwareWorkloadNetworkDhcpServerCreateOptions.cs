@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("vmware", "workload-network", "dhcp", "server", "create")]
+[CliSubCommand("vmware", "workload-network", "dhcp", "server", "create")]
 public record AzVmwareWorkloadNetworkDhcpServerCreateOptions(
 [property: CliOption("--dhcp")] string Dhcp,
 [property: CliOption("--private-cloud")] string PrivateCloud,

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("datamigration", "sql-db", "delete")]
+[CliSubCommand("datamigration", "sql-db", "delete")]
 public record AzDatamigrationSqlDbDeleteOptions : AzOptions
 {
     [CliFlag("--force")]

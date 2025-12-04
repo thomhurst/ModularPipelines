@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kusto", "data-connection", "iot-hub", "create")]
+[CliSubCommand("synapse", "kusto", "data-connection", "iot-hub", "create")]
 public record AzSynapseKustoDataConnectionIotHubCreateOptions(
 [property: CliOption("--data-connection-name")] string DataConnectionName,
 [property: CliOption("--database-name")] string DatabaseName,

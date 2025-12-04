@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("fzf", "group")]
+[CliSubCommand("fzf", "group")]
 public record AzFzfGroupOptions : AzOptions
 {
     [CliOption("--filter")]

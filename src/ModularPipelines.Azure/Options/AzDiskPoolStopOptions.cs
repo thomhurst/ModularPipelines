@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("disk-pool", "stop")]
+[CliSubCommand("disk-pool", "stop")]
 public record AzDiskPoolStopOptions : AzOptions
 {
     [CliOption("--disk-pool-name")]

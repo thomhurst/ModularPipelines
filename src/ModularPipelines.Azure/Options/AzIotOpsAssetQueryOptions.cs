@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("iot", "ops", "asset", "query")]
+[CliSubCommand("iot", "ops", "asset", "query")]
 public record AzIotOpsAssetQueryOptions : AzOptions
 {
     [CliOption("--asset-type")]

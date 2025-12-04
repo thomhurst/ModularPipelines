@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("netappfiles", "volume", "pool-change")]
+[CliSubCommand("netappfiles", "volume", "pool-change")]
 public record AzNetappfilesVolumePoolChangeOptions(
 [property: CliOption("--new-pool-resource-id")] string NewPoolResourceId
 ) : AzOptions

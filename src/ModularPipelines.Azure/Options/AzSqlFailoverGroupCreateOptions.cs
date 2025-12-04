@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("sql", "failover-group", "create")]
+[CliSubCommand("sql", "failover-group", "create")]
 public record AzSqlFailoverGroupCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--partner-server")] string PartnerServer,

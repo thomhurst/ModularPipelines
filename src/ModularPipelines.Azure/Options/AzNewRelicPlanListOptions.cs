@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("new-relic", "plan", "list")]
+[CliSubCommand("new-relic", "plan", "list")]
 public record AzNewRelicPlanListOptions : AzOptions
 {
     [CliOption("--account-id")]

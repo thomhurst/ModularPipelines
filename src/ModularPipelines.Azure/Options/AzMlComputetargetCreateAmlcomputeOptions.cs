@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "computetarget", "create", "amlcompute")]
+[CliSubCommand("ml", "computetarget", "create", "amlcompute")]
 public record AzMlComputetargetCreateAmlcomputeOptions(
 [property: CliOption("--max-nodes")] string MaxNodes,
 [property: CliOption("--name")] string Name,

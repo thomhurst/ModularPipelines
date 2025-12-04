@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("security", "assessment", "create")]
+[CliSubCommand("security", "assessment", "create")]
 public record AzSecurityAssessmentCreateOptions(
 [property: CliOption("--name")] string Name,
 [property: CliOption("--status-code")] string StatusCode

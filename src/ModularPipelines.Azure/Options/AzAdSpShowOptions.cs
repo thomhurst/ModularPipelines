@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ad", "sp", "show")]
+[CliSubCommand("ad", "sp", "show")]
 public record AzAdSpShowOptions(
 [property: CliOption("--id")] string Id
 ) : AzOptions;

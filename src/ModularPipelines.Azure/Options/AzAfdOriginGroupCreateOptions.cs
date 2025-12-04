@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("afd", "origin-group", "create")]
+[CliSubCommand("afd", "origin-group", "create")]
 public record AzAfdOriginGroupCreateOptions(
 [property: CliOption("--additional-latency-in-milliseconds")] string AdditionalLatencyInMilliseconds,
 [property: CliOption("--origin-group-name")] string OriginGroupName,

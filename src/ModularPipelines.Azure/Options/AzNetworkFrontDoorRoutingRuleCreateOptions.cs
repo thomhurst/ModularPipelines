@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "front-door", "routing-rule", "create")]
+[CliSubCommand("network", "front-door", "routing-rule", "create")]
 public record AzNetworkFrontDoorRoutingRuleCreateOptions(
 [property: CliOption("--front-door-name")] string FrontDoorName,
 [property: CliOption("--frontend-endpoints")] string FrontendEndpoints,

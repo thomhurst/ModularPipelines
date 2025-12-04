@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("synapse", "kusto", "pool", "remove-language-extension")]
+[CliSubCommand("synapse", "kusto", "pool", "remove-language-extension")]
 public record AzSynapseKustoPoolRemoveLanguageExtensionOptions : AzOptions
 {
     [CliOption("--ids")]

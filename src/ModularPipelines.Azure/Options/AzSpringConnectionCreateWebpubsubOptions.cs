@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("spring", "connection", "create", "webpubsub")]
+[CliSubCommand("spring", "connection", "create", "webpubsub")]
 public record AzSpringConnectionCreateWebpubsubOptions : AzOptions
 {
     [CliOption("--app")]

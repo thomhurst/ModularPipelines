@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("scvmm", "cloud", "wait")]
+[CliSubCommand("scvmm", "cloud", "wait")]
 public record AzScvmmCloudWaitOptions(
 [property: CliOption("--cloud-name")] string CloudName,
 [property: CliOption("--resource-group")] string ResourceGroup

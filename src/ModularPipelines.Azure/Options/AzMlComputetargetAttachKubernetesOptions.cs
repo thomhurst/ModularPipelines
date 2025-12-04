@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("ml", "computetarget", "attach", "kubernetes")]
+[CliSubCommand("ml", "computetarget", "attach", "kubernetes")]
 public record AzMlComputetargetAttachKubernetesOptions(
 [property: CliOption("--compute-resource-id")] string ComputeResourceId,
 [property: CliOption("--name")] string Name

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Azure.Options;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("network", "perimeter", "link-reference", "wait")]
+[CliSubCommand("network", "perimeter", "link-reference", "wait")]
 public record AzNetworkPerimeterLinkReferenceWaitOptions : AzOptions
 {
     [CliFlag("--created")]
