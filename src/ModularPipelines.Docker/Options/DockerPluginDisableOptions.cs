@@ -16,7 +16,7 @@ public record DockerPluginDisableOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Plugin { get; set; }
+    public virtual string? Plugin { get; set; }
 
     [CliFlag("--force")]
     public virtual bool? Force { get; set; }

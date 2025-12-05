@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutQuickviewOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? ImageOrDirectoryOrArchive { get; set; }
+    public virtual string? ImageOrDirectoryOrArchive { get; set; }
 
     [CliOption("--env")]
     public virtual string? Env { get; set; }

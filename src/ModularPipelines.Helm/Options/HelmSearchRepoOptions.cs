@@ -11,16 +11,16 @@ public record HelmSearchRepoOptions : HelmOptions
     public virtual bool? Devel { get; set; }
 
     [CliOption("--max-col-width")]
-    public string? MaxColWidth { get; set; }
+    public virtual string? MaxColWidth { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliFlag("--regexp")]
     public virtual bool? Regexp { get; set; }
 
     [CliOption("--version")]
-    public string? Version { get; set; }
+    public virtual string? Version { get; set; }
 
     [CliFlag("--versions")]
     public virtual bool? Versions { get; set; }

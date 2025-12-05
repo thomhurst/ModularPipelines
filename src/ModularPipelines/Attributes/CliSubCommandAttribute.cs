@@ -27,6 +27,7 @@ public sealed class CliSubCommandAttribute : Attribute
     public string[] SubCommands { get; }
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="CliSubCommandAttribute"/> class.
     /// Initializes a new instance of the <see cref="CliSubCommandAttribute"/> class.
     /// </summary>
     /// <param name="subCommands">The subcommands following the tool name from the base class.</param>

@@ -11,34 +11,34 @@ public record GitSendEmailOptions : GitOptions
     public virtual bool? Annotate { get; set; }
 
     [CliOption("--bcc", Format = OptionFormat.EqualsSeparated)]
-    public string? Bcc { get; set; }
+    public virtual string? Bcc { get; set; }
 
     [CliOption("--cc", Format = OptionFormat.EqualsSeparated)]
-    public string? Cc { get; set; }
+    public virtual string? Cc { get; set; }
 
     [CliFlag("--compose")]
     public virtual bool? Compose { get; set; }
 
     [CliOption("--from", Format = OptionFormat.EqualsSeparated)]
-    public string? From { get; set; }
+    public virtual string? From { get; set; }
 
     [CliOption("--reply-to", Format = OptionFormat.EqualsSeparated)]
-    public string? ReplyTo { get; set; }
+    public virtual string? ReplyTo { get; set; }
 
     [CliOption("--in-reply-to", Format = OptionFormat.EqualsSeparated)]
-    public string? InReplyTo { get; set; }
+    public virtual string? InReplyTo { get; set; }
 
     [CliOption("--subject", Format = OptionFormat.EqualsSeparated)]
-    public string? Subject { get; set; }
+    public virtual string? Subject { get; set; }
 
     [CliOption("--to", Format = OptionFormat.EqualsSeparated)]
-    public string? To { get; set; }
+    public virtual string? To { get; set; }
 
     [CliOption("--8bit-encoding", Format = OptionFormat.EqualsSeparated)]
-    public string? EightBitEncoding { get; set; }
+    public virtual string? EightBitEncoding { get; set; }
 
     [CliOption("--compose-encoding", Format = OptionFormat.EqualsSeparated)]
-    public string? ComposeEncoding { get; set; }
+    public virtual string? ComposeEncoding { get; set; }
 
     [CliFlag("--transfer-encoding")]
     public virtual bool? TransferEncoding { get; set; }
@@ -50,34 +50,34 @@ public record GitSendEmailOptions : GitOptions
     public virtual bool? NoXmailer { get; set; }
 
     [CliOption("--envelope-sender", Format = OptionFormat.EqualsSeparated)]
-    public string? EnvelopeSender { get; set; }
+    public virtual string? EnvelopeSender { get; set; }
 
     [CliOption("--sendmail-cmd", Format = OptionFormat.EqualsSeparated)]
-    public string? SendmailCmd { get; set; }
+    public virtual string? SendmailCmd { get; set; }
 
     [CliOption("--smtp-encryption", Format = OptionFormat.EqualsSeparated)]
-    public string? SmtpEncryption { get; set; }
+    public virtual string? SmtpEncryption { get; set; }
 
     [CliOption("--smtp-domain", Format = OptionFormat.EqualsSeparated)]
-    public string? SmtpDomain { get; set; }
+    public virtual string? SmtpDomain { get; set; }
 
     [CliOption("--smtp-auth", Format = OptionFormat.EqualsSeparated)]
-    public string? SmtpAuth { get; set; }
+    public virtual string? SmtpAuth { get; set; }
 
     [CliOption("--smtp-pass", Format = OptionFormat.EqualsSeparated)]
-    public string? SmtpPass { get; set; }
+    public virtual string? SmtpPass { get; set; }
 
     [CliFlag("--no-smtp-auth")]
     public virtual bool? NoSmtpAuth { get; set; }
 
     [CliOption("--smtp-server", Format = OptionFormat.EqualsSeparated)]
-    public string? SmtpServer { get; set; }
+    public virtual string? SmtpServer { get; set; }
 
     [CliOption("--smtp-server-port", Format = OptionFormat.EqualsSeparated)]
-    public string? SmtpServerPort { get; set; }
+    public virtual string? SmtpServerPort { get; set; }
 
     [CliOption("--smtp-server-option", Format = OptionFormat.EqualsSeparated)]
-    public string? SmtpServerOption { get; set; }
+    public virtual string? SmtpServerOption { get; set; }
 
     [CliFlag("--smtp-ssl")]
     public virtual bool? SmtpSsl { get; set; }
@@ -86,16 +86,16 @@ public record GitSendEmailOptions : GitOptions
     public virtual bool? SmtpSslCertPath { get; set; }
 
     [CliOption("--smtp-user", Format = OptionFormat.EqualsSeparated)]
-    public string? SmtpUser { get; set; }
+    public virtual string? SmtpUser { get; set; }
 
     [CliFlag("--smtp-debug")]
     public virtual bool? SmtpDebug { get; set; }
 
     [CliOption("--batch-size", Format = OptionFormat.EqualsSeparated)]
-    public string? BatchSize { get; set; }
+    public virtual string? BatchSize { get; set; }
 
     [CliOption("--relogin-delay", Format = OptionFormat.EqualsSeparated)]
-    public string? ReloginDelay { get; set; }
+    public virtual string? ReloginDelay { get; set; }
 
     [CliFlag("--no-to")]
     public virtual bool? NoTo { get; set; }
@@ -110,13 +110,13 @@ public record GitSendEmailOptions : GitOptions
     public virtual bool? NoIdentity { get; set; }
 
     [CliOption("--to-cmd", Format = OptionFormat.EqualsSeparated)]
-    public string? ToCmd { get; set; }
+    public virtual string? ToCmd { get; set; }
 
     [CliOption("--cc-cmd", Format = OptionFormat.EqualsSeparated)]
-    public string? CcCmd { get; set; }
+    public virtual string? CcCmd { get; set; }
 
     [CliOption("--header-cmd", Format = OptionFormat.EqualsSeparated)]
-    public string? HeaderCmd { get; set; }
+    public virtual string? HeaderCmd { get; set; }
 
     [CliFlag("--no-header-cmd")]
     public virtual bool? NoHeaderCmd { get; set; }
@@ -128,7 +128,7 @@ public record GitSendEmailOptions : GitOptions
     public virtual bool? ChainReplyTo { get; set; }
 
     [CliOption("--identity", Format = OptionFormat.EqualsSeparated)]
-    public string? Identity { get; set; }
+    public virtual string? Identity { get; set; }
 
     [CliFlag("--no-signed-off-by-cc")]
     public virtual bool? NoSignedOffByCc { get; set; }
@@ -149,7 +149,7 @@ public record GitSendEmailOptions : GitOptions
     public virtual bool? ToCover { get; set; }
 
     [CliOption("--suppress-cc", Format = OptionFormat.EqualsSeparated)]
-    public string? SuppressCc { get; set; }
+    public virtual string? SuppressCc { get; set; }
 
     [CliFlag("--no-suppress-from")]
     public virtual bool? NoSuppressFrom { get; set; }
@@ -164,7 +164,7 @@ public record GitSendEmailOptions : GitOptions
     public virtual bool? Thread { get; set; }
 
     [CliOption("--confirm", Format = OptionFormat.EqualsSeparated)]
-    public string? Confirm { get; set; }
+    public virtual string? Confirm { get; set; }
 
     [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }

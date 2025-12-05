@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposePullOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Service { get; set; }
+    public virtual IEnumerable<string>? Service { get; set; }
 
     [CliOption("--ignore-buildable")]
     public virtual string? IgnoreBuildable { get; set; }

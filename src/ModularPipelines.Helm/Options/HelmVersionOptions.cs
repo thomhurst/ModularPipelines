@@ -11,5 +11,5 @@ public record HelmVersionOptions : HelmOptions
     public virtual bool? Short { get; set; }
 
     [CliOption("--template")]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 }

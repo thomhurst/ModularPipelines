@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerContextRmOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? RmContext { get; set; }
+    public virtual IEnumerable<string>? RmContext { get; set; }
 
     [CliFlag("--force")]
     public virtual bool? Force { get; set; }

@@ -21,7 +21,7 @@ public record DotNetWorkloadRestoreOptions : DotNetOptions
     }
 
     [CliArgument(Name = "[<PROJECT | SOLUTION>]")]
-    public string? ProjectSolution { get; set; }
+    public virtual string? ProjectSolution { get; set; }
 
     [CliOption("--configfile")]
     public virtual string? Configfile { get; set; }

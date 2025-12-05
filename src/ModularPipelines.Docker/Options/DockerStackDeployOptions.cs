@@ -16,7 +16,7 @@ public record DockerStackDeployOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Stack { get; set; }
+    public virtual string? Stack { get; set; }
 
     [CliOption("--compose-file")]
     public virtual string? ComposeFile { get; set; }

@@ -14,19 +14,19 @@ public record KubernetesDebugOptions([property: CliArgument] string Name) : Kube
     public virtual bool? Attach { get; set; }
 
     [CliOption("--container")]
-    public string? Container { get; set; }
+    public virtual string? Container { get; set; }
 
     [CliOption("--copy-to")]
-    public string? CopyTo { get; set; }
+    public virtual string? CopyTo { get; set; }
 
     [CliOption("--env")]
-    public string[]? Env { get; set; }
+    public virtual string[]? Env { get; set; }
 
     [CliOption("--image")]
-    public string? Image { get; set; }
+    public virtual string? Image { get; set; }
 
     [CliOption("--image-pull-policy")]
-    public string? ImagePullPolicy { get; set; }
+    public virtual string? ImagePullPolicy { get; set; }
 
     [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
@@ -38,7 +38,7 @@ public record KubernetesDebugOptions([property: CliArgument] string Name) : Kube
     public virtual bool? SameNode { get; set; }
 
     [CliOption("--set-image")]
-    public string[]? SetImage { get; set; }
+    public virtual string[]? SetImage { get; set; }
 
     [CliFlag("--share-processes")]
     public virtual bool? ShareProcesses { get; set; }
@@ -47,7 +47,7 @@ public record KubernetesDebugOptions([property: CliArgument] string Name) : Kube
     public virtual bool? Stdin { get; set; }
 
     [CliOption("--target")]
-    public string? Target { get; set; }
+    public virtual string? Target { get; set; }
 
     [CliFlag("--tty")]
     public virtual bool? Tty { get; set; }

@@ -17,32 +17,32 @@ public record KubernetesWaitOptions([property: CliArgument] string Name) : Kuber
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CliOption("--field-selector")]
-    public string? FieldSelector { get; set; }
+    public virtual string? FieldSelector { get; set; }
 
     [CliOption("--filename")]
-    public string[]? Filename { get; set; }
+    public virtual string[]? Filename { get; set; }
 
     [CliOption("--for")]
-    public string? For { get; set; }
+    public virtual string? For { get; set; }
 
     [CliFlag("--local")]
     public virtual bool? Local { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
     [CliOption("--selector")]
-    public string? Selector { get; set; }
+    public virtual string? Selector { get; set; }
 
     [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
     [CliOption("--template")]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 
     [CliOption("--timeout")]
-    public string? Timeout { get; set; }
+    public virtual string? Timeout { get; set; }
 }

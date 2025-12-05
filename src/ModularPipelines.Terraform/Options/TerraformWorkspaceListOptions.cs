@@ -8,5 +8,5 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformWorkspaceListOptions : TerraformOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Directory { get; set; }
+    public virtual string? Directory { get; set; }
 }

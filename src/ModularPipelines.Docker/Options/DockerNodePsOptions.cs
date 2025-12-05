@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerNodePsOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Node { get; set; }
+    public virtual IEnumerable<string>? Node { get; set; }
 
     [CliOption("--filter")]
     public virtual string? Filter { get; set; }

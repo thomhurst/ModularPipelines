@@ -8,43 +8,43 @@ namespace ModularPipelines.Git.Options;
 public record GitRevListOptions : GitOptions
 {
     [CliOption("--max-count", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxCount { get; set; }
+    public virtual string? MaxCount { get; set; }
 
     [CliOption("--skip", Format = OptionFormat.EqualsSeparated)]
-    public string? Skip { get; set; }
+    public virtual string? Skip { get; set; }
 
     [CliOption("--since", Format = OptionFormat.EqualsSeparated)]
-    public string? Since { get; set; }
+    public virtual string? Since { get; set; }
 
     [CliOption("--after", Format = OptionFormat.EqualsSeparated)]
-    public string? After { get; set; }
+    public virtual string? After { get; set; }
 
     [CliOption("--since-as-filter", Format = OptionFormat.EqualsSeparated)]
-    public string? SinceAsFilter { get; set; }
+    public virtual string? SinceAsFilter { get; set; }
 
     [CliOption("--until", Format = OptionFormat.EqualsSeparated)]
-    public string? Until { get; set; }
+    public virtual string? Until { get; set; }
 
     [CliOption("--before", Format = OptionFormat.EqualsSeparated)]
-    public string? Before { get; set; }
+    public virtual string? Before { get; set; }
 
     [CliOption("--max-age", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxAge { get; set; }
+    public virtual string? MaxAge { get; set; }
 
     [CliOption("--min-age", Format = OptionFormat.EqualsSeparated)]
-    public string? MinAge { get; set; }
+    public virtual string? MinAge { get; set; }
 
     [CliOption("--author", Format = OptionFormat.EqualsSeparated)]
-    public string? Author { get; set; }
+    public virtual string? Author { get; set; }
 
     [CliOption("--committer", Format = OptionFormat.EqualsSeparated)]
-    public string? Committer { get; set; }
+    public virtual string? Committer { get; set; }
 
     [CliOption("--grep-reflog", Format = OptionFormat.EqualsSeparated)]
-    public string? GrepReflog { get; set; }
+    public virtual string? GrepReflog { get; set; }
 
     [CliOption("--grep", Format = OptionFormat.EqualsSeparated)]
-    public string? Grep { get; set; }
+    public virtual string? Grep { get; set; }
 
     [CliFlag("--all-match")]
     public virtual bool? AllMatch { get; set; }
@@ -77,10 +77,10 @@ public record GitRevListOptions : GitOptions
     public virtual bool? NoMerges { get; set; }
 
     [CliOption("--min-parents", Format = OptionFormat.EqualsSeparated)]
-    public string? MinParents { get; set; }
+    public virtual string? MinParents { get; set; }
 
     [CliOption("--max-parents", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxParents { get; set; }
+    public virtual string? MaxParents { get; set; }
 
     [CliFlag("--no-min-parents")]
     public virtual bool? NoMinParents { get; set; }
@@ -101,19 +101,19 @@ public record GitRevListOptions : GitOptions
     public virtual bool? All { get; set; }
 
     [CliOption("--branches", Format = OptionFormat.EqualsSeparated)]
-    public string? Branches { get; set; }
+    public virtual string? Branches { get; set; }
 
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
-    public string? Tags { get; set; }
+    public virtual string? Tags { get; set; }
 
     [CliOption("--remotes", Format = OptionFormat.EqualsSeparated)]
-    public string? Remotes { get; set; }
+    public virtual string? Remotes { get; set; }
 
     [CliOption("--glob", Format = OptionFormat.EqualsSeparated)]
-    public string? Glob { get; set; }
+    public virtual string? Glob { get; set; }
 
     [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
-    public string? Exclude { get; set; }
+    public virtual string? Exclude { get; set; }
 
     [CliFlag("--exclude-hidden")]
     public virtual bool? ExcludeHidden { get; set; }
@@ -167,7 +167,7 @@ public record GitRevListOptions : GitOptions
     public virtual bool? UseBitmapIndex { get; set; }
 
     [CliOption("--progress", Format = OptionFormat.EqualsSeparated)]
-    public string? Progress { get; set; }
+    public virtual string? Progress { get; set; }
 
     [CliFlag("--simplify-by-decoration")]
     public virtual bool? SimplifyByDecoration { get; set; }
@@ -188,7 +188,7 @@ public record GitRevListOptions : GitOptions
     public virtual bool? SimplifyMerges { get; set; }
 
     [CliOption("--ancestry-path", Format = OptionFormat.EqualsSeparated)]
-    public string? AncestryPath { get; set; }
+    public virtual string? AncestryPath { get; set; }
 
     [CliFlag("--bisect")]
     public virtual bool? Bisect { get; set; }
@@ -236,7 +236,7 @@ public record GitRevListOptions : GitOptions
     public virtual bool? NoObjectNames { get; set; }
 
     [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
-    public string? Filter { get; set; }
+    public virtual string? Filter { get; set; }
 
     [CliFlag("--no-filter")]
     public virtual bool? NoFilter { get; set; }
@@ -248,7 +248,7 @@ public record GitRevListOptions : GitOptions
     public virtual bool? FilterPrintOmitted { get; set; }
 
     [CliOption("--missing", Format = OptionFormat.EqualsSeparated)]
-    public string? Missing { get; set; }
+    public virtual string? Missing { get; set; }
 
     [CliFlag("--exclude-promisor-objects")]
     public virtual bool? ExcludePromisorObjects { get; set; }
@@ -260,10 +260,10 @@ public record GitRevListOptions : GitOptions
     public virtual bool? DoWalk { get; set; }
 
     [CliOption("--pretty", Format = OptionFormat.EqualsSeparated)]
-    public string? Pretty { get; set; }
+    public virtual string? Pretty { get; set; }
 
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 
     [CliFlag("--abbrev-commit")]
     public virtual bool? AbbrevCommit { get; set; }
@@ -275,10 +275,10 @@ public record GitRevListOptions : GitOptions
     public virtual bool? Oneline { get; set; }
 
     [CliOption("--encoding", Format = OptionFormat.EqualsSeparated)]
-    public string? Encoding { get; set; }
+    public virtual string? Encoding { get; set; }
 
     [CliOption("--expand-tabs", Format = OptionFormat.EqualsSeparated)]
-    public string? ExpandTabs { get; set; }
+    public virtual string? ExpandTabs { get; set; }
 
     [CliFlag("--no-expand-tabs")]
     public virtual bool? NoExpandTabs { get; set; }
@@ -290,7 +290,7 @@ public record GitRevListOptions : GitOptions
     public virtual bool? RelativeDate { get; set; }
 
     [CliOption("--date", Format = OptionFormat.EqualsSeparated)]
-    public string? Date { get; set; }
+    public virtual string? Date { get; set; }
 
     [CliFlag("--header")]
     public virtual bool? Header { get; set; }
@@ -317,7 +317,7 @@ public record GitRevListOptions : GitOptions
     public virtual bool? Graph { get; set; }
 
     [CliOption("--show-linear-break", Format = OptionFormat.EqualsSeparated)]
-    public string? ShowLinearBreak { get; set; }
+    public virtual string? ShowLinearBreak { get; set; }
 
     [CliFlag("--count")]
     public virtual bool? Count { get; set; }

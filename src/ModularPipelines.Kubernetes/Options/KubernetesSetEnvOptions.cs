@@ -14,28 +14,28 @@ public record KubernetesSetEnvOptions([property: CliArgument] string Name) : Kub
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CliOption("--containers")]
-    public string? Containers { get; set; }
+    public virtual string? Containers { get; set; }
 
     [CliOption("--dry-run")]
-    public string? DryRun { get; set; }
+    public virtual string? DryRun { get; set; }
 
     [CliOption("--env")]
-    public string[]? Env { get; set; }
+    public virtual string[]? Env { get; set; }
 
     [CliOption("--field-manager")]
-    public string? FieldManager { get; set; }
+    public virtual string? FieldManager { get; set; }
 
     [CliOption("--filename")]
-    public string[]? Filename { get; set; }
+    public virtual string[]? Filename { get; set; }
 
     [CliOption("--from")]
-    public string? From { get; set; }
+    public virtual string? From { get; set; }
 
     [CliOption("--keys")]
-    public string[]? Keys { get; set; }
+    public virtual string[]? Keys { get; set; }
 
     [CliOption("--kustomize")]
-    public string? Kustomize { get; set; }
+    public virtual string? Kustomize { get; set; }
 
     [CliFlag("--list")]
     public virtual bool? List { get; set; }
@@ -44,13 +44,13 @@ public record KubernetesSetEnvOptions([property: CliArgument] string Name) : Kub
     public virtual bool? Local { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliFlag("--overwrite")]
     public virtual bool? Overwrite { get; set; }
 
     [CliOption("--prefix")]
-    public string? Prefix { get; set; }
+    public virtual string? Prefix { get; set; }
 
     [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
@@ -59,11 +59,11 @@ public record KubernetesSetEnvOptions([property: CliArgument] string Name) : Kub
     public virtual bool? Resolve { get; set; }
 
     [CliOption("--selector")]
-    public string? Selector { get; set; }
+    public virtual string? Selector { get; set; }
 
     [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
     [CliOption("--template")]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 }

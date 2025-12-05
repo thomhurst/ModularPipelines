@@ -8,7 +8,7 @@ namespace ModularPipelines.Git.Options;
 public record GitMergetoolOptions : GitOptions
 {
     [CliOption("--tool", Format = OptionFormat.EqualsSeparated)]
-    public string? MergeTool { get; set; }
+    public virtual string? MergeTool { get; set; }
 
     [CliFlag("--tool-help")]
     public virtual bool? ToolHelp { get; set; }

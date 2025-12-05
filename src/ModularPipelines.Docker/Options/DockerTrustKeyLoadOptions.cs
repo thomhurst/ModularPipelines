@@ -16,7 +16,7 @@ public record DockerTrustKeyLoadOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Keyfile { get; set; }
+    public virtual string? Keyfile { get; set; }
 
     [CliOption("--name")]
     public virtual string? Name { get; set; }

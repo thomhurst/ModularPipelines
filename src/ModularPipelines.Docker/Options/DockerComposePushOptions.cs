@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposePushOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Service { get; set; }
+    public virtual IEnumerable<string>? Service { get; set; }
 
     [CliOption("--ignore-push-failures")]
     public virtual string? IgnorePushFailures { get; set; }

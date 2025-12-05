@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerManifestCreateOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Manifest { get; set; }
+    public virtual IEnumerable<string>? Manifest { get; set; }
 
     [CliOption("--amend")]
     public virtual string? Amend { get; set; }

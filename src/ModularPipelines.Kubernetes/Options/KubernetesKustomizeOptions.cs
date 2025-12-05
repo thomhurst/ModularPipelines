@@ -20,26 +20,26 @@ public record KubernetesKustomizeOptions([property: CliArgument] string Dir) : K
     public virtual bool? EnableManagedbyLabel { get; set; }
 
     [CliOption("--env")]
-    public string[]? Env { get; set; }
+    public virtual string[]? Env { get; set; }
 
     [CliOption("--helm-command")]
-    public string? HelmCommand { get; set; }
+    public virtual string? HelmCommand { get; set; }
 
     [CliOption("--load-restrictor")]
-    public string? LoadRestrictor { get; set; }
+    public virtual string? LoadRestrictor { get; set; }
 
     [CliOption("--mount")]
-    public string[]? Mount { get; set; }
+    public virtual string[]? Mount { get; set; }
 
     [CliFlag("--network")]
     public virtual bool? Network { get; set; }
 
     [CliOption("--network-name")]
-    public string? NetworkName { get; set; }
+    public virtual string? NetworkName { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliOption("--reorder")]
-    public string? Reorder { get; set; }
+    public virtual string? Reorder { get; set; }
 }

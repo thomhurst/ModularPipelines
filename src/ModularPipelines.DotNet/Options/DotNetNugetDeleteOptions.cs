@@ -24,10 +24,10 @@ public record DotNetNugetDeleteOptions : DotNetOptions
     }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions, Name = "<PACKAGE_NAME>")]
-    public string? PackageName { get; set; }
+    public virtual string? PackageName { get; set; }
 
     [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions, Name = "<PACKAGE_VERSION>")]
-    public string? PackageVersion { get; set; }
+    public virtual string? PackageVersion { get; set; }
 
     [CliFlag("--force-english-output")]
     public virtual bool? ForceEnglishOutput { get; set; }

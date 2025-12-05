@@ -59,5 +59,5 @@ public record NpmUpdateOptions : NpmOptions
     public virtual bool? InstallLinks { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Pkg { get; set; }
+    public virtual string? Pkg { get; set; }
 }

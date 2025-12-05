@@ -22,5 +22,5 @@ public record NpmTeamLsOptions(
     public virtual bool? Json { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Scope { get; set; }
+    public virtual string? Scope { get; set; }
 }

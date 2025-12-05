@@ -8,5 +8,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeAlphaDryRunOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Command { get; set; }
+    public virtual IEnumerable<string>? Command { get; set; }
 }

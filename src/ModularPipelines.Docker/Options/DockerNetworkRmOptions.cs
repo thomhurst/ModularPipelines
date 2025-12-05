@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerNetworkRmOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Network { get; set; }
+    public virtual IEnumerable<string>? Network { get; set; }
 
     [CliFlag("--force")]
     public virtual bool? Force { get; set; }

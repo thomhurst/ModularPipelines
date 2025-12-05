@@ -8,38 +8,38 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesProxyOptions : KubernetesOptions
 {
     [CliOption("--accept-hosts")]
-    public string? AcceptHosts { get; set; }
+    public virtual string? AcceptHosts { get; set; }
 
     [CliOption("--accept-paths")]
-    public string? AcceptPaths { get; set; }
+    public virtual string? AcceptPaths { get; set; }
 
     [CliOption("--address")]
-    public string? Address { get; set; }
+    public virtual string? Address { get; set; }
 
     [CliOption("--api-prefix")]
-    public string? ApiPrefix { get; set; }
+    public virtual string? ApiPrefix { get; set; }
 
     [CliFlag("--disable-filter")]
     public virtual bool? DisableFilter { get; set; }
 
     [CliOption("--keepalive")]
-    public string? Keepalive { get; set; }
+    public virtual string? Keepalive { get; set; }
 
     [CliOption("--port")]
-    public int? Port { get; set; }
+    public virtual int? Port { get; set; }
 
     [CliOption("--reject-methods")]
-    public string? RejectMethods { get; set; }
+    public virtual string? RejectMethods { get; set; }
 
     [CliOption("--reject-paths")]
-    public string? RejectPaths { get; set; }
+    public virtual string? RejectPaths { get; set; }
 
     [CliOption("--unix-socket")]
-    public string? UnixSocket { get; set; }
+    public virtual string? UnixSocket { get; set; }
 
     [CliOption("--www")]
-    public string? Www { get; set; }
+    public virtual string? Www { get; set; }
 
     [CliOption("--www-prefix")]
-    public string? WwwPrefix { get; set; }
+    public virtual string? WwwPrefix { get; set; }
 }

@@ -16,7 +16,7 @@ public record DockerServiceLogsOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? ServiceOrTask { get; set; }
+    public virtual string? ServiceOrTask { get; set; }
 
     [CliFlag("--details")]
     public virtual bool? Details { get; set; }

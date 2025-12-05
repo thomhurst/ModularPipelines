@@ -21,5 +21,5 @@ public record DotNetListReferenceOptions : DotNetOptions
     }
 
     [CliArgument(Name = "[<PROJECT>]")]
-    public string? Project { get; set; }
+    public virtual string? Project { get; set; }
 }

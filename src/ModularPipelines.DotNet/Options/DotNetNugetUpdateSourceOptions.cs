@@ -16,7 +16,7 @@ public record DotNetNugetUpdateSourceOptions : DotNetOptions
     }
 
     [CliArgument(Name = "<NAME>")]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CliOption("--source")]
     public virtual string? Source { get; set; }

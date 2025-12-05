@@ -32,7 +32,7 @@ public record GitAmOptions : GitOptions
     public virtual bool? NoScissors { get; set; }
 
     [CliOption("--quoted-cr", Format = OptionFormat.EqualsSeparated)]
-    public string? QuotedCr { get; set; }
+    public virtual string? QuotedCr { get; set; }
 
     [CliFlag("--empty")]
     public virtual bool? Empty { get; set; }
@@ -71,16 +71,16 @@ public record GitAmOptions : GitOptions
     public virtual bool? IgnoreWhitespace { get; set; }
 
     [CliOption("--whitespace", Format = OptionFormat.EqualsSeparated)]
-    public string? Whitespace { get; set; }
+    public virtual string? Whitespace { get; set; }
 
     [CliOption("--directory", Format = OptionFormat.EqualsSeparated)]
-    public string? Directory { get; set; }
+    public virtual string? Directory { get; set; }
 
     [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
-    public string? Exclude { get; set; }
+    public virtual string? Exclude { get; set; }
 
     [CliOption("--include", Format = OptionFormat.EqualsSeparated)]
-    public string? Include { get; set; }
+    public virtual string? Include { get; set; }
 
     [CliFlag("--reject")]
     public virtual bool? Reject { get; set; }
@@ -104,7 +104,7 @@ public record GitAmOptions : GitOptions
     public virtual bool? Skip { get; set; }
 
     [CliOption("--gpg-sign", Format = OptionFormat.EqualsSeparated)]
-    public string? GpgSign { get; set; }
+    public virtual string? GpgSign { get; set; }
 
     [CliFlag("--no-gpg-sign")]
     public virtual bool? NoGpgSign { get; set; }
@@ -116,7 +116,7 @@ public record GitAmOptions : GitOptions
     public virtual bool? Resolved { get; set; }
 
     [CliOption("--resolvemsg", Format = OptionFormat.EqualsSeparated)]
-    public string? Resolvemsg { get; set; }
+    public virtual string? Resolvemsg { get; set; }
 
     [CliFlag("--abort")]
     public virtual bool? Abort { get; set; }

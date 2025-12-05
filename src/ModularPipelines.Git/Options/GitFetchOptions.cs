@@ -17,16 +17,16 @@ public record GitFetchOptions : GitOptions
     public virtual bool? Atomic { get; set; }
 
     [CliOption("--depth", Format = OptionFormat.EqualsSeparated)]
-    public string? Depth { get; set; }
+    public virtual string? Depth { get; set; }
 
     [CliOption("--deepen", Format = OptionFormat.EqualsSeparated)]
-    public string? Deepen { get; set; }
+    public virtual string? Deepen { get; set; }
 
     [CliOption("--shallow-since", Format = OptionFormat.EqualsSeparated)]
-    public string? ShallowSince { get; set; }
+    public virtual string? ShallowSince { get; set; }
 
     [CliOption("--shallow-exclude", Format = OptionFormat.EqualsSeparated)]
-    public string? ShallowExclude { get; set; }
+    public virtual string? ShallowExclude { get; set; }
 
     [CliFlag("--unshallow")]
     public virtual bool? Unshallow { get; set; }
@@ -35,7 +35,7 @@ public record GitFetchOptions : GitOptions
     public virtual bool? UpdateShallow { get; set; }
 
     [CliOption("--negotiation-tip", Format = OptionFormat.EqualsSeparated)]
-    public string? NegotiationTip { get; set; }
+    public virtual string? NegotiationTip { get; set; }
 
     [CliFlag("--negotiate-only")]
     public virtual bool? NegotiateOnly { get; set; }
@@ -95,7 +95,7 @@ public record GitFetchOptions : GitOptions
     public virtual bool? Refetch { get; set; }
 
     [CliOption("--refmap", Format = OptionFormat.EqualsSeparated)]
-    public string? Refmap { get; set; }
+    public virtual string? Refmap { get; set; }
 
     [CliFlag("--tags")]
     public virtual bool? Tags { get; set; }
@@ -104,7 +104,7 @@ public record GitFetchOptions : GitOptions
     public virtual bool? RecurseSubmodules { get; set; }
 
     [CliOption("--jobs", Format = OptionFormat.EqualsSeparated)]
-    public string? Jobs { get; set; }
+    public virtual string? Jobs { get; set; }
 
     [CliFlag("--no-recurse-submodules")]
     public virtual bool? NoRecurseSubmodules { get; set; }
@@ -113,7 +113,7 @@ public record GitFetchOptions : GitOptions
     public virtual bool? SetUpstream { get; set; }
 
     [CliOption("--submodule-prefix", Format = OptionFormat.EqualsSeparated)]
-    public string? SubmodulePrefix { get; set; }
+    public virtual string? SubmodulePrefix { get; set; }
 
     [CliFlag("--recurse-submodules-default")]
     public virtual bool? RecurseSubmodulesDefault { get; set; }
@@ -122,7 +122,7 @@ public record GitFetchOptions : GitOptions
     public virtual bool? UpdateHeadOk { get; set; }
 
     [CliOption("--upload-pack", Format = OptionFormat.EqualsSeparated)]
-    public string? UploadPack { get; set; }
+    public virtual string? UploadPack { get; set; }
 
     [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
@@ -134,7 +134,7 @@ public record GitFetchOptions : GitOptions
     public virtual bool? Progress { get; set; }
 
     [CliOption("--server-option", Format = OptionFormat.EqualsSeparated)]
-    public string? ServerOption { get; set; }
+    public virtual string? ServerOption { get; set; }
 
     [CliFlag("--show-forced-updates")]
     public virtual bool? ShowForcedUpdates { get; set; }

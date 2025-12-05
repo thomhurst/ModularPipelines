@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuildxCreateOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? ContextOrEndpoint { get; set; }
+    public virtual string? ContextOrEndpoint { get; set; }
 
     [CliOption("--append")]
     public virtual string? Append { get; set; }

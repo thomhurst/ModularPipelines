@@ -11,8 +11,8 @@ public record NpmCacheLsOptions : NpmOptions
     public virtual string? Cache { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Version { get; set; }
+    public virtual string? Version { get; set; }
 }

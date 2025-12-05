@@ -8,26 +8,26 @@ namespace ModularPipelines.Helm.Options;
 public record HelmPackageOptions : HelmOptions
 {
     [CliOption("--app-version")]
-    public string? AppVersion { get; set; }
+    public virtual string? AppVersion { get; set; }
 
     [CliFlag("--dependency-update")]
     public virtual bool? DependencyUpdate { get; set; }
 
     [CliOption("--destination")]
-    public string? Destination { get; set; }
+    public virtual string? Destination { get; set; }
 
     [CliOption("--key")]
-    public string? Key { get; set; }
+    public virtual string? Key { get; set; }
 
     [CliOption("--keyring")]
-    public string? Keyring { get; set; }
+    public virtual string? Keyring { get; set; }
 
     [CliOption("--passphrase-file")]
-    public string? PassphraseFile { get; set; }
+    public virtual string? PassphraseFile { get; set; }
 
     [CliFlag("--sign")]
     public virtual bool? Sign { get; set; }
 
     [CliOption("--version")]
-    public string? Version { get; set; }
+    public virtual string? Version { get; set; }
 }

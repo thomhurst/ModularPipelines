@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeEventsOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Service { get; set; }
+    public virtual IEnumerable<string>? Service { get; set; }
 
     [CliOption("--json")]
     public virtual string? Json { get; set; }

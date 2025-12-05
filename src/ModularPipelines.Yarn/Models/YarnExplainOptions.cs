@@ -11,5 +11,5 @@ public record YarnExplainOptions : YarnOptions
     public virtual bool? Json { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Code { get; set; }
+    public virtual string? Code { get; set; }
 }

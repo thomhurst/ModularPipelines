@@ -26,7 +26,7 @@ public record GitUpdateIndexOptions : GitOptions
     public virtual bool? IgnoreMissing { get; set; }
 
     [CliOption("--cacheinfo", Format = OptionFormat.EqualsSeparated)]
-    public string? Cacheinfo { get; set; }
+    public virtual string? Cacheinfo { get; set; }
 
     [CliFlag("--index-info")]
     public virtual bool? IndexInfo { get; set; }
@@ -83,7 +83,7 @@ public record GitUpdateIndexOptions : GitOptions
     public virtual bool? Verbose { get; set; }
 
     [CliOption("--index-version", Format = OptionFormat.EqualsSeparated)]
-    public string? IndexVersion { get; set; }
+    public virtual string? IndexVersion { get; set; }
 
     [CliFlag("--split-index")]
     public virtual bool? SplitIndex { get; set; }

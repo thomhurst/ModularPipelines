@@ -6,22 +6,22 @@ namespace ModularPipelines.Attributes;
 public enum OptionFormat
 {
     /// <summary>
-    /// Space-separated format: --option value
+    /// Space-separated format: --option value.
     /// </summary>
     SpaceSeparated,
 
     /// <summary>
-    /// Equals-separated format: --option=value
+    /// Equals-separated format: --option=value.
     /// </summary>
     EqualsSeparated,
 
     /// <summary>
-    /// Colon-separated format: --option:value
+    /// Colon-separated format: --option:value.
     /// </summary>
     ColonSeparated,
 
     /// <summary>
-    /// No separator, value directly follows option: --optionvalue
+    /// No separator, value directly follows option: --optionvalue.
     /// </summary>
     NoSeparator,
 }

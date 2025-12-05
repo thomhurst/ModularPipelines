@@ -47,8 +47,8 @@ public record GitWorktreeOptions : GitOptions
     public virtual bool? Verbose { get; set; }
 
     [CliOption("--expire", Format = OptionFormat.EqualsSeparated)]
-    public string? Expire { get; set; }
+    public virtual string? Expire { get; set; }
 
     [CliOption("--reason", Format = OptionFormat.EqualsSeparated)]
-    public string? Reason { get; set; }
+    public virtual string? Reason { get; set; }
 }

@@ -8,13 +8,13 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesExecOptions([property: CliArgument] string Name) : KubernetesOptions
 {
     [CliOption("--container")]
-    public string? Container { get; set; }
+    public virtual string? Container { get; set; }
 
     [CliOption("--filename")]
-    public string[]? Filename { get; set; }
+    public virtual string[]? Filename { get; set; }
 
     [CliOption("--pod-running-timeout")]
-    public string? PodRunningTimeout { get; set; }
+    public virtual string? PodRunningTimeout { get; set; }
 
     [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }

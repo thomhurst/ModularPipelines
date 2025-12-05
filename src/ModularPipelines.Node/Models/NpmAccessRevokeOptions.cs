@@ -19,5 +19,5 @@ public record NpmAccessRevokeOptions(
     public virtual Uri? Registry { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Package { get; set; }
+    public virtual string? Package { get; set; }
 }

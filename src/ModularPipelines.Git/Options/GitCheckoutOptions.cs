@@ -66,7 +66,7 @@ public record GitCheckoutOptions : GitOptions
     public virtual bool? Merge { get; set; }
 
     [CliOption("--conflict", Format = OptionFormat.EqualsSeparated)]
-    public string? Conflict { get; set; }
+    public virtual string? Conflict { get; set; }
 
     [CliFlag("--patch")]
     public virtual bool? Patch { get; set; }
@@ -93,13 +93,13 @@ public record GitCheckoutOptions : GitOptions
     public virtual bool? NoOverlay { get; set; }
 
     [CliOption("--pathspec-from-file", Format = OptionFormat.EqualsSeparated)]
-    public string? PathspecFromFile { get; set; }
+    public virtual string? PathspecFromFile { get; set; }
 
     [CliFlag("--pathspec-file-nul")]
     public virtual bool? PathspecFileNul { get; set; }
 
     [CliArgument]
-    public string? BranchName { get; set; }
+    public virtual string? BranchName { get; set; }
 
     [CliOption("-b")]
     public virtual string? NewBranchName { get; set; }

@@ -23,7 +23,7 @@ public record GitConfigOptions : GitOptions
     public virtual bool? GetRegexp { get; set; }
 
     [CliOption("--get-urlmatch", Format = OptionFormat.EqualsSeparated)]
-    public string? GetUrlmatch { get; set; }
+    public virtual string? GetUrlmatch { get; set; }
 
     [CliFlag("--global")]
     public virtual bool? Global { get; set; }
@@ -38,10 +38,10 @@ public record GitConfigOptions : GitOptions
     public virtual bool? Worktree { get; set; }
 
     [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
-    public string? File { get; set; }
+    public virtual string? File { get; set; }
 
     [CliOption("--blob", Format = OptionFormat.EqualsSeparated)]
-    public string? Blob { get; set; }
+    public virtual string? Blob { get; set; }
 
     [CliFlag("--remove-section")]
     public virtual bool? RemoveSection { get; set; }
@@ -62,7 +62,7 @@ public record GitConfigOptions : GitOptions
     public virtual bool? FixedValue { get; set; }
 
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
-    public string? Type { get; set; }
+    public virtual string? Type { get; set; }
 
     [CliFlag("--bool")]
     public virtual bool? Bool { get; set; }
@@ -95,10 +95,10 @@ public record GitConfigOptions : GitOptions
     public virtual bool? ShowScope { get; set; }
 
     [CliOption("--get-colorbool", Format = OptionFormat.EqualsSeparated)]
-    public string? GetColorbool { get; set; }
+    public virtual string? GetColorbool { get; set; }
 
     [CliOption("--get-color", Format = OptionFormat.EqualsSeparated)]
-    public string? GetColor { get; set; }
+    public virtual string? GetColor { get; set; }
 
     [CliFlag("--edit")]
     public virtual bool? Edit { get; set; }
@@ -110,5 +110,5 @@ public record GitConfigOptions : GitOptions
     public virtual bool? Includes { get; set; }
 
     [CliOption("--default", Format = OptionFormat.EqualsSeparated)]
-    public string? Default { get; set; }
+    public virtual string? Default { get; set; }
 }

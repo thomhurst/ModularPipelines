@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutPolicyOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? ImageOrRepo { get; set; }
+    public virtual string? ImageOrRepo { get; set; }
 
     [CliOption("--env")]
     public virtual string? Env { get; set; }

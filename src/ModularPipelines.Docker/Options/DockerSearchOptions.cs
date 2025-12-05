@@ -16,7 +16,7 @@ public record DockerSearchOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Term { get; set; }
+    public virtual string? Term { get; set; }
 
     [CliOption("--filter")]
     public virtual string? Filter { get; set; }

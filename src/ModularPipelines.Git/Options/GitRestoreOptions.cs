@@ -8,7 +8,7 @@ namespace ModularPipelines.Git.Options;
 public record GitRestoreOptions : GitOptions
 {
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
-    public string? Source { get; set; }
+    public virtual string? Source { get; set; }
 
     [CliFlag("--patch")]
     public virtual bool? Patch { get; set; }
@@ -38,7 +38,7 @@ public record GitRestoreOptions : GitOptions
     public virtual bool? Merge { get; set; }
 
     [CliOption("--conflict", Format = OptionFormat.EqualsSeparated)]
-    public string? Conflict { get; set; }
+    public virtual string? Conflict { get; set; }
 
     [CliFlag("--ignore-unmerged")]
     public virtual bool? IgnoreUnmerged { get; set; }
@@ -59,7 +59,7 @@ public record GitRestoreOptions : GitOptions
     public virtual bool? NoOverlay { get; set; }
 
     [CliOption("--pathspec-from-file", Format = OptionFormat.EqualsSeparated)]
-    public string? PathspecFromFile { get; set; }
+    public virtual string? PathspecFromFile { get; set; }
 
     [CliFlag("--pathspec-file-nul")]
     public virtual bool? PathspecFileNul { get; set; }

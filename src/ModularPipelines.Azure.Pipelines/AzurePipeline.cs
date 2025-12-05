@@ -34,6 +34,6 @@ internal class AzurePipeline : IAzurePipeline
 
     public void LogToConsole(string value)
     {
-        ((IConsoleWriter)_moduleLoggerProvider.GetLogger()).LogToConsole(value);
+        ((IConsoleWriter) _moduleLoggerProvider.GetLogger()).LogToConsole(value);
     }
 }

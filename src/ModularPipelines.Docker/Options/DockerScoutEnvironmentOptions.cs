@@ -8,10 +8,10 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutEnvironmentOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Environment { get; set; }
+    public virtual string? Environment { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Image { get; set; }
+    public virtual string? Image { get; set; }
 
     [CliOption("--org")]
     public virtual string? Org { get; set; }

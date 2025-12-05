@@ -19,10 +19,10 @@ public record DockerPluginCreateOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Plugin { get; set; }
+    public virtual string? Plugin { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? PluginDataDir { get; set; }
+    public virtual string? PluginDataDir { get; set; }
 
     [CliFlag("--compress")]
     public virtual bool? Compress { get; set; }

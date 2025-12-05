@@ -14,10 +14,10 @@ public record GitReflogOptions : GitOptions
     public virtual bool? SingleWorktree { get; set; }
 
     [CliOption("--expire", Format = OptionFormat.EqualsSeparated)]
-    public string? Expire { get; set; }
+    public virtual string? Expire { get; set; }
 
     [CliOption("--expire-unreachable", Format = OptionFormat.EqualsSeparated)]
-    public string? ExpireUnreachable { get; set; }
+    public virtual string? ExpireUnreachable { get; set; }
 
     [CliFlag("--updateref")]
     public virtual bool? Updateref { get; set; }

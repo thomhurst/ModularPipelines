@@ -23,12 +23,13 @@ public sealed class CliCommandAliasAttribute : Attribute
     public string[] CommandParts { get; }
 
     /// <summary>
-    /// Gets or sets whether this alias is the preferred form when building the command.
+    /// Gets or sets a value indicating whether gets or sets whether this alias is the preferred form when building the command.
     /// When true, this alias will be used instead of the primary <see cref="CliCommandAttribute"/>.
     /// </summary>
     public bool IsPreferred { get; set; }
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="CliCommandAliasAttribute"/> class.
     /// Initializes a new instance of the <see cref="CliCommandAliasAttribute"/> class.
     /// </summary>
     /// <param name="commandParts">The command parts for this alternative invocation.</param>

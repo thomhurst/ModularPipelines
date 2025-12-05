@@ -28,7 +28,7 @@ public record DotNetAddReferenceOptions : DotNetOptions
     }
 
     [CliArgument(Name = "[<PROJECT>]")]
-    public string? Project { get; set; }
+    public virtual string? Project { get; set; }
 
     [CliOption("--framework")]
     public virtual string? Framework { get; set; }
@@ -37,5 +37,5 @@ public record DotNetAddReferenceOptions : DotNetOptions
     public virtual bool? Interactive { get; set; }
 
     [CliArgument(Name = "<PROJECT_REFERENCES>")]
-    public string? ProjectReferences { get; set; }
+    public virtual string? ProjectReferences { get; set; }
 }

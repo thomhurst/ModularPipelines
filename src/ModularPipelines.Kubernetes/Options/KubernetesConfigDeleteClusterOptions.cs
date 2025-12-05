@@ -11,5 +11,5 @@ public record KubernetesConfigDeleteClusterOptions([property: CliArgument] strin
     public virtual bool? NoHeaders { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 }

@@ -8,5 +8,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerContainerPortOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? PrivatePortOrProto { get; set; }
+    public virtual string? PrivatePortOrProto { get; set; }
 }

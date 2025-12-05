@@ -28,10 +28,10 @@ public record DotNetAddPackageOptions : DotNetOptions
     }
 
     [CliArgument(Name = "[<PROJECT>]")]
-    public string? Project { get; set; }
+    public virtual string? Project { get; set; }
 
     [CliArgument(Name = "<PACKAGE_NAME>")]
-    public string? PackageName { get; set; }
+    public virtual string? PackageName { get; set; }
 
     [CliOption("--framework")]
     public virtual string? Framework { get; set; }

@@ -21,7 +21,7 @@ public record DotNetListPackageOptions : DotNetOptions
     }
 
     [CliArgument(Name = "[<PROJECT>|<SOLUTION>]")]
-    public string? ProjectSolution { get; set; }
+    public virtual string? ProjectSolution { get; set; }
 
     [CliOption("--config")]
     public virtual string? Config { get; set; }

@@ -8,10 +8,10 @@ namespace ModularPipelines.Git.Options;
 public record GitDescribeOptions : GitOptions
 {
     [CliOption("--dirty", Format = OptionFormat.EqualsSeparated)]
-    public string? Dirty { get; set; }
+    public virtual string? Dirty { get; set; }
 
     [CliOption("--broken", Format = OptionFormat.EqualsSeparated)]
-    public string? Broken { get; set; }
+    public virtual string? Broken { get; set; }
 
     [CliFlag("--all")]
     public virtual bool? All { get; set; }
@@ -23,10 +23,10 @@ public record GitDescribeOptions : GitOptions
     public virtual bool? Contains { get; set; }
 
     [CliOption("--abbrev", Format = OptionFormat.EqualsSeparated)]
-    public string? Abbrev { get; set; }
+    public virtual string? Abbrev { get; set; }
 
     [CliOption("--candidates", Format = OptionFormat.EqualsSeparated)]
-    public string? Candidates { get; set; }
+    public virtual string? Candidates { get; set; }
 
     [CliFlag("--exact-match")]
     public virtual bool? ExactMatch { get; set; }
@@ -38,10 +38,10 @@ public record GitDescribeOptions : GitOptions
     public virtual bool? Long { get; set; }
 
     [CliOption("--match", Format = OptionFormat.EqualsSeparated)]
-    public string? Match { get; set; }
+    public virtual string? Match { get; set; }
 
     [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
-    public string? Exclude { get; set; }
+    public virtual string? Exclude { get; set; }
 
     [CliFlag("--always")]
     public virtual bool? Always { get; set; }

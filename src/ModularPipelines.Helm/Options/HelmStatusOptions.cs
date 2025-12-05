@@ -8,10 +8,10 @@ namespace ModularPipelines.Helm.Options;
 public record HelmStatusOptions : HelmOptions
 {
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliOption("--revision")]
-    public int? Revision { get; set; }
+    public virtual int? Revision { get; set; }
 
     [CliFlag("--show-desc")]
     public virtual bool? ShowDesc { get; set; }

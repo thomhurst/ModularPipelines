@@ -8,13 +8,13 @@ namespace ModularPipelines.Git.Options;
 public record GitSvnOptions : GitOptions
 {
     [CliOption("--trunk", Format = OptionFormat.EqualsSeparated)]
-    public string? Trunk { get; set; }
+    public virtual string? Trunk { get; set; }
 
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
-    public string? Tags { get; set; }
+    public virtual string? Tags { get; set; }
 
     [CliOption("--branches", Format = OptionFormat.EqualsSeparated)]
-    public string? Branches { get; set; }
+    public virtual string? Branches { get; set; }
 
     [CliFlag("--stdlayout")]
     public virtual bool? Stdlayout { get; set; }
@@ -29,25 +29,25 @@ public record GitSvnOptions : GitOptions
     public virtual bool? UseSvnsyncProps { get; set; }
 
     [CliOption("--rewrite-root", Format = OptionFormat.EqualsSeparated)]
-    public string? RewriteRoot { get; set; }
+    public virtual string? RewriteRoot { get; set; }
 
     [CliOption("--rewrite-uuid", Format = OptionFormat.EqualsSeparated)]
-    public string? RewriteUuid { get; set; }
+    public virtual string? RewriteUuid { get; set; }
 
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
-    public string? Username { get; set; }
+    public virtual string? Username { get; set; }
 
     [CliOption("--prefix", Format = OptionFormat.EqualsSeparated)]
-    public string? Prefix { get; set; }
+    public virtual string? Prefix { get; set; }
 
     [CliOption("--ignore-refs", Format = OptionFormat.EqualsSeparated)]
-    public string? IgnoreRefs { get; set; }
+    public virtual string? IgnoreRefs { get; set; }
 
     [CliOption("--ignore-paths", Format = OptionFormat.EqualsSeparated)]
-    public string? IgnorePaths { get; set; }
+    public virtual string? IgnorePaths { get; set; }
 
     [CliOption("--include-paths", Format = OptionFormat.EqualsSeparated)]
-    public string? IncludePaths { get; set; }
+    public virtual string? IncludePaths { get; set; }
 
     [CliFlag("--no-minimize-url")]
     public virtual bool? NoMinimizeUrl { get; set; }
@@ -59,13 +59,13 @@ public record GitSvnOptions : GitOptions
     public virtual bool? Parent { get; set; }
 
     [CliOption("--log-window-size", Format = OptionFormat.EqualsSeparated)]
-    public string? LogWindowSize { get; set; }
+    public virtual string? LogWindowSize { get; set; }
 
     [CliFlag("--preserve-empty-dirs")]
     public virtual bool? PreserveEmptyDirs { get; set; }
 
     [CliOption("--placeholder-filename", Format = OptionFormat.EqualsSeparated)]
-    public string? PlaceholderFilename { get; set; }
+    public virtual string? PlaceholderFilename { get; set; }
 
     [CliFlag("--local")]
     public virtual bool? Local { get; set; }
@@ -74,10 +74,10 @@ public record GitSvnOptions : GitOptions
     public virtual bool? NoRebase { get; set; }
 
     [CliOption("--commit-url", Format = OptionFormat.EqualsSeparated)]
-    public string? CommitUrl { get; set; }
+    public virtual string? CommitUrl { get; set; }
 
     [CliOption("--mergeinfo", Format = OptionFormat.EqualsSeparated)]
-    public string? Mergeinfo { get; set; }
+    public virtual string? Mergeinfo { get; set; }
 
     [CliFlag("--interactive")]
     public virtual bool? Interactive { get; set; }
@@ -89,19 +89,19 @@ public record GitSvnOptions : GitOptions
     public virtual bool? Tag { get; set; }
 
     [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
-    public string? Destination { get; set; }
+    public virtual string? Destination { get; set; }
 
     [CliFlag("--parents")]
     public virtual bool? Parents { get; set; }
 
     [CliOption("--revision", Format = OptionFormat.EqualsSeparated)]
-    public string? Revision { get; set; }
+    public virtual string? Revision { get; set; }
 
     [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
 
     [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
-    public string? Limit { get; set; }
+    public virtual string? Limit { get; set; }
 
     [CliFlag("--incremental")]
     public virtual bool? Incremental { get; set; }
@@ -122,13 +122,13 @@ public record GitSvnOptions : GitOptions
     public virtual bool? After { get; set; }
 
     [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
-    public string? File { get; set; }
+    public virtual string? File { get; set; }
 
     [CliFlag("--shared")]
     public virtual bool? Shared { get; set; }
 
     [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 
     [CliFlag("--stdin")]
     public virtual bool? Stdin { get; set; }
@@ -143,10 +143,10 @@ public record GitSvnOptions : GitOptions
     public virtual bool? FindCopiesHarder { get; set; }
 
     [CliOption("--authors-file", Format = OptionFormat.EqualsSeparated)]
-    public string? AuthorsFile { get; set; }
+    public virtual string? AuthorsFile { get; set; }
 
     [CliOption("--authors-prog", Format = OptionFormat.EqualsSeparated)]
-    public string? AuthorsProg { get; set; }
+    public virtual string? AuthorsProg { get; set; }
 
     [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
@@ -155,7 +155,7 @@ public record GitSvnOptions : GitOptions
     public virtual bool? Merge { get; set; }
 
     [CliOption("--strategy", Format = OptionFormat.EqualsSeparated)]
-    public string? Strategy { get; set; }
+    public virtual string? Strategy { get; set; }
 
     [CliFlag("--rebase-merges")]
     public virtual bool? RebaseMerges { get; set; }
@@ -170,10 +170,10 @@ public record GitSvnOptions : GitOptions
     public virtual bool? AddAuthorFrom { get; set; }
 
     [CliOption("--id", Format = OptionFormat.EqualsSeparated)]
-    public string? Id { get; set; }
+    public virtual string? Id { get; set; }
 
     [CliOption("--svn-remote", Format = OptionFormat.EqualsSeparated)]
-    public string? SvnRemote { get; set; }
+    public virtual string? SvnRemote { get; set; }
 
     [CliFlag("--follow-parent")]
     public virtual bool? FollowParent { get; set; }

@@ -97,7 +97,6 @@ public sealed class Command : ICommand
 
     // Note: Placeholder sanitization is no longer needed since ReplacePlaceholders
     // now handles placeholder replacement inline using CliArgumentAttribute.Name matching.
-
     private static List<string> GetPrecedingArguments(object optionsObject)
     {
         var rawCommandParts = GetRawCommandParts(optionsObject);
@@ -166,6 +165,7 @@ public sealed class Command : ICommand
                 {
                     result.AddRange(values);
                 }
+
                 // If no value found, skip the placeholder (it's optional)
             }
             else

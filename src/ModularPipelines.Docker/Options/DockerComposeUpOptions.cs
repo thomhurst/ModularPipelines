@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeUpOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Service { get; set; }
+    public virtual IEnumerable<string>? Service { get; set; }
 
     [CliFlag("--abort-on-container-exit")]
     public virtual bool? AbortOnContainerExit { get; set; }

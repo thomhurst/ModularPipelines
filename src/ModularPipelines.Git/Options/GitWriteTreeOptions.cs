@@ -11,5 +11,5 @@ public record GitWriteTreeOptions : GitOptions
     public virtual bool? MissingOk { get; set; }
 
     [CliOption("--prefix", Format = OptionFormat.EqualsSeparated)]
-    public string? Prefix { get; set; }
+    public virtual string? Prefix { get; set; }
 }

@@ -8,5 +8,5 @@ namespace ModularPipelines.Helm.Options;
 public record HelmRepoListOptions : HelmOptions
 {
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 }

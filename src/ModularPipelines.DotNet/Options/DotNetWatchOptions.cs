@@ -28,7 +28,7 @@ public record DotNetWatchOptions : DotNetOptions
     }
 
     [CliArgument(Name = "[<command>]")]
-    public string? Command { get; set; }
+    public virtual string? Command { get; set; }
 
     [CliFlag("--list")]
     public virtual bool? List { get; set; }
@@ -52,5 +52,5 @@ public record DotNetWatchOptions : DotNetOptions
     public virtual bool? Version { get; set; }
 
     [CliArgument(Name = "<forwarded arguments>")]
-    public string? ForwardedArguments { get; set; }
+    public virtual string? ForwardedArguments { get; set; }
 }

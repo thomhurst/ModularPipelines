@@ -28,8 +28,8 @@ public record DotNetRemovePackageOptions : DotNetOptions
     }
 
     [CliArgument(Name = "[<PROJECT>]")]
-    public string? Project { get; set; }
+    public virtual string? Project { get; set; }
 
     [CliArgument(Name = "<PACKAGE_NAME>")]
-    public string? PackageName { get; set; }
+    public virtual string? PackageName { get; set; }
 }

@@ -8,7 +8,7 @@ namespace ModularPipelines.Helm.Options;
 public record HelmDependencyBuildOptions : HelmOptions
 {
     [CliOption("--keyring")]
-    public string? Keyring { get; set; }
+    public virtual string? Keyring { get; set; }
 
     [CliFlag("--skip-refresh")]
     public virtual bool? SkipRefresh { get; set; }

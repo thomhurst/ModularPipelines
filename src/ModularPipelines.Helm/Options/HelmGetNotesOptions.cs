@@ -8,5 +8,5 @@ namespace ModularPipelines.Helm.Options;
 public record HelmGetNotesOptions : HelmOptions
 {
     [CliOption("--revision")]
-    public int? Revision { get; set; }
+    public virtual int? Revision { get; set; }
 }

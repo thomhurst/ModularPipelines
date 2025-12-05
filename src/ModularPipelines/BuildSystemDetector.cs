@@ -17,7 +17,7 @@ namespace ModularPipelines;
 /// - Jenkins: JENKINS_URL
 /// - Bitbucket: BITBUCKET_BUILD_NUMBER
 /// - Travis CI: TRAVIS
-/// - AppVeyor: APPVEYOR
+/// - AppVeyor: APPVEYOR.
 /// </remarks>
 /// <example>
 /// <code>

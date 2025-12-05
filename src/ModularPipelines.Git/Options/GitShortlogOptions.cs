@@ -17,13 +17,13 @@ public record GitShortlogOptions : GitOptions
     public virtual bool? Email { get; set; }
 
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 
     [CliOption("--date", Format = OptionFormat.EqualsSeparated)]
-    public string? Date { get; set; }
+    public virtual string? Date { get; set; }
 
     [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
-    public string? Group { get; set; }
+    public virtual string? Group { get; set; }
 
     [CliFlag("--c")]
     public virtual bool? C { get; set; }
@@ -32,34 +32,34 @@ public record GitShortlogOptions : GitOptions
     public virtual bool? Committer { get; set; }
 
     [CliOption("--max-count", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxCount { get; set; }
+    public virtual string? MaxCount { get; set; }
 
     [CliOption("--skip", Format = OptionFormat.EqualsSeparated)]
-    public string? Skip { get; set; }
+    public virtual string? Skip { get; set; }
 
     [CliOption("--since", Format = OptionFormat.EqualsSeparated)]
-    public string? Since { get; set; }
+    public virtual string? Since { get; set; }
 
     [CliOption("--after", Format = OptionFormat.EqualsSeparated)]
-    public string? After { get; set; }
+    public virtual string? After { get; set; }
 
     [CliOption("--since-as-filter", Format = OptionFormat.EqualsSeparated)]
-    public string? SinceAsFilter { get; set; }
+    public virtual string? SinceAsFilter { get; set; }
 
     [CliOption("--until", Format = OptionFormat.EqualsSeparated)]
-    public string? Until { get; set; }
+    public virtual string? Until { get; set; }
 
     [CliOption("--before", Format = OptionFormat.EqualsSeparated)]
-    public string? Before { get; set; }
+    public virtual string? Before { get; set; }
 
     [CliOption("--author", Format = OptionFormat.EqualsSeparated)]
-    public string? Author { get; set; }
+    public virtual string? Author { get; set; }
 
     [CliOption("--grep-reflog", Format = OptionFormat.EqualsSeparated)]
-    public string? GrepReflog { get; set; }
+    public virtual string? GrepReflog { get; set; }
 
     [CliOption("--grep", Format = OptionFormat.EqualsSeparated)]
-    public string? Grep { get; set; }
+    public virtual string? Grep { get; set; }
 
     [CliFlag("--all-match")]
     public virtual bool? AllMatch { get; set; }
@@ -92,10 +92,10 @@ public record GitShortlogOptions : GitOptions
     public virtual bool? NoMerges { get; set; }
 
     [CliOption("--min-parents", Format = OptionFormat.EqualsSeparated)]
-    public string? MinParents { get; set; }
+    public virtual string? MinParents { get; set; }
 
     [CliOption("--max-parents", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxParents { get; set; }
+    public virtual string? MaxParents { get; set; }
 
     [CliFlag("--no-min-parents")]
     public virtual bool? NoMinParents { get; set; }
@@ -116,19 +116,19 @@ public record GitShortlogOptions : GitOptions
     public virtual bool? All { get; set; }
 
     [CliOption("--branches", Format = OptionFormat.EqualsSeparated)]
-    public string? Branches { get; set; }
+    public virtual string? Branches { get; set; }
 
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
-    public string? Tags { get; set; }
+    public virtual string? Tags { get; set; }
 
     [CliOption("--remotes", Format = OptionFormat.EqualsSeparated)]
-    public string? Remotes { get; set; }
+    public virtual string? Remotes { get; set; }
 
     [CliOption("--glob", Format = OptionFormat.EqualsSeparated)]
-    public string? Glob { get; set; }
+    public virtual string? Glob { get; set; }
 
     [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
-    public string? Exclude { get; set; }
+    public virtual string? Exclude { get; set; }
 
     [CliFlag("--exclude-hidden")]
     public virtual bool? ExcludeHidden { get; set; }
@@ -194,5 +194,5 @@ public record GitShortlogOptions : GitOptions
     public virtual bool? SimplifyMerges { get; set; }
 
     [CliOption("--ancestry-path", Format = OptionFormat.EqualsSeparated)]
-    public string? AncestryPath { get; set; }
+    public virtual string? AncestryPath { get; set; }
 }

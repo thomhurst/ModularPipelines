@@ -8,5 +8,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerConfigRmOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? RmConfig { get; set; }
+    public virtual IEnumerable<string>? RmConfig { get; set; }
 }

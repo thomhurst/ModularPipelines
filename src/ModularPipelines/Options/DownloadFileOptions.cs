@@ -8,6 +8,7 @@ namespace ModularPipelines.Options;
 public record DownloadFileOptions : DownloadOptions
 {
     /// <summary>
+    /// Initialises a new instance of the <see cref="DownloadFileOptions"/> class.
     /// Initializes a new instance of the <see cref="DownloadFileOptions"/> class.
     /// </summary>
     /// <param name="downloadUri">The URI to download from.</param>
@@ -17,12 +18,12 @@ public record DownloadFileOptions : DownloadOptions
     }
 
     /// <summary>
-    /// Gets or sets the path where the downloaded file should be saved. If not specified, a temporary file will be created.
+    /// Gets the path where the downloaded file should be saved. If not specified, a temporary file will be created.
     /// </summary>
     public string? SavePath { get; init; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to overwrite the file if it already exists.
+    /// Gets a value indicating whether to overwrite the file if it already exists.
     /// </summary>
     public bool Overwrite { get; init; } = true;
 }

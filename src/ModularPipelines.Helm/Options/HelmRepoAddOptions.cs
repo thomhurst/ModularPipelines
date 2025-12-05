@@ -11,10 +11,10 @@ public record HelmRepoAddOptions : HelmOptions
     public virtual bool? AllowDeprecatedRepos { get; set; }
 
     [CliOption("--ca-file")]
-    public string? CaFile { get; set; }
+    public virtual string? CaFile { get; set; }
 
     [CliOption("--cert-file")]
-    public string? CertFile { get; set; }
+    public virtual string? CertFile { get; set; }
 
     [CliFlag("--force-update")]
     public virtual bool? ForceUpdate { get; set; }
@@ -23,7 +23,7 @@ public record HelmRepoAddOptions : HelmOptions
     public virtual bool? InsecureSkipTlsVerify { get; set; }
 
     [CliOption("--key-file")]
-    public string? KeyFile { get; set; }
+    public virtual string? KeyFile { get; set; }
 
     [CliFlag("--no-update")]
     public virtual bool? NoUpdate { get; set; }
@@ -32,11 +32,11 @@ public record HelmRepoAddOptions : HelmOptions
     public virtual bool? PassCredentials { get; set; }
 
     [CliOption("--password")]
-    public string? Password { get; set; }
+    public virtual string? Password { get; set; }
 
     [CliFlag("--password-stdin")]
     public virtual bool? PasswordStdin { get; set; }
 
     [CliOption("--username")]
-    public string? Username { get; set; }
+    public virtual string? Username { get; set; }
 }

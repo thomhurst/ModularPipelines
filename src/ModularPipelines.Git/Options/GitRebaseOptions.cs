@@ -26,7 +26,7 @@ public record GitRebaseOptions : GitOptions
     public virtual bool? ShowCurrentPatch { get; set; }
 
     [CliOption("--onto", Format = OptionFormat.EqualsSeparated)]
-    public string? Onto { get; set; }
+    public virtual string? Onto { get; set; }
 
     [CliFlag("--keep-base")]
     public virtual bool? KeepBase { get; set; }
@@ -56,10 +56,10 @@ public record GitRebaseOptions : GitOptions
     public virtual bool? Merge { get; set; }
 
     [CliOption("--strategy", Format = OptionFormat.EqualsSeparated)]
-    public string? Strategy { get; set; }
+    public virtual string? Strategy { get; set; }
 
     [CliOption("--strategy-option", Format = OptionFormat.EqualsSeparated)]
-    public string? StrategyOption { get; set; }
+    public virtual string? StrategyOption { get; set; }
 
     [CliFlag("--rerere-autoupdate")]
     public virtual bool? RerereAutoupdate { get; set; }
@@ -68,7 +68,7 @@ public record GitRebaseOptions : GitOptions
     public virtual bool? NoRerereAutoupdate { get; set; }
 
     [CliOption("--gpg-sign", Format = OptionFormat.EqualsSeparated)]
-    public string? GpgSign { get; set; }
+    public virtual string? GpgSign { get; set; }
 
     [CliFlag("--no-gpg-sign")]
     public virtual bool? NoGpgSign { get; set; }
@@ -107,7 +107,7 @@ public record GitRebaseOptions : GitOptions
     public virtual bool? IgnoreWhitespace { get; set; }
 
     [CliOption("--whitespace", Format = OptionFormat.EqualsSeparated)]
-    public string? Whitespace { get; set; }
+    public virtual string? Whitespace { get; set; }
 
     [CliFlag("--committer-date-is-author-date")]
     public virtual bool? CommitterDateIsAuthorDate { get; set; }
@@ -131,7 +131,7 @@ public record GitRebaseOptions : GitOptions
     public virtual bool? NoRebaseMerges { get; set; }
 
     [CliOption("--exec", Format = OptionFormat.EqualsSeparated)]
-    public string? Exec { get; set; }
+    public virtual string? Exec { get; set; }
 
     [CliFlag("--root")]
     public virtual bool? Root { get; set; }

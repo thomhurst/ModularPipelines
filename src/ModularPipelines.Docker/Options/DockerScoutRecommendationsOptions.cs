@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutRecommendationsOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? ImageOrDirectoryOrArchive { get; set; }
+    public virtual string? ImageOrDirectoryOrArchive { get; set; }
 
     [CliOption("--only-refresh")]
     public virtual string? OnlyRefresh { get; set; }

@@ -20,5 +20,5 @@ public record NpmProfileGetOptions : NpmOptions
     public virtual string? Otp { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Key { get; set; }
+    public virtual string? Key { get; set; }
 }

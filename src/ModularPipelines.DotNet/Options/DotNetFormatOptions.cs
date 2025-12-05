@@ -21,7 +21,7 @@ public record DotNetFormatOptions : DotNetOptions
     }
 
     [CliArgument(Name = "[<PROJECT | SOLUTION>]")]
-    public string? ProjectSolution { get; set; }
+    public virtual string? ProjectSolution { get; set; }
 
     [CliOption("--diagnostics")]
     public virtual string? Diagnostics { get; set; }

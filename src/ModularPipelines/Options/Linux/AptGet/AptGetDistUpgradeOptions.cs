@@ -7,5 +7,5 @@ namespace ModularPipelines.Options.Linux.AptGet;
 public record AptGetDistUpgradeOptions : AptGetOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string CommandName { get; } = "dist-upgrade";
+    public virtual string CommandName { get; } = "dist-upgrade";
 }

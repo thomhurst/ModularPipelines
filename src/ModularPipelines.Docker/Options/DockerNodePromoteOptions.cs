@@ -8,5 +8,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerNodePromoteOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Node { get; set; }
+    public virtual IEnumerable<string>? Node { get; set; }
 }

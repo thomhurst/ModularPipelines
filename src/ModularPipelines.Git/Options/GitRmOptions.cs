@@ -26,7 +26,7 @@ public record GitRmOptions : GitOptions
     public virtual bool? Quiet { get; set; }
 
     [CliOption("--pathspec-from-file", Format = OptionFormat.EqualsSeparated)]
-    public string? PathspecFromFile { get; set; }
+    public virtual string? PathspecFromFile { get; set; }
 
     [CliFlag("--pathspec-file-nul")]
     public virtual bool? PathspecFileNul { get; set; }

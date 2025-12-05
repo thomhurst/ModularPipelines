@@ -26,7 +26,7 @@ public record GitBranchOptions : GitOptions
     public virtual bool? Copy { get; set; }
 
     [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
-    public string? Color { get; set; }
+    public virtual string? Color { get; set; }
 
     [CliFlag("--no-color")]
     public virtual bool? NoColor { get; set; }
@@ -38,7 +38,7 @@ public record GitBranchOptions : GitOptions
     public virtual bool? OmitEmpty { get; set; }
 
     [CliOption("--column", Format = OptionFormat.EqualsSeparated)]
-    public string? Column { get; set; }
+    public virtual string? Column { get; set; }
 
     [CliFlag("--no-column")]
     public virtual bool? NoColumn { get; set; }
@@ -62,7 +62,7 @@ public record GitBranchOptions : GitOptions
     public virtual bool? Quiet { get; set; }
 
     [CliOption("--abbrev", Format = OptionFormat.EqualsSeparated)]
-    public string? Abbrev { get; set; }
+    public virtual string? Abbrev { get; set; }
 
     [CliFlag("--no-abbrev")]
     public virtual bool? NoAbbrev { get; set; }
@@ -80,7 +80,7 @@ public record GitBranchOptions : GitOptions
     public virtual bool? SetUpstream { get; set; }
 
     [CliOption("--set-upstream-to", Format = OptionFormat.EqualsSeparated)]
-    public string? SetUpstreamTo { get; set; }
+    public virtual string? SetUpstreamTo { get; set; }
 
     [CliFlag("--unset-upstream")]
     public virtual bool? UnsetUpstream { get; set; }
@@ -89,23 +89,23 @@ public record GitBranchOptions : GitOptions
     public virtual bool? EditDescription { get; set; }
 
     [CliOption("--contains", Format = OptionFormat.EqualsSeparated)]
-    public string? Contains { get; set; }
+    public virtual string? Contains { get; set; }
 
     [CliOption("--no-contains", Format = OptionFormat.EqualsSeparated)]
-    public string? NoContains { get; set; }
+    public virtual string? NoContains { get; set; }
 
     [CliOption("--merged", Format = OptionFormat.EqualsSeparated)]
-    public string? Merged { get; set; }
+    public virtual string? Merged { get; set; }
 
     [CliOption("--no-merged", Format = OptionFormat.EqualsSeparated)]
-    public string? NoMerged { get; set; }
+    public virtual string? NoMerged { get; set; }
 
     [CliOption("--sort", Format = OptionFormat.EqualsSeparated)]
-    public string? Sort { get; set; }
+    public virtual string? Sort { get; set; }
 
     [CliOption("--points-at", Format = OptionFormat.EqualsSeparated)]
-    public string? PointsAt { get; set; }
+    public virtual string? PointsAt { get; set; }
 
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 }

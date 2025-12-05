@@ -16,7 +16,7 @@ public record DockerSwarmJoinTokenOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? WorkerOrManager { get; set; }
+    public virtual string? WorkerOrManager { get; set; }
 
     [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }

@@ -11,25 +11,25 @@ public record KubernetesCreateIngressOptions([property: CliArgument] string Name
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CliOption("--annotation")]
-    public string[]? Annotation { get; set; }
+    public virtual string[]? Annotation { get; set; }
 
     [CliOption("--class")]
-    public string? Class { get; set; }
+    public virtual string? Class { get; set; }
 
     [CliOption("--default-backend")]
-    public string? DefaultBackend { get; set; }
+    public virtual string? DefaultBackend { get; set; }
 
     [CliOption("--dry-run")]
-    public string? DryRun { get; set; }
+    public virtual string? DryRun { get; set; }
 
     [CliOption("--field-manager")]
-    public string? FieldManager { get; set; }
+    public virtual string? FieldManager { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliOption("--rule")]
-    public string[]? Rule { get; set; }
+    public virtual string[]? Rule { get; set; }
 
     [CliFlag("--save-config")]
     public virtual bool? SaveConfig { get; set; }
@@ -38,7 +38,7 @@ public record KubernetesCreateIngressOptions([property: CliArgument] string Name
     public virtual bool? ShowManagedFields { get; set; }
 
     [CliOption("--template")]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 
     [CliFlag("--validate")]
     public virtual bool? Validate { get; set; }

@@ -25,19 +25,19 @@ public record DotNetStoreOptions : DotNetOptions
     public virtual bool? Manifest { get; set; }
 
     [CliArgument(Name = "<PATH_TO_MANIFEST_FILE>")]
-    public string? PathToManifestFile { get; set; }
+    public virtual string? PathToManifestFile { get; set; }
 
     [CliFlag("--framework")]
     public virtual bool? Framework { get; set; }
 
     [CliArgument(Name = "<FRAMEWORK_VERSION>")]
-    public string? FrameworkVersion { get; set; }
+    public virtual string? FrameworkVersion { get; set; }
 
     [CliFlag("--runtime")]
     public virtual bool? Runtime { get; set; }
 
     [CliArgument(Name = "<RUNTIME_IDENTIFIER>")]
-    public string? RuntimeIdentifier { get; set; }
+    public virtual string? RuntimeIdentifier { get; set; }
 
     [CliOption("--output")]
     public virtual string? OutputDirectory { get; set; }

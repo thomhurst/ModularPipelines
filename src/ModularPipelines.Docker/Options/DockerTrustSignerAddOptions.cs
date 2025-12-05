@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerTrustSignerAddOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Repository { get; set; }
+    public virtual IEnumerable<string>? Repository { get; set; }
 
     [CliOption("--key")]
     public virtual string? Key { get; set; }

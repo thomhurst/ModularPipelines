@@ -16,7 +16,7 @@ public record DockerSecretInspectOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Secret { get; set; }
+    public virtual IEnumerable<string>? Secret { get; set; }
 
     [CliOption("--format")]
     public virtual string? Format { get; set; }

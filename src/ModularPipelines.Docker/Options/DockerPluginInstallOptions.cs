@@ -17,10 +17,10 @@ public record DockerPluginInstallOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Plugin { get; set; }
+    public virtual string? Plugin { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<KeyValue>? KeyValue { get; set; }
+    public virtual IEnumerable<KeyValue>? KeyValue { get; set; }
 
     [CliOption("--alias")]
     public virtual string? Alias { get; set; }

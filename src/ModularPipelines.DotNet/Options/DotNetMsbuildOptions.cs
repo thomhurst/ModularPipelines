@@ -21,7 +21,7 @@ public record DotNetMsbuildOptions : DotNetOptions
     }
 
     [CliArgument(Name = "<MSBUILD_ARGUMENTS>")]
-    public string? MsbuildArguments { get; set; }
+    public virtual string? MsbuildArguments { get; set; }
 
     [CliFlag("-h")]
     public virtual bool? H { get; set; }

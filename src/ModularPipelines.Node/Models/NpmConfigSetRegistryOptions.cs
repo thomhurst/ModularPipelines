@@ -25,5 +25,5 @@ public record NpmConfigSetRegistryOptions(
     public virtual bool? Long { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Key { get; set; }
+    public virtual string? Key { get; set; }
 }

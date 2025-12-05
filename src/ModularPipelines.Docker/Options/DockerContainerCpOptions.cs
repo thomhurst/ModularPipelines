@@ -25,19 +25,19 @@ public record DockerContainerCpOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Container { get; set; }
+    public virtual string? Container { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? DestPath { get; set; }
+    public virtual string? DestPath { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Cp { get; set; }
+    public virtual string? Cp { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Options { get; set; }
+    public virtual string? Options { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? SrcPath { get; set; }
+    public virtual string? SrcPath { get; set; }
 
     [CliOption("--archive")]
     public virtual string? Archive { get; set; }

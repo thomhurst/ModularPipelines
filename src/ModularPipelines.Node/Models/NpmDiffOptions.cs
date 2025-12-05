@@ -47,5 +47,5 @@ public record NpmDiffOptions : NpmOptions
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Paths { get; set; }
+    public virtual string? Paths { get; set; }
 }

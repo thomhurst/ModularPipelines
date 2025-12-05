@@ -16,7 +16,7 @@ public record DockerImageRmOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Image { get; set; }
+    public virtual IEnumerable<string>? Image { get; set; }
 
     [CliFlag("--force")]
     public virtual bool? Force { get; set; }

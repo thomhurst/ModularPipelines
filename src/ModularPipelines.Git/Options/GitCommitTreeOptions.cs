@@ -8,7 +8,7 @@ namespace ModularPipelines.Git.Options;
 public record GitCommitTreeOptions : GitOptions
 {
     [CliOption("--gpg-sign", Format = OptionFormat.EqualsSeparated)]
-    public string? GpgSign { get; set; }
+    public virtual string? GpgSign { get; set; }
 
     [CliFlag("--no-gpg-sign")]
     public virtual bool? NoGpgSign { get; set; }

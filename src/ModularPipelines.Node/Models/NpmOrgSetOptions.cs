@@ -12,7 +12,7 @@ public record NpmOrgSetOptions
 ) : NpmOptions
 {
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? PermissionLevel { get; set; }
+    public virtual string? PermissionLevel { get; set; }
 
     [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }

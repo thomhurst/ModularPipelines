@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuildxRmOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CliOption("--all-inactive")]
     public virtual string? AllInactive { get; set; }

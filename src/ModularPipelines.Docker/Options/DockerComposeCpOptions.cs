@@ -28,22 +28,22 @@ public record DockerComposeCpOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Service { get; set; }
+    public virtual string? Service { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? DestPath { get; set; }
+    public virtual string? DestPath { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Compose { get; set; }
+    public virtual string? Compose { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Cp { get; set; }
+    public virtual string? Cp { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Options { get; set; }
+    public virtual string? Options { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? SrcPath { get; set; }
+    public virtual string? SrcPath { get; set; }
 
     [CliFlag("--all")]
     public virtual bool? All { get; set; }

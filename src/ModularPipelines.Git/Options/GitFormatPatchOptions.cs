@@ -11,19 +11,19 @@ public record GitFormatPatchOptions : GitOptions
     public virtual bool? NoStat { get; set; }
 
     [CliOption("--unified", Format = OptionFormat.EqualsSeparated)]
-    public string? Unified { get; set; }
+    public virtual string? Unified { get; set; }
 
     [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliOption("--output-indicator-new", Format = OptionFormat.EqualsSeparated)]
-    public string? OutputIndicatorNew { get; set; }
+    public virtual string? OutputIndicatorNew { get; set; }
 
     [CliOption("--output-indicator-old", Format = OptionFormat.EqualsSeparated)]
-    public string? OutputIndicatorOld { get; set; }
+    public virtual string? OutputIndicatorOld { get; set; }
 
     [CliOption("--output-indicator-context", Format = OptionFormat.EqualsSeparated)]
-    public string? OutputIndicatorContext { get; set; }
+    public virtual string? OutputIndicatorContext { get; set; }
 
     [CliFlag("--indent-heuristic")]
     public virtual bool? IndentHeuristic { get; set; }
@@ -41,13 +41,13 @@ public record GitFormatPatchOptions : GitOptions
     public virtual bool? Histogram { get; set; }
 
     [CliOption("--anchored", Format = OptionFormat.EqualsSeparated)]
-    public string? Anchored { get; set; }
+    public virtual string? Anchored { get; set; }
 
     [CliFlag("--diff-algorithm")]
     public virtual bool? DiffAlgorithm { get; set; }
 
     [CliOption("--stat", Format = OptionFormat.EqualsSeparated)]
-    public string? Stat { get; set; }
+    public virtual string? Stat { get; set; }
 
     [CliFlag("--compact-summary")]
     public virtual bool? CompactSummary { get; set; }
@@ -59,13 +59,13 @@ public record GitFormatPatchOptions : GitOptions
     public virtual bool? Shortstat { get; set; }
 
     [CliOption("--dirstat", Format = OptionFormat.EqualsSeparated)]
-    public string? Dirstat { get; set; }
+    public virtual string? Dirstat { get; set; }
 
     [CliFlag("--cumulative")]
     public virtual bool? Cumulative { get; set; }
 
     [CliOption("--dirstat-by-file", Format = OptionFormat.EqualsSeparated)]
-    public string? DirstatByFile { get; set; }
+    public virtual string? DirstatByFile { get; set; }
 
     [CliFlag("--summary")]
     public virtual bool? Summary { get; set; }
@@ -86,16 +86,16 @@ public record GitFormatPatchOptions : GitOptions
     public virtual bool? Binary { get; set; }
 
     [CliOption("--abbrev", Format = OptionFormat.EqualsSeparated)]
-    public string? Abbrev { get; set; }
+    public virtual string? Abbrev { get; set; }
 
     [CliOption("--break-rewrites", Format = OptionFormat.EqualsSeparated)]
-    public string? BreakRewrites { get; set; }
+    public virtual string? BreakRewrites { get; set; }
 
     [CliOption("--find-renames", Format = OptionFormat.EqualsSeparated)]
-    public string? FindRenames { get; set; }
+    public virtual string? FindRenames { get; set; }
 
     [CliOption("--find-copies", Format = OptionFormat.EqualsSeparated)]
-    public string? FindCopies { get; set; }
+    public virtual string? FindCopies { get; set; }
 
     [CliFlag("--find-copies-harder")]
     public virtual bool? FindCopiesHarder { get; set; }
@@ -104,13 +104,13 @@ public record GitFormatPatchOptions : GitOptions
     public virtual bool? IrreversibleDelete { get; set; }
 
     [CliOption("--skip-to", Format = OptionFormat.EqualsSeparated)]
-    public string? SkipTo { get; set; }
+    public virtual string? SkipTo { get; set; }
 
     [CliOption("--rotate-to", Format = OptionFormat.EqualsSeparated)]
-    public string? RotateTo { get; set; }
+    public virtual string? RotateTo { get; set; }
 
     [CliOption("--relative", Format = OptionFormat.EqualsSeparated)]
-    public string? Relative { get; set; }
+    public virtual string? Relative { get; set; }
 
     [CliFlag("--no-relative")]
     public virtual bool? NoRelative { get; set; }
@@ -134,10 +134,10 @@ public record GitFormatPatchOptions : GitOptions
     public virtual bool? IgnoreBlankLines { get; set; }
 
     [CliOption("--ignore-matching-lines", Format = OptionFormat.EqualsSeparated)]
-    public string? IgnoreMatchingLines { get; set; }
+    public virtual string? IgnoreMatchingLines { get; set; }
 
     [CliOption("--inter-hunk-context", Format = OptionFormat.EqualsSeparated)]
-    public string? InterHunkContext { get; set; }
+    public virtual string? InterHunkContext { get; set; }
 
     [CliFlag("--function-context")]
     public virtual bool? FunctionContext { get; set; }
@@ -155,13 +155,13 @@ public record GitFormatPatchOptions : GitOptions
     public virtual bool? NoTextconv { get; set; }
 
     [CliOption("--ignore-submodules", Format = OptionFormat.EqualsSeparated)]
-    public string? IgnoreSubmodules { get; set; }
+    public virtual string? IgnoreSubmodules { get; set; }
 
     [CliOption("--src-prefix", Format = OptionFormat.EqualsSeparated)]
-    public string? SrcPrefix { get; set; }
+    public virtual string? SrcPrefix { get; set; }
 
     [CliOption("--dst-prefix", Format = OptionFormat.EqualsSeparated)]
-    public string? DstPrefix { get; set; }
+    public virtual string? DstPrefix { get; set; }
 
     [CliFlag("--no-prefix")]
     public virtual bool? NoPrefix { get; set; }
@@ -170,13 +170,13 @@ public record GitFormatPatchOptions : GitOptions
     public virtual bool? DefaultPrefix { get; set; }
 
     [CliOption("--line-prefix", Format = OptionFormat.EqualsSeparated)]
-    public string? LinePrefix { get; set; }
+    public virtual string? LinePrefix { get; set; }
 
     [CliFlag("--ita-invisible-in-index")]
     public virtual bool? ItaInvisibleInIndex { get; set; }
 
     [CliOption("--output-directory", Format = OptionFormat.EqualsSeparated)]
-    public string? OutputDirectory { get; set; }
+    public virtual string? OutputDirectory { get; set; }
 
     [CliFlag("--numbered")]
     public virtual bool? Numbered { get; set; }
@@ -185,7 +185,7 @@ public record GitFormatPatchOptions : GitOptions
     public virtual bool? NoNumbered { get; set; }
 
     [CliOption("--start-number", Format = OptionFormat.EqualsSeparated)]
-    public string? StartNumber { get; set; }
+    public virtual string? StartNumber { get; set; }
 
     [CliFlag("--numbered-files")]
     public virtual bool? NumberedFiles { get; set; }
@@ -200,22 +200,22 @@ public record GitFormatPatchOptions : GitOptions
     public virtual bool? Stdout { get; set; }
 
     [CliOption("--attach", Format = OptionFormat.EqualsSeparated)]
-    public string? Attach { get; set; }
+    public virtual string? Attach { get; set; }
 
     [CliFlag("--no-attach")]
     public virtual bool? NoAttach { get; set; }
 
     [CliOption("--inline", Format = OptionFormat.EqualsSeparated)]
-    public string? Inline { get; set; }
+    public virtual string? Inline { get; set; }
 
     [CliOption("--thread", Format = OptionFormat.EqualsSeparated)]
-    public string? Thread { get; set; }
+    public virtual string? Thread { get; set; }
 
     [CliFlag("--no-thread")]
     public virtual bool? NoThread { get; set; }
 
     [CliOption("--in-reply-to", Format = OptionFormat.EqualsSeparated)]
-    public string? InReplyTo { get; set; }
+    public virtual string? InReplyTo { get; set; }
 
     [CliFlag("--ignore-if-in-upstream")]
     public virtual bool? IgnoreIfInUpstream { get; set; }
@@ -224,25 +224,25 @@ public record GitFormatPatchOptions : GitOptions
     public virtual bool? Always { get; set; }
 
     [CliOption("--cover-from-description", Format = OptionFormat.EqualsSeparated)]
-    public string? CoverFromDescription { get; set; }
+    public virtual string? CoverFromDescription { get; set; }
 
     [CliOption("--subject-prefix", Format = OptionFormat.EqualsSeparated)]
-    public string? SubjectPrefix { get; set; }
+    public virtual string? SubjectPrefix { get; set; }
 
     [CliOption("--filename-max-length", Format = OptionFormat.EqualsSeparated)]
-    public string? FilenameMaxLength { get; set; }
+    public virtual string? FilenameMaxLength { get; set; }
 
     [CliFlag("--rfc")]
     public virtual bool? Rfc { get; set; }
 
     [CliOption("--reroll-count", Format = OptionFormat.EqualsSeparated)]
-    public string? RerollCount { get; set; }
+    public virtual string? RerollCount { get; set; }
 
     [CliOption("--to", Format = OptionFormat.EqualsSeparated)]
-    public string? To { get; set; }
+    public virtual string? To { get; set; }
 
     [CliOption("--cc", Format = OptionFormat.EqualsSeparated)]
-    public string? Cc { get; set; }
+    public virtual string? Cc { get; set; }
 
     [CliFlag("--from")]
     public virtual bool? From { get; set; }
@@ -254,7 +254,7 @@ public record GitFormatPatchOptions : GitOptions
     public virtual bool? ForceInBodyFrom { get; set; }
 
     [CliOption("--add-header", Format = OptionFormat.EqualsSeparated)]
-    public string? AddHeader { get; set; }
+    public virtual string? AddHeader { get; set; }
 
     [CliFlag("--no-cover-letter")]
     public virtual bool? NoCoverLetter { get; set; }
@@ -269,31 +269,31 @@ public record GitFormatPatchOptions : GitOptions
     public virtual bool? NoEncodeEmailHeaders { get; set; }
 
     [CliOption("--interdiff", Format = OptionFormat.EqualsSeparated)]
-    public string? Interdiff { get; set; }
+    public virtual string? Interdiff { get; set; }
 
     [CliOption("--range-diff", Format = OptionFormat.EqualsSeparated)]
-    public string? RangeDiff { get; set; }
+    public virtual string? RangeDiff { get; set; }
 
     [CliOption("--creation-factor", Format = OptionFormat.EqualsSeparated)]
-    public string? CreationFactor { get; set; }
+    public virtual string? CreationFactor { get; set; }
 
     [CliOption("--notes", Format = OptionFormat.EqualsSeparated)]
-    public string? Notes { get; set; }
+    public virtual string? Notes { get; set; }
 
     [CliFlag("--no-notes")]
     public virtual bool? NoNotes { get; set; }
 
     [CliOption("--no-signature", Format = OptionFormat.EqualsSeparated)]
-    public string? NoSignature { get; set; }
+    public virtual string? NoSignature { get; set; }
 
     [CliOption("--signature", Format = OptionFormat.EqualsSeparated)]
-    public string? Signature { get; set; }
+    public virtual string? Signature { get; set; }
 
     [CliOption("--signature-file", Format = OptionFormat.EqualsSeparated)]
-    public string? SignatureFile { get; set; }
+    public virtual string? SignatureFile { get; set; }
 
     [CliOption("--suffix", Format = OptionFormat.EqualsSeparated)]
-    public string? Suffix { get; set; }
+    public virtual string? Suffix { get; set; }
 
     [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
@@ -305,10 +305,10 @@ public record GitFormatPatchOptions : GitOptions
     public virtual bool? ZeroCommit { get; set; }
 
     [CliOption("--no-base", Format = OptionFormat.EqualsSeparated)]
-    public string? NoBase { get; set; }
+    public virtual string? NoBase { get; set; }
 
     [CliOption("--base", Format = OptionFormat.EqualsSeparated)]
-    public string? Base { get; set; }
+    public virtual string? Base { get; set; }
 
     [CliFlag("--root")]
     public virtual bool? Root { get; set; }

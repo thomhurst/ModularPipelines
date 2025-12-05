@@ -1,7 +1,7 @@
 namespace ModularPipelines.Engine;
 
 /// <summary>
-/// Determines when the module scheduler should exit its execution loop
+/// Determines when the module scheduler should exit its execution loop.
 /// </summary>
 /// <remarks>
 /// Extracted for testability and clarity. Contains the logic for detecting
@@ -10,11 +10,11 @@ namespace ModularPipelines.Engine;
 internal class SchedulerExitConditions
 {
     /// <summary>
-    /// Determines if the scheduler should exit based on current state
+    /// Determines if the scheduler should exit based on current state.
     /// </summary>
-    /// <param name="snapshot">Current state snapshot</param>
-    /// <param name="queuedCount">Number of modules queued in this iteration</param>
-    /// <returns>True if scheduler should exit, false if it should continue</returns>
+    /// <param name="snapshot">Current state snapshot.</param>
+    /// <param name="queuedCount">Number of modules queued in this iteration.</param>
+    /// <returns>True if scheduler should exit, false if it should continue.</returns>
     public bool ShouldExit(ModuleStateSnapshot snapshot, int queuedCount)
     {
         // Exit if all work is done
@@ -33,11 +33,11 @@ internal class SchedulerExitConditions
     }
 
     /// <summary>
-    /// Detects deadlock condition: modules are pending but cannot make progress
+    /// Detects deadlock condition: modules are pending but cannot make progress.
     /// </summary>
-    /// <param name="snapshot">Current state snapshot</param>
-    /// <param name="queuedCount">Number of modules queued in this iteration</param>
-    /// <returns>True if deadlocked, false otherwise</returns>
+    /// <param name="snapshot">Current state snapshot.</param>
+    /// <param name="queuedCount">Number of modules queued in this iteration.</param>
+    /// <returns>True if deadlocked, false otherwise.</returns>
     /// <remarks>
     /// Deadlock occurs when:
     /// - No modules are currently active (executing or queued)

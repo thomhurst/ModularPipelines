@@ -8,11 +8,11 @@ namespace ModularPipelines.Helm.Options;
 public record HelmTestOptions : HelmOptions
 {
     [CliOption("--filter")]
-    public string[]? Filter { get; set; }
+    public virtual string[]? Filter { get; set; }
 
     [CliFlag("--logs")]
     public virtual bool? Logs { get; set; }
 
     [CliOption("--timeout")]
-    public string? Timeout { get; set; }
+    public virtual string? Timeout { get; set; }
 }

@@ -9,7 +9,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerServiceScaleOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<KeyValue>? ServiceReplicas { get; set; }
+    public virtual IEnumerable<KeyValue>? ServiceReplicas { get; set; }
 
     [CliFlag("--detach")]
     public virtual bool? Detach { get; set; }

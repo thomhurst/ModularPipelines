@@ -14,16 +14,16 @@ public record KubernetesTopPodOptions([property: CliArgument] string Name) : Kub
     public virtual bool? Containers { get; set; }
 
     [CliOption("--field-selector")]
-    public string? FieldSelector { get; set; }
+    public virtual string? FieldSelector { get; set; }
 
     [CliFlag("--no-headers")]
     public virtual bool? NoHeaders { get; set; }
 
     [CliOption("--selector")]
-    public string? Selector { get; set; }
+    public virtual string? Selector { get; set; }
 
     [CliOption("--sort-by")]
-    public string? SortBy { get; set; }
+    public virtual string? SortBy { get; set; }
 
     [CliFlag("--use-protocol-buffers")]
     public virtual bool? UseProtocolBuffers { get; set; }

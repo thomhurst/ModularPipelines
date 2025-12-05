@@ -16,7 +16,7 @@ public record DockerServicePsOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Service { get; set; }
+    public virtual IEnumerable<string>? Service { get; set; }
 
     [CliOption("--filter")]
     public virtual string? Filter { get; set; }

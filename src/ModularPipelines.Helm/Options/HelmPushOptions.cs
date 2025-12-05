@@ -8,14 +8,14 @@ namespace ModularPipelines.Helm.Options;
 public record HelmPushOptions : HelmOptions
 {
     [CliOption("--ca-file")]
-    public string? CaFile { get; set; }
+    public virtual string? CaFile { get; set; }
 
     [CliOption("--cert-file")]
-    public string? CertFile { get; set; }
+    public virtual string? CertFile { get; set; }
 
     [CliFlag("--insecure-skip-tls-verify")]
     public virtual bool? InsecureSkipTlsVerify { get; set; }
 
     [CliOption("--key-file")]
-    public string? KeyFile { get; set; }
+    public virtual string? KeyFile { get; set; }
 }

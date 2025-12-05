@@ -8,7 +8,7 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesApiResourcesOptions : KubernetesOptions
 {
     [CliOption("--api-group")]
-    public string? ApiGroup { get; set; }
+    public virtual string? ApiGroup { get; set; }
 
     [CliFlag("--cached")]
     public virtual bool? Cached { get; set; }
@@ -20,11 +20,11 @@ public record KubernetesApiResourcesOptions : KubernetesOptions
     public virtual bool? NoHeaders { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliOption("--sort-by")]
-    public string? SortBy { get; set; }
+    public virtual string? SortBy { get; set; }
 
     [CliOption("--verbs")]
-    public string[]? Verbs { get; set; }
+    public virtual string[]? Verbs { get; set; }
 }

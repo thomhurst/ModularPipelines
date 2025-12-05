@@ -16,10 +16,10 @@ public record DockerImageImportOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? FileOrUrl { get; set; }
+    public virtual string? FileOrUrl { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Repository { get; set; }
+    public virtual string? Repository { get; set; }
 
     [CliOption("--change")]
     public virtual string? Change { get; set; }

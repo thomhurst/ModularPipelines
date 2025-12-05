@@ -28,7 +28,7 @@ public record DotNetToolInstallOptions : DotNetOptions
     }
 
     [CliArgument(Name = "<PACKAGE_NAME>")]
-    public string? PackageName { get; set; }
+    public virtual string? PackageName { get; set; }
 
     [CliFlag("--global")]
     public virtual bool? Global { get; set; }

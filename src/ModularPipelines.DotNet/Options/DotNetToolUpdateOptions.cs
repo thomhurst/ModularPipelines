@@ -27,7 +27,7 @@ public record DotNetToolUpdateOptions : DotNetOptions
     }
 
     [CliArgument(Name = "<PACKAGE_ID>")]
-    public string? PackageId { get; set; }
+    public virtual string? PackageId { get; set; }
 
     [CliFlag("--global")]
     public virtual bool? Global { get; set; }

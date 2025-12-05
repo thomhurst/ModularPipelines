@@ -11,5 +11,5 @@ public record NpmStarsOptions : NpmOptions
     public virtual Uri? Registry { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? User { get; set; }
+    public virtual string? User { get; set; }
 }

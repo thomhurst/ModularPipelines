@@ -16,7 +16,7 @@ public record DockerContainerStartOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Container { get; set; }
+    public virtual IEnumerable<string>? Container { get; set; }
 
     [CliFlag("--attach")]
     public virtual bool? Attach { get; set; }

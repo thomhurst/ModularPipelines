@@ -19,10 +19,10 @@ public record DockerCheckpointCreateOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Container { get; set; }
+    public virtual string? Container { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Checkpoint { get; set; }
+    public virtual string? Checkpoint { get; set; }
 
     [CliOption("--checkpoint-dir")]
     public virtual string? CheckpointDir { get; set; }

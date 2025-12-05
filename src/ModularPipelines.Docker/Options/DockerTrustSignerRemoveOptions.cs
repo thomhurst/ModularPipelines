@@ -19,10 +19,10 @@ public record DockerTrustSignerRemoveOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Repository { get; set; }
+    public virtual IEnumerable<string>? Repository { get; set; }
 
     [CliFlag("--force")]
     public virtual bool? Force { get; set; }

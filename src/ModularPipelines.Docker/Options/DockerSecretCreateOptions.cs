@@ -16,10 +16,10 @@ public record DockerSecretCreateOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Secret { get; set; }
+    public virtual string? Secret { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? File { get; set; }
+    public virtual string? File { get; set; }
 
     [CliOption("--driver")]
     public virtual string? Driver { get; set; }

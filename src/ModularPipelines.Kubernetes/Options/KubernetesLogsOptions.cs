@@ -11,7 +11,7 @@ public record KubernetesLogsOptions([property: CliArgument] string Name) : Kuber
     public virtual bool? AllContainers { get; set; }
 
     [CliOption("--container")]
-    public string? Container { get; set; }
+    public virtual string? Container { get; set; }
 
     [CliFlag("--follow")]
     public virtual bool? Follow { get; set; }
@@ -23,13 +23,13 @@ public record KubernetesLogsOptions([property: CliArgument] string Name) : Kuber
     public virtual bool? InsecureSkipTlsVerifyBackend { get; set; }
 
     [CliOption("--limit-bytes")]
-    public int? LimitBytes { get; set; }
+    public virtual int? LimitBytes { get; set; }
 
     [CliOption("--max-log-requests")]
-    public int? MaxLogRequests { get; set; }
+    public virtual int? MaxLogRequests { get; set; }
 
     [CliOption("--pod-running-timeout")]
-    public string? PodRunningTimeout { get; set; }
+    public virtual string? PodRunningTimeout { get; set; }
 
     [CliFlag("--prefix")]
     public virtual bool? Prefix { get; set; }
@@ -38,16 +38,16 @@ public record KubernetesLogsOptions([property: CliArgument] string Name) : Kuber
     public virtual bool? Previous { get; set; }
 
     [CliOption("--selector")]
-    public string? Selector { get; set; }
+    public virtual string? Selector { get; set; }
 
     [CliOption("--since")]
-    public string? Since { get; set; }
+    public virtual string? Since { get; set; }
 
     [CliOption("--since-time")]
-    public string? SinceTime { get; set; }
+    public virtual string? SinceTime { get; set; }
 
     [CliOption("--tail")]
-    public int? Tail { get; set; }
+    public virtual int? Tail { get; set; }
 
     [CliFlag("--timestamps")]
     public virtual bool? Timestamps { get; set; }

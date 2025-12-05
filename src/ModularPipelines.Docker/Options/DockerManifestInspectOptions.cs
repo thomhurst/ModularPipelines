@@ -16,10 +16,10 @@ public record DockerManifestInspectOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? ManifestList { get; set; }
+    public virtual string? ManifestList { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Manifest { get; set; }
+    public virtual string? Manifest { get; set; }
 
     [CliOption("--insecure")]
     public virtual string? Insecure { get; set; }

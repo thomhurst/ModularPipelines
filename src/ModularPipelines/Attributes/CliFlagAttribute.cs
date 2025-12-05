@@ -30,12 +30,13 @@ public sealed class CliFlagAttribute : Attribute
     public string? ShortForm { get; set; }
 
     /// <summary>
-    /// Gets or sets whether to prefer the short form when building the command.
+    /// Gets or sets a value indicating whether gets or sets whether to prefer the short form when building the command.
     /// Defaults to false.
     /// </summary>
     public bool PreferShortForm { get; set; }
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="CliFlagAttribute"/> class.
     /// Initializes a new instance of the <see cref="CliFlagAttribute"/> class.
     /// </summary>
     /// <param name="name">The flag name (e.g., "--debug").</param>
@@ -47,6 +48,7 @@ public sealed class CliFlagAttribute : Attribute
     /// <summary>
     /// Gets the effective flag name based on <see cref="PreferShortForm"/> setting.
     /// </summary>
+    /// <returns></returns>
     public string GetEffectiveName() =>
         PreferShortForm && !string.IsNullOrEmpty(ShortForm) ? ShortForm : Name;
 }

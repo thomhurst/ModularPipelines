@@ -36,7 +36,7 @@ public sealed class CliOptionAttribute : Attribute
     public string? ShortForm { get; set; }
 
     /// <summary>
-    /// Gets or sets whether to prefer the short form when building the command.
+    /// Gets or sets a value indicating whether gets or sets whether to prefer the short form when building the command.
     /// Defaults to false.
     /// </summary>
     public bool PreferShortForm { get; set; }
@@ -48,7 +48,7 @@ public sealed class CliOptionAttribute : Attribute
     public OptionFormat Format { get; set; } = OptionFormat.SpaceSeparated;
 
     /// <summary>
-    /// Gets or sets whether this option can be specified multiple times with different values.
+    /// Gets or sets a value indicating whether gets or sets whether this option can be specified multiple times with different values.
     /// When true and the property is an array/collection, each value generates a separate option instance.
     /// Defaults to false.
     /// </summary>
@@ -61,6 +61,7 @@ public sealed class CliOptionAttribute : Attribute
     public string? CustomSeparator { get; set; }
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="CliOptionAttribute"/> class.
     /// Initializes a new instance of the <see cref="CliOptionAttribute"/> class.
     /// </summary>
     /// <param name="name">The option name (e.g., "--namespace").</param>
@@ -72,12 +73,14 @@ public sealed class CliOptionAttribute : Attribute
     /// <summary>
     /// Gets the effective option name based on <see cref="PreferShortForm"/> setting.
     /// </summary>
+    /// <returns></returns>
     public string GetEffectiveName() =>
         PreferShortForm && !string.IsNullOrEmpty(ShortForm) ? ShortForm : Name;
 
     /// <summary>
     /// Gets the separator string to use between option name and value.
     /// </summary>
+    /// <returns></returns>
     public string GetSeparator()
     {
         if (!string.IsNullOrEmpty(CustomSeparator))

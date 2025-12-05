@@ -7,5 +7,5 @@ namespace ModularPipelines.Options.Linux.AptGet;
 public record AptGetPackageOptions : AptGetOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string CommandName { get; } = "package";
+    public virtual string CommandName { get; } = "package";
 }

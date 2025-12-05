@@ -14,16 +14,16 @@ public record KubernetesApplyOptions : KubernetesOptions
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CliOption("--cascade")]
-    public string? Cascade { get; set; }
+    public virtual string? Cascade { get; set; }
 
     [CliOption("--dry-run")]
-    public string? DryRun { get; set; }
+    public virtual string? DryRun { get; set; }
 
     [CliOption("--field-manager")]
-    public string? FieldManager { get; set; }
+    public virtual string? FieldManager { get; set; }
 
     [CliOption("--filename")]
-    public string[]? Filename { get; set; }
+    public virtual string[]? Filename { get; set; }
 
     [CliFlag("--force")]
     public virtual bool? Force { get; set; }
@@ -32,16 +32,16 @@ public record KubernetesApplyOptions : KubernetesOptions
     public virtual bool? ForceConflicts { get; set; }
 
     [CliOption("--grace-period")]
-    public int? GracePeriod { get; set; }
+    public virtual int? GracePeriod { get; set; }
 
     [CliOption("--kustomize")]
-    public string? Kustomize { get; set; }
+    public virtual string? Kustomize { get; set; }
 
     [CliFlag("--openapi-patch")]
     public virtual bool? OpenapiPatch { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliFlag("--overwrite")]
     public virtual bool? Overwrite { get; set; }
@@ -50,7 +50,7 @@ public record KubernetesApplyOptions : KubernetesOptions
     public virtual bool? Prune { get; set; }
 
     [CliOption("--prune-whitelist")]
-    public string[]? PruneWhitelist { get; set; }
+    public virtual string[]? PruneWhitelist { get; set; }
 
     [CliFlag("--record")]
     public virtual bool? Record { get; set; }
@@ -59,7 +59,7 @@ public record KubernetesApplyOptions : KubernetesOptions
     public virtual bool? Recursive { get; set; }
 
     [CliOption("--selector")]
-    public string? Selector { get; set; }
+    public virtual string? Selector { get; set; }
 
     [CliFlag("--server-side")]
     public virtual bool? ServerSide { get; set; }
@@ -68,10 +68,10 @@ public record KubernetesApplyOptions : KubernetesOptions
     public virtual bool? ShowManagedFields { get; set; }
 
     [CliOption("--template")]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 
     [CliOption("--timeout")]
-    public string? Timeout { get; set; }
+    public virtual string? Timeout { get; set; }
 
     [CliFlag("--validate")]
     public virtual bool? Validate { get; set; }

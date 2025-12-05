@@ -14,7 +14,7 @@ public record GitBlameOptions : GitOptions
     public virtual bool? ShowStats { get; set; }
 
     [CliOption("--reverse", Format = OptionFormat.EqualsSeparated)]
-    public string? Reverse { get; set; }
+    public virtual string? Reverse { get; set; }
 
     [CliFlag("--first-parent")]
     public virtual bool? FirstParent { get; set; }
@@ -29,13 +29,13 @@ public record GitBlameOptions : GitOptions
     public virtual bool? Incremental { get; set; }
 
     [CliOption("--encoding", Format = OptionFormat.EqualsSeparated)]
-    public string? Encoding { get; set; }
+    public virtual string? Encoding { get; set; }
 
     [CliOption("--contents", Format = OptionFormat.EqualsSeparated)]
-    public string? Contents { get; set; }
+    public virtual string? Contents { get; set; }
 
     [CliOption("--date", Format = OptionFormat.EqualsSeparated)]
-    public string? Date { get; set; }
+    public virtual string? Date { get; set; }
 
     [CliFlag("--no-progress")]
     public virtual bool? NoProgress { get; set; }
@@ -44,10 +44,10 @@ public record GitBlameOptions : GitOptions
     public virtual bool? Progress { get; set; }
 
     [CliOption("--ignore-rev", Format = OptionFormat.EqualsSeparated)]
-    public string? IgnoreRev { get; set; }
+    public virtual string? IgnoreRev { get; set; }
 
     [CliOption("--ignore-revs-file", Format = OptionFormat.EqualsSeparated)]
-    public string? IgnoreRevsFile { get; set; }
+    public virtual string? IgnoreRevsFile { get; set; }
 
     [CliFlag("--color-lines")]
     public virtual bool? ColorLines { get; set; }
@@ -71,5 +71,5 @@ public record GitBlameOptions : GitOptions
     public virtual bool? ShowEmail { get; set; }
 
     [CliOption("--abbrev", Format = OptionFormat.EqualsSeparated)]
-    public string? Abbrev { get; set; }
+    public virtual string? Abbrev { get; set; }
 }

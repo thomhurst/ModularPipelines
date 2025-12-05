@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerContainerStatsOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Container { get; set; }
+    public virtual IEnumerable<string>? Container { get; set; }
 
     [CliFlag("--all")]
     public virtual bool? All { get; set; }

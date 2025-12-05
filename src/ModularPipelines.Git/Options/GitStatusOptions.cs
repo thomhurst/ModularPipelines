@@ -17,7 +17,7 @@ public record GitStatusOptions : GitOptions
     public virtual bool? ShowStash { get; set; }
 
     [CliOption("--porcelain", Format = OptionFormat.EqualsSeparated)]
-    public string? Porcelain { get; set; }
+    public virtual string? Porcelain { get; set; }
 
     [CliFlag("--long")]
     public virtual bool? Long { get; set; }
@@ -26,16 +26,16 @@ public record GitStatusOptions : GitOptions
     public virtual bool? Verbose { get; set; }
 
     [CliOption("--untracked-files", Format = OptionFormat.EqualsSeparated)]
-    public string? UntrackedFiles { get; set; }
+    public virtual string? UntrackedFiles { get; set; }
 
     [CliOption("--ignore-submodules", Format = OptionFormat.EqualsSeparated)]
-    public string? IgnoreSubmodules { get; set; }
+    public virtual string? IgnoreSubmodules { get; set; }
 
     [CliOption("--ignored", Format = OptionFormat.EqualsSeparated)]
-    public string? Ignored { get; set; }
+    public virtual string? Ignored { get; set; }
 
     [CliOption("--column", Format = OptionFormat.EqualsSeparated)]
-    public string? Column { get; set; }
+    public virtual string? Column { get; set; }
 
     [CliFlag("--no-column")]
     public virtual bool? NoColumn { get; set; }
@@ -53,5 +53,5 @@ public record GitStatusOptions : GitOptions
     public virtual bool? NoRenames { get; set; }
 
     [CliOption("--find-renames", Format = OptionFormat.EqualsSeparated)]
-    public string? FindRenames { get; set; }
+    public virtual string? FindRenames { get; set; }
 }

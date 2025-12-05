@@ -11,5 +11,5 @@ public record NpmCacheCleanOptions : NpmOptions
     public virtual string? Cache { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Key { get; set; }
+    public virtual string? Key { get; set; }
 }

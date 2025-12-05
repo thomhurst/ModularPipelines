@@ -21,7 +21,7 @@ public record DotNetWorkloadSearchOptions : DotNetOptions
     }
 
     [CliArgument(Name = "[<SEARCH_STRING>]")]
-    public string? SearchString { get; set; }
+    public virtual string? SearchString { get; set; }
 
     [CliOption("--verbosity")]
     public virtual string? Verbosity { get; set; }

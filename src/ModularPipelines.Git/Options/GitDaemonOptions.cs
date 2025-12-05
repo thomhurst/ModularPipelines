@@ -11,13 +11,13 @@ public record GitDaemonOptions : GitOptions
     public virtual bool? StrictPaths { get; set; }
 
     [CliOption("--base-path", Format = OptionFormat.EqualsSeparated)]
-    public string? BasePath { get; set; }
+    public virtual string? BasePath { get; set; }
 
     [CliFlag("--base-path-relaxed")]
     public virtual bool? BasePathRelaxed { get; set; }
 
     [CliOption("--interpolated-path", Format = OptionFormat.EqualsSeparated)]
-    public string? InterpolatedPath { get; set; }
+    public virtual string? InterpolatedPath { get; set; }
 
     [CliFlag("--export-all")]
     public virtual bool? ExportAll { get; set; }
@@ -26,25 +26,25 @@ public record GitDaemonOptions : GitOptions
     public virtual bool? Inetd { get; set; }
 
     [CliOption("--listen", Format = OptionFormat.EqualsSeparated)]
-    public string? Listen { get; set; }
+    public virtual string? Listen { get; set; }
 
     [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
-    public string? Port { get; set; }
+    public virtual string? Port { get; set; }
 
     [CliOption("--init-timeout", Format = OptionFormat.EqualsSeparated)]
-    public string? InitTimeout { get; set; }
+    public virtual string? InitTimeout { get; set; }
 
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public string? Timeout { get; set; }
+    public virtual string? Timeout { get; set; }
 
     [CliOption("--max-connections", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxConnections { get; set; }
+    public virtual string? MaxConnections { get; set; }
 
     [CliFlag("--syslog")]
     public virtual bool? Syslog { get; set; }
 
     [CliOption("--log-destination", Format = OptionFormat.EqualsSeparated)]
-    public string? LogDestination { get; set; }
+    public virtual string? LogDestination { get; set; }
 
     [CliFlag("--user-path")]
     public virtual bool? UserPath { get; set; }
@@ -59,25 +59,25 @@ public record GitDaemonOptions : GitOptions
     public virtual bool? Detach { get; set; }
 
     [CliOption("--pid-file", Format = OptionFormat.EqualsSeparated)]
-    public string? PidFile { get; set; }
+    public virtual string? PidFile { get; set; }
 
     [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
-    public string? User { get; set; }
+    public virtual string? User { get; set; }
 
     [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
-    public string? Group { get; set; }
+    public virtual string? Group { get; set; }
 
     [CliOption("--enable", Format = OptionFormat.EqualsSeparated)]
-    public string? Enable { get; set; }
+    public virtual string? Enable { get; set; }
 
     [CliOption("--disable", Format = OptionFormat.EqualsSeparated)]
-    public string? Disable { get; set; }
+    public virtual string? Disable { get; set; }
 
     [CliOption("--allow-override", Format = OptionFormat.EqualsSeparated)]
-    public string? AllowOverride { get; set; }
+    public virtual string? AllowOverride { get; set; }
 
     [CliOption("--forbid-override", Format = OptionFormat.EqualsSeparated)]
-    public string? ForbidOverride { get; set; }
+    public virtual string? ForbidOverride { get; set; }
 
     [CliFlag("--no-informative-errors")]
     public virtual bool? NoInformativeErrors { get; set; }
@@ -86,5 +86,5 @@ public record GitDaemonOptions : GitOptions
     public virtual bool? InformativeErrors { get; set; }
 
     [CliOption("--access-hook", Format = OptionFormat.EqualsSeparated)]
-    public string? AccessHook { get; set; }
+    public virtual string? AccessHook { get; set; }
 }

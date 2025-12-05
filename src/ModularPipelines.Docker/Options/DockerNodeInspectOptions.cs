@@ -16,10 +16,10 @@ public record DockerNodeInspectOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? SelfOrNode { get; set; }
+    public virtual string? SelfOrNode { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Node { get; set; }
+    public virtual IEnumerable<string>? Node { get; set; }
 
     [CliOption("--format")]
     public virtual string? Format { get; set; }

@@ -35,10 +35,10 @@ public record GitRevParseOptions : GitOptions
     public virtual bool? NoFlags { get; set; }
 
     [CliOption("--default", Format = OptionFormat.EqualsSeparated)]
-    public string? Default { get; set; }
+    public virtual string? Default { get; set; }
 
     [CliOption("--prefix", Format = OptionFormat.EqualsSeparated)]
-    public string? Prefix { get; set; }
+    public virtual string? Prefix { get; set; }
 
     [CliFlag("--verify")]
     public virtual bool? Verify { get; set; }
@@ -80,13 +80,13 @@ public record GitRevParseOptions : GitOptions
     public virtual bool? Glob { get; set; }
 
     [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
-    public string? Exclude { get; set; }
+    public virtual string? Exclude { get; set; }
 
     [CliFlag("--exclude-hidden")]
     public virtual bool? ExcludeHidden { get; set; }
 
     [CliOption("--disambiguate", Format = OptionFormat.EqualsSeparated)]
-    public string? Disambiguate { get; set; }
+    public virtual string? Disambiguate { get; set; }
 
     [CliFlag("--local-env-vars")]
     public virtual bool? LocalEnvVars { get; set; }
@@ -101,10 +101,10 @@ public record GitRevParseOptions : GitOptions
     public virtual bool? GitCommonDir { get; set; }
 
     [CliOption("--resolve-git-dir", Format = OptionFormat.EqualsSeparated)]
-    public string? ResolveGitDir { get; set; }
+    public virtual string? ResolveGitDir { get; set; }
 
     [CliOption("--git-path", Format = OptionFormat.EqualsSeparated)]
-    public string? GitPath { get; set; }
+    public virtual string? GitPath { get; set; }
 
     [CliFlag("--show-toplevel")]
     public virtual bool? ShowToplevel { get; set; }

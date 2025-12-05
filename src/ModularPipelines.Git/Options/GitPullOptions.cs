@@ -32,7 +32,7 @@ public record GitPullOptions : GitOptions
     public virtual bool? NoEdit { get; set; }
 
     [CliOption("--cleanup", Format = OptionFormat.EqualsSeparated)]
-    public string? Cleanup { get; set; }
+    public virtual string? Cleanup { get; set; }
 
     [CliFlag("--ff-only")]
     public virtual bool? FfOnly { get; set; }
@@ -44,13 +44,13 @@ public record GitPullOptions : GitOptions
     public virtual bool? NoFf { get; set; }
 
     [CliOption("--gpg-sign", Format = OptionFormat.EqualsSeparated)]
-    public string? GpgSign { get; set; }
+    public virtual string? GpgSign { get; set; }
 
     [CliFlag("--no-gpg-sign")]
     public virtual bool? NoGpgSign { get; set; }
 
     [CliOption("--log", Format = OptionFormat.EqualsSeparated)]
-    public string? Log { get; set; }
+    public virtual string? Log { get; set; }
 
     [CliFlag("--no-log")]
     public virtual bool? NoLog { get; set; }
@@ -80,10 +80,10 @@ public record GitPullOptions : GitOptions
     public virtual bool? Verify { get; set; }
 
     [CliOption("--strategy", Format = OptionFormat.EqualsSeparated)]
-    public string? Strategy { get; set; }
+    public virtual string? Strategy { get; set; }
 
     [CliOption("--strategy-option", Format = OptionFormat.EqualsSeparated)]
-    public string? StrategyOption { get; set; }
+    public virtual string? StrategyOption { get; set; }
 
     [CliFlag("--verify-signatures")]
     public virtual bool? VerifySignatures { get; set; }
@@ -122,16 +122,16 @@ public record GitPullOptions : GitOptions
     public virtual bool? Atomic { get; set; }
 
     [CliOption("--depth", Format = OptionFormat.EqualsSeparated)]
-    public string? Depth { get; set; }
+    public virtual string? Depth { get; set; }
 
     [CliOption("--deepen", Format = OptionFormat.EqualsSeparated)]
-    public string? Deepen { get; set; }
+    public virtual string? Deepen { get; set; }
 
     [CliOption("--shallow-since", Format = OptionFormat.EqualsSeparated)]
-    public string? ShallowSince { get; set; }
+    public virtual string? ShallowSince { get; set; }
 
     [CliOption("--shallow-exclude", Format = OptionFormat.EqualsSeparated)]
-    public string? ShallowExclude { get; set; }
+    public virtual string? ShallowExclude { get; set; }
 
     [CliFlag("--unshallow")]
     public virtual bool? Unshallow { get; set; }
@@ -140,7 +140,7 @@ public record GitPullOptions : GitOptions
     public virtual bool? UpdateShallow { get; set; }
 
     [CliOption("--negotiation-tip", Format = OptionFormat.EqualsSeparated)]
-    public string? NegotiationTip { get; set; }
+    public virtual string? NegotiationTip { get; set; }
 
     [CliFlag("--negotiate-only")]
     public virtual bool? NegotiateOnly { get; set; }
@@ -167,25 +167,25 @@ public record GitPullOptions : GitOptions
     public virtual bool? NoTags { get; set; }
 
     [CliOption("--refmap", Format = OptionFormat.EqualsSeparated)]
-    public string? Refmap { get; set; }
+    public virtual string? Refmap { get; set; }
 
     [CliFlag("--tags")]
     public virtual bool? Tags { get; set; }
 
     [CliOption("--jobs", Format = OptionFormat.EqualsSeparated)]
-    public string? Jobs { get; set; }
+    public virtual string? Jobs { get; set; }
 
     [CliFlag("--set-upstream")]
     public virtual bool? SetUpstream { get; set; }
 
     [CliOption("--upload-pack", Format = OptionFormat.EqualsSeparated)]
-    public string? UploadPack { get; set; }
+    public virtual string? UploadPack { get; set; }
 
     [CliFlag("--progress")]
     public virtual bool? Progress { get; set; }
 
     [CliOption("--server-option", Format = OptionFormat.EqualsSeparated)]
-    public string? ServerOption { get; set; }
+    public virtual string? ServerOption { get; set; }
 
     [CliFlag("--show-forced-updates")]
     public virtual bool? ShowForcedUpdates { get; set; }

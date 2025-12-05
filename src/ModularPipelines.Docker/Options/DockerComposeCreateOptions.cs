@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeCreateOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Service { get; set; }
+    public virtual IEnumerable<string>? Service { get; set; }
 
     [CliFlag("--build")]
     public virtual bool? Build { get; set; }

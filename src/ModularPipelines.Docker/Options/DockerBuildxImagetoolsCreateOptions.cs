@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuildxImagetoolsCreateOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Source { get; set; }
+    public virtual string? Source { get; set; }
 
     [CliOption("--annotation")]
     public virtual string? Annotation { get; set; }

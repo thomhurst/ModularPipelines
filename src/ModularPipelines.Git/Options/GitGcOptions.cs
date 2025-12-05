@@ -20,7 +20,7 @@ public record GitGcOptions : GitOptions
     public virtual bool? Cruft { get; set; }
 
     [CliOption("--prune", Format = OptionFormat.EqualsSeparated)]
-    public string? Prune { get; set; }
+    public virtual string? Prune { get; set; }
 
     [CliFlag("--no-prune")]
     public virtual bool? NoPrune { get; set; }

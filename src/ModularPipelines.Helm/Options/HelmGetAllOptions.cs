@@ -8,8 +8,8 @@ namespace ModularPipelines.Helm.Options;
 public record HelmGetAllOptions : HelmOptions
 {
     [CliOption("--revision")]
-    public int? Revision { get; set; }
+    public virtual int? Revision { get; set; }
 
     [CliOption("--template")]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 }

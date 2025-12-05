@@ -21,7 +21,7 @@ public record DotNetNugetVerifyOptions : DotNetOptions
     }
 
     [CliArgument(Name = "[<package-path(s)>]")]
-    public string? PackagePath { get; set; }
+    public virtual string? PackagePath { get; set; }
 
     [CliFlag("--all")]
     public virtual bool? All { get; set; }

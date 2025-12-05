@@ -8,5 +8,5 @@ namespace ModularPipelines.Helm.Options;
 public record HelmPluginInstallOptions : HelmOptions
 {
     [CliOption("--version")]
-    public string? Version { get; set; }
+    public virtual string? Version { get; set; }
 }

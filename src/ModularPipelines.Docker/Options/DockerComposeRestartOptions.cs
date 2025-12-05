@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeRestartOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Service { get; set; }
+    public virtual IEnumerable<string>? Service { get; set; }
 
     [CliFlag("--no-deps")]
     public virtual bool? NoDeps { get; set; }

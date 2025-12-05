@@ -8,8 +8,8 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutConfigOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Key { get; set; }
+    public virtual string? Key { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Value { get; set; }
+    public virtual string? Value { get; set; }
 }

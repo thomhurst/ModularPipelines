@@ -23,19 +23,19 @@ public record HelmListOptions : HelmOptions
     public virtual bool? Failed { get; set; }
 
     [CliOption("--filter")]
-    public string? Filter { get; set; }
+    public virtual string? Filter { get; set; }
 
     [CliOption("--max")]
-    public int? Max { get; set; }
+    public virtual int? Max { get; set; }
 
     [CliFlag("--no-headers")]
     public virtual bool? NoHeaders { get; set; }
 
     [CliOption("--offset")]
-    public int? Offset { get; set; }
+    public virtual int? Offset { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliFlag("--pending")]
     public virtual bool? Pending { get; set; }
@@ -44,7 +44,7 @@ public record HelmListOptions : HelmOptions
     public virtual bool? Reverse { get; set; }
 
     [CliOption("--selector")]
-    public string? Selector { get; set; }
+    public virtual string? Selector { get; set; }
 
     [CliFlag("--short")]
     public virtual bool? Short { get; set; }
@@ -53,7 +53,7 @@ public record HelmListOptions : HelmOptions
     public virtual bool? Superseded { get; set; }
 
     [CliOption("--time-format")]
-    public string? TimeFormat { get; set; }
+    public virtual string? TimeFormat { get; set; }
 
     [CliFlag("--uninstalled")]
     public virtual bool? Uninstalled { get; set; }

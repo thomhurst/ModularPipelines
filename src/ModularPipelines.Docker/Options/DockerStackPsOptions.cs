@@ -16,7 +16,7 @@ public record DockerStackPsOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Stack { get; set; }
+    public virtual string? Stack { get; set; }
 
     [CliOption("--filter")]
     public virtual string? Filter { get; set; }

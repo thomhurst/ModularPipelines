@@ -19,10 +19,10 @@ public record DockerComposePortOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Service { get; set; }
+    public virtual string? Service { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? PrivatePort { get; set; }
+    public virtual string? PrivatePort { get; set; }
 
     [CliOption("--index")]
     public virtual string? Index { get; set; }

@@ -8,5 +8,5 @@ namespace ModularPipelines.Helm.Options;
 public record HelmVerifyOptions : HelmOptions
 {
     [CliOption("--keyring")]
-    public string? Keyring { get; set; }
+    public virtual string? Keyring { get; set; }
 }

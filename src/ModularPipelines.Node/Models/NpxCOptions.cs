@@ -8,5 +8,5 @@ namespace ModularPipelines.Node.Models;
 public record NpxCOptions : NpmOptions
 {
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Cmd { get; set; }
+    public virtual string? Cmd { get; set; }
 }

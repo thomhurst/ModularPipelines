@@ -16,10 +16,10 @@ public record DockerPluginUpgradeOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Plugin { get; set; }
+    public virtual string? Plugin { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Remote { get; set; }
+    public virtual string? Remote { get; set; }
 
     [CliFlag("--disable-content-trust")]
     public virtual bool? DisableContentTrust { get; set; }

@@ -8,5 +8,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerManifestRmOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? ManifestList { get; set; }
+    public virtual IEnumerable<string>? ManifestList { get; set; }
 }

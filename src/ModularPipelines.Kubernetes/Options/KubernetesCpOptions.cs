@@ -8,7 +8,7 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesCpOptions : KubernetesOptions
 {
     [CliOption("--container")]
-    public string? Container { get; set; }
+    public virtual string? Container { get; set; }
 
     [CliFlag("--no-preserve")]
     public virtual bool? NoPreserve { get; set; }

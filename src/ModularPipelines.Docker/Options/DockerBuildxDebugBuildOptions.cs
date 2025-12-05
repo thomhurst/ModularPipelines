@@ -17,7 +17,7 @@ public record DockerBuildxDebugBuildOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? PathOrUrl { get; set; }
+    public virtual string? PathOrUrl { get; set; }
 
     [CliOption("--add-host")]
     public virtual string? AddHost { get; set; }

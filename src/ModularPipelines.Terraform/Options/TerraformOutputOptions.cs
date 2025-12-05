@@ -8,7 +8,7 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformOutputOptions : TerraformOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CliFlag("-json")]
     public virtual bool? Json { get; set; }

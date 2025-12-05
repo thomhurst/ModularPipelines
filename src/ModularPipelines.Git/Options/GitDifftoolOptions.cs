@@ -17,13 +17,13 @@ public record GitDifftoolOptions : GitOptions
     public virtual bool? Prompt { get; set; }
 
     [CliOption("--rotate-to", Format = OptionFormat.EqualsSeparated)]
-    public string? RotateTo { get; set; }
+    public virtual string? RotateTo { get; set; }
 
     [CliOption("--skip-to", Format = OptionFormat.EqualsSeparated)]
-    public string? SkipTo { get; set; }
+    public virtual string? SkipTo { get; set; }
 
     [CliOption("--tool", Format = OptionFormat.EqualsSeparated)]
-    public string? GitTool { get; set; }
+    public virtual string? GitTool { get; set; }
 
     [CliFlag("--tool-help")]
     public virtual bool? ToolHelp { get; set; }
@@ -35,7 +35,7 @@ public record GitDifftoolOptions : GitOptions
     public virtual bool? Symlinks { get; set; }
 
     [CliOption("--extcmd", Format = OptionFormat.EqualsSeparated)]
-    public string? Extcmd { get; set; }
+    public virtual string? Extcmd { get; set; }
 
     [CliFlag("--no-gui")]
     public virtual bool? NoGui { get; set; }

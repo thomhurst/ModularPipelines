@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeConfigOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Service { get; set; }
+    public virtual IEnumerable<string>? Service { get; set; }
 
     [CliOption("--format")]
     public virtual string? Format { get; set; }

@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuildxBakeOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Target { get; set; }
+    public virtual IEnumerable<string>? Target { get; set; }
 
     [CliOption("--file")]
     public virtual string? File { get; set; }

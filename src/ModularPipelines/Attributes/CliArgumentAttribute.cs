@@ -42,6 +42,7 @@ public sealed class CliArgumentAttribute : Attribute
     public string? Name { get; set; }
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="CliArgumentAttribute"/> class.
     /// Initializes a new instance of the <see cref="CliArgumentAttribute"/> class with default position 0.
     /// </summary>
     public CliArgumentAttribute() : this(0)
@@ -49,6 +50,7 @@ public sealed class CliArgumentAttribute : Attribute
     }
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="CliArgumentAttribute"/> class.
     /// Initializes a new instance of the <see cref="CliArgumentAttribute"/> class.
     /// </summary>
     /// <param name="position">The zero-based position of this argument.</param>

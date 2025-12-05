@@ -16,7 +16,7 @@ public record DotNetNewOptions : DotNetOptions
     }
 
     [CliArgument(Name = "<TEMPLATE>")]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 
     [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }

@@ -14,19 +14,19 @@ public record KubernetesCreateSecretTlsOptions([property: CliArgument] string Na
     public virtual bool? AppendHash { get; set; }
 
     [CliOption("--cert")]
-    public string? Cert { get; set; }
+    public virtual string? Cert { get; set; }
 
     [CliOption("--dry-run")]
-    public string? DryRun { get; set; }
+    public virtual string? DryRun { get; set; }
 
     [CliOption("--field-manager")]
-    public string? FieldManager { get; set; }
+    public virtual string? FieldManager { get; set; }
 
     [CliOption("--key")]
-    public string? Key { get; set; }
+    public virtual string? Key { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliFlag("--save-config")]
     public virtual bool? SaveConfig { get; set; }
@@ -35,7 +35,7 @@ public record KubernetesCreateSecretTlsOptions([property: CliArgument] string Na
     public virtual bool? ShowManagedFields { get; set; }
 
     [CliOption("--template")]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 
     [CliFlag("--validate")]
     public virtual bool? Validate { get; set; }

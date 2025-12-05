@@ -20,7 +20,7 @@ public record KubernetesConfigUseContextOptions([property: CliArgument] string C
     public virtual bool? Minify { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliFlag("--raw")]
     public virtual bool? Raw { get; set; }
@@ -29,5 +29,5 @@ public record KubernetesConfigUseContextOptions([property: CliArgument] string C
     public virtual bool? ShowManagedFields { get; set; }
 
     [CliOption("--template")]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 }

@@ -8,22 +8,22 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesDiffOptions : KubernetesOptions
 {
     [CliOption("--field-manager")]
-    public string? FieldManager { get; set; }
+    public virtual string? FieldManager { get; set; }
 
     [CliOption("--filename")]
-    public string[]? Filename { get; set; }
+    public virtual string[]? Filename { get; set; }
 
     [CliFlag("--force-conflicts")]
     public virtual bool? ForceConflicts { get; set; }
 
     [CliOption("--kustomize")]
-    public string? Kustomize { get; set; }
+    public virtual string? Kustomize { get; set; }
 
     [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
     [CliOption("--selector")]
-    public string? Selector { get; set; }
+    public virtual string? Selector { get; set; }
 
     [CliFlag("--server-side")]
     public virtual bool? ServerSide { get; set; }

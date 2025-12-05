@@ -6,6 +6,7 @@ namespace ModularPipelines.Exceptions;
 public class CommandException : PipelineException
 {
     /// <summary>
+    /// Initialises a new instance of the <see cref="CommandException"/> class.
     /// Initializes a new instance of the <see cref="CommandException"/> class.
     /// </summary>
     /// <param name="input">The command input that was executed.</param>

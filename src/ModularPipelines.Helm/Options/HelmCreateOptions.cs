@@ -8,5 +8,5 @@ namespace ModularPipelines.Helm.Options;
 public record HelmCreateOptions : HelmOptions
 {
     [CliOption("--starter")]
-    public string? Starter { get; set; }
+    public virtual string? Starter { get; set; }
 }

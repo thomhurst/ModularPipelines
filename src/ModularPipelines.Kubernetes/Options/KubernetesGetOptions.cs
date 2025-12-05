@@ -14,40 +14,40 @@ public record KubernetesGetOptions([property: CliArgument] string Name) : Kubern
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CliOption("--chunk-size")]
-    public int? ChunkSize { get; set; }
+    public virtual int? ChunkSize { get; set; }
 
     [CliOption("--field-selector")]
-    public string? FieldSelector { get; set; }
+    public virtual string? FieldSelector { get; set; }
 
     [CliOption("--filename")]
-    public string[]? Filename { get; set; }
+    public virtual string[]? Filename { get; set; }
 
     [CliFlag("--ignore-not-found")]
     public virtual bool? IgnoreNotFound { get; set; }
 
     [CliOption("--kustomize")]
-    public string? Kustomize { get; set; }
+    public virtual string? Kustomize { get; set; }
 
     [CliOption("--label-columns")]
-    public string[]? LabelColumns { get; set; }
+    public virtual string[]? LabelColumns { get; set; }
 
     [CliFlag("--no-headers")]
     public virtual bool? NoHeaders { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliFlag("--output-watch-events")]
     public virtual bool? OutputWatchEvents { get; set; }
 
     [CliOption("--raw")]
-    public string? Raw { get; set; }
+    public virtual string? Raw { get; set; }
 
     [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
     [CliOption("--selector")]
-    public string? Selector { get; set; }
+    public virtual string? Selector { get; set; }
 
     [CliFlag("--server-print")]
     public virtual bool? ServerPrint { get; set; }
@@ -62,10 +62,10 @@ public record KubernetesGetOptions([property: CliArgument] string Name) : Kubern
     public virtual bool? ShowManagedFields { get; set; }
 
     [CliOption("--sort-by")]
-    public string? SortBy { get; set; }
+    public virtual string? SortBy { get; set; }
 
     [CliOption("--template")]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 
     [CliFlag("--use-openapi-print-columns")]
     public virtual bool? UseOpenapiPrintColumns { get; set; }

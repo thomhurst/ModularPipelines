@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerTrustInspectOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Image { get; set; }
+    public virtual IEnumerable<string>? Image { get; set; }
 
     [CliOption("--pretty")]
     public virtual string? Pretty { get; set; }

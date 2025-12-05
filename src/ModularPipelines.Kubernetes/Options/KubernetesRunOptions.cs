@@ -11,46 +11,46 @@ public record KubernetesRunOptions([property: CliArgument] string Name) : Kubern
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CliOption("--annotations")]
-    public string[]? Annotations { get; set; }
+    public virtual string[]? Annotations { get; set; }
 
     [CliFlag("--attach")]
     public virtual bool? Attach { get; set; }
 
     [CliOption("--cascade")]
-    public string? Cascade { get; set; }
+    public virtual string? Cascade { get; set; }
 
     [CliFlag("--command")]
     public virtual bool? Command { get; set; }
 
     [CliOption("--dry-run")]
-    public string? DryRun { get; set; }
+    public virtual string? DryRun { get; set; }
 
     [CliOption("--env")]
-    public string[]? Env { get; set; }
+    public virtual string[]? Env { get; set; }
 
     [CliFlag("--expose")]
     public virtual bool? Expose { get; set; }
 
     [CliOption("--field-manager")]
-    public string? FieldManager { get; set; }
+    public virtual string? FieldManager { get; set; }
 
     [CliOption("--filename")]
-    public string[]? Filename { get; set; }
+    public virtual string[]? Filename { get; set; }
 
     [CliFlag("--force")]
     public virtual bool? Force { get; set; }
 
     [CliOption("--grace-period")]
-    public int? GracePeriod { get; set; }
+    public virtual int? GracePeriod { get; set; }
 
     [CliOption("--hostport")]
-    public int? Hostport { get; set; }
+    public virtual int? Hostport { get; set; }
 
     [CliOption("--image")]
-    public string? Image { get; set; }
+    public virtual string? Image { get; set; }
 
     [CliOption("--image-pull-policy")]
-    public string? ImagePullPolicy { get; set; }
+    public virtual string? ImagePullPolicy { get; set; }
 
     [CliOption("--kustomize")]
     public string? Kustomize { get; set; }
@@ -65,7 +65,7 @@ public record KubernetesRunOptions([property: CliArgument] string Name) : Kubern
     public string? Limits { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliOption("--overrides")]
     public string? Overrides { get; set; }

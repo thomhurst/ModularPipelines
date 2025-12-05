@@ -16,7 +16,7 @@ public record DockerNetworkInspectOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Network { get; set; }
+    public virtual IEnumerable<string>? Network { get; set; }
 
     [CliOption("--format")]
     public virtual string? Format { get; set; }

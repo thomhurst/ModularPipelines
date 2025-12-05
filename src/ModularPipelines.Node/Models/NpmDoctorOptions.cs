@@ -11,17 +11,17 @@ public record NpmDoctorOptions : NpmOptions
     public virtual Uri? Registry { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Ping { get; set; }
+    public virtual string? Ping { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Versions { get; set; }
+    public virtual string? Versions { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Environment { get; set; }
+    public virtual string? Environment { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Permissions { get; set; }
+    public virtual string? Permissions { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Cache { get; set; }
+    public virtual string? Cache { get; set; }
 }

@@ -16,7 +16,7 @@ public record DotNetWorkloadInstallOptions : DotNetOptions
     }
 
     [CliArgument(Name = "<WORKLOAD_ID>")]
-    public string? WorkloadId { get; set; }
+    public virtual string? WorkloadId { get; set; }
 
     [CliOption("--configfile")]
     public virtual string? Configfile { get; set; }

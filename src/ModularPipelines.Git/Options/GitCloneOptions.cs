@@ -17,10 +17,10 @@ public record GitCloneOptions : GitOptions
     public virtual bool? Shared { get; set; }
 
     [CliOption("--reference-if-able", Format = OptionFormat.EqualsSeparated)]
-    public string? ReferenceIfAble { get; set; }
+    public virtual string? ReferenceIfAble { get; set; }
 
     [CliOption("--reference", Format = OptionFormat.EqualsSeparated)]
-    public string? Reference { get; set; }
+    public virtual string? Reference { get; set; }
 
     [CliFlag("--dissociate")]
     public virtual bool? Dissociate { get; set; }
@@ -35,7 +35,7 @@ public record GitCloneOptions : GitOptions
     public virtual bool? Progress { get; set; }
 
     [CliOption("--server-option", Format = OptionFormat.EqualsSeparated)]
-    public string? ServerOption { get; set; }
+    public virtual string? ServerOption { get; set; }
 
     [CliFlag("--no-checkout")]
     public virtual bool? NoCheckout { get; set; }
@@ -53,7 +53,7 @@ public record GitCloneOptions : GitOptions
     public virtual bool? Sparse { get; set; }
 
     [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
-    public string? Filter { get; set; }
+    public virtual string? Filter { get; set; }
 
     [CliFlag("--also-filter-submodules")]
     public virtual bool? AlsoFilterSubmodules { get; set; }
@@ -62,28 +62,28 @@ public record GitCloneOptions : GitOptions
     public virtual bool? Mirror { get; set; }
 
     [CliOption("--origin", Format = OptionFormat.EqualsSeparated)]
-    public string? Origin { get; set; }
+    public virtual string? Origin { get; set; }
 
     [CliOption("--branch", Format = OptionFormat.EqualsSeparated)]
-    public string? Branch { get; set; }
+    public virtual string? Branch { get; set; }
 
     [CliOption("--upload-pack", Format = OptionFormat.EqualsSeparated)]
-    public string? UploadPack { get; set; }
+    public virtual string? UploadPack { get; set; }
 
     [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
-    public string? Config { get; set; }
+    public virtual string? Config { get; set; }
 
     [CliOption("--depth", Format = OptionFormat.EqualsSeparated)]
-    public string? Depth { get; set; }
+    public virtual string? Depth { get; set; }
 
     [CliOption("--shallow-since", Format = OptionFormat.EqualsSeparated)]
-    public string? ShallowSince { get; set; }
+    public virtual string? ShallowSince { get; set; }
 
     [CliOption("--shallow-exclude", Format = OptionFormat.EqualsSeparated)]
-    public string? ShallowExclude { get; set; }
+    public virtual string? ShallowExclude { get; set; }
 
     [CliFlag("--no-single-branch")]
     public virtual bool? NoSingleBranch { get; set; }
@@ -95,7 +95,7 @@ public record GitCloneOptions : GitOptions
     public virtual bool? NoTags { get; set; }
 
     [CliOption("--recurse-submodules", Format = OptionFormat.EqualsSeparated)]
-    public string? RecurseSubmodules { get; set; }
+    public virtual string? RecurseSubmodules { get; set; }
 
     [CliFlag("--no-shallow-submodules")]
     public virtual bool? NoShallowSubmodules { get; set; }
@@ -110,11 +110,11 @@ public record GitCloneOptions : GitOptions
     public virtual bool? RemoteSubmodules { get; set; }
 
     [CliOption("--separate-git-dir", Format = OptionFormat.EqualsSeparated)]
-    public string? SeparateGitDir { get; set; }
+    public virtual string? SeparateGitDir { get; set; }
 
     [CliOption("--jobs", Format = OptionFormat.EqualsSeparated)]
-    public string? Jobs { get; set; }
+    public virtual string? Jobs { get; set; }
 
     [CliOption("--bundle-uri", Format = OptionFormat.EqualsSeparated)]
-    public string? BundleUri { get; set; }
+    public virtual string? BundleUri { get; set; }
 }

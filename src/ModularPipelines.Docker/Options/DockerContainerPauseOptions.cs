@@ -8,5 +8,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerContainerPauseOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Container { get; set; }
+    public virtual IEnumerable<string>? Container { get; set; }
 }

@@ -8,8 +8,8 @@ namespace ModularPipelines.Helm.Options;
 public record HelmRepoIndexOptions : HelmOptions
 {
     [CliOption("--merge")]
-    public string? Merge { get; set; }
+    public virtual string? Merge { get; set; }
 
     [CliOption("--url")]
-    public string? Url { get; set; }
+    public virtual string? Url { get; set; }
 }

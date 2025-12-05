@@ -20,10 +20,10 @@ public record GitReadTreeOptions : GitOptions
     public virtual bool? Aggressive { get; set; }
 
     [CliOption("--prefix", Format = OptionFormat.EqualsSeparated)]
-    public string? Prefix { get; set; }
+    public virtual string? Prefix { get; set; }
 
     [CliOption("--index-output", Format = OptionFormat.EqualsSeparated)]
-    public string? IndexOutput { get; set; }
+    public virtual string? IndexOutput { get; set; }
 
     [CliFlag("--no-recurse-submodules")]
     public virtual bool? NoRecurseSubmodules { get; set; }

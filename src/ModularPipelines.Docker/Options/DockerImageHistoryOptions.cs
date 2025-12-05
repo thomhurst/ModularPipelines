@@ -16,7 +16,7 @@ public record DockerImageHistoryOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Image { get; set; }
+    public virtual string? Image { get; set; }
 
     [CliOption("--format")]
     public virtual string? Format { get; set; }

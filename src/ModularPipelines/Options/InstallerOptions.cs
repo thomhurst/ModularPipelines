@@ -9,7 +9,7 @@ namespace ModularPipelines.Options;
 public record InstallerOptions([property: CliArgument] string Path)
 {
     /// <summary>
-    /// Gets or sets additional arguments to pass to the installer.
+    /// Gets additional arguments to pass to the installer.
     /// </summary>
     public IEnumerable<string>? Arguments { get; init; }
 }

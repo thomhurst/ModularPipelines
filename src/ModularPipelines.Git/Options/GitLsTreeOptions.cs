@@ -20,7 +20,7 @@ public record GitLsTreeOptions : GitOptions
     public virtual bool? ObjectOnly { get; set; }
 
     [CliOption("--abbrev", Format = OptionFormat.EqualsSeparated)]
-    public string? Abbrev { get; set; }
+    public virtual string? Abbrev { get; set; }
 
     [CliFlag("--full-name")]
     public virtual bool? FullName { get; set; }
@@ -29,5 +29,5 @@ public record GitLsTreeOptions : GitOptions
     public virtual bool? FullTree { get; set; }
 
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 }

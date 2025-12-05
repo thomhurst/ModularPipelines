@@ -17,13 +17,13 @@ public record GitRevertOptions : GitOptions
     public virtual bool? NoEdit { get; set; }
 
     [CliOption("--cleanup", Format = OptionFormat.EqualsSeparated)]
-    public string? Cleanup { get; set; }
+    public virtual string? Cleanup { get; set; }
 
     [CliFlag("--no-commit")]
     public virtual bool? NoCommit { get; set; }
 
     [CliOption("--gpg-sign", Format = OptionFormat.EqualsSeparated)]
-    public string? GpgSign { get; set; }
+    public virtual string? GpgSign { get; set; }
 
     [CliFlag("--no-gpg-sign")]
     public virtual bool? NoGpgSign { get; set; }
@@ -32,10 +32,10 @@ public record GitRevertOptions : GitOptions
     public virtual bool? Signoff { get; set; }
 
     [CliOption("--strategy", Format = OptionFormat.EqualsSeparated)]
-    public string? Strategy { get; set; }
+    public virtual string? Strategy { get; set; }
 
     [CliOption("--strategy-option", Format = OptionFormat.EqualsSeparated)]
-    public string? StrategyOption { get; set; }
+    public virtual string? StrategyOption { get; set; }
 
     [CliFlag("--rerere-autoupdate")]
     public virtual bool? RerereAutoupdate { get; set; }

@@ -17,7 +17,7 @@ public record GitTagOptions : GitOptions
     public virtual bool? NoSign { get; set; }
 
     [CliOption("--local-user", Format = OptionFormat.EqualsSeparated)]
-    public string? LocalUser { get; set; }
+    public virtual string? LocalUser { get; set; }
 
     [CliFlag("--force")]
     public virtual bool? Force { get; set; }
@@ -32,10 +32,10 @@ public record GitTagOptions : GitOptions
     public virtual bool? List { get; set; }
 
     [CliOption("--sort", Format = OptionFormat.EqualsSeparated)]
-    public string? Sort { get; set; }
+    public virtual string? Sort { get; set; }
 
     [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
-    public string? Color { get; set; }
+    public virtual string? Color { get; set; }
 
     [CliFlag("--ignore-case")]
     public virtual bool? IgnoreCase { get; set; }
@@ -44,41 +44,41 @@ public record GitTagOptions : GitOptions
     public virtual bool? OmitEmpty { get; set; }
 
     [CliOption("--column", Format = OptionFormat.EqualsSeparated)]
-    public string? Column { get; set; }
+    public virtual string? Column { get; set; }
 
     [CliFlag("--no-column")]
     public virtual bool? NoColumn { get; set; }
 
     [CliOption("--contains", Format = OptionFormat.EqualsSeparated)]
-    public string? Contains { get; set; }
+    public virtual string? Contains { get; set; }
 
     [CliOption("--no-contains", Format = OptionFormat.EqualsSeparated)]
-    public string? NoContains { get; set; }
+    public virtual string? NoContains { get; set; }
 
     [CliOption("--merged", Format = OptionFormat.EqualsSeparated)]
-    public string? Merged { get; set; }
+    public virtual string? Merged { get; set; }
 
     [CliOption("--no-merged", Format = OptionFormat.EqualsSeparated)]
-    public string? NoMerged { get; set; }
+    public virtual string? NoMerged { get; set; }
 
     [CliOption("--points-at", Format = OptionFormat.EqualsSeparated)]
-    public string? PointsAt { get; set; }
+    public virtual string? PointsAt { get; set; }
 
     [CliOption("--message", Format = OptionFormat.EqualsSeparated)]
-    public string? Message { get; set; }
+    public virtual string? Message { get; set; }
 
     [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
-    public string? File { get; set; }
+    public virtual string? File { get; set; }
 
     [CliFlag("--edit")]
     public virtual bool? Edit { get; set; }
 
     [CliOption("--cleanup", Format = OptionFormat.EqualsSeparated)]
-    public string? Cleanup { get; set; }
+    public virtual string? Cleanup { get; set; }
 
     [CliFlag("--create-reflog")]
     public virtual bool? CreateReflog { get; set; }
 
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 }

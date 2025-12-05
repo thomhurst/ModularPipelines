@@ -16,7 +16,7 @@ public record DotNetNugetLocalsOptions : DotNetOptions
     }
 
     [CliArgument(Name = "<CACHE_LOCATION>")]
-    public string? CacheLocation { get; set; }
+    public virtual string? CacheLocation { get; set; }
 
     [CliFlag("--clear")]
     public virtual bool? Clear { get; set; }

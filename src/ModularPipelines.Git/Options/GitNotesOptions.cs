@@ -11,22 +11,22 @@ public record GitNotesOptions : GitOptions
     public virtual bool? Force { get; set; }
 
     [CliOption("--message", Format = OptionFormat.EqualsSeparated)]
-    public string? Message { get; set; }
+    public virtual string? Message { get; set; }
 
     [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
-    public string? File { get; set; }
+    public virtual string? File { get; set; }
 
     [CliOption("--reuse-message", Format = OptionFormat.EqualsSeparated)]
-    public string? ReuseMessage { get; set; }
+    public virtual string? ReuseMessage { get; set; }
 
     [CliOption("--reedit-message", Format = OptionFormat.EqualsSeparated)]
-    public string? ReeditMessage { get; set; }
+    public virtual string? ReeditMessage { get; set; }
 
     [CliFlag("--allow-empty")]
     public virtual bool? AllowEmpty { get; set; }
 
     [CliOption("--ref", Format = OptionFormat.EqualsSeparated)]
-    public string? Ref { get; set; }
+    public virtual string? Ref { get; set; }
 
     [CliFlag("--ignore-missing")]
     public virtual bool? IgnoreMissing { get; set; }
@@ -38,7 +38,7 @@ public record GitNotesOptions : GitOptions
     public virtual bool? DryRun { get; set; }
 
     [CliOption("--strategy", Format = OptionFormat.EqualsSeparated)]
-    public string? Strategy { get; set; }
+    public virtual string? Strategy { get; set; }
 
     [CliFlag("--commit")]
     public virtual bool? Commit { get; set; }

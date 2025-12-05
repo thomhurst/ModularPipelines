@@ -16,7 +16,7 @@ public record DockerBuildxImagetoolsInspectOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CliOption("--format")]
     public virtual string? Format { get; set; }

@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutCompareOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? ImageOrDirectoryOrArchive { get; set; }
+    public virtual string? ImageOrDirectoryOrArchive { get; set; }
 
     [CliOption("--exit-code")]
     public virtual string? ExitCode { get; set; }

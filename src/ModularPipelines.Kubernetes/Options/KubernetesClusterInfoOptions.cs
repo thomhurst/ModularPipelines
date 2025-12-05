@@ -14,20 +14,20 @@ public record KubernetesClusterInfoOptions : KubernetesOptions
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CliOption("--namespaces")]
-    public string[]? Namespaces { get; set; }
+    public virtual string[]? Namespaces { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliOption("--output-directory")]
-    public string? OutputDirectory { get; set; }
+    public virtual string? OutputDirectory { get; set; }
 
     [CliOption("--pod-running-timeout")]
-    public string? PodRunningTimeout { get; set; }
+    public virtual string? PodRunningTimeout { get; set; }
 
     [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
     [CliOption("--template")]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 }

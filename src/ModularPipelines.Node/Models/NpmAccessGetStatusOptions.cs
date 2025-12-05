@@ -17,5 +17,5 @@ public record NpmAccessGetStatusOptions : NpmOptions
     public virtual Uri? Registry { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Package { get; set; }
+    public virtual string? Package { get; set; }
 }

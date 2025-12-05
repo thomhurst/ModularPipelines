@@ -8,5 +8,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeTopOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Services { get; set; }
+    public virtual IEnumerable<string>? Services { get; set; }
 }

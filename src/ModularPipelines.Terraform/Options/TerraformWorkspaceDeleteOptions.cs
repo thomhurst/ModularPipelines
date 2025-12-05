@@ -9,7 +9,7 @@ public record TerraformWorkspaceDeleteOptions([property: CliArgument(Placement =
     string Name) : TerraformOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Directory { get; set; }
+    public virtual string? Directory { get; set; }
 
     [CliFlag("-force")]
     public virtual bool? Force { get; set; }

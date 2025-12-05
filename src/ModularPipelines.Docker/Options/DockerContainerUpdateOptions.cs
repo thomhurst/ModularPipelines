@@ -16,7 +16,7 @@ public record DockerContainerUpdateOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Container { get; set; }
+    public virtual IEnumerable<string>? Container { get; set; }
 
     [CliOption("--blkio-weight")]
     public virtual string? BlkioWeight { get; set; }

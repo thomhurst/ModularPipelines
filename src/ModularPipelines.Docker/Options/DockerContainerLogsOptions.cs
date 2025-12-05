@@ -16,7 +16,7 @@ public record DockerContainerLogsOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Container { get; set; }
+    public virtual string? Container { get; set; }
 
     [CliFlag("--details")]
     public virtual bool? Details { get; set; }

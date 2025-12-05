@@ -20,5 +20,5 @@ public record NpmPkgGetOptions : NpmOptions
     public virtual bool? Workspaces { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Key { get; set; }
+    public virtual string? Key { get; set; }
 }

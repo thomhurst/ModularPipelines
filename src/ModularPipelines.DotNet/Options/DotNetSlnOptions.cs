@@ -21,5 +21,5 @@ public record DotNetSlnOptions : DotNetOptions
     }
 
     [CliArgument(Name = "[<SOLUTION_FILE>]")]
-    public string? SolutionFile { get; set; }
+    public virtual string? SolutionFile { get; set; }
 }

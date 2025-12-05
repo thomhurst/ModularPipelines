@@ -16,13 +16,13 @@ public record DockerComposeRunOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Service { get; set; }
+    public virtual string? Service { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Command { get; set; }
+    public virtual string? Command { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Args { get; set; }
+    public virtual IEnumerable<string>? Args { get; set; }
 
     [CliFlag("--build")]
     public virtual bool? Build { get; set; }

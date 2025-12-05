@@ -11,7 +11,7 @@ public record GitBundleOptions : GitOptions
     public virtual bool? Progress { get; set; }
 
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
-    public string? Version { get; set; }
+    public virtual string? Version { get; set; }
 
     [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }

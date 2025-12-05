@@ -22,11 +22,11 @@ public record NpmPkgSetOptions(
     public virtual bool? Workspaces { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Key { get; set; }
+    public virtual string? Key { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Array { get; set; }
+    public virtual string? Array { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Index { get; set; }
+    public virtual string? Index { get; set; }
 }

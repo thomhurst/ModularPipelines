@@ -21,7 +21,7 @@ public record DotNetTestOptions : DotNetOptions
     }
 
     [CliArgument(Name = "[<PROJECT> | <SOLUTION> | <DIRECTORY> | <DLL> | <EXE>]")]
-    public string? ProjectSolutionDirectoryDllExe { get; set; }
+    public virtual string? ProjectSolutionDirectoryDllExe { get; set; }
 
     [CliOption("--test-adapter-path")]
     public virtual string? TestAdapterPath { get; set; }

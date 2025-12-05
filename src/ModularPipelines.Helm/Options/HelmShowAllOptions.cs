@@ -8,10 +8,10 @@ namespace ModularPipelines.Helm.Options;
 public record HelmShowAllOptions : HelmOptions
 {
     [CliOption("--ca-file")]
-    public string? CaFile { get; set; }
+    public virtual string? CaFile { get; set; }
 
     [CliOption("--cert-file")]
-    public string? CertFile { get; set; }
+    public virtual string? CertFile { get; set; }
 
     [CliFlag("--devel")]
     public virtual bool? Devel { get; set; }
@@ -20,26 +20,26 @@ public record HelmShowAllOptions : HelmOptions
     public virtual bool? InsecureSkipTlsVerify { get; set; }
 
     [CliOption("--key-file")]
-    public string? KeyFile { get; set; }
+    public virtual string? KeyFile { get; set; }
 
     [CliOption("--keyring")]
-    public string? Keyring { get; set; }
+    public virtual string? Keyring { get; set; }
 
     [CliFlag("--pass-credentials")]
     public virtual bool? PassCredentials { get; set; }
 
     [CliOption("--password")]
-    public string? Password { get; set; }
+    public virtual string? Password { get; set; }
 
     [CliOption("--repo")]
-    public string? Repo { get; set; }
+    public virtual string? Repo { get; set; }
 
     [CliOption("--username")]
-    public string? Username { get; set; }
+    public virtual string? Username { get; set; }
 
     [CliFlag("--verify")]
     public virtual bool? Verify { get; set; }
 
     [CliOption("--version")]
-    public string? Version { get; set; }
+    public virtual string? Version { get; set; }
 }

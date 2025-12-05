@@ -20,5 +20,5 @@ public record KubernetesAuthCanIOptions([property: CliArgument] string Verb) : K
     public virtual bool? Quiet { get; set; }
 
     [CliOption("--subresource")]
-    public string? Subresource { get; set; }
+    public virtual string? Subresource { get; set; }
 }

@@ -8,8 +8,8 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesPortForwardOptions([property: CliArgument] string Name) : KubernetesOptions
 {
     [CliOption("--address")]
-    public string? Address { get; set; }
+    public virtual string? Address { get; set; }
 
     [CliOption("--pod-running-timeout")]
-    public string? PodRunningTimeout { get; set; }
+    public virtual string? PodRunningTimeout { get; set; }
 }

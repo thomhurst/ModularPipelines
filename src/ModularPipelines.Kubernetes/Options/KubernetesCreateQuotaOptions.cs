@@ -11,28 +11,28 @@ public record KubernetesCreateQuotaOptions([property: CliArgument] string Name) 
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CliOption("--dry-run")]
-    public string? DryRun { get; set; }
+    public virtual string? DryRun { get; set; }
 
     [CliOption("--field-manager")]
-    public string? FieldManager { get; set; }
+    public virtual string? FieldManager { get; set; }
 
     [CliOption("--hard")]
-    public string? Hard { get; set; }
+    public virtual string? Hard { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliFlag("--save-config")]
     public virtual bool? SaveConfig { get; set; }
 
     [CliOption("--scopes")]
-    public string? Scopes { get; set; }
+    public virtual string? Scopes { get; set; }
 
     [CliFlag("--show-managed-fields")]
     public virtual bool? ShowManagedFields { get; set; }
 
     [CliOption("--template")]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 
     [CliFlag("--validate")]
     public virtual bool? Validate { get; set; }

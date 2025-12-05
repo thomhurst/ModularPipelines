@@ -8,19 +8,19 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesRolloutStatusOptions([property: CliArgument] string Name) : KubernetesOptions
 {
     [CliOption("--filename")]
-    public string[]? Filename { get; set; }
+    public virtual string[]? Filename { get; set; }
 
     [CliOption("--kustomize")]
-    public string? Kustomize { get; set; }
+    public virtual string? Kustomize { get; set; }
 
     [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
     [CliOption("--revision")]
-    public int? Revision { get; set; }
+    public virtual int? Revision { get; set; }
 
     [CliOption("--timeout")]
-    public string? Timeout { get; set; }
+    public virtual string? Timeout { get; set; }
 
     [CliFlag("--watch")]
     public virtual bool? Watch { get; set; }

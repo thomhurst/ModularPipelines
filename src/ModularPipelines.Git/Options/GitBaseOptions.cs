@@ -10,10 +10,10 @@ public record GitBaseOptions : GitOptions
     public virtual bool? Version { get; set; }
 
     [CliOption("--config-env", Format = OptionFormat.EqualsSeparated)]
-    public string[]? ConfigEnv { get; set; }
+    public virtual string[]? ConfigEnv { get; set; }
 
     [CliOption("--exec-path", Format = OptionFormat.EqualsSeparated)]
-    public string? ExecPath { get; set; }
+    public virtual string? ExecPath { get; set; }
 
     [CliFlag("--html-path")]
     public virtual bool? HtmlPath { get; set; }
@@ -31,13 +31,13 @@ public record GitBaseOptions : GitOptions
     public virtual bool? NoPager { get; set; }
 
     [CliOption("--git-dir", Format = OptionFormat.EqualsSeparated)]
-    public string? GitDir { get; set; }
+    public virtual string? GitDir { get; set; }
 
     [CliOption("--work-tree", Format = OptionFormat.EqualsSeparated)]
-    public string? WorkTree { get; set; }
+    public virtual string? WorkTree { get; set; }
 
     [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
-    public string? Namespace { get; set; }
+    public virtual string? Namespace { get; set; }
 
     [CliFlag("--bare")]
     public virtual bool? Bare { get; set; }
@@ -64,5 +64,5 @@ public record GitBaseOptions : GitOptions
     public virtual bool? ListCmds { get; set; }
 
     [CliOption("--attr-source", Format = OptionFormat.EqualsSeparated)]
-    public string? AttrSource { get; set; }
+    public virtual string? AttrSource { get; set; }
 }

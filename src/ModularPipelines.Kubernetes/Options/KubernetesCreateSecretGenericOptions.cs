@@ -14,22 +14,22 @@ public record KubernetesCreateSecretGenericOptions([property: CliArgument] strin
     public virtual bool? AppendHash { get; set; }
 
     [CliOption("--dry-run")]
-    public string? DryRun { get; set; }
+    public virtual string? DryRun { get; set; }
 
     [CliOption("--field-manager")]
-    public string? FieldManager { get; set; }
+    public virtual string? FieldManager { get; set; }
 
     [CliOption("--from-env-file")]
-    public string? FromEnvFile { get; set; }
+    public virtual string? FromEnvFile { get; set; }
 
     [CliOption("--from-file")]
-    public string[]? FromFile { get; set; }
+    public virtual string[]? FromFile { get; set; }
 
     [CliOption("--from-literal")]
-    public string[]? FromLiteral { get; set; }
+    public virtual string[]? FromLiteral { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliFlag("--save-config")]
     public virtual bool? SaveConfig { get; set; }
@@ -38,10 +38,10 @@ public record KubernetesCreateSecretGenericOptions([property: CliArgument] strin
     public virtual bool? ShowManagedFields { get; set; }
 
     [CliOption("--template")]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 
     [CliOption("--type")]
-    public string? Type { get; set; }
+    public virtual string? Type { get; set; }
 
     [CliFlag("--validate")]
     public virtual bool? Validate { get; set; }

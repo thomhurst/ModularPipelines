@@ -74,10 +74,11 @@ internal interface ILogEventBuffer
     /// <summary>
     /// Gets all buffered events and clears the buffer.
     /// </summary>
+    /// <returns></returns>
     IReadOnlyList<StringOrLogEvent> GetAndClear();
 
     /// <summary>
-    /// Gets whether the buffer contains any events.
+    /// Gets a value indicating whether gets whether the buffer contains any events.
     /// </summary>
     bool HasEvents { get; }
 }

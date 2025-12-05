@@ -23,5 +23,5 @@ public record NpmExecCOptions : NpmOptions
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Cmd { get; set; }
+    public virtual string? Cmd { get; set; }
 }

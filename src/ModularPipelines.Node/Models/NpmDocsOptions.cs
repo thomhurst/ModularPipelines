@@ -23,5 +23,5 @@ public record NpmDocsOptions : NpmOptions
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Pkgname { get; set; }
+    public virtual string? Pkgname { get; set; }
 }

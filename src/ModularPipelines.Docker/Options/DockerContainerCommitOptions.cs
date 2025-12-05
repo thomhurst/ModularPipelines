@@ -16,10 +16,10 @@ public record DockerContainerCommitOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Container { get; set; }
+    public virtual string? Container { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Repository { get; set; }
+    public virtual string? Repository { get; set; }
 
     [CliOption("--author")]
     public virtual string? Author { get; set; }

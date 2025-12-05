@@ -26,8 +26,8 @@ public record NpmExecOptions(
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Pkg { get; set; }
+    public virtual string? Pkg { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Version { get; set; }
+    public virtual string? Version { get; set; }
 }

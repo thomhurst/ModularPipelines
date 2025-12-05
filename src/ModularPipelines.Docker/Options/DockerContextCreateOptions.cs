@@ -16,7 +16,7 @@ public record DockerContextCreateOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? CreateContext { get; set; }
+    public virtual string? CreateContext { get; set; }
 
     [CliOption("--description")]
     public virtual string? Description { get; set; }

@@ -18,5 +18,5 @@ public record NpmHookAddOptions(
     public virtual string? Otp { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Type { get; set; }
+    public virtual string? Type { get; set; }
 }

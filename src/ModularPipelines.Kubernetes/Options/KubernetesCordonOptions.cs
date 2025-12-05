@@ -8,8 +8,8 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesCordonOptions([property: CliArgument] string Node) : KubernetesOptions
 {
     [CliOption("--dry-run")]
-    public string? DryRun { get; set; }
+    public virtual string? DryRun { get; set; }
 
     [CliOption("--selector")]
-    public string? Selector { get; set; }
+    public virtual string? Selector { get; set; }
 }

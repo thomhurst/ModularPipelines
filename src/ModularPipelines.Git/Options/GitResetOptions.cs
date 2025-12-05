@@ -38,7 +38,7 @@ public record GitResetOptions : GitOptions
     public virtual bool? NoRefresh { get; set; }
 
     [CliOption("--pathspec-from-file", Format = OptionFormat.EqualsSeparated)]
-    public string? PathspecFromFile { get; set; }
+    public virtual string? PathspecFromFile { get; set; }
 
     [CliFlag("--pathspec-file-nul")]
     public virtual bool? PathspecFileNul { get; set; }

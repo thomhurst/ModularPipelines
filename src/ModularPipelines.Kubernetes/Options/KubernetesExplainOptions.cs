@@ -8,7 +8,7 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesExplainOptions([property: CliArgument] string Resource) : KubernetesOptions
 {
     [CliOption("--api-version")]
-    public string? ApiVersion { get; set; }
+    public virtual string? ApiVersion { get; set; }
 
     [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }

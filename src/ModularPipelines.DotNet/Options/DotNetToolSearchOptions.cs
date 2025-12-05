@@ -28,5 +28,5 @@ public record DotNetToolSearchOptions : DotNetOptions
     public virtual string? Take { get; set; }
 
     [CliArgument(Name = "<SEARCH TERM>")]
-    public string? SearchTerm { get; set; }
+    public virtual string? SearchTerm { get; set; }
 }

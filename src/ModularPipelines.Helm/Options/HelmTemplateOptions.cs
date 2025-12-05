@@ -8,16 +8,16 @@ namespace ModularPipelines.Helm.Options;
 public record HelmTemplateOptions : HelmOptions
 {
     [CliOption("--api-versions")]
-    public string[]? ApiVersions { get; set; }
+    public virtual string[]? ApiVersions { get; set; }
 
     [CliFlag("--atomic")]
     public virtual bool? Atomic { get; set; }
 
     [CliOption("--ca-file")]
-    public string? CaFile { get; set; }
+    public virtual string? CaFile { get; set; }
 
     [CliOption("--cert-file")]
-    public string? CertFile { get; set; }
+    public virtual string? CertFile { get; set; }
 
     [CliFlag("--create-namespace")]
     public virtual bool? CreateNamespace { get; set; }
@@ -26,7 +26,7 @@ public record HelmTemplateOptions : HelmOptions
     public virtual bool? DependencyUpdate { get; set; }
 
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public virtual string? Description { get; set; }
 
     [CliFlag("--devel")]
     public virtual bool? Devel { get; set; }
@@ -56,34 +56,34 @@ public record HelmTemplateOptions : HelmOptions
     public virtual bool? IsUpgrade { get; set; }
 
     [CliOption("--key-file")]
-    public string? KeyFile { get; set; }
+    public virtual string? KeyFile { get; set; }
 
     [CliOption("--keyring")]
-    public string? Keyring { get; set; }
+    public virtual string? Keyring { get; set; }
 
     [CliOption("--kube-version")]
-    public string? KubeVersion { get; set; }
+    public virtual string? KubeVersion { get; set; }
 
     [CliOption("--name-template")]
-    public string? NameTemplate { get; set; }
+    public virtual string? NameTemplate { get; set; }
 
     [CliFlag("--no-hooks")]
     public virtual bool? NoHooks { get; set; }
 
     [CliOption("--output-dir")]
-    public string? OutputDir { get; set; }
+    public virtual string? OutputDir { get; set; }
 
     [CliFlag("--pass-credentials")]
     public virtual bool? PassCredentials { get; set; }
 
     [CliOption("--password")]
-    public string? Password { get; set; }
+    public virtual string? Password { get; set; }
 
     [CliOption("--post-renderer")]
-    public string? PostRenderer { get; set; }
+    public virtual string? PostRenderer { get; set; }
 
     [CliOption("--post-renderer-args")]
-    public string? PostRendererArgs { get; set; }
+    public virtual string? PostRendererArgs { get; set; }
 
     [CliFlag("--release-name")]
     public virtual bool? ReleaseName { get; set; }
@@ -95,25 +95,25 @@ public record HelmTemplateOptions : HelmOptions
     public virtual bool? Replace { get; set; }
 
     [CliOption("--repo")]
-    public string? Repo { get; set; }
+    public virtual string? Repo { get; set; }
 
     [CliOption("--set")]
-    public string[]? Set { get; set; }
+    public virtual string[]? Set { get; set; }
 
     [CliOption("--set-file")]
-    public string[]? SetFile { get; set; }
+    public virtual string[]? SetFile { get; set; }
 
     [CliOption("--set-json")]
-    public string[]? SetJson { get; set; }
+    public virtual string[]? SetJson { get; set; }
 
     [CliOption("--set-literal")]
-    public string[]? SetLiteral { get; set; }
+    public virtual string[]? SetLiteral { get; set; }
 
     [CliOption("--set-string")]
-    public string[]? SetString { get; set; }
+    public virtual string[]? SetString { get; set; }
 
     [CliOption("--show-only")]
-    public string[]? ShowOnly { get; set; }
+    public virtual string[]? ShowOnly { get; set; }
 
     [CliFlag("--skip-crds")]
     public virtual bool? SkipCrds { get; set; }
@@ -122,22 +122,22 @@ public record HelmTemplateOptions : HelmOptions
     public virtual bool? SkipTests { get; set; }
 
     [CliOption("--timeout")]
-    public string? Timeout { get; set; }
+    public virtual string? Timeout { get; set; }
 
     [CliOption("--username")]
-    public string? Username { get; set; }
+    public virtual string? Username { get; set; }
 
     [CliFlag("--validate")]
     public virtual bool? Validate { get; set; }
 
     [CliOption("--values")]
-    public string[]? Values { get; set; }
+    public virtual string[]? Values { get; set; }
 
     [CliFlag("--verify")]
     public virtual bool? Verify { get; set; }
 
     [CliOption("--version")]
-    public string? Version { get; set; }
+    public virtual string? Version { get; set; }
 
     [CliFlag("--wait")]
     public virtual bool? Wait { get; set; }

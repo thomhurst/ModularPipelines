@@ -8,5 +8,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerLogoutOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Server { get; set; }
+    public virtual string? Server { get; set; }
 }

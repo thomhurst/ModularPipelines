@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerContextInspectOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? InspectContext { get; set; }
+    public virtual string? InspectContext { get; set; }
 
     [CliOption("--format")]
     public virtual string? Format { get; set; }

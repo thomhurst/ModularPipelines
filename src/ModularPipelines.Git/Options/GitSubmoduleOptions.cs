@@ -17,7 +17,7 @@ public record GitSubmoduleOptions : GitOptions
     public virtual bool? All { get; set; }
 
     [CliOption("--branch", Format = OptionFormat.EqualsSeparated)]
-    public string? Branch { get; set; }
+    public virtual string? Branch { get; set; }
 
     [CliFlag("--force")]
     public virtual bool? Force { get; set; }
@@ -53,7 +53,7 @@ public record GitSubmoduleOptions : GitOptions
     public virtual bool? Name { get; set; }
 
     [CliOption("--reference", Format = OptionFormat.EqualsSeparated)]
-    public string? Reference { get; set; }
+    public virtual string? Reference { get; set; }
 
     [CliFlag("--dissociate")]
     public virtual bool? Dissociate { get; set; }
@@ -71,7 +71,7 @@ public record GitSubmoduleOptions : GitOptions
     public virtual bool? RecommendShallow { get; set; }
 
     [CliOption("--jobs", Format = OptionFormat.EqualsSeparated)]
-    public string? Jobs { get; set; }
+    public virtual string? Jobs { get; set; }
 
     [CliFlag("--no-single-branch")]
     public virtual bool? NoSingleBranch { get; set; }

@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutSbomOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? ImageOrDirectoryOrArchive { get; set; }
+    public virtual string? ImageOrDirectoryOrArchive { get; set; }
 
     [CliOption("--format")]
     public virtual string? Format { get; set; }

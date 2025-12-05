@@ -21,7 +21,7 @@ public record DotNetNugetSignOptions : DotNetOptions
     }
 
     [CliArgument(Name = "[<package-path(s)>]")]
-    public string? PackagePath { get; set; }
+    public virtual string? PackagePath { get; set; }
 
     [CliOption("--certificate-path")]
     public virtual string? CertificatePath { get; set; }

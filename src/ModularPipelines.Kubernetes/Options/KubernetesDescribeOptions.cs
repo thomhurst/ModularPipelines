@@ -11,19 +11,19 @@ public record KubernetesDescribeOptions : KubernetesOptions
     public virtual bool? AllNamespaces { get; set; }
 
     [CliOption("--chunk-size")]
-    public int? ChunkSize { get; set; }
+    public virtual int? ChunkSize { get; set; }
 
     [CliOption("--filename")]
-    public string[]? Filename { get; set; }
+    public virtual string[]? Filename { get; set; }
 
     [CliOption("--kustomize")]
-    public string? Kustomize { get; set; }
+    public virtual string? Kustomize { get; set; }
 
     [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
 
     [CliOption("--selector")]
-    public string? Selector { get; set; }
+    public virtual string? Selector { get; set; }
 
     [CliFlag("--show-events")]
     public virtual bool? ShowEvents { get; set; }

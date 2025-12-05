@@ -14,28 +14,28 @@ public record KubernetesCreateSecretDockerRegistryOptions([property: CliArgument
     public virtual bool? AppendHash { get; set; }
 
     [CliOption("--docker-email")]
-    public string? DockerEmail { get; set; }
+    public virtual string? DockerEmail { get; set; }
 
     [CliOption("--docker-password")]
-    public string? DockerPassword { get; set; }
+    public virtual string? DockerPassword { get; set; }
 
     [CliOption("--docker-server")]
-    public string? DockerServer { get; set; }
+    public virtual string? DockerServer { get; set; }
 
     [CliOption("--docker-username")]
-    public string? DockerUsername { get; set; }
+    public virtual string? DockerUsername { get; set; }
 
     [CliOption("--dry-run")]
-    public string? DryRun { get; set; }
+    public virtual string? DryRun { get; set; }
 
     [CliOption("--field-manager")]
-    public string? FieldManager { get; set; }
+    public virtual string? FieldManager { get; set; }
 
     [CliOption("--from-file")]
-    public string[]? FromFile { get; set; }
+    public virtual string[]? FromFile { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliFlag("--save-config")]
     public virtual bool? SaveConfig { get; set; }
@@ -44,7 +44,7 @@ public record KubernetesCreateSecretDockerRegistryOptions([property: CliArgument
     public virtual bool? ShowManagedFields { get; set; }
 
     [CliOption("--template")]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 
     [CliFlag("--validate")]
     public virtual bool? Validate { get; set; }

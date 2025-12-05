@@ -16,7 +16,7 @@ public record DockerTrustRevokeOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Image { get; set; }
+    public virtual string? Image { get; set; }
 
     [CliFlag("--yes")]
     public virtual bool? Yes { get; set; }

@@ -11,8 +11,8 @@ public record NpmEditOptions : NpmOptions
     public virtual string? Editor { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Pkg { get; set; }
+    public virtual string? Pkg { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Subpkg { get; set; }
+    public virtual string? Subpkg { get; set; }
 }

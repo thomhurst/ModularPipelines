@@ -14,16 +14,16 @@ public record GitCommitOptions : GitOptions
     public virtual bool? Patch { get; set; }
 
     [CliOption("--reuse-message", Format = OptionFormat.EqualsSeparated)]
-    public string? ReuseMessage { get; set; }
+    public virtual string? ReuseMessage { get; set; }
 
     [CliOption("--reedit-message", Format = OptionFormat.EqualsSeparated)]
-    public string? ReeditMessage { get; set; }
+    public virtual string? ReeditMessage { get; set; }
 
     [CliOption("--fixup", Format = OptionFormat.EqualsSeparated)]
-    public string? Fixup { get; set; }
+    public virtual string? Fixup { get; set; }
 
     [CliOption("--squash", Format = OptionFormat.EqualsSeparated)]
-    public string? Squash { get; set; }
+    public virtual string? Squash { get; set; }
 
     [CliFlag("--reset-author")]
     public virtual bool? ResetAuthor { get; set; }
@@ -44,19 +44,19 @@ public record GitCommitOptions : GitOptions
     public virtual bool? Null { get; set; }
 
     [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
-    public string? File { get; set; }
+    public virtual string? File { get; set; }
 
     [CliOption("--author", Format = OptionFormat.EqualsSeparated)]
-    public string? Author { get; set; }
+    public virtual string? Author { get; set; }
 
     [CliOption("--date", Format = OptionFormat.EqualsSeparated)]
-    public string? Date { get; set; }
+    public virtual string? Date { get; set; }
 
     [CliOption("--message", Format = OptionFormat.EqualsSeparated)]
-    public string? Message { get; set; }
+    public virtual string? Message { get; set; }
 
     [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 
     [CliFlag("--signoff")]
     public virtual bool? Signoff { get; set; }
@@ -65,7 +65,7 @@ public record GitCommitOptions : GitOptions
     public virtual bool? NoSignoff { get; set; }
 
     [CliOption("--trailer", Format = OptionFormat.EqualsSeparated)]
-    public string? Trailer { get; set; }
+    public virtual string? Trailer { get; set; }
 
     [CliFlag("--no-verify")]
     public virtual bool? NoVerify { get; set; }
@@ -80,7 +80,7 @@ public record GitCommitOptions : GitOptions
     public virtual bool? AllowEmptyMessage { get; set; }
 
     [CliOption("--cleanup", Format = OptionFormat.EqualsSeparated)]
-    public string? Cleanup { get; set; }
+    public virtual string? Cleanup { get; set; }
 
     [CliFlag("--edit")]
     public virtual bool? Edit { get; set; }
@@ -101,13 +101,13 @@ public record GitCommitOptions : GitOptions
     public virtual bool? Only { get; set; }
 
     [CliOption("--pathspec-from-file", Format = OptionFormat.EqualsSeparated)]
-    public string? PathspecFromFile { get; set; }
+    public virtual string? PathspecFromFile { get; set; }
 
     [CliFlag("--pathspec-file-nul")]
     public virtual bool? PathspecFileNul { get; set; }
 
     [CliOption("--untracked-files", Format = OptionFormat.EqualsSeparated)]
-    public string? UntrackedFiles { get; set; }
+    public virtual string? UntrackedFiles { get; set; }
 
     [CliFlag("--verbose")]
     public virtual bool? Verbose { get; set; }
@@ -125,7 +125,7 @@ public record GitCommitOptions : GitOptions
     public virtual bool? NoStatus { get; set; }
 
     [CliOption("--gpg-sign", Format = OptionFormat.EqualsSeparated)]
-    public string? GpgSign { get; set; }
+    public virtual string? GpgSign { get; set; }
 
     [CliFlag("--no-gpg-sign")]
     public virtual bool? NoGpgSign { get; set; }

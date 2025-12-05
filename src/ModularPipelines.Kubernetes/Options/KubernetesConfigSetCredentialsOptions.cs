@@ -8,23 +8,23 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesConfigSetCredentialsOptions([property: CliArgument] string Name) : KubernetesOptions
 {
     [CliOption("--auth-provider")]
-    public string? AuthProvider { get; set; }
+    public virtual string? AuthProvider { get; set; }
 
     [CliOption("--auth-provider-arg")]
-    public string[]? AuthProviderArg { get; set; }
+    public virtual string[]? AuthProviderArg { get; set; }
 
     [CliFlag("--embed-certs")]
     public virtual bool? EmbedCerts { get; set; }
 
     [CliOption("--exec-api-version")]
-    public string? ExecApiVersion { get; set; }
+    public virtual string? ExecApiVersion { get; set; }
 
     [CliOption("--exec-arg")]
-    public string[]? ExecArg { get; set; }
+    public virtual string[]? ExecArg { get; set; }
 
     [CliOption("--exec-command")]
-    public string? ExecCommand { get; set; }
+    public virtual string? ExecCommand { get; set; }
 
     [CliOption("--exec-env")]
-    public string[]? ExecEnv { get; set; }
+    public virtual string[]? ExecEnv { get; set; }
 }

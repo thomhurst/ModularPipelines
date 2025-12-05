@@ -8,8 +8,8 @@ namespace ModularPipelines.Helm.Options;
 public record HelmHistoryOptions : HelmOptions
 {
     [CliOption("--max")]
-    public int? Max { get; set; }
+    public virtual int? Max { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 }

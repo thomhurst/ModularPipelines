@@ -11,7 +11,7 @@ public record GitRangeDiffOptions : GitOptions
     public virtual bool? NoDualColor { get; set; }
 
     [CliOption("--creation-factor", Format = OptionFormat.EqualsSeparated)]
-    public string? CreationFactor { get; set; }
+    public virtual string? CreationFactor { get; set; }
 
     [CliFlag("--left-only")]
     public virtual bool? LeftOnly { get; set; }
@@ -20,8 +20,8 @@ public record GitRangeDiffOptions : GitOptions
     public virtual bool? RightOnly { get; set; }
 
     [CliOption("--no-notes", Format = OptionFormat.EqualsSeparated)]
-    public string? NoNotes { get; set; }
+    public virtual string? NoNotes { get; set; }
 
     [CliOption("--notes", Format = OptionFormat.EqualsSeparated)]
-    public string? Notes { get; set; }
+    public virtual string? Notes { get; set; }
 }

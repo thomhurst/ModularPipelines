@@ -47,13 +47,13 @@ public record GitPushOptions : GitOptions
     public virtual bool? Atomic { get; set; }
 
     [CliOption("--push-option", Format = OptionFormat.EqualsSeparated)]
-    public string? PushOption { get; set; }
+    public virtual string? PushOption { get; set; }
 
     [CliOption("--receive-pack", Format = OptionFormat.EqualsSeparated)]
-    public string? ReceivePack { get; set; }
+    public virtual string? ReceivePack { get; set; }
 
     [CliOption("--exec", Format = OptionFormat.EqualsSeparated)]
-    public string? Exec { get; set; }
+    public virtual string? Exec { get; set; }
 
     [CliFlag("--no-force-with-lease")]
     public virtual bool? NoForceWithLease { get; set; }
@@ -71,7 +71,7 @@ public record GitPushOptions : GitOptions
     public virtual bool? ForceIfIncludes { get; set; }
 
     [CliOption("--repo", Format = OptionFormat.EqualsSeparated)]
-    public string? Repo { get; set; }
+    public virtual string? Repo { get; set; }
 
     [CliFlag("--set-upstream")]
     public virtual bool? SetUpstream { get; set; }

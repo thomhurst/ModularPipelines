@@ -9,5 +9,5 @@ namespace ModularPipelines.Docker.Options;
 public record DockerPluginSetOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<KeyValue>? KeyValue { get; set; }
+    public virtual IEnumerable<KeyValue>? KeyValue { get; set; }
 }

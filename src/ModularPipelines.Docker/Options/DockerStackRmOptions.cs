@@ -16,5 +16,5 @@ public record DockerStackRmOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Stack { get; set; }
+    public virtual IEnumerable<string>? Stack { get; set; }
 }

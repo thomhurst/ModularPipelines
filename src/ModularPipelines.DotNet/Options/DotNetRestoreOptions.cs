@@ -21,7 +21,7 @@ public record DotNetRestoreOptions : DotNetOptions
     }
 
     [CliArgument(Name = "[<ROOT>]")]
-    public string? Path { get; set; }
+    public virtual string? Path { get; set; }
 
     [CliOption("--configfile")]
     public virtual string? Configfile { get; set; }

@@ -20,5 +20,5 @@ public record GitCleanOptions : GitOptions
     public virtual bool? Quiet { get; set; }
 
     [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
-    public string? Exclude { get; set; }
+    public virtual string? Exclude { get; set; }
 }

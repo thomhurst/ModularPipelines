@@ -8,10 +8,10 @@ namespace ModularPipelines.Helm.Options;
 public record HelmUninstallOptions : HelmOptions
 {
     [CliOption("--cascade")]
-    public string? Cascade { get; set; }
+    public virtual string? Cascade { get; set; }
 
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public virtual string? Description { get; set; }
 
     [CliFlag("--dry-run")]
     public virtual bool? DryRun { get; set; }
@@ -23,7 +23,7 @@ public record HelmUninstallOptions : HelmOptions
     public virtual bool? NoHooks { get; set; }
 
     [CliOption("--timeout")]
-    public string? Timeout { get; set; }
+    public virtual string? Timeout { get; set; }
 
     [CliFlag("--wait")]
     public virtual bool? Wait { get; set; }

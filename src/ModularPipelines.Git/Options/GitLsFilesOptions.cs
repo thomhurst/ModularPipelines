@@ -47,13 +47,13 @@ public record GitLsFilesOptions : GitOptions
     public virtual bool? Deduplicate { get; set; }
 
     [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
-    public string? Exclude { get; set; }
+    public virtual string? Exclude { get; set; }
 
     [CliOption("--exclude-from", Format = OptionFormat.EqualsSeparated)]
-    public string? ExcludeFrom { get; set; }
+    public virtual string? ExcludeFrom { get; set; }
 
     [CliOption("--exclude-per-directory", Format = OptionFormat.EqualsSeparated)]
-    public string? ExcludePerDirectory { get; set; }
+    public virtual string? ExcludePerDirectory { get; set; }
 
     [CliFlag("--exclude-standard")]
     public virtual bool? ExcludeStandard { get; set; }
@@ -62,7 +62,7 @@ public record GitLsFilesOptions : GitOptions
     public virtual bool? ErrorUnmatch { get; set; }
 
     [CliOption("--with-tree", Format = OptionFormat.EqualsSeparated)]
-    public string? WithTree { get; set; }
+    public virtual string? WithTree { get; set; }
 
     [CliFlag("--full-name")]
     public virtual bool? FullName { get; set; }
@@ -71,7 +71,7 @@ public record GitLsFilesOptions : GitOptions
     public virtual bool? RecurseSubmodules { get; set; }
 
     [CliOption("--abbrev", Format = OptionFormat.EqualsSeparated)]
-    public string? Abbrev { get; set; }
+    public virtual string? Abbrev { get; set; }
 
     [CliFlag("--debug")]
     public virtual bool? Debug { get; set; }
@@ -83,5 +83,5 @@ public record GitLsFilesOptions : GitOptions
     public virtual bool? Sparse { get; set; }
 
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
-    public string? Format { get; set; }
+    public virtual string? Format { get; set; }
 }

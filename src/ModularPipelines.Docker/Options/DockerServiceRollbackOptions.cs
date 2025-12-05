@@ -16,7 +16,7 @@ public record DockerServiceRollbackOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Service { get; set; }
+    public virtual string? Service { get; set; }
 
     [CliFlag("--detach")]
     public virtual bool? Detach { get; set; }

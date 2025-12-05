@@ -9,7 +9,7 @@ public record TerraformWorkspaceSelectOptions([property: CliArgument(Placement =
     string Name) : TerraformOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Directory { get; set; }
+    public virtual string? Directory { get; set; }
 
     [CliFlag("-or-create")]
     public virtual bool? OrCreate { get; set; }

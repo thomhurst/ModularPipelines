@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutRepoDisableOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Repository { get; set; }
+    public virtual string? Repository { get; set; }
 
     [CliFlag("--all")]
     public virtual bool? All { get; set; }

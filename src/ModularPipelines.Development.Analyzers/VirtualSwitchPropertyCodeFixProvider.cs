@@ -14,7 +14,8 @@ namespace ModularPipelines.Development.Analyzers;
 /// A sample code fix provider that renames classes with the company name in their definition.
 /// All code fixes must  be linked to specific analyzers.
 /// </summary>
-[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(VirtualSwitchPropertyCodeFixProvider)), Shared]
+[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(VirtualSwitchPropertyCodeFixProvider))]
+[Shared]
 public class VirtualSwitchPropertyCodeFixProvider : CodeFixProvider
 {
     private const string CommonName = "Common";

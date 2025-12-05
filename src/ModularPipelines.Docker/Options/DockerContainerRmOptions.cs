@@ -16,7 +16,7 @@ public record DockerContainerRmOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Container { get; set; }
+    public virtual IEnumerable<string>? Container { get; set; }
 
     [CliFlag("--force")]
     public virtual bool? Force { get; set; }

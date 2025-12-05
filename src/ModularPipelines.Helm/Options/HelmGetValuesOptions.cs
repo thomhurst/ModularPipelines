@@ -11,8 +11,8 @@ public record HelmGetValuesOptions : HelmOptions
     public virtual bool? All { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliOption("--revision")]
-    public int? Revision { get; set; }
+    public virtual int? Revision { get; set; }
 }

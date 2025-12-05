@@ -26,7 +26,7 @@ public record GitCatFileOptions : GitOptions
     public virtual bool? Filters { get; set; }
 
     [CliOption("--path", Format = OptionFormat.EqualsSeparated)]
-    public string? Path { get; set; }
+    public virtual string? Path { get; set; }
 
     [CliFlag("--batch")]
     public virtual bool? Batch { get; set; }

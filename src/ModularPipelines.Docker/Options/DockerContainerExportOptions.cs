@@ -16,7 +16,7 @@ public record DockerContainerExportOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Container { get; set; }
+    public virtual string? Container { get; set; }
 
     [CliOption("--output")]
     public virtual string? Output { get; set; }

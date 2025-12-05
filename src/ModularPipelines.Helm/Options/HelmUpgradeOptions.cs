@@ -11,10 +11,10 @@ public record HelmUpgradeOptions : HelmOptions
     public virtual bool? Atomic { get; set; }
 
     [CliOption("--ca-file")]
-    public string? CaFile { get; set; }
+    public virtual string? CaFile { get; set; }
 
     [CliOption("--cert-file")]
-    public string? CertFile { get; set; }
+    public virtual string? CertFile { get; set; }
 
     [CliFlag("--cleanup-on-fail")]
     public virtual bool? CleanupOnFail { get; set; }
@@ -26,7 +26,7 @@ public record HelmUpgradeOptions : HelmOptions
     public virtual bool? DependencyUpdate { get; set; }
 
     [CliOption("--description")]
-    public string? Description { get; set; }
+    public virtual string? Description { get; set; }
 
     [CliFlag("--devel")]
     public virtual bool? Devel { get; set; }
@@ -44,7 +44,7 @@ public record HelmUpgradeOptions : HelmOptions
     public virtual bool? Force { get; set; }
 
     [CliOption("--history-max")]
-    public int? HistoryMax { get; set; }
+    public virtual int? HistoryMax { get; set; }
 
     [CliFlag("--insecure-skip-tls-verify")]
     public virtual bool? InsecureSkipTlsVerify { get; set; }
@@ -53,34 +53,34 @@ public record HelmUpgradeOptions : HelmOptions
     public virtual bool? Install { get; set; }
 
     [CliOption("--key-file")]
-    public string? KeyFile { get; set; }
+    public virtual string? KeyFile { get; set; }
 
     [CliOption("--keyring")]
-    public string? Keyring { get; set; }
+    public virtual string? Keyring { get; set; }
 
     [CliFlag("--no-hooks")]
     public virtual bool? NoHooks { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliFlag("--pass-credentials")]
     public virtual bool? PassCredentials { get; set; }
 
     [CliOption("--password")]
-    public string? Password { get; set; }
+    public virtual string? Password { get; set; }
 
     [CliOption("--post-renderer")]
-    public string? PostRenderer { get; set; }
+    public virtual string? PostRenderer { get; set; }
 
     [CliOption("--post-renderer-args")]
-    public string? PostRendererArgs { get; set; }
+    public virtual string? PostRendererArgs { get; set; }
 
     [CliFlag("--render-subchart-notes")]
     public virtual bool? RenderSubchartNotes { get; set; }
 
     [CliOption("--repo")]
-    public string? Repo { get; set; }
+    public virtual string? Repo { get; set; }
 
     [CliFlag("--reset-values")]
     public virtual bool? ResetValues { get; set; }
@@ -89,37 +89,37 @@ public record HelmUpgradeOptions : HelmOptions
     public virtual bool? ReuseValues { get; set; }
 
     [CliOption("--set")]
-    public string[]? Set { get; set; }
+    public virtual string[]? Set { get; set; }
 
     [CliOption("--set-file")]
-    public string[]? SetFile { get; set; }
+    public virtual string[]? SetFile { get; set; }
 
     [CliOption("--set-json")]
-    public string[]? SetJson { get; set; }
+    public virtual string[]? SetJson { get; set; }
 
     [CliOption("--set-literal")]
-    public string[]? SetLiteral { get; set; }
+    public virtual string[]? SetLiteral { get; set; }
 
     [CliOption("--set-string")]
-    public string[]? SetString { get; set; }
+    public virtual string[]? SetString { get; set; }
 
     [CliFlag("--skip-crds")]
     public virtual bool? SkipCrds { get; set; }
 
     [CliOption("--timeout")]
-    public string? Timeout { get; set; }
+    public virtual string? Timeout { get; set; }
 
     [CliOption("--username")]
-    public string? Username { get; set; }
+    public virtual string? Username { get; set; }
 
     [CliOption("--values")]
-    public string[]? Values { get; set; }
+    public virtual string[]? Values { get; set; }
 
     [CliFlag("--verify")]
     public virtual bool? Verify { get; set; }
 
     [CliOption("--version")]
-    public string? Version { get; set; }
+    public virtual string? Version { get; set; }
 
     [CliFlag("--wait")]
     public virtual bool? Wait { get; set; }

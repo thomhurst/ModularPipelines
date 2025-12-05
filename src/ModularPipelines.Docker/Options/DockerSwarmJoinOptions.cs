@@ -16,7 +16,7 @@ public record DockerSwarmJoinOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? JoinHost { get; set; }
+    public virtual string? JoinHost { get; set; }
 
     [CliOption("--advertise-addr")]
     public virtual string? AdvertiseAddr { get; set; }

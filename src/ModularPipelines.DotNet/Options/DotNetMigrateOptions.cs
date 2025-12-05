@@ -21,7 +21,7 @@ public record DotNetMigrateOptions : DotNetOptions
     }
 
     [CliArgument(Name = "[<SOLUTION_FILE|PROJECT_DIR>]")]
-    public string? SolutionFileProjectDir { get; set; }
+    public virtual string? SolutionFileProjectDir { get; set; }
 
     [CliOption("--format-report-file-json")]
     public virtual string? FormatReportFileJson { get; set; }

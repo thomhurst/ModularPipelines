@@ -16,7 +16,7 @@ public record DockerNodeUpdateOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Node { get; set; }
+    public virtual string? Node { get; set; }
 
     [CliOption("--availability")]
     public virtual string? Availability { get; set; }

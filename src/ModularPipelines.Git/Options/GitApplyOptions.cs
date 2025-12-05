@@ -32,7 +32,7 @@ public record GitApplyOptions : GitOptions
     public virtual bool? ThreeWay { get; set; }
 
     [CliOption("--build-fake-ancestor", Format = OptionFormat.EqualsSeparated)]
-    public string? BuildFakeAncestor { get; set; }
+    public virtual string? BuildFakeAncestor { get; set; }
 
     [CliFlag("--reverse")]
     public virtual bool? Reverse { get; set; }
@@ -56,10 +56,10 @@ public record GitApplyOptions : GitOptions
     public virtual bool? Binary { get; set; }
 
     [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
-    public string? Exclude { get; set; }
+    public virtual string? Exclude { get; set; }
 
     [CliOption("--include", Format = OptionFormat.EqualsSeparated)]
-    public string? Include { get; set; }
+    public virtual string? Include { get; set; }
 
     [CliFlag("--ignore-space-change")]
     public virtual bool? IgnoreSpaceChange { get; set; }
@@ -68,7 +68,7 @@ public record GitApplyOptions : GitOptions
     public virtual bool? IgnoreWhitespace { get; set; }
 
     [CliOption("--whitespace", Format = OptionFormat.EqualsSeparated)]
-    public string? Whitespace { get; set; }
+    public virtual string? Whitespace { get; set; }
 
     [CliFlag("--inaccurate-eof")]
     public virtual bool? InaccurateEof { get; set; }
@@ -83,7 +83,7 @@ public record GitApplyOptions : GitOptions
     public virtual bool? Recount { get; set; }
 
     [CliOption("--directory", Format = OptionFormat.EqualsSeparated)]
-    public string? Directory { get; set; }
+    public virtual string? Directory { get; set; }
 
     [CliFlag("--unsafe-paths")]
     public virtual bool? UnsafePaths { get; set; }

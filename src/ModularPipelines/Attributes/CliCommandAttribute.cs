@@ -27,6 +27,7 @@ public sealed class CliCommandAttribute : Attribute
     public string[] SubCommands { get; }
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="CliCommandAttribute"/> class.
     /// Initializes a new instance of the <see cref="CliCommandAttribute"/> class.
     /// </summary>
     /// <param name="tool">The CLI tool name.</param>
@@ -40,5 +41,6 @@ public sealed class CliCommandAttribute : Attribute
     /// <summary>
     /// Gets all command parts including the tool and subcommands.
     /// </summary>
+    /// <returns></returns>
     public string[] GetAllParts() => [Tool, .. SubCommands];
 }

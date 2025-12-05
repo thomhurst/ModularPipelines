@@ -8,10 +8,10 @@ namespace ModularPipelines.Git.Options;
 public record GitSwitchOptions : GitOptions
 {
     [CliOption("--create", Format = OptionFormat.EqualsSeparated)]
-    public string? Create { get; set; }
+    public virtual string? Create { get; set; }
 
     [CliOption("--force-create", Format = OptionFormat.EqualsSeparated)]
-    public string? ForceCreate { get; set; }
+    public virtual string? ForceCreate { get; set; }
 
     [CliFlag("--detach")]
     public virtual bool? Detach { get; set; }
@@ -32,7 +32,7 @@ public record GitSwitchOptions : GitOptions
     public virtual bool? Merge { get; set; }
 
     [CliOption("--conflict", Format = OptionFormat.EqualsSeparated)]
-    public string? Conflict { get; set; }
+    public virtual string? Conflict { get; set; }
 
     [CliFlag("--quiet")]
     public virtual bool? Quiet { get; set; }
@@ -50,7 +50,7 @@ public record GitSwitchOptions : GitOptions
     public virtual bool? NoTrack { get; set; }
 
     [CliOption("--orphan", Format = OptionFormat.EqualsSeparated)]
-    public string? Orphan { get; set; }
+    public virtual string? Orphan { get; set; }
 
     [CliFlag("--ignore-other-worktrees")]
     public virtual bool? IgnoreOtherWorktrees { get; set; }

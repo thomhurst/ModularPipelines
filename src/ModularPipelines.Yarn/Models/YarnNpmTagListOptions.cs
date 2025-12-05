@@ -11,5 +11,5 @@ public record YarnNpmTagListOptions : YarnOptions
     public virtual bool? Json { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Package { get; set; }
+    public virtual string? Package { get; set; }
 }

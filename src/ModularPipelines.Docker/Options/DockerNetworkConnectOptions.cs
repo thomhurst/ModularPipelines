@@ -19,10 +19,10 @@ public record DockerNetworkConnectOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Network { get; set; }
+    public virtual string? Network { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Container { get; set; }
+    public virtual string? Container { get; set; }
 
     [CliOption("--alias")]
     public virtual string? Alias { get; set; }

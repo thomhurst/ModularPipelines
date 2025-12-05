@@ -11,7 +11,7 @@ public record KubernetesVersionOptions : KubernetesOptions
     public virtual bool? Client { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliFlag("--short")]
     public virtual bool? Short { get; set; }

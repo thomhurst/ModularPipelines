@@ -33,7 +33,7 @@ public record DotNetVstestOptions : DotNetOptions
     }
 
     [CliArgument(Name = "[<TEST_FILE_NAMES>]")]
-    public string? TestFileNames { get; set; }
+    public virtual string? TestFileNames { get; set; }
 
     [CliFlag("--Blame")]
     public virtual bool? Blame { get; set; }
@@ -63,7 +63,7 @@ public record DotNetVstestOptions : DotNetOptions
     public virtual bool? Platform { get; set; }
 
     [CliArgument(Name = "<PLATFORM_TYPE>")]
-    public string? PlatformType { get; set; }
+    public virtual string? PlatformType { get; set; }
 
     [CliOption("--Port")]
     public virtual string? Port { get; set; }

@@ -8,14 +8,14 @@ namespace ModularPipelines.Helm.Options;
 public record HelmSearchHubOptions : HelmOptions
 {
     [CliOption("--endpoint")]
-    public string? Endpoint { get; set; }
+    public virtual string? Endpoint { get; set; }
 
     [CliFlag("--list-repo-url")]
     public virtual bool? ListRepoUrl { get; set; }
 
     [CliOption("--max-col-width")]
-    public string? MaxColWidth { get; set; }
+    public virtual string? MaxColWidth { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 }

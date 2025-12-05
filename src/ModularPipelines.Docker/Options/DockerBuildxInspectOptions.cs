@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerBuildxInspectOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CliOption("--bootstrap")]
     public virtual string? Bootstrap { get; set; }

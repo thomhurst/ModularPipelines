@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeDownOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Services { get; set; }
+    public virtual string? Services { get; set; }
 
     [CliFlag("--remove-orphans")]
     public virtual bool? RemoveOrphans { get; set; }

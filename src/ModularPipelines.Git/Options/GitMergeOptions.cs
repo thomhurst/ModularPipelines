@@ -20,7 +20,7 @@ public record GitMergeOptions : GitOptions
     public virtual bool? NoEdit { get; set; }
 
     [CliOption("--cleanup", Format = OptionFormat.EqualsSeparated)]
-    public string? Cleanup { get; set; }
+    public virtual string? Cleanup { get; set; }
 
     [CliFlag("--ff")]
     public virtual bool? Ff { get; set; }
@@ -32,13 +32,13 @@ public record GitMergeOptions : GitOptions
     public virtual bool? FfOnly { get; set; }
 
     [CliOption("--gpg-sign", Format = OptionFormat.EqualsSeparated)]
-    public string? GpgSign { get; set; }
+    public virtual string? GpgSign { get; set; }
 
     [CliFlag("--no-gpg-sign")]
     public virtual bool? NoGpgSign { get; set; }
 
     [CliOption("--log", Format = OptionFormat.EqualsSeparated)]
-    public string? Log { get; set; }
+    public virtual string? Log { get; set; }
 
     [CliFlag("--no-log")]
     public virtual bool? NoLog { get; set; }
@@ -68,10 +68,10 @@ public record GitMergeOptions : GitOptions
     public virtual bool? Verify { get; set; }
 
     [CliOption("--strategy", Format = OptionFormat.EqualsSeparated)]
-    public string? Strategy { get; set; }
+    public virtual string? Strategy { get; set; }
 
     [CliOption("--strategy-option", Format = OptionFormat.EqualsSeparated)]
-    public string? StrategyOption { get; set; }
+    public virtual string? StrategyOption { get; set; }
 
     [CliFlag("--verify-signatures")]
     public virtual bool? VerifySignatures { get; set; }
@@ -107,10 +107,10 @@ public record GitMergeOptions : GitOptions
     public virtual bool? AllowUnrelatedHistories { get; set; }
 
     [CliOption("--into-name", Format = OptionFormat.EqualsSeparated)]
-    public string? IntoName { get; set; }
+    public virtual string? IntoName { get; set; }
 
     [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
-    public string? File { get; set; }
+    public virtual string? File { get; set; }
 
     [CliFlag("--rerere-autoupdate")]
     public virtual bool? RerereAutoupdate { get; set; }

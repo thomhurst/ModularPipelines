@@ -16,7 +16,7 @@ public record DotNetNugetAddSourceOptions : DotNetOptions
     }
 
     [CliArgument(Name = "<PACKAGE_SOURCE_PATH>")]
-    public string? PackageSourcePath { get; set; }
+    public virtual string? PackageSourcePath { get; set; }
 
     [CliOption("--name")]
     public virtual string? Name { get; set; }

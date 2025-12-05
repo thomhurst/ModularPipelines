@@ -17,8 +17,8 @@ public record NpmAccessListCollaboratorsOptions : NpmOptions
     public virtual Uri? Registry { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Package { get; set; }
+    public virtual string? Package { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? User { get; set; }
+    public virtual string? User { get; set; }
 }

@@ -11,16 +11,16 @@ public record KubernetesApplyEditLastAppliedOptions([property: CliArgument] stri
     public virtual bool? AllowMissingTemplateKeys { get; set; }
 
     [CliOption("--field-manager")]
-    public string? FieldManager { get; set; }
+    public virtual string? FieldManager { get; set; }
 
     [CliOption("--filename")]
-    public string[]? Filename { get; set; }
+    public virtual string[]? Filename { get; set; }
 
     [CliOption("--kustomize")]
-    public string? Kustomize { get; set; }
+    public virtual string? Kustomize { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 
     [CliFlag("--record")]
     public virtual bool? Record { get; set; }
@@ -32,7 +32,7 @@ public record KubernetesApplyEditLastAppliedOptions([property: CliArgument] stri
     public virtual bool? ShowManagedFields { get; set; }
 
     [CliOption("--template")]
-    public string? Template { get; set; }
+    public virtual string? Template { get; set; }
 
     [CliFlag("--windows-line-endings")]
     public virtual bool? WindowsLineEndings { get; set; }

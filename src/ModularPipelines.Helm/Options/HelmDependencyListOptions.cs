@@ -8,5 +8,5 @@ namespace ModularPipelines.Helm.Options;
 public record HelmDependencyListOptions : HelmOptions
 {
     [CliOption("--max-col-width")]
-    public string? MaxColWidth { get; set; }
+    public virtual string? MaxColWidth { get; set; }
 }

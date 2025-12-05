@@ -38,7 +38,7 @@ public record GitGrepOptions : GitOptions
     public virtual bool? IgnoreCase { get; set; }
 
     [CliOption("--max-depth", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxDepth { get; set; }
+    public virtual string? MaxDepth { get; set; }
 
     [CliFlag("--recursive")]
     public virtual bool? Recursive { get; set; }
@@ -83,7 +83,7 @@ public record GitGrepOptions : GitOptions
     public virtual bool? FilesWithoutMatch { get; set; }
 
     [CliOption("--open-files-in-pager", Format = OptionFormat.EqualsSeparated)]
-    public string? OpenFilesInPager { get; set; }
+    public virtual string? OpenFilesInPager { get; set; }
 
     [CliFlag("--null")]
     public virtual bool? Null { get; set; }
@@ -98,7 +98,7 @@ public record GitGrepOptions : GitOptions
     public virtual bool? Count { get; set; }
 
     [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
-    public string? Color { get; set; }
+    public virtual string? Color { get; set; }
 
     [CliFlag("--no-color")]
     public virtual bool? NoColor { get; set; }
@@ -113,22 +113,22 @@ public record GitGrepOptions : GitOptions
     public virtual bool? ShowFunction { get; set; }
 
     [CliOption("--context", Format = OptionFormat.EqualsSeparated)]
-    public string? Context { get; set; }
+    public virtual string? Context { get; set; }
 
     [CliOption("--after-context", Format = OptionFormat.EqualsSeparated)]
-    public string? AfterContext { get; set; }
+    public virtual string? AfterContext { get; set; }
 
     [CliOption("--before-context", Format = OptionFormat.EqualsSeparated)]
-    public string? BeforeContext { get; set; }
+    public virtual string? BeforeContext { get; set; }
 
     [CliFlag("--function-context")]
     public virtual bool? FunctionContext { get; set; }
 
     [CliOption("--max-count", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxCount { get; set; }
+    public virtual string? MaxCount { get; set; }
 
     [CliOption("--threads", Format = OptionFormat.EqualsSeparated)]
-    public string? Threads { get; set; }
+    public virtual string? Threads { get; set; }
 
     [CliFlag("--and")]
     public virtual bool? And { get; set; }

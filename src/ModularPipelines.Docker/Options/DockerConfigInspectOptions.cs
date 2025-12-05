@@ -16,7 +16,7 @@ public record DockerConfigInspectOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? InspectConfig { get; set; }
+    public virtual IEnumerable<string>? InspectConfig { get; set; }
 
     [CliOption("--format")]
     public virtual string? Format { get; set; }

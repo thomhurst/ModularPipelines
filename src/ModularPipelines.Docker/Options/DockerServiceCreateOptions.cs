@@ -16,13 +16,13 @@ public record DockerServiceCreateOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Image { get; set; }
+    public virtual string? Image { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Command { get; set; }
+    public virtual string? Command { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Arg { get; set; }
+    public virtual IEnumerable<string>? Arg { get; set; }
 
     [CliOption("--cap-add")]
     public virtual string? CapAdd { get; set; }

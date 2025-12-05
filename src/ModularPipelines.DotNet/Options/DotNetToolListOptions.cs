@@ -30,5 +30,5 @@ public record DotNetToolListOptions : DotNetOptions
     public virtual bool? Local { get; set; }
 
     [CliArgument(Name = "[<PACKAGE_ID>]")]
-    public string? PackageId { get; set; }
+    public virtual string? PackageId { get; set; }
 }

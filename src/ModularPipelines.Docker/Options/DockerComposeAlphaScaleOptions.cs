@@ -9,7 +9,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeAlphaScaleOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<KeyValue>? ServiceReplicas { get; set; }
+    public virtual IEnumerable<KeyValue>? ServiceReplicas { get; set; }
 
     [CliFlag("--no-deps")]
     public virtual bool? NoDeps { get; set; }

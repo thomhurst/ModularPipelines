@@ -21,7 +21,7 @@ public record DotNetNugetPushOptions : DotNetOptions
     }
 
     [CliArgument(Name = "[<ROOT>]")]
-    public string? Path { get; set; }
+    public virtual string? Path { get; set; }
 
     [CliFlag("--disable-buffering")]
     public virtual bool? DisableBuffering { get; set; }

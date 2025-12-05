@@ -8,5 +8,5 @@ namespace ModularPipelines.Yarn.Models;
 public record YarnExplainPeerRequirementsOptions : YarnOptions
 {
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Hash { get; set; }
+    public virtual string? Hash { get; set; }
 }

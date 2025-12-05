@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerVolumeUpdateOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Volume { get; set; }
+    public virtual string? Volume { get; set; }
 
     [CliOption("--availability")]
     public virtual string? Availability { get; set; }

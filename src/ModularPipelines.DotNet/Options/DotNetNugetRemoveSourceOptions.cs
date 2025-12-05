@@ -16,7 +16,7 @@ public record DotNetNugetRemoveSourceOptions : DotNetOptions
     }
 
     [CliArgument(Name = "<NAME>")]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CliOption("--configfile")]
     public virtual string? Configfile { get; set; }

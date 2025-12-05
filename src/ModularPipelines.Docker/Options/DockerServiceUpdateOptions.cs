@@ -16,7 +16,7 @@ public record DockerServiceUpdateOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Service { get; set; }
+    public virtual string? Service { get; set; }
 
     [CliOption("--args")]
     public virtual string? Args { get; set; }

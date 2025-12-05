@@ -16,7 +16,7 @@ public record DockerContainerAttachOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Container { get; set; }
+    public virtual string? Container { get; set; }
 
     [CliOption("--detach-keys")]
     public virtual string? DetachKeys { get; set; }

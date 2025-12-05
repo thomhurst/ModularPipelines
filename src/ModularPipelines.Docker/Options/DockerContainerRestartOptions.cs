@@ -16,7 +16,7 @@ public record DockerContainerRestartOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Container { get; set; }
+    public virtual IEnumerable<string>? Container { get; set; }
 
     [CliOption("--signal")]
     public virtual string? Signal { get; set; }

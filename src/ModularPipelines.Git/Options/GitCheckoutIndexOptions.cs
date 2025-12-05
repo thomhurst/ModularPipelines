@@ -23,10 +23,10 @@ public record GitCheckoutIndexOptions : GitOptions
     public virtual bool? NoCreate { get; set; }
 
     [CliOption("--prefix", Format = OptionFormat.EqualsSeparated)]
-    public string? Prefix { get; set; }
+    public virtual string? Prefix { get; set; }
 
     [CliOption("--stage", Format = OptionFormat.EqualsSeparated)]
-    public string? Stage { get; set; }
+    public virtual string? Stage { get; set; }
 
     [CliFlag("--temp")]
     public virtual bool? Temp { get; set; }

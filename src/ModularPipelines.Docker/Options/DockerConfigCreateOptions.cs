@@ -19,10 +19,10 @@ public record DockerConfigCreateOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? CreateConfig { get; set; }
+    public virtual string? CreateConfig { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? File { get; set; }
+    public virtual string? File { get; set; }
 
     [CliOption("--label")]
     public virtual string? Label { get; set; }

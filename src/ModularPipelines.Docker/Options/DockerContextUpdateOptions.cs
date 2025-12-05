@@ -16,7 +16,7 @@ public record DockerContextUpdateOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? UpdateContext { get; set; }
+    public virtual string? UpdateContext { get; set; }
 
     [CliOption("--description")]
     public virtual string? Description { get; set; }

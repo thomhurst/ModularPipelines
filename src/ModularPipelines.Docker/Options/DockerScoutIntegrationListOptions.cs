@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutIntegrationListOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Integration { get; set; }
+    public virtual string? Integration { get; set; }
 
     [CliOption("--name")]
     public virtual string? Name { get; set; }

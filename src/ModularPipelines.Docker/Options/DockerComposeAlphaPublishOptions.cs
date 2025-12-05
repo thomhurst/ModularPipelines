@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerComposeAlphaPublishOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Repository { get; set; }
+    public virtual string? Repository { get; set; }
 
     [CliOption("--oci-version")]
     public virtual string? OciVersion { get; set; }

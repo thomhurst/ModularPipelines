@@ -14,5 +14,5 @@ public record YarnBinOptions : YarnOptions
     public virtual bool? Json { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 }

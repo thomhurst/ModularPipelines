@@ -19,10 +19,10 @@ public record DockerManifestAnnotateOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? ManifestList { get; set; }
+    public virtual string? ManifestList { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Manifest { get; set; }
+    public virtual string? Manifest { get; set; }
 
     [CliOption("--arch")]
     public virtual string? Arch { get; set; }

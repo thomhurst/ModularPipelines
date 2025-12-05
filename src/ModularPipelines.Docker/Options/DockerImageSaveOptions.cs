@@ -16,7 +16,7 @@ public record DockerImageSaveOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Image { get; set; }
+    public virtual IEnumerable<string>? Image { get; set; }
 
     [CliOption("--output")]
     public virtual string? Output { get; set; }

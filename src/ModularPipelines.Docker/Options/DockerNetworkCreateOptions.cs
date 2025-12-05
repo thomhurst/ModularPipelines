@@ -16,7 +16,7 @@ public record DockerNetworkCreateOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Network { get; set; }
+    public virtual string? Network { get; set; }
 
     [CliOption("--attachable")]
     public virtual string? Attachable { get; set; }

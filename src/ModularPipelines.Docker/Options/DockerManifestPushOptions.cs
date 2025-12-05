@@ -16,7 +16,7 @@ public record DockerManifestPushOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? ManifestList { get; set; }
+    public virtual string? ManifestList { get; set; }
 
     [CliOption("--insecure")]
     public virtual string? Insecure { get; set; }

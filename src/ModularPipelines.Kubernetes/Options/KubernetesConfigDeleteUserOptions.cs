@@ -11,5 +11,5 @@ public record KubernetesConfigDeleteUserOptions([property: CliArgument] string N
     public virtual bool? NoHeaders { get; set; }
 
     [CliOption("--output")]
-    public string? Output { get; set; }
+    public virtual string? Output { get; set; }
 }

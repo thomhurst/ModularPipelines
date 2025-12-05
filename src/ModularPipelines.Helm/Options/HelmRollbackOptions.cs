@@ -17,7 +17,7 @@ public record HelmRollbackOptions : HelmOptions
     public virtual bool? Force { get; set; }
 
     [CliOption("--history-max")]
-    public int? HistoryMax { get; set; }
+    public virtual int? HistoryMax { get; set; }
 
     [CliFlag("--no-hooks")]
     public virtual bool? NoHooks { get; set; }
@@ -26,7 +26,7 @@ public record HelmRollbackOptions : HelmOptions
     public virtual bool? RecreatePods { get; set; }
 
     [CliOption("--timeout")]
-    public string? Timeout { get; set; }
+    public virtual string? Timeout { get; set; }
 
     [CliFlag("--wait")]
     public virtual bool? Wait { get; set; }

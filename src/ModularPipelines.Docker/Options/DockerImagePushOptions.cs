@@ -16,7 +16,7 @@ public record DockerImagePushOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Name { get; set; }
+    public virtual string? Name { get; set; }
 
     [CliFlag("--all-tags")]
     public virtual bool? AllTags { get; set; }

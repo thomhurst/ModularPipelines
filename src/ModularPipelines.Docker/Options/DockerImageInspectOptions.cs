@@ -16,7 +16,7 @@ public record DockerImageInspectOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public IEnumerable<string>? Image { get; set; }
+    public virtual IEnumerable<string>? Image { get; set; }
 
     [CliOption("--format")]
     public virtual string? Format { get; set; }

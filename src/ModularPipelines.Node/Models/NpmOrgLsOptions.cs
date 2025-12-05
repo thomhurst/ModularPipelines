@@ -23,5 +23,5 @@ public record NpmOrgLsOptions
     public virtual bool? Parseable { get; set; }
 
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Username { get; set; }
+    public virtual string? Username { get; set; }
 }

@@ -16,7 +16,7 @@ public record DockerPluginEnableOptions : DockerOptions
     }
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? Plugin { get; set; }
+    public virtual string? Plugin { get; set; }
 
     [CliOption("--timeout")]
     public virtual int? Timeout { get; set; }

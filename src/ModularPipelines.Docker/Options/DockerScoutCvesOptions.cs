@@ -8,7 +8,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerScoutCvesOptions : DockerOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public string? ImageOrDirectoryOrArchive { get; set; }
+    public virtual string? ImageOrDirectoryOrArchive { get; set; }
 
     [CliFlag("--details")]
     public virtual bool? Details { get; set; }
